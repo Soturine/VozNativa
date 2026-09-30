@@ -4,14 +4,25 @@
 - [x] visão e arquitetura
 - [x] SKILL.md roteador
 - [x] pesquisa comparativa
+- [x] design spec completo
+- [x] matriz de rastreabilidade
+- [x] agent metadata inicial
+- [x] assets/templates iniciais
 - [x] regras de regionalidade, gírias e idioleto
+- [x] biblioteca inicial de padrões PT-BR
+- [x] referências por gênero e registro
+- [x] community-pack scaffolds
 - [x] analisador determinístico
 - [x] Semantic Guard lexical inicial
+- [x] wrappers protect_spans/fact_guard
 - [x] controle de spans sobrepostos e multiplicidade
 - [x] Voice Profile estatístico inicial
 - [x] Regional Overfit/Dialect Mixing baseline guard
+- [x] Voice Drift baseline
+- [x] Audit baseline
 - [x] schemas versionados iniciais
-- [x] suíte de regressão
+- [x] suíte de regressão foundation
+- [x] scaffolds de eval por domínio
 - [x] validador de pacote
 - [x] CI
 
@@ -27,20 +38,20 @@
 ## v0.3 — Voice Model
 - [ ] perfil por canal
 - [ ] comparação de voice vectors
-- [ ] Voice Drift por janelas
+- [ ] Voice Drift calibrado por janelas
 - [ ] estabilidade em textos longos
 - [ ] calibração com amostras consentidas
 
 ## v0.4 — PT-BR Pattern Library
-- [ ] oficialês deslocado
-- [ ] ENEM-ismo
-- [ ] gerundismo
-- [ ] gerúndio conclusivo
-- [ ] conectivos empilhados
-- [ ] trios/paralelismos formulaicos
-- [ ] linguagem promocional vaga
-- [ ] conclusão genérica
-- [ ] tradução literal
+- [ ] expandir oficialês deslocado
+- [ ] expandir ENEM-ismo
+- [ ] expandir gerundismo
+- [ ] expandir gerúndio conclusivo
+- [ ] expandir conectivos empilhados
+- [ ] expandir trios/paralelismos formulaicos
+- [ ] expandir linguagem promocional vaga
+- [ ] expandir conclusão genérica
+- [ ] tradução literal / PT-BR x PT-PT
 - [ ] falsos positivos por gênero
 - [ ] estrangeirismos por domínio
 
@@ -55,7 +66,7 @@
 ## v0.6 — Temporal Slang & Communities
 - [ ] léxico temporal real
 - [ ] aging/deprecation
-- [ ] community packs: tech, gaming, academia, engenharia, jurídico, corporativo etc.
+- [ ] community packs validados: tech, gaming, academia, engenharia, jurídico, corporativo etc.
 - [ ] slang stuffing guard
 - [ ] interação comunidade x região x canal
 
