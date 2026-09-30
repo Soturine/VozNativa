@@ -2,81 +2,131 @@
 
 > Motor de voz escrita para português brasileiro: humanização contextual, preservação semântica, variação regional responsável e modelagem de idioleto.
 
-VozNativa não tenta responder à pergunta genérica "como um humano escreve?". O objetivo é responder a uma pergunta mais útil:
+VozNativa não tenta responder apenas a "como um humano escreve?". O objetivo é responder melhor:
 
 > **Como esta pessoa escreveria este conteúdo, neste canal, para este público, sem perder fatos, intenção ou registro?**
 
-O projeto nasce como uma Agent Skill PT-BR, mas a arquitetura foi desenhada para evoluir para um **Brazilian Portuguese Voice Engine** reutilizável por agentes, CLIs e pipelines de escrita.
+O projeto nasce como uma Agent Skill PT-BR e uma fundação para um futuro **Brazilian Portuguese Voice Engine** reutilizável por agentes, CLIs e pipelines.
 
 ## Por que existe
 
-Humanizers tradicionais funcionam principalmente como catálogos de padrões: detectam expressões associadas a texto mecânico e pedem ao LLM que reescreva. Isso ajuda, mas cria alguns problemas:
+Humanizers tradicionais ajudam a remover padrões mecânicos, mas frequentemente:
+- tratam palavras isoladas como erro;
+- apagam marcas legítimas do autor;
+- alteram números, modalidade ou precisão;
+- reduzem PT-BR a um registro único;
+- transformam regionalidade em caricatura;
+- confundem dialeto, comunidade e idioleto;
+- chamam métricas estilísticas de "probabilidade de IA".
 
-- uma blacklist de palavras pode apagar marcas legítimas do autor;
-- naturalidade pode vir às custas de fatos, números, modalidade ou termos técnicos;
-- "português brasileiro" costuma ser tratado como um único registro;
-- regionalidade vira caricatura quando é reduzida a meia dúzia de gírias;
-- uma voz pessoal não é a mesma coisa que um dialeto, um sotaque ou um gênero textual;
-- métricas estilísticas não provam autoria humana ou artificial.
-
-VozNativa separa esses problemas em camadas independentes e verificáveis.
+VozNativa separa esses problemas.
 
 ## Princípios
 
-1. **Significado antes de estilo.** Nomes, números, datas, citações, código, causalidade, modalidade e afirmações protegidas não podem mudar silenciosamente.
-2. **Voz antes de "humanidade".** A amostra do autor tem precedência sobre defaults genéricos.
-3. **Contexto antes de regra.** Travessão, conectivo formal, repetição ou gíria não são erros isoladamente.
-4. **Regionalidade sem caricatura.** Região influencia distribuição de escolhas linguísticas; não injeta bordões obrigatórios.
-5. **Observação não é identidade.** O sistema pode observar "usa vc" ou "mistura inglês técnico"; não deve inferir idade, gênero, origem ou personalidade sem base explícita.
-6. **Código para o determinístico.** Contagens, spans protegidos, comparação de invariantes e métricas simples devem ser executadas por scripts, não "estimadas" pelo modelo.
-7. **LLM para o semântico.** Intenção, tom, ironia, registro, coerência e reescrita ficam na camada generativa.
-8. **Sem promessa de burlar detectores.** VozNativa melhora escrita; não fornece probabilidade de autoria por IA nem promete evasão de detector.
-9. **Progressive disclosure.** `SKILL.md` roteia o trabalho; detalhes vivem em `references/`, scripts e evals.
-10. **Evidência e regressão.** Mudança de regra precisa sobreviver a casos factuais, de voz, de falso positivo, de gênero e de regionalidade.
+1. **Significado antes de estilo.**
+2. **Voz antes de "humanidade".**
+3. **Contexto antes de regra.**
+4. **Regionalidade sem caricatura.**
+5. **Observação linguística não vira inferência de identidade.**
+6. **Código para o determinístico.**
+7. **LLM para semântica, pragmática, tom e reescrita.**
+8. **Sem promessa de evasão de detectores.**
+9. **Progressive disclosure.**
+10. **Mudanças precisam de regressão/evidência.**
 
 ## Arquitetura
 
 ```text
-texto
-  |
-  v
 Context Router
-  |-- genero
-  |-- canal
-  |-- objetivo
-  |-- publico
-  v
+   |
 Semantic Ledger / Fact Lock
-  v
+   |
 Deterministic Analyzer
-  v
+   |
 Voice Stack
-  |-- locale
-  |-- registro
-  |-- genero
-  |-- comunidade
-  |-- regionalidade
-  |-- temporalidade
-  '-- idioleto
-  v
+   |-- author samples
+   |-- channel/context
+   |-- community
+   |-- regionality
+   '-- pt-BR default
+   |
 Rewrite Engine
-  v
+   |
 Validation Gates
-  |-- semantic preservation
-  |-- register consistency
-  |-- regional overfit
-  |-- dialect mixing
-  '-- voice drift
-  v
-saida
+   |-- Semantic Guard
+   |-- False Positive Guard
+   |-- Regional Overfit Guard
+   |-- Dialect Mixing Guard
+   '-- Voice Drift Guard
 ```
 
-A precedência padrão de voz é:
+Detalhes: `docs/ARCHITECTURE_AND_RESEARCH.md`.
+
+## O que já existe em v0.1.0
+
+- `SKILL.md` enxuto como roteador;
+- arquitetura e pesquisa comparativa documentadas;
+- padrões PT-BR iniciais;
+- Voice Stack documentado;
+- schema versionado de Voice Profile;
+- schema de gíria temporal;
+- analisador determinístico;
+- Semantic Guard com spans protegidos e controle de multiplicidade;
+- profiler inicial de idioleto;
+- Regional Overfit/Dialect Mixing baseline guard;
+- suíte de regressão;
+- validação estrutural do pacote;
+- CI em Python 3.11/3.12/3.13.
+
+## Estrutura atual
 
 ```text
-amostras do autor
+VozNativa/
+├── README.md
+├── SKILL.md
+├── ROADMAP.md
+├── CHANGELOG.md
+├── pyproject.toml
+├── docs/
+│   └── ARCHITECTURE_AND_RESEARCH.md
+├── references/
+│   ├── VOICE_STACK.md
+│   ├── patterns/
+│   │   └── pt-br.md
+│   ├── slang/
+│   │   └── schema.yml
+│   └── voice/
+│       └── schema.yml
+├── scripts/
+│   ├── analyze.py
+│   ├── semantic_guard.py
+│   ├── voice_profile.py
+│   ├── region_consistency.py
+│   └── validate_package.py
+├── evals/
+│   └── test_foundation.py
+└── .github/workflows/
+    └── ci.yml
+```
+
+## Modos planejados da skill
+
+- `rewrite`
+- `audit`
+- `create`
+- `profile`
+- `compare`
+
+A especificação existe em `SKILL.md`; o motor generativo agnóstico de provedor ainda faz parte do roadmap.
+
+## Voice Stack
+
+Precedência padrão:
+
+```text
+amostra do autor
     >
-canal e contexto
+canal/contexto
     >
 comunidade/socioleto
     >
@@ -85,39 +135,47 @@ regionalidade
 default PT-BR
 ```
 
-## Estrutura do repositório
+Amostras do próprio autor têm precedência porque o projeto tenta preservar **idioleto**, não empurrar todo mundo para uma "voz brasileira média".
 
-```text
-VozNativa/
-├── SKILL.md
-├── README.md
-├── ROADMAP.md
-├── CHANGELOG.md
-├── pyproject.toml
-├── docs/
-├── references/
-│   ├── patterns/
-│   ├── genres/
-│   ├── regions/
-│   ├── communities/
-│   ├── slang/
-│   └── voice/
-├── scripts/
-├── evals/
-└── .github/workflows/
-```
+## Regionalidade
 
-## Modos previstos
+"Sotaque escrito" é um atalho coloquial. Sotaque estrito é fonético/fonológico. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso, formas de tratamento e grafia estilizada quando apropriado.
 
-- **rewrite**: reescreve um texto existente preservando o Semantic Ledger.
-- **audit**: diagnostica mecanicidade, perda de voz, desalinhamento de registro e riscos de reescrita.
-- **create**: escreve do zero usando somente material fornecido/verificado e o Voice Stack.
-- **profile**: extrai características de voz de amostras fornecidas pelo autor.
-- **compare**: compara original e candidata em significado, voz e registro.
+Regionalidade é **distribuição, não decoração**.
 
-## O que VozNativa mede
+Um pedido como "mineiro informal" não significa inserir `uai` ou `trem` em toda frase.
 
-Não existe `AI probability`. O projeto usa dimensões operacionais:
+O guard atual é apenas uma **heurística de baseline para testar a arquitetura**. Não deve ser interpretado como classificador confiável de dialeto.
+
+## Gírias e temporalidade
+
+Gírias podem registrar:
+- região;
+- comunidade;
+- contexto;
+- período observado;
+- registro mínimo/máximo;
+- confiança;
+- regra `do_not_force`;
+- fontes.
+
+Isso permite tratar linguagem de 2007, 2018 e 2026 de forma diferente sem transformar o resultado em coleção de bordões.
+
+## Idioleto
+
+`scripts/voice_profile.py` observa características como:
+- comprimento/variação de frases;
+- pontuação;
+- abreviações;
+- estrangeirismos;
+- léxico recorrente;
+- estrutura de parágrafos.
+
+Ele declara explicitamente `infer_identity: false`.
+
+## Métricas
+
+VozNativa evita "AI probability". As dimensões futuras são operacionais:
 
 - `mechanicality`
 - `formulaicity`
@@ -126,74 +184,41 @@ Não existe `AI probability`. O projeto usa dimensões operacionais:
 - `register_mismatch`
 - `semantic_loss`
 
-Esses valores descrevem sinais dentro do próprio framework; não determinam quem escreveu o texto.
+Elas descrevem comportamento do framework, não autoria.
 
-## Regionalidade e "sotaque escrito"
+## Pesquisa
 
-Sotaque, no sentido estrito, é fonético/fonológico. Em escrita, VozNativa modela sobretudo variação lexical, morfossintática, pragmático-discursiva, registro, marcadores conversacionais e ortografia estilizada quando ela já fizer parte da voz desejada.
+O design inicial estudou:
+- `blader/humanizer`;
+- `mackswendhell/humanizer-pt-br`;
+- `opaulomarcondes/humanizador-pt`;
+- `gabrielkashimarki/humanizer-ptbr`;
+- `fabricioctelles/skills` (`humanizar`);
+- ALiB;
+- NURC;
+- Corpus Carolina / USP.
 
-Um pedido como "mineiro informal" não significa inserir `uai` ou `trem` em toda frase. O sistema deve usar evidência, intensidade configurável e um **Regional Overfit Guard**.
+VozNativa deve manter taxonomia e implementação próprias. Material externo só entra após revisão de licença/atribuição.
 
-## Idioleto
-
-Dialeto é compartilhado por um grupo; **idioleto** descreve padrões particulares de uma pessoa. Amostras autorizadas podem alimentar um Voice Profile com características como:
-
-- comprimento e variação de frases;
-- tamanho típico de parágrafo;
-- pontuação;
-- conectores;
-- abreviações;
-- contrações;
-- estrangeirismos;
-- palavras recorrentes;
-- palavras evitadas;
-- estilo de capitalização;
-- emojis;
-- autocorreções;
-- ritmo e abertura/fechamento de parágrafos.
-
-O perfil descreve padrões linguísticos. Ele não deve inferir atributos pessoais.
-
-## Fontes e projetos estudados
-
-O design inicial foi informado por uma auditoria de projetos existentes, sem tornar nenhum deles dependência ou fonte única de verdade:
-
-- `blader/humanizer`
-- `mackswendhell/humanizer-pt-br`
-- `opaulomarcondes/humanizador-pt`
-- `gabrielkashimarki/humanizer-ptbr`
-- `fabricioctelles/skills` (`humanizar`)
-- Projeto Atlas Linguístico do Brasil (ALiB)
-- Projeto NURC
-- Corpus Carolina / USP
-
-Veja `docs/RESEARCH.md` para princípios de uso, atribuição e limites.
-
-## Estado
-
-**v0.1.0 — foundation.** A baseline inclui especificação da skill, arquitetura, schemas de voz/região/gíria, analisadores determinísticos iniciais, Fact Guard, guards de regionalidade e suíte inicial de evals.
-
-O roadmap separa claramente o que já é implementado do que ainda depende de corpus, calibração ou validação humana.
-
-## Uso inicial
-
-Os scripts foram mantidos sem dependências externas na fundação:
+## Rodando a baseline
 
 ```bash
-python scripts/analyze.py caminho/para/texto.txt
-python scripts/protect_spans.py caminho/para/texto.txt
-python scripts/voice_profile.py sample1.txt sample2.txt
-python scripts/fact_guard.py original.txt candidata.txt
+python scripts/analyze.py texto.txt
+python scripts/semantic_guard.py original.txt candidata.txt
+python scripts/voice_profile.py amostra1.txt amostra2.txt
 python scripts/region_consistency.py texto.txt
-```
-
-Para validar o pacote:
-
-```bash
 python scripts/validate_package.py
 python -m unittest discover -s evals -p "test_*.py"
 ```
 
+## Estado
+
+**v0.1.0 — foundation.**
+
+A fundação está implementada e testável. Semantic Ledger profundo, Voice Drift real, packs regionais baseados em corpus, community packs, engine de rewrite e evals humanos continuam deliberadamente nas próximas versões.
+
+Veja `ROADMAP.md`.
+
 ## Licença
 
-A licença pública do VozNativa ainda não foi definida. Antes de abrir o repositório ou incorporar material externo, revisar as licenças e condições de atribuição de cada fonte. O projeto deve preferir regras e implementação próprias em vez de copiar conteúdo de terceiros.
+A licença pública ainda não foi definida. Antes de tornar o repo público ou incorporar material de terceiros, revisar compatibilidade e atribuição.
