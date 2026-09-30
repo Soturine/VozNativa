@@ -1,0 +1,17 @@
+schema_version: 1
+id: tech
+status: draft
+locale: pt-BR
+terms:
+  preserve_if_natural:
+    - deploy
+    - sprint
+    - feedback
+    - bug
+    - feature
+    - backend
+    - frontend
+    - framework
+    - stack
+notes:
+  - "Community vocabulary is not a regional marker."
