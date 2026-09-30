@@ -74,7 +74,10 @@ Detalhes: `docs/ARCHITECTURE_AND_RESEARCH.md`.
 - Semantic Guard com spans protegidos e controle de multiplicidade;
 - profiler inicial de idioleto;
 - Regional Overfit/Dialect Mixing baseline guard;
-- suíte de regressão;
+- suíte de regressão e scaffolds de eval por domínio;
+- Audit baseline e Voice Drift baseline;
+- assets/templates e metadata inicial para agente;
+- matriz de rastreabilidade design → implementação → roadmap;
 - validação estrutural do pacote;
 - CI em Python 3.11/3.12/3.13.
 
@@ -87,24 +90,52 @@ VozNativa/
 ├── ROADMAP.md
 ├── CHANGELOG.md
 ├── pyproject.toml
+├── agents/
+│   └── openai.yaml
+├── assets/
+│   ├── voice-profile.yml
+│   └── regional-pack.yml
 ├── docs/
-│   └── ARCHITECTURE_AND_RESEARCH.md
+│   ├── ARCHITECTURE_AND_RESEARCH.md
+│   ├── DESIGN_SPEC.md
+│   └── TRACEABILITY.md
 ├── references/
 │   ├── VOICE_STACK.md
+│   ├── registers.md
 │   ├── patterns/
-│   │   └── pt-br.md
+│   │   ├── pt-br.md
+│   │   ├── structural.md
+│   │   ├── rhetorical.md
+│   │   ├── formatting.md
+│   │   └── false-positives.md
+│   ├── genres/
+│   ├── regions/
+│   ├── communities/
 │   ├── slang/
-│   │   └── schema.yml
 │   └── voice/
-│       └── schema.yml
 ├── scripts/
 │   ├── analyze.py
 │   ├── semantic_guard.py
+│   ├── protect_spans.py
+│   ├── fact_guard.py
 │   ├── voice_profile.py
 │   ├── region_consistency.py
+│   ├── voice_drift.py
+│   ├── audit.py
 │   └── validate_package.py
 ├── evals/
-│   └── test_foundation.py
+│   ├── test_foundation.py
+│   ├── academic/
+│   ├── whatsapp/
+│   ├── linkedin/
+│   ├── corporate/
+│   ├── technical/
+│   ├── documentation/
+│   ├── storytelling/
+│   ├── regional/
+│   ├── slang/
+│   ├── false-positive/
+│   └── adversarial/
 └── .github/workflows/
     └── ci.yml
 ```
