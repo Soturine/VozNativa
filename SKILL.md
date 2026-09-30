@@ -51,3 +51,25 @@ Não tente produzir "texto humano genérico". Produza texto coerente com o autor
 - Regional Overfit Guard
 - Dialect Mixing Guard
 - Voice Drift Guard
+
+
+## Progressive disclosure
+
+Carregue apenas o que a tarefa exigir:
+
+- `references/patterns/`: padrões estruturais, retóricos, formatação, PT-BR e falsos positivos.
+- `references/genres/`: acadêmico, técnico, corporativo, social, WhatsApp e literário.
+- `references/registers.md`: registros linguísticos.
+- `references/voice/`: schema e idioleto.
+- `references/regions/`: política e futuros packs regionais.
+- `references/communities/`: socioletos/comunidades.
+- `references/slang/`: gírias com temporalidade.
+- `docs/DESIGN_SPEC.md`: contrato completo da arquitetura.
+- `docs/TRACEABILITY.md`: estado real de cada requisito.
+
+Quando disponível, use:
+- `scripts/audit.py` para diagnóstico baseline;
+- `scripts/semantic_guard.py` para invariantes;
+- `scripts/voice_profile.py` para amostras;
+- `scripts/region_consistency.py` para overfit/mixing baseline;
+- `scripts/voice_drift.py` para drift estilístico baseline.
