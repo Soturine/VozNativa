@@ -1,0 +1,36 @@
+schema_version: 1
+locale: pt-BR
+source:
+  type: samples
+  sample_count: 0
+register:
+  formality: null
+sentence:
+  mean_words: null
+  stdev_words: null
+paragraph:
+  mean_sentences: null
+punctuation:
+  em_dash_rate: null
+  ellipsis_rate: null
+  question_rate: null
+  exclamation_rate: null
+lexicon:
+  recurring: []
+  avoided: []
+  abbreviations: []
+  foreign_terms: []
+discourse:
+  preferred_openers: []
+  connectors: []
+regional:
+  target: null
+  strength: 0.0
+community:
+  target: null
+temporal:
+  target_year: null
+inference_policy:
+  observations_only: true
+  infer_identity: false
+notes: []
