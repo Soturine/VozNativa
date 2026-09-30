@@ -69,7 +69,7 @@ if 'version: "0.1.0"' not in skill:
     raise SystemExit("SKILL.md version must match foundation release")
 
 trace = (ROOT / "docs" / "TRACEABILITY.md").read_text(encoding="utf-8")
-for must_have in ("Semantic Guard", "Voice Drift Guard", "Regional Overfit Guard", "Rewrite engine"):
+for must_have in ("Semantic/factual lock", "Voice Drift Guard", "Regional Overfit Guard", "Rewrite engine"):
     if must_have not in trace:
         raise SystemExit(f"traceability missing: {must_have}")
 
