@@ -9,6 +9,8 @@ from analyze import analyze
 from semantic_guard import extract, guard
 from voice_profile import profile
 from region_consistency import inspect
+from voice_drift import inspect as inspect_drift
+from audit import audit
 
 
 class FoundationTests(unittest.TestCase):
@@ -49,6 +51,18 @@ class FoundationTests(unittest.TestCase):
         result = inspect("uai uai uai uai trem")
         self.assertEqual(result["regional_overfit"], "high")
         self.assertEqual(result["note"], "baseline heuristic; not a dialect classifier")
+
+    def test_voice_drift_baseline(self):
+        text = "Frase curta.\n\nOutra curta.\n\n" + ("Esta frase é bem mais longa e detalhada do que as anteriores. " * 3)
+        result = inspect_drift(text, size=1)
+        self.assertGreaterEqual(result["window_count"], 3)
+        self.assertGreater(result["max_distance"], 0)
+
+    def test_audit_baseline(self):
+        result = audit("Nesse contexto, estamos analisando rapidamente o cenário.")
+        self.assertIn("mechanicality", result)
+        self.assertIn("voice_drift", result)
+        self.assertIsNone(result["semantic_loss"])
 
 
 if __name__ == "__main__":
