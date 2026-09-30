@@ -1,0 +1,14 @@
+schema_version: 1
+entries:
+  - term: example
+    type: slang
+    regions: []
+    communities: []
+    contexts: []
+    observed_from: null
+    observed_until: null
+    register_min: very_casual
+    register_max: casual
+    confidence: 0.0
+    do_not_force: true
+    sources: []
