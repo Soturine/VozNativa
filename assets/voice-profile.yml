@@ -1,0 +1,27 @@
+schema_version: 1
+locale: pt-BR
+source:
+  type: samples
+  sample_count: 0
+channel: null
+register:
+  formality: null
+regional:
+  target: null
+  strength: 0.0
+community:
+  target: null
+temporal:
+  target_year: null
+preferences:
+  use_first_person: null
+  allow_parentheses: null
+  allow_em_dash: null
+  emoji_level: null
+preserve:
+  - technical_terms
+  - citations
+  - numbers
+  - terminology
+avoid: []
+notes: []
