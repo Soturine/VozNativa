@@ -1,0 +1,25 @@
+schema_version: 1
+id: example-region
+locale: pt-BR
+status: draft
+scope:
+  region: null
+  state: null
+  locality: null
+  urbanity: null
+time:
+  observed_from: null
+  observed_until: null
+features:
+  lexical: []
+  forms_of_address: []
+  discourse_markers: []
+  morphosyntactic: []
+  pragmatic: []
+constraints:
+  do_not_force_markers: true
+  max_default_strength: 0.25
+provenance: []
+validation:
+  human_reviewed: false
+  notes: []
