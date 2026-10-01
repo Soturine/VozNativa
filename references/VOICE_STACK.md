@@ -1,152 +1,159 @@
-# Voice Stack, regionalidade e gírias
+# Voice Stack
 
-## Voice Stack
+## Objetivo
 
-Precedência padrão:
+Voice Stack resolve conflitos entre voz pessoal, canal, gênero, comunidade, regionalidade e default PT-BR sem transformar nenhuma dessas camadas em identidade fixa.
 
-1. amostras do próprio autor;
-2. canal e contexto;
-3. comunidade/socioleto;
-4. regionalidade;
-5. default PT-BR.
+## Ordem de precedência
 
-Amostras autorizadas têm precedência porque o objetivo é preservar idioleto, não aproximar todo mundo de uma média.
-
-## Voice Profile
-
-Campos iniciais:
-
-```yaml
-schema_version: 1
-locale: pt-BR
-source:
-  type: samples
-  sample_count: 0
-register:
-  formality: null
-sentence:
-  mean_words: null
-  stdev_words: null
-paragraph:
-  mean_sentences: null
-punctuation:
-  em_dash_rate: null
-  ellipsis_rate: null
-  question_rate: null
-lexicon:
-  recurring: []
-  avoided: []
-  abbreviations: []
-  foreign_terms: []
-discourse:
-  preferred_openers: []
-  connectors: []
-regional:
-  target: null
-  strength: 0.0
-community:
-  target: null
-temporal:
-  target_year: null
-notes: []
+```text
+1. preservação semântica
+2. instrução explícita da tarefa
+3. amostras do autor no mesmo canal
+4. perfil geral do autor
+5. gênero + canal + público
+6. registro
+7. comunidade/socioleto
+8. regionalidade
+9. default PT-BR
 ```
 
-O perfil registra observações linguísticas; não deve inferir atributos pessoais.
+A ordem pode ser ajustada apenas quando a tarefa exigir explicitamente outra coisa.
+
+## Por que canal fica alto
+
+Uma pessoa pode escrever:
+- "nn sei agr" no WhatsApp;
+- "não tenho certeza neste momento" em e-mail;
+- "o comportamento ainda não foi validado" em documentação técnica.
+
+Todos podem pertencer ao mesmo idioleto.
+
+## Merge de features
+
+Cada camada fornece preferências, não texto pronto.
+
+Exemplo:
+```yaml
+sentence_length:
+  author: short-mixed
+  channel: short
+  genre: unconstrained
+  resolved: short-mixed
+
+slang:
+  author: low
+  channel: medium
+  region: medium
+  resolved: low
+
+technical_terms:
+  community: preserve
+  genre: preserve
+  resolved: preserve
+```
+
+## Conflitos
+
+### Autor x região
+Amostra do autor vence. Não regionalizar à força.
+
+### Canal x formalidade
+Se o usuário pediu formalidade alta em WhatsApp, cumprir o pedido sem transformar a mensagem em ofício.
+
+### Comunidade x português "puro"
+Terminologia comunitária estabelecida pode vencer substituição purista.
+
+### Gênero x idioleto
+Termos, citações e convenções obrigatórias do gênero não devem ser destruídos para copiar hábitos pessoais.
+
+## Strength
+
+Cada layer futura pode produzir:
+- value;
+- confidence;
+- strength;
+- provenance;
+- scope.
+
+Exemplo:
+```yaml
+feature: em_dash
+value: occasional
+source: author_samples
+confidence: 0.78
+strength: medium
+scope: github_docs
+```
+
+## Temporalidade
+
+Voice Profile também precisa de tempo. Uma amostra antiga pode não representar escrita atual.
+
+Campos futuros:
+- observed_from;
+- observed_until;
+- sample_date;
+- decay policy;
+- profile version.
 
 ## Regionalidade
 
-Regionalidade não é um dicionário de bordões. Um pack deve representar distribuição e contexto.
+Regionalidade entra como nuance. Ver `references/regions/README.md`.
 
-Dimensões possíveis:
+Não usar região como proxy para:
+- idade;
+- classe;
+- escolaridade;
+- personalidade;
+- comunidade.
+
+## Communities
+
+Community packs descrevem práticas discursivas e terminologia de um domínio. Ver `references/communities/README.md`.
+
+Eles não devem "gamificar" ou "corporativizar" um texto apenas porque o usuário pertence a uma comunidade.
+
+## Gíria
+
+Gíria é uma feature temporal e contextual:
+- termo;
+- comunidade;
 - região;
-- estado;
-- cidade/área quando houver evidência suficiente;
-- capital/interior;
-- léxico;
-- pronomes e formas de tratamento;
-- construções morfossintáticas;
-- marcadores discursivos;
-- pragmática;
-- temporalidade;
-- fonte;
-- confiança.
+- canal;
+- período;
+- intensidade;
+- confidence;
+- do_not_force.
 
-### Intensidade
+## Resolver ou não resolver
+
+Se as camadas entram em conflito e a confiança é baixa, a decisão preferida é **não estilizar**.
 
 ```text
-0.00 = neutro
-0.25 = nuance leve
-0.50 = perceptível
-0.75 = forte, requer boa evidência/amostra
-1.00 = transformação estilística explícita
+low evidence + high stylistic impact
+-> preserve source style
 ```
 
-### Regional Overfit Guard
+## Relação com Rewrite Engine
 
-Sinais:
-- marcador regional repetido;
-- densidade alta de marcadores;
-- uso de marcador fora do registro esperado;
-- combinação de vários estereótipos;
-- regionalização maior que a solicitada.
-
-A saída correta pode conter **zero gírias regionais**.
-
-### Dialect Mixing Guard
-
-Mistura regional não é automaticamente errada: pessoas migram, convivem online e misturam repertórios. O guard deve rejeitar mistura apenas quando ela parece adicionada pelo sistema sem apoio em amostra, pedido ou contexto.
-
-## Community packs
-
-Regionalidade não domina toda a voz. Comunidades podem explicar melhor parte do vocabulário:
-- tech;
-- gaming;
-- academia;
-- engenharia;
-- jurídico;
-- marketing;
-- streaming;
-- Discord/online;
-- corporativo.
-
-Um dev de São Paulo pode compartilhar mais vocabulário profissional com um dev de Recife do que com alguém de outra comunidade da mesma cidade.
-
-## Temporal slang
-
-Schema conceitual:
+O Rewrite Engine não recebe "escreva brasileiro". Recebe um contrato resolvido, por exemplo:
 
 ```yaml
-term: "..."
-type: slang
-regions: []
-communities: []
-contexts: []
-observed_from: null
-observed_until: null
-register:
-  min: very_casual
-  max: casual
-confidence: 0.0
-do_not_force: true
-sources: []
+voice_contract:
+  locale: pt-BR
+  register: professional-natural
+  sentence_rhythm: mixed
+  contractions: low
+  technical_english: preserve
+  em_dash: occasional
+  regional_strength: 0.0
+  slang_strength: 0.0
+  first_person: allowed
+  protected_patterns:
+    - terminology
+    - numbers
+    - modality
 ```
 
-Gírias devem ter temporalidade. Expressão comum em 2012 não deve ser tratada como default de 2026 sem evidência.
-
-## Padrões PT-BR iniciais
-
-Famílias a desenvolver:
-- oficialês deslocado;
-- abertura genérica estilo redação/ENEM;
-- marcadores vazios de importância;
-- gerundismo burocrático;
-- gerúndio conclusivo mecânico;
-- conectivos empilhados;
-- paralelismo e trios artificiais;
-- falsa profundidade;
-- linguagem promocional sem suporte;
-- fechamento otimista genérico;
-- tradução literal do inglês;
-- purismo artificial contra estrangeirismos consagrados.
-
-Todos são sinais contextuais. Nenhum deve virar blacklist absoluta.
+Isso reduz improvisação do modelo e torna evals reproduzíveis.
