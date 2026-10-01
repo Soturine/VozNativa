@@ -66,6 +66,8 @@ Detalhes: `docs/ARCHITECTURE_AND_RESEARCH.md`.
 
 - `SKILL.md` enxuto como roteador;
 - arquitetura e pesquisa comparativa documentadas;
+- estratégia de corpus/evidência com Source Ledger e níveis E0–E4;
+- referências operacionais para Carolina, ALiB, NURC, SP2010, CORAA e C-ORAL-BRASIL;
 - padrões PT-BR iniciais;
 - Voice Stack documentado;
 - schema versionado de Voice Profile;
@@ -102,6 +104,13 @@ VozNativa/
 ├── references/
 │   ├── VOICE_STACK.md
 │   ├── registers.md
+│   ├── corpora/
+│   │   ├── carolina.md
+│   │   ├── alib.md
+│   │   ├── nurc.md
+│   │   ├── sp2010.md
+│   │   ├── coraa.md
+│   │   └── c-oral-brasil.md
 │   ├── patterns/
 │   │   ├── pt-br.md
 │   │   ├── structural.md
@@ -227,7 +236,10 @@ O design inicial estudou:
 - `fabricioctelles/skills` (`humanizar`);
 - ALiB;
 - NURC;
-- Corpus Carolina / USP.
+- Corpus Carolina / USP;
+- Projeto SP2010 / USP;
+- CORAA / TaRSila;
+- C-ORAL-BRASIL / UFMG.
 
 VozNativa deve manter taxonomia e implementação próprias. Material externo só entra após revisão de licença/atribuição.
 
