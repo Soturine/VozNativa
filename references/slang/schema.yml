@@ -1,14 +1,44 @@
-schema_version: 1
+schema_version: 2
 entries:
-  - term: example
+  - id: null
+    term: null
+    normalized_form: null
     type: slang
+    meanings: []
     regions: []
+    localities: []
     communities: []
+    channels: []
     contexts: []
-    observed_from: null
-    observed_until: null
-    register_min: very_casual
-    register_max: casual
-    confidence: 0.0
-    do_not_force: true
-    sources: []
+    modality:
+      spoken: null
+      written: null
+    period:
+      observed_from: null
+      observed_until: null
+      last_verified_at: null
+    register:
+      min: very_casual
+      max: casual
+    pragmatics:
+      functions: []
+      politeness_effect: null
+      intensity: null
+    variation:
+      spellings: []
+      inflections: []
+    evidence:
+      level: E0
+      confidence: 0.0
+      sources: []
+      sample_size: null
+      notes: []
+    generation:
+      do_not_force: true
+      default_strength: low
+      max_density_per_100_words: null
+      forbidden_contexts: []
+    false_positives: []
+    deprecation:
+      status: active
+      reason: null
