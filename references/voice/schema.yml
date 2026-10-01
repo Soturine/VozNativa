@@ -1,36 +1,86 @@
-schema_version: 1
+schema_version: 2
 locale: pt-BR
+profile:
+  id: null
+  created_at: null
+  updated_at: null
 source:
   type: samples
   sample_count: 0
+  channels: []
+  date_range:
+    from: null
+    to: null
+  provenance: []
 register:
+  label: null
   formality: null
+  technicality: null
+  spontaneity: null
+  explicitness: null
 sentence:
   mean_words: null
+  median_words: null
   stdev_words: null
+  fragment_rate: null
 paragraph:
   mean_sentences: null
+  stdev_sentences: null
 punctuation:
+  comma_rate: null
+  semicolon_rate: null
+  colon_rate: null
   em_dash_rate: null
   ellipsis_rate: null
   question_rate: null
   exclamation_rate: null
+  parentheses_rate: null
 lexicon:
   recurring: []
-  avoided: []
+  avoided:
+    values: []
+    confidence: null
   abbreviations: []
+  contractions: []
   foreign_terms: []
+  technical_terms: []
 discourse:
   preferred_openers: []
+  preferred_closers: []
   connectors: []
+  question_usage: null
+  example_position: null
+formatting:
+  markdown_usage: null
+  list_rate: null
+  heading_rate: null
+  emoji_rate: null
+  capitalization_style: null
+self_correction:
+  observed: null
+  rate: null
 regional:
   target: null
   strength: 0.0
+  evidence: []
 community:
-  target: null
+  targets: []
 temporal:
   target_year: null
+  observed_from: null
+  observed_until: null
+features:
+  - id: null
+    value: null
+    confidence: null
+    stability: null
+    scope: null
+    evidence_count: null
 inference_policy:
   observations_only: true
   infer_identity: false
+  infer_sensitive_attributes: false
+privacy:
+  retain_raw_samples: null
+  consent_recorded: null
 notes: []
