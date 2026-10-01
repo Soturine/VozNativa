@@ -2,141 +2,240 @@
 
 ## Arquitetura
 
-Fluxo-base:
-
 ```text
-Context Router
+Input
+  -> Context Router
   -> Semantic Ledger / Fact Lock
   -> Deterministic Analyzer
+  -> Evidence-aware Pattern Analysis
   -> Voice Stack
   -> Rewrite Engine
   -> Validation Gates
+  -> Output + optional audit
 ```
 
-### Context Router
-Classifica gênero, canal, objetivo, público, formalidade e restrições.
+## 1. Context Router
 
-### Semantic Ledger
-Fonte de verdade do conteúdo protegido. Deve evoluir de extração lexical para claims estruturados, modalidade, negação, temporalidade, causalidade e relações entre entidades.
-
-### Deterministic Analyzer
-Mede o que não precisa ser "estimado" pelo LLM: tamanho de frase, parágrafos, pontuação, conectivos, números, datas, URLs, repetições e padrões simples.
-
-### Voice Stack
-Composição em camadas, com precedência:
-1. amostra do próprio autor;
-2. canal/contexto;
-3. comunidade/socioleto;
-4. regionalidade;
-5. default PT-BR.
-
-### Rewrite Engine
-Camada generativa, agnóstica de provedor. Recebe contexto, Semantic Ledger, Voice Profile e referências necessárias.
-
-### Validation Gates
-- Semantic Guard;
-- False Positive Guard;
-- Regional Overfit Guard;
-- Dialect Mixing Guard;
-- Voice Drift Guard.
-
-## Regionalidade
-
-Regionalidade é distribuição, não decoração.
-
-"Sotaque escrito" é um atalho coloquial. Sotaque estrito é fenômeno fonético/fonológico; na escrita, VozNativa modela sobretudo léxico, morfossintaxe, pragmática, discurso, marcadores conversacionais e grafia estilizada.
-
-Um pack regional pode descrever:
-- léxico observado;
-- formas de tratamento;
-- marcadores discursivos;
-- construções morfossintáticas;
-- contrações;
-- diferenças capital/interior quando houver evidência;
-- período temporal;
-- contexto;
-- confiança e fonte.
-
-Nunca deve exigir bordões. "Mineiro" não significa inserir "uai"; "gaúcho" não significa inserir "bah".
-
-## Temporalidade e gírias
-
-Gíria envelhece. Cada item deve poder registrar:
-- regiões;
-- comunidades;
-- contextos;
-- início/fim de observação;
+Classifica:
+- gênero;
+- canal;
+- público;
+- objetivo;
 - formalidade;
-- confiança;
-- regra `do_not_force`.
+- tecnicidade;
+- restrições;
+- temporalidade;
+- fontes de voz/contexto disponíveis.
 
-Isso permite distinguir escrita contemporânea de imitações datadas e evita slang stuffing.
+A classificação não precisa ser perfeita; ela precisa impedir que referências irrelevantes contaminem a tarefa.
 
-## Idioleto
+## 2. Semantic Ledger
 
-O objetivo central não é descobrir "como humanos escrevem", mas como **esta pessoa** escreve em determinado contexto.
+Fonte de verdade do conteúdo.
 
-Voice Profile pode observar:
-- comprimento e variação de frases;
-- tamanho de parágrafo;
+### Baseline atual
+Protege lexicalmente:
+- números;
+- datas;
+- URLs;
+- moeda;
+- percentuais;
+- identificadores.
+
+### Evolução planejada
+Claims estruturados com:
+- entidades;
+- predicados;
+- negadores;
+- modalidade;
+- quantidade;
+- unidade;
+- condição;
+- causalidade;
+- temporalidade;
+- escopo;
+- atribuição.
+
+Exemplo:
+```text
+"o problema pode causar perda de dados quando duas requisições..."
+```
+
+deve preservar:
+- possibilidade, não certeza;
+- condição concorrente;
+- objeto da perda;
+- direção causal.
+
+## 3. Deterministic Analyzer
+
+Responsável por medidas reproduzíveis:
+- tamanho de sentenças/parágrafos;
 - pontuação;
 - conectores;
-- abreviações;
-- contrações;
-- estrangeirismos;
-- léxico recorrente;
-- palavras evitadas;
-- emojis;
-- capitalização;
-- autocorreções;
-- ritmo.
+- gerúndios;
+- advérbios;
+- repetições;
+- aberturas;
+- perguntas;
+- spans protegidos.
 
-Observação linguística não autoriza inferência de identidade.
+Não decide autoria nem "humanidade".
 
-## Métricas operacionais
+## 4. Evidence-aware Pattern Analysis
 
-Não usar "AI probability". Preferir:
-- mechanicality;
-- formulaicity;
-- voice_drift;
-- regional_overfit;
-- register_mismatch;
-- semantic_loss.
+Padrões vêm de:
+- análise linguística;
+- corpora;
+- referências secundárias;
+- evals;
+- observações de amostras.
 
-Essas métricas descrevem o comportamento do framework; não provam autoria.
+Cada regra futura deve carregar nível de evidência E0–E4.
 
-## Pesquisa comparativa
+Ver:
+- `docs/CORPUS_AND_EVIDENCE_STRATEGY.md`;
+- `references/corpora/`;
+- `references/patterns/`.
 
-Projetos estudados como referência conceitual:
+## 5. Voice Stack
+
+Precedência:
+
+```text
+semântica
+> instrução explícita
+> autor no mesmo canal
+> autor geral
+> gênero/canal/público
+> registro
+> comunidade
+> região
+> default pt-BR
+```
+
+Ver `references/VOICE_STACK.md`.
+
+## 6. Rewrite Engine
+
+Camada generativa agnóstica de provedor.
+
+Inputs futuros:
+- original;
+- context contract;
+- semantic ledger;
+- resolved voice contract;
+- selected references;
+- current findings.
+
+Outputs:
+- candidate text;
+- transformation trace opcional;
+- unresolved risks.
+
+O modelo não deve receber todo o repositório de referências indiscriminadamente. Progressive disclosure é requisito arquitetural.
+
+## 7. Validation Gates
+
+### Semantic Guard
+Invariantes lexicais hoje; claims futuramente.
+
+### False Positive Guard
+Evita editar escolhas legítimas.
+
+### Regional Overfit Guard
+Evita caricatura e slang stuffing.
+
+### Dialect Mixing Guard
+Sinaliza mistura adicionada sem suporte.
+
+### Voice Drift Guard
+Compara janelas de texto; baseline atual ainda não calibrado.
+
+## Pesquisa comparativa de humanizers
+
+Projetos analisados:
 - blader/humanizer;
 - mackswendhell/humanizer-pt-br;
 - opaulomarcondes/humanizador-pt;
 - gabrielkashimarki/humanizer-ptbr;
-- fabricioctelles/skills (humanizar).
+- fabricioctelles/skills/humanizar.
 
-Ideias úteis observadas:
-- catálogo de padrões e packaging;
-- adaptação PT-BR;
-- contexto de voz separado;
-- padrões retóricos brasileiros;
-- trava factual;
-- false-positive guard;
-- perfis e regressão.
+Contribuições conceituais estudadas:
+- padrões estruturais;
+- context/voice profile;
+- retórica PT-BR;
+- factual lock;
+- false-positive thinking;
+- progressive disclosure;
+- packaging/evals.
 
-VozNativa deve manter taxonomia e implementação próprias. Antes de copiar qualquer material externo, revisar licença e atribuição.
+VozNativa mantém taxonomia e implementação próprias.
 
 ## Pesquisa linguística brasileira
 
-Bases relevantes para orientar futuros packs e evals:
-- Projeto Atlas Linguístico do Brasil (ALiB);
-- Projeto NURC;
-- Corpus Carolina / USP;
-- outros corpora brasileiros com licença compatível.
+### Corpus Carolina
+Principal fonte inicial para escrita contemporânea/gêneros/proveniência.
 
-A inclusão de corpus exige revisão individual de licença. A meta não é copiar grandes blocos, e sim usar evidência para calibrar comportamento, exemplos próprios e evals.
+Uso:
+- baselines por tipologia;
+- falsos positivos;
+- conectores;
+- pontuação;
+- nominalização;
+- distribuição estrutural.
 
-## Princípio de implementação
+Limite:
+não é atlas regional representativo.
 
-Código para o determinístico. LLM para semântica, pragmática, ironia, tom e reescrita.
+### ALiB
+Principal referência inicial para variação diatópica nacional.
 
-Sempre que possível, análise e validação devem limitar a autoavaliação do mesmo modelo que gerou a candidata.
+Uso:
+- léxico;
+- morfossintaxe;
+- pragmática;
+- capital/interior quando sustentado.
+
+### NURC
+Fala urbana culta em capitais selecionadas, com valor histórico e estilístico.
+
+### Projeto SP2010
+Fala paulistana estratificada, útil para granularidade dentro da cidade de São Paulo.
+
+### CORAA
+Família de recursos de fala/transcrição, útil para modo spoken/conversational e comparação entre fala espontânea/preparada.
+
+### C-ORAL-BRASIL
+Importante para fala espontânea e estrutura informacional.
+
+## Corpus não vira regra diretamente
+
+```text
+corpus
+-> recorte
+-> métrica
+-> comparação
+-> hipótese
+-> false-positive test
+-> eval
+-> revisão humana
+-> pack
+```
+
+## Licença
+
+Fontes podem ter:
+- licença do corpus;
+- licença do cabeçalho/metadados;
+- licenças individuais por documento;
+- restrição acadêmica/não comercial;
+- termos diferentes por versão.
+
+A pipeline deve guardar tudo isso no Source Ledger.
+
+## Princípio
+
+**Código para o determinístico; LLM para interpretação e reescrita; corpus para evidência; humanos para calibração.**
+
+Nenhum componente sozinho deve ser considerado árbitro de naturalidade.
