@@ -1,0 +1,35 @@
+schema_version: 1
+source:
+  id: null
+  name: null
+  version: null
+  maintainers: []
+  official_urls: []
+  accessed_at: null
+coverage:
+  language: pt-BR
+  modality: null
+  period:
+    from: null
+    to: null
+  geography: []
+  genres: []
+  population: null
+sampling:
+  method: null
+  size: null
+  stratification: []
+metadata_available: []
+licensing:
+  corpus_license: null
+  document_licenses_vary: null
+  redistribution_notes: []
+evidence:
+  supported_uses: []
+  unsupported_uses: []
+  known_biases: []
+  evidence_level: E0
+derivation:
+  pipeline_version: null
+  outputs: []
+  human_reviewed: false
