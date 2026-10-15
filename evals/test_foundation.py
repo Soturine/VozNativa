@@ -11,6 +11,7 @@ from voice_profile import profile
 from region_consistency import inspect
 from voice_drift import inspect as inspect_drift
 from audit import audit
+from benchmark_runner import score_case
 
 
 class FoundationTests(unittest.TestCase):
@@ -63,6 +64,28 @@ class FoundationTests(unittest.TestCase):
         self.assertIn("mechanicality", result)
         self.assertIn("voice_drift", result)
         self.assertIsNone(result["semantic_loss"])
+
+    def test_benchmark_runner_detects_explicit_invariant_loss(self):
+        case = {
+            "id": "x",
+            "text": "O serviço usa PostgreSQL 17 e pode retornar HTTP 409.",
+            "must_preserve": ["PostgreSQL 17", "HTTP 409", "pode"],
+        }
+        result = score_case(case, "O serviço usa PostgreSQL e retorna HTTP 409.")
+        self.assertFalse(result["protected_ok"])
+        self.assertFalse(result["explicit_invariants_ok"])
+        self.assertIn("PostgreSQL 17", result["explicit_missing"])
+        self.assertIn("pode", result["explicit_missing"])
+
+    def test_benchmark_runner_accepts_preserved_invariants(self):
+        case = {
+            "id": "x",
+            "text": "O serviço usa PostgreSQL 17 e pode retornar HTTP 409.",
+            "must_preserve": ["PostgreSQL 17", "HTTP 409", "pode"],
+        }
+        result = score_case(case, "O serviço usa PostgreSQL 17 e pode responder com HTTP 409.")
+        self.assertTrue(result["protected_ok"])
+        self.assertTrue(result["explicit_invariants_ok"])
 
 
 if __name__ == "__main__":
