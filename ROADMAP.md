@@ -23,6 +23,10 @@
 - [x] schemas versionados iniciais
 - [x] suíte de regressão foundation
 - [x] scaffolds de eval por domínio
+- [x] corpus/evidence strategy
+- [x] competitive benchmark protocol
+- [x] benchmark runner determinístico inicial
+- [x] model/adapter research track
 - [x] validador de pacote
 - [x] CI
 
@@ -72,6 +76,7 @@
 
 ## v0.7 — Rewrite Engine Contract
 - [ ] contrato agnóstico de modelo
+- [ ] provider adapter interface
 - [ ] Context Router executável
 - [ ] montagem dinâmica de referências
 - [ ] retries por falha dominante
@@ -89,6 +94,10 @@
 - [ ] temporal slang
 - [ ] human review protocol
 - [ ] corpus/eval provenance
+- [ ] benchmark skill-only reproduzível
+- [ ] benchmark system-level reproduzível
+- [ ] blind pairwise harness
+- [ ] frozen benchmark manifests
 
 ## v0.9 — Packaging & Integrations
 - [ ] manifests para hosts suportados
@@ -96,6 +105,19 @@
 - [ ] exemplos de integração
 - [ ] documentação de extensão de packs
 - [ ] política de contribuição de dados linguísticos
+- [ ] provider adapter para Emulate/API externa
+- [ ] adapters para modelos locais/custom
+
+## Research track — Optional Model / Adapter
+- [x] arquitetura e gates documentados
+- [ ] candidate generation + reranking
+- [ ] dataset contract para adapters pessoais
+- [ ] LoRA/PEFT experiment
+- [ ] channel holdout
+- [ ] domain adapter experiment
+- [ ] specialized PT-BR model feasibility study
+
+Essa trilha é opcional e nunca substitui Semantic Ledger, Fact Guard ou evals.
 
 ## v1.0 gate
 
@@ -106,3 +128,5 @@
 5. Packs têm proveniência/licença.
 6. Regressões bloqueiam release.
 7. Nenhuma dependência de "AI detector score".
+8. Benchmark competitivo diferencia skill-only de system-level.
+9. Qualquer adapter/modelo especializado precisa passar pelos mesmos semantic gates.
