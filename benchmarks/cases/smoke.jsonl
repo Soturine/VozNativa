@@ -1,0 +1,2 @@
+{"id":"tech-001","genre":"technical","text":"O serviço usa PostgreSQL 17, aceita no máximo 25 requisições por segundo e pode retornar HTTP 409 quando duas atualizações concorrentes alteram o mesmo registro.","must_preserve":["PostgreSQL 17","25","HTTP 409","pode"]}
+{"id":"work-001","genre":"corporate","text":"Podemos cancelar a renovação até 18 de outubro de 2026. Depois dessa data, a assinatura pode ser renovada automaticamente por R$ 149,90.","must_preserve":["18 de outubro de 2026","pode","R$ 149,90"]}
