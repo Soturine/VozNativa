@@ -15,11 +15,19 @@ This document prevents design ideas from disappearing into README prose.
 | Idiolect documentation | `references/voice/idiolect.md` | specified |
 | Regional model | `references/regions/` | specified; not calibrated |
 | Community packs | `references/communities/` | draft scaffolds |
-| Temporal slang | `references/slang/` | schema + example only |
+| Temporal slang | `references/slang/` | schema only; lexicon not calibrated |
+| Corpus/evidence methodology | `docs/CORPUS_AND_EVIDENCE_STRATEGY.md`, `references/corpora/` | implemented documentation |
 | Regional Overfit Guard | `scripts/region_consistency.py` | baseline heuristic |
 | Dialect Mixing Guard | `scripts/region_consistency.py` | baseline heuristic |
 | Voice Drift Guard | `scripts/voice_drift.py` | baseline heuristic |
 | Audit mode | `scripts/audit.py` + skill contract | baseline |
+| Competitive benchmark protocol | `docs/COMPETITIVE_BENCHMARK.md` | specified |
+| Benchmark deterministic runner | `scripts/benchmark_runner.py` | baseline implemented |
+| Benchmark frozen smoke cases | `benchmarks/cases/smoke.jsonl` | initial cases |
+| Emulate-1 research comparison | `docs/COMPETITIVE_BENCHMARK.md` | documented |
+| Optional model/adapter track | `docs/MODEL_ADAPTER_TRACK.md` | specified |
+| Provider adapter contract | roadmap v0.7/v0.9 | not implemented |
+| Personal LoRA/PEFT adapter | research track | not implemented |
 | Rewrite engine | roadmap v0.7 | not implemented |
 | Claim-level Semantic Ledger | roadmap v0.2 | not implemented |
 | Corpus-calibrated regional packs | roadmap v0.5 | not implemented |
