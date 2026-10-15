@@ -243,6 +243,27 @@ O design inicial estudou:
 
 VozNativa deve manter taxonomia e implementação próprias. Material externo só entra após revisão de licença/atribuição.
 
+## Benchmark competitivo
+
+VozNativa mantém um protocolo separado para comparar:
+- modelo bruto;
+- prompt simples de "parecer humano";
+- `blader/humanizer`;
+- `phuryn/work-humanizer`;
+- Emulate-1;
+- VozNativa.
+
+A comparação separa **skill-only** de **system-level** para não confundir efeito de prompt/skill com efeito de um modelo especializado.
+
+O gate principal é preservação semântica + qualidade/voz. Detectores de IA, quando usados em pesquisa, ficam fora da função objetivo e não aprovam release.
+
+Veja:
+- `docs/COMPETITIVE_BENCHMARK.md`;
+- `docs/MODEL_ADAPTER_TRACK.md`;
+- `benchmarks/`.
+
+Também existe uma trilha opcional de modelo/adapter (incluindo LoRA/PEFT no futuro), mas ela só avança depois de Semantic Ledger, evals e benchmarks confiáveis.
+
 ## Rodando a baseline
 
 ```bash
