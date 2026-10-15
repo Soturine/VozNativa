@@ -16,6 +16,8 @@ REQUIRED = [
     "docs/DESIGN_SPEC.md",
     "docs/TRACEABILITY.md",
     "docs/CORPUS_AND_EVIDENCE_STRATEGY.md",
+    "docs/COMPETITIVE_BENCHMARK.md",
+    "docs/MODEL_ADAPTER_TRACK.md",
     "references/VOICE_STACK.md",
     "references/corpora/README.md",
     "references/corpora/carolina.md",
@@ -51,6 +53,9 @@ REQUIRED = [
     "scripts/region_consistency.py",
     "scripts/voice_drift.py",
     "scripts/audit.py",
+    "scripts/benchmark_runner.py",
+    "benchmarks/README.md",
+    "benchmarks/cases/smoke.jsonl",
     "evals/test_foundation.py",
     "evals/academic/README.md",
     "evals/whatsapp/README.md",
@@ -79,7 +84,7 @@ if 'version: "0.1.0"' not in skill:
     raise SystemExit("SKILL.md version must match foundation release")
 
 trace = (ROOT / "docs" / "TRACEABILITY.md").read_text(encoding="utf-8")
-for must_have in ("Semantic/factual lock", "Voice Drift Guard", "Regional Overfit Guard", "Rewrite engine"):
+for must_have in ("Semantic/factual lock", "Voice Drift Guard", "Regional Overfit Guard", "Rewrite engine", "Competitive benchmark protocol"):
     if must_have not in trace:
         raise SystemExit(f"traceability missing: {must_have}")
 
