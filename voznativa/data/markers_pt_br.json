@@ -783,6 +783,16 @@
       "label": "quantifier.upper_bound",
       "regex": "\\bat[eé](?=\\s+(?:\\d|dois\\b|duas\\b|tr[eê]s\\b|quatro\\b|cinco\\b|seis\\b|sete\\b|oito\\b|nove\\b|dez\\b|vinte\\b|trinta\\b|cem\\b))",
       "doc": "até directly before a number is an upper bound (em até 5 dias) or a deadline (até 31/12); both must survive"
+    },
+    {
+      "label": "causality.causal",
+      "regex": "\\b(?:faz|fez|fazem|fizeram|fará|farão|fazia|faria|fizesse)\\b(?=\\s+(?:(?!para\\b|pra\\b|com\\b)[\\w-]+\\s+){1,3}?[\\w-]+(?:ar|er|ir|or)\\b)",
+      "doc": "causative fazer + subject + infinitive (um vazamento fez o servidor reiniciar); 'para' excluded to avoid purpose clauses"
+    },
+    {
+      "label": "causality.causal",
+      "regex": "\\b(?:leva|levou|levam|levaram|levará|levaria)\\b(?=\\s+(?:(?!para\\b|pra\\b)[\\w-]+\\s+){1,3}?(?:a|à)\\s+[\\w-]+(?:ar|er|ir|or)\\b)",
+      "doc": "causative levar + object + a + infinitive; only the verb is the marker so cause/effect stay comparable"
     }
   ],
   "comparison": {

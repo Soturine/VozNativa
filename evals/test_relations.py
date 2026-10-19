@@ -36,6 +36,14 @@ class CausalDirection(unittest.TestCase):
             self.assertEqual(report["status"], "fail", original)
             self.assertIn("causal_direction_reversed", {i["code"] for i in report["issues"]})
 
+    def test_causative_fazer_is_a_causal_connector(self):
+        # Blind holdout hr-004 (first run): this valid rewrite failed.
+        report = compare("O servidor reiniciou porque houve um vazamento de memória.",
+                         "Um vazamento de memória fez o servidor reiniciar.")
+        self.assertNotEqual(report["status"], "fail", report["issues"])
+        from voznativa.signals import profile
+        self.assertEqual(profile("Ela fez o relatório para entregar amanhã.").get("causality.causal", 0), 0)
+
     def test_same_direction_with_other_connector_or_voice_passes(self):
         for original, candidate in (("O build quebrou porque o token expirou.", "O token expirou, por isso o build quebrou."),
                                     ("A falha no DNS causou a queda da API.", "A queda da API foi causada pela falha no DNS.")):
