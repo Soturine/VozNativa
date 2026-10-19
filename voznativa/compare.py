@@ -67,6 +67,7 @@ def compare(original: str, candidate: str) -> dict:
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
     issues += _length_issues(original, candidate)
+    issues += _structure_issues(src, out)
 
     if any(i["severity"] == "critical" for i in issues):
         status = "fail"
@@ -410,6 +411,25 @@ def _coverage_issues(src, out) -> list[dict]:
                                  "check for added claims",
                                  sentence=entry.sentence.text, novelty=round(novelty, 3),
                                  new_words=sorted(new)))
+    return issues
+
+
+def _structure_issues(src, out) -> list[dict]:
+    """Markdown structure: list items, headings and code blocks are part of a
+    document's contract (navigation, steps); paragraph merges are routine."""
+    def counts(led):
+        kinds = Counter(e.sentence.kind for e in led.entries)
+        return {"list_item": kinds["list_item"], "heading": kinds["heading"], "code": kinds["code"],
+                "paragraph": len({e.sentence.paragraph for e in led.entries if e.sentence.kind == "prose"})}
+    before, after = counts(src), counts(out)
+    issues = []
+    for kind in ("list_item", "heading", "code"):
+        if before[kind] != after[kind]:
+            issues.append(_issue("structure_changed", "major", f"{kind} count {before[kind]} -> {after[kind]}",
+                                 element=kind, before=before[kind], after=after[kind]))
+    if before["paragraph"] != after["paragraph"]:
+        issues.append(_issue("paragraphs_changed", "info",
+                             f"paragraph count {before['paragraph']} -> {after['paragraph']}"))
     return issues
 
 
