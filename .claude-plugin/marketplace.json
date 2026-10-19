@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "voznativa",
+  "owner": {
+    "name": "Soturine",
+    "url": "https://github.com/Soturine"
+  },
+  "description": "Instala o VozNativa como plugin do Claude Code.",
+  "plugins": [
+    {
+      "name": "voznativa",
+      "source": "./",
+      "description": "Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal.",
+      "keywords": ["pt-br", "portuguese", "writing", "voice", "semantic-preservation"]
+    }
+  ]
+}

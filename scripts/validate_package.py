@@ -137,6 +137,25 @@ def check_docs(errors: list[str]) -> None:
     first = re.search(r"^## (.+)$", changelog, re.M)
     if not first or not (__version__ in first.group(1) or "Unreleased" in first.group(1)):
         errors.append(f"CHANGELOG.md first entry must be 'Unreleased' or {__version__}")
+    skill_meta, _ = frontmatter((ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    first_sentence = re.match(r"(.+?\.)(?:\s|$)", skill_meta.get("description", ""))
+    for manifest in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
+        path = ROOT / manifest
+        if not path.exists():
+            errors.append(f"missing {manifest}")
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        entries = [data] if manifest.endswith("plugin.json") else data.get("plugins", [])
+        for entry in entries:
+            if entry.get("name") != "voznativa":
+                errors.append(f"{manifest}: name must be voznativa")
+            if first_sentence and entry.get("description") != first_sentence.group(1):
+                errors.append(f"{manifest}: description must equal the first sentence of SKILL.md description")
+        if manifest.endswith("plugin.json"):
+            if data.get("version") != __version__:
+                errors.append(f"{manifest}: version {data.get('version')!r} != {__version__!r}")
+            if data.get("skills") != ["./"]:
+                errors.append(f"{manifest}: skills must point at the repository root (['./'])")
     agent = yaml.safe_load((ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")) or {}
     if not (agent.get("interface") or {}).get("display_name"):
         errors.append("agents/openai.yaml: interface.display_name is required")

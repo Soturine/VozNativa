@@ -1,4 +1,6 @@
 interface:
   display_name: "VozNativa"
-  short_description: "Preserve meaning while adapting Brazilian Portuguese voice"
-  default_prompt: "Use $voznativa para reescrever este texto em PT-BR preservando fatos, registro e a voz do autor."
+  short_description: "Reescreve PT-BR na voz do autor sem mudar fatos"
+  default_prompt: "Use $voznativa para reescrever este texto em PT-BR preservando fatos, prazos, modalidade e a voz do autor, e rode o gate de comparação antes de entregar."
+policy:
+  allow_implicit_invocation: true
