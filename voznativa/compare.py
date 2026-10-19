@@ -20,7 +20,7 @@ from . import ledger as ledger_mod
 from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import contains_word, normalize_surface
+from .text import contains_word, content_stems, normalize_surface
 
 SCHEMA_VERSION = 1
 
@@ -62,6 +62,7 @@ def compare(original: str, candidate: str) -> dict:
     issues += _binding_issues(src, out)
     alignment = _align(src, out)
     issues += _signal_issues(src, out, alignment)
+    issues += _causal_direction_issues(src, out, alignment)
     issues += _coverage_issues(src, out)
     issues += _length_issues(original, candidate)
 
@@ -265,6 +266,37 @@ def _signal_issues(src, out, alignment) -> list[dict]:
             label=label, before=before.get(label, 0), after=after.get(label, 0),
             location=located,
             examples=_marker_examples(src if delta < 0 else out, label)))
+    return issues
+
+
+def _cause_effect(entry) -> tuple[set, set] | None:
+    causal = [m for m in entry.markers if m.label == "causality.causal"]
+    if len(causal) != 1:  # zero or several connectors: direction is ambiguous
+        return None
+    m = causal[0]
+    before = set(content_stems(entry.sentence.text[:m.start]))
+    after = set(content_stems(entry.sentence.text[m.end:]))
+    return (after, before) if signals.causal_orientation(m.phrase) == "backward" else (before, after)
+
+
+def _causal_direction_issues(src, out, alignment) -> list[dict]:
+    """Same causal connector class, but cause and effect traded sides within an
+    aligned sentence ("a falha causou a queda" -> "a queda causou a falha")."""
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        a, b = _cause_effect(src.entries[i]), _cause_effect(out.entries[j])
+        if not a or not b:
+            continue
+        (o_cause, o_effect), (c_cause, c_effect) = a, b
+        crossed = _jaccard(c_cause, o_effect), _jaccard(c_effect, o_cause)
+        kept = _jaccard(c_cause, o_cause), _jaccard(c_effect, o_effect)
+        if min(crossed) >= 0.3 and crossed[0] > kept[0] and crossed[1] > kept[1]:
+            issues.append(_issue("causal_direction_reversed", "critical",
+                                 "cause and effect traded places",
+                                 location={"source_sentence": src.entries[i].sentence.text,
+                                           "candidate_sentence": out.entries[j].sentence.text}))
     return issues
 
 

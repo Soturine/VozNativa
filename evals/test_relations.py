@@ -27,5 +27,21 @@ class EntityBinding(unittest.TestCase):
                                                          "Em 2024, a Beta foi comprada pela Acme."))
 
 
+
+class CausalDirection(unittest.TestCase):
+    def test_reversed_direction_fails(self):
+        for original, candidate in (("A falha no DNS causou a queda da API.", "A queda da API causou a falha no DNS."),
+                                    ("O build quebrou porque o token expirou.", "O token expirou porque o build quebrou.")):
+            report = compare(original, candidate)
+            self.assertEqual(report["status"], "fail", original)
+            self.assertIn("causal_direction_reversed", {i["code"] for i in report["issues"]})
+
+    def test_same_direction_with_other_connector_or_voice_passes(self):
+        for original, candidate in (("O build quebrou porque o token expirou.", "O token expirou, por isso o build quebrou."),
+                                    ("A falha no DNS causou a queda da API.", "A queda da API foi causada pela falha no DNS.")):
+            report = compare(original, candidate)
+            self.assertNotEqual(report["status"], "fail", (candidate, report["issues"]))
+
+
 if __name__ == "__main__":
     unittest.main()

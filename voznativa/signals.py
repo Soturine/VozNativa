@@ -64,6 +64,20 @@ def _patterns() -> list[tuple[re.Pattern, str, str]]:
 
 
 @lru_cache(maxsize=1)
+def _backward_causal() -> list[tuple[str, ...]]:
+    return [tuple(fold(p).split()) for p in lexicon().get("causal_orientation", {}).get("backward", [])]
+
+
+def causal_orientation(phrase: str) -> str:
+    """'backward' when the cause follows the marker (X porque Y), else 'forward'."""
+    tokens = [fold(t) for t in _TOKEN_RE.findall(phrase)]
+    for candidate in _backward_causal():
+        if len(candidate) == len(tokens) and _phrase_matches(candidate, tokens):
+            return "backward"
+    return "forward"
+
+
+@lru_cache(maxsize=1)
 def severity_rules() -> dict[str, frozenset[str]]:
     raw = lexicon().get("comparison", {}).get("severity", {})
     return {key: frozenset(raw.get(key, [])) for key in

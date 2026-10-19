@@ -339,7 +339,23 @@
         "em decorrência de",
         "decorrente de",
         "motivo pelo qual",
-        "razão pela qual"
+        "razão pela qual",
+        "causado por",
+        "causada por",
+        "causados por",
+        "causadas por",
+        "provocado por",
+        "provocada por",
+        "provocados por",
+        "provocadas por",
+        "gerado por",
+        "gerada por",
+        "ocasionado por",
+        "ocasionada por",
+        "resultado de",
+        "fruto de",
+        "consequência de",
+        "em consequência de"
       ],
       "correlational": [
         "associado",
@@ -565,5 +581,45 @@
         "negation_concord"
       ]
     }
+  },
+  "causal_orientation": {
+    "_doc": "backward: the cause comes AFTER the marker (X porque Y, X foi causado por Y). Every other causality.causal phrase is forward (X causa Y, X, por isso Y). Used to detect reversed causal direction inside one sentence.",
+    "backward": [
+      "porque",
+      "pois",
+      "já que",
+      "uma vez que",
+      "visto que",
+      "devido a",
+      "devido ao",
+      "devido à",
+      "por causa de",
+      "por causa do",
+      "por causa da",
+      "em razão de",
+      "graças a",
+      "por conta de",
+      "em função de",
+      "em decorrência de",
+      "decorrente de",
+      "motivo pelo qual",
+      "razão pela qual",
+      "causado por",
+      "causada por",
+      "causados por",
+      "causadas por",
+      "provocado por",
+      "provocada por",
+      "provocados por",
+      "provocadas por",
+      "gerado por",
+      "gerada por",
+      "ocasionado por",
+      "ocasionada por",
+      "resultado de",
+      "fruto de",
+      "consequência de",
+      "em consequência de"
+    ]
   }
 }
