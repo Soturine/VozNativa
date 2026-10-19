@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "locale": "pt-BR",
+  "evidence": {
+    "level": "E1",
+    "basis": "Closed-class and high-frequency function words described in standard Brazilian Portuguese grammars (negation, modal auxiliaries, quantifiers, conjunctions). Lists were written for VozNativa; no third-party list was copied.",
+    "calibration": "not calibrated against a corpus; see voznativa/README.md#limitations",
+    "matching": "accent-folded, lower-case, longest phrase first; a token consumed by a longer phrase is not counted again"
+  },
+  "categories": {
+    "negation": {
+      "explicit": [
+        "não",
+        "nunca",
+        "jamais",
+        "nem",
+        "nenhum",
+        "nenhuma",
+        "ninguém",
+        "nada",
+        "de jeito nenhum",
+        "de forma alguma",
+        "de modo algum",
+        "em hipótese alguma",
+        "nn"
+      ],
+      "privative": [
+        "sem"
+      ]
+    },
+    "modality": {
+      "possibility": [
+        "pode",
+        "podem",
+        "podemos",
+        "posso",
+        "poderia",
+        "poderiam",
+        "poderíamos",
+        "poderá",
+        "poderão",
+        "pôde",
+        "puderem",
+        "possível",
+        "possíveis",
+        "possivelmente",
+        "talvez",
+        "pode ser que",
+        "é possível",
+        "dá para",
+        "dá pra",
+        "eventualmente",
+        "possa",
+        "possam",
+        "possamos",
+        "puder",
+        "pudermos"
+      ],
+      "probability": [
+        "provavelmente",
+        "provável",
+        "prováveis",
+        "tende a",
+        "tendem a",
+        "costuma",
+        "costumam",
+        "geralmente",
+        "normalmente",
+        "tipicamente"
+      ],
+      "necessity": [
+        "deve",
+        "devem",
+        "devemos",
+        "devo",
+        "deveria",
+        "deveriam",
+        "deverá",
+        "deverão",
+        "precisa",
+        "precisam",
+        "precisamos",
+        "preciso",
+        "tem que",
+        "têm que",
+        "temos que",
+        "tenho que",
+        "é preciso",
+        "é necessário",
+        "necessário",
+        "necessária",
+        "obrigatório",
+        "obrigatória",
+        "obrigatoriamente",
+        "é obrigatório",
+        "precise",
+        "precisem",
+        "precisemos",
+        "deva",
+        "devam",
+        "devamos",
+        "tenha que",
+        "tenham que"
+      ],
+      "certainty": [
+        "certamente",
+        "com certeza",
+        "definitivamente",
+        "comprovadamente",
+        "sem dúvida",
+        "sem dúvidas",
+        "não há dúvida",
+        "não há dúvidas",
+        "fica claro",
+        "evidentemente",
+        "obviamente",
+        "garantidamente",
+        "garantido",
+        "garantida",
+        "inquestionavelmente",
+        "comprova",
+        "comprovam",
+        "comprovou",
+        "comprovaram",
+        "demonstra",
+        "demonstram",
+        "demonstrou",
+        "prova",
+        "provam",
+        "provou",
+        "confirma",
+        "confirmam",
+        "confirmou"
+      ],
+      "evidential": [
+        "parece",
+        "parecem",
+        "aparentemente",
+        "sugere",
+        "sugerem",
+        "indica",
+        "indicam",
+        "ao que tudo indica",
+        "aponta para",
+        "apontam para"
+      ]
+    },
+    "quantifier": {
+      "universal": [
+        "todos",
+        "todas",
+        "todo",
+        "toda",
+        "cada",
+        "sempre",
+        "qualquer",
+        "quaisquer",
+        "em todos os casos",
+        "sem exceção"
+      ],
+      "restrictive": [
+        "apenas",
+        "só",
+        "somente",
+        "exclusivamente",
+        "unicamente"
+      ],
+      "upper_bound": [
+        "no máximo",
+        "menos de",
+        "abaixo de",
+        "não mais que",
+        "não mais do que",
+        "até no máximo"
+      ],
+      "lower_bound": [
+        "no mínimo",
+        "pelo menos",
+        "mais de",
+        "acima de",
+        "a partir de",
+        "ao menos"
+      ],
+      "approximate": [
+        "cerca de",
+        "aproximadamente",
+        "quase",
+        "em torno de",
+        "por volta de",
+        "mais ou menos",
+        "aproximado"
+      ],
+      "partial": [
+        "alguns",
+        "algumas",
+        "vários",
+        "várias",
+        "muitos",
+        "muitas",
+        "poucos",
+        "poucas",
+        "a maioria",
+        "maioria",
+        "a minoria",
+        "parte dos",
+        "parte das"
+      ],
+      "multiplicative": [
+        "dobrar",
+        "dobrou",
+        "dobra",
+        "dobram",
+        "dobraram",
+        "duplicar",
+        "duplicou",
+        "triplicar",
+        "triplicou",
+        "triplicaram",
+        "quadruplicar",
+        "quadruplicou",
+        "multiplicou",
+        "multiplicar",
+        "reduziu pela metade",
+        "caiu pela metade",
+        "cortou pela metade"
+      ]
+    },
+    "condition": {
+      "conditional": [
+        "caso",
+        "desde que",
+        "contanto que",
+        "a menos que",
+        "a não ser que",
+        "somente se",
+        "só se",
+        "apenas se",
+        "salvo se",
+        "se"
+      ],
+      "exception": [
+        "exceto",
+        "salvo",
+        "com exceção de",
+        "a não ser",
+        "menos quando"
+      ],
+      "temporal": [
+        "quando",
+        "enquanto",
+        "até que",
+        "durante"
+      ],
+      "before": [
+        "antes de",
+        "antes do",
+        "antes da",
+        "antes dos",
+        "antes das",
+        "antes que",
+        "previamente",
+        "antecipadamente"
+      ],
+      "after": [
+        "após",
+        "depois de",
+        "depois do",
+        "depois da",
+        "depois dos",
+        "depois das",
+        "depois que",
+        "assim que",
+        "logo que",
+        "logo após",
+        "posteriormente"
+      ]
+    },
+    "causality": {
+      "causal": [
+        "porque",
+        "pois",
+        "por causa de",
+        "por causa do",
+        "por causa da",
+        "devido a",
+        "devido ao",
+        "devido à",
+        "em razão de",
+        "graças a",
+        "já que",
+        "uma vez que",
+        "visto que",
+        "causa",
+        "causam",
+        "causou",
+        "causaram",
+        "causar",
+        "causará",
+        "provoca",
+        "provocam",
+        "provocou",
+        "provocar",
+        "leva a",
+        "levam a",
+        "levou a",
+        "resulta em",
+        "resultam em",
+        "resultou em",
+        "faz com que",
+        "fazem com que",
+        "fez com que",
+        "gera",
+        "geram",
+        "gerou",
+        "consequentemente",
+        "por isso",
+        "portanto",
+        "por consequência",
+        "levar a",
+        "levaria a",
+        "levará a",
+        "resultar em",
+        "resultaria em",
+        "resultará em",
+        "provocaria",
+        "causaria",
+        "fazer com que",
+        "faria com que",
+        "gerar",
+        "geraria",
+        "ocasiona",
+        "ocasionou",
+        "ocasionar",
+        "acarreta",
+        "acarretou",
+        "acarretar",
+        "por conta de",
+        "em função de",
+        "em decorrência de",
+        "decorrente de",
+        "motivo pelo qual",
+        "razão pela qual"
+      ],
+      "correlational": [
+        "associado",
+        "associada",
+        "associados",
+        "associadas",
+        "associação",
+        "correlação",
+        "correlacionado",
+        "correlacionada",
+        "correlacionados",
+        "relacionado a",
+        "relacionada a",
+        "relacionados a",
+        "relacionadas a",
+        "está ligado a",
+        "estão ligados a",
+        "coincide com",
+        "coincidem com"
+      ]
+    },
+    "commitment": {
+      "commit": [
+        "vamos",
+        "vou",
+        "iremos",
+        "irei",
+        "garantimos",
+        "garanto",
+        "nos comprometemos",
+        "me comprometo",
+        "prometo",
+        "prometemos",
+        "será entregue",
+        "serão entregues",
+        "entregaremos",
+        "faremos",
+        "enviaremos",
+        "enviarei",
+        "farei",
+        "entregarei"
+      ],
+      "proposal": [
+        "proponho",
+        "propomos",
+        "sugiro",
+        "sugerimos",
+        "recomendo",
+        "recomendamos"
+      ]
+    },
+    "attribution": {
+      "source": [
+        "segundo",
+        "de acordo com",
+        "conforme",
+        "afirma",
+        "afirmam",
+        "afirmou",
+        "disse",
+        "disseram",
+        "diz",
+        "dizem",
+        "relata",
+        "relatou",
+        "aponta",
+        "apontou",
+        "informa",
+        "informou",
+        "declarou",
+        "estima",
+        "estimou"
+      ]
+    },
+    "metadiscourse": {
+      "framing": [
+        "é possível observar",
+        "é possível perceber",
+        "é possível notar",
+        "é possível verificar",
+        "é possível constatar",
+        "pode-se observar",
+        "pode-se perceber",
+        "pode-se notar",
+        "pode-se verificar",
+        "podemos observar",
+        "podemos perceber",
+        "podemos notar",
+        "vale ressaltar",
+        "vale destacar",
+        "vale lembrar",
+        "cabe ressaltar",
+        "cabe destacar",
+        "cabe mencionar",
+        "é importante destacar",
+        "é importante ressaltar",
+        "é importante lembrar",
+        "é válido mencionar",
+        "é válido ressaltar"
+      ]
+    },
+    "aspect": {
+      "scope": [
+        "por enquanto",
+        "até agora",
+        "até o momento",
+        "por ora",
+        "no momento",
+        "atualmente"
+      ],
+      "continuity": [
+        "ainda",
+        "continua",
+        "continuam",
+        "segue",
+        "seguem"
+      ],
+      "completion": [
+        "já"
+      ]
+    }
+  },
+  "context_rules": {
+    "se": "counted as conditional only at clause start: sentence-initial, after , ; : ( or after e/mas/ou/só/somente/apenas/porém. Elsewhere it is usually the clitic pronoun (vende-se, ela se machucou).",
+    "negative_concord": "n-words (nenhum, nada, ninguém, nunca, jamais, nem) after não/nn in the same sentence are relabeled negation_concord.n_word and not counted as extra negations"
+  },
+  "known_gaps": [
+    "morphological negation is covered only for the listed compounds; desabilitar, inválido, ilegal etc. are not counted",
+    "lexical antonyms (aumentou/diminuiu, aprovado/reprovado) are invisible to marker counts",
+    "deve is ambiguous between necessity and epistemic probability; it is always counted as necessity",
+    "um/uma are not treated as numbers because they are usually articles"
+  ],
+  "compounds": {
+    "_doc": "single words that encode two meanings; each listed label is counted once",
+    "impossível": [
+      "negation.lexical",
+      "modality.possibility"
+    ],
+    "impossíveis": [
+      "negation.lexical",
+      "modality.possibility"
+    ],
+    "impossibilidade": [
+      "negation.lexical",
+      "modality.possibility"
+    ],
+    "inviável": [
+      "negation.lexical",
+      "modality.possibility"
+    ],
+    "inviáveis": [
+      "negation.lexical",
+      "modality.possibility"
+    ],
+    "desnecessário": [
+      "negation.lexical",
+      "modality.necessity"
+    ],
+    "desnecessária": [
+      "negation.lexical",
+      "modality.necessity"
+    ],
+    "desnecessários": [
+      "negation.lexical",
+      "modality.necessity"
+    ],
+    "desnecessárias": [
+      "negation.lexical",
+      "modality.necessity"
+    ],
+    "dispensável": [
+      "negation.lexical",
+      "modality.necessity"
+    ]
+  },
+  "patterns": [
+    {
+      "label": "commitment.commit",
+      "regex": "\\b(?:estaremos|estarei|vamos estar|iremos estar|vou estar|estaremos sendo)\\s+\\w+ndo\\b",
+      "doc": "future progressive (gerundismo) still expresses a commitment"
+    },
+    {
+      "label": "quantifier.upper_bound",
+      "regex": "\\bat[eé](?=\\s+(?:\\d|dois\\b|duas\\b|tr[eê]s\\b|quatro\\b|cinco\\b|seis\\b|sete\\b|oito\\b|nove\\b|dez\\b|vinte\\b|trinta\\b|cem\\b))",
+      "doc": "até directly before a number is an upper bound (em até 5 dias) or a deadline (até 31/12); both must survive"
+    }
+  ],
+  "comparison": {
+    "category_level": [
+      "negation"
+    ],
+    "_doc": "for these categories only the category total is compared, so não é possível <-> é impossível is not a flip",
+    "severity": {
+      "_doc": "localized changes in these categories fail; others need review. Additions of causal connectives need review because they may only make an implied relation explicit; removals and correlation->causation shifts fail.",
+      "critical_when_localized": [
+        "negation",
+        "modality",
+        "causality"
+      ],
+      "review_only_on_addition": [
+        "causality.causal"
+      ],
+      "informational": [
+        "metadiscourse",
+        "negation_concord"
+      ]
+    }
+  }
+}
