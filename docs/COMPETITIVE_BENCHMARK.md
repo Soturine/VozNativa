@@ -225,6 +225,34 @@ Emulate-1 é um sistema treinado próprio; blader/work-humanizer são skills. Po
 
 Não é válido concluir "skill X é melhor modelo" a partir de um benchmark que mistura classes sem declarar isso.
 
+## Estado da implementação (0.2.0.dev0)
+
+| Item | Estado |
+|---|---|
+| Tier 0 determinístico | `voznativa benchmark`; saída ausente conta como falha |
+| Tier 1 juiz LLM / humano | contrato `voznativa judge-prompt`; julgamentos aplicados de arquivos, separados por tipo |
+| Casos congelados com >= 40 palavras | `benchmarks/cases/ptbr-v1.jsonl` (8 casos sintéticos) |
+| Manifest | `benchmarks/manifest.example.json`; o relatório avisa quando falta |
+| Execução real contra B0–B5 | **não feita** |
+| Cegamento, ordem aleatória, painel de juízes | não implementado |
+
+### Restrições verificadas do Emulate-1 (docs da API, 2026-10-19)
+
+- `/v1/humanize` exige pelo menos 40 palavras; os casos de `smoke.jsonl` (22–25 palavras) não servem para B4.
+- A documentação não diz quais idiomas são suportados; desempenho em PT-BR é desconhecido.
+- `reads_human` é sempre `null`.
+- O provider `EmulateProvider` segue a documentação pública, mas não foi validado contra o serviço real.
+
+### Lições do benchmark publicado pelo work-humanizer (commit `0a90657`, 2026-10-08)
+
+Evidência do próprio autor, em inglês e com textos sintéticos: serve como **método**, não como resultado sobre PT-BR.
+
+- Separar "lê como humano" de "você enviaria isto?" com o original visível ("informed send"): os juízes preferiram o prompt simples quando não viam o original, e a skill fiel quando viam.
+- Verificar à mão toda invenção apontada pelo fact-checker antes de contá-la.
+- Gerar e congelar um holdout **depois** de congelar a versão testada.
+- Painel de juízes de famílias diferentes; reportar a concordância.
+- Detectores mediram composição, não palavras: reescrever um rascunho de IA não mudou a classificação. Isso reforça manter detector fora do gate.
+
 ## Version manifest
 
 Cada execução deve gravar algo como:
