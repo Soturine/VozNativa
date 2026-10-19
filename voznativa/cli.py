@@ -163,6 +163,62 @@ def cmd_contract(args):
     _emit(compact(contract) if args.compact else contract)
 
 
+def _voice_inputs(args):
+    from .profile import validate
+    profile = json.loads(_read(args.profile)) if args.profile else None
+    if profile and validate(profile):
+        raise ValueError("invalid voice profile: " + "; ".join(validate(profile)))
+    explicit = json.loads(args.set) if args.set else None
+    return profile, explicit
+
+
+def cmd_rewrite_prompt(args):
+    from .contract import resolve
+    from .engine import build_prompt
+    from .references import select
+    context = _route(args)
+    profile, explicit = _voice_inputs(args)
+    facts = [_read(f) for f in args.fact or []]
+    prompt = build_prompt(_read(args.text), context, resolve(context, profile, explicit),
+                          select(context, budget_words=args.budget), facts=facts,
+                          inline_references=args.inline_refs)
+    _emit(None, prompt)
+
+
+def _provider(spec: str | None, candidates_files: list[str] | None, timeout: float):
+    from .providers import CommandProvider, EmulateProvider, StaticProvider
+    if candidates_files:
+        return StaticProvider([_read(f) for f in candidates_files])
+    if not spec:
+        raise ValueError("--cmd, --emulate or --candidate is required")
+    if spec == "emulate":
+        import os
+        key = os.environ.get("EMULATE_API_KEY")
+        if not key:
+            raise ValueError("set EMULATE_API_KEY to use the Emulate provider")
+        return EmulateProvider(key)
+    return CommandProvider.from_string(spec, timeout)
+
+
+def cmd_rewrite(args):
+    from .engine import rewrite
+    from .project import scan
+    context = _route(args)
+    profile, explicit = _voice_inputs(args)
+    provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout)
+    judge = _provider(args.judge_cmd, None, args.timeout) if args.judge_cmd else None
+    result = rewrite(_read(args.text), context, provider, profile, explicit, attempts=args.attempts,
+                     candidates=args.candidates, judge_provider=judge,
+                     facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
+                     budget_words=args.budget)
+    if args.text_only:
+        _emit(None, result["text"])
+    else:
+        _emit(result)
+    return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2, "returned_original": 1}[
+        result["outcome"]]
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
@@ -250,6 +306,28 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--compact", action="store_true", help="flat feature -> value view for prompts")
     _contract_args(p)
     p.set_defaults(func=cmd_contract)
+
+    for name, helptext in (("rewrite-prompt", "print the rewrite prompt for the current agent to answer"),
+                           ("rewrite", "run the generate -> validate -> retry loop with a provider")):
+        p = sub.add_parser(name, help=helptext)
+        p.add_argument("text", help="text to rewrite (or the request, with --task create)")
+        p.add_argument("--profile")
+        p.add_argument("--set", help="explicit voice instruction as JSON")
+        p.add_argument("--budget", type=int, default=6000)
+        _contract_args(p)
+        if name == "rewrite-prompt":
+            p.add_argument("--inline-refs", action="store_true", help="embed reference text instead of paths")
+            p.set_defaults(func=cmd_rewrite_prompt)
+        else:
+            p.add_argument("--cmd", help='model command reading the prompt on stdin, e.g. "claude -p"')
+            p.add_argument("--emulate", action="store_true", help="system baseline via EMULATE_API_KEY")
+            p.add_argument("--candidate", action="append", help="pre-written candidate file (offline)")
+            p.add_argument("--judge-cmd", help="command used as semantic judge")
+            p.add_argument("--attempts", type=int, default=3)
+            p.add_argument("--candidates", type=int, default=1)
+            p.add_argument("--timeout", type=float, default=300.0)
+            p.add_argument("--text-only", action="store_true")
+            p.set_defaults(func=cmd_rewrite)
     return parser
 
 
@@ -261,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         code = args.func(args)
-    except (OSError, ValueError, json.JSONDecodeError) as error:
+    except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as error:
         sys.stderr.write(f"voznativa: {error}\n")
         return 64
     return code or 0
