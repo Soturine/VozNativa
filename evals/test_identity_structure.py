@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from voznativa.compare import compare
-from voznativa.project import ground
+
 
 
 class IdentityKeepsStructure(unittest.TestCase):

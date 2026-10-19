@@ -45,8 +45,6 @@ REGISTER_PREFERENCES = {
 # Explicit requests that conflict with a mandatory constraint.
 CONSTRAINT_CONFLICTS = {
     "no_slang": {"slang_strength": lambda v: v and float(v) > 0},
-    "preserve_code_verbatim": {},
-    "no_simplification_of_obligations": {},
 }
 
 DO_NOT = [

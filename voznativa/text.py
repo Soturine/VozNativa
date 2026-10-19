@@ -173,7 +173,6 @@ def sentences(text: str) -> list[Sentence]:
         cursor = 0
         for match in _BOUNDARY_RE.finditer(block):
             piece_end = match.end(2)
-            candidate = block[cursor:piece_end]
             if match.group(1) == "." and _is_abbreviation(block[cursor:match.end(1)]):
                 continue
             _append(out, text, start + cursor, start + piece_end, paragraph)

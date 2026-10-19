@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import re
 import statistics
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
@@ -79,14 +80,7 @@ def analyze(text: str) -> dict:
         "gerundism_count": len(GERUNDISM_RE.findall(low)),
         "metadiscourse_count": marker_counts.get("metadiscourse.framing", 0),
         "connector_counts": {c: n for c, n in connector_counts.items() if n},
-        "repeated_openers": {o: n for o, n in _counts(openers).items() if n > 1},
+        "repeated_openers": {o: n for o, n in Counter(openers).items() if n > 1},
         "emoji_count": len(re.findall(r"[\U0001F300-\U0001FAFF☀-➿]", text)),
         "uppercase_sentence_starts": sum(1 for s in sents if s.text[:1].isupper()),
     }
-
-
-def _counts(items):
-    out = {}
-    for item in items:
-        out[item] = out.get(item, 0) + 1
-    return out

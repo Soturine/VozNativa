@@ -49,9 +49,6 @@ class Ledger:
     spans: list[spans.Span]
     extras: dict = field(default_factory=dict)
 
-    def span_counts(self, hard_only: bool = False) -> Counter:
-        return Counter(s.key for s in self.spans if not hard_only or s.type in spans.HARD_TYPES)
-
     def signal_counts(self) -> Counter:
         total = Counter()
         for entry in self.entries:
