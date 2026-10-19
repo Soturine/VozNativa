@@ -50,12 +50,12 @@ CONSTRAINT_CONFLICTS = {
 }
 
 DO_NOT = [
-    "change protected values (numbers, dates, money, code, paths, quotes, names)",
-    "change negation, modality, quantifiers, conditions, causality or commitments",
-    "invent facts, experiences, sources, customers, reasons or benefits",
-    "insert regional markers or slang to signal identity",
-    "infer the author's age, gender, origin, class or personality",
-    "optimize for AI-detector scores",
+    "alterar valores protegidos (números, datas, valores, código, caminhos, citações, nomes)",
+    "alterar negação, modalidade, quantificadores, condições, causalidade ou compromissos",
+    "inventar fatos, experiências, fontes, clientes, motivos ou benefícios",
+    "inserir marcas regionais ou gírias para sinalizar identidade",
+    "inferir idade, gênero, origem, classe ou personalidade do autor",
+    "otimizar para score de detector de IA",
 ]
 
 
