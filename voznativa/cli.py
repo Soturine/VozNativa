@@ -81,7 +81,7 @@ def cmd_drift(args):
 
 def cmd_eval(args):
     from .evals import run
-    report = run(Path(args.cases))
+    report = run(Path(args.cases), require_frozen=args.require_frozen)
     _emit(report)
     return 0 if report["passed"] == report["cases"] else 1
 
@@ -261,6 +261,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("eval", help="run a behavioral eval suite (JSONL)")
     p.add_argument("cases")
+    p.add_argument("--require-frozen", action="store_true",
+                   help="refuse to run unless MANIFEST.json lists the suite as frozen with a matching sha256")
     p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("benchmark", help="score frozen benchmark outputs (deterministic tier)")

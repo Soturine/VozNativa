@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "policy": "No suite here is independent validation: all were written by the engine's developer. A frozen suite's sha256 must not change; its first_run is the only blind result. An independent holdout needs an author who did not write or read the engine, and must be committed (with its hash here) before its first run; see evals/semantic/INDEPENDENT_HOLDOUT.md.",
+  "suites": {
+    "cases.jsonl": {
+      "role": "dev",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": false,
+      "note": "the engine was tuned until it passed"
+    },
+    "relations.jsonl": {
+      "role": "dev",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": false,
+      "note": "written before the relation detectors, then used to build them"
+    },
+    "holdout.jsonl": {
+      "role": "developer_holdout",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": true,
+      "sha256": "ae479a2cc1c2ed5ddca07e7825f6a6a81cc533be7df41c0e282d91e82f1049ce",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 19,
+        "cases": 24
+      },
+      "contaminated": "general fixes were made after inspecting its failures"
+    },
+    "holdout2.jsonl": {
+      "role": "developer_holdout",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": true,
+      "sha256": "3981a4ef20188db322d9fb4f718137591337a8862c83aaada444552e7ef8c08f",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 16,
+        "cases": 16
+      },
+      "contaminated": "lexicon changes (subjunctive, antes/depois, negative concord) followed its inspection"
+    },
+    "holdout-relations.jsonl": {
+      "role": "developer_holdout",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": true,
+      "sha256": "ba5910076817b02d394a81a6051d929ddd4b5574f0e3975ba5be0ac41469646d",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 11,
+        "cases": 12
+      },
+      "contaminated": "causative fazer/levar added after hr-004 failed"
+    }
+  }
+}

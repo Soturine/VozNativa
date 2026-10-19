@@ -7,6 +7,7 @@ refuses to call the candidate safe, not if it detects the problem.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
@@ -40,7 +41,30 @@ def check(case: dict) -> dict:
             "codes": sorted(codes), "passed": not problems, "problems": problems}
 
 
-def run(path: Path) -> dict:
+def sha256_lf(path: Path) -> str:
+    """Hash with LF line endings so checkouts on Windows and Linux agree."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def provenance(path: Path) -> dict:
+    """Entry for ``path`` in the MANIFEST.json next to it; unknown suites are
+    reported as unverified, never as independent."""
+    manifest_path = path.parent / "MANIFEST.json"
+    entry = {}
+    if manifest_path.exists():
+        entry = json.loads(manifest_path.read_text(encoding="utf-8")).get("suites", {}).get(path.name, {})
+    if not entry:
+        return {"role": "unknown", "independent": False, "note": "suite not listed in MANIFEST.json"}
+    entry = dict(entry)
+    if entry.get("frozen"):
+        entry["sha256_matches"] = sha256_lf(path) == entry.get("sha256")
+    return entry
+
+
+def run(path: Path, require_frozen: bool = False) -> dict:
+    origin = provenance(path)
+    if require_frozen and not (origin.get("frozen") and origin.get("sha256_matches")):
+        raise ValueError(f"{path.name}: not a frozen suite with a matching sha256 in MANIFEST.json")
     results = [check(case) for case in load(path)]
     by_category = Counter()
     passed = Counter()
@@ -49,6 +73,9 @@ def run(path: Path) -> dict:
         passed[r["category"]] += r["passed"]
     return {
         "kind": "voznativa.semantic_eval_report",
+        "suite": path.name,
+        "provenance": origin,
+        "independent_validation": bool(origin.get("independent")),
         "cases": len(results),
         "passed": sum(r["passed"] for r in results),
         "by_category": {c: f"{passed[c]}/{n}" for c, n in sorted(by_category.items())},
