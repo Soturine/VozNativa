@@ -13,6 +13,7 @@ import json
 import os
 import shlex
 import subprocess
+import tempfile
 import urllib.request
 from dataclasses import dataclass, field
 from typing import Callable, Protocol
@@ -45,11 +46,15 @@ class StaticProvider:
 class CommandProvider:
     """Runs a command with the prompt on stdin and reads the answer from stdout.
 
-    ``argv`` is executed without a shell. One process per candidate.
+    ``argv`` is executed without a shell. One process per candidate. By
+    default each call runs in a fresh empty directory, so an agent CLI used
+    as a model cannot read or edit the caller's project.
     """
     argv: list[str]
     timeout: float = 300.0
     id: str = ""
+    isolate: bool = True
+    calls: int = 0
 
     def __post_init__(self):
         if not self.argv:
@@ -58,14 +63,25 @@ class CommandProvider:
 
     @classmethod
     def from_string(cls, command: str, timeout: float = 300.0) -> "CommandProvider":
+        """``command`` is a shell-like string or a JSON array of arguments
+        (use the array form for arguments such as --tools "")."""
+        stripped = command.strip()
+        if stripped.startswith("["):
+            argv = json.loads(stripped)
+            if not isinstance(argv, list) or not all(isinstance(a, str) for a in argv):
+                raise ValueError("--cmd JSON must be an array of strings")
+            return cls(argv, timeout)
         return cls(shlex.split(command, posix=os.name != "nt"), timeout)
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
         outputs = []
         for _ in range(n):
+            self.calls += 1
             try:
-                done = subprocess.run(self.argv, input=prompt.encode("utf-8"), capture_output=True,
-                                      timeout=self.timeout, check=False)
+                with tempfile.TemporaryDirectory(prefix="voznativa-provider-") as workdir:
+                    done = subprocess.run(self.argv, input=prompt.encode("utf-8"), capture_output=True,
+                                          timeout=self.timeout, check=False,
+                                          cwd=workdir if self.isolate else None)
             except (OSError, subprocess.TimeoutExpired) as error:
                 raise ProviderError(f"{self.id}: {error}") from error
             if done.returncode != 0:

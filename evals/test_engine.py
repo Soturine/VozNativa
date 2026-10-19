@@ -105,6 +105,18 @@ class Providers(unittest.TestCase):
         provider = CommandProvider([sys.executable, "-c", script], timeout=30)
         self.assertEqual(provider.generate("Não faça isso.", 2), ["<final>True</final>"] * 2)
 
+    def test_command_provider_runs_in_an_empty_directory(self):
+        script = "import os; print(repr(sorted(os.listdir('.'))))"
+        provider = CommandProvider([sys.executable, "-c", script], timeout=30)
+        self.assertEqual(provider.generate("x")[0].strip(), "[]")
+        self.assertEqual(provider.calls, 1)
+
+    def test_command_accepts_a_json_argv(self):
+        provider = CommandProvider.from_string('["prog", "--tools", "", "-p"]')
+        self.assertEqual(provider.argv, ["prog", "--tools", "", "-p"])
+        with self.assertRaises(ValueError):
+            CommandProvider.from_string('["prog", 3]')
+
     def test_command_provider_reports_failures(self):
         with self.assertRaises(ProviderError):
             CommandProvider([sys.executable, "-c", "import sys; sys.exit(3)"]).generate("x")
