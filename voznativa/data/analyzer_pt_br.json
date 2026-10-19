@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "evidence": {
+    "level": "E1",
+    "basis": "Word lists written for VozNativa from standard PT-BR morphology. They remove frequent words that match a suffix pattern without being gerunds or -mente adverbs.",
+    "calibration": "not calibrated against a corpus"
+  },
+  "non_gerunds": ["quando", "mundo", "segundo", "segunda", "fundo", "profundo", "lindo", "comando", "bando", "brando", "infindo", "oriundo", "imundo", "rotundo", "fecundo", "moribundo", "vagabundo", "estupendo", "tremendo", "horrendo", "reverendo", "adendo", "dividendo", "remendo", "bem-vindo", "bem-vindos", "bem-vinda", "bem-vindas", "vindo", "vindos", "vinda", "vindas", "ando", "mando", "rendo"],
+  "non_adverbs_mente": ["mente", "mentes", "semente", "sementes", "demente", "dementes", "clemente", "veemente", "dormente", "dormentes", "ardente"],
+  "connector_openers": ["além disso", "nesse contexto", "nesse sentido", "dessa forma", "desse modo", "por fim", "ademais", "outrossim", "em suma", "por outro lado", "diante disso", "diante desse cenário", "sendo assim", "em resumo", "vale ressaltar", "cabe destacar"],
+  "regional_baseline_markers": {
+    "_doc": "E0 fixture markers used only to exercise the overfit/mixing guard. They are not a regional pack and must not drive generation. Several (e.g. mano) are not region-specific; see references/regions/README.md.",
+    "mg": ["uai", "sô"],
+    "rs": ["bah", "guri", "tchê"],
+    "pe": ["oxe", "oxente", "visse"],
+    "rj": ["mermão"],
+    "sp": ["mano"]
+  }
+}
