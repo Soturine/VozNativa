@@ -1,6 +1,6 @@
 """``voznativa`` command line.
 
-Exit codes for ``compare`` (usable as a gate in scripts and CI):
+Exit codes for ``compare`` and ``ground`` (usable as a gate in scripts and CI):
   0  identical, or accepted with a recorded judgment
   1  fail: deterministic violation
   2  review_required: a human must look
@@ -95,6 +95,54 @@ def cmd_benchmark(args):
     _emit(report)
 
 
+def _contract_args(p):
+    p.add_argument("--task", default="rewrite", choices=["rewrite", "audit", "create", "profile", "compare"])
+    p.add_argument("--genre")
+    p.add_argument("--channel")
+    p.add_argument("--register")
+    p.add_argument("--audience")
+    p.add_argument("--region")
+    p.add_argument("--region-strength", type=float, default=0.0)
+    p.add_argument("--community")
+    p.add_argument("--slang-strength", type=float, default=0.0)
+    p.add_argument("--fact", action="append", help="fact source file (repeatable); never used for voice")
+    p.add_argument("--voice-sample", action="append", help="text the author wrote (repeatable); never used for facts")
+    p.add_argument("--voice-channel")
+    p.add_argument("--repo", help="repository used as a fact source")
+
+
+def _route(args):
+    from .router import route
+    return route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
+                 register=args.register, audience=args.audience, region=args.region,
+                 region_strength=args.region_strength, community=args.community,
+                 slang_strength=args.slang_strength, fact_sources=args.fact,
+                 voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo)
+
+
+def cmd_route(args):
+    _emit(_route(args))
+
+
+def cmd_refs(args):
+    from .references import select
+    contract = json.loads(_read(args.contract)) if args.contract else _route(args)
+    _emit(select(contract, budget_words=args.budget))
+
+
+def cmd_project(args):
+    from .project import scan
+    _emit(scan(args.path).summary())
+
+
+def cmd_ground(args):
+    from .project import ground, scan
+    report = ground(_read(args.candidate), _read(args.original) if args.original else None,
+                    [_read(f) for f in args.fact or []], scan(args.repo) if args.repo else None)
+    _emit(report)
+    return EXIT_BY_STATUS.get(report["status"], 2)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
@@ -144,6 +192,29 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("outputs")
     p.add_argument("--json", dest="json_path")
     p.set_defaults(func=cmd_benchmark)
+
+    p = sub.add_parser("route", help="build the Context Contract (genre, register, sources, flags)")
+    p.add_argument("text")
+    _contract_args(p)
+    p.set_defaults(func=cmd_route)
+
+    p = sub.add_parser("refs", help="select references for a contract (progressive disclosure)")
+    p.add_argument("text", nargs="?", default="-")
+    p.add_argument("--contract", help="existing contract JSON instead of routing the text")
+    p.add_argument("--budget", type=int, default=6000, help="word budget for loaded references")
+    _contract_args(p)
+    p.set_defaults(func=cmd_refs)
+
+    p = sub.add_parser("project", help="index a repository as a fact source")
+    p.add_argument("path")
+    p.set_defaults(func=cmd_project)
+
+    p = sub.add_parser("ground", help="check that protected values in a text come from fact sources")
+    p.add_argument("candidate")
+    p.add_argument("--original")
+    p.add_argument("--fact", action="append")
+    p.add_argument("--repo")
+    p.set_defaults(func=cmd_ground)
     return parser
 
 
