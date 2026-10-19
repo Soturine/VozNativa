@@ -54,6 +54,13 @@ def normalize_surface(text: str) -> str:
     return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
+def contains_word(text: str, phrase: str) -> bool:
+    """Whole-word, case-insensitive containment ("Ana" is not in "banana")."""
+    if not phrase:
+        return False
+    return re.search(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", text, re.IGNORECASE) is not None
+
+
 def words(text: str) -> list[str]:
     return WORD_RE.findall(text)
 

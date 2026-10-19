@@ -18,7 +18,7 @@ from collections import Counter
 from . import ledger as ledger_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import normalize_surface
+from .text import contains_word, normalize_surface
 
 SCHEMA_VERSION = 1
 
@@ -106,7 +106,6 @@ def _span_issues(src, out) -> list[dict]:
     after = Counter(s.key for s in out.spans)
     sample = {s.key: s for s in src.spans}
     sample_out = {s.key: s for s in out.spans}
-    candidate_text = out.text.casefold()
 
     for key, expected in before.items():
         span = sample[key]
@@ -114,7 +113,7 @@ def _span_issues(src, out) -> list[dict]:
         if span.type == "entity":
             # Entities are checked by presence: rewrites legitimately drop repeats
             # and move names to sentence start, where extraction skips them.
-            if span.text.casefold() not in candidate_text:
+            if not contains_word(out.text, span.text):
                 issues.append(_issue("span_missing", "critical", f"entity lost: {span.text}",
                                      type="entity", text=span.text, expected_count=expected, actual_count=0))
             continue
@@ -124,11 +123,10 @@ def _span_issues(src, out) -> list[dict]:
                 f"{span.type} '{span.text}' expected {expected}x, found {actual}x",
                 type=span.type, text=span.text, key=key, expected_count=expected, actual_count=actual))
 
-    original_text = src.text.casefold()
     for key, count in after.items():
         span = sample_out[key]
         if span.type == "entity":
-            if span.text.casefold() not in original_text:
+            if not contains_word(src.text, span.text):
                 issues.append(_issue("span_added", "major", f"entity not in source: {span.text}",
                                      type="entity", text=span.text))
             continue

@@ -19,6 +19,7 @@ from pathlib import Path
 
 from . import spans as spans_mod
 from .compare import _report as _base_report
+from .text import contains_word
 
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__", "dist", "build", ".tox", ".mypy_cache",
              ".pytest_cache", "target", ".next", ".idea", ".vscode"}
@@ -147,7 +148,9 @@ def _supported(span: spans_mod.Span, known_keys: set[str], fact_text: str, proje
     if span.key in known_keys:
         return "source"
     raw = span.text.strip("`").strip()
-    if raw and raw in fact_text:
+    if span.type not in VALUE_TYPES and contains_word(fact_text, raw):
+        # Values need an equivalent key (above); text search would let "17"
+        # match inside "2017".
         return "fact_text"
     if project is None or span.type in VALUE_TYPES:
         # Values (numbers, money, dates...) need an explicit source: a "3000"
@@ -165,7 +168,7 @@ def _supported(span: spans_mod.Span, known_keys: set[str], fact_text: str, proje
             return None
     if span.type == "identifier" and (raw.rstrip("()") in project.identifiers or raw in project.cli_names):
         return "repository_code"
-    if raw in project.doc_text:
+    if contains_word(project.doc_text, raw):
         return "repository_docs"
     if span.type == "version" and raw.lstrip("v") in project.versions.values():
         return "repository_version"
