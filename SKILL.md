@@ -2,7 +2,7 @@
 name: voznativa
 description: Reescreve, audita, cria e perfila textos em português brasileiro com preservação semântica, voz contextual, variação regional responsável e modelagem de idioleto.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0.dev0"
   language: pt-BR
 ---
 

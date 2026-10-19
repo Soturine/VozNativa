@@ -1,8 +1,28 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "voznativa"
-version = "0.1.0"
-description = "Brazilian Portuguese voice engine and Agent Skill foundation"
+dynamic = ["version"]
+description = "Brazilian Portuguese voice engine and Agent Skill with semantic preservation gates"
+readme = "README.md"
 requires-python = ">=3.11"
+# PyYAML reads the YAML reference manifest, packs and voice contracts.
+# The semantic layer (spans, ledger, compare, judge) is stdlib-only.
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+voznativa = "voznativa.cli:main"
+
+[tool.setuptools]
+packages = ["voznativa"]
+
+[tool.setuptools.package-data]
+voznativa = ["data/*.json"]
+
+[tool.setuptools.dynamic]
+version = { attr = "voznativa.__version__" }
 
 [tool.voznativa]
 locale = "pt-BR"

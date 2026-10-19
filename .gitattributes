@@ -1,0 +1,4 @@
+# Frozen eval/benchmark data is hashed; keep bytes identical on every OS.
+*.jsonl text eol=lf
+*.json text eol=lf
+*.yml text eol=lf

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+benchmarks/results/
+benchmarks/outputs/*/
+!benchmarks/outputs/.gitkeep
+.voznativa/
