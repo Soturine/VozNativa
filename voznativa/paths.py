@@ -1,28 +1,34 @@
-"""Locate the VozNativa home (the checkout that holds ``references/``).
+"""Locate the VozNativa home: the directory that holds ``references/``.
 
-The skill always runs from a checkout. A non-editable ``pip install`` ships
-only the package, so reference-dependent commands need ``VOZNATIVA_HOME``
-pointing at a checkout.
+Search order:
+1. ``VOZNATIVA_HOME`` (explicit override);
+2. the checkout that contains this package (skill and editable installs);
+3. the copy bundled into an installed wheel (``voznativa/_bundled``).
 """
 from __future__ import annotations
 
 import os
 from pathlib import Path
 
+PACKAGE_DIR = Path(__file__).resolve().parent
+
 
 class HomeNotFound(ValueError):
     pass
 
 
-def home() -> Path:
+def candidates() -> list[Path]:
     env = os.environ.get("VOZNATIVA_HOME")
-    candidates = [Path(env)] if env else []
-    candidates.append(Path(__file__).resolve().parent.parent)
-    for root in candidates:
+    found = [Path(env)] if env else []
+    return found + [PACKAGE_DIR.parent, PACKAGE_DIR / "_bundled"]
+
+
+def home() -> Path:
+    for root in candidates():
         if (root / "references" / "index.yml").is_file():
             return root
-    raise HomeNotFound("references/ not found: run from a VozNativa checkout or set VOZNATIVA_HOME "
-                       "to its directory (a non-editable pip install ships only the Python package)")
+    raise HomeNotFound("references/ not found: set VOZNATIVA_HOME to a VozNativa checkout, or reinstall the "
+                       "package from a build that bundles references (pip install .)")
 
 
 def references_dir() -> Path:

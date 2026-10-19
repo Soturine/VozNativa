@@ -1,0 +1,4 @@
+include setup.py README.md
+recursive-include references *.md *.yml
+recursive-include assets *.yml
+recursive-include voznativa/data *.json *.yml
