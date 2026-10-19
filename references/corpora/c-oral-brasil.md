@@ -8,6 +8,11 @@ Fontes:
 - https://periodicos.ufmg.br/index.php/relin/article/view/28683
 - documentação e trabalhos associados ao LEEL/UFMG.
 
+## Recorte e licença
+
+- O C-ORAL-BRASIL I tem 139 textos de fala informal espontânea (cerca de 21 h e 208 mil palavras), **centrados em Belo Horizonte/MG**. Fenômenos observados ali não são, por si, fala brasileira em geral, e um traço frequente nesse recorte não deve virar marcador "mineiro" sem contraste com outra fonte.
+- Licença reportada: CC BY-NC-SA 4.0 (arXiv 2110.15731). Uso não comercial; derivados redistribuídos ficam sob a mesma licença. Status em `docs/LICENSING.md`.
+
 ## Melhor uso no VozNativa
 
 - modo spoken/script;
