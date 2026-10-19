@@ -1,7 +1,6 @@
 """Rewrite Engine loop, prompt construction and providers."""
 import json
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -63,6 +62,28 @@ class Loop(unittest.TestCase):
         broken = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider(["sim"]))
         self.assertEqual(broken["outcome"], "needs_judgment")
         self.assertIn("judge_error", broken["report"])
+
+    def test_judge_json_with_fence_and_trailing_comma_is_repaired_and_reported(self):
+        # Real output from claude-sonnet-5-5 in the 2026-10-19 integration run had both.
+        raw = '```json\n{"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"},],' \
+              ' "added_claims": [],}\n```'
+        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([raw]))
+        self.assertEqual(result["outcome"], "accepted")
+        repairs = result["report"]["evidence"]["judgments"][0]["parse_repairs"]
+        self.assertIn("removed trailing commas", repairs)
+
+    def test_judge_gets_one_retry_on_invalid_json(self):
+        good = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
+        judge = StaticProvider(["isto não é json", good])
+        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=judge)
+        self.assertEqual(result["outcome"], "accepted")
+        self.assertIn("NÃO ERA JSON VÁLIDO", judge.calls[1])
+
+    def test_model_judge_cannot_claim_to_be_human(self):
+        sneaky = json.dumps({"kind": "human", "verdict": "equivalent",
+                             "claims": [{"source": "x", "status": "preserved"}]})
+        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([sneaky]))
+        self.assertEqual(result["report"]["evidence"]["judgments"][0]["kind"], "llm")
 
     def test_regional_stuffing_is_flagged_for_review(self):
         stuffed = "<final>Uai, o deploy não deve ser feito antes das 18h, uai, porque o banco, uai, " \
@@ -139,6 +160,18 @@ class Providers(unittest.TestCase):
         self.assertEqual(sent["auth"], "Bearer ak_test")
         with self.assertRaises(ProviderError):
             provider.humanize("curto demais")
+
+    def test_engine_gives_emulate_a_style_from_the_voice_contract(self):
+        sent = {}
+
+        def fake(request):
+            sent["body"] = json.loads(request.data)
+            return json.dumps({"text": sent["body"]["text"]}).encode()
+
+        long_text = "O serviço usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo. " * 4
+        provider = EmulateProvider("ak_test", transport=fake)
+        rewrite(long_text, route(long_text, genre="technical"), provider, attempts=1)
+        self.assertEqual(sent["body"]["style"].get("formality"), "polished")
 
 
 if __name__ == "__main__":

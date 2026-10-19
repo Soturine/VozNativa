@@ -26,6 +26,7 @@ from . import ledger as ledger_mod
 from . import region as region_mod
 from .compare import apply_judgment, compare
 from .paths import home
+from .providers import Provider
 from .references import select
 from .review import content_hash
 
@@ -139,10 +140,15 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
     return report
 
 
-def rewrite(text: str, context: dict, provider, profile: dict | None = None, explicit: dict | None = None,
-            attempts: int = 3, candidates: int = 1, judge_provider=None, facts: list[str] | None = None,
+def rewrite(text: str, context: dict, provider: Provider, profile: dict | None = None,
+            explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
+            judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
+    if hasattr(provider, "style_from_contract") and not getattr(provider, "style", None):
+        # System-level providers (Emulate) cannot read our prompt; give them the
+        # closest style hint the Voice Contract allows.
+        provider.style = provider.style_from_contract(contract_mod.compact(voice_contract))
     selection = select(context, budget_words=budget_words)
     history, feedback = [], None
     best = None
@@ -175,16 +181,7 @@ def rewrite(text: str, context: dict, provider, profile: dict | None = None, exp
     if no_change:
         return _result("no_change", text, report, history, provider, voice_contract, selection)
     if judge_provider is not None and report["status"] == "no_deterministic_issues":
-        raw = judge_provider.generate(judge_mod.prompt(text, candidate, report), 1)[0]
-        try:
-            answer = _extract_json(raw)
-            # A model provider is never a human reviewer, whatever it writes; and the
-            # engine knows which texts it asked about, so it binds the hashes itself.
-            answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
-            answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
-            report = apply_judgment(report, judge_mod.validate(answer, text, candidate))
-        except ValueError as error:
-            report = dict(report, judge_error=str(error))
+        report = _judge(judge_provider, text, candidate, report)
     outcome = {"accepted_by_llm": "accepted", "accepted_by_human": "accepted", "identical": "no_change",
                "no_deterministic_issues": "needs_judgment", "review_required": "needs_review",
                "human_review_claimed": "needs_review", "fail": "returned_original"}[report["status"]]
@@ -194,14 +191,57 @@ def rewrite(text: str, context: dict, provider, profile: dict | None = None, exp
     return _result(outcome, candidate, report, history, provider, voice_contract, selection)
 
 
-def _extract_json(raw: str) -> dict:
+_TRAILING_COMMA = re.compile(r",(\s*[}\]])")
+
+
+def _extract_json(raw: str) -> tuple[dict, list[str]]:
+    """Parse the judge's JSON. Purely syntactic repairs seen in real model
+    output (a ```json fence, a trailing comma before } or ]) are applied and
+    reported; the content is never changed."""
+    repairs = []
     match = re.search(r"\{.*\}", raw, re.S)
     if not match:
         raise ValueError("judge answer has no JSON object")
+    body = match.group(0)
+    if body != raw.strip():
+        repairs.append("extracted the JSON object from surrounding text or a code fence")
     try:
-        return json.loads(match.group(0))
-    except json.JSONDecodeError as error:
-        raise ValueError(f"judge answer is not valid JSON: {error}") from error
+        return json.loads(body), repairs
+    except json.JSONDecodeError:
+        fixed = _TRAILING_COMMA.sub(r"\1", body)
+        try:
+            data = json.loads(fixed)
+        except json.JSONDecodeError as error:
+            raise ValueError(f"judge answer is not valid JSON: {error}") from error
+        return data, repairs + ["removed trailing commas"]
+
+
+def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2) -> dict:
+    """Ask the judge; on unparseable JSON, ask once more with the error."""
+    prompt, error = judge_mod.prompt(text, candidate, report), None
+    for attempt in range(1, tries + 1):
+        ask = prompt if error is None else prompt + f"\n\nSUA RESPOSTA ANTERIOR NÃO ERA JSON VÁLIDO ({error}). " \
+                                                    "Responda só com o objeto JSON."
+        answers = judge_provider.generate(ask, 1)
+        if not answers:
+            error = error or "judge returned no answer"
+            break
+        try:
+            answer, repairs = _extract_json(answers[0])
+        except ValueError as exc:
+            error = str(exc)
+            continue
+        # A model provider is never a human reviewer, whatever it writes; and the
+        # engine knows which texts it asked about, so it binds the hashes itself.
+        answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
+        answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
+        if repairs or attempt > 1:
+            answer["parse_repairs"] = repairs + ([f"answered on judge attempt {attempt}"] if attempt > 1 else [])
+        try:
+            return apply_judgment(report, judge_mod.validate(answer, text, candidate))
+        except ValueError as exc:
+            return dict(report, judge_error=str(exc))
+    return dict(report, judge_error=error)
 
 
 def _result(outcome, text, report, history, provider, voice_contract, selection, reason=None) -> dict:
