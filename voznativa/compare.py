@@ -20,7 +20,7 @@ from . import ledger as ledger_mod
 from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import contains_word, content_stems, normalize_surface
+from .text import contains_word, content_stems, fold, normalize_surface
 
 SCHEMA_VERSION = 1
 
@@ -64,6 +64,7 @@ def compare(original: str, candidate: str) -> dict:
     issues += _signal_issues(src, out, alignment)
     issues += _causal_direction_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
+    issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
     issues += _length_issues(original, candidate)
 
@@ -317,6 +318,65 @@ def _polarity_issues(src, out, alignment) -> list[dict]:
                                          f"{lost} replaced by its antonym {gained}",
                                          location={"source_sentence": src.entries[i].sentence.text,
                                                    "candidate_sentence": out.entries[j].sentence.text}))
+    return issues
+
+
+PREPOSED_SOURCE = {"segundo", "de acordo com", "conforme"}
+
+
+def _attributions(led, entity_texts: list[str]) -> dict[str, set]:
+    """Map each source entity to the content it introduces, clause by clause:
+    'A Ana disse que X' (source before the verb), 'Segundo o IBGE, X' and
+    'X, segundo o IBGE' (preposed/postposed source)."""
+    table: dict[str, set] = {}
+    for entry in led.entries:
+        text = entry.sentence.text
+        bounds = [0] + [m.end() for m in re.finditer(r";", text)] + [len(text) + 1]
+        for k in range(len(bounds) - 1):
+            lo, hi = bounds[k], bounds[k + 1] - 1
+            clause = text[lo:hi]
+            marks = [m for m in entry.markers if m.category == "attribution" and lo <= m.start < hi]
+            if len(marks) != 1:
+                continue
+            m = marks[0]
+            m_start, m_end = m.start - lo, m.end - lo
+            found = []
+            for name in entity_texts:
+                for hit in re.finditer(r"(?<!\w)" + re.escape(name) + r"(?!\w)", clause, re.IGNORECASE):
+                    found.append((hit.start(), hit.end(), name))
+            if fold(m.phrase) in {fold(p) for p in PREPOSED_SOURCE}:
+                after = [f for f in found if f[0] >= m_end]
+                if not after:
+                    continue
+                start, end, name = min(after)
+                claim = clause[end:] if m_start <= 2 else clause[:m_start]
+            else:
+                before = [f for f in found if f[1] <= m_start]
+                if not before:
+                    continue
+                start, end, name = max(before)
+                claim = clause[m_end:]
+            table.setdefault(name.casefold(), set()).update(content_stems(claim))
+    return table
+
+
+def _attribution_issues(src, out) -> list[dict]:
+    """Two sources that traded the claims they are credited with."""
+    names = sorted({s.text for s in src.spans if s.type == "entity"})
+    if len(names) < 2:
+        return []
+    a_src, a_out = _attributions(src, names), _attributions(out, names)
+    issues, seen = [], set()
+    for a in a_src:
+        for b in a_src:
+            if a >= b or a not in a_out or b not in a_out:
+                continue
+            crossed = _jaccard(a_out[a], a_src[b]), _jaccard(a_out[b], a_src[a])
+            kept = _jaccard(a_out[a], a_src[a]), _jaccard(a_out[b], a_src[b])
+            if min(crossed) >= 0.3 and crossed[0] > kept[0] and crossed[1] > kept[1] and (a, b) not in seen:
+                seen.add((a, b))
+                issues.append(_issue("attribution_swapped", "critical",
+                                     f"claims attributed to '{a}' and '{b}' were exchanged", text=a, swapped_with=b))
     return issues
 
 

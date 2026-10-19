@@ -60,5 +60,25 @@ class Polarity(unittest.TestCase):
         self.assertEqual(profile("A maioria aprovou.").get("quantifier.partial"), 1)
 
 
+
+class Attribution(unittest.TestCase):
+    def test_swapped_attributions_fail(self):
+        report = compare("A Ana disse que o prazo é sexta-feira; o Bruno disse que o orçamento acabou.",
+                         "O Bruno disse que o prazo é sexta-feira; a Ana disse que o orçamento acabou.")
+        self.assertIn("attribution_swapped", {i["code"] for i in report["issues"]})
+        self.assertEqual(report["status"], "fail")
+
+    def test_moving_the_source_to_the_end_passes(self):
+        report = compare("Segundo o IBGE, o desemprego caiu para 6,2%.", "O desemprego caiu para 6,2%, segundo o IBGE.")
+        self.assertEqual(report["status"], "no_deterministic_issues", report["issues"])
+
+
+class RelationsSuite(unittest.TestCase):
+    def test_relations_dev_suite_passes(self):
+        from voznativa.evals import run
+        report = run(ROOT / "evals" / "semantic" / "relations.jsonl")
+        self.assertEqual(report["failures"], [], report["by_category"])
+
+
 if __name__ == "__main__":
     unittest.main()
