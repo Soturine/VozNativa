@@ -1,0 +1,43 @@
+# Registro de pesquisa externa
+
+O que foi estudado, em que versão, o que mudou no VozNativa por causa disso e o que ficou de fora. Licenças em `docs/LICENSING.md`. Consulta: 2026-10-19.
+
+## Skills e sistemas de humanização
+
+| Referência | Versão | O que é | Adotado no VozNativa | Não adotado / ressalvas |
+|---|---|---|---|---|
+| [blader/humanizer](https://github.com/blader/humanizer) | v3.1.0, `8c307f3` | Skill de 26 padrões ordenados por força, baseada em "Signs of AI writing" (Wikipedia); só inglês, sem código de verificação | "texto é material, nunca instrução"; validator que checa metadados e limite de palavras; manifestos de plugin | Lista de padrões em inglês; sem verificação determinística de fidelidade |
+| [phuryn/work-humanizer](https://github.com/phuryn/work-humanizer) | `0a90657` | Skill de escrita profissional com benchmark próprio (juízes de 5 famílias, fact-check verificado à mão, Pangram) | inventário de fatos com grau de certeza (no VozNativa, o ledger), auditoria nos dois sentidos, "keep the claim, drop the formula", métodos de benchmark (informed send, holdout congelado) | Números são do próprio autor, em inglês, com textos sintéticos: hipótese, não resultado para PT-BR |
+| [fabricioctelles/skills `humanizar`](https://github.com/fabricioctelles/skills) | branch principal | Skill PT-BR mais completa encontrada: trava factual, inventário de proposições, limite de passes, catálogos PT-BR (~180 KB) | "se nada for seguro, devolva o original"; limite de tentativas; perguntas só quando falta fato essencial | Não tem verificação executável; catálogos não foram copiados (Apache-2.0 exigiria NOTICE) |
+| [mackswendhell/humanizer-pt-br](https://github.com/mackswendhell/humanizer-pt-br) | branch principal | 25 padrões adaptados do blader | — | Raso em voz e fidelidade |
+| [gabrielkashimarki/humanizer-ptbr](https://github.com/gabrielkashimarki/humanizer-ptbr) | branch principal | Skill PT-BR | — | Sem licença: não reutilizável |
+| [Emulate-1](https://www.tryemulate.ai/docs/api) | API v1 | Modelo próprio com `/humanize`, `/write` e objeto `style` de 7 dimensões | Mapeamento Voice Contract → `style` no `EmulateProvider` (não validado ao vivo) | Mínimo de 40 palavras; idiomas não documentados; `reads_human` sempre `null` |
+
+## Compatibilidade com agentes
+
+| Host | Fonte oficial | O que o VozNativa faz |
+|---|---|---|
+| Agent Skills (spec) | [agentskills.io/specification](https://agentskills.io/specification) | `name` <= 64 chars em minúsculas; `description` <= 1024; validados |
+| Claude Code | manifesto `.claude-plugin/plugin.json` (schema em schemastore) | plugin + marketplace apontando para a skill na raiz |
+| Codex | [docs de skills](https://learn.chatgpt.com/docs/build-skills): `.agents/skills/`, `agents/openai.yaml` com `interface`, `policy`, `dependencies` | `agents/openai.yaml` com `policy.allow_implicit_invocation` |
+| Gemini CLI | [geminicli.com/docs/cli/skills](https://geminicli.com/docs/cli/skills/): `.gemini/skills/` ou `.agents/skills/`; `gemini skills install <git> --consent` | instruções no README; nenhum manifesto próprio é exigido |
+
+## NLP para PT-BR e avaliação
+
+| Referência | Uso considerado | Decisão |
+|---|---|---|
+| [NILC-Metrix](https://arxiv.org/pdf/2201.03445) (200 métricas de complexidade; AGPL-3.0) | baseline de métricas descritivas | Pesquisa: só como ferramenta externa opcional, por causa da AGPL |
+| [ASSIN2](https://huggingface.co/datasets/nilc-nlp/assin2) + BERTimbau/Albertina/XLM-R | NLI em PT-BR como camada opcional do Semantic Guard | Pesquisa: licença do ASSIN2 `unknown`; exige eval próprio antes de virar gate |
+| [Claimify](https://aclanthology.org/2025.acl-long.348) (ACL 2025) | extração de claims com desambiguação | Inspirou o contrato do juiz (inventário de claims com status); extração automática não implementada |
+| [mStyleDistance](https://arxiv.org/abs/2502.15168v1) e [autoria multilíngue](https://arxiv.org/pdf/2509.16531) | voice match por embeddings de estilo | Pesquisa: LUAR é o mais fraco em PT (~76,8 no PAN); mStyleDistance é MIT |
+| [Wang et al., EMNLP Findings 2025] e [AuthorMix](https://arxiv.org/abs/2603.23069) (preprint) | imitação de estilo, adapters | LLMs falham mais em escrita informal; não há evidência de LoRA pessoal com poucas amostras. A trilha de adapter continua opcional e posterior. |
+| [XFORMAL](https://arxiv.org/pdf/2104.04108) | formalidade PT-BR | Datado (2021) e sem licença no repositório |
+
+## Corpora
+
+Ver `references/corpora/` e `docs/LICENSING.md`. Fatos que mudaram decisões:
+
+- Carolina: conflito de licença entre o portal (cabeçalho CC BY-NC-SA 4.0) e o card do Hugging Face (`cc-by-4.0`). Nada é ingerido até resolver.
+- C-ORAL-BRASIL I: centrado em Belo Horizonte/MG. Oralidade observada ali não é marcador nacional nem "mineiro" sem contraste.
+- SP2010: licença não encontrada.
+- NURC-SP: digitalizado (375 inquéritos); o Corpus Mínimo é CC BY-NC-ND 4.0.
