@@ -490,7 +490,24 @@
         "só para lembrar",
         "nem que seja",
         "não tem de quê",
-        "não por isso"
+        "não por isso",
+        "não hesite",
+        "não hesitem",
+        "não deixe de",
+        "não deixem de",
+        "conforme alinhado",
+        "conforme alinhamos",
+        "conforme combinado",
+        "conforme combinamos",
+        "conforme acordado",
+        "conforme previsto",
+        "conforme solicitado",
+        "conforme mencionado",
+        "conforme informado",
+        "conforme esperado",
+        "conforme o combinado",
+        "conforme o previsto",
+        "conforme o esperado"
       ]
     },
     "polarity": {
@@ -720,7 +737,7 @@
   "context_rules": {
     "se": "counted as conditional only at clause start: sentence-initial, after , ; : ( or after e/mas/ou/só/somente/apenas/porém. Elsewhere it is usually the clitic pronoun (vende-se, ela se machucou).",
     "negative_concord": "n-words (nenhum, nada, ninguém, nunca, jamais, nem) after não/nn in the same sentence are relabeled negation_concord.n_word and not counted as extra negations",
-    "idioms": "fixed expressions where só/não lose their usual meaning (é só = basta, só que = mas, não só... mas = additive) are consumed as idiom.fixed and are informational",
+    "idioms": "fixed expressions where só/não lose their usual meaning (é só = basta, só que = mas, não só... mas = additive) are consumed as idiom.fixed and are informational; politeness formulas (não hesite em, não deixe de) and conforme + participle (conforme alinhado = as agreed) are idioms, not negation or attribution (both found in real model runs)",
     "polarity": "a polarity class appearing or disappearing alone is informational ('falha' -> 'bug'); only a flip to its antonym class in an aligned sentence fails (polarity_flipped). Entries ending in * match by prefix."
   },
   "known_gaps": [

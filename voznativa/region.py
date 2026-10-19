@@ -7,19 +7,25 @@ must never be used to infer where a writer is from.
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections import Counter
 
 from .analyze import data
-from .text import fold
+
+
+def _norm(token: str) -> str:
+    """Lower-case and NFC, keeping accents: accent folding turned the common
+    word "só" into the marker "sô" (found in a real model run)."""
+    return unicodedata.normalize("NFC", token.lower())
 
 
 def _markers() -> dict[str, set[str]]:
     raw = data()["regional_baseline_markers"]
-    return {region: {fold(m) for m in items} for region, items in raw.items() if not region.startswith("_")}
+    return {region: {_norm(m) for m in items} for region, items in raw.items() if not region.startswith("_")}
 
 
 def inspect(text: str, requested_region: str | None = None) -> dict:
-    tokens = [fold(t) for t in re.findall(r"\w+", text)]
+    tokens = [_norm(t) for t in re.findall(r"\w+", text)]
     table = _markers()
     found, regions = [], Counter()
     for token in tokens:
