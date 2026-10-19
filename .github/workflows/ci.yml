@@ -28,6 +28,9 @@ jobs:
       - run: python -m unittest discover -s evals -p "test_*.py" -v
       - name: Semantic eval suite (dev set must pass completely)
         run: voznativa eval evals/semantic/cases.jsonl
+      - name: Interactive human review through a real pseudo-terminal
+        if: runner.os == 'Linux'
+        run: python scripts/pty_review_check.py
 
   package:
     # Build sdist -> wheel, install it in a clean venv and run every command
