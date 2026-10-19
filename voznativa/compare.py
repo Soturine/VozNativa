@@ -179,6 +179,15 @@ def _align(src, out) -> list[tuple[int, int | None, float]]:
         best, best_sim = None, 0.0
         for j, cand in enumerate(out.entries):
             sim = _jaccard(a, set(cand.stems))
+            if len(a) < 2 or len(cand.stems) < 2:
+                # Short sentences ("Não vou." -> "Vou.") have no content stems;
+                # compare every non-marker word instead.
+                sim = max(sim, _jaccard(set(entry.tokens), set(cand.tokens)))
+                if (not entry.tokens and not cand.tokens and i == j
+                        and len(src.entries) == len(out.entries)):
+                    # Both sentences are made only of markers ("nn posso" -> "posso");
+                    # with the same sentence count, position is the best alignment.
+                    sim = 1.0
             if sim > best_sim:
                 best, best_sim = j, sim
         pairs.append((i, best, round(best_sim, 3)))

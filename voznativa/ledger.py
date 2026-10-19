@@ -12,7 +12,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from . import signals, spans
-from .text import Sentence, content_stems, sentences
+from .text import Sentence, content_stems, fold, sentences, words
 
 SCHEMA_VERSION = 1
 
@@ -26,6 +26,7 @@ class SentenceEntry:
     spans: list[spans.Span]
     markers: list[signals.Marker]
     stems: list[str]
+    tokens: list[str] = field(default_factory=list)  # all non-marker words, for short sentences
 
     def signal_counts(self) -> Counter:
         return Counter(m.label for m in self.markers)
@@ -79,7 +80,7 @@ def build(text: str) -> Ledger:
     for sent in sentences(text):
         inside = [s for s in all_spans if s.start >= sent.start and s.end <= sent.end]
         if sent.kind == "code":
-            marks, stems = [], []
+            marks, stems, tokens = [], [], []
         else:
             rel = [(s.start - sent.start, s.end - sent.start, s.type) for s in inside]
             masked = _mask(sent.text, [(a, b) for a, b, t in rel if t in OPAQUE_TYPES])
@@ -91,7 +92,8 @@ def build(text: str) -> Ledger:
             content = _mask(masked, [(a, b) for a, b, t in rel if t in spans.HARD_TYPES]
                             + [(m.start, m.end) for m in marks])
             stems = content_stems(content)
-        entries.append(SentenceEntry(sent, inside, marks, stems))
+            tokens = [fold(w) for w in words(content)]
+        entries.append(SentenceEntry(sent, inside, marks, stems, tokens if sent.kind != "code" else []))
     return Ledger(text, entries, all_spans)
 
 
