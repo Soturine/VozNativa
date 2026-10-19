@@ -1,0 +1,70 @@
+# Genre/channel defaults for the Voice Contract resolver.
+#
+# constraints: mandatory conventions of the genre. They sit at precedence
+#   level 1 with semantic preservation and are never overridden by author
+#   habits (references/VOICE_STACK.md).
+# preferences: defaults that yield to explicit instructions and author samples.
+#
+# Evidence: E1 (genre descriptions in references/genres/*.md); uncalibrated.
+schema_version: 1
+evidence: {level: E1, basis: "references/genres/*.md", calibration: none}
+
+pt_br_default:
+  register: professional-natural
+  sentence_rhythm: mixed
+  contractions: low
+  abbreviations: none
+  emoji: none
+  em_dash: occasional
+  exclamation: rare
+  first_person: allowed
+  lowercase_starts: false
+  lists: when_enumerative
+  technical_english: preserve
+
+genres:
+  technical:
+    constraints: [preserve_code_verbatim, preserve_identifiers, preserve_versions_and_units, no_slang, no_metaphor_for_behavior]
+    preferences: {register: technical, contractions: none, abbreviations: none, emoji: none, exclamation: none, sentence_rhythm: short-mixed}
+  documentation:
+    constraints: [preserve_code_verbatim, preserve_identifiers, preserve_headings_used_for_navigation, preserve_markdown_structure, no_slang]
+    preferences: {register: technical, contractions: none, abbreviations: none, emoji: none, exclamation: none, lists: when_enumerative}
+  academic:
+    constraints: [preserve_citations, preserve_epistemic_modality, preserve_terminology, preserve_limitations, no_slang]
+    preferences: {register: academic, contractions: none, abbreviations: none, emoji: none, exclamation: none, first_person: per_author, sentence_rhythm: mixed-long}
+  corporate:
+    constraints: [preserve_owner_deadline_commitment, no_invented_commitments]
+    preferences: {register: professional-natural, contractions: low, emoji: none, exclamation: rare}
+  email:
+    constraints: [preserve_owner_deadline_commitment, preserve_greeting_and_signoff_presence]
+    preferences: {register: professional-natural, contractions: low, emoji: none}
+  legal:
+    constraints: [preserve_normative_wording, preserve_citations_of_law, no_simplification_of_obligations, no_slang]
+    preferences: {register: professional-formal, contractions: none, abbreviations: none, emoji: none, exclamation: none}
+  social:
+    constraints: [no_invented_experience]
+    preferences: {register: casual, contractions: medium, first_person: allowed, lists: rare}
+  whatsapp:
+    constraints: [preserve_times_and_commitments]
+    preferences: {register: casual, contractions: high, abbreviations: per_author, emoji: per_author, lowercase_starts: per_author, sentence_rhythm: short, lists: rare}
+  literary:
+    constraints: [preserve_intentional_repetition, preserve_marked_punctuation, no_invented_events]
+    preferences: {register: personalized, sentence_rhythm: per_author}
+  journalistic:
+    constraints: [preserve_attribution, preserve_quotes_verbatim, no_slang]
+    preferences: {register: journalistic, contractions: none, emoji: none, exclamation: none}
+  unknown:
+    constraints: []
+    preferences: {}
+
+# Features an author profile may set, and the profile habit that drives each.
+profile_features:
+  sentence_rhythm: sentence_words_mean
+  em_dash: em_dash_per_100w
+  contractions: contraction_per_100w
+  abbreviations: abbreviation_per_100w
+  emoji: emoji_per_100w
+  exclamation: exclamation_per_sentence
+  first_person: first_person_per_100w
+  lowercase_starts: lowercase_start_ratio
+  lists: list_line_ratio

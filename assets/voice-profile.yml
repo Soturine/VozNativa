@@ -1,27 +1,15 @@
-schema_version: 1
-locale: pt-BR
-source:
-  type: samples
-  sample_count: 0
-channel: null
-register:
-  formality: null
-regional:
-  target: null
-  strength: 0.0
-community:
-  target: null
-temporal:
-  target_year: null
-preferences:
-  use_first_person: null
-  allow_parentheses: null
-  allow_em_dash: null
-  emoji_level: null
-preserve:
-  - technical_terms
-  - citations
-  - numbers
-  - terminology
-avoid: []
-notes: []
+# Explicit voice instructions (precedence level 2 in references/VOICE_STACK.md).
+# Pass as JSON to `voznativa contract --set '{...}'`. Omit a key to let the
+# author profile or genre decide. Values below are the accepted vocabulary.
+sentence_rhythm: null     # short | short-mixed | mixed | mixed-long | long | follow_source
+contractions: null        # none | low | medium | high | follow_source
+abbreviations: null       # none | author_list | follow_source
+emoji: null               # none | occasional | frequent | follow_source
+em_dash: null             # none | occasional | frequent | follow_source
+exclamation: null         # none | rare | frequent | follow_source
+first_person: null        # rare | allowed | used | follow_source
+lowercase_starts: null    # "true" | "false" | follow_source
+lists: null               # rare | when_enumerative | frequent
+technical_english: null   # preserve | translate_when_established
+register: null            # colloquial | casual | professional-natural | professional-formal | technical | academic | journalistic | marketing | spoken | personalized
+slang_strength: null      # requested only; effective strength stays 0.0 until an evidence-backed lexicon exists

@@ -19,7 +19,7 @@ voznativa = "voznativa.cli:main"
 packages = ["voznativa"]
 
 [tool.setuptools.package-data]
-voznativa = ["data/*.json"]
+voznativa = ["data/*.json", "data/*.yml"]
 
 [tool.setuptools.dynamic]
 version = { attr = "voznativa.__version__" }
