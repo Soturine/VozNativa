@@ -492,18 +492,243 @@
         "não tem de quê",
         "não por isso"
       ]
+    },
+    "polarity": {
+      "increase": [
+        "aument*",
+        "cresc*",
+        "subiu",
+        "sobe",
+        "sobem",
+        "subir",
+        "subiram",
+        "subindo",
+        "elevou",
+        "elevar",
+        "elevaram",
+        "elevação",
+        "ampliou",
+        "ampliar",
+        "ampliação",
+        "acréscimo",
+        "expandiu",
+        "expandir",
+        "expansão"
+      ],
+      "decrease": [
+        "diminu*",
+        "reduz*",
+        "redução",
+        "reduções",
+        "caiu",
+        "cai",
+        "caem",
+        "cair",
+        "caíram",
+        "caindo",
+        "queda",
+        "quedas",
+        "baixou",
+        "baixaram",
+        "recuou",
+        "recuo",
+        "encolh*",
+        "decresc*",
+        "declin*",
+        "retração",
+        "retraiu"
+      ],
+      "approve": [
+        "aprov*",
+        "aceit*",
+        "deferid*",
+        "homolog*"
+      ],
+      "reject": [
+        "reprov*",
+        "rejeit*",
+        "recus*",
+        "indeferid*",
+        "vetad*",
+        "vetou",
+        "negado",
+        "negada",
+        "negados",
+        "negadas"
+      ],
+      "gain": [
+        "ganhou",
+        "ganhar",
+        "ganha",
+        "ganham",
+        "ganho",
+        "ganhos",
+        "ganharam"
+      ],
+      "lose": [
+        "perdeu",
+        "perder",
+        "perde",
+        "perdem",
+        "perda",
+        "perdas",
+        "perderam"
+      ],
+      "enable": [
+        "habilit*",
+        "ativou",
+        "ativar",
+        "ativado",
+        "ativada",
+        "ativados",
+        "ativadas"
+      ],
+      "disable": [
+        "desabilit*",
+        "desativ*"
+      ],
+      "include": [
+        "incluir",
+        "incluiu",
+        "inclui",
+        "incluído",
+        "incluída",
+        "incluídos",
+        "incluídas",
+        "inclusão"
+      ],
+      "exclude": [
+        "excluir",
+        "excluiu",
+        "exclui",
+        "excluído",
+        "excluída",
+        "excluídos",
+        "excluídas",
+        "exclusão"
+      ],
+      "allow": [
+        "permit*",
+        "autoriz*",
+        "liberad*"
+      ],
+      "forbid": [
+        "proib*",
+        "vedado",
+        "vedada",
+        "vedados",
+        "vedadas",
+        "vedação",
+        "impedid*",
+        "impedir",
+        "impede",
+        "bloquead*",
+        "bloquear",
+        "bloqueia"
+      ],
+      "success": [
+        "sucesso",
+        "sucessos",
+        "bem-sucedido",
+        "bem-sucedida"
+      ],
+      "failure": [
+        "fracass*",
+        "malsucedido",
+        "malsucedida",
+        "mal-sucedido",
+        "mal-sucedida"
+      ],
+      "larger": [
+        "maior",
+        "maiores"
+      ],
+      "smaller": [
+        "menor",
+        "menores"
+      ],
+      "better": [
+        "melhor",
+        "melhores",
+        "melhorou",
+        "melhorar",
+        "melhora",
+        "melhoraram"
+      ],
+      "worse": [
+        "pior",
+        "piores",
+        "piorou",
+        "piorar",
+        "piora",
+        "pioraram"
+      ],
+      "positive": [
+        "positivo",
+        "positiva",
+        "positivos",
+        "positivas"
+      ],
+      "negative": [
+        "negativo",
+        "negativa",
+        "negativos",
+        "negativas"
+      ],
+      "profit": [
+        "lucro",
+        "lucros",
+        "lucrou",
+        "superávit"
+      ],
+      "loss_financial": [
+        "prejuízo",
+        "prejuízos",
+        "déficit"
+      ],
+      "open": [
+        "abre",
+        "abrem",
+        "abriu",
+        "abrir",
+        "aberto",
+        "aberta",
+        "abertos",
+        "abertas"
+      ],
+      "closed": [
+        "fecha",
+        "fecham",
+        "fechou",
+        "fechar",
+        "fechado",
+        "fechada",
+        "fechados",
+        "fechadas"
+      ],
+      "start": [
+        "começ*",
+        "inici*"
+      ],
+      "end": [
+        "termin*",
+        "encerr*",
+        "finaliz*"
+      ]
     }
   },
   "context_rules": {
     "se": "counted as conditional only at clause start: sentence-initial, after , ; : ( or after e/mas/ou/só/somente/apenas/porém. Elsewhere it is usually the clitic pronoun (vende-se, ela se machucou).",
     "negative_concord": "n-words (nenhum, nada, ninguém, nunca, jamais, nem) after não/nn in the same sentence are relabeled negation_concord.n_word and not counted as extra negations",
-    "idioms": "fixed expressions where só/não lose their usual meaning (é só = basta, só que = mas, não só... mas = additive) are consumed as idiom.fixed and are informational"
+    "idioms": "fixed expressions where só/não lose their usual meaning (é só = basta, só que = mas, não só... mas = additive) are consumed as idiom.fixed and are informational",
+    "polarity": "a polarity class appearing or disappearing alone is informational ('falha' -> 'bug'); only a flip to its antonym class in an aligned sentence fails (polarity_flipped). Entries ending in * match by prefix."
   },
   "known_gaps": [
     "morphological negation is covered only for the listed compounds; desabilitar, inválido, ilegal etc. are not counted",
     "lexical antonyms (aumentou/diminuiu, aprovado/reprovado) are invisible to marker counts",
     "deve is ambiguous between necessity and epistemic probability; it is always counted as necessity",
-    "um/uma are not treated as numbers because they are usually articles"
+    "um/uma are not treated as numbers because they are usually articles",
+    "antonyms outside the polarity lexicon (avançou/travou, ganhou/empatou) are invisible"
   ],
   "compounds": {
     "_doc": "single words that encode two meanings; each listed label is counted once",
@@ -578,7 +803,8 @@
       "informational": [
         "idiom",
         "metadiscourse",
-        "negation_concord"
+        "negation_concord",
+        "polarity"
       ]
     }
   },
@@ -621,5 +847,59 @@
       "consequência de",
       "em consequência de"
     ]
-  }
+  },
+  "polarity_antonyms": [
+    [
+      "increase",
+      "decrease"
+    ],
+    [
+      "approve",
+      "reject"
+    ],
+    [
+      "gain",
+      "lose"
+    ],
+    [
+      "enable",
+      "disable"
+    ],
+    [
+      "include",
+      "exclude"
+    ],
+    [
+      "allow",
+      "forbid"
+    ],
+    [
+      "success",
+      "failure"
+    ],
+    [
+      "larger",
+      "smaller"
+    ],
+    [
+      "better",
+      "worse"
+    ],
+    [
+      "positive",
+      "negative"
+    ],
+    [
+      "profit",
+      "loss_financial"
+    ],
+    [
+      "open",
+      "closed"
+    ],
+    [
+      "start",
+      "end"
+    ]
+  ]
 }

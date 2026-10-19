@@ -46,8 +46,9 @@ def _phrases() -> list[tuple[tuple[str, ...], str, str]]:
         for cls, phrases in classes.items():
             for phrase in phrases:
                 items.append((tuple(fold(phrase).split()), category, cls))
-    # Longest phrases first so multiword expressions win over their parts.
-    items.sort(key=lambda item: len(item[0]), reverse=True)
+    # Longest phrases first so multiword expressions win over their parts;
+    # among equal lengths, exact entries win over prefix (*) entries.
+    items.sort(key=lambda item: (len(item[0]), not item[0][-1].endswith("*")), reverse=True)
     return items
 
 
@@ -75,6 +76,11 @@ def causal_orientation(phrase: str) -> str:
         if len(candidate) == len(tokens) and _phrase_matches(candidate, tokens):
             return "backward"
     return "forward"
+
+
+@lru_cache(maxsize=1)
+def polarity_antonyms() -> list[tuple[str, str]]:
+    return [tuple(pair) for pair in lexicon().get("polarity_antonyms", [])]
 
 
 @lru_cache(maxsize=1)
@@ -137,9 +143,15 @@ _CONTRACTIONS = {
 }
 
 
+def _token_matches(pattern: str, token: str) -> bool:
+    if pattern.endswith("*"):  # prefix entry ("aument*" ~ aumentou, aumento)
+        return token.startswith(pattern[:-1]) and len(token) > len(pattern) - 1
+    return pattern == token
+
+
 def _phrase_matches(phrase: tuple[str, ...], window: list[str]) -> bool:
     if len(phrase) == 1:
-        return phrase[0] == window[0]
+        return _token_matches(phrase[0], window[0])
     return all(p == w or (p in _CONTRACTIONS and w in _CONTRACTIONS[p]) for p, w in zip(phrase, window))
 
 

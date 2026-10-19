@@ -63,6 +63,7 @@ def compare(original: str, candidate: str) -> dict:
     alignment = _align(src, out)
     issues += _signal_issues(src, out, alignment)
     issues += _causal_direction_issues(src, out, alignment)
+    issues += _polarity_issues(src, out, alignment)
     issues += _coverage_issues(src, out)
     issues += _length_issues(original, candidate)
 
@@ -297,6 +298,25 @@ def _causal_direction_issues(src, out, alignment) -> list[dict]:
                                  "cause and effect traded places",
                                  location={"source_sentence": src.entries[i].sentence.text,
                                            "candidate_sentence": out.entries[j].sentence.text}))
+    return issues
+
+
+def _polarity_issues(src, out, alignment) -> list[dict]:
+    """A polarity class replaced by its antonym in an aligned sentence
+    ("aumentou" -> "diminuiu", "aprovado" -> "recusado")."""
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        before, after = src.entries[i].signal_counts(), out.entries[j].signal_counts()
+        for x, y in signals.polarity_antonyms():
+            lx, ly = f"polarity.{x}", f"polarity.{y}"
+            for lost, gained in ((lx, ly), (ly, lx)):
+                if after.get(lost, 0) < before.get(lost, 0) and after.get(gained, 0) > before.get(gained, 0):
+                    issues.append(_issue("polarity_flipped", "critical",
+                                         f"{lost} replaced by its antonym {gained}",
+                                         location={"source_sentence": src.entries[i].sentence.text,
+                                                   "candidate_sentence": out.entries[j].sentence.text}))
     return issues
 
 

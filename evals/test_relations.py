@@ -43,5 +43,22 @@ class CausalDirection(unittest.TestCase):
             self.assertNotEqual(report["status"], "fail", (candidate, report["issues"]))
 
 
+
+class Polarity(unittest.TestCase):
+    def test_antonym_flip_fails(self):
+        for original, candidate in (("A receita aumentou 8%.", "A receita diminuiu 8%."),
+                                    ("O pedido foi aprovado.", "O pedido foi recusado."),
+                                    ("A atualização habilita o cache.", "A atualização desabilita o cache.")):
+            self.assertIn("polarity_flipped", codes(original, candidate), original)
+
+    def test_synonyms_and_lone_removals_do_not_fail(self):
+        self.assertNotIn("polarity_flipped", codes("A receita aumentou 8%.", "A receita cresceu 8%."))
+        self.assertNotEqual(compare("A falha no login foi corrigida.", "O bug no login foi corrigido.")["status"], "fail")
+
+    def test_prefix_entries_do_not_swallow_exact_entries(self):
+        from voznativa.signals import profile
+        self.assertEqual(profile("A maioria aprovou.").get("quantifier.partial"), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
