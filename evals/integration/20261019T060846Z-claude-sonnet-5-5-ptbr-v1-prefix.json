@@ -1,0 +1,295 @@
+{
+  "kind": "voznativa.llm_integration_run",
+  "kind_of_evidence": "real external model call; not deterministic; not human review",
+  "run_at": "20261019T060846Z",
+  "command": [
+    "C:\\Users\\rafael\\.vscode\\extensions\\anthropic.claude-code-2.1.301-win32-x64\\resources\\native-binary\\claude.exe",
+    "-p",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--no-session-persistence",
+    "--model",
+    "claude-sonnet-5-5",
+    "--output-format",
+    "text"
+  ],
+  "model_label": "claude-sonnet-5-5",
+  "cli_version": "2.1.301 (Claude Code)",
+  "cases_file": "benchmarks\\cases\\ptbr-v1.jsonl",
+  "attempts_allowed": 2,
+  "summary": {
+    "needs_judgment": 1,
+    "no_change": 7
+  },
+  "results": [
+    {
+      "id": "bm-email-001",
+      "original": "Prezados, boa tarde. É importante destacar que estaremos realizando a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. Nesse sentido, o sistema poderá ficar indisponível por até 2 horas. Solicitamos que os times não façam deploy entre 20h e 2h. Caso haja dúvidas, fico à disposição. Atenciosamente, Marina",
+      "outcome": "needs_judgment",
+      "final_text": "Prezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema poderá ficar indisponível por até 2 horas.\n\nSolicitamos que os times não façam deploy entre 20h e 2h.\n\nCaso haja dúvidas, fico à disposição.\n\nAtenciosamente,\nMarina",
+      "final_status": "no_deterministic_issues",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [
+            "metadiscourse_changed"
+          ],
+          "preview": "Prezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema "
+        }
+      ],
+      "judgments": [],
+      "judge_error": "judge answer is not valid JSON: Expecting property name enclosed in double quotes: line 47 column 1 (char 2139)",
+      "error": null,
+      "seconds": 15.8,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 7.2,
+          "prompt_chars": 8850,
+          "answers": [
+            "<final>\nPrezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema poderá ficar indisponível por até 2 horas.\n\nSolicitamos que os times não façam deploy entre 20h e 2h.\n\nCaso haja dúvidas, fico à disposição.\n\nAtenciosamente,\nMarina\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 8.5,
+          "prompt_chars": 3798,
+          "answers": [
+            "```json\n{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"76705d45fee4326b710ac2a4c8d118f0aed6200f10d61ab6cbbfc2645738bd22\",\n  \"candidate_sha256\": \"3ee2a233e30250e24dbe2a8873d47e8cec933942f939b4b6e3fd2faade9af2af\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Saudação: Prezados, boa tarde.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Prezados, boa tarde.\",\n      \"note\": \"Idêntica.\"\n    },\n    {\n      \"source\": \"A migração do banco de dados será realizada pela equipe (estaremos realizando) no sábado, 8 de novembro, a partir das 22h.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Vamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h.\",\n      \"note\": \"Mesmo agente (nós), dia, data e horário de início. Apenas o marcador 'É importante destacar que' foi removido, sem efeito factual.\"\n    },\n    {\n      \"source\": \"O sistema poderá ficar indisponível por até 2 horas.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O sistema poderá ficar indisponível por até 2 horas.\",\n      \"note\": \"Possibilidade ('poderá') e limite superior ('até 2 horas') mantidos. O conector 'Nesse sentido' foi omitido, sem alterar o conteúdo.\"\n    },\n    {\n      \"source\": \"Solicita-se que os times não façam deploy entre 20h e 2h.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Solicitamos que os times não façam deploy entre 20h e 2h.\",\n      \"note\": \"Negação, pedido, destinatários e janela 20h–2h idênticos.\"\n    },\n    {\n      \"source\": \"Em caso de dúvidas, o remetente se coloca à disposição.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Caso haja dúvidas, fico à disposição.\",\n      \"note\": \"Condição e compromisso idênticos.\"\n    },\n    {\n      \"source\": \"Assinatura: Atenciosamente, Marina.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Atenciosamente,\\nMarina\",\n      \"note\": \"Mesma autora.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A candidata mantém todos os fatos, datas, horários, graus de certeza, pedido, condição e autoria do original. Mudanças limitam-se à remoção de marcadores de discurso e quebras de linha, sem efeito semântico.\",\n}\n```\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-tech-001",
+      "original": "O serviço de pedidos usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo por cliente. Quando duas atualizações concorrentes alteram o mesmo registro, a API pode retornar HTTP 409. Nesse caso, o cliente deve buscar a versão mais recente do recurso e repetir a operação, respeitando o limite de 3 tentativas.",
+      "outcome": "no_change",
+      "final_text": "O serviço de pedidos usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo por cliente. Quando duas atualizações concorrentes alteram o mesmo registro, a API pode retornar HTTP 409. Nesse caso, o cliente deve buscar a versão mais recente do recurso e repetir a operação, respeitando o limite de 3 tentativas.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "O serviço de pedidos usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo por cliente. Quando duas atualizaçõ"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 4.6,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 4.6,
+          "prompt_chars": 11931,
+          "answers": [
+            "<final>NO_CHANGE</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-academic-001",
+      "original": "Os resultados sugerem que a tutoria entre pares está associada a uma redução de 12% na evasão do primeiro ano (n = 418). No entanto, como o estudo é observacional e foi conduzido em uma única universidade, não é possível afirmar que a tutoria causa essa redução nem generalizar o achado para outras instituições.",
+      "outcome": "no_change",
+      "final_text": "Os resultados sugerem que a tutoria entre pares está associada a uma redução de 12% na evasão do primeiro ano (n = 418). No entanto, como o estudo é observacional e foi conduzido em uma única universidade, não é possível afirmar que a tutoria causa essa redução nem generalizar o achado para outras instituições.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "Os resultados sugerem que a tutoria entre pares está associada a uma redução de 12% na evasão do primeiro ano (n = 418)."
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 5.9,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 5.8,
+          "prompt_chars": 12560,
+          "answers": [
+            "NO_CHANGE\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-corporate-001",
+      "original": "Pessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.",
+      "outcome": "no_change",
+      "final_text": "Pessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "fail",
+          "codes": [
+            "attribution_changed",
+            "causality_changed"
+          ],
+          "preview": "Pessoal, a entrega da versão 4.2 foi adiada para 14 de novembro, como alinhamos na reunião de ontem. O time de segurança"
+        },
+        {
+          "attempt": 2,
+          "no_change": false,
+          "status": "identical",
+          "codes": [],
+          "preview": "Pessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de "
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 8.1,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.6,
+          "prompt_chars": 13274,
+          "answers": [
+            "<final>\nPessoal, a entrega da versão 4.2 foi adiada para 14 de novembro, como alinhamos na reunião de ontem. O time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno, pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.\n</final>\n"
+          ]
+        },
+        {
+          "role": "writer",
+          "seconds": 4.3,
+          "prompt_chars": 13570,
+          "answers": [
+            "<final>\nPessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-social-001",
+      "original": "Depois de dois anos no time de dados, estou mudando para a área de produto. Não foi uma decisão fácil, porque gosto muito das pessoas com quem trabalho e do tipo de problema que resolvemos. Mas sinto que posso contribuir mais perto das decisões sobre o que construir. Obrigado a todo mundo que me ensinou tanto nesse tempo.",
+      "outcome": "no_change",
+      "final_text": "Depois de dois anos no time de dados, estou mudando para a área de produto. Não foi uma decisão fácil, porque gosto muito das pessoas com quem trabalho e do tipo de problema que resolvemos. Mas sinto que posso contribuir mais perto das decisões sobre o que construir. Obrigado a todo mundo que me ensinou tanto nesse tempo.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "Depois de dois anos no time de dados, estou mudando para a área de produto. Não foi uma decisão fácil, porque gosto muit"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 3.3,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.3,
+          "prompt_chars": 12701,
+          "answers": [
+            "<final>NO_CHANGE</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-whatsapp-001",
+      "original": "oi! vou chegar umas 19h30 pq o ônibus atrasou, mas nn precisa me esperar pra começar a reunião. se der tempo eu passo na padaria antes e levo o pão de queijo que vc pediu. qualquer coisa me manda msg que eu respondo assim que der, tá?",
+      "outcome": "no_change",
+      "final_text": "oi! vou chegar umas 19h30 pq o ônibus atrasou, mas nn precisa me esperar pra começar a reunião. se der tempo eu passo na padaria antes e levo o pão de queijo que vc pediu. qualquer coisa me manda msg que eu respondo assim que der, tá?",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "oi! vou chegar umas 19h30 pq o ônibus atrasou, mas nn precisa me esperar pra começar a reunião. se der tempo eu passo na"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 3.6,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.5,
+          "prompt_chars": 7986,
+          "answers": [
+            "<final>NO_CHANGE</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-legal-001",
+      "original": "O locatário não poderá sublocar, ceder ou emprestar o imóvel, no todo ou em parte, sem autorização prévia e por escrito do locador. O descumprimento desta cláusula autoriza a rescisão do contrato, sem prejuízo da multa prevista na cláusula 12, equivalente a três aluguéis vigentes à época da infração.",
+      "outcome": "no_change",
+      "final_text": "O locatário não poderá sublocar, ceder ou emprestar o imóvel, no todo ou em parte, sem autorização prévia e por escrito do locador. O descumprimento desta cláusula autoriza a rescisão do contrato, sem prejuízo da multa prevista na cláusula 12, equivalente a três aluguéis vigentes à época da infração.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "O locatário não poderá sublocar, ceder ou emprestar o imóvel, no todo ou em parte, sem autorização prévia e por escrito "
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 3.0,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.0,
+          "prompt_chars": 8525,
+          "answers": [
+            "<final>NO_CHANGE</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-journalistic-001",
+      "original": "Segundo o IBGE, a taxa de desemprego caiu para 6,2% no trimestre encerrado em setembro, o menor patamar da série. Em nota, o instituto afirmou que a queda se deve em parte à alta do emprego informal, que respondeu por cerca de metade das novas vagas, e alertou que o rendimento médio ficou estável.",
+      "outcome": "no_change",
+      "final_text": "Segundo o IBGE, a taxa de desemprego caiu para 6,2% no trimestre encerrado em setembro, o menor patamar da série. Em nota, o instituto afirmou que a queda se deve em parte à alta do emprego informal, que respondeu por cerca de metade das novas vagas, e alertou que o rendimento médio ficou estável.",
+      "final_status": "identical",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": true,
+          "status": "identical",
+          "codes": [],
+          "preview": "Segundo o IBGE, a taxa de desemprego caiu para 6,2% no trimestre encerrado em setembro, o menor patamar da série. Em not"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 5.1,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 5.1,
+          "prompt_chars": 10497,
+          "answers": [
+            "<final>NO_CHANGE</final>\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
