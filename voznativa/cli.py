@@ -143,6 +143,26 @@ def cmd_ground(args):
     return EXIT_BY_STATUS.get(report["status"], 2)
 
 
+def cmd_profile(args):
+    from .profile import build
+    samples = [{"text": _read(path), "channel": args.channel, "date": args.date} for path in args.samples]
+    _emit(build(samples))
+
+
+def cmd_contract(args):
+    from .contract import compact, resolve
+    from .profile import validate
+    context = json.loads(_read(args.context)) if args.context else _route(args)
+    profile = json.loads(_read(args.profile)) if args.profile else None
+    if profile:
+        errors = validate(profile)
+        if errors:
+            raise ValueError("invalid voice profile: " + "; ".join(errors))
+    explicit = json.loads(args.set) if args.set else None
+    contract = resolve(context, profile, explicit)
+    _emit(compact(contract) if args.compact else contract)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
@@ -215,6 +235,21 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--fact", action="append")
     p.add_argument("--repo")
     p.set_defaults(func=cmd_ground)
+
+    p = sub.add_parser("profile", help="build a Voice Profile v2 from authorized samples (no raw text stored)")
+    p.add_argument("samples", nargs="+")
+    p.add_argument("--channel", help="channel of these samples (whatsapp, github_docs, email...)")
+    p.add_argument("--date", help="ISO date of the samples")
+    p.set_defaults(func=cmd_profile)
+
+    p = sub.add_parser("contract", help="resolve the Voice Contract (VOICE_STACK precedence)")
+    p.add_argument("text", nargs="?", default="-")
+    p.add_argument("--context", help="Context Contract JSON instead of routing the text")
+    p.add_argument("--profile", help="Voice Profile JSON")
+    p.add_argument("--set", help='explicit instruction as JSON, e.g. {"emoji": "none"}')
+    p.add_argument("--compact", action="store_true", help="flat feature -> value view for prompts")
+    _contract_args(p)
+    p.set_defaults(func=cmd_contract)
     return parser
 
 
