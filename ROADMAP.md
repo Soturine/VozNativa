@@ -1,5 +1,7 @@
 # Roadmap
 
+Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementado.
+
 ## v0.1 — Foundation
 - [x] visão e arquitetura
 - [x] SKILL.md roteador
@@ -31,13 +33,17 @@
 - [x] CI
 
 ## v0.2 — Semantic Ledger
-- [ ] ledger estruturado de claims
-- [ ] entidades/relações
-- [ ] modalidade e negação
-- [ ] temporalidade
-- [ ] causalidade
-- [ ] spans protegidos configuráveis
-- [ ] semantic-loss report
+- [x] ledger determinístico por sentença (spans + marcadores)
+- [ ] ledger estruturado de claims (extração automática; hoje só via juiz)
+- [~] entidades/relações: presença de entidades; troca de valores entre entidades; troca de agentes NÃO detectada
+- [x] modalidade e negação (léxico E1, concordância negativa, compostos im+possível)
+- [x] temporalidade: datas, horas, dias, relativos; antes/depois
+- [x] causalidade: causal x correlacional; direção causal invertida NÃO detectada
+- [ ] spans protegidos configuráveis pelo usuário
+- [x] semantic-loss report (`voznativa compare`) com política conservadora
+- [x] contrato de juiz LLM/humano
+- [ ] modelo NLI PT-BR opcional (pesquisa: ASSIN2 + BERTimbau/Albertina)
+- [ ] holdout escrito por terceiros (os atuais foram escritos pelo mesmo autor do motor)
 
 ## v0.3 — Voice Model
 - [ ] perfil por canal
