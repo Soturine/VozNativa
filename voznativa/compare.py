@@ -13,9 +13,11 @@ Verdict policy (conservative by design):
 """
 from __future__ import annotations
 
+import re
 from collections import Counter
 
 from . import ledger as ledger_mod
+from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
 from .text import contains_word, normalize_surface
@@ -141,8 +143,38 @@ def _span_issues(src, out) -> list[dict]:
     return issues
 
 
+def _mutual_swaps(a_src: dict, a_out: dict) -> list[tuple[str, str]]:
+    """Keys A and B such that A now sits where B was AND B where A was.
+    Requiring both directions keeps plain reordering from firing."""
+    swaps, seen = [], set()
+    for key_a, src_a in a_src.items():
+        out_a = a_out.get(key_a)
+        if not out_a or src_a & out_a:
+            continue
+        for key_b, src_b in a_src.items():
+            if key_b == key_a or (key_b, key_a) in seen:
+                continue
+            out_b = a_out.get(key_b)
+            if out_b and not (src_b & out_b) and (out_a & src_b) and (out_b & src_a):
+                seen.add((key_a, key_b))
+                swaps.append((key_a, key_b))
+    return swaps
+
+
+def _entity_anchors(led, entity_texts: dict[str, str]) -> dict[str, set]:
+    """Anchors of each source entity wherever it occurs (by whole word), so a
+    name moved to sentence start, where extraction skips it, is still found."""
+    table: dict[str, set] = {}
+    for key, text in entity_texts.items():
+        for m in re.finditer(r"(?<!\w)" + re.escape(text) + r"(?!\w)", led.text, re.IGNORECASE):
+            table.setdefault(key, set()).update(spans_mod._anchors(led.text, m.start(), m.end()))
+    return table
+
+
 def _binding_issues(src, out) -> list[dict]:
-    """Detect values that kept their multiset but moved to other entities."""
+    """Detect values and entities that kept their presence but swapped the
+    words they attach to: "17 casos e 71 erros" -> "71 casos e 17 erros",
+    "a Ana revisa e o Bruno assina" -> "o Bruno revisa e a Ana assina"."""
     def anchors_by_key(led):
         table: dict[str, set] = {}
         for s in led.spans:
@@ -150,25 +182,20 @@ def _binding_issues(src, out) -> list[dict]:
                 table.setdefault(s.key, set()).update(s.anchors)
         return table
 
-    a_src, a_out = anchors_by_key(src), anchors_by_key(out)
     issues = []
-    reported = set()
-    # A swap is mutual: A now sits where B was AND B now sits where A was.
-    # Requiring both directions keeps reordering ("às 10h não vai") from firing.
-    for key_a, src_a in a_src.items():
-        out_a = a_out.get(key_a)
-        if not out_a or src_a & out_a:
-            continue
-        for key_b, src_b in a_src.items():
-            if key_b == key_a or (key_b, key_a) in reported:
-                continue
-            out_b = a_out.get(key_b)
-            if out_b and not (src_b & out_b) and (out_a & src_b) and (out_b & src_a):
-                texts = [next(s.text for s in src.spans if s.key == k) for k in (key_a, key_b)]
-                reported.add((key_a, key_b))
-                issues.append(_issue("binding_changed", "critical",
-                                     f"'{texts[0]}' and '{texts[1]}' swapped the words they qualify",
-                                     key=key_a, text=texts[0], swapped_with=texts[1]))
+    for key_a, key_b in _mutual_swaps(anchors_by_key(src), anchors_by_key(out)):
+        texts = [next(s.text for s in src.spans if s.key == k) for k in (key_a, key_b)]
+        issues.append(_issue("binding_changed", "critical",
+                             f"'{texts[0]}' and '{texts[1]}' swapped the words they qualify",
+                             key=key_a, text=texts[0], swapped_with=texts[1]))
+
+    entities = {s.key: s.text for s in src.spans if s.type == "entity"}
+    if len(entities) >= 2:
+        for key_a, key_b in _mutual_swaps(_entity_anchors(src, entities), _entity_anchors(out, entities)):
+            issues.append(_issue("entity_binding_changed", "critical",
+                                 f"'{entities[key_a]}' and '{entities[key_b]}' swapped roles "
+                                 "(each now attaches to the other's words)",
+                                 text=entities[key_a], swapped_with=entities[key_b]))
     return issues
 
 

@@ -1,0 +1,31 @@
+"""Relations between entities, causes and polarity (qualification audit gaps)."""
+import sys
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from voznativa.compare import compare
+
+
+def codes(original, candidate):
+    return {i["code"] for i in compare(original, candidate)["issues"]}
+
+
+class EntityBinding(unittest.TestCase):
+    def test_swapped_agents_fail(self):
+        report = compare("A Ana vai revisar o contrato e o Bruno vai assinar.",
+                         "O Bruno vai revisar o contrato e a Ana vai assinar.")
+        self.assertEqual(report["status"], "fail")
+        self.assertIn("entity_binding_changed", {i["code"] for i in report["issues"]})
+
+    def test_reordered_clauses_and_passive_do_not_fire(self):
+        self.assertNotIn("entity_binding_changed", codes("A Ana revisa o código e o Bruno faz o deploy.",
+                                                         "O Bruno faz o deploy e a Ana revisa o código."))
+        self.assertNotIn("entity_binding_changed", codes("A Acme comprou a Beta em 2024.",
+                                                         "Em 2024, a Beta foi comprada pela Acme."))
+
+
+if __name__ == "__main__":
+    unittest.main()
