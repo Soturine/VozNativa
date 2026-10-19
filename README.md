@@ -66,6 +66,8 @@ pip install -e .            # instala a CLI `voznativa` e o PyYAML
 # ou, sem instalar: python scripts/voznativa.py <comando>
 ```
 
+Com `pip install .` (não editável), `refs`, `contract`, `profile` e `rewrite` precisam de `VOZNATIVA_HOME` apontando para um checkout, porque `references/` não vai dentro do pacote.
+
 Como skill:
 
 | Host | Instalação |

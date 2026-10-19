@@ -25,7 +25,8 @@ from . import judge as judge_mod
 from . import ledger as ledger_mod
 from . import region as region_mod
 from .compare import apply_judgment, compare
-from .references import REPO_ROOT, select
+from .paths import home
+from .references import select
 
 NO_CHANGE = "NO_CHANGE"
 STATUS_RANK = {"identical": 0, "accepted_by_human": 0, "accepted_by_llm": 1, "no_deterministic_issues": 2,
@@ -68,7 +69,7 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
 
 def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict | None = None,
                  feedback: list[str] | None = None, facts: list[str] | None = None,
-                 inline_references: bool = False, root: Path = REPO_ROOT) -> str:
+                 inline_references: bool = False, root: Path | None = None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text).as_dict()
     sections = [
@@ -79,7 +80,7 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
                                   "signals": led["signals"]}, ensure_ascii=False, indent=2),
     ]
     if selection is not None:
-        sections.append(_references_block(selection, inline_references, root))
+        sections.append(_references_block(selection, inline_references, root or home()))
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:

@@ -87,6 +87,25 @@ class ReferenceSelector(unittest.TestCase):
         self.assertTrue(any("over budget" in s["reason"] for s in result["skipped"]))
 
 
+class Home(unittest.TestCase):
+    def test_voznativa_home_takes_precedence(self):
+        import os
+        from voznativa.paths import home
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "references").mkdir()
+            (Path(tmp) / "references" / "index.yml").write_text("schema_version: 1\nentries: []\n",
+                                                                encoding="utf-8")
+            previous = os.environ.get("VOZNATIVA_HOME")
+            os.environ["VOZNATIVA_HOME"] = tmp
+            try:
+                self.assertEqual(home(), Path(tmp))
+            finally:
+                if previous is None:
+                    os.environ.pop("VOZNATIVA_HOME")
+                else:
+                    os.environ["VOZNATIVA_HOME"] = previous
+
+
 class ProjectContext(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

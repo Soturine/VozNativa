@@ -23,7 +23,6 @@
 - Behavioral eval suites: `evals/semantic/cases.jsonl` (dev), `holdout.jsonl`, `holdout2.jsonl`.
 - Content-level package validator (frontmatter, version consistency, SKILL links, YAML/JSON/JSONL parsing).
 - CI: package install, Windows runner, least-privilege permissions, eval gate.
-
 - Context Router (`route`) with explicit-hint precedence and `unknown` on weak evidence; Reference Selector (`refs`) over `references/index.yml` with a word budget.
 - Project/Repository Context (`project`, `ground`): repositories are fact sources; invented paths, subcommands and flags fail; values need an explicit source.
 - Voice Profile v2 (`profile`): per-habit evidence, sample support and capped confidence; maturity levels; no raw text or topic words stored.

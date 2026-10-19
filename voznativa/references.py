@@ -10,12 +10,13 @@ from pathlib import Path
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-INDEX = REPO_ROOT / "references" / "index.yml"
+from .paths import home
+
 DEFAULT_BUDGET = 6000
 
 
-def load_index(path: Path = INDEX) -> list[dict]:
+def load_index(path: Path | None = None) -> list[dict]:
+    path = path or home() / "references" / "index.yml"
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     entries = data.get("entries", [])
     for entry in entries:
@@ -45,8 +46,9 @@ def _matches(entry: dict, contract: dict) -> tuple[bool, str]:
                           f"flags={required}" if required else "") if part)
 
 
-def select(contract: dict, budget_words: int = DEFAULT_BUDGET, root: Path = REPO_ROOT,
-           index: Path = INDEX) -> dict:
+def select(contract: dict, budget_words: int = DEFAULT_BUDGET, root: Path | None = None,
+           index: Path | None = None) -> dict:
+    root = root or home()
     selected, skipped, used = [], [], 0
     for entry in sorted(load_index(index), key=lambda e: e["priority"]):
         ok, reason = _matches(entry, contract)

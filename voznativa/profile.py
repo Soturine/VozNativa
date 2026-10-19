@@ -15,25 +15,23 @@ import hashlib
 import re
 from collections import Counter
 from datetime import datetime, timezone
-from pathlib import Path
 
 import yaml
 
 from . import features
+from .paths import references_dir
 from .text import fold, words
 
 SCHEMA_VERSION = 2
-COMMUNITY_DIR = Path(__file__).resolve().parent.parent / "references" / "communities"
 DISCOURSE_OPENERS = {"entao", "olha", "bom", "enfim", "tipo", "na verdade", "sinceramente", "assim", "pois e",
                      "veja", "agora", "ah", "e ai", "pois", "alias", "inclusive", "beleza", "certo", "show"}
 
 
 def _community_terms() -> set[str]:
     terms = set()
-    if COMMUNITY_DIR.is_dir():
-        for path in COMMUNITY_DIR.glob("*.yml"):
-            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-            terms.update(fold(t) for t in (data.get("terms") or {}).get("preserve_if_natural") or [])
+    for path in (references_dir() / "communities").glob("*.yml"):
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        terms.update(fold(t) for t in (data.get("terms") or {}).get("preserve_if_natural") or [])
     return terms
 
 

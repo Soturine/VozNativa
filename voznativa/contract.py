@@ -24,10 +24,10 @@ from pathlib import Path
 import yaml
 
 from .drift import DEFAULT_FLOOR, SCALE_FLOOR
+from .paths import references_dir
 from .profile import confidence as habit_confidence
 
 DATA = Path(__file__).resolve().parent / "data" / "voice_defaults.yml"
-REGION_PACKS = Path(__file__).resolve().parent.parent / "assets"
 
 REGISTER_PREFERENCES = {
     "colloquial": {"contractions": "high"},
@@ -133,7 +133,7 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
     community = context["targets"].get("community")
     community_terms = []
     if community:
-        pack = Path(__file__).resolve().parent.parent / "references" / "communities" / f"{community}.yml"
+        pack = references_dir() / "communities" / f"{community}.yml"
         if pack.exists():
             data = yaml.safe_load(pack.read_text(encoding="utf-8")) or {}
             community_terms = (data.get("terms") or {}).get("preserve_if_natural") or []
