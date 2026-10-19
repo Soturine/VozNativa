@@ -1,0 +1,309 @@
+{
+  "kind": "voznativa.llm_integration_run",
+  "kind_of_evidence": "real external model call; not deterministic; not human review",
+  "run_at": "20261019T061506Z",
+  "command": [
+    "C:\\Users\\rafael\\.vscode\\extensions\\anthropic.claude-code-2.1.301-win32-x64\\resources\\native-binary\\claude.exe",
+    "-p",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--no-session-persistence",
+    "--model",
+    "claude-sonnet-5-5",
+    "--output-format",
+    "text"
+  ],
+  "model_label": "claude-sonnet-5-5",
+  "cli_version": "2.1.301 (Claude Code)",
+  "voznativa_code": {
+    "commit": "1df5f5e2400207318ed8d8118a5149307cb7b4f0",
+    "dirty": false
+  },
+  "cases_file": "benchmarks/cases/ptbr-ai-drafts-v1.jsonl",
+  "attempts_allowed": 3,
+  "complete": true,
+  "summary": {
+    "accepted": 3,
+    "needs_review": 2,
+    "returned_original": 1
+  },
+  "results": [
+    {
+      "id": "ai-corp-001",
+      "original": "Prezados, espero que esta mensagem os encontre bem. Gostaria de informar que estaremos realizando a atualização do sistema de faturamento na próxima terça-feira, a partir das 19h. Nesse sentido, é importante destacar que o sistema poderá apresentar instabilidade por até 40 minutos. Além disso, vale ressaltar que os pedidos feitos nesse período só serão processados após a conclusão da atualização. Desde já, agradecemos a compreensão de todos.",
+      "outcome": "needs_review",
+      "final_text": "Prezados,\n\nNa próxima terça-feira, a partir das 19h, vamos atualizar o sistema de faturamento. Durante a atualização, o sistema poderá apresentar instabilidade por até 40 minutos. Os pedidos feitos nesse período só serão processados após a conclusão da atualização.\n\nAgradecemos a compreensão de todos.",
+      "final_status": "review_required",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "review_required",
+          "codes": [
+            "aspect_changed",
+            "condition_changed",
+            "metadiscourse_changed",
+            "paragraphs_changed",
+            "possible_omission",
+            "regional_overfit"
+          ],
+          "preview": "Prezados,\n\nNa próxima terça-feira, a partir das 19h, vamos atualizar o sistema de faturamento. Durante a atualização, o "
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 6.0,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 6.0,
+          "prompt_chars": 13380,
+          "answers": [
+            "<final>\nPrezados,\n\nNa próxima terça-feira, a partir das 19h, vamos atualizar o sistema de faturamento. Durante a atualização, o sistema poderá apresentar instabilidade por até 40 minutos. Os pedidos feitos nesse período só serão processados após a conclusão da atualização.\n\nAgradecemos a compreensão de todos.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-tech-001",
+      "original": "No cenário atual de desenvolvimento, a configuração adequada de variáveis de ambiente desempenha um papel fundamental. Dessa forma, o arquivo .env deve conter a variável DATABASE_URL, que será utilizada para estabelecer a conexão com o banco de dados. Ademais, é importante ressaltar que a ausência dessa variável pode fazer com que a aplicação não seja inicializada corretamente.",
+      "outcome": "needs_review",
+      "final_text": "O arquivo .env deve conter a variável DATABASE_URL, usada para estabelecer a conexão com o banco de dados. Sem ela, a aplicação pode não ser inicializada corretamente.",
+      "final_status": "review_required",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "review_required",
+          "codes": [
+            "causality_changed",
+            "length_ratio",
+            "metadiscourse_changed",
+            "negation_changed",
+            "possible_omission"
+          ],
+          "preview": "O arquivo .env deve conter a variável DATABASE_URL, usada para estabelecer a conexão com o banco de dados. Sem ela, a ap"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "error": null,
+      "seconds": 3.3,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.2,
+          "prompt_chars": 11583,
+          "answers": [
+            "<final>\nO arquivo .env deve conter a variável DATABASE_URL, usada para estabelecer a conexão com o banco de dados. Sem ela, a aplicação pode não ser inicializada corretamente.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-academic-001",
+      "original": "Em um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. Nesse contexto, o presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.",
+      "outcome": "accepted",
+      "final_text": "Em um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. O presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [],
+          "preview": "Em um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relev"
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "error": null,
+      "seconds": 14.6,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.9,
+          "prompt_chars": 12549,
+          "answers": [
+            "<final>\nEm um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. O presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 10.5,
+          "prompt_chars": 3091,
+          "answers": [
+            "{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"b2c41a6e2928d967fe87f1b9993fe28c5816ce2b2eb1057c85a27448b77086f2\",\n  \"candidate_sha256\": \"5ca347c3f676d73d4c6dc575f71a4072dd364f22ae2072f7cc174bf5638a6f2e\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Em um mundo cada vez mais conectado, o uso de tecnologias digitais na educação tem se tornado cada vez mais relevante.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Em um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante.\",\n      \"note\": \"Idêntica.\"\n    },\n    {\n      \"source\": \"O estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais.\",\n      \"note\": \"Número 312, população e objeto mantidos. Apenas removeu a locução 'Nesse contexto', que é conectivo discursivo sem conteúdo factual.\"\n    },\n    {\n      \"source\": \"Os resultados sugerem uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos.\",\n      \"note\": \"Mantém 'sugerem' e 'associação' (correlacional, sem causalidade) e o sentido do engajamento maior.\"\n    },\n    {\n      \"source\": \"São necessários estudos adicionais para confirmar essa relação.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"sendo necessários estudos adicionais para confirmar essa relação.\",\n      \"note\": \"Mesmo grau de cautela e mesma condição.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A CANDIDATA difere do ORIGINAL apenas pela retirada do conectivo 'Nesse contexto'; fatos, o número 312, o grau de certeza (sugerem, associação) e a ressalva sobre estudos adicionais permanecem iguais. Nenhuma afirmação nova foi introduzida.\"\n}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-social-001",
+      "original": "Ninguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração. Foi uma jornada transformadora, repleta de desafios e aprendizados. E isso muda tudo. Qual foi o maior aprendizado de liderança que você já teve?",
+      "outcome": "returned_original",
+      "final_text": "Ninguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração. Foi uma jornada transformadora, repleta de desafios e aprendizados. E isso muda tudo. Qual foi o maior aprendizado de liderança que você já teve?",
+      "final_status": "fail",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [],
+          "preview": "Ninguém fala sobre isso, mas liderança não é sobre cargo, é sobre pessoas. Nos últimos 6 meses, coordenei um time de 8 d"
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "not_equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "error": null,
+      "seconds": 23.4,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 9.5,
+          "prompt_chars": 12700,
+          "answers": [
+            "<final>\nNinguém fala sobre isso, mas liderança não é sobre cargo, é sobre pessoas. Nos últimos 6 meses, coordenei um time de 8 desenvolvedores em um projeto de migração. Foi uma experiência transformadora, cheia de desafios e aprendizados. Qual foi o maior aprendizado de liderança que você já teve?\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 13.8,
+          "prompt_chars": 2914,
+          "answers": [
+            "```json\n{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"d9a2c1d2972a7803fc0afd701c371819023a9251bb555825d9fce6aa2c2031ff\",\n  \"candidate_sha256\": \"635d17e30703c3cf7613d472769c50be84049dd8aa9ac98de774504e75a2a46f\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"not_equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Ninguém fala sobre isso\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Ninguém fala sobre isso\",\n      \"note\": \"Idêntico.\"\n    },\n    {\n      \"source\": \"Liderança não é sobre cargo. É sobre pessoas.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"liderança não é sobre cargo, é sobre pessoas\",\n      \"note\": \"Só a pontuação mudou; o sentido é o mesmo.\"\n    },\n    {\n      \"source\": \"Nos últimos 6 meses\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Nos últimos 6 meses\",\n      \"note\": \"Prazo mantido.\"\n    },\n    {\n      \"source\": \"tive a oportunidade de coordenar um time de 8 desenvolvedores\",\n      \"status\": \"preserved\",\n      \"candidate\": \"coordenei um time de 8 desenvolvedores\",\n      \"note\": \"O fato (coordenou, 8 desenvolvedores) está mantido. O enquadramento de 'oportunidade' foi perdido, mas é só tom.\"\n    },\n    {\n      \"source\": \"em um projeto de migração\",\n      \"status\": \"preserved\",\n      \"candidate\": \"em um projeto de migração\",\n      \"note\": \"Idêntico.\"\n    },\n    {\n      \"source\": \"Foi uma jornada transformadora, repleta de desafios e aprendizados.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Foi uma experiência transformadora, cheia de desafios e aprendizados.\",\n      \"note\": \"Sinônimos, mesmo grau.\"\n    },\n    {\n      \"source\": \"E isso muda tudo.\",\n      \"status\": \"omitted\",\n      \"candidate\": null,\n      \"note\": \"A afirmação de impacto foi removida.\"\n    },\n    {\n      \"source\": \"Qual foi o maior aprendizado de liderança que você já teve?\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Qual foi o maior aprendizado de liderança que você já teve?\",\n      \"note\": \"Idêntico.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"Fatos, números (6 meses, 8 desenvolvedores) e a pergunta final foram preservados, e a candidata não acrescenta nada. A afirmação 'E isso muda tudo' foi omitida, então não há equivalência estrita.\"\n}\n```\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-support-001",
+      "original": "Olá! Agradecemos imensamente o seu contato e lamentamos profundamente qualquer inconveniente causado. Gostaríamos de informar que o reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Caso tenha qualquer dúvida adicional, não hesite em entrar em contato conosco. Estamos sempre à disposição para ajudar!",
+      "outcome": "accepted",
+      "final_text": "Olá, agradecemos o seu contato e lamentamos qualquer inconveniente causado. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Caso tenha qualquer dúvida adicional, não hesite em entrar em contato conosco. Estamos sempre à disposição para ajudar.",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "fail",
+          "codes": [
+            "idiom_changed",
+            "negation_changed",
+            "possible_omission",
+            "quantifier_changed",
+            "regional_overfit"
+          ],
+          "preview": "Olá! Obrigado pelo contato, e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias úte"
+        },
+        {
+          "attempt": 2,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [],
+          "preview": "Olá, agradecemos o seu contato e lamentamos qualquer inconveniente causado. O reembolso do pedido nº 48213 será efetuado"
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "error": null,
+      "seconds": 22.3,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 4.0,
+          "prompt_chars": 13116,
+          "answers": [
+            "<final>\nOlá! Obrigado pelo contato, e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Se tiver qualquer dúvida, é só entrar em contato conosco.\n</final>\n"
+          ]
+        },
+        {
+          "role": "writer",
+          "seconds": 7.1,
+          "prompt_chars": 13313,
+          "answers": [
+            "<final>\nOlá, agradecemos o seu contato e lamentamos qualquer inconveniente causado. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Caso tenha qualquer dúvida adicional, não hesite em entrar em contato conosco. Estamos sempre à disposição para ajudar.\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 10.9,
+          "prompt_chars": 3056,
+          "answers": [
+            "{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"1faed0fa1032643c2e0f3900b71918d10ecfe46d11f721e9e750a964cf9e4ccd\",\n  \"candidate_sha256\": \"e71f5605f5a376508c52d2c83b345aae4247152c3ba255327a6493c6e4f27912\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Agradecemos o contato do cliente\",\n      \"status\": \"preserved\",\n      \"candidate\": \"agradecemos o seu contato\",\n      \"note\": \"Perde apenas o intensificador 'imensamente'; é tom, não conteúdo.\"\n    },\n    {\n      \"source\": \"Lamentamos qualquer inconveniente causado\",\n      \"status\": \"preserved\",\n      \"candidate\": \"lamentamos qualquer inconveniente causado\",\n      \"note\": \"Perde 'profundamente'; é intensidade de tom, sem mudar o compromisso.\"\n    },\n    {\n      \"source\": \"O reembolso do pedido nº 48213 será efetuado\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O reembolso do pedido nº 48213 será efetuado\",\n      \"note\": \"Número do pedido e futuro certo mantidos.\"\n    },\n    {\n      \"source\": \"Prazo de até 7 dias úteis\",\n      \"status\": \"preserved\",\n      \"candidate\": \"em até 7 dias úteis\",\n      \"note\": \"Prazo e limite superior idênticos.\"\n    },\n    {\n      \"source\": \"Condição: desde que o produto seja devolvido sem sinais de uso\",\n      \"status\": \"preserved\",\n      \"candidate\": \"desde que o produto seja devolvido sem sinais de uso\",\n      \"note\": \"Condição e negação preservadas.\"\n    },\n    {\n      \"source\": \"Em caso de qualquer dúvida adicional, não hesite em entrar em contato\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Caso tenha qualquer dúvida adicional, não hesite em entrar em contato conosco\",\n      \"note\": \"Idêntico.\"\n    },\n    {\n      \"source\": \"Estamos sempre à disposição para ajudar\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Estamos sempre à disposição para ajudar.\",\n      \"note\": \"Mesmo conteúdo; só muda a pontuação final.\"\n    },\n    {\n      \"source\": \"Gostaríamos de informar que...\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O reembolso do pedido...\",\n      \"note\": \"Fórmula introdutória removida; o informe continua sendo feito.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"Número do pedido, prazo de 7 dias úteis, condição de devolução sem sinais de uso e compromissos de contato e disponibilidade estão todos preservados. A candidata apenas remove intensificadores e fórmulas de cortesia, sem acrescentar afirmações.\"\n}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-status-001",
+      "original": "Pessoal, dando continuidade ao alinhamento de ontem, gostaria de compartilhar que a funcionalidade de exportação para PDF foi concluída com sucesso. No entanto, cabe mencionar que a exportação para Excel ainda não foi finalizada, visto que dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta.",
+      "outcome": "accepted",
+      "final_text": "Pessoal, sobre o alinhamento de ontem: a exportação para PDF foi concluída com sucesso. A exportação para Excel ainda não foi finalizada, porque dependemos da aprovação da equipe de segurança. A previsão é entregar até sexta-feira, caso a aprovação ocorra até quarta.",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [
+            "metadiscourse_changed"
+          ],
+          "preview": "Pessoal, sobre o alinhamento de ontem: a exportação para PDF foi concluída com sucesso. A exportação para Excel ainda nã"
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "error": null,
+      "seconds": 18.7,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 8.1,
+          "prompt_chars": 13377,
+          "answers": [
+            "<final>\nPessoal, sobre o alinhamento de ontem: a exportação para PDF foi concluída com sucesso. A exportação para Excel ainda não foi finalizada, porque dependemos da aprovação da equipe de segurança. A previsão é entregar até sexta-feira, caso a aprovação ocorra até quarta.\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 10.5,
+          "prompt_chars": 3608,
+          "answers": [
+            "{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"3fa0328d1fb0257d46b9ef7626021b5aeb2078e1a19da30401276fd3a306cddd\",\n  \"candidate_sha256\": \"abe412d3823dc7b7f146f51cf5f9668759211b972c9bb863119a783d239cc953\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"A mensagem dá continuidade ao alinhamento de ontem\",\n      \"status\": \"preserved\",\n      \"candidate\": \"sobre o alinhamento de ontem\",\n      \"note\": \"A referência ao alinhamento de ontem se mantém. Só se perdeu o marcador de enquadramento 'dando continuidade', sem efeito sobre os fatos.\"\n    },\n    {\n      \"source\": \"A funcionalidade de exportação para PDF foi concluída com sucesso\",\n      \"status\": \"preserved\",\n      \"candidate\": \"a exportação para PDF foi concluída com sucesso\",\n      \"note\": \"Mesmo fato, mesmo grau de certeza.\"\n    },\n    {\n      \"source\": \"A exportação para Excel ainda não foi finalizada\",\n      \"status\": \"preserved\",\n      \"candidate\": \"A exportação para Excel ainda não foi finalizada\",\n      \"note\": \"A negação e o 'ainda' (estado pendente) foram mantidos.\"\n    },\n    {\n      \"source\": \"A exportação para Excel não foi finalizada porque depende da aprovação da equipe de segurança\",\n      \"status\": \"preserved\",\n      \"candidate\": \"porque dependemos da aprovação da equipe de segurança\",\n      \"note\": \"'visto que' e 'porque' são equivalentes. A causa e o agente (equipe de segurança) não mudaram.\"\n    },\n    {\n      \"source\": \"A previsão de entrega é até sexta-feira\",\n      \"status\": \"preserved\",\n      \"candidate\": \"A previsão é entregar até sexta-feira\",\n      \"note\": \"O prazo e o caráter de previsão se mantêm.\"\n    },\n    {\n      \"source\": \"A entrega até sexta-feira vale caso a aprovação ocorra até quarta\",\n      \"status\": \"preserved\",\n      \"candidate\": \"caso a aprovação ocorra até quarta\",\n      \"note\": \"A condição e o prazo se mantêm.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A candidata mantém todos os fatos, a causa, a condição e os prazos (ontem, sexta-feira, quarta) com o mesmo grau de certeza. A única mudança é a remoção de expressões de enquadramento ('gostaria de compartilhar', 'cabe mencionar'), que não alteram o conteúdo.\"\n}\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
