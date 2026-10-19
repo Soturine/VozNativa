@@ -46,9 +46,9 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 - [ ] holdout escrito por terceiros (os atuais foram escritos pelo mesmo autor do motor)
 
 ## v0.3 — Voice Model
-- [ ] perfil por canal
-- [ ] comparação de voice vectors
-- [ ] Voice Drift calibrado por janelas
+- [x] perfil por canal (`channels` no Voice Profile v2)
+- [x] comparação de voice vectors normalizados (`voznativa drift --profile`)
+- [~] Voice Drift por janelas (normalizado; limiar NÃO calibrado)
 - [ ] estabilidade em textos longos
 - [ ] calibração com amostras consentidas
 
@@ -80,38 +80,45 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 - [ ] slang stuffing guard
 - [ ] interação comunidade x região x canal
 
+## Pesquisa/decisões pendentes
+- [ ] licença do repositório (proposta Apache-2.0 em `docs/LICENSING.md`)
+- [ ] resolver o conflito de licença do Corpus Carolina antes de qualquer ingestão
+- [ ] holdout semântico escrito por outra pessoa
+- [ ] execução real do benchmark (B0–B5) com manifesto e juízes
+- [ ] calibração dos limiares do `compare` e do drift com reescritas reais
+
 ## v0.7 — Rewrite Engine Contract
-- [ ] contrato agnóstico de modelo
-- [ ] provider adapter interface
-- [ ] Context Router executável
-- [ ] montagem dinâmica de referências
-- [ ] retries por falha dominante
-- [ ] compare original/candidate
-- [ ] saída JSON/YAML estável
+- [x] contrato agnóstico de modelo
+- [x] provider adapter interface (command, static, emulate)
+- [x] Context Router executável
+- [x] montagem dinâmica de referências (orçamento de palavras)
+- [x] retries por falha dominante
+- [x] compare original/candidate
+- [x] saída JSON estável (`kind` + `schema_version` em cada relatório)
 
 ## v0.8 — Evaluation System
-- [ ] factual/semantic
+- [x] factual/semantic (dev + 2 holdouts)
 - [ ] voice
 - [ ] regional
-- [ ] false-positive
+- [~] false-positive (casos `false_red` e NO_CHANGE; sem detector de edição desnecessária)
 - [ ] genre
-- [ ] adversarial
+- [~] adversarial (limitações conhecidas viram casos `known_limitation`)
 - [ ] long-form drift
 - [ ] temporal slang
 - [ ] human review protocol
-- [ ] corpus/eval provenance
-- [ ] benchmark skill-only reproduzível
+- [~] eval provenance (hashes congelados; corpus não ingerido)
+- [~] benchmark skill-only: runner, casos e manifesto prontos; execução real não feita
 - [ ] benchmark system-level reproduzível
 - [ ] blind pairwise harness
-- [ ] frozen benchmark manifests
+- [x] frozen benchmark manifests (`cases_sha256`, `manifest.example.json`)
 
 ## v0.9 — Packaging & Integrations
-- [ ] manifests para hosts suportados
-- [ ] CLI estável
+- [x] manifests para hosts suportados (Claude Code plugin, Codex `openai.yaml`; Gemini via SKILL.md)
+- [~] CLI (`voznativa`); estável só a partir da 1.0
 - [ ] exemplos de integração
 - [ ] documentação de extensão de packs
 - [ ] política de contribuição de dados linguísticos
-- [ ] provider adapter para Emulate/API externa
+- [~] provider adapter para Emulate (não validado ao vivo)
 - [ ] adapters para modelos locais/custom
 
 ## Research track — Optional Model / Adapter

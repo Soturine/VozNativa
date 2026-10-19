@@ -36,6 +36,18 @@ class SkillMatchesCli(unittest.TestCase):
         self.assertGreater(len(mentioned), 8)
         self.assertEqual(mentioned - known, set())
 
+    def test_readme_commands_exist(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        commands = subparsers()
+        lines = re.findall(r"^voznativa ([^#\n]+)", readme, re.M)
+        self.assertGreater(len(lines), 8)
+        for line in lines:
+            name = line.split()[0]
+            self.assertIn(name, commands, f"README documents unknown command: {name}")
+            known = {opt for a in commands[name]._actions for opt in a.option_strings}
+            for flag in re.findall(r"(?<![\w-])(--[a-z][\w-]*)", line):
+                self.assertIn(flag, known, f"README documents unknown flag {flag} for {name}")
+
     def test_exit_code_table_matches_cli(self):
         for code, status in re.findall(r"^\| (\d) \| `([a-z_]+)`", SKILL, re.M):
             self.assertEqual(cli.EXIT_BY_STATUS[status], int(code), status)

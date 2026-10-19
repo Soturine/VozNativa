@@ -13,6 +13,7 @@
 - Analyzer counted `quando`, `comando` as gerunds and `semente` as an adverb; ignored `…` and spaced `–`.
 - Regional guard compared region codes case-sensitively (`MG` != `mg`).
 - CLI stdin was decoded with the console code page on Windows, which erased `não`.
+- Idiomatic `é só` / `só que` / `não só... mas` were read as restrictive quantifiers or negation (found in a real skill-mode rewrite).
 
 ### Added
 - `voznativa` Python package and CLI (`ledger`, `compare`, `judge-prompt`, `analyze`, `audit`, `region`, `drift`, `eval`, `benchmark`); legacy `scripts/*.py` are thin wrappers with the same arguments.
@@ -22,6 +23,15 @@
 - Behavioral eval suites: `evals/semantic/cases.jsonl` (dev), `holdout.jsonl`, `holdout2.jsonl`.
 - Content-level package validator (frontmatter, version consistency, SKILL links, YAML/JSON/JSONL parsing).
 - CI: package install, Windows runner, least-privilege permissions, eval gate.
+
+- Context Router (`route`) with explicit-hint precedence and `unknown` on weak evidence; Reference Selector (`refs`) over `references/index.yml` with a word budget.
+- Project/Repository Context (`project`, `ground`): repositories are fact sources; invented paths, subcommands and flags fail; values need an explicit source.
+- Voice Profile v2 (`profile`): per-habit evidence, sample support and capped confidence; maturity levels; no raw text or topic words stored.
+- Voice Contract resolver (`contract`) implementing VOICE_STACK precedence with a per-feature trace; mandatory genre constraints beat explicit requests; regional and slang strength stay 0 without evidence.
+- Rewrite Engine (`rewrite`, `rewrite-prompt`) with command, static and Emulate providers; retries on the dominant failure; returns the original when nothing is safe.
+- Benchmark: `ptbr-v1` cases (47-58 words), judgments applied by kind, manifest recording.
+- `SKILL.md` rewritten as an operational router; Claude Code plugin manifests; Codex invocation policy; `scripts/voznativa.py` entry point.
+- `docs/EVALUATION.md`, `docs/RESEARCH_LOG.md`, `docs/LICENSING.md` (license proposal only; the repository still has no license).
 
 ### Changed
 - `mechanicality` is now a set of descriptive rates; ordinary gerunds are no longer penalized.

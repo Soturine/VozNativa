@@ -33,14 +33,11 @@ A classificação não precisa ser perfeita; ela precisa impedir que referência
 
 Fonte de verdade do conteúdo.
 
-### Baseline atual
-Protege lexicalmente:
-- números;
-- datas;
-- URLs;
-- moeda;
-- percentuais;
-- identificadores.
+### Implementação atual (`voznativa/ledger.py`, `voznativa/compare.py`)
+Por sentença: valores protegidos com chave normalizada (números, valores, datas, horários,
+quantidades, versões, identificadores, código, caminhos, citações, entidades) e marcadores de
+negação, modalidade, quantificadores, condições, antes/depois, causalidade, compromissos e
+atribuição. O resultado determinístico nunca prova equivalência; ver `docs/EVALUATION.md`.
 
 ### Evolução planejada
 Claims estruturados com:
@@ -170,7 +167,7 @@ Contribuições conceituais estudadas:
 - progressive disclosure;
 - packaging/evals.
 
-VozNativa mantém taxonomia e implementação próprias.
+VozNativa mantém taxonomia e implementação próprias. Versões estudadas, o que foi adotado e o que não foi: `docs/RESEARCH_LOG.md`.
 
 ## Pesquisa linguística brasileira
 

@@ -1,25 +1,12 @@
 # VozNativa
 
-> Motor de voz escrita para português brasileiro: humanização contextual, preservação semântica, variação regional responsável e modelagem de idioleto.
+> Motor de voz escrita para português brasileiro: reescrita contextual, preservação semântica verificável, voz do autor por canal e regionalidade só com evidência.
 
-VozNativa não tenta responder apenas a "como um humano escreve?". O objetivo é responder melhor:
+VozNativa não tenta responder "como um humano escreve?". A pergunta é:
 
 > **Como esta pessoa escreveria este conteúdo, neste canal, para este público, sem perder fatos, intenção ou registro?**
 
-O projeto nasce como uma Agent Skill PT-BR e uma fundação para um futuro **Brazilian Portuguese Voice Engine** reutilizável por agentes, CLIs e pipelines.
-
-## Por que existe
-
-Humanizers tradicionais ajudam a remover padrões mecânicos, mas frequentemente:
-- tratam palavras isoladas como erro;
-- apagam marcas legítimas do autor;
-- alteram números, modalidade ou precisão;
-- reduzem PT-BR a um registro único;
-- transformam regionalidade em caricatura;
-- confundem dialeto, comunidade e idioleto;
-- chamam métricas estilísticas de "probabilidade de IA".
-
-VozNativa separa esses problemas.
+É uma Agent Skill (Claude Code, Codex, Gemini CLI e outros hosts compatíveis com `SKILL.md`) e um pacote Python com CLI que verifica cada reescrita antes de ela ser entregue.
 
 ## Princípios
 
@@ -34,255 +21,98 @@ VozNativa separa esses problemas.
 9. **Progressive disclosure.**
 10. **Mudanças precisam de regressão/evidência.**
 
-## Arquitetura
+## Como funciona
 
 ```text
-Context Router
-   |
-Semantic Ledger / Fact Lock
-   |
-Deterministic Analyzer
-   |
-Voice Stack
-   |-- author samples
-   |-- channel/context
-   |-- community
-   |-- regionality
-   '-- pt-BR default
-   |
-Rewrite Engine
-   |
-Validation Gates
-   |-- Semantic Guard
-   |-- False Positive Guard
-   |-- Regional Overfit Guard
-   |-- Dialect Mixing Guard
-   '-- Voice Drift Guard
+texto ─▶ route ─▶ Context Contract (gênero, canal, registro, fontes de fato x amostras de voz)
+            │
+            ├─▶ refs ─────▶ referências selecionadas sob orçamento de palavras
+            ├─▶ profile ──▶ Voice Profile v2 (estatísticas, sem texto bruto)
+            └─▶ contract ─▶ Voice Contract (precedência de references/VOICE_STACK.md)
+                              │
+ledger (spans + marcadores) ──┴─▶ rewrite-prompt / rewrite ─▶ candidata
+                                                               │
+                          compare / ground ◀───────────────────┘
+                               │
+             identical · fail · review_required · no_deterministic_issues
+                               │
+                      juiz LLM ou humano (judge-prompt, --judgment)
 ```
 
-Detalhes: `docs/ARCHITECTURE_AND_RESEARCH.md`.
+**Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento, e um juiz LLM não resolve um `review_required` (só um humano resolve). Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
 
-## O que já existe em v0.1.0
+## Estado (0.2.0.dev0)
 
-- `SKILL.md` enxuto como roteador;
-- arquitetura e pesquisa comparativa documentadas;
-- estratégia de corpus/evidência com Source Ledger e níveis E0–E4;
-- referências operacionais para Carolina, ALiB, NURC, SP2010, CORAA e C-ORAL-BRASIL;
-- padrões PT-BR iniciais;
-- Voice Stack documentado;
-- schema versionado de Voice Profile;
-- schema de gíria temporal;
-- analisador determinístico;
-- Semantic Guard com spans protegidos e controle de multiplicidade;
-- profiler inicial de idioleto;
-- Regional Overfit/Dialect Mixing baseline guard;
-- suíte de regressão e scaffolds de eval por domínio;
-- Audit baseline e Voice Drift baseline;
-- assets/templates e metadata inicial para agente;
-- matriz de rastreabilidade design → implementação → roadmap;
-- validação estrutural do pacote;
-- CI em Python 3.11/3.12/3.13.
+| Componente | Estado |
+|---|---|
+| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados, negação (com concordância negativa), modalidade, quantificadores, condições, antes/depois, causalidade, compromissos, atribuição |
+| Juiz LLM/humano | contrato implementado; nenhum modelo embarcado |
+| Context Router + Reference Selector | implementado; gênero `unknown` quando a evidência é fraca |
+| Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
+| Voice Profile v2 + Voice Contract | implementado; limiares heurísticos, sem calibração |
+| Rewrite Engine + providers | implementado (`command`, `static`, `emulate` opcional); não testado com modelo real neste ambiente |
+| Benchmark | tier determinístico + julgamentos por tipo; nenhuma execução real publicada |
+| Packs regionais, gíria temporal, community packs | **não calibrados**: força efetiva 0 |
+| Avaliação humana, corpus ingerido, adapters/LoRA | não implementados |
 
-## Estrutura atual
+Números e limitações: `docs/EVALUATION.md`. Rastreabilidade: `docs/TRACEABILITY.md`.
 
-```text
-VozNativa/
-├── README.md
-├── SKILL.md
-├── ROADMAP.md
-├── CHANGELOG.md
-├── pyproject.toml
-├── agents/
-│   └── openai.yaml
-├── assets/
-│   ├── voice-profile.yml
-│   └── regional-pack.yml
-├── docs/
-│   ├── ARCHITECTURE_AND_RESEARCH.md
-│   ├── DESIGN_SPEC.md
-│   └── TRACEABILITY.md
-├── references/
-│   ├── VOICE_STACK.md
-│   ├── registers.md
-│   ├── corpora/
-│   │   ├── carolina.md
-│   │   ├── alib.md
-│   │   ├── nurc.md
-│   │   ├── sp2010.md
-│   │   ├── coraa.md
-│   │   └── c-oral-brasil.md
-│   ├── patterns/
-│   │   ├── pt-br.md
-│   │   ├── structural.md
-│   │   ├── rhetorical.md
-│   │   ├── formatting.md
-│   │   └── false-positives.md
-│   ├── genres/
-│   ├── regions/
-│   ├── communities/
-│   ├── slang/
-│   └── voice/
-├── scripts/
-│   ├── analyze.py
-│   ├── semantic_guard.py
-│   ├── protect_spans.py
-│   ├── fact_guard.py
-│   ├── voice_profile.py
-│   ├── region_consistency.py
-│   ├── voice_drift.py
-│   ├── audit.py
-│   └── validate_package.py
-├── evals/
-│   ├── test_foundation.py
-│   ├── academic/
-│   ├── whatsapp/
-│   ├── linkedin/
-│   ├── corporate/
-│   ├── technical/
-│   ├── documentation/
-│   ├── storytelling/
-│   ├── regional/
-│   ├── slang/
-│   ├── false-positive/
-│   └── adversarial/
-└── .github/workflows/
-    └── ci.yml
-```
+## Instalar
 
-## Modos planejados da skill
-
-- `rewrite`
-- `audit`
-- `create`
-- `profile`
-- `compare`
-
-A especificação existe em `SKILL.md`; o motor generativo agnóstico de provedor ainda faz parte do roadmap.
-
-## Voice Stack
-
-Precedência padrão:
-
-```text
-amostra do autor
-    >
-canal/contexto
-    >
-comunidade/socioleto
-    >
-regionalidade
-    >
-default PT-BR
-```
-
-Amostras do próprio autor têm precedência porque o projeto tenta preservar **idioleto**, não empurrar todo mundo para uma "voz brasileira média".
-
-## Regionalidade
-
-"Sotaque escrito" é um atalho coloquial. Sotaque estrito é fonético/fonológico. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso, formas de tratamento e grafia estilizada quando apropriado.
-
-Regionalidade é **distribuição, não decoração**.
-
-Um pedido como "mineiro informal" não significa inserir `uai` ou `trem` em toda frase.
-
-O guard atual é apenas uma **heurística de baseline para testar a arquitetura**. Não deve ser interpretado como classificador confiável de dialeto.
-
-## Gírias e temporalidade
-
-Gírias podem registrar:
-- região;
-- comunidade;
-- contexto;
-- período observado;
-- registro mínimo/máximo;
-- confiança;
-- regra `do_not_force`;
-- fontes.
-
-Isso permite tratar linguagem de 2007, 2018 e 2026 de forma diferente sem transformar o resultado em coleção de bordões.
-
-## Idioleto
-
-`scripts/voice_profile.py` observa características como:
-- comprimento/variação de frases;
-- pontuação;
-- abreviações;
-- estrangeirismos;
-- léxico recorrente;
-- estrutura de parágrafos.
-
-Ele declara explicitamente `infer_identity: false`.
-
-## Métricas
-
-VozNativa evita "AI probability". As dimensões futuras são operacionais:
-
-- `mechanicality`
-- `formulaicity`
-- `voice_drift`
-- `regional_overfit`
-- `register_mismatch`
-- `semantic_loss`
-
-Elas descrevem comportamento do framework, não autoria.
-
-## Pesquisa
-
-O design inicial estudou:
-- `blader/humanizer`;
-- `mackswendhell/humanizer-pt-br`;
-- `opaulomarcondes/humanizador-pt`;
-- `gabrielkashimarki/humanizer-ptbr`;
-- `fabricioctelles/skills` (`humanizar`);
-- ALiB;
-- NURC;
-- Corpus Carolina / USP;
-- Projeto SP2010 / USP;
-- CORAA / TaRSila;
-- C-ORAL-BRASIL / UFMG.
-
-VozNativa deve manter taxonomia e implementação próprias. Material externo só entra após revisão de licença/atribuição.
-
-## Benchmark competitivo
-
-VozNativa mantém um protocolo separado para comparar:
-- modelo bruto;
-- prompt simples de "parecer humano";
-- `blader/humanizer`;
-- `phuryn/work-humanizer`;
-- Emulate-1;
-- VozNativa.
-
-A comparação separa **skill-only** de **system-level** para não confundir efeito de prompt/skill com efeito de um modelo especializado.
-
-O gate principal é preservação semântica + qualidade/voz. Detectores de IA, quando usados em pesquisa, ficam fora da função objetivo e não aprovam release.
-
-Veja:
-- `docs/COMPETITIVE_BENCHMARK.md`;
-- `docs/MODEL_ADAPTER_TRACK.md`;
-- `benchmarks/`.
-
-Também existe uma trilha opcional de modelo/adapter (incluindo LoRA/PEFT no futuro), mas ela só avança depois de Semantic Ledger, evals e benchmarks confiáveis.
-
-## Rodando a baseline
+Requer Python 3.11+. O núcleo semântico (`compare`, `ledger`, `judge-prompt`, `ground`) usa só a biblioteca padrão; roteamento, contrato e perfil usam PyYAML.
 
 ```bash
-python scripts/analyze.py texto.txt
-python scripts/semantic_guard.py original.txt candidata.txt
-python scripts/voice_profile.py amostra1.txt amostra2.txt
-python scripts/region_consistency.py texto.txt
+pip install -e .            # instala a CLI `voznativa` e o PyYAML
+# ou, sem instalar: python scripts/voznativa.py <comando>
+```
+
+Como skill:
+
+| Host | Instalação |
+|---|---|
+| Claude Code | plugin pela marketplace deste repositório (`.claude-plugin/`), ou copie a pasta para `~/.claude/skills/voznativa` |
+| Codex | coloque a pasta em `.agents/skills/voznativa` (repositório) ou `~/.agents/skills/voznativa` |
+| Gemini CLI | `gemini skills install <url-do-repositório> --consent` ou copie para `.gemini/skills/voznativa` |
+| Outros | qualquer host que leia `SKILL.md`; os comandos usam `python <skill>/scripts/voznativa.py` |
+
+O diretório instalado deve se chamar `voznativa` (a spec exige que o nome bata com o `name` do `SKILL.md`).
+
+## Usar a CLI
+
+```bash
+voznativa compare original.txt candidata.txt      # gate: exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz
+voznativa ledger texto.txt                         # inventário de valores e marcadores
+voznativa route texto.txt --channel email          # Context Contract
+voznativa refs texto.txt --budget 4000             # referências a carregar
+voznativa profile a1.txt a2.txt --channel whatsapp > perfil.json
+voznativa contract texto.txt --profile perfil.json --compact
+voznativa rewrite-prompt texto.txt --profile perfil.json   # prompt para o agente responder
+voznativa rewrite texto.txt --cmd "claude -p"      # loop completo com qualquer CLI de modelo
+voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
+voznativa ground doc.md --repo .                   # todo valor/caminho/comando tem fonte?
+voznativa eval evals/semantic/cases.jsonl
+voznativa benchmark benchmarks/cases/ptbr-v1.jsonl benchmarks/outputs --manifest m.json
+```
+
+No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1: ele troca acentos por `?` antes de o texto chegar ao programa. Os scripts de `scripts/*.py` da versão 0.1.0 continuam funcionando com os mesmos argumentos.
+
+## Regionalidade e voz
+
+"Sotaque escrito" é um atalho coloquial: sotaque é fonético. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso e formas de tratamento. Regionalidade é **distribuição, não decoração**: um pedido "mineiro informal" não autoriza inserir `uai` em toda frase. Enquanto não houver pack com proveniência e revisão humana, a força regional efetiva é 0 e o guard regional só detecta exagero.
+
+O Voice Profile observa ritmo, pontuação, abreviações, contrações, termos de comunidade e aberturas, com confiança limitada pelo número de amostras. Ele não guarda o texto nem palavras de tópico e não infere identidade.
+
+## Desenvolvimento
+
+```bash
 python scripts/validate_package.py
 python -m unittest discover -s evals -p "test_*.py"
 ```
 
-## Estado
+Toda correção de comportamento entra com um caso de regressão. Casos novos de eval vão para `evals/semantic/cases.jsonl`; os holdouts são congelados e não são editados depois de rodar.
 
-**v0.1.0 — foundation.**
+## Pesquisa e licenças
 
-A fundação está implementada e testável. Semantic Ledger profundo, Voice Drift real, packs regionais baseados em corpus, community packs, engine de rewrite e evals humanos continuam deliberadamente nas próximas versões.
+Projetos e corpora estudados, com versões e decisões: `docs/RESEARCH_LOG.md`. Licenças de terceiros: `docs/LICENSING.md`.
 
-Veja `ROADMAP.md`.
-
-## Licença
-
-A licença pública ainda não foi definida. Antes de tornar o repo público ou incorporar material de terceiros, revisar compatibilidade e atribuição.
+**Licença do VozNativa: ainda não definida** (proposta: Apache-2.0, ver `docs/LICENSING.md`). Até a decisão, não há permissão de reutilização.

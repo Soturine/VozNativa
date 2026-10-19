@@ -30,7 +30,7 @@ O que foi estudado, em que versão, o que mudou no VozNativa por causa disso e o
 | [ASSIN2](https://huggingface.co/datasets/nilc-nlp/assin2) + BERTimbau/Albertina/XLM-R | NLI em PT-BR como camada opcional do Semantic Guard | Pesquisa: licença do ASSIN2 `unknown`; exige eval próprio antes de virar gate |
 | [Claimify](https://aclanthology.org/2025.acl-long.348) (ACL 2025) | extração de claims com desambiguação | Inspirou o contrato do juiz (inventário de claims com status); extração automática não implementada |
 | [mStyleDistance](https://arxiv.org/abs/2502.15168v1) e [autoria multilíngue](https://arxiv.org/pdf/2509.16531) | voice match por embeddings de estilo | Pesquisa: LUAR é o mais fraco em PT (~76,8 no PAN); mStyleDistance é MIT |
-| [Wang et al., EMNLP Findings 2025] e [AuthorMix](https://arxiv.org/abs/2603.23069) (preprint) | imitação de estilo, adapters | LLMs falham mais em escrita informal; não há evidência de LoRA pessoal com poucas amostras. A trilha de adapter continua opcional e posterior. |
+| Wang et al. ("Catch Me If You Can? Not Yet", Findings of EMNLP 2025) e [AuthorMix](https://arxiv.org/abs/2603.23069) (preprint) | imitação de estilo, adapters | LLMs falham mais em escrita informal; não há evidência de LoRA pessoal com poucas amostras. A trilha de adapter continua opcional e posterior. |
 | [XFORMAL](https://arxiv.org/pdf/2104.04108) | formalidade PT-BR | Datado (2021) e sem licença no repositório |
 
 ## Corpora
