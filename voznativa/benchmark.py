@@ -11,7 +11,8 @@ import json
 import re
 from pathlib import Path
 
-from .compare import compare
+from .compare import apply_judgment, compare
+from .judge import validate as validate_judgment
 from .text import fold
 
 NEGATORS = {"nao", "nunca", "jamais", "nem", "nn"}
@@ -54,24 +55,31 @@ def invariant_preserved(phrase: str, original: str, candidate: str) -> bool:
     return any(_negated(candidate, p) == source_negated for p in found)
 
 
-def score_case(case: dict, candidate: str) -> dict:
+def score_case(case: dict, candidate: str, judgments: list[dict] | None = None) -> dict:
     original = case["text"]
-    report = compare(original, candidate)
+    deterministic = compare(original, candidate)
+    report = deterministic
+    for judgment in judgments or []:
+        report = apply_judgment(report, validate_judgment(judgment))
     span_codes = {"span_missing", "span_added", "binding_changed"}
-    protected_issues = [i for i in report["issues"] if i["code"] in span_codes and i["severity"] == "critical"]
+    protected_issues = [i for i in deterministic["issues"] if i["code"] in span_codes and i["severity"] == "critical"]
     explicit_missing = [v for v in case.get("must_preserve", [])
                         if not invariant_preserved(v, original, candidate)]
     expected = case.get("expected_status")
     return {
         "id": case["id"],
+        "deterministic_status": deterministic["status"],
         "status": report["status"],
+        "judgments": [{"kind": j["kind"], "judge_id": j["judge_id"], "verdict": j["verdict"]}
+                      for j in report["evidence"]["judgments"]],
+        **({"no_change_acceptable": True} if case.get("no_change_acceptable") else {}),
         "semantic_equivalence": report["semantic_equivalence"],
         "protected_ok": not protected_issues,
         "protected_missing": [{"type": i.get("type"), "text": i.get("text")} for i in protected_issues
                               if i["code"] == "span_missing"],
         "explicit_invariants_ok": not explicit_missing,
         "explicit_missing": explicit_missing,
-        "issue_codes": sorted({i["code"] for i in report["issues"]}),
+        "issue_codes": sorted({i["code"] for i in deterministic["issues"]}),
         "length_ratio": round(len(candidate.split()) / max(1, len(original.split())), 3),
         **({"expected_status": expected} if expected else {}),
     }
@@ -93,7 +101,10 @@ def summarize(rows: list[dict]) -> dict:
         # Denominator is every case: a skipped case is a failed case.
         "hard_pass_rate": round(hard_pass / total, 3) if total else None,
         "status_counts": statuses,
-        "auto_acceptable": sum(1 for r in completed if r.get("status") == "identical"),
+        "auto_acceptable": sum(1 for r in completed
+                               if r.get("status") in {"identical", "accepted_by_llm", "accepted_by_human"}),
+        "judgments_by_kind": {kind: sum(1 for r in completed for j in r.get("judgments", []) if j["kind"] == kind)
+                              for kind in ("llm", "human")},
     }
 
 
@@ -101,15 +112,28 @@ def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def run(cases_path: Path, outputs_root: Path) -> dict:
+def _judgments(system_dir: Path, case_id: str) -> list[dict]:
+    """``<case>.judgment*.json`` files next to the output, applied in name order."""
+    return [json.loads(p.read_text(encoding="utf-8")) for p in sorted(system_dir.glob(f"{case_id}.judgment*.json"))]
+
+
+def run(cases_path: Path, outputs_root: Path, manifest_path: Path | None = None) -> dict:
     cases = load_cases(cases_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path else None
     systems = sorted(p.name for p in outputs_root.iterdir() if p.is_dir()) if outputs_root.exists() else []
     report = {
         "kind": "voznativa.benchmark_report",
         "cases_file": str(cases_path),
         "cases_sha256": file_sha256(cases_path),
         "cases": len(cases),
-        "scoring": "deterministic tier 0 only; semantic equivalence is never asserted",
+        "scoring": {
+            "deterministic": "tier 0 (spans, markers, invariants); never asserts equivalence",
+            "llm_judgment": "applied only from <case>.judgment*.json with kind=llm; cannot resolve review",
+            "human": "applied only from judgment files with kind=human",
+            "detectors": "not used",
+        },
+        "manifest": manifest,
+        "warnings": [] if manifest else ["no manifest: system versions and models are unrecorded"],
         "systems": {},
     }
     for system in systems:
@@ -119,6 +143,7 @@ def run(cases_path: Path, outputs_root: Path) -> dict:
             if not candidate_path.exists():
                 rows.append({"id": case["id"], "missing_output": True})
                 continue
-            rows.append(score_case(case, candidate_path.read_text(encoding="utf-8")))
+            rows.append(score_case(case, candidate_path.read_text(encoding="utf-8"),
+                                   _judgments(outputs_root / system, case["id"])))
         report["systems"][system] = {**summarize(rows), "results": rows}
     return report

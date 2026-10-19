@@ -88,7 +88,7 @@ def cmd_eval(args):
 
 def cmd_benchmark(args):
     from .benchmark import run
-    report = run(Path(args.cases), Path(args.outputs))
+    report = run(Path(args.cases), Path(args.outputs), Path(args.manifest) if args.manifest else None)
     payload = json.dumps(report, ensure_ascii=False, indent=2)
     if args.json_path:
         Path(args.json_path).write_text(payload + "\n", encoding="utf-8")
@@ -267,6 +267,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("cases")
     p.add_argument("outputs")
     p.add_argument("--json", dest="json_path")
+    p.add_argument("--manifest", help="JSON with system versions, models and run settings")
     p.set_defaults(func=cmd_benchmark)
 
     p = sub.add_parser("route", help="build the Context Contract (genre, register, sources, flags)")

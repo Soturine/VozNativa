@@ -1,0 +1,18 @@
+{
+  "benchmark_version": "ptbr-v1",
+  "cases_file": "benchmarks/cases/ptbr-v1.jsonl",
+  "frozen_before_generation": true,
+  "run_date": "YYYY-MM-DD",
+  "class": "skill-only | system",
+  "base_model": {"name": "<model id>", "settings": {"temperature": null}},
+  "systems": {
+    "raw": {"prompt": "none"},
+    "one-line": {"prompt": "Reescreva para soar mais natural sem alterar o significado."},
+    "blader": {"repo": "https://github.com/blader/humanizer", "commit": "<sha>"},
+    "work-humanizer": {"repo": "https://github.com/phuryn/work-humanizer", "commit": "<sha>"},
+    "emulate": {"api": "v1/humanize", "date": "YYYY-MM-DD", "note": "requires >= 40 words; PT-BR support not documented"},
+    "voznativa": {"commit": "<sha>", "profile": null, "contract_flags": {}}
+  },
+  "judges": [{"kind": "llm", "judge_id": "<model id>"}, {"kind": "human", "judge_id": "<reviewer id>"}],
+  "detectors": "not used for scoring"
+}
