@@ -161,8 +161,24 @@ def check_docs(errors: list[str]) -> None:
         errors.append("agents/openai.yaml: interface.display_name is required")
 
 
+CONTROL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]|\r(?!\n)")
+TEXT_SUFFIXES = {".py", ".json", ".jsonl", ".yml", ".yaml", ".md", ".toml"}
+
+
+def check_text_files(errors: list[str]) -> None:
+    """Catch control characters (e.g. a backspace from an unescaped \\b, or a
+    bare CR) hidden inside source or data lines."""
+    for path in files("*"):
+        if path.is_file() and path.suffix in TEXT_SUFFIXES:
+            text = path.read_bytes().decode("utf-8", errors="replace")
+            for number, line in enumerate(text.split("\n"), 1):
+                if CONTROL_CHARS.search(line.rstrip("\r")):
+                    errors.append(f"{rel(path)}:{number}: control character inside the line")
+
+
 def validate() -> list[str]:
     errors = [f"missing required file: {p}" for p in REQUIRED if not (ROOT / p).exists()]
+    check_text_files(errors)
     check_skill(errors)
     check_data(errors)
     check_docs(errors)
