@@ -1,86 +1,41 @@
+# Voice Profile v2, as produced by `voznativa profile` (voznativa/profile.py).
+# Validated by voznativa.profile.validate(). Derived statistics only:
+# no raw text, no topic words, no identity attributes.
 schema_version: 2
+kind: voznativa.voice_profile
 locale: pt-BR
 profile:
-  id: null
-  created_at: null
-  updated_at: null
+  id: "<sha256 prefix of the sample hashes>"
+  created_at: "<ISO 8601>"
 source:
   type: samples
   sample_count: 0
-  channels: []
-  date_range:
-    from: null
-    to: null
-  provenance: []
-register:
-  label: null
-  formality: null
-  technicality: null
-  spontaneity: null
-  explicitness: null
-sentence:
-  mean_words: null
-  median_words: null
-  stdev_words: null
-  fragment_rate: null
-paragraph:
-  mean_sentences: null
-  stdev_sentences: null
-punctuation:
-  comma_rate: null
-  semicolon_rate: null
-  colon_rate: null
-  em_dash_rate: null
-  ellipsis_rate: null
-  question_rate: null
-  exclamation_rate: null
-  parentheses_rate: null
-lexicon:
-  recurring: []
-  avoided:
-    values: []
-    confidence: null
+  total_words: 0
+  channels: {}            # channel -> number of samples
+  sample_sha256: []       # hashes only; samples are not stored
+  date_range: {from: null, to: null}
+maturity: explicit_only   # explicit_only (<3 samples or <150 words) | provisional | channel_profile (>=6 in a channel)
+style:                    # per feature: mean, stdev (null with 1 window), n windows; see voznativa/features.py
+  sentence_words_mean: {mean: 0.0, stdev: null, n: 0}
+  # ... one entry per name in voznativa.features.FEATURES (all rates are per 100 words or per sentence)
+channels: {}              # channel -> same structure as style, for channels with >=2 samples
+habits:                   # observable habits with evidence
+  - id: abbreviation.vc   # abbreviation.* | contraction.* | community_term.* | opener.* | style.*
+    value: true
+    evidence_count: 0     # occurrences
+    sample_support: 0     # samples where it occurs
+    confidence: 0.0       # (support / samples) * samples / (samples + 1); 1 sample caps at 0.5
+    stability: low        # low (<0.5) | medium | high (>=0.75)
+    scope: lexicon
+lexicon:                  # v1-compatible summary lists
   abbreviations: []
   contractions: []
   foreign_terms: []
-  technical_terms: []
-discourse:
-  preferred_openers: []
-  preferred_closers: []
-  connectors: []
-  question_usage: null
-  example_position: null
-formatting:
-  markdown_usage: null
-  list_rate: null
-  heading_rate: null
-  emoji_rate: null
-  capitalization_style: null
-self_correction:
-  observed: null
-  rate: null
-regional:
-  target: null
-  strength: 0.0
-  evidence: []
-community:
-  targets: []
-temporal:
-  target_year: null
-  observed_from: null
-  observed_until: null
-features:
-  - id: null
-    value: null
-    confidence: null
-    stability: null
-    scope: null
-    evidence_count: null
+  recurring: []           # always empty: topic words are not stored
 inference_policy:
   observations_only: true
   infer_identity: false
   infer_sensitive_attributes: false
 privacy:
-  retain_raw_samples: null
-  consent_recorded: null
-notes: []
+  retain_raw_samples: false
+limitations: []
