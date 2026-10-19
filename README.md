@@ -50,7 +50,7 @@ ledger (spans + marcadores) ──┴─▶ rewrite-prompt / rewrite ─▶ cand
 | Context Router + Reference Selector | implementado; gênero `unknown` quando a evidência é fraca |
 | Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
 | Voice Profile v2 + Voice Contract | implementado; limiares heurísticos, sem calibração |
-| Rewrite Engine + providers | implementado (`command`, `static`, `emulate` opcional); não testado com modelo real neste ambiente |
+| Rewrite Engine + providers | implementado (`command`, `static`, `emulate` opcional); executado com um modelo real (claude-sonnet-5-5) em 14 textos; ver `docs/EVALUATION.md` |
 | Benchmark | tier determinístico + julgamentos por tipo; nenhuma execução real publicada |
 | Packs regionais, gíria temporal, community packs | **não calibrados**: força efetiva 0 |
 | Avaliação humana, corpus ingerido, adapters/LoRA | não implementados |
@@ -66,7 +66,7 @@ pip install -e .            # instala a CLI `voznativa` e o PyYAML
 # ou, sem instalar: python scripts/voznativa_cli.py <comando>
 ```
 
-Com `pip install .` (não editável), `refs`, `contract`, `profile` e `rewrite` precisam de `VOZNATIVA_HOME` apontando para um checkout, porque `references/` não vai dentro do pacote.
+O wheel inclui `references/` e `assets/` (em `voznativa/_bundled`), então todos os comandos funcionam sem checkout. `VOZNATIVA_HOME` só serve para apontar para outro checkout, por exemplo com referências editadas.
 
 Como skill:
 

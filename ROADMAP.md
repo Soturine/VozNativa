@@ -35,10 +35,12 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 ## v0.2 — Semantic Ledger
 - [x] ledger determinístico por sentença (spans + marcadores)
 - [ ] ledger estruturado de claims (extração automática; hoje só via juiz)
-- [~] entidades/relações: presença de entidades; troca de valores entre entidades; troca de agentes NÃO detectada
+- [~] entidades/relações: presença; troca de valores, de agentes e de atribuições (troca mútua); NÃO detecta pronomes, inversão ativa/passiva com a mesma ordem, fontes em minúscula
 - [x] modalidade e negação (léxico E1, concordância negativa, compostos im+possível)
 - [x] temporalidade: datas, horas, dias, relativos; antes/depois
-- [x] causalidade: causal x correlacional; direção causal invertida NÃO detectada
+- [x] causalidade: causal x correlacional; direção invertida dentro da frase (orientação dos conectores, causativas fazer/levar); entre frases NÃO detectada
+- [~] antônimos: 13 pares do léxico de polaridade; antônimos fora do léxico NÃO detectados
+- [x] julgamentos vinculados ao sha256 dos textos; revisão humana assinada (`voznativa review`)
 - [ ] spans protegidos configuráveis pelo usuário
 - [x] semantic-loss report (`voznativa compare`) com política conservadora
 - [x] contrato de juiz LLM/humano

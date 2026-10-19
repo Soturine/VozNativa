@@ -11,7 +11,8 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Semantic/factual lock | `voznativa/compare.py`, `voznativa/ledger.py`, `voznativa compare` | implemented, deterministic and conservative; best outcome is `unverified` without a judgment |
 | Protected span extraction | `voznativa/spans.py` (legacy wrappers in `scripts/`) | implemented: normalized keys for PT-BR money, dates, times, quantities, versions, identifiers, code, paths, quotes, entities |
 | Claim-level Semantic Ledger | `voznativa/judge.py` (contract) | partial: deterministic markers + judge contract; no automatic claim extraction or NLI model |
-| Semantic judge (LLM/human) | `voznativa judge-prompt`, `compare --judgment` | implemented contract; no bundled model; judgments recorded as evidence |
+| Relation checks | `voznativa/compare.py` (binding, causal direction, polarity, attribution) | partial: entity role swaps, attribution swaps, reversed causal direction within a sentence, antonym flips (13 pairs). Not detected: pronouns, cross-sentence causality, active/passive inversion with the same order, antonyms outside the lexicon, lower-case sources |
+| Semantic judge (LLM/human) | `voznativa judge-prompt`, `compare --judgment`, `voznativa/review.py` | implemented: judgments bound to the sha256 of both texts; model judges are always kind=llm; human verdicts accept only when signed by `voznativa review` (interactive terminal, per-user key); unsigned human JSON is `human_review_claimed`. The signature proves the key holder approved, not who they are |
 | Deterministic analyzer | `voznativa/analyze.py` | implemented (descriptive only; word lists E1, uncalibrated) |
 | Register model | `references/registers.md`, `voznativa/data/voice_defaults.yml` | partial: register defaults per genre feed the Voice Contract; register mismatch detection not implemented |
 | PT-BR pattern library | `references/patterns/` | specified: guidance for the rewriting model; no automatic pattern detector beyond connectors, metadiscourse and gerundism counts |
@@ -28,6 +29,8 @@ This document prevents design ideas from disappearing into README prose. Status 
 | False Positive Guard | `references/patterns/false-positives.md`, NO_CHANGE path in the engine, `false_red` eval cases | partial: NO_CHANGE and false-red evals exist; no automatic "this edit was unnecessary" detector |
 | Audit mode | `voznativa/audit.py` | partial: descriptive rates; semantic risk when the original is given; formulaicity/register still null |
 | Rewrite engine | `voznativa/engine.py`, `voznativa rewrite`, `voznativa rewrite-prompt` | implemented: generate, validate, retry with feedback, return original; not run against a real external model in this repository |
+| Real-model integration | `scripts/llm_integration.py`, `evals/integration/*.json` | recorded runs against claude-sonnet-5-5 through the Claude Code CLI (no tools, empty working directory); not part of CI, not deterministic, not human review |
+| Compatibility | CI matrix; local runs | verified: Linux 3.11/3.12/3.13 (containers), Windows 3.12 (installed) and 3.11/3.13 (embeddable packages) |
 | Provider adapter contract | `voznativa/providers.py` | implemented: command, static, Emulate (mapped from public docs, not validated live) |
 | Competitive benchmark protocol | `docs/COMPETITIVE_BENCHMARK.md` | specified; no real run published |
 | Benchmark deterministic runner | `voznativa/benchmark.py`, `voznativa benchmark` | implemented: tier 0, judgments by kind, manifest, missing outputs count as failures |
@@ -37,8 +40,8 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Personal LoRA/PEFT adapter | research track | not implemented |
 | Corpus-calibrated regional packs | roadmap v0.5 | not implemented |
 | Human regional evaluation | roadmap v0.5/v0.8 | not implemented |
-| Cross-genre eval suites | `evals/semantic/*.jsonl`, `evals/router/cases.jsonl`, `evals/test_*.py` | semantic: 50 dev + 24 + 16 holdout cases (author-written, synthetic); genre README folders are still scaffolds |
-| Package/CLI | `pyproject.toml`, `voznativa/cli.py`, `scripts/voznativa_cli.py` | implemented |
+| Cross-genre eval suites | `evals/semantic/*.jsonl`, `evals/semantic/MANIFEST.json`, `evals/router/cases.jsonl` | dev: 50 + 25 (relations); developer holdouts: 24 + 16 + 12, frozen with first-run results. None is independent validation (all written by the engine's developer); genre README folders are still scaffolds |
+| Package/CLI | `pyproject.toml`, `setup.py`, `MANIFEST.in`, `voznativa/cli.py`, `scripts/voznativa_cli.py` | implemented: the wheel bundles references/ and assets/; verified sdist -> wheel -> clean venv outside the checkout (Linux container, CI job on Linux and Windows) |
 | Agent packaging | `.claude-plugin/`, `agents/openai.yaml`, README install table | implemented; validated by `scripts/validate_package.py` |
 | Licensing | `docs/LICENSING.md` | proposal only; repository has no license |
 | Detector-evasion promise | prohibited | enforced by design (no detector in any gate) |

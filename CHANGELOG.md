@@ -14,6 +14,14 @@
 - Regional guard compared region codes case-sensitively (`MG` != `mg`).
 - CLI stdin was decoded with the console code page on Windows, which erased `não`.
 - Idiomatic `é só` / `só que` / `não só... mas` were read as restrictive quantifiers or negation (found in a real skill-mode rewrite).
+- Pre-push qualification audit:
+  - collapsing a Markdown list or merging paragraphs returned `identical`, the only auto-accepted status;
+  - entity presence and grounding used substrings (`Ana` found in `banana`, `17` supported by `2017`);
+  - negation flips in short sentences (`Não vou.` -> `Vou.`) only needed review;
+  - a JSON file with `"kind": "human"` accepted a candidate on its own;
+  - a non-editable install had no `references/`; `scripts/voznativa.py` could shadow the package;
+  - the judge parser rejected a real model answer with a ```json fence and a trailing comma;
+  - the Voice Contract -> Emulate style mapping was never applied.
 
 ### Added
 - `voznativa` Python package and CLI (`ledger`, `compare`, `judge-prompt`, `analyze`, `audit`, `region`, `drift`, `eval`, `benchmark`); legacy `scripts/*.py` are thin wrappers with the same arguments.
@@ -31,6 +39,11 @@
 - Benchmark: `ptbr-v1` cases (47-58 words), judgments applied by kind, manifest recording.
 - `SKILL.md` rewritten as an operational router; Claude Code plugin manifests; Codex invocation policy; `scripts/voznativa_cli.py` entry point.
 - `docs/EVALUATION.md`, `docs/RESEARCH_LOG.md`, `docs/LICENSING.md` (license proposal only; the repository still has no license).
+- Relation checks: entity role swaps, attribution swaps, reversed causal direction inside a sentence (connector orientation, causative fazer/levar) and antonym flips (13 polarity pairs); `relations.jsonl` and the frozen `holdout-relations.jsonl` (blind first run 11/12).
+- Judgments bound to the sha256 of both texts; `voznativa review` records signed human reviews from an interactive terminal; unsigned human JSON becomes `human_review_claimed`.
+- `evals/semantic/MANIFEST.json`: author, frozen hash, first-run result and contamination per suite; `voznativa eval --require-frozen`.
+- Wheel bundles `references/` and `assets/`; CI packaging job (sdist -> wheel -> clean venv -> commands outside the checkout) on Linux and Windows; PTY check of the interactive review.
+- `scripts/llm_integration.py` and `evals/integration/`: recorded runs of the engine against a real external model.
 
 ### Changed
 - `mechanicality` is now a set of descriptive rates; ordinary gerunds are no longer penalized.
