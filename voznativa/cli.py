@@ -17,7 +17,24 @@ from pathlib import Path
 from . import __version__
 
 EXIT_BY_STATUS = {"identical": 0, "accepted_by_llm": 0, "accepted_by_human": 0, "fail": 1,
-                  "review_required": 2, "no_deterministic_issues": 3}
+                  "review_required": 2, "human_review_claimed": 2, "no_deterministic_issues": 3}
+
+
+def cmd_review(args):
+    """Interactive human review; refuses to run without a terminal."""
+    from .compare import apply_judgment, compare
+    from .review import interactive_review, key_path
+    if not (sys.stdin.isatty() and sys.stdout.isatty()):
+        raise ValueError("voznativa review needs an interactive terminal: a person must answer it. "
+                         "Agents and scripts cannot record a human review.")
+    original, candidate = _read(args.original), _read(args.candidate)
+    report = compare(original, candidate)
+    judgment = interactive_review(original, candidate, report, args.reviewer)
+    Path(args.out).write_text(json.dumps(judgment, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    from .judge import validate
+    final = apply_judgment(report, validate(judgment, original, candidate))
+    sys.stdout.write(f"saved {args.out} (signed with {key_path()}); status: {final['status']}\n")
+    return EXIT_BY_STATUS.get(final["status"], 2)
 
 
 def _read(path: str) -> str:
@@ -43,9 +60,10 @@ def cmd_ledger(args):
 def cmd_compare(args):
     from .compare import apply_judgment, compare
     from .judge import validate
-    report = compare(_read(args.original), _read(args.candidate))
+    original, candidate = _read(args.original), _read(args.candidate)
+    report = compare(original, candidate)
     for path in args.judgment or []:
-        report = apply_judgment(report, validate(json.loads(_read(path))))
+        report = apply_judgment(report, validate(json.loads(_read(path)), original, candidate))
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -233,6 +251,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("candidate")
     p.add_argument("--judgment", action="append", help="judgment JSON from an LLM or human (repeatable)")
     p.set_defaults(func=cmd_compare)
+
+    p = sub.add_parser("review", help="record a signed human review (interactive terminal only)")
+    p.add_argument("original")
+    p.add_argument("candidate")
+    p.add_argument("--reviewer", required=True, help="who is reviewing (name or id)")
+    p.add_argument("--out", required=True, help="where to save the signed judgment JSON")
+    p.set_defaults(func=cmd_review)
 
     p = sub.add_parser("judge-prompt", help="print the semantic-judge prompt for any LLM or reviewer")
     p.add_argument("original")

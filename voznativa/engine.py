@@ -27,6 +27,7 @@ from . import region as region_mod
 from .compare import apply_judgment, compare
 from .paths import home
 from .references import select
+from .review import content_hash
 
 NO_CHANGE = "NO_CHANGE"
 STATUS_RANK = {"identical": 0, "accepted_by_human": 0, "accepted_by_llm": 1, "no_deterministic_issues": 2,
@@ -176,13 +177,17 @@ def rewrite(text: str, context: dict, provider, profile: dict | None = None, exp
     if judge_provider is not None and report["status"] == "no_deterministic_issues":
         raw = judge_provider.generate(judge_mod.prompt(text, candidate, report), 1)[0]
         try:
-            judgment = judge_mod.validate(_extract_json(raw))
-            report = apply_judgment(report, judgment)
+            answer = _extract_json(raw)
+            # A model provider is never a human reviewer, whatever it writes; and the
+            # engine knows which texts it asked about, so it binds the hashes itself.
+            answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
+            answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
+            report = apply_judgment(report, judge_mod.validate(answer, text, candidate))
         except ValueError as error:
             report = dict(report, judge_error=str(error))
     outcome = {"accepted_by_llm": "accepted", "accepted_by_human": "accepted", "identical": "no_change",
                "no_deterministic_issues": "needs_judgment", "review_required": "needs_review",
-               "fail": "returned_original"}[report["status"]]
+               "human_review_claimed": "needs_review", "fail": "returned_original"}[report["status"]]
     if outcome == "returned_original":
         return _result(outcome, text, report, history, provider, voice_contract, selection,
                        reason="the judge rejected the best candidate")

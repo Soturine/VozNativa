@@ -13,11 +13,15 @@ from datetime import datetime, timezone
 
 from . import ledger as ledger_mod
 from .compare import JUDGE_KINDS, JUDGE_VERDICTS
+from .review import content_hash
+from .review import verify as verify_review
 
 CLAIM_STATUSES = {"preserved", "omitted", "changed", "strengthened", "weakened", "reversed"}
 
 RESPONSE_SCHEMA = {
-    "kind": "llm | human",
+    "kind": "llm (agents must never write 'human'; people use `voznativa review`)",
+    "original_sha256": "copy from BINDING",
+    "candidate_sha256": "copy from BINDING",
     "judge_id": "model name/version or reviewer id",
     "verdict": "equivalent | not_equivalent | uncertain",
     "claims": [{"source": "claim as stated in the ORIGINAL", "status": "|".join(sorted(CLAIM_STATUSES)),
@@ -48,6 +52,8 @@ def prompt(original: str, candidate: str, report: dict | None = None) -> str:
     return "\n\n".join([
         INSTRUCTIONS,
         "RESPONSE_SCHEMA:\n" + json.dumps(RESPONSE_SCHEMA, ensure_ascii=False, indent=2),
+        "BINDING (copie estes valores; um julgamento para outros textos é recusado):\n" + json.dumps(
+            {"original_sha256": content_hash(original), "candidate_sha256": content_hash(candidate)}, indent=2),
         "LEDGER (determinístico, do ORIGINAL):\n" + json.dumps(
             {"protected": led["protected"], "signals": led["signals"]}, ensure_ascii=False, indent=2),
         "ACHADOS DETERMINÍSTICOS (não provam equivalência):\n" + json.dumps(findings, ensure_ascii=False, indent=2),
@@ -56,11 +62,15 @@ def prompt(original: str, candidate: str, report: dict | None = None) -> str:
     ])
 
 
-def validate(judgment: dict) -> dict:
-    """Return a normalized judgment. Raises ValueError on malformed input.
+def validate(judgment: dict, original: str, candidate: str) -> dict:
+    """Return a normalized judgment bound to ``original`` and ``candidate``.
 
-    A verdict of ``equivalent`` that lists non-preserved claims or added claims
-    contradicts itself and is downgraded to ``uncertain``.
+    Raises ValueError on malformed input or when the judgment was made for
+    other texts (its sha256 fields must match). A verdict of ``equivalent``
+    that lists non-preserved or added claims contradicts itself and is
+    downgraded to ``uncertain``. Human judgments get an ``authenticity``
+    field; only ``verified`` (signed by ``voznativa review`` with the local
+    key) can accept a candidate.
     """
     if not isinstance(judgment, dict):
         raise ValueError("judgment must be a JSON object")
@@ -71,17 +81,26 @@ def validate(judgment: dict) -> dict:
         raise ValueError(f"verdict must be one of {sorted(JUDGE_VERDICTS)}")
     if not judgment.get("judge_id"):
         raise ValueError("judge_id is required so the evidence has a source")
+    for field, text in (("original_sha256", original), ("candidate_sha256", candidate)):
+        if not judgment.get(field):
+            raise ValueError(f"judgment is not bound to the texts: missing {field} (see judge-prompt)")
+        if judgment[field] != content_hash(text):
+            raise ValueError(f"judgment was made for other texts: {field} does not match")
     claims = judgment.get("claims", [])
     for claim in claims:
         if claim.get("status") not in CLAIM_STATUSES:
             raise ValueError(f"claim status must be one of {sorted(CLAIM_STATUSES)}: {claim}")
     normalized = dict(judgment)
     normalized.setdefault("recorded_at", datetime.now(timezone.utc).isoformat(timespec="seconds"))
+    if kind == "human":
+        normalized["authenticity"] = verify_review(judgment)
+    interactive = kind == "human" and normalized.get("authenticity") == "verified" and \
+        (judgment.get("attestation") or {}).get("method") == "interactive_tty"
     problems = [c for c in claims if c["status"] != "preserved"]
     if verdict == "equivalent" and (problems or judgment.get("added_claims")):
         normalized["verdict"] = "uncertain"
         normalized["downgraded"] = "equivalent verdict contradicted its own claim list"
-    if verdict == "equivalent" and not claims:
+    elif verdict == "equivalent" and not claims and not interactive:
         normalized["verdict"] = "uncertain"
         normalized["downgraded"] = "equivalent verdict without any claim inventory"
     return normalized

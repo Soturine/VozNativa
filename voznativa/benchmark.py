@@ -60,7 +60,7 @@ def score_case(case: dict, candidate: str, judgments: list[dict] | None = None) 
     deterministic = compare(original, candidate)
     report = deterministic
     for judgment in judgments or []:
-        report = apply_judgment(report, validate_judgment(judgment))
+        report = apply_judgment(report, validate_judgment(judgment, original, candidate))
     span_codes = {"span_missing", "span_added", "binding_changed"}
     protected_issues = [i for i in deterministic["issues"] if i["code"] in span_codes and i["severity"] == "critical"]
     explicit_missing = [v for v in case.get("must_preserve", [])
@@ -70,7 +70,8 @@ def score_case(case: dict, candidate: str, judgments: list[dict] | None = None) 
         "id": case["id"],
         "deterministic_status": deterministic["status"],
         "status": report["status"],
-        "judgments": [{"kind": j["kind"], "judge_id": j["judge_id"], "verdict": j["verdict"]}
+        "judgments": [{"kind": j["kind"], "judge_id": j["judge_id"], "verdict": j["verdict"],
+                       **({"authenticity": j["authenticity"]} if j["kind"] == "human" else {})}
                       for j in report["evidence"]["judgments"]],
         **({"no_change_acceptable": True} if case.get("no_change_acceptable") else {}),
         "semantic_equivalence": report["semantic_equivalence"],
@@ -105,6 +106,8 @@ def summarize(rows: list[dict]) -> dict:
                                if r.get("status") in {"identical", "accepted_by_llm", "accepted_by_human"}),
         "judgments_by_kind": {kind: sum(1 for r in completed for j in r.get("judgments", []) if j["kind"] == kind)
                               for kind in ("llm", "human")},
+        "human_judgments_verified": sum(1 for r in completed for j in r.get("judgments", [])
+                                        if j["kind"] == "human" and j.get("authenticity") == "verified"),
     }
 
 

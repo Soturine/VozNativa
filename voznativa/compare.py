@@ -436,7 +436,9 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
 
     * Deterministic ``fail`` is never overridden.
     * An LLM ``equivalent`` verdict only upgrades ``no_deterministic_issues``.
-    * A human ``equivalent`` verdict also resolves ``review_required``.
+    * A human ``equivalent`` verdict also resolves ``review_required``, but only
+      when its signature verified (``authenticity == "verified"``); otherwise
+      the result is ``human_review_claimed`` and nothing is accepted.
     * ``not_equivalent`` from anyone downgrades to ``fail``; ``uncertain`` to review.
     """
     kind = judgment.get("kind")
@@ -449,7 +451,14 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
     if status in {"fail", "identical"}:
         return merged
     if verdict == "not_equivalent":
+        # Rejections are accepted from any source: they can only make the result safer.
         merged.update(status="fail", semantic_equivalence="violated", safe_to_auto_accept=False, requires=[])
+    elif kind == "human" and judgment.get("authenticity") != "verified":
+        merged.update(status="human_review_claimed", safe_to_auto_accept=False,
+                      requires=["verified_human_review"],
+                      human_review={"authenticity": judgment.get("authenticity", "unsigned"),
+                                    "note": "a JSON file alone does not prove a human review; "
+                                            "run `voznativa review` in an interactive terminal"})
     elif verdict == "uncertain":
         merged.update(status="review_required", safe_to_auto_accept=False, requires=["human_review"])
     elif status == "no_deterministic_issues" or (status == "review_required" and kind == "human"):

@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT))
 
 from voznativa.benchmark import invariant_preserved, load_cases, run
 from voznativa.providers import EMULATE_MIN_WORDS
+from voznativa.review import content_hash
 
 CASES = ROOT / "benchmarks" / "cases" / "ptbr-v1.jsonl"
 
@@ -33,11 +34,14 @@ class Runner(unittest.TestCase):
         self.case = case
         good = self.outputs / "sys-a"
         good.mkdir()
-        (good / f"{case['id']}.txt").write_text(case["text"].replace("Prezados, boa tarde.", "Boa tarde, pessoal."),
-                                               encoding="utf-8")
-        judgment = {"kind": "llm", "judge_id": "fake-llm", "verdict": "equivalent",
+        candidate = case["text"].replace("Prezados, boa tarde.", "Boa tarde, pessoal.")
+        (good / f"{case['id']}.txt").write_text(candidate, encoding="utf-8")
+        bound = {"original_sha256": content_hash(case["text"]), "candidate_sha256": content_hash(candidate)}
+        judgment = {"kind": "llm", "judge_id": "fake-llm", "verdict": "equivalent", **bound,
                     "claims": [{"source": "x", "status": "preserved"}], "added_claims": []}
         (good / f"{case['id']}.judgment-1.json").write_text(json.dumps(judgment), encoding="utf-8")
+        claimed = {**judgment, "kind": "human", "judge_id": "someone"}
+        (good / f"{case['id']}.judgment-2.json").write_text(json.dumps(claimed), encoding="utf-8")
         bad = self.outputs / "sys-b"
         bad.mkdir()
         (bad / f"{case['id']}.txt").write_text(case["text"].replace("22h", "23h"), encoding="utf-8")
@@ -51,7 +55,10 @@ class Runner(unittest.TestCase):
         row = next(r for r in a["results"] if r["id"] == self.case["id"])
         self.assertIn(row["deterministic_status"], {"no_deterministic_issues", "review_required"})
         self.assertEqual(row["judgments"][0]["kind"], "llm")
-        self.assertEqual(a["judgments_by_kind"], {"llm": 1, "human": 0})
+        self.assertEqual(a["judgments_by_kind"], {"llm": 1, "human": 1})
+        # The unsigned human file is recorded but proves nothing.
+        self.assertEqual(row["judgments"][1]["authenticity"], "unsigned")
+        self.assertEqual(a["human_judgments_verified"], 0)
         self.assertEqual(report["scoring"]["detectors"], "not used")
 
     def test_missing_outputs_and_failures_lower_the_rate(self):

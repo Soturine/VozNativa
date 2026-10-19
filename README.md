@@ -39,7 +39,7 @@ ledger (spans + marcadores) ──┴─▶ rewrite-prompt / rewrite ─▶ cand
                       juiz LLM ou humano (judge-prompt, --judgment)
 ```
 
-**Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento, e um juiz LLM não resolve um `review_required` (só um humano resolve). Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
+**Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento vinculado ao sha256 dos dois textos, e um juiz LLM não resolve um `review_required`. Só uma revisão humana **assinada** (`voznativa review`, que exige terminal interativo e assina com uma chave em `~/.voznativa/`) resolve; um JSON com `"kind": "human"` sem assinatura válida fica como `human_review_claimed`. A assinatura prova que o dono da chave nesta máquina aprovou aqueles textos, não quem é a pessoa. Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
 
 ## Estado (0.2.0.dev0)
 
@@ -91,6 +91,7 @@ voznativa contract texto.txt --profile perfil.json --compact
 voznativa rewrite-prompt texto.txt --profile perfil.json   # prompt para o agente responder
 voznativa rewrite texto.txt --cmd "claude -p"      # loop completo com qualquer CLI de modelo
 voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
+voznativa review original.txt candidata.txt --reviewer ana --out revisao.json   # revisão humana assinada (só em terminal)
 voznativa ground doc.md --repo .                   # todo valor/caminho/comando tem fonte?
 voznativa eval evals/semantic/cases.jsonl
 voznativa benchmark benchmarks/cases/ptbr-v1.jsonl benchmarks/outputs --manifest m.json
