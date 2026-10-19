@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-import json, sys
+"""Legacy alias of ``semantic_guard.py TEXT``: list protected spans."""
+import json
+import sys
 from pathlib import Path
+
 from semantic_guard import extract
 
 if __name__ == "__main__":

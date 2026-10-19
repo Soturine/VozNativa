@@ -1,63 +1,43 @@
 #!/usr/bin/env python3
+"""Legacy entry point for protected-span checks.
+
+Kept for compatibility with v0.1.0 callers. New code should use
+``voznativa compare`` (full ledger report) instead of this summary.
+"""
 import json
-import re
 import sys
-from collections import Counter
 from pathlib import Path
 
-# Order matters: more specific spans are reserved before generic numbers.
-PATTERNS = [
-    ("url", r"https?://\S+"),
-    ("date", r"\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2})\b"),
-    ("money", r"R\$\s?\d[\d.]*?(?:,\d{2})?\b"),
-    ("percent", r"\b\d+(?:[.,]\d+)?%"),
-    ("identifier", r"\b[A-Z]{2,}[A-Z0-9_-]*-?\d+[A-Z0-9_-]*\b"),
-    ("number", r"\b\d+(?:[.,]\d+)?\b"),
-]
+import _bootstrap  # noqa: F401
+from voznativa import spans as _spans
+from voznativa.compare import compare
+
+_SPAN_CODES = {"span_missing", "span_added", "binding_changed"}
+
 
 def extract(text: str) -> list[dict]:
-    occupied: list[tuple[int, int]] = []
-    out: list[dict] = []
+    return [span.as_dict() for span in _spans.extract(text)]
 
-    for kind, pattern in PATTERNS:
-        for match in re.finditer(pattern, text):
-            start, end = match.span()
-            if any(start < used_end and end > used_start for used_start, used_end in occupied):
-                continue
-            occupied.append((start, end))
-            out.append({
-                "type": kind,
-                "text": match.group(0),
-                "start": start,
-                "end": end,
-            })
-
-    return sorted(out, key=lambda item: item["start"])
-
-def _counts(text: str) -> Counter:
-    return Counter((item["type"], item["text"]) for item in extract(text))
 
 def guard(original: str, candidate: str) -> dict:
-    original_counts = _counts(original)
-    candidate_counts = _counts(candidate)
-    missing = []
-
-    for key, expected_count in original_counts.items():
-        actual_count = candidate_counts.get(key, 0)
-        if actual_count < expected_count:
-            kind, value = key
-            missing.append({
-                "type": kind,
-                "text": value,
-                "expected_count": expected_count,
-                "actual_count": actual_count,
-            })
-
+    """Protected-content summary. ``ok`` means no deterministic span violation;
+    it never means the candidate is semantically equivalent (see ``status``)."""
+    report = compare(original, candidate)
+    span_issues = [i for i in report["issues"] if i["code"] in _SPAN_CODES and i["severity"] == "critical"]
+    missing = [{"type": i["type"], "text": i["text"], "expected_count": i["expected_count"],
+                "actual_count": i["actual_count"]} for i in span_issues if i["code"] == "span_missing"]
+    added = [{"type": i["type"], "text": i["text"]} for i in span_issues if i["code"] == "span_added"]
+    swapped = [{"text": i["text"]} for i in span_issues if i["code"] == "binding_changed"]
     return {
-        "ok": not missing,
+        "ok": not span_issues,
         "missing": missing,
-        "protected_count": sum(original_counts.values()),
+        "added": added,
+        "swapped": swapped,
+        "protected_count": len(_spans.extract(original)),
+        "status": report["status"],
+        "semantic_equivalence": report["semantic_equivalence"],
     }
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
