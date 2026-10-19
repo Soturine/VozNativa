@@ -1,0 +1,101 @@
+# Reference manifest used by `voznativa refs` (progressive disclosure).
+#
+# Each entry says when a reference is worth loading. The selector scores
+# entries against the Context Contract and fills a word budget in priority
+# order. Word counts are computed from the files at run time.
+#
+# when.tasks / genres / channels: match lists ("*" = any)
+# when.requires: contract flags that must be true (has_voice_samples,
+#   regional_target, community_target, slang_target, spoken)
+# priority: lower loads first among matching entries.
+schema_version: 1
+entries:
+  - path: references/patterns/false-positives.md
+    purpose: Evitar editar escolhas legítimas; casos NO_CHANGE.
+    when: {tasks: [rewrite, audit, compare]}
+    priority: 10
+
+  - path: references/patterns/pt-br.md
+    purpose: Famílias de padrões PT-BR (oficialês, ENEM-ismo, gerundismo, conectivos).
+    when: {tasks: [rewrite, audit, create]}
+    priority: 20
+
+  - path: references/genres/technical.md
+    purpose: Conteúdo protegido e estilo de documentação técnica.
+    when: {tasks: ["*"], genres: [technical, documentation]}
+    priority: 15
+
+  - path: references/genres/academic.md
+    purpose: Modalidade epistêmica, citação e delimitação em texto acadêmico.
+    when: {tasks: ["*"], genres: [academic]}
+    priority: 15
+
+  - path: references/genres/corporate.md
+    purpose: Prazo, responsável e compromisso em comunicação de trabalho.
+    when: {tasks: ["*"], genres: [corporate, email, legal]}
+    priority: 15
+
+  - path: references/genres/social.md
+    purpose: Opinião sem storytelling inventado em posts e LinkedIn.
+    when: {tasks: ["*"], genres: [social, linkedin]}
+    priority: 15
+
+  - path: references/genres/whatsapp.md
+    purpose: Espontaneidade e idioleto em chat sem caricatura.
+    when: {tasks: ["*"], genres: [whatsapp, chat]}
+    priority: 15
+
+  - path: references/genres/literary.md
+    purpose: Proteger escolhas estilísticas intencionais.
+    when: {tasks: ["*"], genres: [literary, storytelling]}
+    priority: 15
+
+  - path: references/patterns/structural.md
+    purpose: Regularidade estrutural que independe do conteúdo.
+    when: {tasks: [rewrite, audit], genres: [academic, corporate, social, linkedin, technical, documentation, journalistic, unknown]}
+    priority: 30
+
+  - path: references/patterns/rhetorical.md
+    purpose: Ênfase sem informação, contraste teatral, storytelling sintético.
+    when: {tasks: [rewrite, audit, create], genres: [social, linkedin, academic, corporate, journalistic, unknown]}
+    priority: 30
+
+  - path: references/patterns/formatting.md
+    purpose: Formatação aplicada por hábito do gerador.
+    when: {tasks: [rewrite, audit], genres: [documentation, technical, social, linkedin, corporate]}
+    priority: 35
+
+  - path: references/registers.md
+    purpose: Dimensões de registro e resolução de conflito.
+    when: {tasks: [rewrite, create], requires_any: [register_explicit, register_conflict]}
+    priority: 25
+
+  - path: references/VOICE_STACK.md
+    purpose: Precedência entre autor, canal, gênero, comunidade e região.
+    when: {tasks: [rewrite, create, profile], requires_any: [has_voice_samples, regional_target, community_target]}
+    priority: 22
+
+  - path: references/voice/idiolect.md
+    purpose: Como observar e aplicar idioleto sem inferir identidade.
+    when: {tasks: [rewrite, create, profile], requires_any: [has_voice_samples]}
+    priority: 24
+
+  - path: references/regions/README.md
+    purpose: Regionalidade como distribuição; guard contra caricatura.
+    when: {tasks: ["*"], requires_any: [regional_target]}
+    priority: 26
+
+  - path: references/communities/README.md
+    purpose: Terminologia de comunidade de prática.
+    when: {tasks: ["*"], requires_any: [community_target]}
+    priority: 28
+
+  - path: references/slang/schema.yml
+    purpose: Gíria com temporalidade e do_not_force.
+    when: {tasks: [rewrite, create], requires_any: [slang_target]}
+    priority: 40
+
+  - path: references/corpora/c-oral-brasil.md
+    purpose: Oralidade espontânea para roteiro/fala (não é escrita).
+    when: {tasks: [rewrite, create], requires_any: [spoken]}
+    priority: 45

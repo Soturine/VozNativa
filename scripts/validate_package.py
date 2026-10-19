@@ -104,8 +104,19 @@ def check_data(errors: list[str]) -> None:
             if row.get("id") in ids:
                 errors.append(f"{rel(path)}:{number}: duplicate id {row.get('id')}")
             ids.add(row.get("id"))
-            if "expect" in row and not row["expect"].get("status"):
+            expect = row.get("expect")
+            if rel(path).startswith("evals/semantic") and not (isinstance(expect, dict) and expect.get("status")):
                 errors.append(f"{rel(path)}:{number}: expect.status must list accepted statuses")
+            if rel(path).startswith("evals/router") and not (isinstance(expect, list) and expect):
+                errors.append(f"{rel(path)}:{number}: expect must list accepted genres")
+    index = ROOT / "references" / "index.yml"
+    if index.exists():
+        for entry in (yaml.safe_load(index.read_text(encoding="utf-8")) or {}).get("entries", []):
+            missing = [k for k in ("path", "purpose", "when", "priority") if k not in entry]
+            if missing:
+                errors.append(f"references/index.yml: entry {entry.get('path')} missing {missing}")
+            elif not (ROOT / entry["path"]).exists():
+                errors.append(f"references/index.yml points to missing file: {entry['path']}")
     for path in files("voznativa/data/*.json"):
         data = json.loads(path.read_text(encoding="utf-8"))
         if "schema_version" not in data or "level" not in data.get("evidence", {}):

@@ -1,0 +1,16 @@
+{"id":"rt-001","text":"Para instalar, rode `pip install voznativa` e depois execute `voznativa compare a.txt b.txt`. O comando retorna JSON.","expect":["documentation","technical"]}
+{"id":"rt-002","text":"O endpoint /v1/pedidos retorna HTTP 409 quando duas requisições alteram o mesmo registro. O timeout padrão é 30 s e o serviço roda em PostgreSQL 17.","expect":["technical"]}
+{"id":"rt-003","text":"Os resultados indicam que a intervenção reduziu a evasão (Silva et al., 2021). A amostra contou com 120 participantes e o intervalo de confiança foi de 95%.","expect":["academic"]}
+{"id":"rt-004","text":"Prezados,\n\nsegue em anexo o relatório de status do projeto. O prazo de entrega continua para sexta-feira.\n\nAtenciosamente,\nMarina","expect":["email"]}
+{"id":"rt-005","text":"vc viu o deploy de hj?? nn subiu ainda kkk manda msg qnd der","expect":["whatsapp"]}
+{"id":"rt-006","text":"Cláusula 4ª. Fica vedado ao locatário sublocar o imóvel sem autorização do locador, nos termos do art. 13 da Lei 8.245.","expect":["legal"]}
+{"id":"rt-007","text":"Depois de três anos, aprendi que carreira não é linha reta. Hoje compartilho com orgulho uma conquista do time. #carreira #gratidão","expect":["social"]}
+{"id":"rt-008","text":"Segundo o IBGE, a inflação de setembro foi de 0,44%. Em nota divulgada nesta quarta, o instituto afirmou que alimentos puxaram o índice.","expect":["journalistic"]}
+{"id":"rt-009","text":"Na reunião de alinhamento, o cliente pediu para antecipar a entrega. A equipe vai revisar o orçamento e os próximos passos até o fim do mês.","expect":["corporate"]}
+{"id":"rt-010","text":"A casa ficou em silêncio depois da chuva. Na memória dela, a noite ainda tinha cheiro de terra molhada.","expect":["literary"]}
+{"id":"rt-011","text":"Obrigado.","expect":["unknown"]}
+{"id":"rt-012","text":"Precisamos conversar sobre isso amanhã.","expect":["unknown","whatsapp","corporate"]}
+{"id":"rt-013","text":"# Guia de contribuição\n\n1. Faça um fork.\n2. Crie uma branch.\n3. Rode os testes com `python -m unittest`.\n4. Abra o pull request.","expect":["documentation"]}
+{"id":"rt-014","text":"Oi, pessoal! Bom dia. A reunião de amanhã foi cancelada; o cliente pediu para remarcar. Abraços,","expect":["email","corporate"]}
+{"id":"rt-015","text":"O objetivo deste estudo é avaliar a hipótese de que a metodologia ativa melhora o desempenho. A revisão de literatura aponta resultados mistos.","expect":["academic"]}
+{"id":"rt-016","text":"Eu acho que a gente devia sair mais cedo amanhã, o trânsito tá impossível.","expect":["unknown","whatsapp"]}
