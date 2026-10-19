@@ -47,12 +47,15 @@ Pode refletir oralidade, autocorreção e ritmo.
 
 ## Resolução de conflito
 
-Quando dimensões conflitam:
-1. preservar significado;
-2. obedecer ao gênero;
-3. obedecer ao canal;
-4. preservar amostra do autor;
-5. aplicar registro solicitado;
-6. usar regionalidade/community como nuance.
+A ordem canônica está em `references/VOICE_STACK.md` e é implementada por `voznativa contract`. Para registro, ela se traduz assim:
+
+1. preservar significado e **convenções obrigatórias** do gênero (citação no estilo exigido, terminologia normativa, estrutura de template). São restrições, não preferências;
+2. aplicar o registro pedido explicitamente pelo usuário;
+3. seguir a amostra do autor no mesmo canal;
+4. seguir o perfil geral do autor;
+5. usar as preferências *não obrigatórias* do gênero, canal e público;
+6. usar comunidade e regionalidade só como nuance.
+
+Uma preferência de gênero ("acadêmico costuma evitar primeira pessoa") cede à amostra do autor; uma exigência de gênero ("a citação segue ABNT") não cede.
 
 Formalidade nunca deve sobrescrever precisão ou voz observada sem motivo explícito.

@@ -94,23 +94,7 @@ Não tratar uma ocorrência como hábito.
 
 ## Precedência
 
-```text
-semantic preservation
-    >
-explicit user instruction
-    >
-author sample for this channel
-    >
-author general profile
-    >
-channel/register
-    >
-community
-    >
-regionality
-    >
-generic pt-BR
-```
+A ordem canônica está em `references/VOICE_STACK.md` (implementada por `voznativa contract`). O ponto que importa para idioleto: a amostra do autor no mesmo canal vem logo depois da preservação semântica, das convenções obrigatórias do gênero e da instrução explícita, e acima do perfil geral do autor.
 
 ## Voice drift
 

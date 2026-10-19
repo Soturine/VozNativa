@@ -6,8 +6,10 @@ Voice Stack resolve conflitos entre voz pessoal, canal, gênero, comunidade, reg
 
 ## Ordem de precedência
 
+Esta é a ordem canônica; outros documentos apontam para cá.
+
 ```text
-1. preservação semântica
+1. preservação semântica + convenções obrigatórias do gênero (restrições)
 2. instrução explícita da tarefa
 3. amostras do autor no mesmo canal
 4. perfil geral do autor
