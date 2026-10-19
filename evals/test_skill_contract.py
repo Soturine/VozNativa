@@ -52,13 +52,18 @@ class SkillMatchesCli(unittest.TestCase):
         for code, status in re.findall(r"^\| (\d) \| `([a-z_]+)`", SKILL, re.M):
             self.assertEqual(cli.EXIT_BY_STATUS[status], int(code), status)
 
+    def test_no_script_shadows_the_package(self):
+        # scripts/voznativa.py shadowed the package for code run from scripts/ (found on Linux).
+        names = {p.stem for p in (ROOT / "scripts").glob("*.py")}
+        self.assertNotIn("voznativa", names)
+
     def test_entry_script_runs_outside_the_repository(self):
         with tempfile.TemporaryDirectory() as tmp:
             a = Path(tmp, "a.txt")
             a.write_text("O prazo não é sexta.", encoding="utf-8")
             b = Path(tmp, "b.txt")
             b.write_text("O prazo é sexta.", encoding="utf-8")
-            done = subprocess.run([sys.executable, str(ROOT / "scripts" / "voznativa.py"), "compare", str(a), str(b)],
+            done = subprocess.run([sys.executable, str(ROOT / "scripts" / "voznativa_cli.py"), "compare", str(a), str(b)],
                                   cwd=tmp, capture_output=True)
         self.assertEqual(done.returncode, 1, done.stderr.decode("utf-8", "replace"))
 

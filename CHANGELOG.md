@@ -29,7 +29,7 @@
 - Voice Contract resolver (`contract`) implementing VOICE_STACK precedence with a per-feature trace; mandatory genre constraints beat explicit requests; regional and slang strength stay 0 without evidence.
 - Rewrite Engine (`rewrite`, `rewrite-prompt`) with command, static and Emulate providers; retries on the dominant failure; returns the original when nothing is safe.
 - Benchmark: `ptbr-v1` cases (47-58 words), judgments applied by kind, manifest recording.
-- `SKILL.md` rewritten as an operational router; Claude Code plugin manifests; Codex invocation policy; `scripts/voznativa.py` entry point.
+- `SKILL.md` rewritten as an operational router; Claude Code plugin manifests; Codex invocation policy; `scripts/voznativa_cli.py` entry point.
 - `docs/EVALUATION.md`, `docs/RESEARCH_LOG.md`, `docs/LICENSING.md` (license proposal only; the repository still has no license).
 
 ### Changed

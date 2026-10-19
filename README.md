@@ -63,7 +63,7 @@ Requer Python 3.11+. O núcleo semântico (`compare`, `ledger`, `judge-prompt`, 
 
 ```bash
 pip install -e .            # instala a CLI `voznativa` e o PyYAML
-# ou, sem instalar: python scripts/voznativa.py <comando>
+# ou, sem instalar: python scripts/voznativa_cli.py <comando>
 ```
 
 Com `pip install .` (não editável), `refs`, `contract`, `profile` e `rewrite` precisam de `VOZNATIVA_HOME` apontando para um checkout, porque `references/` não vai dentro do pacote.
@@ -75,7 +75,7 @@ Como skill:
 | Claude Code | plugin pela marketplace deste repositório (`.claude-plugin/`), ou copie a pasta para `~/.claude/skills/voznativa` |
 | Codex | coloque a pasta em `.agents/skills/voznativa` (repositório) ou `~/.agents/skills/voznativa` |
 | Gemini CLI | `gemini skills install <url-do-repositório> --consent` ou copie para `.gemini/skills/voznativa` |
-| Outros | qualquer host que leia `SKILL.md`; os comandos usam `python <skill>/scripts/voznativa.py` |
+| Outros | qualquer host que leia `SKILL.md`; os comandos usam `python <skill>/scripts/voznativa_cli.py` |
 
 O diretório instalado deve se chamar `voznativa` (a spec exige que o nome bata com o `name` do `SKILL.md`).
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the voznativa CLI from a skill checkout without installing the package.
 
-    python <skill-dir>/scripts/voznativa.py compare original.txt candidata.txt
+    python <skill-dir>/scripts/voznativa_cli.py compare original.txt candidata.txt
 
 compare, ledger, judge-prompt, analyze and ground need only the standard
 library; route, refs, contract, profile and rewrite also need PyYAML.

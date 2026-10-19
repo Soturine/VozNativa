@@ -38,7 +38,7 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Corpus-calibrated regional packs | roadmap v0.5 | not implemented |
 | Human regional evaluation | roadmap v0.5/v0.8 | not implemented |
 | Cross-genre eval suites | `evals/semantic/*.jsonl`, `evals/router/cases.jsonl`, `evals/test_*.py` | semantic: 50 dev + 24 + 16 holdout cases (author-written, synthetic); genre README folders are still scaffolds |
-| Package/CLI | `pyproject.toml`, `voznativa/cli.py`, `scripts/voznativa.py` | implemented |
+| Package/CLI | `pyproject.toml`, `voznativa/cli.py`, `scripts/voznativa_cli.py` | implemented |
 | Agent packaging | `.claude-plugin/`, `agents/openai.yaml`, README install table | implemented; validated by `scripts/validate_package.py` |
 | Licensing | `docs/LICENSING.md` | proposal only; repository has no license |
 | Detector-evasion promise | prohibited | enforced by design (no detector in any gate) |

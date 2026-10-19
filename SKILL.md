@@ -25,7 +25,7 @@ Escreva como **esta pessoa** escreveria **neste canal**, sem perder fatos. Fidel
 Defina `VN` com o diretório desta skill:
 
 ```bash
-VN="python <diretório-da-skill>/scripts/voznativa.py"
+VN="python <diretório-da-skill>/scripts/voznativa_cli.py"
 ```
 
 Requer Python 3.11+. `compare`, `ledger`, `judge-prompt`, `analyze` e `ground` usam só a biblioteca padrão; `route`, `refs`, `contract`, `profile` e `rewrite-prompt` precisam de PyYAML (`pip install pyyaml`). Se o Python não estiver disponível, siga o procedimento manualmente com as referências da tabela final **e diga ao usuário que os gates não rodaram**.
