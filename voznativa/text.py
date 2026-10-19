@@ -39,12 +39,19 @@ def fold(text: str) -> str:
 
 
 def normalize_surface(text: str) -> str:
-    """Normalize differences that never change meaning: whitespace, quote glyphs, NBSP."""
+    """Normalize differences that change neither meaning nor rendering: quote
+    glyphs, NBSP, CRLF, runs of spaces inside a line, trailing spaces and
+    repeated blank lines.
+
+    Line breaks are kept: collapsing them would merge paragraphs and turn a
+    Markdown list into one line, which is a real change.
+    """
     text = unicodedata.normalize("NFC", text)
-    text = text.replace(" ", " ").replace(" ", " ")
+    text = text.replace("\r\n", "\n").replace("\r", "\n").replace(" ", " ").replace(" ", " ")
     text = re.sub(r"[“”«»„]", '"', text)
     text = re.sub(r"[‘’‚]", "'", text)
-    return re.sub(r"\s+", " ", text).strip()
+    lines = [re.sub(r"[ \t]+", " ", line).rstrip() for line in text.split("\n")]
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
 def words(text: str) -> list[str]:
