@@ -460,11 +460,28 @@
       "completion": [
         "já"
       ]
+    },
+    "idiom": {
+      "fixed": [
+        "é só",
+        "foi só",
+        "basta",
+        "só que",
+        "não só",
+        "não apenas",
+        "não somente",
+        "só pra",
+        "só para lembrar",
+        "nem que seja",
+        "não tem de quê",
+        "não por isso"
+      ]
     }
   },
   "context_rules": {
     "se": "counted as conditional only at clause start: sentence-initial, after , ; : ( or after e/mas/ou/só/somente/apenas/porém. Elsewhere it is usually the clitic pronoun (vende-se, ela se machucou).",
-    "negative_concord": "n-words (nenhum, nada, ninguém, nunca, jamais, nem) after não/nn in the same sentence are relabeled negation_concord.n_word and not counted as extra negations"
+    "negative_concord": "n-words (nenhum, nada, ninguém, nunca, jamais, nem) after não/nn in the same sentence are relabeled negation_concord.n_word and not counted as extra negations",
+    "idioms": "fixed expressions where só/não lose their usual meaning (é só = basta, só que = mas, não só... mas = additive) are consumed as idiom.fixed and are informational"
   },
   "known_gaps": [
     "morphological negation is covered only for the listed compounds; desabilitar, inválido, ilegal etc. are not counted",
@@ -543,6 +560,7 @@
         "causality.causal"
       ],
       "informational": [
+        "idiom",
         "metadiscourse",
         "negation_concord"
       ]
