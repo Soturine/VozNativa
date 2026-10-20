@@ -1,0 +1,110 @@
+{
+  "kind": "voznativa.baseline",
+  "label": "v0.2.1-start",
+  "recorded_at": "2026-10-20T05:33:35+00:00",
+  "version": "0.2.0.dev0",
+  "commit": "4c019cebc812aef163fa512c3f3be92e283c6db6",
+  "dirty": true,
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10-10.0.19045-SP0"
+  },
+  "validator": {
+    "ok": true,
+    "output": "VozNativa package v0.2.0.dev0 is valid"
+  },
+  "unit_tests": {
+    "ok": true,
+    "summary": "Ran 156 tests in 9.119s",
+    "result": "OK"
+  },
+  "semantic_suites": {
+    "cases.jsonl": {
+      "passed": 50,
+      "cases": 50,
+      "role": "dev",
+      "first_run": null,
+      "failures": []
+    },
+    "holdout-relations.jsonl": {
+      "passed": 12,
+      "cases": 12,
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 11,
+        "cases": 12
+      },
+      "failures": []
+    },
+    "holdout.jsonl": {
+      "passed": 23,
+      "cases": 24,
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 19,
+        "cases": 24
+      },
+      "failures": [
+        "ho-007"
+      ]
+    },
+    "holdout2.jsonl": {
+      "passed": 16,
+      "cases": 16,
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 16,
+        "cases": 16
+      },
+      "failures": []
+    },
+    "relations.jsonl": {
+      "passed": 25,
+      "cases": 25,
+      "role": "dev",
+      "first_run": null,
+      "failures": []
+    }
+  },
+  "router": {
+    "passed": 15,
+    "cases": 16
+  },
+  "integration_runs": {
+    "20261019T060846Z-claude-sonnet-5-5-ptbr-v1-prefix.json": {
+      "summary": {
+        "needs_judgment": 1,
+        "no_change": 7
+      },
+      "code": null,
+      "model": "claude-sonnet-5-5"
+    },
+    "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json": {
+      "summary": {
+        "accepted": 3,
+        "needs_review": 2,
+        "returned_original": 1
+      },
+      "code": {
+        "commit": "1df5f5e2400207318ed8d8118a5149307cb7b4f0",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    },
+    "20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json": {
+      "summary": {
+        "accepted": 1,
+        "needs_review": 1,
+        "no_change": 6
+      },
+      "code": {
+        "commit": "e6a470255ed8150067a258209cb2ce8f1d30fc40",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    }
+  }
+}
