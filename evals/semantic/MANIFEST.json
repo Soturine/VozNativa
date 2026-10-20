@@ -54,6 +54,20 @@
         "cases": 12
       },
       "contaminated": "causative fazer/levar added after hr-004 failed"
+    },
+    "holdout-v030.jsonl": {
+      "role": "developer_holdout",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": true,
+      "sha256": "09c1b3dda119cba99ff376a818d4b461e64b5b4d004471d600cdf67ccce6222b",
+      "first_run": {
+        "date": "2026-10-20",
+        "passed": 15,
+        "cases": 24,
+        "code": "4d899e6 (before any v0.3.0 semantic change)"
+      },
+      "purpose": "prospective measurement of the v0.3.0 M1 gaps; written before the fixes"
     }
   }
 }
