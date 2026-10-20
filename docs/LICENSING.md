@@ -23,7 +23,7 @@ Código, corpora, modelos e datasets têm licenças independentes. A licença do
 
 Hoje **nenhum** texto, léxico, modelo ou dataset de terceiros está incluído no repositório.
 
-## 3. Inventário (verificado em 2026-10-19)
+## 3. Inventário (verificado em 2026-10-19; atualizado em 2026-10-20)
 
 "Verificado" = lido na fonte oficial ou na API da plataforma nesta data. "Reportado" = só em fonte secundária; precisa de checagem antes de uso.
 
@@ -31,7 +31,7 @@ Hoje **nenhum** texto, léxico, modelo ou dataset de terceiros está incluído n
 
 | Fonte | Licença | Status | Consequência para o VozNativa |
 |---|---|---|---|
-| Corpus Carolina 1.3 Ada | Portal USP: cabeçalho CC BY-NC-SA 4.0, licença **por documento** nos metadados. Card Hugging Face (`carolina-c4ai/corpus-carolina`): `cc-by-4.0`. | **Conflito entre fontes oficiais** | Não usar até resolver com os mantenedores. Métricas agregadas só com recorte por licença de documento. |
+| Corpus Carolina | 1.3 Ada (portal USP): cabeçalho CC BY-NC-SA 4.0. 2.0.1 Bea (card Hugging Face `carolina-c4ai/corpus-carolina`): `cc-by-4.0`, e os cabeçalhos dos arquivos dizem CC BY 4.0. A licença **por documento** varia: no recorte do piloto, 4.824 CC BY, 10 CC BY-SA, 2 CC BY-NC-SA, 1 GFDL (`evals/corpus/carolina-pilot.json`). | Verificado para a 2.0.1 (card e cabeçalhos); conflito com a 1.3 segue | Piloto só de metadados (nenhum texto guardado). Qualquer ingestão de texto teria de filtrar por licença de documento e atribuir; BY-SA e GFDL impõem a mesma licença a derivados. |
 | C-ORAL-BRASIL I | CC BY-NC-SA 4.0 | Reportado (arXiv 2110.15731) | Uso não comercial; derivados sob a mesma licença. Centrado em Belo Horizonte/MG: não representa fala nacional. |
 | CORAA ASR v1.1 | CC BY-NC-ND 4.0 | Reportado (documentação CORAA) | Sem derivados redistribuíveis; só estatística interna. |
 | NURC-SP Corpus Mínimo | CC BY-NC-ND 4.0 | Reportado (2022, Portulan CLARIN) | Idem. Licença do NURC-SP Audio Corpus (2024) não verificada. |
@@ -48,6 +48,8 @@ Hoje **nenhum** texto, léxico, modelo ou dataset de terceiros está incluído n
 | `TucanoBR/Tucano-2b4` | Apache-2.0 | Verificado |
 | `StyleDistance/mstyledistance` | MIT | Verificado |
 | `maritaca-ai/sabia-7b` | campo ausente no card; fontes secundárias citam a licença LLaMA-1 (pesquisa) | Não usar sem verificação |
+| `ruanchaves/bert-base-portuguese-cased-assin2-entailment` (NLI testado na v0.3.0) | **nenhuma declarada** no card; pesos em pickle | Usado só num experimento isolado em contêiner, sem redistribuir; rejeitado como gate |
+| spaCy `pt_core_news_sm` 3.8.0 (testado na v0.3.0) | CC BY-SA 4.0 (spaCy em si: MIT) | Verificado. Não adotado; adotar exigiria tratar a licença ShareAlike do modelo |
 
 ### Datasets e ferramentas
 

@@ -1,6 +1,6 @@
 # Registro de pesquisa externa
 
-O que foi estudado, em que versão, o que mudou no VozNativa por causa disso e o que ficou de fora. Licenças em `docs/LICENSING.md`. Consulta: 2026-10-19.
+O que foi estudado, em que versão, o que mudou no VozNativa por causa disso e o que ficou de fora. Licenças em `docs/LICENSING.md`. Consulta: 2026-10-19; itens da v0.3.0 em 2026-10-20.
 
 ## Skills e sistemas de humanização
 
@@ -32,12 +32,17 @@ O que foi estudado, em que versão, o que mudou no VozNativa por causa disso e o
 | [mStyleDistance](https://arxiv.org/abs/2502.15168v1) e [autoria multilíngue](https://arxiv.org/pdf/2509.16531) | voice match por embeddings de estilo | Pesquisa: LUAR é o mais fraco em PT (~76,8 no PAN); mStyleDistance é MIT |
 | Wang et al. ("Catch Me If You Can? Not Yet", Findings of EMNLP 2025) e [AuthorMix](https://arxiv.org/abs/2603.23069) (preprint) | imitação de estilo, adapters | LLMs falham mais em escrita informal; não há evidência de LoRA pessoal com poucas amostras. A trilha de adapter continua opcional e posterior. |
 | [XFORMAL](https://arxiv.org/pdf/2104.04108) | formalidade PT-BR | Datado (2021) e sem licença no repositório |
+| spaCy 3.8 + `pt_core_news_sm` (v0.3.0, M1.6) | papéis sintáticos para sujeito/objeto com substantivos comuns | Experimento em 167 casos: 1 detecção nova, 0 falso vermelho. Não adotado (`evals/experiments/syntax_roles.json`) |
+| NLI ASSIN2 com BERTimbau (v0.3.0, M1.7) | sinal extra para antônimos fora do léxico e omissões | Nenhuma violação nova; 9/56 falsos vermelhos. Rejeitado (`evals/experiments/nli_probe.json`) |
+| Claimify (revisitado na v0.3.0) | extração automática de claims | Sem código oficial publicado; a parte útil (claims com desambiguação) já está no contrato do juiz |
+| Inspect, Promptfoo, DeepEval (v0.3.0) | framework de avaliação | Não adotados: o runner próprio (`scripts/bench_skill_only.py`) grava o que estes fariam (manifesto congelado, custo, respostas brutas) sem dependência nova |
+| Outlines, Guardrails (v0.3.0) | saída estruturada / validação | Não adotados: o problema do VozNativa é fidelidade semântica, não formato; o parser do juiz já tolera JSON imperfeito |
 
 ## Corpora
 
 Ver `references/corpora/` e `docs/LICENSING.md`. Fatos que mudaram decisões:
 
-- Carolina: conflito de licença entre o portal (cabeçalho CC BY-NC-SA 4.0) e o card do Hugging Face (`cc-by-4.0`). Nada é ingerido até resolver.
+- Carolina: a 1.3 (portal) diz CC BY-NC-SA 4.0; a 2.0.1 Bea (Hugging Face) diz CC BY 4.0 no card e nos cabeçalhos, mas a licença por documento varia. O piloto só de metadados (v0.3.0) mostrou que `social_media` é ficção do Wattpad e que não há metadado de região: o Carolina não serve para regionalidade.
 - C-ORAL-BRASIL I: centrado em Belo Horizonte/MG. Oralidade observada ali não é marcador nacional nem "mineiro" sem contraste.
 - SP2010: licença não encontrada.
 - NURC-SP: digitalizado (375 inquéritos); o Corpus Mínimo é CC BY-NC-ND 4.0.
