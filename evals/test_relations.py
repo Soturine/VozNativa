@@ -69,6 +69,31 @@ class Polarity(unittest.TestCase):
 
 
 
+class CrossSentenceCausality(unittest.TestCase):
+    def test_reversed_cause_across_sentences_fails(self):
+        self.assertIn("causal_direction_reversed", codes(
+            "A fila encheu. Por isso, o worker começou a descartar mensagens.",
+            "O worker começou a descartar mensagens. Por isso, a fila encheu."))
+
+    def test_same_relation_inside_one_sentence_passes(self):
+        self.assertNotIn("causal_direction_reversed", codes(
+            "A fila encheu. Por isso, o worker começou a descartar mensagens.",
+            "O worker começou a descartar mensagens porque a fila encheu."))
+
+
+class Roles(unittest.TestCase):
+    def test_active_to_passive_with_swapped_roles_fails(self):
+        report = compare("A Natura comprou a Avon em 2020.", "A Natura foi comprada pela Avon em 2020.")
+        self.assertEqual(report["status"], "fail")
+        self.assertIn("role_reversed", {i["code"] for i in report["issues"]})
+
+    def test_valid_passive_rewrite_passes(self):
+        # Found by the frozen v0.3.0 holdout (h3-role-002): this used to fire entity_binding_changed.
+        report = compare("O Itaú adquiriu a XP em 2017.", "A XP foi adquirida pelo Itaú em 2017.")
+        self.assertNotIn("entity_binding_changed", {i["code"] for i in report["issues"]})
+        self.assertNotEqual(report["status"], "fail")
+
+
 class Attribution(unittest.TestCase):
     def test_swapped_attributions_fail(self):
         report = compare("A Ana disse que o prazo é sexta-feira; o Bruno disse que o orçamento acabou.",

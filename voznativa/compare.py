@@ -20,7 +20,9 @@ from . import ledger as ledger_mod
 from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import contains_word, content_stems, fold, normalize_surface
+from .text import STOPWORDS, contains_word, content_stems, fold, normalize_surface, stem
+
+_STOP_FOLDED = frozenset(fold(w) for w in STOPWORDS)
 
 SCHEMA_VERSION = 1
 
@@ -197,12 +199,62 @@ def _binding_issues(src, out) -> list[dict]:
 
     entities = {s.key: s.text for s in src.spans if s.type == "entity"}
     if len(entities) >= 2:
+        names = list(entities.values())
+        role_issues, preserved = _role_issues(src, out, names)
+        issues += role_issues
         for key_a, key_b in _mutual_swaps(_entity_anchors(src, entities), _entity_anchors(out, entities)):
+            pair = frozenset({entities[key_a].casefold(), entities[key_b].casefold()})
+            if pair in preserved:
+                continue  # active <-> passive rewrite that keeps who did what to whom
             issues.append(_issue("entity_binding_changed", "critical",
                                  f"'{entities[key_a]}' and '{entities[key_b]}' swapped roles "
                                  "(each now attaches to the other's words)",
                                  text=entities[key_a], swapped_with=entities[key_b]))
     return issues
+
+
+_PASSIVE = re.compile(
+    r"^\s*(?:foi|foram|é|são|será|serão|era|eram|seria|seriam|seja|sejam|fosse|fossem|"
+    r"tinha sido|tinham sido|tem sido|têm sido|está sendo|estava sendo)\s+(\w+)\s+(?:\w+\s+){0,2}?"
+    r"(?:por|pelo|pela|pelos|pelas)\s*$", re.I)
+_ACTIVE = re.compile(r"^\s*(?:\w+\s+){0,2}?(\w+)\s+(?:o|a|os|as|ao|à|aos|às)?\s*$", re.I)
+_LINKERS = re.compile(r"[,;:]|\s(?:e|ou|mas|que)\s", re.I)
+
+
+def _role_triples(text: str, names: list[str]) -> set[tuple[str, str, str]]:
+    """(agent, verb stem, patient) between two named entities in one clause.
+    Passive: "A XP foi adquirida pelo Itaú" -> (itaú, adqui, xp).
+    Active: "O Itaú adquiriu a XP" -> (itaú, adqui, xp). Coordinated or
+    longer stretches are skipped rather than guessed."""
+    hits = sorted((m.start(), m.end(), name.casefold()) for name in names
+                  for m in re.finditer(r"(?<!\w)" + re.escape(name) + r"(?!\w)", text, re.IGNORECASE))
+    triples = set()
+    for (s1, e1, a), (s2, e2, b) in zip(hits, hits[1:]):
+        between = text[e1:s2]
+        if a == b or _LINKERS.search(between) or len(between.split()) > 6:
+            continue
+        passive = _PASSIVE.match(between)
+        if passive:
+            triples.add((b, stem(passive.group(1)), a))
+            continue
+        active = _ACTIVE.match(between)
+        if active and fold(active.group(1)) not in _STOP_FOLDED:
+            triples.add((a, stem(active.group(1)), b))
+    return triples
+
+
+def _role_issues(src, out, names: list[str]) -> tuple[list[dict], set]:
+    issues, preserved = [], set()
+    out_triples = _role_triples(out.text, names)
+    for agent, verb, patient in _role_triples(src.text, names):
+        pair = frozenset({agent, patient})
+        if (agent, verb, patient) in out_triples:
+            preserved.add(pair)
+        elif (patient, verb, agent) in out_triples:
+            issues.append(_issue("role_reversed", "critical",
+                                 f"'{agent}' and '{patient}' swapped agent and patient of the same action",
+                                 text=agent, swapped_with=patient, verb=verb))
+    return issues, preserved
 
 
 def _align(src, out) -> list[tuple[int, int | None, float]]:
@@ -284,24 +336,41 @@ def _cause_effect(entry) -> tuple[set, set] | None:
     return (after, before) if signals.causal_orientation(m.phrase) == "backward" else (before, after)
 
 
-def _causal_direction_issues(src, out, alignment) -> list[dict]:
-    """Same causal connector class, but cause and effect traded sides within an
-    aligned sentence ("a falha causou a queda" -> "a queda causou a falha")."""
+def _causal_relations(led) -> list[tuple[set, set, str]]:
+    """(cause stems, effect stems, sentence) for every causal link the text
+    states: inside one sentence ("X porque Y") and across adjacent sentences
+    when a forward connector opens the second one ("X. Por isso, Y.")."""
+    relations = []
+    for k, entry in enumerate(led.entries):
+        causal = [m for m in entry.markers if m.label == "causality.causal"]
+        opener = causal[0] if causal and not entry.sentence.text[:causal[0].start].strip(" \"'(") else None
+        if opener and k > 0 and len(causal) == 1 and signals.causal_orientation(opener.phrase) == "forward" \
+                and led.entries[k - 1].sentence.paragraph == entry.sentence.paragraph:
+            relations.append((set(led.entries[k - 1].stems), set(content_stems(entry.sentence.text[opener.end:])),
+                              led.entries[k - 1].sentence.text + " " + entry.sentence.text))
+            continue
+        pair = _cause_effect(entry)
+        if pair and pair[0] and pair[1]:
+            relations.append((pair[0], pair[1], entry.sentence.text))
+    return relations
+
+
+def _causal_direction_issues(src, out, alignment=None) -> list[dict]:
+    """A stated cause and effect that traded places, inside a sentence
+    ("a falha causou a queda" -> "a queda causou a falha") or across
+    sentences ("X. Por isso, Y." -> "Y. Por isso, X.")."""
     issues = []
-    for i, j, sim in alignment:
-        if j is None or sim < ALIGN_MIN_SIMILARITY:
+    candidates = _causal_relations(out)
+    for o_cause, o_effect, o_text in _causal_relations(src):
+        best = max(candidates, key=lambda r: _jaccard(o_cause | o_effect, r[0] | r[1]), default=None)
+        if not best or _jaccard(o_cause | o_effect, best[0] | best[1]) < 0.4:
             continue
-        a, b = _cause_effect(src.entries[i]), _cause_effect(out.entries[j])
-        if not a or not b:
-            continue
-        (o_cause, o_effect), (c_cause, c_effect) = a, b
+        c_cause, c_effect, c_text = best
         crossed = _jaccard(c_cause, o_effect), _jaccard(c_effect, o_cause)
         kept = _jaccard(c_cause, o_cause), _jaccard(c_effect, o_effect)
         if min(crossed) >= 0.3 and crossed[0] > kept[0] and crossed[1] > kept[1]:
-            issues.append(_issue("causal_direction_reversed", "critical",
-                                 "cause and effect traded places",
-                                 location={"source_sentence": src.entries[i].sentence.text,
-                                           "candidate_sentence": out.entries[j].sentence.text}))
+            issues.append(_issue("causal_direction_reversed", "critical", "cause and effect traded places",
+                                 location={"source_sentence": o_text, "candidate_sentence": c_text}))
     return issues
 
 
