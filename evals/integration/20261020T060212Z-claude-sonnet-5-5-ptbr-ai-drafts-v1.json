@@ -1,0 +1,414 @@
+{
+  "kind": "voznativa.llm_integration_run",
+  "kind_of_evidence": "real external model call; not deterministic; not human review",
+  "run_at": "20261020T060212Z",
+  "command": [
+    "C:\\Users\\rafael\\.vscode\\extensions\\anthropic.claude-code-2.1.301-win32-x64\\resources\\native-binary\\claude.exe",
+    "-p",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--no-session-persistence",
+    "--model",
+    "claude-sonnet-5-5",
+    "--output-format",
+    "text"
+  ],
+  "model_label": "claude-sonnet-5-5",
+  "cli_version": "2.1.301 (Claude Code)",
+  "voznativa_code": {
+    "commit": "9de9f816ea8bc932806e47e29bc4fdafe25dea75",
+    "dirty": false
+  },
+  "cases_file": "benchmarks/cases/ptbr-ai-drafts-v1.jsonl",
+  "attempts_allowed": 3,
+  "complete": true,
+  "summary": {
+    "accepted": 2,
+    "needs_review": 3,
+    "returned_original": 1
+  },
+  "results": [
+    {
+      "id": "ai-corp-001",
+      "original": "Prezados, espero que esta mensagem os encontre bem. Gostaria de informar que estaremos realizando a atualização do sistema de faturamento na próxima terça-feira, a partir das 19h. Nesse sentido, é importante destacar que o sistema poderá apresentar instabilidade por até 40 minutos. Além disso, vale ressaltar que os pedidos feitos nesse período só serão processados após a conclusão da atualização. Desde já, agradecemos a compreensão de todos.",
+      "outcome": "accepted",
+      "final_text": "Prezados, espero que estejam bem.\n\nVamos atualizar o sistema de faturamento na próxima terça-feira, a partir das 19h. O sistema poderá apresentar instabilidade por até 40 minutos, e os pedidos feitos nesse período só serão processados após a conclusão da atualização.\n\nDesde já, agradecemos a compreensão de todos.",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [
+            "metadiscourse_changed",
+            "paragraphs_changed"
+          ],
+          "preview": "Prezados, espero que estejam bem.\n\nVamos atualizar o sistema de faturamento na próxima terça-feira, a partir das 19h. O "
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 5,
+          "weak": 4,
+          "per_100_words": 13.43,
+          "families": [
+            "conectivos empilhados",
+            "fórmulas de cortesia",
+            "gerundismo",
+            "metadiscurso vazio",
+            "tradução literal"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 1,
+          "per_100_words": 2.08,
+          "families": [
+            "fórmulas de cortesia"
+          ]
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 17.9,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 8.1,
+          "prompt_chars": 14788,
+          "answers": [
+            "<final>\nPrezados, espero que estejam bem.\n\nVamos atualizar o sistema de faturamento na próxima terça-feira, a partir das 19h. O sistema poderá apresentar instabilidade por até 40 minutos, e os pedidos feitos nesse período só serão processados após a conclusão da atualização.\n\nDesde já, agradecemos a compreensão de todos.\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 9.7,
+          "prompt_chars": 3955,
+          "answers": [
+            "{\n  \"kind\": \"llm (agents must never write 'human'; people use `voznativa review`)\",\n  \"original_sha256\": \"7f57f0c62b7c8b7aa19d10eae7ec54fcb7a1bc84d5dede492b497ea1679cb93c\",\n  \"candidate_sha256\": \"ecf611864072c43fef99d9f7b4ca6ceaf8dc40946cfc45b902b124a71eb34478\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Prezados, espero que esta mensagem os encontre bem.\",\n      \"status\": \"formula_removed\",\n      \"candidate\": \"Prezados, espero que estejam bem.\",\n      \"note\": \"Cortesia de abertura sem informação; reformulada, sem perda de conteúdo.\"\n    },\n    {\n      \"source\": \"Estaremos realizando a atualização do sistema de faturamento\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Vamos atualizar o sistema de faturamento\",\n      \"note\": \"Mesmo compromisso e mesmo agente (nós), em futuro equivalente.\"\n    },\n    {\n      \"source\": \"na próxima terça-feira, a partir das 19h\",\n      \"status\": \"preserved\",\n      \"candidate\": \"na próxima terça-feira, a partir das 19h\",\n      \"note\": \"Dia e horário idênticos.\"\n    },\n    {\n      \"source\": \"o sistema poderá apresentar instabilidade\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O sistema poderá apresentar instabilidade\",\n      \"note\": \"Mantém a possibilidade ('poderá'), sem reforço.\"\n    },\n    {\n      \"source\": \"por até 40 minutos\",\n      \"status\": \"preserved\",\n      \"candidate\": \"por até 40 minutos\",\n      \"note\": \"Limite superior e valor preservados.\"\n    },\n    {\n      \"source\": \"os pedidos feitos nesse período só serão processados após a conclusão da atualização\",\n      \"status\": \"preserved\",\n      \"candidate\": \"os pedidos feitos nesse período só serão processados após a conclusão da atualização\",\n      \"note\": \"Restrição ('só') e condição temporal ('após a conclusão') mantidas.\"\n    },\n    {\n      \"source\": \"Nesse sentido, é importante destacar que / Além disso, vale ressaltar que\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Marcadores de ênfase/transição sem conteúdo informativo.\"\n    },\n    {\n      \"source\": \"Desde já, agradecemos a compreensão de todos.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Desde já, agradecemos a compreensão de todos.\",\n      \"note\": \"Agradecimento e quantificador universal ('todos') idênticos.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"Todos os fatos, prazos, a condição de processamento, o grau de certeza ('poderá') e o agradecimento foram preservados; só saíram fórmulas de ênfase e a abertura foi reformulada. Nada foi acrescentado.\"\n}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-tech-001",
+      "original": "No cenário atual de desenvolvimento, a configuração adequada de variáveis de ambiente desempenha um papel fundamental. Dessa forma, o arquivo .env deve conter a variável DATABASE_URL, que será utilizada para estabelecer a conexão com o banco de dados. Ademais, é importante ressaltar que a ausência dessa variável pode fazer com que a aplicação não seja inicializada corretamente.",
+      "outcome": "needs_review",
+      "final_text": "O arquivo .env deve conter a variável DATABASE_URL, que será utilizada para estabelecer a conexão com o banco de dados. A configuração adequada das variáveis de ambiente é necessária para isso. Se essa variável não existir, a aplicação pode não ser inicializada corretamente.",
+      "final_status": "review_required",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "review_required",
+          "codes": [
+            "causality_changed",
+            "condition_changed",
+            "metadiscourse_changed",
+            "modality_changed",
+            "negation_changed"
+          ],
+          "preview": "O arquivo .env deve conter a variável DATABASE_URL, que será utilizada para estabelecer a conexão com o banco de dados. "
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 3,
+          "weak": 2,
+          "per_100_words": 8.77,
+          "families": [
+            "ENEM-ismo",
+            "conectivos empilhados",
+            "metadiscurso vazio"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 6.3,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 6.2,
+          "prompt_chars": 12453,
+          "answers": [
+            "<final>\nO arquivo .env deve conter a variável DATABASE_URL, que será utilizada para estabelecer a conexão com o banco de dados. A configuração adequada das variáveis de ambiente é necessária para isso. Se essa variável não existir, a aplicação pode não ser inicializada corretamente.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-academic-001",
+      "original": "Em um mundo cada vez mais conectado, a utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. Nesse contexto, o presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.",
+      "outcome": "needs_review",
+      "final_text": "A utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. O presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.",
+      "final_status": "review_required",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "review_required",
+          "codes": [
+            "quantifier_changed"
+          ],
+          "preview": "A utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. O presente estudo buscou analis"
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 1,
+          "weak": 1,
+          "per_100_words": 2.86,
+          "families": [
+            "ENEM-ismo",
+            "conectivos empilhados"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 3.9,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 3.8,
+          "prompt_chars": 13005,
+          "answers": [
+            "<final>\nA utilização de tecnologias digitais na educação tem se tornado cada vez mais relevante. O presente estudo buscou analisar a percepção de 312 estudantes do ensino médio acerca do uso de plataformas digitais. Os resultados obtidos sugerem que há uma associação entre o uso frequente das plataformas e o maior engajamento dos alunos, sendo necessários estudos adicionais para confirmar essa relação.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-social-001",
+      "original": "Ninguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração. Foi uma jornada transformadora, repleta de desafios e aprendizados. E isso muda tudo. Qual foi o maior aprendizado de liderança que você já teve?",
+      "outcome": "returned_original",
+      "final_text": "Ninguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração. Foi uma jornada transformadora, repleta de desafios e aprendizados. E isso muda tudo. Qual foi o maior aprendizado de liderança que você já teve?",
+      "final_status": "fail",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "fail",
+          "codes": [
+            "negation_changed",
+            "paragraphs_changed"
+          ],
+          "preview": "Liderança não é sobre cargo, é sobre pessoas. Nos últimos 6 meses, coordenei um time de 8 desenvolvedores em um projeto "
+        },
+        {
+          "attempt": 2,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [],
+          "preview": "Ninguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de c"
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "not_equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 2,
+          "weak": 2,
+          "per_100_words": 7.14,
+          "families": [
+            "falsa profundidade",
+            "isca de engajamento",
+            "linguagem promocional"
+          ]
+        },
+        "after": {
+          "strong": 2,
+          "weak": 2,
+          "per_100_words": 7.14,
+          "families": [
+            "falsa profundidade",
+            "isca de engajamento",
+            "linguagem promocional"
+          ]
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 31.3,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 12.2,
+          "prompt_chars": 13420,
+          "answers": [
+            "<final>\nLiderança não é sobre cargo, é sobre pessoas. Nos últimos 6 meses, coordenei um time de 8 desenvolvedores em um projeto de migração. Foi um período cheio de desafios e aprendizados.\n\nQual foi o maior aprendizado de liderança que você já teve?\n</final>\n"
+          ]
+        },
+        {
+          "role": "writer",
+          "seconds": 7.2,
+          "prompt_chars": 13596,
+          "answers": [
+            "<final>\nNinguém fala sobre isso, mas liderança não é sobre cargo. É sobre pessoas. Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração. Foi uma jornada repleta de desafios e aprendizados. Qual foi o maior aprendizado de liderança que você já teve?\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 11.7,
+          "prompt_chars": 3248,
+          "answers": [
+            "```json\n{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"d9a2c1d2972a7803fc0afd701c371819023a9251bb555825d9fce6aa2c2031ff\",\n  \"candidate_sha256\": \"c0489415bd55095af1ad4d401cd8084bb3f9411dfa9498c5ed8b1d4fb524c046\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"not_equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Ninguém fala sobre isso\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Ninguém fala sobre isso\",\n      \"note\": \"Idêntico.\"\n    },\n    {\n      \"source\": \"Liderança não é sobre cargo. É sobre pessoas.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"liderança não é sobre cargo. É sobre pessoas.\",\n      \"note\": \"Idêntico.\"\n    },\n    {\n      \"source\": \"Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Nos últimos 6 meses, tive a oportunidade de coordenar um time de 8 desenvolvedores em um projeto de migração.\",\n      \"note\": \"Prazo (6 meses), número (8) e escopo mantidos.\"\n    },\n    {\n      \"source\": \"Foi uma jornada transformadora\",\n      \"status\": \"omitted\",\n      \"candidate\": \"Foi uma jornada repleta de desafios e aprendizados.\",\n      \"note\": \"O adjetivo 'transformadora' foi removido. É uma avaliação específica do autor sobre a experiência, não uma fórmula de ênfase.\"\n    },\n    {\n      \"source\": \"jornada repleta de desafios e aprendizados\",\n      \"status\": \"preserved\",\n      \"candidate\": \"jornada repleta de desafios e aprendizados\",\n      \"note\": \"Mantido.\"\n    },\n    {\n      \"source\": \"E isso muda tudo.\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Frase de ênfase sem informação específica.\"\n    },\n    {\n      \"source\": \"Qual foi o maior aprendizado de liderança que você já teve?\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Qual foi o maior aprendizado de liderança que você já teve?\",\n      \"note\": \"Idêntico.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A candidata preserva números, prazo, escopo e a pergunta final, e não adiciona afirmações. Porém remove 'transformadora', uma caracterização específica da experiência, o que impede a equivalência.\"\n}\n```\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-support-001",
+      "original": "Olá! Agradecemos imensamente o seu contato e lamentamos profundamente qualquer inconveniente causado. Gostaríamos de informar que o reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Caso tenha qualquer dúvida adicional, não hesite em entrar em contato conosco. Estamos sempre à disposição para ajudar!",
+      "outcome": "needs_review",
+      "final_text": "Olá! Agradecemos o seu contato e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Se tiver qualquer dúvida, é só entrar em contato conosco. Estamos à disposição para ajudar.",
+      "final_status": "review_required",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "review_required",
+          "codes": [
+            "quantifier_changed"
+          ],
+          "preview": "Olá! Agradecemos o seu contato e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias "
+        }
+      ],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 5,
+          "per_100_words": 8.77,
+          "families": [
+            "fórmulas de cortesia"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 5.2,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 5.1,
+          "prompt_chars": 13895,
+          "answers": [
+            "<final>\nOlá! Agradecemos o seu contato e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Se tiver qualquer dúvida, é só entrar em contato conosco. Estamos à disposição para ajudar.\n</final>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-status-001",
+      "original": "Pessoal, dando continuidade ao alinhamento de ontem, gostaria de compartilhar que a funcionalidade de exportação para PDF foi concluída com sucesso. No entanto, cabe mencionar que a exportação para Excel ainda não foi finalizada, visto que dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta.",
+      "outcome": "accepted",
+      "final_text": "Pessoal, dando continuidade ao alinhamento de ontem, a funcionalidade de exportação para PDF foi concluída com sucesso. A exportação para Excel, no entanto, ainda não foi finalizada, porque dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta.",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [
+            "metadiscourse_changed"
+          ],
+          "preview": "Pessoal, dando continuidade ao alinhamento de ontem, a funcionalidade de exportação para PDF foi concluída com sucesso. "
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 1,
+          "weak": 0,
+          "per_100_words": 1.75,
+          "families": [
+            "metadiscurso vazio"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "introduced": [],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 15.0,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 4.0,
+          "prompt_chars": 13672,
+          "answers": [
+            "<final>\nPessoal, dando continuidade ao alinhamento de ontem, a funcionalidade de exportação para PDF foi concluída com sucesso. A exportação para Excel, no entanto, ainda não foi finalizada, porque dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta.\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 10.9,
+          "prompt_chars": 3991,
+          "answers": [
+            "```json\n{\n  \"kind\": \"llm\",\n  \"original_sha256\": \"3fa0328d1fb0257d46b9ef7626021b5aeb2078e1a19da30401276fd3a306cddd\",\n  \"candidate_sha256\": \"0cfcf0e48777a1e131262f3efb6246fa0afc451d110cda1614eb62ea8748e122\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Dando continuidade ao alinhamento de ontem\",\n      \"status\": \"preserved\",\n      \"candidate\": \"dando continuidade ao alinhamento de ontem\",\n      \"note\": \"Referência temporal e vínculo com o alinhamento mantidos.\"\n    },\n    {\n      \"source\": \"gostaria de compartilhar que\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Moldura de abertura sem informação própria.\"\n    },\n    {\n      \"source\": \"A funcionalidade de exportação para PDF foi concluída com sucesso\",\n      \"status\": \"preserved\",\n      \"candidate\": \"a funcionalidade de exportação para PDF foi concluída com sucesso\",\n      \"note\": \"Mesmo fato, mesmo grau de certeza.\"\n    },\n    {\n      \"source\": \"cabe mencionar que\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Moldura sem conteúdo informativo.\"\n    },\n    {\n      \"source\": \"A exportação para Excel ainda não foi finalizada\",\n      \"status\": \"preserved\",\n      \"candidate\": \"A exportação para Excel, no entanto, ainda não foi finalizada\",\n      \"note\": \"Negação, 'ainda' e contraste mantidos.\"\n    },\n    {\n      \"source\": \"visto que dependemos da aprovação da equipe de segurança (causa do atraso)\",\n      \"status\": \"preserved\",\n      \"candidate\": \"porque dependemos da aprovação da equipe de segurança\",\n      \"note\": \"Relação causal e agente mantidos; 'visto que' e 'porque' são equivalentes aqui.\"\n    },\n    {\n      \"source\": \"A previsão é que seja entregue até sexta-feira\",\n      \"status\": \"preserved\",\n      \"candidate\": \"A previsão é que seja entregue até sexta-feira\",\n      \"note\": \"Prazo e grau de certeza (previsão) idênticos.\"\n    },\n    {\n      \"source\": \"caso a aprovação ocorra até quarta\",\n      \"status\": \"preserved\",\n      \"candidate\": \"caso a aprovação ocorra até quarta\",\n      \"note\": \"Condição e prazo condicional idênticos.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A candidata mantém todos os fatos, a negação, a causa, o prazo e a condição do original, removendo apenas expressões de moldura sem informação. Não há afirmações adicionadas.\"\n}\n```\n"
+          ]
+        }
+      ]
+    }
+  ]
+}

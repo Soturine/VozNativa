@@ -1,0 +1,300 @@
+{
+  "kind": "voznativa.llm_integration_run",
+  "kind_of_evidence": "real external model call; not deterministic; not human review",
+  "run_at": "20261020T060331Z",
+  "command": [
+    "C:\\Users\\rafael\\.vscode\\extensions\\anthropic.claude-code-2.1.301-win32-x64\\resources\\native-binary\\claude.exe",
+    "-p",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--no-session-persistence",
+    "--model",
+    "claude-sonnet-5-5",
+    "--output-format",
+    "text"
+  ],
+  "model_label": "claude-sonnet-5-5",
+  "cli_version": "2.1.301 (Claude Code)",
+  "voznativa_code": {
+    "commit": "264e232b94786589fc48290a27d5d5eac658eeda",
+    "dirty": false
+  },
+  "cases_file": "benchmarks/cases/ptbr-v1.jsonl",
+  "attempts_allowed": 3,
+  "complete": true,
+  "summary": {
+    "accepted": 1,
+    "no_change": 7
+  },
+  "results": [
+    {
+      "id": "bm-email-001",
+      "original": "Prezados, boa tarde. É importante destacar que estaremos realizando a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. Nesse sentido, o sistema poderá ficar indisponível por até 2 horas. Solicitamos que os times não façam deploy entre 20h e 2h. Caso haja dúvidas, fico à disposição. Atenciosamente, Marina",
+      "outcome": "accepted",
+      "final_text": "Prezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema poderá ficar indisponível por até 2 horas. Solicitamos que os times não façam deploy entre 20h e 2h.\n\nCaso haja dúvidas, fico à disposição.\n\nAtenciosamente,\nMarina",
+      "final_status": "accepted_by_llm",
+      "attempts": [
+        {
+          "attempt": 1,
+          "no_change": false,
+          "status": "no_deterministic_issues",
+          "codes": [
+            "metadiscourse_changed",
+            "paragraphs_changed"
+          ],
+          "preview": "Prezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema "
+        }
+      ],
+      "judgments": [
+        {
+          "kind": "llm",
+          "judge_id": "claude-sonnet-5-5",
+          "verdict": "equivalent",
+          "downgraded": null
+        }
+      ],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 2,
+          "weak": 1,
+          "per_100_words": 5.56,
+          "families": [
+            "conectivos empilhados",
+            "gerundismo",
+            "metadiscurso vazio"
+          ]
+        },
+        "after": {
+          "strong": 0,
+          "weak": 1,
+          "per_100_words": 2.08,
+          "families": [
+            "oficialês"
+          ]
+        },
+        "introduced": [
+          "support_verb"
+        ],
+        "model_called": true
+      },
+      "error": null,
+      "seconds": 14.1,
+      "calls": [
+        {
+          "role": "writer",
+          "seconds": 5.1,
+          "prompt_chars": 9452,
+          "answers": [
+            "<final>\nPrezados, boa tarde.\n\nVamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h. O sistema poderá ficar indisponível por até 2 horas. Solicitamos que os times não façam deploy entre 20h e 2h.\n\nCaso haja dúvidas, fico à disposição.\n\nAtenciosamente,\nMarina\n</final>\n"
+          ]
+        },
+        {
+          "role": "judge",
+          "seconds": 8.9,
+          "prompt_chars": 4242,
+          "answers": [
+            "```json\n{\n  \"kind\": \"llm (agents must never write 'human'; people use `voznativa review`)\",\n  \"original_sha256\": \"76705d45fee4326b710ac2a4c8d118f0aed6200f10d61ab6cbbfc2645738bd22\",\n  \"candidate_sha256\": \"f1508221760dc12479d8df4e8b62e7e73591551d198c56a8ebad9e53b7a50a34\",\n  \"judge_id\": \"claude-sonnet-5-5\",\n  \"verdict\": \"equivalent\",\n  \"claims\": [\n    {\n      \"source\": \"Saudação: Prezados, boa tarde.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Prezados, boa tarde.\",\n      \"note\": \"Idêntica.\"\n    },\n    {\n      \"source\": \"É importante destacar que (fórmula de ênfase)\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Marcador de metadiscurso sem informação.\"\n    },\n    {\n      \"source\": \"Estaremos realizando a migração do banco de dados no sábado, 8 de novembro, a partir das 22h.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Vamos realizar a migração do banco de dados no sábado, 8 de novembro, a partir das 22h.\",\n      \"note\": \"Compromisso, data, dia da semana e horário mantidos.\"\n    },\n    {\n      \"source\": \"Nesse sentido (conector)\",\n      \"status\": \"formula_removed\",\n      \"candidate\": null,\n      \"note\": \"Conector sem informação factual.\"\n    },\n    {\n      \"source\": \"O sistema poderá ficar indisponível por até 2 horas.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"O sistema poderá ficar indisponível por até 2 horas.\",\n      \"note\": \"Possibilidade e limite superior mantidos.\"\n    },\n    {\n      \"source\": \"Solicitamos que os times não façam deploy entre 20h e 2h.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Solicitamos que os times não façam deploy entre 20h e 2h.\",\n      \"note\": \"Pedido, negação e janela de horário idênticos.\"\n    },\n    {\n      \"source\": \"Caso haja dúvidas, fico à disposição.\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Caso haja dúvidas, fico à disposição.\",\n      \"note\": \"Condição e compromisso mantidos.\"\n    },\n    {\n      \"source\": \"Atenciosamente, Marina\",\n      \"status\": \"preserved\",\n      \"candidate\": \"Atenciosamente,\\nMarina\",\n      \"note\": \"Assinatura e autoria mantidas.\"\n    }\n  ],\n  \"added_claims\": [],\n  \"rationale\": \"A candidata mantém todos os fatos, datas, horários, limites, condição e compromissos do original, removendo apenas fórmulas de ênfase e conectores e dividindo em parágrafos. Nada foi acrescentado.\"\n}\n```\n"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bm-tech-001",
+      "original": "O serviço de pedidos usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo por cliente. Quando duas atualizações concorrentes alteram o mesmo registro, a API pode retornar HTTP 409. Nesse caso, o cliente deve buscar a versão mais recente do recurso e repetir a operação, respeitando o limite de 3 tentativas.",
+      "outcome": "no_change",
+      "final_text": "O serviço de pedidos usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo por cliente. Quando duas atualizações concorrentes alteram o mesmo registro, a API pode retornar HTTP 409. Nesse caso, o cliente deve buscar a versão mais recente do recurso e repetir a operação, respeitando o limite de 3 tentativas.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-academic-001",
+      "original": "Os resultados sugerem que a tutoria entre pares está associada a uma redução de 12% na evasão do primeiro ano (n = 418). No entanto, como o estudo é observacional e foi conduzido em uma única universidade, não é possível afirmar que a tutoria causa essa redução nem generalizar o achado para outras instituições.",
+      "outcome": "no_change",
+      "final_text": "Os resultados sugerem que a tutoria entre pares está associada a uma redução de 12% na evasão do primeiro ano (n = 418). No entanto, como o estudo é observacional e foi conduzido em uma única universidade, não é possível afirmar que a tutoria causa essa redução nem generalizar o achado para outras instituições.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-corporate-001",
+      "original": "Pessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.",
+      "outcome": "no_change",
+      "final_text": "Pessoal, conforme alinhado na reunião de ontem, a entrega da versão 4.2 foi adiada para 14 de novembro porque o time de segurança encontrou uma falha no fluxo de login. A Ana fica responsável pela correção e o Bruno pela revisão. Se a correção não ficar pronta até dia 10, vamos reavaliar a data.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-social-001",
+      "original": "Depois de dois anos no time de dados, estou mudando para a área de produto. Não foi uma decisão fácil, porque gosto muito das pessoas com quem trabalho e do tipo de problema que resolvemos. Mas sinto que posso contribuir mais perto das decisões sobre o que construir. Obrigado a todo mundo que me ensinou tanto nesse tempo.",
+      "outcome": "no_change",
+      "final_text": "Depois de dois anos no time de dados, estou mudando para a área de produto. Não foi uma decisão fácil, porque gosto muito das pessoas com quem trabalho e do tipo de problema que resolvemos. Mas sinto que posso contribuir mais perto das decisões sobre o que construir. Obrigado a todo mundo que me ensinou tanto nesse tempo.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-whatsapp-001",
+      "original": "oi! vou chegar umas 19h30 pq o ônibus atrasou, mas nn precisa me esperar pra começar a reunião. se der tempo eu passo na padaria antes e levo o pão de queijo que vc pediu. qualquer coisa me manda msg que eu respondo assim que der, tá?",
+      "outcome": "no_change",
+      "final_text": "oi! vou chegar umas 19h30 pq o ônibus atrasou, mas nn precisa me esperar pra começar a reunião. se der tempo eu passo na padaria antes e levo o pão de queijo que vc pediu. qualquer coisa me manda msg que eu respondo assim que der, tá?",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-legal-001",
+      "original": "O locatário não poderá sublocar, ceder ou emprestar o imóvel, no todo ou em parte, sem autorização prévia e por escrito do locador. O descumprimento desta cláusula autoriza a rescisão do contrato, sem prejuízo da multa prevista na cláusula 12, equivalente a três aluguéis vigentes à época da infração.",
+      "outcome": "no_change",
+      "final_text": "O locatário não poderá sublocar, ceder ou emprestar o imóvel, no todo ou em parte, sem autorização prévia e por escrito do locador. O descumprimento desta cláusula autoriza a rescisão do contrato, sem prejuízo da multa prevista na cláusula 12, equivalente a três aluguéis vigentes à época da infração.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    },
+    {
+      "id": "bm-journalistic-001",
+      "original": "Segundo o IBGE, a taxa de desemprego caiu para 6,2% no trimestre encerrado em setembro, o menor patamar da série. Em nota, o instituto afirmou que a queda se deve em parte à alta do emprego informal, que respondeu por cerca de metade das novas vagas, e alertou que o rendimento médio ficou estável.",
+      "outcome": "no_change",
+      "final_text": "Segundo o IBGE, a taxa de desemprego caiu para 6,2% no trimestre encerrado em setembro, o menor patamar da série. Em nota, o instituto afirmou que a queda se deve em parte à alta do emprego informal, que respondeu por cerca de metade das novas vagas, e alertou que o rendimento médio ficou estável.",
+      "final_status": null,
+      "attempts": [],
+      "judgments": [],
+      "judge_error": null,
+      "quality": {
+        "before": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "after": {
+          "strong": 0,
+          "weak": 0,
+          "per_100_words": 0.0,
+          "families": []
+        },
+        "model_called": false
+      },
+      "error": null,
+      "seconds": 0.0,
+      "calls": []
+    }
+  ]
+}
