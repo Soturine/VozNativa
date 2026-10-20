@@ -1,0 +1,135 @@
+# Editorial patterns for PT-BR rewriting (v0.3.0 M2.1).
+#
+# Descriptive findings that tell the rewriter WHERE a text reads as formula.
+# Never an authorship or "AI" score, never an optimization target.
+#
+# strength: strong = one occurrence justifies an edit; weak = only in company
+#   of other findings (see references/patterns/false-positives.md).
+# exempt: genres where the construction is legitimate and must be kept.
+# weak_in: genres where it is common enough to count as weak.
+# scope: sentence_start | anywhere | sentence | document (opener density).
+# Evidence: E1 (references/patterns/*.md, PT-BR writing guides); uncalibrated.
+schema_version: 1
+evidence: {level: E1, basis: "references/patterns/*.md", calibration: none}
+
+patterns:
+  - id: opening_generic
+    family: ENEM-ismo
+    strength: strong
+    scope: sentence_start
+    regex: "(?:no cenário atual|no contexto atual|nos dias (?:de )?hoje|na sociedade (?:atual|contemporânea|moderna)|em um mundo cada vez mais|num mundo cada vez mais|desde os primórdios|ao longo da história|hoje em dia, (?:é|está) cada vez mais)"
+    exempt: [literary]
+    suggestion: "comece pela afirmação concreta; contexto genérico só se o argumento depender dele"
+
+  - id: empty_metadiscourse
+    family: metadiscurso vazio
+    strength: strong
+    scope: anywhere
+    regex: "(?:é (?:importante|fundamental|válido|interessante|relevante) (?:destacar|ressaltar|mencionar|lembrar|salientar|frisar|notar|observar)|vale (?:a pena )?(?:ressaltar|destacar|lembrar|mencionar|salientar)|cabe (?:destacar|ressaltar|mencionar|salientar|lembrar)|convém (?:destacar|ressaltar|lembrar)|não podemos deixar de (?:mencionar|destacar))(?: que)?"
+    weak_in: [academic]
+    suggestion: "remova o marcador e mantenha o conteúdo que ele introduz"
+
+  - id: stacked_connector
+    family: conectivos empilhados
+    strength: weak
+    scope: sentence_start
+    regex: "(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|diante desse cenário|sendo assim|posto isso|por conseguinte)\\s*,"
+    weak_in: [academic, legal]
+    suggestion: "use conectivo só quando a relação lógica não é óbvia; prefira encadear pelo conteúdo"
+
+  - id: connector_density
+    family: conectivos empilhados
+    strength: strong
+    scope: document
+    min_sentences: 3
+    threshold: 0.34
+    regex: "(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|sendo assim|posto isso|por fim|em suma|em resumo|portanto|assim)\\s*,"
+    exempt: [legal]
+    suggestion: "mais de um terço das frases abre com conectivo; corte os que não carregam relação lógica"
+
+  - id: gerundismo
+    family: gerundismo
+    strength: strong
+    scope: anywhere
+    regex: "\\b(?:vamos|vou|iremos|irei|vai|vão|estaremos|estarei|estará|estarão)\\s+(?:estar\\s+)?(?:\\w+ndo)\\b"
+    requires: "estar|estaremos|estarei|estará|estarão"
+    suggestion: "troque por futuro simples ou presente: 'estaremos realizando' -> 'vamos realizar' / 'realizamos'"
+
+  - id: support_verb
+    family: oficialês
+    strength: weak
+    scope: anywhere
+    regex: "\\b(?:realizar|realizamos|realizaremos|realizou|efetuar|efetuamos|efetuou|efetuado|proceder|procederemos|promover|promovemos)\\s+(?:a|o|à|ao|uma|um)\\s+\\w+(?:ção|ções|mento|mentos|agem|são)\\b"
+    exempt: [legal]
+    weak_in: [academic, corporate]
+    suggestion: "use o verbo pleno: 'realizar a validação' -> 'validar'"
+
+  - id: nominal_chain
+    family: nominalização
+    strength: weak
+    scope: anywhere
+    regex: "\\b\\w+(?:ção|mento)\\s+d[aoe]s?\\s+\\w+(?:ção|mento)\\b"
+    exempt: [legal, academic, technical]
+    suggestion: "desfaça a cadeia de substantivos abstratos com um verbo"
+
+  - id: formulaic_courtesy
+    family: fórmulas de cortesia
+    strength: weak
+    scope: anywhere
+    regex: "(?:desde já,? agrade(?:ço|cemos)|agradecemos imensamente|lamentamos profundamente|não hesite em|estamos sempre à disposição|gostar(?:ia|íamos) de informar que|venho por meio desta)"
+    exempt: [whatsapp, literary]
+    suggestion: "diga a informação primeiro; uma fórmula de cortesia basta"
+
+  - id: calque_email
+    family: tradução literal
+    strength: strong
+    scope: anywhere
+    regex: "(?:espero que (?:esta|essa|este|esse) (?:mensagem|e-?mail) (?:o|a|os|as|te|lhe|lhes)?\\s*encontre bem|no final do dia(?=,)|endereçar (?:o|a|os|as|este|esse|essa|esta) (?:problema|questão|questões|demanda|ponto))"
+    suggestion: "use a forma brasileira: 'espero que esteja bem', 'no fim das contas', 'resolver o problema'"
+
+  - id: promotional
+    family: linguagem promocional
+    strength: weak
+    scope: anywhere
+    regex: "\\b(?:revolucionári[oa]s?|disruptiv[oa]s?|de última geração|de ponta|sem precedentes|transformador[a]?|transformadora|incríve(?:l|is)|poderos[oa]s?|inovador[a]?(?:es)?|game[- ]changer)\\b"
+    exempt: [literary]
+    suggestion: "troque o adjetivo pelo fato que o sustentaria ou corte"
+
+  - id: dramatic_punchline
+    family: falsa profundidade
+    strength: strong
+    scope: sentence
+    regex: "^(?:e isso muda tudo|simples assim|esse é o ponto|pense nisso|é isso|fica a dica|ninguém fala sobre isso[^.!?]*)[.!]?$"
+    exempt: [literary]
+    suggestion: "corte a frase de efeito ou troque pela consequência concreta"
+
+  - id: contrast_formula
+    family: contraste teatral
+    strength: weak
+    scope: anywhere
+    regex: "(?:não (?:é|se trata) (?:apenas |só |somente )?(?:sobre|de) [^.;]{1,40}[,.;]\\s*(?:é|mas|e sim) (?:sobre|de)|mais do que [^.;]{1,30}, (?:é|trata-se))"
+    exempt: [literary]
+    suggestion: "diga a afirmação diretamente; mantenha o contraste só se alguém de fato pensa o contrário"
+
+  - id: generic_closing
+    family: conclusão genérica
+    strength: weak
+    scope: sentence_start
+    regex: "(?:em suma|em resumo|diante do exposto|conclui-se,? portanto|por fim, mas não menos importante|em última análise)\\b"
+    exempt: [academic, legal]
+    suggestion: "termine no último fato ou na ação esperada; não repita a tese"
+
+  - id: engagement_question
+    family: isca de engajamento
+    strength: weak
+    scope: sentence
+    regex: "^(?:e você|qual (?:foi|é) (?:o|a) (?:seu|sua|maior)|o que você acha|concorda)[^?]{0,120}\\?$"
+    exempt: [whatsapp, email, literary]
+    suggestion: "termine na ideia; pergunte só se a resposta importa"
+
+  - id: double_hedge
+    family: hedging empilhado
+    strength: strong
+    scope: anywhere
+    regex: "\\b(?:pode potencialmente|possivelmente pode|talvez possa|pode eventualmente|poderia talvez|provavelmente pode)\\b"
+    suggestion: "um marcador de incerteza basta"

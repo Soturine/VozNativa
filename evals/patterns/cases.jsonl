@@ -1,0 +1,20 @@
+{"id":"pt-001","genre":"legal","text":"A rescisão do contrato implica a devolução da caução, ressalvada a compensação de débitos pendentes, nos termos da cláusula 9.","expect":{"decision":"no_change_candidate","absent":["support_verb","nominal_chain"]},"note":"normative nominalizations are legitimate in legal text"}
+{"id":"pt-002","genre":"academic","text":"Os dados foram coletados entre março e junho. Nesse sentido, a amostra reflete apenas o primeiro semestre letivo.","expect":{"decision":"no_change_candidate"},"note":"one connector with a real logical relation"}
+{"id":"pt-003","genre":"email","text":"Oi, Ana. Segue o relatório revisado. Fico à disposição se precisar de algo.","expect":{"decision":"no_change_candidate"},"note":"a single courtesy line is normal in e-mail"}
+{"id":"pt-004","genre":"technical","text":"O processo continua rodando em segundo plano enquanto o cache está sendo reconstruído.","expect":{"decision":"no_change_candidate","absent":["gerundismo"]},"note":"progressive aspect is not gerundismo"}
+{"id":"pt-005","genre":"literary","text":"Choveu a noite inteira. E isso muda tudo.","expect":{"decision":"no_change_candidate"},"note":"a punchline is style in fiction"}
+{"id":"pt-006","genre":"whatsapp","text":"vamos indo, tá? chego em 10 min","expect":{"decision":"no_change_candidate","absent":["gerundismo"]}}
+{"id":"pt-007","genre":"corporate","text":"Estaremos realizando a manutenção do servidor no domingo.","expect":{"decision":"edit","present":["gerundismo"]}}
+{"id":"pt-008","genre":"corporate","text":"É importante ressaltar que o prazo foi mantido.","expect":{"decision":"edit","present":["empty_metadiscourse"]}}
+{"id":"pt-009","genre":"academic","text":"No cenário atual, a educação a distância cresceu de forma acelerada.","expect":{"decision":"edit","present":["opening_generic"]}}
+{"id":"pt-010","genre":"email","text":"Prezado, espero que este e-mail o encontre bem. Envio em anexo a proposta.","expect":{"decision":"edit","present":["calque_email"]}}
+{"id":"pt-011","genre":"corporate","text":"Vamos realizar a validação dos dados amanhã.","expect":{"decision":"no_change_candidate","present":["support_verb"]},"note":"a single weak support verb is not enough to edit"}
+{"id":"pt-012","genre":"social","text":"Nosso produto é revolucionário, inovador e incrível.","expect":{"decision":"edit","present":["promotional"]}}
+{"id":"pt-013","genre":"technical","text":"Use o cliente HTTP da biblioteca padrão. Ele faz retry automático em erros 503.","expect":{"decision":"no_change_candidate"}}
+{"id":"pt-014","genre":"corporate","text":"Além disso, o time revisou o escopo. Nesse sentido, o prazo mudou. Dessa forma, a entrega foi adiada. Por fim, o cliente aprovou.","expect":{"decision":"edit","present":["connector_density"]}}
+{"id":"pt-015","genre":"technical","text":"A nova versão pode potencialmente reduzir a latência.","expect":{"decision":"edit","present":["double_hedge"]}}
+{"id":"pt-016","genre":"journalistic","text":"Segundo o IBGE, a inflação desacelerou em setembro. O índice ficou em 0,44%.","expect":{"decision":"no_change_candidate"}}
+{"id":"pt-017","genre":"social","text":"Liderança não é sobre cargo, é sobre pessoas.","expect":{"present":["contrast_formula"]}}
+{"id":"pt-018","genre":"unknown","text":"Na sociedade contemporânea, a tecnologia transformou as relações. Diante disso, é fundamental destacar que precisamos refletir.","expect":{"decision":"edit","present":["opening_generic","empty_metadiscourse"]}}
+{"id":"pt-019","genre":"legal","text":"O locatário deverá efetuar o pagamento até o quinto dia útil.","expect":{"decision":"no_change_candidate","absent":["support_verb"]}}
+{"id":"pt-020","genre":"whatsapp","text":"oi! não hesite em me chamar se precisar kkk","expect":{"decision":"no_change_candidate"}}

@@ -251,6 +251,15 @@ def cmd_rewrite(args):
         result["outcome"]]
 
 
+
+def cmd_patterns(args):
+    from .patterns import detect
+    from .router import infer_genre
+    text = _read(args.text)
+    genre = args.genre or infer_genre(text)["value"]
+    _emit(detect(text, genre))
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
@@ -279,6 +288,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("original")
     p.add_argument("candidate")
     p.set_defaults(func=cmd_judge_prompt)
+
+    p = sub.add_parser("patterns", help="editorial pattern findings (genre-aware; not an authorship score)")
+    p.add_argument("text")
+    p.add_argument("--genre", help="genre for exemptions (default: inferred)")
+    p.set_defaults(func=cmd_patterns)
 
     p = sub.add_parser("analyze", help="descriptive text measurements")
     p.add_argument("text")

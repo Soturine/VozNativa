@@ -31,6 +31,7 @@ SKILL_WORD_CAP = 5000
 JSONL_FIELDS = {
     "evals/semantic": ("id", "category", "original", "candidate", "expect"),
     "benchmarks/cases": ("id", "text"),
+    "evals/patterns": ("id", "genre", "text", "expect"),
 }
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "build", "dist"}
 
