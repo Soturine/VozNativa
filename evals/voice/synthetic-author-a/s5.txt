@@ -1,0 +1,1 @@
+Quem pegar o ticket de pagamentos, cuidado com o ambiente de teste (ele usa a chave antiga). A gente troca a chave na sprint que vem. Até lá, usa o mock.

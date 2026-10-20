@@ -1,0 +1,1 @@
+Subi a correção do login agora (era o token expirando antes da hora). A gente testou em staging e tá ok. Se aparecer erro de novo, me chama que eu olho. Deploy em produção fica pra amanhã cedo.

@@ -1,0 +1,1 @@
+Fechei a análise do funil. A queda veio do formulário novo (dois campos a mais). A gente pode testar a versão curta na semana que vem. Mandei os números no canal de dados.
