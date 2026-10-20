@@ -1,0 +1,50 @@
+{
+  "benchmark": "ptbr-bench-v1",
+  "frozen_at": "2026-10-20",
+  "cases_file": "benchmarks/cases/ptbr-bench-v1.jsonl",
+  "cases_sha256": "c70b2f7b734190e4f1371c17263805ebd294a60a94e7667432b8c19f041273d8",
+  "author": "VozNativa developer (not independent)",
+  "class": "skill-only: every arm uses the same model through the same wrapper",
+  "base_model": {
+    "cli": "Claude Code CLI 2.1.301",
+    "model": "claude-sonnet-5-5",
+    "tools": "none",
+    "workdir": "empty temp dir"
+  },
+  "arms": {
+    "B0-original": "the input text itself (no rewrite)",
+    "B1-one-line": "Reescreva para soar mais natural, sem alterar o significado.",
+    "B2-blader": {
+      "repo": "https://github.com/blader/humanizer",
+      "commit": "8c307f3",
+      "file": "SKILL.md",
+      "license": "MIT"
+    },
+    "B3-work-humanizer": {
+      "repo": "https://github.com/phuryn/work-humanizer",
+      "commit": "0a90657",
+      "file": "skills/work-humanizer/SKILL.md",
+      "license": "MIT"
+    },
+    "B5a-voznativa-prompt": "one call with the voznativa rewrite-prompt (no gates, no retries): isolates the prompt",
+    "B5b-voznativa-engine": "full engine: pattern decision, gates, retries, returns the original when unsafe"
+  },
+  "wrapper": "skill text inside <skill> tags, then the task and the text; every arm asked for the final text inside <final></final>",
+  "metrics": {
+    "deterministic": [
+      "voznativa compare status vs the original",
+      "must_preserve invariants",
+      "editorial findings after",
+      "length ratio"
+    ],
+    "llm_judge": "same judge prompt for every arm (voznativa judge-prompt), kind=llm, separate call",
+    "operational": [
+      "latency",
+      "cost reported by the CLI"
+    ],
+    "human": "blind pairwise review packets; results only from real reviewers",
+    "detectors": "not used"
+  },
+  "bias_disclosure": "the deterministic instrument and the judge prompt are VozNativa's own; they are applied identically to every arm",
+  "rule": "the first complete run is the official result; reruns are reported separately, never replace it"
+}
