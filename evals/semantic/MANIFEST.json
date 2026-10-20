@@ -67,7 +67,17 @@
         "cases": 24,
         "code": "4d899e6 (before any v0.3.0 semantic change)"
       },
-      "purpose": "prospective measurement of the v0.3.0 M1 gaps; written before the fixes"
+      "purpose": "prospective measurement of the v0.3.0 M1 gaps; written before the fixes",
+      "later_runs": [
+        {
+          "date": "2026-10-20",
+          "code": "8c51562",
+          "passed": 24,
+          "cases": 24,
+          "blind": false,
+          "note": "after the M1 work packages; the fixes were designed from the plan and separate dev cases, but the first-run failures (including the h3-role-002 false red) had been seen. Only the first run (15/24) is a blind measurement."
+        }
+      ]
     }
   }
 }
