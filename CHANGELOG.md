@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased (0.2.0.dev0)
+## Unreleased (0.3.0.dev0)
+
+Work in progress; see `docs/PLAN_v0.3.0.md`.
+
+## 0.2.0.dev0 - 2026-10-19 (pushed to main; development version, not a release)
 
 ### Fixed (false greens found in the v0.1.0 audit; each has a regression test)
 - `R$ 1.500,00` was split into `R$ 1` + `00`, so `R$ 1.500,00 -> R$ 1.900,00` passed the guard.
