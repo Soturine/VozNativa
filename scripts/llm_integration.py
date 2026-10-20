@@ -14,6 +14,7 @@ as kind=llm and never counts as human review.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -53,6 +54,8 @@ def main() -> int:
     parser.add_argument("--cases", default=str(ROOT / "benchmarks" / "cases" / "ptbr-v1.jsonl"))
     parser.add_argument("--attempts", type=int, default=2)
     parser.add_argument("--timeout", type=float, default=300.0)
+    parser.add_argument("--redact", action="store_true",
+                        help="store only hashes, lengths and metrics, never texts or raw model answers")
     args = parser.parse_args()
 
     git = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()  # noqa: E731
@@ -80,10 +83,17 @@ def main() -> int:
             "cases_file": cases_path.relative_to(ROOT).as_posix() if cases_path.is_relative_to(ROOT) else str(cases_path),
             "attempts_allowed": args.attempts,
             "complete": len(rows) == total,
+            "redacted": args.redact,
             "summary": {o: sum(1 for r in rows if r["outcome"] == o) for o in sorted({str(r["outcome"]) for r in rows})},
             "results": rows,
         }
         path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    def shield(text):
+        """With --redact, replace a text by its hash and length (privacy for real user texts)."""
+        if not args.redact or text is None:
+            return text
+        return {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(), "chars": len(text)}
 
     cases = load_cases(cases_path)
     total = len(cases)
@@ -100,18 +110,19 @@ def main() -> int:
         report = (result or {}).get("report") or {}
         rows.append({
             "id": case["id"],
-            "original": case["text"],
+            "original": shield(case["text"]),
             "outcome": (result or {}).get("outcome"),
-            "final_text": (result or {}).get("text"),
+            "final_text": shield((result or {}).get("text")),
             "final_status": report.get("status"),
-            "attempts": (result or {}).get("attempts"),
+            "attempts": [{k: v for k, v in a.items() if not (args.redact and k == "preview")}
+                         for a in (result or {}).get("attempts") or []],
             "judgments": [{k: j.get(k) for k in ("kind", "judge_id", "verdict", "downgraded")}
                           for j in (report.get("evidence") or {}).get("judgments", [])],
             "judge_error": report.get("judge_error"),
             "quality": (result or {}).get("quality"),
             "error": error,
             "seconds": round(time.monotonic() - started, 1),
-            "calls": writer.log + judge.log,
+            "calls": [{**c, "answers": [shield(a) for a in c["answers"]]} for c in writer.log + judge.log],
         })
         print(f"{case['id']}: {rows[-1]['outcome']} ({rows[-1]['final_status']})", flush=True)
         save()
