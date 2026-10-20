@@ -1,0 +1,83 @@
+{
+  "run_at": "2026-10-20T06:10:34+00:00",
+  "model": "claude-sonnet-5-5",
+  "voznativa_commit": "233b806ea5cf0c5f82b7b1cdcb9c0b298b60b469",
+  "summary": {
+    "author": "synthetic-author-a (written by the developer)",
+    "profile_maturity": "channel_profile",
+    "cases": 4,
+    "pairs_where_both_rewrote": 4,
+    "median_distance": {
+      "original": 0.7969999999999999,
+      "without_profile": 0.516,
+      "with_profile": 0.457
+    },
+    "with_profile_closer": 2
+  },
+  "rows": [
+    {
+      "id": "ai-corp-001",
+      "original_distance": 0.864,
+      "without_profile": {
+        "outcome": "needs_review",
+        "status": "review_required",
+        "distance": 0.456,
+        "text": "Prezados, espero que estejam bem. Vamos atualizar o sistema de faturamento na próxima terça-feira, a partir das 19h. O sistema poderá apresentar instabilidade por até 40 minutos, e os pedidos feitos nesse período só serão processados após a conclusão da atualização. Agradecemos a compreensão de todos."
+      },
+      "with_profile": {
+        "outcome": "needs_judgment",
+        "status": "no_deterministic_issues",
+        "distance": 0.356,
+        "text": "Prezados, espero que estejam bem.\n\nVamos atualizar o sistema de faturamento na próxima terça-feira, a partir das 19h. O sistema poderá apresentar instabilidade por até 40 minutos. Os pedidos feitos nesse período só serão processados após a conclusão da atualização.\n\nDesde já, agradecemos a compreensão de todos."
+      }
+    },
+    {
+      "id": "ai-status-001",
+      "original_distance": 0.622,
+      "without_profile": {
+        "outcome": "needs_judgment",
+        "status": "no_deterministic_issues",
+        "distance": 0.526,
+        "text": "Pessoal, dando continuidade ao alinhamento de ontem, gostaria de compartilhar que a funcionalidade de exportação para PDF foi concluída com sucesso. No entanto, a exportação para Excel ainda não foi finalizada, visto que dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta."
+      },
+      "with_profile": {
+        "outcome": "needs_judgment",
+        "status": "no_deterministic_issues",
+        "distance": 0.526,
+        "text": "Pessoal, dando continuidade ao alinhamento de ontem, gostaria de compartilhar que a funcionalidade de exportação para PDF foi concluída com sucesso. No entanto, a exportação para Excel ainda não foi finalizada, visto que dependemos da aprovação da equipe de segurança. A previsão é que seja entregue até sexta-feira, caso a aprovação ocorra até quarta."
+      }
+    },
+    {
+      "id": "ai-support-001",
+      "original_distance": 0.746,
+      "without_profile": {
+        "outcome": "needs_review",
+        "status": "review_required",
+        "distance": 0.506,
+        "text": "Olá! O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Lamentamos o inconveniente. Se tiver qualquer dúvida, é só entrar em contato conosco."
+      },
+      "with_profile": {
+        "outcome": "needs_review",
+        "status": "review_required",
+        "distance": 0.388,
+        "text": "Olá. Obrigado pelo contato, e lamentamos o inconveniente. O reembolso do pedido nº 48213 será efetuado em até 7 dias úteis, desde que o produto seja devolvido sem sinais de uso. Se tiver alguma dúvida, é só nos chamar."
+      }
+    },
+    {
+      "id": "ai-tech-001",
+      "original_distance": 0.848,
+      "without_profile": {
+        "outcome": "needs_review",
+        "status": "review_required",
+        "distance": 0.637,
+        "text": "O arquivo .env deve conter a variável DATABASE_URL, usada para estabelecer a conexão com o banco de dados. Sem ela, a aplicação pode não ser inicializada corretamente."
+      },
+      "with_profile": {
+        "outcome": "needs_review",
+        "status": "review_required",
+        "distance": 0.653,
+        "text": "O arquivo .env deve conter a variável DATABASE_URL, usada para estabelecer a conexão com o banco de dados. Sem ela, a aplicação pode não inicializar corretamente."
+      }
+    }
+  ]
+}

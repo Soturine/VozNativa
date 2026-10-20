@@ -1,0 +1,2416 @@
+{
+  "kind": "voznativa.skill_only_benchmark",
+  "manifest": {
+    "benchmark": "ptbr-bench-v1",
+    "frozen_at": "2026-10-20",
+    "cases_file": "benchmarks/cases/ptbr-bench-v1.jsonl",
+    "cases_sha256": "c70b2f7b734190e4f1371c17263805ebd294a60a94e7667432b8c19f041273d8",
+    "author": "VozNativa developer (not independent)",
+    "class": "skill-only: every arm uses the same model through the same wrapper",
+    "base_model": {
+      "cli": "Claude Code CLI 2.1.301",
+      "model": "claude-sonnet-5-5",
+      "tools": "none",
+      "workdir": "empty temp dir"
+    },
+    "arms": {
+      "B0-original": "the input text itself (no rewrite)",
+      "B1-one-line": "Reescreva para soar mais natural, sem alterar o significado.",
+      "B2-blader": {
+        "repo": "https://github.com/blader/humanizer",
+        "commit": "8c307f3",
+        "file": "SKILL.md",
+        "license": "MIT"
+      },
+      "B3-work-humanizer": {
+        "repo": "https://github.com/phuryn/work-humanizer",
+        "commit": "0a90657",
+        "file": "skills/work-humanizer/SKILL.md",
+        "license": "MIT"
+      },
+      "B5a-voznativa-prompt": "one call with the voznativa rewrite-prompt (no gates, no retries): isolates the prompt",
+      "B5b-voznativa-engine": "full engine: pattern decision, gates, retries, returns the original when unsafe"
+    },
+    "wrapper": "skill text inside <skill> tags, then the task and the text; every arm asked for the final text inside <final></final>",
+    "metrics": {
+      "deterministic": [
+        "voznativa compare status vs the original",
+        "must_preserve invariants",
+        "editorial findings after",
+        "length ratio"
+      ],
+      "llm_judge": "same judge prompt for every arm (voznativa judge-prompt), kind=llm, separate call",
+      "operational": [
+        "latency",
+        "cost reported by the CLI"
+      ],
+      "human": "blind pairwise review packets; results only from real reviewers",
+      "detectors": "not used"
+    },
+    "bias_disclosure": "the deterministic instrument and the judge prompt are VozNativa's own; they are applied identically to every arm",
+    "rule": "the first complete run is the official result; reruns are reported separately, never replace it"
+  },
+  "cases_sha256": "c70b2f7b734190e4f1371c17263805ebd294a60a94e7667432b8c19f041273d8",
+  "run_at": "20261020T060615Z",
+  "cli_version": "2.1.301 (Claude Code)",
+  "model": "claude-sonnet-5-5",
+  "voznativa_commit": "cfaa564ae946374c18c46a68bdbd0d669aad5a20",
+  "skills_fetched_sha256": {
+    "B2-blader": "0612f1dfb1672b0ea9b97e139bf1f06cabe98d8b27424fe8ff01e1fb4cc99cad",
+    "B3-work-humanizer": "9ad38da86922e17d523e8a02aed352bcea617bbf5333e3d800df22f178a9559d"
+  },
+  "complete": true,
+  "summary": {
+    "B0-original": {
+      "n": 12,
+      "invariants_ok": "12/12",
+      "deterministic": {
+        "identical": 12
+      },
+      "judge_not_equivalent": 0,
+      "findings_after_total": 24,
+      "natural_texts_changed": "0/3",
+      "cost_usd": 0.0,
+      "median_seconds": 0.0
+    },
+    "B1-one-line": {
+      "n": 12,
+      "invariants_ok": "4/12",
+      "deterministic": {
+        "fail": 1,
+        "no_deterministic_issues": 3,
+        "review_required": 8
+      },
+      "judge_not_equivalent": 2,
+      "findings_after_total": 4,
+      "natural_texts_changed": "3/3",
+      "cost_usd": 0.493,
+      "median_seconds": 4.9
+    },
+    "B2-blader": {
+      "n": 12,
+      "invariants_ok": "5/12",
+      "deterministic": {
+        "fail": 3,
+        "no_deterministic_issues": 3,
+        "review_required": 6
+      },
+      "judge_not_equivalent": 8,
+      "findings_after_total": 0,
+      "natural_texts_changed": "3/3",
+      "cost_usd": 1.033,
+      "median_seconds": 4.949999999999999
+    },
+    "B3-work-humanizer": {
+      "n": 12,
+      "invariants_ok": "3/12",
+      "deterministic": {
+        "fail": 3,
+        "review_required": 9
+      },
+      "judge_not_equivalent": 4,
+      "findings_after_total": 0,
+      "natural_texts_changed": "3/3",
+      "cost_usd": 0.879,
+      "median_seconds": 6.35
+    },
+    "B5a-voznativa-prompt": {
+      "n": 12,
+      "invariants_ok": "11/12",
+      "deterministic": {
+        "identical": 2,
+        "no_deterministic_issues": 8,
+        "review_required": 2
+      },
+      "judge_not_equivalent": 1,
+      "findings_after_total": 0,
+      "natural_texts_changed": "2/3",
+      "cost_usd": 0.65,
+      "median_seconds": 5.699999999999999
+    },
+    "B5b-voznativa-engine": {
+      "n": 12,
+      "invariants_ok": "10/12",
+      "deterministic": {
+        "identical": 7,
+        "no_deterministic_issues": 2,
+        "review_required": 3
+      },
+      "judge_not_equivalent": 2,
+      "findings_after_total": 5,
+      "natural_texts_changed": "0/3",
+      "cost_usd": 1.423,
+      "median_seconds": 4.7
+    }
+  },
+  "rows": [
+    {
+      "arm": "B0-original",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Prezada equipe, espero que esta mensagem os encontre bem. Gostaria de informar que estaremos realizando a revisão dos contratos de fornecedores ao longo da próxima semana. Nesse sentido, é fundamental destacar que nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico. Agradecemos imensamente a colaboração de todos.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 6,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "Em um mundo cada vez mais digitalizado, a leitura em telas tem se tornado cada vez mais frequente. Nesse contexto, o presente estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados sugerem que a compreensão foi ligeiramente maior no impresso, embora a diferença não tenha sido estatisticamente significativa (p = 0,08).",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "Ninguém te conta isso, mas produtividade não é sobre fazer mais. É sobre fazer o que importa. No último trimestre, reduzi minhas reuniões semanais de 14 para 6. Foi uma mudança transformadora. E isso muda tudo. Você já fez esse exercício?",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "No contexto atual de desenvolvimento de software, a gestão de dependências desempenha um papel fundamental. Dessa forma, recomenda-se executar o comando `npm audit` antes de cada release. Ademais, vale ressaltar que vulnerabilidades classificadas como críticas devem ser corrigidas em até 48 horas.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 5,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Agradecemos imensamente o seu contato e lamentamos profundamente o transtorno. Gostaríamos de informar que a segunda via do boleto foi enviada para o seu e-mail cadastrado e vence em 25/11. Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem. Estamos sempre à disposição!",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 4,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, dando continuidade ao alinhamento de ontem, gostaria de compartilhar que o deploy da versão 3.1 foi adiado para quinta-feira, visto que os testes de carga apontaram lentidão no checkout. Além disso, cabe mencionar que a Paula ficará responsável pela investigação. Caso o problema persista, iremos avaliar um rollback.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "Em um cenário de incertezas econômicas, é importante ressaltar que, segundo o Banco Central, a taxa Selic foi mantida em 10,75% ao ano. Nesse sentido, a decisão foi unânime e, de acordo com o comunicado, o comitê não descarta novas altas caso a inflação acelere.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "gente, o churrasco de sábado vai ser na casa da Bia, às 13h. cada um leva uma bebida, a carne fica por minha conta. quem não puder ir me avisa até sexta, blz?",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432; sem ele, eles são pulados automaticamente.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante poderá rescindir o presente contrato mediante aviso prévio de 30 dias, sem prejuízo das obrigações já vencidas. A rescisão sem aviso prévio sujeitará a parte infratora à multa prevista na cláusula 11.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos. Conforme combinado, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Qualquer dúvida, fico à disposição.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B0-original",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Nesse sentido, os achados indicam que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar uma relação causal, uma vez que não houve grupo de controle.",
+      "raw": null,
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 1,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "Ninguém fala isso, mas produtividade não é fazer mais, é fazer o que importa. No último trimestre, cortei minhas reuniões semanais de 14 para 6, e isso transformou tudo. Você já tentou fazer esse exercício?",
+      "raw": "<final>\nNinguém fala isso, mas produtividade não é fazer mais, é fazer o que importa. No último trimestre, cortei minhas reuniões semanais de 14 para 6, e isso transformou tudo. Você já tentou fazer esse exercício?\n</final>",
+      "cost_usd": 0.0116,
+      "seconds": 5.1,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.854,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0258558
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "Com o mundo cada vez mais digital, ler em telas tornou-se algo cada vez mais comum. Diante disso, este estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados indicam que a compreensão foi um pouco maior no papel, mas a diferença não foi estatisticamente significativa (p = 0,08).",
+      "raw": "<final>\nCom o mundo cada vez mais digital, ler em telas tornou-se algo cada vez mais comum. Diante disso, este estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados indicam que a compreensão foi um pouco maior no papel, mas a diferença não foi estatisticamente significativa (p = 0,08).\n</final>",
+      "cost_usd": 0.0122,
+      "seconds": 5.0,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "sugerem",
+          "ligeiramente maior",
+          "não tenha sido estatisticamente significativa"
+        ],
+        "findings_after": 1,
+        "length_ratio": 0.947,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Os resultados sugerem que a compreensão foi ligeiramente maior no impresso",
+              "status": "strengthened",
+              "candidate": "Os resultados indicam que a compreensão foi um pouco maior no papel",
+              "note": "'sugerem' virou 'indicam', que expressa um grau de certeza maior. A magnitude ('ligeiramente' / 'um pouco') e a direção foram mantidas."
+            }
+          ],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0316851
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "Hoje em dia, gerenciar bem as dependências é essencial no desenvolvimento de software. Por isso, o ideal é rodar o `npm audit` antes de cada release. Vale lembrar também que vulnerabilidades críticas devem ser corrigidas em até 48 horas.",
+      "raw": "<final>\nHoje em dia, gerenciar bem as dependências é essencial no desenvolvimento de software. Por isso, o ideal é rodar o `npm audit` antes de cada release. Vale lembrar também que vulnerabilidades críticas devem ser corrigidas em até 48 horas.\n</final>",
+      "cost_usd": 0.0118,
+      "seconds": 5.8,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 1,
+        "length_ratio": 0.929,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.032978600000000004
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Olá, pessoal! Na próxima semana vamos revisar os contratos de fornecedores. Por isso, é importante lembrar que nenhum contrato novo pode ser assinado sem a aprovação prévia do jurídico. Obrigado a todos pela colaboração!",
+      "raw": "<final>\nOlá, pessoal! Na próxima semana vamos revisar os contratos de fornecedores. Por isso, é importante lembrar que nenhum contrato novo pode ser assinado sem a aprovação prévia do jurídico. Obrigado a todos pela colaboração!\n</final>",
+      "cost_usd": 0.0118,
+      "seconds": 6.7,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "nenhum novo contrato",
+          "poderá"
+        ],
+        "findings_after": 1,
+        "length_ratio": 0.68,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [
+            "Relação causal entre a revisão dos contratos e a regra de aprovação do jurídico ('Por isso'). O ORIGINAL usa apenas 'Nesse sentido', um conector de continuidade que não diz que a regra existe por causa da revisão."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0360018
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, seguindo o alinhamento de ontem, queria avisar que o deploy da versão 3.1 foi adiado para quinta-feira, porque os testes de carga mostraram lentidão no checkout. A Paula vai ficar responsável pela investigação. Se o problema continuar, vamos avaliar um rollback.",
+      "raw": "<final>\nPessoal, seguindo o alinhamento de ontem, queria avisar que o deploy da versão 3.1 foi adiado para quinta-feira, porque os testes de carga mostraram lentidão no checkout. A Paula vai ficar responsável pela investigação. Se o problema continuar, vamos avaliar um rollback.\n</final>",
+      "cost_usd": 0.0121,
+      "seconds": 3.8,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "visto que",
+          "Caso o problema persista"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.857,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0270523
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Obrigado pelo contato, e sentimos muito pelo transtorno. A segunda via do boleto já foi enviada para o seu e-mail cadastrado e vence no dia 25/11. Se você já fez o pagamento, é só desconsiderar esta mensagem. Qualquer dúvida, estamos à disposição!",
+      "raw": "<final>\nOlá! Obrigado pelo contato, e sentimos muito pelo transtorno. A segunda via do boleto já foi enviada para o seu e-mail cadastrado e vence no dia 25/11. Se você já fez o pagamento, é só desconsiderar esta mensagem. Qualquer dúvida, estamos à disposição!\n</final>",
+      "cost_usd": 0.012,
+      "seconds": 4.9,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "Caso o pagamento já tenha sido realizado",
+          "desconsidere"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.915,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Estamos sempre à disposição!",
+              "status": "weakened",
+              "candidate": "Qualquer dúvida, estamos à disposição!",
+              "note": "O 'sempre' saiu, e a disponibilidade passou a se referir a dúvidas. O sentido é próximo, mas o escopo mudou levemente."
+            }
+          ],
+          "added": [
+            "'Qualquer dúvida' convida o cliente a tirar dúvidas e implica que a empresa as responderá, o que o original não diz."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0355059
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "Pessoal, o churrasco de sábado vai ser na casa da Bia, às 13h! Cada um leva uma bebida, que a carne é por minha conta. Quem não puder ir, me avisa até sexta, beleza?",
+      "raw": "<final>\nPessoal, o churrasco de sábado vai ser na casa da Bia, às 13h! Cada um leva uma bebida, que a carne é por minha conta. Quem não puder ir, me avisa até sexta, beleza?\n</final>",
+      "cost_usd": 0.0114,
+      "seconds": 4.9,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.03,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0239555
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "Em meio às incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano. A decisão foi unânime e, segundo o comunicado, o comitê não descarta novas altas caso a inflação acelere.",
+      "raw": "<final>\nEm meio às incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano. A decisão foi unânime e, segundo o comunicado, o comitê não descarta novas altas caso a inflação acelere.\n</final>",
+      "cost_usd": 0.0116,
+      "seconds": 4.0,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "segundo o Banco Central"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.756,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "segundo o Banco Central, a taxa Selic foi mantida em 10,75% ao ano",
+              "status": "changed",
+              "candidate": "o Banco Central manteve a taxa Selic em 10,75% ao ano",
+              "note": "A atribuição 'segundo o Banco Central' (fonte que informa) virou afirmação direta com o Banco Central como agente da decisão. Fato e número mantidos, mas a atribuição e o agente mudaram levemente; o original atribui a decisão ao comitê."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0334411
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 em execução na porta 5432; se ele não estiver disponível, esses testes são pulados automaticamente.",
+      "raw": "<final>\nPara rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 em execução na porta 5432; se ele não estiver disponível, esses testes são pulados automaticamente.\n</final>",
+      "cost_usd": 0.0115,
+      "seconds": 3.4,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "sem ele"
+        ],
+        "findings_after": 0,
+        "length_ratio": 1.185,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0235008
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante pode rescindir este contrato com aviso prévio de 30 dias, sem prejuízo das obrigações que já estiverem vencidas. Caso a rescisão ocorra sem esse aviso, a parte que a der causa ficará sujeita à multa prevista na cláusula 11.",
+      "raw": "<final>\nO contratante pode rescindir este contrato com aviso prévio de 30 dias, sem prejuízo das obrigações que já estiverem vencidas. Caso a rescisão ocorra sem esse aviso, a parte que a der causa ficará sujeita à multa prevista na cláusula 11.\n</final>",
+      "cost_usd": 0.0118,
+      "seconds": 4.4,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "poderá",
+          "sem aviso prévio"
+        ],
+        "findings_after": 0,
+        "length_ratio": 1.206,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.026121600000000002
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos! Como combinamos, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só me chamar.",
+      "raw": "<final>\nOi, Marcos! Como combinamos, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só me chamar.\n</final>",
+      "cost_usd": 0.0114,
+      "seconds": 3.9,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.107,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0280625
+      }
+    },
+    {
+      "arm": "B1-one-line",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Nesse sentido, os achados sugerem que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar que haja uma relação causal, já que não havia grupo de controle.",
+      "raw": "<final>Nesse sentido, os achados sugerem que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar que haja uma relação causal, já que não havia grupo de controle.</final>",
+      "cost_usd": 0.0115,
+      "seconds": 5.6,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "indicam",
+          "não houve grupo de controle"
+        ],
+        "findings_after": 1,
+        "length_ratio": 1.032,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Os achados indicam [algo] (grau de certeza evidencial: 'indicam')",
+              "status": "weakened",
+              "candidate": "os achados sugerem",
+              "note": "'indicam' -> 'sugerem' é quase sinônimo, mas 'sugerem' é convencionalmente um pouco mais cauteloso; diferença mínima de grau, daí a dúvida."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0282967
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Prezada equipe,\n\nNa próxima semana vamos revisar os contratos de fornecedores. Até lá, nenhum novo contrato pode ser assinado sem aprovação prévia do jurídico.\n\nObrigado a todos.",
+      "raw": "<final>\nPrezada equipe,\n\nNa próxima semana vamos revisar os contratos de fornecedores. Até lá, nenhum novo contrato pode ser assinado sem aprovação prévia do jurídico.\n\nObrigado a todos.\n</final>",
+      "cost_usd": 0.0564,
+      "seconds": 3.6,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "poderá",
+          "sem a aprovação prévia do jurídico"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.54,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico (sem limite de prazo declarado)",
+              "status": "changed",
+              "candidate": "Até lá, nenhum novo contrato pode ser assinado sem aprovação prévia do jurídico.",
+              "note": "A regra e a condição (aprovação prévia do jurídico) foram mantidas, mas \"Até lá\" limita a restrição ao período anterior à revisão. O original não traz esse limite, então o escopo temporal mudou."
+            }
+          ],
+          "added": [
+            "\"Até lá\": a candidata sugere que a proibição de assinar novos contratos vale só até o início ou o fim da revisão. O original não define duração para a restrição."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0329667
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "No último trimestre, reduzi minhas reuniões semanais de 14 para 6. Com isso sobrou tempo para trabalho que eu antes empurrava para a noite. Você já tentou cortar as suas?",
+      "raw": "<final>\nNo último trimestre, reduzi minhas reuniões semanais de 14 para 6. Com isso sobrou tempo para trabalho que eu antes empurrava para a noite. Você já tentou cortar as suas?\n</final>",
+      "cost_usd": 0.0562,
+      "seconds": 3.6,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.732,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "produtividade não é sobre fazer mais. É sobre fazer o que importa.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Tese/opinião central do autor sobre produtividade ausente na candidata."
+            },
+            {
+              "source": "Foi uma mudança transformadora.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Avaliação específica do autor sobre a mudança; é opinião, não mera fórmula. A candidata a substitui por um efeito concreto não presente no original."
+            },
+            {
+              "source": "Você já fez esse exercício?",
+              "status": "changed",
+              "candidate": "Você já tentou cortar as suas?",
+              "note": "Pergunta passa de 'fazer esse exercício' (reduzir reuniões com foco no que importa) para 'tentar cortar as suas [reuniões]'; escopo e referência diferentes."
+            }
+          ],
+          "added": [
+            "Com isso sobrou tempo para trabalho que eu antes empurrava para a noite (consequência, experiência e motivo inventados; o original não menciona tempo liberado nem trabalho noturno)."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0258578
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "Rode `npm audit` antes de cada release. Vulnerabilidades críticas devem ser corrigidas em até 48 horas.",
+      "raw": "<final>\nRode `npm audit` antes de cada release. Vulnerabilidades críticas devem ser corrigidas em até 48 horas.\n</final>",
+      "cost_usd": 0.0561,
+      "seconds": 16.1,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.381,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "No contexto atual de desenvolvimento de software, a gestão de dependências desempenha um papel fundamental.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Afirmação específica sobre a importância da gestão de dependências, e não mera fórmula de ênfase; sumiu por completo."
+            },
+            {
+              "source": "Recomenda-se executar o comando `npm audit` antes de cada release.",
+              "status": "strengthened",
+              "candidate": "Rode `npm audit` antes de cada release.",
+              "note": "O comando e a condição 'antes de cada release' foram mantidos, mas a recomendação virou imperativo, o que aumenta o grau de obrigatoriedade."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0284653
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "A leitura em telas está cada vez mais comum. Este estudo comparou a compreensão leitora de 96 universitários em textos impressos e digitais. A compreensão foi um pouco maior no impresso, mas a diferença não foi estatisticamente significativa (p = 0,08).",
+      "raw": "<final>\nA leitura em telas está cada vez mais comum. Este estudo comparou a compreensão leitora de 96 universitários em textos impressos e digitais. A compreensão foi um pouco maior no impresso, mas a diferença não foi estatisticamente significativa (p = 0,08).\n</final>",
+      "cost_usd": 0.0566,
+      "seconds": 3.8,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "sugerem",
+          "ligeiramente maior",
+          "não tenha sido estatisticamente significativa"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.719,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Em um mundo cada vez mais digitalizado... (contexto: o mundo está cada vez mais digitalizado)",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A afirmação sobre o mundo digitalizado saiu. É contexto genérico e de baixo impacto, mas não é pura fórmula de ênfase."
+            },
+            {
+              "source": "Os resultados sugerem que a compreensão foi ligeiramente maior no impresso",
+              "status": "strengthened",
+              "candidate": "A compreensão foi um pouco maior no impresso",
+              "note": "O marcador evidencial/hedge 'sugerem' foi removido, e o achado passa a ser afirmado como fato. 'Ligeiramente' e 'um pouco' são equivalentes."
+            }
+          ],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0340161
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, o deploy da versão 3.1 foi adiado para quinta-feira. Os testes de carga mostraram lentidão no checkout. A Paula vai investigar, e se o problema continuar, vamos avaliar um rollback.",
+      "raw": "<final>\nPessoal, o deploy da versão 3.1 foi adiado para quinta-feira. Os testes de carga mostraram lentidão no checkout. A Paula vai investigar, e se o problema continuar, vamos avaliar um rollback.\n</final>",
+      "cost_usd": 0.0564,
+      "seconds": 3.9,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "visto que",
+          "Caso o problema persista"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.633,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "A mensagem dá continuidade ao alinhamento de ontem",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A referência ao alinhamento de ontem (fato temporal específico) sumiu."
+            },
+            {
+              "source": "O adiamento ocorreu porque (visto que) os testes de carga apontaram lentidão no checkout",
+              "status": "weakened",
+              "candidate": "Os testes de carga mostraram lentidão no checkout.",
+              "note": "A lentidão aparece como frase solta; o nexo causal com o adiamento não está mais explícito."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0325123
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Reenviamos a segunda via do boleto para o e-mail cadastrado. O vencimento é 25/11. Se você já pagou, pode ignorar esta mensagem. Sentimos pelo transtorno.",
+      "raw": "<final>\nOlá! Reenviamos a segunda via do boleto para o e-mail cadastrado. O vencimento é 25/11. Se você já pagou, pode ignorar esta mensagem. Sentimos pelo transtorno.\n</final>",
+      "cost_usd": 0.0564,
+      "seconds": 4.8,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "Caso o pagamento já tenha sido realizado",
+          "desconsidere"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.553,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Agradecemos imensamente o seu contato",
+              "status": "omitted",
+              "candidate": null,
+              "note": "O agradecimento pelo contato do cliente não aparece na candidata."
+            },
+            {
+              "source": "Estamos sempre à disposição!",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Este é um compromisso de disponibilidade contínua, e ele não aparece na candidata."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.035557
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "Gente, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva uma bebida, que a carne fica por minha conta. Quem não puder ir, me avisa até sexta, blz?",
+      "raw": "<final>\nGente, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva uma bebida, que a carne fica por minha conta. Quem não puder ir, me avisa até sexta, blz?\n</final>",
+      "cost_usd": 0.0561,
+      "seconds": 4.1,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.03,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0294972
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "O Banco Central manteve a taxa Selic em 10,75% ao ano. A decisão foi unânime, e o comunicado diz que o comitê não descarta novas altas se a inflação acelerar.",
+      "raw": "<final>\nO Banco Central manteve a taxa Selic em 10,75% ao ano. A decisão foi unânime, e o comunicado diz que o comitê não descarta novas altas se a inflação acelerar.\n</final>",
+      "cost_usd": 0.0562,
+      "seconds": 6.1,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "segundo o Banco Central",
+          "caso a inflação acelere"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.667,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Em um cenário de incertezas econômicas",
+              "status": "omitted",
+              "candidate": null,
+              "note": "O contexto de incerteza econômica, que é informação específica, não aparece na candidata."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.03535919999999999
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432. Sem ele, são pulados automaticamente.",
+      "raw": "<final>\nPara rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432. Sem ele, são pulados automaticamente.\n</final>",
+      "cost_usd": 0.0585,
+      "seconds": 11.1,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.963,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.021993399999999996
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante pode rescindir este contrato com aviso prévio de 30 dias, mantidas as obrigações já vencidas. Se a rescisão ocorrer sem esse aviso, a parte que a causou paga a multa prevista na cláusula 11.",
+      "raw": "<final>\nO contratante pode rescindir este contrato com aviso prévio de 30 dias, mantidas as obrigações já vencidas. Se a rescisão ocorrer sem esse aviso, a parte que a causou paga a multa prevista na cláusula 11.\n</final>",
+      "cost_usd": 0.0563,
+      "seconds": 7.2,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "poderá",
+          "sem prejuízo",
+          "sem aviso prévio"
+        ],
+        "findings_after": 0,
+        "length_ratio": 1.059,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "A rescisão sem aviso prévio sujeitará a parte infratora à multa prevista na cláusula 11",
+              "status": "changed",
+              "candidate": "Se a rescisão ocorrer sem esse aviso, a parte que a causou paga a multa prevista na cláusula 11.",
+              "note": "O original diz que a parte infratora fica sujeita à multa (consequência prevista, sem afirmar pagamento). A candidata afirma que a parte paga a multa, o que fortalece o grau de certeza. Além disso, a 'parte infratora' (quem descumpre o aviso) vira 'a parte que a causou' (quem causou a rescisão), mudando o critério de atribuição."
+            }
+          ],
+          "added": [
+            "A candidata introduz a condição explícita 'Se a rescisão ocorrer sem esse aviso' como gatilho do pagamento, com o pagamento tratado como efeito direto e certo; no original o gatilho é o sujeito da oração, e o efeito é 'sujeitar à multa'.",
+            "A parte obrigada é definida como 'a parte que a causou' (a rescisão), sem suporte no original, que fala em 'parte infratora'."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.02734
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Os achados sugerem que a intervenção pode ter contribuído para reduzir as faltas, mas não permitem afirmar causalidade, porque não houve grupo de controle.",
+      "raw": "<final>\nOs achados sugerem que a intervenção pode ter contribuído para reduzir as faltas, mas não permitem afirmar causalidade, porque não houve grupo de controle.\n</final>",
+      "cost_usd": 0.0559,
+      "seconds": 5.1,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "indicam",
+          "relação causal"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.774,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0280785
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "Rode `npm audit` antes de cada release. Se aparecer uma vulnerabilidade crítica, corrija em até 48 horas.",
+      "raw": "<final>\nRode `npm audit` antes de cada release. Se aparecer uma vulnerabilidade crítica, corrija em até 48 horas.\n</final>",
+      "cost_usd": 0.0418,
+      "seconds": 4.6,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "críticas",
+          "devem"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.405,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "No contexto atual de desenvolvimento de software, a gestão de dependências desempenha um papel fundamental.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Afirmação específica (opinião sobre a importância da gestão de dependências) que saiu por completo; não é fórmula de ênfase."
+            },
+            {
+              "source": "Dessa forma, (a recomendação decorre da importância da gestão de dependências)",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A relação causal/justificativa entre a importância da gestão de dependências e a recomendação foi perdida."
+            },
+            {
+              "source": "recomenda-se executar o comando `npm audit` antes de cada release",
+              "status": "strengthened",
+              "candidate": "Rode `npm audit` antes de cada release.",
+              "note": "Comando `npm audit` e 'antes de cada release' preservados. 'Recomenda-se' virou imperativo, o que torna a instrução um pouco mais forte que uma recomendação."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0327605
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Pessoal, vamos revisar os contratos de fornecedores na semana que vem. Até a revisão terminar, nenhum contrato novo pode ser assinado sem a aprovação prévia do jurídico. Obrigado por colaborarem.",
+      "raw": "<final>\nPessoal, vamos revisar os contratos de fornecedores na semana que vem. Até a revisão terminar, nenhum contrato novo pode ser assinado sem a aprovação prévia do jurídico. Obrigado por colaborarem.\n</final>",
+      "cost_usd": 0.0425,
+      "seconds": 7.6,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "próxima semana",
+          "nenhum novo contrato",
+          "poderá"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.6,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico (regra sem limite de tempo declarado)",
+              "status": "weakened",
+              "candidate": "Até a revisão terminar, nenhum contrato novo pode ser assinado sem a aprovação prévia do jurídico",
+              "note": "A regra passa a valer só até o fim da revisão; o original não impõe esse limite temporal."
+            },
+            {
+              "source": "Agradecemos imensamente a colaboração de todos",
+              "status": "weakened",
+              "candidate": "Obrigado por colaborarem.",
+              "note": "Perde 'todos' e a intensidade; o sujeito passa de 'nós' para o singular. Impacto baixo, mas o quantificador universal saiu."
+            }
+          ],
+          "added": [
+            "A proibição de assinar contratos sem aprovação do jurídico vale apenas até a revisão terminar (limite temporal inexistente no original)."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0323909
+      }
+    },
+    {
+      "arm": "B2-blader",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos. Segue a planilha atualizada, como combinado. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só falar.",
+      "raw": "<final>\nOi, Marcos. Segue a planilha atualizada, como combinado. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só falar.\n</final>",
+      "cost_usd": 0.0561,
+      "seconds": 19.2,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.071,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0238235
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "A leitura em tela está cada vez mais comum. Por isso, neste estudo comparamos a compreensão leitora de 96 universitários em textos impressos e digitais. A compreensão foi um pouco maior no impresso, mas a diferença não foi estatisticamente significativa (p = 0,08).",
+      "raw": "<final>\nA leitura em tela está cada vez mais comum. Por isso, neste estudo comparamos a compreensão leitora de 96 universitários em textos impressos e digitais. A compreensão foi um pouco maior no impresso, mas a diferença não foi estatisticamente significativa (p = 0,08).\n</final>",
+      "cost_usd": 0.0425,
+      "seconds": 6.2,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "sugerem",
+          "ligeiramente maior",
+          "não tenha sido estatisticamente significativa"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.754,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Vivemos em um mundo cada vez mais digitalizado.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A candidata não menciona a digitalização do mundo, só a leitura em tela."
+            },
+            {
+              "source": "Os resultados sugerem que a compreensão foi ligeiramente maior no impresso.",
+              "status": "strengthened",
+              "candidate": "A compreensão foi um pouco maior no impresso",
+              "note": "O hedge 'Os resultados sugerem' sumiu, e a candidata afirma o achado como fato. 'Ligeiramente' e 'um pouco' são equivalentes."
+            }
+          ],
+          "added": [
+            "A leitura em tela ser cada vez mais comum é apresentada como a razão do estudo ('Por isso'). O original só situa o estudo 'nesse contexto', sem relação causal."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.032411499999999996
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Obrigado por entrar em contato, e desculpe o transtorno. Enviamos a segunda via do boleto para o seu e-mail cadastrado. Ele vence em 25/11. Se você já pagou, pode ignorar esta mensagem.",
+      "raw": "<final>\nOlá! Obrigado por entrar em contato, e desculpe o transtorno. Enviamos a segunda via do boleto para o seu e-mail cadastrado. Ele vence em 25/11. Se você já pagou, pode ignorar esta mensagem.\n</final>",
+      "cost_usd": 0.0423,
+      "seconds": 6.1,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "Caso o pagamento já tenha sido realizado",
+          "desconsidere"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.702,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem",
+              "status": "weakened",
+              "candidate": "Se você já pagou, pode ignorar esta mensagem.",
+              "note": "A condição foi mantida, mas o pedido ('por favor desconsidere') virou permissão ('pode ignorar'). A diferença é pequena e em parte de tom, mas muda o grau da instrução."
+            },
+            {
+              "source": "Estamos sempre à disposição!",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A frase assume um compromisso de disponibilidade contínua, então não é mera fórmula de ênfase. Não aparece na candidata."
+            }
+          ],
+          "added": [
+            "Você já pagou: a candidata usa 'você' e a forma ativa, mas isso só reformula 'o pagamento já tenha sido realizado'; sem afirmação nova de fato."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.027297
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "Pra mim, produtividade é fazer o que importa, e não fazer mais coisas. No último trimestre, cortei minhas reuniões semanais de 14 para 6, e foi uma mudança grande na minha rotina.",
+      "raw": "<final>\nPra mim, produtividade é fazer o que importa, e não fazer mais coisas. No último trimestre, cortei minhas reuniões semanais de 14 para 6, e foi uma mudança grande na minha rotina.\n</final>",
+      "cost_usd": 0.0474,
+      "seconds": 9.1,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.78,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Produtividade não é sobre fazer mais. É sobre fazer o que importa.",
+              "status": "weakened",
+              "candidate": "Pra mim, produtividade é fazer o que importa, e não fazer mais coisas.",
+              "note": "O conteúdo é o mesmo, mas a afirmação universal virou opinião pessoal ('Pra mim'), com grau de certeza menor."
+            },
+            {
+              "source": "Foi uma mudança transformadora.",
+              "status": "weakened",
+              "candidate": "foi uma mudança grande na minha rotina",
+              "note": "'Transformadora' virou 'grande', que é menos intenso."
+            },
+            {
+              "source": "Você já fez esse exercício?",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A pergunta ao leitor, que é um convite à ação, desapareceu."
+            }
+          ],
+          "added": [
+            "A mudança afetou 'a minha rotina': o ORIGINAL não delimita o alcance da mudança."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.03179270000000001
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "O Banco Central manteve a Selic em 10,75% ao ano. A decisão foi unânime, e o comunicado diz que o comitê não descarta novas altas se a inflação acelerar.",
+      "raw": "<final>\nO Banco Central manteve a Selic em 10,75% ao ano. A decisão foi unânime, e o comunicado diz que o comitê não descarta novas altas se a inflação acelerar.\n</final>",
+      "cost_usd": 0.042,
+      "seconds": 7.2,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "segundo o Banco Central",
+          "caso a inflação acelere"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.644,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Em um cenário de incertezas econômicas",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Contexto de incerteza econômica removido; não é mera fórmula de ênfase, pois descreve o cenário."
+            },
+            {
+              "source": "segundo o Banco Central, a taxa Selic foi mantida em 10,75% ao ano",
+              "status": "changed",
+              "candidate": "O Banco Central manteve a Selic em 10,75% ao ano.",
+              "note": "Fato, valor e agente preservados, mas a atribuição ('segundo') virou afirmação direta do narrador, e o Banco Central passou de fonte a agente da decisão. Em geral o BC é quem decide, então o sentido é próximo, mas o grau de atribuição mudou."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.026298400000000003
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, sobre o alinhamento de ontem: adiamos o deploy da versão 3.1 para quinta-feira. Os testes de carga mostraram lentidão no checkout. A Paula vai investigar, e se o problema continuar, a gente avalia um rollback.",
+      "raw": "<final>\nPessoal, sobre o alinhamento de ontem: adiamos o deploy da versão 3.1 para quinta-feira. Os testes de carga mostraram lentidão no checkout. A Paula vai investigar, e se o problema continuar, a gente avalia um rollback.\n</final>",
+      "cost_usd": 0.0424,
+      "seconds": 4.5,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "visto que",
+          "Caso o problema persista"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.735,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "visto que os testes de carga apontaram lentidão no checkout (causa do adiamento)",
+              "status": "weakened",
+              "candidate": "Os testes de carga mostraram lentidão no checkout.",
+              "note": "O resultado dos testes foi mantido, mas o vínculo causal explícito ('visto que') virou duas frases justapostas. A causa só fica implícita."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.035102400000000006
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes na sua máquina, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432. Se ele não estiver no ar, esses testes são pulados automaticamente.",
+      "raw": "<final>\nPara rodar os testes na sua máquina, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432. Se ele não estiver no ar, esses testes são pulados automaticamente.\n</final>",
+      "cost_usd": 0.0453,
+      "seconds": 6.5,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "sem ele"
+        ],
+        "findings_after": 0,
+        "length_ratio": 1.259,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0232141
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "Pessoal, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva a sua bebida, que a carne fica por minha conta. Se não puder ir, me avisa até sexta, beleza?",
+      "raw": "<final>\nPessoal, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva a sua bebida, que a carne fica por minha conta. Se não puder ir, me avisa até sexta, beleza?\n</final>",
+      "cost_usd": 0.042,
+      "seconds": 5.4,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.061,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0337394
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante pode rescindir este contrato com aviso prévio de 30 dias. As obrigações já vencidas continuam devidas. A parte que rescindir sem esse aviso fica sujeita à multa prevista na cláusula 11.",
+      "raw": "<final>\nO contratante pode rescindir este contrato com aviso prévio de 30 dias. As obrigações já vencidas continuam devidas. A parte que rescindir sem esse aviso fica sujeita à multa prevista na cláusula 11.\n</final>",
+      "cost_usd": 0.0477,
+      "seconds": 7.8,
+      "score": {
+        "deterministic": "fail",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "poderá",
+          "sem prejuízo",
+          "sem aviso prévio"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.971,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0311417
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos. Como combinamos, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só falar.",
+      "raw": "<final>\nOi, Marcos. Como combinamos, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Se tiver qualquer dúvida, é só falar.\n</final>",
+      "cost_usd": 0.042,
+      "seconds": 9.9,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.071,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.026217
+      }
+    },
+    {
+      "arm": "B3-work-humanizer",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Os resultados sugerem que a intervenção pode ter ajudado a reduzir as faltas, mas não dá para afirmar que foi ela a causa, já que não havia grupo de controle.",
+      "raw": "<final>\nOs resultados sugerem que a intervenção pode ter ajudado a reduzir as faltas, mas não dá para afirmar que foi ela a causa, já que não havia grupo de controle.\n</final>",
+      "cost_usd": 0.0418,
+      "seconds": 3.8,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "indicam",
+          "pode ter contribuído",
+          "não permitem afirmar",
+          "relação causal",
+          "não houve grupo de controle"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.968,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.027339199999999998
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Prezada equipe, espero que estejam bem.\n\nVamos revisar os contratos de fornecedores ao longo da próxima semana. Nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico.\n\nAgradecemos a colaboração de todos.",
+      "raw": "<final>\nPrezada equipe, espero que estejam bem.\n\nVamos revisar os contratos de fornecedores ao longo da próxima semana. Nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico.\n\nAgradecemos a colaboração de todos.\n</final>",
+      "cost_usd": 0.0278,
+      "seconds": 6.2,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.68,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0344183
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "A gestão de dependências é parte central do desenvolvimento de software. Recomenda-se executar o comando `npm audit` antes de cada release. Vulnerabilidades classificadas como críticas devem ser corrigidas em até 48 horas.",
+      "raw": "<final>\nA gestão de dependências é parte central do desenvolvimento de software. Recomenda-se executar o comando `npm audit` antes de cada release. Vulnerabilidades classificadas como críticas devem ser corrigidas em até 48 horas.\n</final>",
+      "cost_usd": 0.0325,
+      "seconds": 5.8,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.762,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0240494
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "A leitura em telas tem se tornado cada vez mais frequente. O presente estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados sugerem que a compreensão foi ligeiramente maior no impresso, embora a diferença não tenha sido estatisticamente significativa (p = 0,08).",
+      "raw": "<final>\nA leitura em telas tem se tornado cada vez mais frequente. O presente estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados sugerem que a compreensão foi ligeiramente maior no impresso, embora a diferença não tenha sido estatisticamente significativa (p = 0,08).\n</final>",
+      "cost_usd": 0.0339,
+      "seconds": 6.0,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.842,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.025305600000000004
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "Ninguém te conta isso, mas produtividade não é sobre fazer mais. É sobre fazer o que importa. No último trimestre, reduzi minhas reuniões semanais de 14 para 6. Você já fez esse exercício?",
+      "raw": "<final>\nNinguém te conta isso, mas produtividade não é sobre fazer mais. É sobre fazer o que importa. No último trimestre, reduzi minhas reuniões semanais de 14 para 6. Você já fez esse exercício?\n</final>",
+      "cost_usd": 0.037,
+      "seconds": 10.8,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.805,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Foi uma mudança transformadora.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "É uma avaliação específica do autor sobre o resultado da mudança, não fórmula de ênfase vazia. Saiu sem substituto."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0264916
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, dando continuidade ao alinhamento de ontem, o deploy da versão 3.1 foi adiado para quinta-feira, visto que os testes de carga apontaram lentidão no checkout. A Paula ficará responsável pela investigação. Caso o problema persista, iremos avaliar um rollback.",
+      "raw": "<final>\nPessoal, dando continuidade ao alinhamento de ontem, o deploy da versão 3.1 foi adiado para quinta-feira, visto que os testes de carga apontaram lentidão no checkout. A Paula ficará responsável pela investigação. Caso o problema persista, iremos avaliar um rollback.\n</final>",
+      "cost_usd": 0.0348,
+      "seconds": 4.2,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.816,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0259962
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Lamentamos o transtorno. A segunda via do boleto foi enviada para o seu e-mail cadastrado e vence em 25/11. Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem. Estamos à disposição!",
+      "raw": "<final>\nOlá! Lamentamos o transtorno. A segunda via do boleto foi enviada para o seu e-mail cadastrado e vence em 25/11. Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem. Estamos à disposição!\n</final>",
+      "cost_usd": 0.0347,
+      "seconds": 3.8,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.745,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Agradecemos imensamente o seu contato",
+              "status": "omitted",
+              "candidate": null,
+              "note": "O agradecimento pelo contato sumiu. É cortesia, mas também reconhece que o cliente entrou em contato. Não é só fórmula de ênfase."
+            },
+            {
+              "source": "lamentamos profundamente o transtorno",
+              "status": "weakened",
+              "candidate": "Lamentamos o transtorno.",
+              "note": "O pedido de desculpas foi mantido, mas sem a intensidade de 'profundamente'."
+            },
+            {
+              "source": "Estamos sempre à disposição!",
+              "status": "weakened",
+              "candidate": "Estamos à disposição!",
+              "note": "Perdeu o 'sempre'. A diferença é mínima e de cortesia."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0319116
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante poderá rescindir o presente contrato mediante aviso prévio de 30 dias, sem prejuízo das obrigações já vencidas. A rescisão sem aviso prévio sujeitará a parte infratora à multa prevista na cláusula 11.",
+      "raw": "<final>NO_CHANGE</final>",
+      "cost_usd": 0.0249,
+      "seconds": 3.6,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "Em um cenário de incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano, segundo o próprio órgão. A decisão foi unânime e, de acordo com o comunicado, o comitê não descarta novas altas caso a inflação acelere.",
+      "raw": "<final>\nEm um cenário de incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano, segundo o próprio órgão. A decisão foi unânime e, de acordo com o comunicado, o comitê não descarta novas altas caso a inflação acelere.\n</final>",
+      "cost_usd": 0.0302,
+      "seconds": 6.5,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "segundo o Banco Central"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.911,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.033488899999999995
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 em execução na porta 5432. Sem ele, os testes são pulados automaticamente.",
+      "raw": "<final>\nPara rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 em execução na porta 5432. Sem ele, os testes são pulados automaticamente.\n</final>",
+      "cost_usd": 0.0307,
+      "seconds": 4.4,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.074,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": []
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.022765099999999996
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "gente, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva uma bebida, a carne fica por minha conta. Quem não puder ir me avisa até sexta, blz?",
+      "raw": "<final>\ngente, o churrasco de sábado vai ser na casa da Bia, às 13h. Cada um leva uma bebida, a carne fica por minha conta. Quem não puder ir me avisa até sexta, blz?\n</final>",
+      "cost_usd": 0.025,
+      "seconds": 7.5,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0243078
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos. Conforme combinado, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Qualquer dúvida, fico à disposição.",
+      "raw": "<final>NO_CHANGE</final>",
+      "cost_usd": 0.035,
+      "seconds": 5.6,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5a-voznativa-prompt",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Os achados indicam que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar uma relação causal, uma vez que não houve grupo de controle.",
+      "raw": "<final>Os achados indicam que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar uma relação causal, uma vez que não houve grupo de controle.</final>",
+      "cost_usd": 0.0327,
+      "seconds": 5.5,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.935,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.0220228
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-02",
+      "kind": "ai_draft",
+      "output": "Execute o comando `npm audit` antes de cada release. Vulnerabilidades classificadas como críticas devem ser corrigidas em até 48 horas.",
+      "raw": {
+        "outcome": "needs_review",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "review_required",
+            "codes": [
+              "length_ratio",
+              "metadiscourse_changed",
+              "possible_omission"
+            ],
+            "preview": "Execute o comando `npm audit` antes de cada release. Vulnerabilidades classificadas como críticas devem ser corrigidas e"
+          }
+        ],
+        "status": "review_required"
+      },
+      "cost_usd": 0.0998,
+      "seconds": 4.0,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.476,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "No contexto atual de desenvolvimento de software, a gestão de dependências desempenha um papel fundamental.",
+              "status": "omitted",
+              "candidate": null,
+              "note": "A frase afirma que a gestão de dependências é fundamental no desenvolvimento de software. É uma opinião específica, não só fórmula de ênfase, e sumiu por completo."
+            },
+            {
+              "source": "Dessa forma, recomenda-se executar o comando `npm audit` antes de cada release.",
+              "status": "strengthened",
+              "candidate": "Execute o comando `npm audit` antes de cada release.",
+              "note": "A recomendação ('recomenda-se') virou ordem direta no imperativo, com grau de obrigatoriedade maior. O comando e o prazo ('antes de cada release') foram mantidos. Também saiu o conectivo 'Dessa forma', que ligava a recomendação à frase anterior."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.030135500000000003
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-03",
+      "kind": "ai_draft",
+      "output": "Em um mundo cada vez mais digitalizado, a leitura em telas tem se tornado cada vez mais frequente. Nesse contexto, o presente estudo investigou a compreensão leitora de 96 universitários em textos impressos e digitais. Os resultados sugerem que a compreensão foi ligeiramente maior no impresso, embora a diferença não tenha sido estatisticamente significativa (p = 0,08).",
+      "raw": {
+        "outcome": "returned_original",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "no_deterministic_issues",
+            "codes": [
+              "idiom_changed"
+            ],
+            "preview": "A leitura em telas tem se tornado cada vez mais frequente. O presente estudo investigou a compreensão leitora de 96 univ"
+          }
+        ],
+        "status": "fail"
+      },
+      "cost_usd": 0.2471,
+      "seconds": 16.2,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-04",
+      "kind": "ai_draft",
+      "output": "Ninguém te conta isso, mas produtividade não é sobre fazer mais. É sobre fazer o que importa. No último trimestre, reduzi minhas reuniões semanais de 14 para 6. Foi uma mudança transformadora. E isso muda tudo. Você já fez esse exercício?",
+      "raw": {
+        "outcome": "returned_original",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "no_deterministic_issues",
+            "codes": [],
+            "preview": "Ninguém te conta isso, mas produtividade não é sobre fazer mais. É sobre fazer o que importa. No último trimestre, reduz"
+          }
+        ],
+        "status": "fail"
+      },
+      "cost_usd": 0.1923,
+      "seconds": 17.1,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 2,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-05",
+      "kind": "ai_draft",
+      "output": "Olá! Enviamos a segunda via do boleto para o seu e-mail cadastrado. Ela vence em 25/11. Se o pagamento já tiver sido realizado, desconsidere esta mensagem. Lamentamos o transtorno e estamos à disposição.",
+      "raw": {
+        "outcome": "needs_review",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "review_required",
+            "codes": [
+              "idiom_changed",
+              "possible_omission"
+            ],
+            "preview": "Olá! Enviamos a segunda via do boleto para o seu e-mail cadastrado. Ela vence em 25/11. Se o pagamento já tiver sido rea"
+          }
+        ],
+        "status": "review_required"
+      },
+      "cost_usd": 0.0979,
+      "seconds": 5.4,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "Caso o pagamento já tenha sido realizado"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.702,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": "equivalent verdict contradicted its own claim list",
+          "problems": [
+            {
+              "source": "Agradecemos imensamente o seu contato",
+              "status": "omitted",
+              "candidate": null,
+              "note": "Agradecimento pelo contato removido. É cortesia convencional, sem fato, prazo ou compromisso, mas não é fórmula de ênfase pura; o agradecimento é uma expressão específica."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0256154
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-08",
+      "kind": "natural",
+      "output": "gente, o churrasco de sábado vai ser na casa da Bia, às 13h. cada um leva uma bebida, a carne fica por minha conta. quem não puder ir me avisa até sexta, blz?",
+      "raw": {
+        "outcome": "no_change",
+        "attempts": [],
+        "status": null
+      },
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-09",
+      "kind": "natural",
+      "output": "Para rodar os testes localmente, use `pytest -q`. Os testes de integração precisam de um PostgreSQL 16 rodando na porta 5432; sem ele, eles são pulados automaticamente.",
+      "raw": {
+        "outcome": "no_change",
+        "attempts": [],
+        "status": null
+      },
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-10",
+      "kind": "natural",
+      "output": "O contratante poderá rescindir o presente contrato mediante aviso prévio de 30 dias, sem prejuízo das obrigações já vencidas. A rescisão sem aviso prévio sujeitará a parte infratora à multa prevista na cláusula 11.",
+      "raw": {
+        "outcome": "no_change",
+        "attempts": [],
+        "status": null
+      },
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-11",
+      "kind": "ambiguous",
+      "output": "Oi, Marcos. Conforme combinado, segue a planilha atualizada. Os números de outubro ainda são preliminares e podem mudar até o fechamento do mês. Qualquer dúvida, fico à disposição.",
+      "raw": {
+        "outcome": "no_change",
+        "attempts": [],
+        "status": null
+      },
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-12",
+      "kind": "ambiguous",
+      "output": "Nesse sentido, os achados indicam que a intervenção pode ter contribuído para a redução das faltas, mas não permitem afirmar uma relação causal, uma vez que não houve grupo de controle.",
+      "raw": {
+        "outcome": "no_change",
+        "attempts": [],
+        "status": null
+      },
+      "cost_usd": 0.0,
+      "seconds": 0.0,
+      "score": {
+        "deterministic": "identical",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 1,
+        "length_ratio": 1.0,
+        "changed": false
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-01",
+      "kind": "ai_draft",
+      "output": "Prezada equipe,\n\nEspero que estejam bem. Vamos revisar os contratos de fornecedores ao longo da próxima semana. Nenhum novo contrato poderá ser assinado sem a aprovação prévia do jurídico.\n\nAgradeço a colaboração de todos.",
+      "raw": {
+        "outcome": "accepted",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "no_deterministic_issues",
+            "codes": [
+              "paragraphs_changed"
+            ],
+            "preview": "Prezada equipe,\n\nEspero que estejam bem. Vamos revisar os contratos de fornecedores ao longo da próxima semana. Nenhum n"
+          }
+        ],
+        "status": "accepted_by_llm"
+      },
+      "cost_usd": 0.3385,
+      "seconds": 21.6,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.68,
+        "changed": true,
+        "judge": {
+          "verdict": "not_equivalent",
+          "downgraded": null,
+          "problems": [
+            {
+              "source": "Agradecemos imensamente a colaboração de todos.",
+              "status": "changed",
+              "candidate": "Agradeço a colaboração de todos.",
+              "note": "O agente do agradecimento passou de 'nós' (equipe/instituição) para 'eu'. A intensidade ('imensamente') também saiu. 'Todos' foi mantido."
+            }
+          ],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "fail",
+        "judge_cost": 0.0332011
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-06",
+      "kind": "ai_draft",
+      "output": "Pessoal, dando continuidade ao alinhamento de ontem, o deploy da versão 3.1 foi adiado para quinta-feira, visto que os testes de carga apontaram lentidão no checkout. A Paula ficará responsável pela investigação. Caso o problema persista, iremos avaliar um rollback.",
+      "raw": {
+        "outcome": "accepted",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "no_deterministic_issues",
+            "codes": [
+              "metadiscourse_changed"
+            ],
+            "preview": "Pessoal, dando continuidade ao alinhamento de ontem, o deploy da versão 3.1 foi adiado para quinta-feira, visto que os t"
+          }
+        ],
+        "status": "accepted_by_llm"
+      },
+      "cost_usd": 0.2092,
+      "seconds": 22.2,
+      "score": {
+        "deterministic": "no_deterministic_issues",
+        "invariants_ok": true,
+        "invariants_missing": [],
+        "findings_after": 0,
+        "length_ratio": 0.816,
+        "changed": true,
+        "judge": {
+          "verdict": "equivalent",
+          "downgraded": null,
+          "problems": [],
+          "added": [],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "accepted_by_llm",
+        "judge_cost": 0.025889699999999998
+      }
+    },
+    {
+      "arm": "B5b-voznativa-engine",
+      "id": "pb-07",
+      "kind": "ai_draft",
+      "output": "Em um cenário de incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano, segundo o próprio órgão. A decisão foi unânime e, de acordo com o comunicado, o comitê não descarta novas altas caso a inflação acelere.",
+      "raw": {
+        "outcome": "needs_review",
+        "attempts": [
+          {
+            "attempt": 1,
+            "no_change": false,
+            "status": "review_required",
+            "codes": [
+              "metadiscourse_changed",
+              "possible_addition"
+            ],
+            "preview": "Em um cenário de incertezas econômicas, o Banco Central manteve a taxa Selic em 10,75% ao ano, segundo o próprio órgão. "
+          }
+        ],
+        "status": "review_required"
+      },
+      "cost_usd": 0.0906,
+      "seconds": 6.9,
+      "score": {
+        "deterministic": "review_required",
+        "invariants_ok": false,
+        "invariants_missing": [
+          "segundo o Banco Central"
+        ],
+        "findings_after": 0,
+        "length_ratio": 0.911,
+        "changed": true,
+        "judge": {
+          "verdict": "uncertain",
+          "downgraded": null,
+          "problems": [],
+          "added": [
+            "O Banco Central é o agente que manteve a taxa (\"o Banco Central manteve\"). O original só o cita como fonte da informação; a decisão é atribuída ao comitê, e quem a tomou fica implícito."
+          ],
+          "repairs": [
+            "extracted the JSON object from surrounding text or a code fence"
+          ]
+        },
+        "final_status": "review_required",
+        "judge_cost": 0.0330699
+      }
+    }
+  ]
+}
