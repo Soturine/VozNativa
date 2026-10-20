@@ -108,6 +108,7 @@ def main() -> int:
             "judgments": [{k: j.get(k) for k in ("kind", "judge_id", "verdict", "downgraded")}
                           for j in (report.get("evidence") or {}).get("judgments", [])],
             "judge_error": report.get("judge_error"),
+            "quality": (result or {}).get("quality"),
             "error": error,
             "seconds": round(time.monotonic() - started, 1),
             "calls": writer.log + judge.log,

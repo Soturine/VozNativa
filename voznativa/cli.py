@@ -242,7 +242,7 @@ def cmd_rewrite(args):
     result = rewrite(_read(args.text), context, provider, profile, explicit, attempts=args.attempts,
                      candidates=args.candidates, judge_provider=judge,
                      facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
-                     budget_words=args.budget, protect=_protected(args))
+                     budget_words=args.budget, protect=_protected(args), force=args.force)
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -386,6 +386,8 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--candidates", type=int, default=1)
             p.add_argument("--timeout", type=float, default=300.0)
             p.add_argument("--text-only", action="store_true")
+            p.add_argument("--force", action="store_true",
+                           help="call the model even when the text has no editorial findings")
             p.set_defaults(func=cmd_rewrite)
     return parser
 

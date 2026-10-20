@@ -85,6 +85,32 @@ class Loop(unittest.TestCase):
         result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([sneaky]))
         self.assertEqual(result["report"]["evidence"]["judgments"][0]["kind"], "llm")
 
+    def test_text_without_findings_is_not_sent_to_the_model(self):
+        natural = "O backup roda toda noite e guarda sete dias de histórico."
+        provider = StaticProvider(["<final>outra coisa</final>"])
+        result = rewrite(natural, context(natural), provider)
+        self.assertEqual(result["outcome"], "no_change")
+        self.assertEqual(provider.calls, [])
+        self.assertFalse(result["quality"]["model_called"])
+
+    def test_force_profile_or_explicit_register_still_rewrite(self):
+        natural = "O backup roda toda noite e guarda sete dias de histórico."
+        answer = "<final>O backup roda toda noite e mantém sete dias de histórico.</final>"
+        forced = StaticProvider([answer])
+        rewrite(natural, context(natural), forced, force=True)
+        self.assertEqual(len(forced.calls), 1)
+        explicit = StaticProvider([answer])
+        rewrite(natural, context(natural, register="casual"), explicit)
+        self.assertEqual(len(explicit.calls), 1)
+
+    def test_prompt_targets_findings_and_quality_is_measured(self):
+        provider = StaticProvider([CLEAN])
+        result = rewrite(SOURCE, context(), provider)
+        self.assertIn("ACHADOS EDITORIAIS", provider.calls[0])
+        self.assertIn("É importante destacar que", provider.calls[0])
+        self.assertGreater(result["quality"]["before"]["strong"], result["quality"]["after"]["strong"])
+        self.assertEqual(result["quality"]["introduced"], [])
+
     def test_regional_stuffing_is_flagged_for_review(self):
         stuffed = "<final>Uai, o deploy não deve ser feito antes das 18h, uai, porque o banco, uai, " \
                   "estará em manutenção, uai.</final>"
@@ -170,7 +196,7 @@ class Providers(unittest.TestCase):
 
         long_text = "O serviço usa PostgreSQL 17 e aceita no máximo 25 requisições por segundo. " * 4
         provider = EmulateProvider("ak_test", transport=fake)
-        rewrite(long_text, route(long_text, genre="technical"), provider, attempts=1)
+        rewrite(long_text, route(long_text, genre="technical"), provider, attempts=1, force=True)
         self.assertEqual(sent["body"]["style"].get("formality"), "polished")
 
 

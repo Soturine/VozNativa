@@ -23,6 +23,7 @@ from . import contract as contract_mod
 from . import drift as drift_mod
 from . import judge as judge_mod
 from . import ledger as ledger_mod
+from . import patterns as patterns_mod
 from . import region as region_mod
 from .compare import apply_judgment, compare
 from .paths import home
@@ -72,7 +73,7 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
 def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict | None = None,
                  feedback: list[str] | None = None, facts: list[str] | None = None,
                  inline_references: bool = False, root: Path | None = None,
-                 protect: list[str] | tuple = ()) -> str:
+                 protect: list[str] | tuple = (), findings: dict | None = None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
@@ -84,6 +85,8 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
     ]
     if selection is not None:
         sections.append(_references_block(selection, inline_references, root or home()))
+    if findings and findings["findings"] and not create:
+        sections.append(_findings_block(findings))
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
@@ -93,6 +96,16 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
     else:
         sections.append("<<<TEXTO\n" + text + "\nTEXTO>>>")
     return "\n\n".join(sections)
+
+
+def _findings_block(findings: dict) -> str:
+    lines = [f'- [{f["strength"]}] {f["family"]}: "{f["text"]}" -> {f["suggestion"]}' for f in findings["findings"]]
+    scope = ("Poucos achados: altere só esses trechos e o mínimo necessário para o texto fluir; "
+             "o resto fica como está." if len(findings["findings"]) <= 2 else
+             "Vários achados: reescreva as frases afetadas; mantenha as frases sem achado, a menos que "
+             "precisem mudar para encaixar.")
+    return "ACHADOS EDITORIAIS (onde o texto soa como fórmula; não é score de autoria):\n" + \
+        "\n".join(lines) + "\n" + scope
 
 
 def parse_candidate(raw: str, original: str) -> tuple[str, bool]:
@@ -145,8 +158,16 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
             judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True,
-            protect: list[str] | tuple = ()) -> dict:
+            protect: list[str] | tuple = (), force: bool = False) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
+    genre = context["genre"]["value"]
+    before = patterns_mod.detect(text, genre) if context["task"] != "create" else None
+    if (before and not force and before["decision"] == "no_change_candidate" and not profile and not explicit
+            and not context["flags"].get("register_explicit")):
+        # Nothing to fix and no voice target: do not spend a model call or risk a change.
+        return _result("no_change", text, None, [], provider, voice_contract, select(context, budget_words=0),
+                       reason="no editorial findings and no voice target; use force to rewrite anyway",
+                       quality={"before": before["summary"], "after": before["summary"], "model_called": False})
     if hasattr(provider, "style_from_contract") and not getattr(provider, "style", None):
         # System-level providers (Emulate) cannot read our prompt; give them the
         # closest style hint the Voice Contract allows.
@@ -159,7 +180,7 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             raws = [provider.humanize(text) for _ in range(candidates)]
         else:
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
-                                  protect=protect)
+                                  protect=protect, findings=before)
             raws = provider.generate(prompt, candidates)
         reports = []
         for raw in raws:
@@ -177,12 +198,22 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             break
         feedback = _feedback(reports)
 
+    def quality(final: str) -> dict | None:
+        if before is None:
+            return None
+        after = patterns_mod.detect(final, genre)
+        new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
+        return {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
+                "model_called": True}
+
     if best is None:
         return _result("returned_original", text, None, history, provider, voice_contract, selection,
-                       reason="every candidate failed deterministic checks; the source is returned unchanged")
+                       reason="every candidate failed deterministic checks; the source is returned unchanged",
+                       quality=quality(text))
     _, candidate, report, no_change = best
     if no_change:
-        return _result("no_change", text, report, history, provider, voice_contract, selection)
+        return _result("no_change", text, report, history, provider, voice_contract, selection,
+                       quality=quality(text))
     if judge_provider is not None and report["status"] == "no_deterministic_issues":
         report = _judge(judge_provider, text, candidate, report)
     outcome = {"accepted_by_llm": "accepted", "accepted_by_human": "accepted", "identical": "no_change",
@@ -190,8 +221,9 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
                "human_review_claimed": "needs_review", "fail": "returned_original"}[report["status"]]
     if outcome == "returned_original":
         return _result(outcome, text, report, history, provider, voice_contract, selection,
-                       reason="the judge rejected the best candidate")
-    return _result(outcome, candidate, report, history, provider, voice_contract, selection)
+                       reason="the judge rejected the best candidate", quality=quality(text))
+    return _result(outcome, candidate, report, history, provider, voice_contract, selection,
+                   quality=quality(candidate))
 
 
 _TRAILING_COMMA = re.compile(r",(\s*[}\]])")
@@ -247,7 +279,8 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
     return dict(report, judge_error=error)
 
 
-def _result(outcome, text, report, history, provider, voice_contract, selection, reason=None) -> dict:
+def _result(outcome, text, report, history, provider, voice_contract, selection, reason=None,
+            quality=None) -> dict:
     return {
         "kind": "voznativa.rewrite_result",
         "outcome": outcome,
@@ -258,4 +291,5 @@ def _result(outcome, text, report, history, provider, voice_contract, selection,
         "voice_contract": contract_mod.compact(voice_contract),
         "references": [s["path"] for s in selection["selected"]],
         **({"reason": reason} if reason else {}),
+        **({"quality": quality} if quality else {}),
     }
