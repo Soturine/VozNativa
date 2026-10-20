@@ -65,7 +65,7 @@ def main() -> int:
         "recorded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "version": __version__,
         "commit": sh("git", "rev-parse", "HEAD"),
-        "dirty": bool(sh("git", "status", "--porcelain")),
+        "dirty": bool(sh("git", "status", "--porcelain", "--", ".", ":!evals/baselines")),
         "environment": {"python": platform.python_version(), "platform": platform.platform()},
         "validator": {"ok": validator.returncode == 0, "output": (validator.stdout or validator.stderr).strip()},
         "unit_tests": unit_tests(),
