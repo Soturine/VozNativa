@@ -260,6 +260,30 @@ def cmd_patterns(args):
     _emit(detect(text, genre))
 
 
+
+def cmd_blind_tasks(args):
+    from .blind import build_tasks
+    tasks = build_tasks(json.loads(_read(args.run)), focus=args.focus, seed=args.seed)
+    Path(args.out).write_text(json.dumps(tasks, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    sys.stdout.write(f"{len(tasks['tasks'])} blind tasks written to {args.out}\n")
+
+
+def cmd_blind_review(args):
+    from .blind import review
+    if not (sys.stdin.isatty() and sys.stdout.isatty()):
+        raise ValueError("blind-review needs an interactive terminal: a person must answer it")
+    answers = review(json.loads(_read(args.tasks)), args.reviewer, limit=args.limit)
+    with open(args.out, "a", encoding="utf-8") as handle:
+        for answer in answers:
+            handle.write(json.dumps(answer, ensure_ascii=False) + "\n")
+    sys.stdout.write(f"{len(answers)} signed answers appended to {args.out}\n")
+
+
+def cmd_blind_summary(args):
+    from .blind import load_jsonl, summarize
+    _emit(summarize(json.loads(_read(args.tasks)), load_jsonl(Path(args.answers))))
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
@@ -283,6 +307,25 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--reviewer", required=True, help="who is reviewing (name or id)")
     p.add_argument("--out", required=True, help="where to save the signed judgment JSON")
     p.set_defaults(func=cmd_review)
+
+    p = sub.add_parser("blind-tasks", help="build blind pairwise review tasks from a benchmark run")
+    p.add_argument("run", help="benchmark run JSON (benchmarks/runs/...)")
+    p.add_argument("--out", required=True)
+    p.add_argument("--focus", help="only pairs that include this arm")
+    p.add_argument("--seed", type=int, default=0)
+    p.set_defaults(func=cmd_blind_tasks)
+
+    p = sub.add_parser("blind-review", help="answer blind tasks (interactive terminal only; signed)")
+    p.add_argument("tasks")
+    p.add_argument("--reviewer", required=True)
+    p.add_argument("--out", required=True, help="JSONL file to append signed answers to")
+    p.add_argument("--limit", type=int)
+    p.set_defaults(func=cmd_blind_review)
+
+    p = sub.add_parser("blind-summary", help="wins per arm from verified human answers")
+    p.add_argument("tasks")
+    p.add_argument("answers")
+    p.set_defaults(func=cmd_blind_summary)
 
     p = sub.add_parser("judge-prompt", help="print the semantic-judge prompt for any LLM or reviewer")
     p.add_argument("original")
