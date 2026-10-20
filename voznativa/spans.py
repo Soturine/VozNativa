@@ -15,6 +15,7 @@ import re
 from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
 
+from . import numerals
 from .text import STOPWORDS, fold
 
 MONTHS = {
@@ -140,14 +141,15 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("date", re.compile(rf"\b(?:{_MONTH_ALT})\s+de\s+\d{{4}}\b", re.I)),
     ("date", re.compile(r"\b(?:0?[1-9]|[12]\d|3[01])/(?:0?[1-9]|1[0-2])\b(?!/)")),
     ("time", re.compile(r"\b(?:[01]?\d|2[0-3])(?::[0-5]\d|h[0-5]\d|h(?:rs?)?)(?![\w:])", re.I)),
-    ("time", re.compile(r"\b(?:[01]?\d|2[0-3])\s+horas\b(?!\s+(?:por|de\s+trabalho))", re.I)),
+    # "N horas" is a clock time only after às/das/pelas; "leva 2 horas" is a duration.
+    ("time", re.compile(r"\b(?:[àa]s|das|pelas)\s+(?P<v>(?:[01]?\d|2[0-3])\s+horas)\b", re.I)),
     ("path", re.compile(
         r"(?<![\w/])(?:[A-Za-z]:\\[\w\\.-]+|(?:~|\.{1,2})?/[\w.-]+(?:/[\w.-]+)*|"
         r"[\w-]+(?:/[\w.-]+)+\.\w+|[\w.-]+/[\w.-]+/[\w./-]+|"
         r"[\w-]+\.(?:py|js|mjs|ts|tsx|jsx|md|yml|yaml|json|toml|txt|sh|ps1|cfg|ini|html|css|go|rs|"
         r"java|rb|php|sql|csv|lock|env|xml|ipynb))(?![\w/])")),
     ("money", re.compile(rf"(?:R\$|US\$|U\$|€|£|\$)\s?(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?", re.I)),
-    ("money", re.compile(rf"\b(?:{_NUM})(?:\s+(?:{_MULT_ALT}))?\s+(?:de\s+)?(?:reais|real|d[oó]lares|euros)\b", re.I)),
+    ("money", re.compile(rf"\b(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?\s+(?:de\s+)?(?:reais|real|d[oó]lares|euros)\b", re.I)),
     ("percent", re.compile(rf"(?<![\w.,])(?:{_NUM})\s?%|\b(?:{_NUM})\s+por\s+cento\b", re.I)),
     ("version", re.compile(r"(?<![\w.])v?\d+(?:\.\d+){2,}(?:-[0-9A-Za-z.]+)?\b|\bv\d+(?:\.\d+)?\b")),
     ("identifier", re.compile(r"\b[A-Z][A-Z0-9]+(?:[-_][A-Z0-9]+)*[-_]\d+[A-Z0-9]*\b")),
@@ -155,11 +157,10 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("identifier", re.compile(r"(?<![\w.])(?:[a-z]+(?:_[a-z0-9]+)+|[a-z]+(?:[A-Z][a-z0-9]+)+)(?:\(\))?(?![\w])")),
     ("identifier", re.compile(r"\b(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b")),
     ("quantity", re.compile(
-        rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT}))?\s?(?:{_UNIT_ALT})(?![\w/])", re.I)),
-    ("quantity", re.compile(rf"\b(?:{_NUMBER_WORD_ALT})\s+(?:{_UNIT_ALT})(?![\w/])", re.I)),
+        rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?\s?(?:{_UNIT_ALT})(?![\w/])", re.I)),
     ("ordinal", re.compile(r"\b\d+[ºª°]")),
     ("number", re.compile(rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?(?![\w])", re.I)),
-    ("number", re.compile(rf"\b(?:{_NUMBER_WORD_ALT})\b", re.I)),
+    ("number", re.compile(r"\b(?:dobro|metade|triplo)\b", re.I)),
     ("weekday", re.compile(r"\b(?:segunda|ter[cç]a|quarta|quinta|sexta)-feira\b|\bs[aá]bado\b|\bdomingo\b", re.I)),
     ("weekday", re.compile(
         r"\b(?:at[eé]|na|nesta|pr[oó]xima|esta|toda|de)\s+(?:a\s+)?(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)\b", re.I)),
@@ -168,6 +169,10 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
         r"m[eê]s que vem|pr[oó]ximo m[eê]s|ano que vem|pr[oó]ximo ano|(?:fim|final) do m[eê]s|"
         r"meio-dia|meio dia|meia-noite)\b", re.I)),
 ]
+
+# Number words run after structural spans (code, URLs, quotes, dates, paths)
+# and before digit values, so "R$ 1.500" and "mil e quinhentos reais" both win.
+_NUMERALS_AT = next(i for i, (kind, _) in enumerate(PATTERNS) if kind == "money")
 
 _ENTITY_RE = re.compile(r"\b[A-ZÀ-Ý][\wÀ-ÿ]*(?:[A-Z][\wÀ-ÿ]*)+\b|\b[A-Z]{2,}[0-9]*\b|\b[A-ZÀ-Ý][a-zà-ÿ]+\b")
 
@@ -203,7 +208,7 @@ def _key(kind: str, raw: str) -> str:
         m = re.search(_NUM, raw)
         return f"percent:{_dec(m.group(0))}"
     if kind == "quantity":
-        m = re.match(rf"({_NUM})(?:\s+({_MULT_ALT}))?\s?(.+)$", raw.strip(), re.I)
+        m = re.match(rf"({_NUM})(?:\s+({_MULT_ALT})\b)?\s?(.+)$", raw.strip(), re.I)
         if m:
             value = _scaled(m.group(1), m.group(2))
             unit_raw = m.group(3)
@@ -211,7 +216,7 @@ def _key(kind: str, raw: str) -> str:
             word, unit_raw = raw.strip().split(None, 1)
             value = str(NUMBER_WORDS.get(fold(word), fold(word)))
         unit = UNITS.get(fold(unit_raw).strip(), fold(unit_raw).strip())
-        return f"quantity:{value}:{unit}"
+        return _quantity_key(value, unit)
     if kind == "ordinal":
         return "ordinal:" + re.match(r"\d+", raw).group(0)
     if kind == "number":
@@ -227,6 +232,50 @@ def _key(kind: str, raw: str) -> str:
     if kind == "entity":
         return "entity:" + low
     return f"{kind}:{low}"
+
+
+SECONDS = {"ms": Decimal("0.001"), "s": 1, "min": 60, "h": 3600, "d": 86400, "wk": 604800}
+
+
+def _quantity_key(value: str, unit: str) -> str:
+    if unit in SECONDS:
+        try:
+            seconds = (Decimal(value) * SECONDS[unit]).normalize()
+            return f"quantity:{numerals.as_text(seconds)}:s"
+        except InvalidOperation:
+            pass
+    return f"quantity:{value}:{unit}"
+
+
+_CURRENCY_AFTER = re.compile(r"\s+(?:de\s+)?(reais|real|d[oó]lares|d[oó]lar|euros|euro)\b", re.I)
+_UNIT_AFTER = re.compile(rf"\s+({_UNIT_ALT})(?![\w/])", re.I)
+
+
+def _numeral_spans(text: str, occupied: list[tuple[int, int]]) -> list[Span]:
+    """Number words ("vinte e três", "mil e quinhentos reais", "meia hora")."""
+    out = []
+    for start, end, value in numerals.find(text):
+        if any(start < e and end > s for s, e in occupied):
+            continue
+        number = numerals.as_text(value)
+        rest = text[end:]
+        currency = _CURRENCY_AFTER.match(rest)
+        unit = _UNIT_AFTER.match(rest)
+        if currency:
+            end += currency.end()
+            code = "USD" if "lar" in fold(currency.group(1)) else "EUR" if "euro" in fold(currency.group(1)) else "BRL"
+            kind, key = "money", f"money:{code}:{number}"
+        elif unit:
+            end += unit.end()
+            unit_key = UNITS.get(fold(unit.group(1)), fold(unit.group(1)))
+            kind, key = "quantity", _quantity_key(number, unit_key)
+        elif value == Decimal("0.5"):
+            continue  # a bare "meia" is not a number ("meia noite" is handled elsewhere)
+        else:
+            kind, key = "number", f"number:{number}"
+        occupied.append((start, end))
+        out.append(Span(kind, text[start:end], start, end, key, _anchors(text, start, end)))
+    return out
 
 
 def _date_key(raw: str) -> str:
@@ -298,7 +347,9 @@ def _anchors(text: str, start: int, end: int) -> tuple:
 def extract(text: str, include_entities: bool = True) -> list[Span]:
     occupied: list[tuple[int, int]] = []
     out: list[Span] = []
-    for kind, pattern in PATTERNS:
+    for index, (kind, pattern) in enumerate(PATTERNS):
+        if index == _NUMERALS_AT:
+            out.extend(_numeral_spans(text, occupied))
         for match in pattern.finditer(text):
             group = "v" if "v" in pattern.groupindex else 0
             start, end = match.span(group)
