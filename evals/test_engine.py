@@ -55,9 +55,11 @@ class Loop(unittest.TestCase):
                              "added_claims": []})
         reject = json.dumps({"kind": "llm", "judge_id": "fake", "verdict": "not_equivalent",
                              "claims": [{"source": "não deve antes das 18h", "status": "changed"}]})
-        ok = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([accept]))
+        ok = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([accept, accept]))
         self.assertEqual(ok["outcome"], "accepted")
-        bad = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([reject]))
+        self.assertEqual(len(ok["report"]["evidence"]["judgments"]), 2)
+        bad = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([reject]),
+                      attempts=1)
         self.assertEqual(bad["outcome"], "returned_original")
         broken = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider(["sim"]))
         self.assertEqual(broken["outcome"], "needs_judgment")
@@ -67,7 +69,8 @@ class Loop(unittest.TestCase):
         # Real output from claude-sonnet-5-5 in the 2026-10-19 integration run had both.
         raw = '```json\n{"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"},],' \
               ' "added_claims": [],}\n```'
-        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([raw]))
+        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([raw]),
+                         judge_votes=1)
         self.assertEqual(result["outcome"], "accepted")
         repairs = result["report"]["evidence"]["judgments"][0]["parse_repairs"]
         self.assertIn("removed trailing commas", repairs)
@@ -75,9 +78,30 @@ class Loop(unittest.TestCase):
     def test_judge_gets_one_retry_on_invalid_json(self):
         good = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
         judge = StaticProvider(["isto não é json", good])
-        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=judge)
+        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=judge, judge_votes=1)
         self.assertEqual(result["outcome"], "accepted")
         self.assertIn("NÃO ERA JSON VÁLIDO", judge.calls[1])
+
+    def test_votes_must_agree_to_accept(self):
+        # ptbr-bench-v1: the same judge accepted and then rejected one rewrite.
+        accept = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
+        reject = json.dumps({"verdict": "not_equivalent", "claims": [{"source": "Agradecemos", "status": "changed",
+                                                                      "note": "nós virou eu"}]})
+        split = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([accept, reject]),
+                        attempts=1)
+        self.assertEqual(split["outcome"], "returned_original")
+        missing_vote = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([accept]))
+        self.assertEqual(missing_vote["outcome"], "needs_judgment")
+
+    def test_judge_rejection_feeds_the_next_attempt(self):
+        reject = json.dumps({"verdict": "not_equivalent", "claims": [
+            {"source": "o banco estará em manutenção", "status": "omitted", "note": "o motivo sumiu"}]})
+        accept = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
+        writer = StaticProvider([CLEAN, CLEAN])
+        result = rewrite(SOURCE, context(), writer, judge_provider=StaticProvider([reject, accept, accept]))
+        self.assertEqual(result["outcome"], "accepted")
+        self.assertIn("o juiz semântico apontou", writer.calls[1])
+        self.assertIn("o motivo sumiu", writer.calls[1])
 
     def test_model_judge_cannot_claim_to_be_human(self):
         sneaky = json.dumps({"kind": "human", "verdict": "equivalent",

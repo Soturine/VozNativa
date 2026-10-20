@@ -158,7 +158,7 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
             judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True,
-            protect: list[str] | tuple = (), force: bool = False) -> dict:
+            protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
     genre = context["genre"]["value"]
     before = patterns_mod.detect(text, genre) if context["task"] != "create" else None
@@ -174,7 +174,7 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
         provider.style = provider.style_from_contract(contract_mod.compact(voice_contract))
     selection = select(context, budget_words=budget_words)
     history, feedback = [], None
-    best = None
+    final, judge_rejections = None, 0
     for attempt in range(1, attempts + 1):
         if hasattr(provider, "humanize"):  # system-level providers take the source text, not our prompt
             raws = [provider.humanize(text) for _ in range(candidates)]
@@ -182,7 +182,7 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
                                   protect=protect, findings=before)
             raws = provider.generate(prompt, candidates)
-        reports = []
+        reports, best = [], None
         for raw in raws:
             candidate, no_change = parse_candidate(raw, text)
             report = validate_candidate(text, candidate, context, profile, facts, project, protect)
@@ -194,10 +194,21 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
                 rank = (STATUS_RANK.get(report["status"], 5), report["summary"]["major"])
                 if best is None or rank < best[0]:
                     best = (rank, candidate, report, no_change)
-        if best is not None:
-            break
-        feedback = _feedback(reports)
-
+        if best is None:
+            feedback = _feedback(reports)
+            continue
+        _, candidate, report, no_change = best
+        if not no_change and judge_provider is not None and report["status"] == "no_deterministic_issues":
+            report = _judge_votes(judge_provider, text, candidate, report, judge_votes)
+            history[-1]["judge"] = report["status"]
+            if report["status"] == "fail" and attempt < attempts:
+                # The judge found a meaning change: retry with what it saw instead of
+                # giving up on the first rejection (benchmark ptbr-bench-v1, 2026-10-20).
+                judge_rejections += 1
+                feedback = _judge_feedback(report)
+                continue
+        final = (candidate, report, no_change)
+        break
     def quality(final: str) -> dict | None:
         if before is None:
             return None
@@ -218,16 +229,15 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
                                       "max_distance": windows["max_distance"], "reference": windows["reference"]}
         return out
 
-    if best is None:
+    if final is None:
+        reason = ("the judge rejected every candidate" if judge_rejections else
+                  "every candidate failed deterministic checks; the source is returned unchanged")
         return _result("returned_original", text, None, history, provider, voice_contract, selection,
-                       reason="every candidate failed deterministic checks; the source is returned unchanged",
-                       quality=quality(text))
-    _, candidate, report, no_change = best
+                       reason=reason, quality=quality(text))
+    candidate, report, no_change = final
     if no_change:
         return _result("no_change", text, report, history, provider, voice_contract, selection,
                        quality=quality(text))
-    if judge_provider is not None and report["status"] == "no_deterministic_issues":
-        report = _judge(judge_provider, text, candidate, report)
     outcome = {"accepted_by_llm": "accepted", "accepted_by_human": "accepted", "identical": "no_change",
                "no_deterministic_issues": "needs_judgment", "review_required": "needs_review",
                "human_review_claimed": "needs_review", "fail": "returned_original"}[report["status"]]
@@ -261,6 +271,36 @@ def _extract_json(raw: str) -> tuple[dict, list[str]]:
         except json.JSONDecodeError as error:
             raise ValueError(f"judge answer is not valid JSON: {error}") from error
         return data, repairs + ["removed trailing commas"]
+
+
+def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes: int) -> dict:
+    """Independent judge calls; acceptance needs every vote to say equivalent.
+
+    A single LLM verdict proved unstable (same model and prompt accepted and
+    then rejected the same rewrite in ptbr-bench-v1). Votes are applied in
+    order, which is conservative by construction: any not_equivalent fails,
+    any uncertain needs review, and a vote that errors leaves the result
+    unjudged instead of accepted."""
+    deterministic, current = report, report
+    for _ in range(max(1, votes)):
+        current = _judge(judge_provider, text, candidate, current)
+        if "judge_error" in current:
+            if current["status"] == "fail":
+                return current
+            unjudged = dict(deterministic, judge_error=current["judge_error"])
+            unjudged["evidence"] = current["evidence"]
+            return unjudged
+        if current["status"] in {"fail", "review_required"}:
+            return current
+    return current
+
+
+def _judge_feedback(report: dict) -> list[str]:
+    last = report["evidence"]["judgments"][-1]
+    lines = [f'o juiz semântico apontou: "{c.get("source", "")}" -> {c.get("status")}: {c.get("note", "")}'.strip()
+             for c in last.get("claims", []) if c.get("status") not in judge_mod.NON_PROBLEM_STATUSES]
+    lines += [f"afirmação sem suporte no original: {a}" for a in last.get("added_claims", [])]
+    return lines or ["o juiz semântico considerou a candidata não equivalente ao original"]
 
 
 def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2) -> dict:
