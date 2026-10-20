@@ -38,13 +38,13 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 - [~] entidades/relações: presença; troca de valores, de agentes e de atribuições (troca mútua); NÃO detecta pronomes, inversão ativa/passiva com a mesma ordem, fontes em minúscula
 - [x] modalidade e negação (léxico E1, concordância negativa, compostos im+possível)
 - [x] temporalidade: datas, horas, dias, relativos; antes/depois
-- [x] causalidade: causal x correlacional; direção invertida dentro da frase (orientação dos conectores, causativas fazer/levar); entre frases NÃO detectada
+- [x] causalidade: causal x correlacional; direção invertida dentro da frase e entre frases adjacentes (v0.3.0)
 - [~] antônimos: 13 pares do léxico de polaridade; antônimos fora do léxico NÃO detectados
 - [x] julgamentos vinculados ao sha256 dos textos; revisão humana assinada (`voznativa review`)
-- [ ] spans protegidos configuráveis pelo usuário → v0.3.0 M1
+- [x] spans protegidos configuráveis pelo usuário (v0.3.0 M1)
 - [x] semantic-loss report (`voznativa compare`) com política conservadora
 - [x] contrato de juiz LLM/humano
-- [ ] modelo NLI PT-BR opcional (pesquisa: ASSIN2 + BERTimbau/Albertina) → v0.3.0 M1
+- [x] modelo NLI PT-BR opcional: pesquisado e rejeitado na v0.3.0 M1 (`evals/experiments/nli_probe.json`)
 - [ ] holdout escrito por terceiros (os atuais foram escritos pelo mesmo autor do motor) → v0.3.0 M4
 
 ## v0.3.0 — Semantic Intelligence & Author Voice (em andamento)
@@ -52,57 +52,57 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não será marcada como concluída enquanto houver critério obrigatório pendente (holdout independente, revisão humana cega e CI dependem de terceiros).
 
 ### M1 — Semantic Intelligence
-- [ ] holdout prospectivo v0.3 congelado antes das correções
-- [ ] adições dentro da frase (novidade por oração; regressão ho-007)
-- [ ] números por extenso compostos e equivalências
-- [ ] causalidade entre frases adjacentes
-- [ ] papéis agente/paciente em voz ativa/passiva
-- [ ] spans protegidos configuráveis pelo usuário (de v0.2)
-- [ ] experimento de sintaxe opcional (spaCy) — adotar só com ganho medido
-- [ ] experimento de NLI PT-BR opcional (de v0.2) — relatório de viabilidade
+- [x] holdout prospectivo v0.3 congelado antes das correções (1ª execução 15/24; após M1 24/24, não cego)
+- [x] adições dentro da frase (novidade por oração; regressão ho-007)
+- [x] números por extenso compostos e equivalências ("um/uma" segue ambíguo)
+- [x] causalidade entre frases adjacentes
+- [x] papéis agente/paciente em voz ativa/passiva (só entidades nomeadas)
+- [x] spans protegidos configuráveis pelo usuário (de v0.2)
+- [x] experimento de sintaxe opcional (spaCy): 1 detecção nova em 167 casos; não adotado
+- [x] experimento de NLI PT-BR opcional (de v0.2): rejeitado (nada novo, 9/56 falsos vermelhos)
 
 ### M2 — PT-BR Writing Quality
-- [ ] detector de padrões operacional com isenções por gênero (absorve v0.4)
-- [ ] decisão de NO_CHANGE e reescrita dirigida aos achados, validada em execução real
+- [x] detector de padrões operacional com isenções por gênero (absorve v0.4)
+- [x] decisão de NO_CHANGE e reescrita dirigida aos achados, validada em execução real (achados 29 → 6)
 - [ ] planejamento por documento — só com ganho medido
 
 ### M3 — Author Voice
 - [x] perfil por canal (`channels` no Voice Profile v2)
 - [x] comparação de voice vectors normalizados (`voznativa drift --profile`)
 - [~] Voice Drift por janelas (normalizado; limiar NÃO calibrado)
-- [ ] voice match mensurável no relatório do engine
-- [ ] estabilidade em textos longos
+- [~] voice match mensurável no relatório do engine (implementado; experimento com autor sintético inconclusivo)
+- [~] estabilidade em textos longos (drift reportado; limiar sem calibração)
 - [ ] calibração com amostras consentidas (bloqueado: depende de amostras reais)
 
 ### M4 — Evidence & Benchmarks
-- [ ] dataset de benchmark congelado antes da execução
-- [ ] benchmark skill-only com o mesmo LLM (raw, prompt simples, blader, work-humanizer, VozNativa) (de v0.8)
+- [x] dataset de benchmark congelado antes da execução
+- [x] benchmark skill-only com o mesmo LLM (raw, prompt simples, blader, work-humanizer, VozNativa) (de v0.8); instrumentos são do próprio VozNativa
 - [ ] benchmark system-level com Emulate (bloqueado: chave de API) (de v0.8)
-- [ ] instrumento de revisão humana cega (de v0.8)
+- [x] instrumento de revisão humana cega (de v0.8)
 - [ ] rodada de revisão humana registrada (depende de pessoas)
 - [ ] holdout independente executado (depende de outra pessoa)
 
 ### M5 — Corpus Pilot
-- [ ] ingestão metadata-only de um recorte do Corpus Carolina
+- [x] ingestão metadata-only de um recorte do Corpus Carolina
 
 ### M6 — Release Qualification
-- [ ] retries e erros de provider sem derrubar o engine
-- [ ] privacidade em relatórios de integração
-- [ ] exemplos reais antes/depois
-- [ ] matriz de compatibilidade final
+- [x] retries e erros de provider sem derrubar o engine
+- [x] privacidade em relatórios de integração (`--redact`)
+- [x] exemplos reais antes/depois (`examples/`)
+- [x] matriz de compatibilidade final (local; `evals/compat/`)
 - [ ] CI verde (bloqueado: cobrança do GitHub Actions)
 
 ## v0.4 — PT-BR Pattern Library
 - [ ] expandir oficialês deslocado → v0.3.0 M2
 - [ ] expandir ENEM-ismo → v0.3.0 M2
-- [ ] expandir gerundismo → v0.3.0 M2
+- [~] gerundismo, oficialês, ENEM-ismo, conectivos, promocional e fechamento no detector (v0.3.0 M2); expansão de dados continua
 - [ ] expandir gerúndio conclusivo
 - [ ] expandir conectivos empilhados → v0.3.0 M2
 - [ ] expandir trios/paralelismos formulaicos
 - [ ] expandir linguagem promocional vaga → v0.3.0 M2
 - [ ] expandir conclusão genérica → v0.3.0 M2
 - [ ] tradução literal / PT-BR x PT-PT
-- [ ] falsos positivos por gênero → v0.3.0 M2
+- [~] falsos positivos por gênero: isenções no detector (v0.3.0 M2); um natural ainda sinalizado
 - [ ] estrangeirismos por domínio
 
 ## v0.5 — Regional Layer
@@ -124,7 +124,7 @@ Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não ser
 - [ ] licença do repositório (proposta Apache-2.0 em `docs/LICENSING.md`)
 - [ ] resolver o conflito de licença do Corpus Carolina antes de qualquer ingestão (o piloto metadata-only da v0.3.0 M5 não ingere texto)
 - [ ] holdout semântico escrito por outra pessoa
-- [ ] execução real do benchmark (B0–B5) com manifesto e juízes
+- [x] execução real do benchmark skill-only (B0–B3, B5) com manifesto e juízes; B4 (Emulate) bloqueado
 - [ ] calibração dos limiares do `compare` e do drift com reescritas reais
 
 ## v0.7 — Rewrite Engine Contract
@@ -147,15 +147,15 @@ Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não ser
 - [ ] temporal slang
 - [ ] human review protocol → v0.3.0 M4
 - [~] eval provenance (hashes congelados; corpus não ingerido)
-- [~] benchmark skill-only: runner, casos e manifesto prontos; execução real não feita → v0.3.0 M4
+- [x] benchmark skill-only: execução oficial registrada (v0.3.0 M4)
 - [ ] benchmark system-level reproduzível → v0.3.0 M4
-- [ ] blind pairwise harness → v0.3.0 M4
+- [~] blind pairwise harness: instrumento pronto, sem rodada humana (v0.3.0 M4)
 - [x] frozen benchmark manifests (`cases_sha256`, `manifest.example.json`)
 
 ## v0.9 — Packaging & Integrations
 - [x] manifests para hosts suportados (Claude Code plugin, Codex `openai.yaml`; Gemini via SKILL.md)
 - [~] CLI (`voznativa`); estável só a partir da 1.0
-- [ ] exemplos de integração → v0.3.0 M6
+- [x] exemplos antes/depois de execuções reais (v0.3.0 M6)
 - [ ] documentação de extensão de packs
 - [ ] política de contribuição de dados linguísticos
 - [~] provider adapter para Emulate (não validado ao vivo)

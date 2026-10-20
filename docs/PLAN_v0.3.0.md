@@ -17,6 +17,44 @@ Status por WP: **pendente**, **em andamento**, **implementado** (código + teste
 
 Os critérios 3, 5 e 6 dependem de pessoas ou da conta do GitHub. Enquanto não forem cumpridos, a v0.3.0 fica como `0.3.0.devN`, nunca como release.
 
+## Status em 2026-10-20 (commit `a1ec120`): **v0.3.0 NÃO concluída**
+
+| Critério | Situação |
+|---|---|
+| 1. WPs obrigatórios validados | todos os obrigatórios que dependem só de código estão validados (tabela abaixo); M4.4 resultados e M6.5 abertos |
+| 2. Sem regressão | 197 testes OK; holdouts congelados sem falso verde na execução atual |
+| 3. Holdout independente | **aberto**: precisa de outra pessoa (`evals/semantic/INDEPENDENT_HOLDOUT.md`) |
+| 4. Benchmark prospectivo | **cumprido**: `ptbr-bench-v1` congelado (`264e232`) antes da execução oficial (`benchmarks/runs/ptbr-bench-v1-20261020T060615Z.json`) |
+| 5. Revisão humana cega | **aberto**: instrumento pronto, nenhum julgamento humano registrado |
+| 6. CI verde | **bloqueado**: GitHub Actions recusa por cobrança da conta. Matriz local verde em `evals/compat/v0.3.0-dev-e679038.json` (não substitui CI) |
+
+| WP | Status | Evidência / observação |
+|---|---|---|
+| M1.1 | validado | `holdout-v030.jsonl` congelado (`0a713f9`); primeira execução 15/24; depois das correções 24/24 (não cego, `7af6135`) |
+| M1.2 | validado | ho-007 e h3-add-* sinalizados; guarda de oração única evita o falso vermelho "sai" → "será publicado" |
+| M1.3 | validado | `evals/test_numerals.py`; "um/uma" continua ambíguo |
+| M1.4 | validado | rel-cause-005 detectado; só frases adjacentes |
+| M1.5 | validado | rel-entity-003 detectado; só entidades nomeadas |
+| M1.6 | experimento registrado, **não adotado** | `evals/experiments/syntax_roles.json`: 1 detecção nova em 167 casos, 0 falso vermelho; ganho pequeno não justifica modelo CC BY-SA |
+| M1.7 | experimento registrado, **rejeitado** | `evals/experiments/nli_probe.json`: 26/97 violações, nenhuma que o gate já não pegasse; 9/56 falsos vermelhos em reescritas válidas |
+| M1.8 | validado | `--protect`, `evals/test_protected_terms.py` |
+| M2.1 | validado (com ressalva) | separa 6/6 rascunhos e 7/8 naturais; `bm-email-001` (natural) é sinalizado e fica fora do teste; casos escritos pelo desenvolvedor |
+| M2.2 | validado | execução real: achados 29 → 6, nenhuma regressão semântica; 7 textos naturais sem chamada ao modelo |
+| M2.3 | pendente (não obrigatório) | — |
+| M3.1 | implementado; experimento **inconclusivo** | `voice_match_synthetic_a.json`: com perfil mais perto em 2/4, autor sintético |
+| M3.2 | implementado | drift por janela no relatório; limiar sem calibração |
+| M3.3 | bloqueado | precisa de amostras reais consentidas |
+| M4.1 | validado | congelado antes da execução |
+| M4.2 | validado | execução oficial + reexecução pós-mudança do braço engine (post hoc, `1dc14b5`) |
+| M4.3 | bloqueado | precisa de chave da API do Emulate |
+| M4.4 | instrumento validado; **resultados abertos** | `voznativa blind-tasks/blind-review/blind-summary`, testes em `evals/test_blind_review.py` |
+| M5.1 | validado | `evals/corpus/carolina-pilot.json` (só metadados) |
+| M6.1 | validado | retries com backoff; `provider_error` sem exceção; testes em `evals/test_engine.py` |
+| M6.2 | validado | `--redact` em `scripts/llm_integration.py`; `evals/test_privacy.py` |
+| M6.3 | validado | `examples/README.md`, gerado por `scripts/make_examples.py` de execuções gravadas |
+| M6.4 | validado (local) | Linux 3.11/3.12/3.13 (Docker) e Windows 3.11/3.12/3.13; smoke do wheel em Linux 3.11–3.13 e Windows 3.12 |
+| M6.5 | bloqueado | cobrança do GitHub Actions |
+
 ## M1 — Semantic Intelligence
 
 | WP | Objetivo | Alterações | Testes / evidência | Limitações conhecidas | Concluído quando | Obrig. |

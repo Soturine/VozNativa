@@ -2,7 +2,28 @@
 
 ## Unreleased (0.3.0.dev0)
 
-Work in progress; see `docs/PLAN_v0.3.0.md`.
+Work in progress, **not a release**: the independent holdout, a blind human review round and CI are still open (`docs/PLAN_v0.3.0.md`).
+
+### Added
+- PT-BR number words (`vinte e três`, `mil e quinhentos reais`, `meia dúzia`, `meia hora`) compared with digits; durations compared in seconds.
+- Claims inserted as a new clause inside a sentence (`claim_added`), with a single-clause guard against false reds.
+- Reversed causality across adjacent sentences (`X. Por isso, Y.`) and swapped agent/patient between named entities, including active ↔ passive.
+- `--protect` / `--protect-file`: user terms that must survive (`span_missing`).
+- `voznativa patterns`: genre-aware editorial findings (oficialês, ENEM-ismo, gerundismo, stacked connectives, formulas, support verbs, promotional, empty closings); descriptive, never an authorship score.
+- Engine: returns NO_CHANGE without calling the model when there is no finding (`--force` overrides); targets the findings in the prompt; reports patterns before/after, voice distance to the profile and long-text drift.
+- Engine: `--judge-votes` (default 2, all must agree) and one retry carrying the judge's reason after a rejection.
+- Providers: retries with backoff; provider failures end as `provider_error` (exit 1) instead of a crash.
+- Blind pairwise human review: `blind-tasks`, `blind-review` (signed answers), `blind-summary` (counts signed answers only).
+- `scripts/llm_integration.py --redact`: stores hashes, lengths and metrics, no texts.
+- Evidence: frozen `holdout-v030`, frozen `ptbr-bench-v1` with an official skill-only run, spaCy and NLI experiments (neither adopted), a synthetic-author voice experiment (inconclusive), a metadata-only Corpus Carolina pilot, `examples/` from recorded runs and a local compatibility matrix.
+
+### Fixed
+- `120 minutos` was read as 120 million (`mi` matched inside `minutos`).
+- `só` was matched as the regional `sô` (accents were folded).
+- Idioms read as markers in real runs: `não hesite em`, `conforme alinhado`, `cada vez mais`, `sempre à disposição`.
+- `N horas` was taken as a clock time without a preposition.
+- Integration and benchmark runners crashed when git was not installed.
+- The installed-wheel smoke could not clean its temp dir on Windows.
 
 ## 0.2.0.dev0 - 2026-10-19 (pushed to main; development version, not a release)
 
