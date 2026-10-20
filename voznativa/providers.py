@@ -14,6 +14,7 @@ import os
 import shlex
 import subprocess
 import tempfile
+import time
 import urllib.request
 from dataclasses import dataclass, field
 from typing import Callable, Protocol
@@ -55,6 +56,9 @@ class CommandProvider:
     id: str = ""
     isolate: bool = True
     calls: int = 0
+    retries: int = 1          # extra tries after a failure (timeout, crash, non-zero exit)
+    backoff: float = 2.0      # seconds, doubled after each failure
+    errors: list = field(default_factory=list)
 
     def __post_init__(self):
         if not self.argv:
@@ -73,21 +77,34 @@ class CommandProvider:
             return cls(argv, timeout)
         return cls(shlex.split(command, posix=os.name != "nt"), timeout)
 
+    def _once(self, prompt: str) -> str:
+        self.calls += 1
+        try:
+            with tempfile.TemporaryDirectory(prefix="voznativa-provider-") as workdir:
+                done = subprocess.run(self.argv, input=prompt.encode("utf-8"), capture_output=True,
+                                      timeout=self.timeout, check=False,
+                                      cwd=workdir if self.isolate else None)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            raise ProviderError(f"{self.id}: {error}") from error
+        if done.returncode != 0:
+            raise ProviderError(f"{self.id} exited {done.returncode}: "
+                                f"{done.stderr.decode('utf-8', 'replace')[:500]}")
+        return done.stdout.decode("utf-8", "replace")
+
     def generate(self, prompt: str, n: int = 1) -> list[str]:
         outputs = []
         for _ in range(n):
-            self.calls += 1
-            try:
-                with tempfile.TemporaryDirectory(prefix="voznativa-provider-") as workdir:
-                    done = subprocess.run(self.argv, input=prompt.encode("utf-8"), capture_output=True,
-                                          timeout=self.timeout, check=False,
-                                          cwd=workdir if self.isolate else None)
-            except (OSError, subprocess.TimeoutExpired) as error:
-                raise ProviderError(f"{self.id}: {error}") from error
-            if done.returncode != 0:
-                raise ProviderError(f"{self.id} exited {done.returncode}: "
-                                    f"{done.stderr.decode('utf-8', 'replace')[:500]}")
-            outputs.append(done.stdout.decode("utf-8", "replace"))
+            delay = self.backoff
+            for attempt in range(self.retries + 1):
+                try:
+                    outputs.append(self._once(prompt))
+                    break
+                except ProviderError as error:
+                    self.errors.append(str(error))
+                    if attempt == self.retries:
+                        raise
+                    time.sleep(delay)
+                    delay *= 2
         return outputs
 
 

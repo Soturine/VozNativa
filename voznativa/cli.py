@@ -248,7 +248,8 @@ def cmd_rewrite(args):
         _emit(None, result["text"])
     else:
         _emit(result)
-    return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2, "returned_original": 1}[
+    return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2, "returned_original": 1,
+            "provider_error": 1}[
         result["outcome"]]
 
 

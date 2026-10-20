@@ -1,6 +1,7 @@
 """Rewrite Engine loop, prompt construction and providers."""
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -189,10 +190,33 @@ class Providers(unittest.TestCase):
             CommandProvider.from_string('["prog", 3]')
 
     def test_command_provider_reports_failures(self):
+        failing = CommandProvider([sys.executable, "-c", "import sys; sys.exit(3)"], backoff=0.01)
         with self.assertRaises(ProviderError):
-            CommandProvider([sys.executable, "-c", "import sys; sys.exit(3)"]).generate("x")
+            failing.generate("x")
+        self.assertEqual(failing.calls, 2)  # one retry by default
         with self.assertRaises(ProviderError):
-            CommandProvider(["definitely-not-a-command-voznativa"]).generate("x")
+            CommandProvider(["definitely-not-a-command-voznativa"], backoff=0.01).generate("x")
+
+    def test_transient_failure_is_retried(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            marker = Path(tmp, "seen")
+            # First call creates the marker and fails; the retry finds it and succeeds.
+            script = ("import sys, pathlib\n"
+                      "p = pathlib.Path(sys.argv[1])\n"
+                      "if not p.exists():\n"
+                      "    p.write_text('x')\n"
+                      "    sys.exit(7)\n"
+                      "print('<final>ok</final>')\n")
+            provider = CommandProvider([sys.executable, "-c", script, str(marker)], backoff=0.01, isolate=False)
+            self.assertEqual([a.strip() for a in provider.generate("x")], ["<final>ok</final>"])
+            self.assertEqual(len(provider.errors), 1)
+
+    def test_engine_returns_the_original_when_the_provider_keeps_failing(self):
+        provider = CommandProvider([sys.executable, "-c", "import sys; sys.exit(2)"], backoff=0.01)
+        result = rewrite(SOURCE, context(), provider)
+        self.assertEqual(result["outcome"], "provider_error")
+        self.assertEqual(result["text"], SOURCE)
+        self.assertIn("model provider failed", result["reason"])
 
     def test_emulate_request_mapping_without_network(self):
         sent = {}

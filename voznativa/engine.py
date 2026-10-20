@@ -27,7 +27,7 @@ from . import patterns as patterns_mod
 from . import region as region_mod
 from .compare import apply_judgment, compare
 from .paths import home
-from .providers import Provider
+from .providers import Provider, ProviderError
 from .references import select
 from .review import content_hash
 
@@ -155,6 +155,18 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
 
 
 def rewrite(text: str, context: dict, provider: Provider, profile: dict | None = None,
+            **kwargs) -> dict:
+    """Run the loop; a provider failure (after its own retries) returns the
+    original with outcome ``provider_error`` instead of raising."""
+    try:
+        return _rewrite(text, context, provider, profile, **kwargs)
+    except ProviderError as error:
+        voice_contract = contract_mod.resolve(context, profile, kwargs.get("explicit"))
+        return _result("provider_error", text, None, [], provider, voice_contract,
+                       select(context, budget_words=0), reason=f"model provider failed: {error}")
+
+
+def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None = None,
             explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
             judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True,
