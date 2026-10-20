@@ -10,3 +10,4 @@ benchmarks/outputs/*/
 !benchmarks/outputs/.gitkeep
 .voznativa/
 voznativa/_bundled/
+benchmarks/.cache/
