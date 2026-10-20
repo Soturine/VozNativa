@@ -36,6 +36,7 @@ def main() -> int:
     if (package.parent / "references").exists():
         raise SystemExit(f"not an isolated install: {package.parent} has references/")
     print("package:", package, "| home:", home())
+    start = os.getcwd()
     with tempfile.TemporaryDirectory() as tmp:
         os.chdir(tmp)
         Path("t.txt").write_text(TEXT, encoding="utf-8")
@@ -51,6 +52,7 @@ def main() -> int:
             "rewrite-prompt": "LEDGER" in run("rewrite-prompt", "t.txt", "--inline-refs"),
             "judge-prompt": "BINDING" in run("judge-prompt", "t.txt", "c.txt"),
         }
+        os.chdir(start)  # Windows cannot delete the current directory
     failed = [name for name, ok in checks.items() if not ok]
     print(json.dumps(checks, indent=2))
     return 1 if failed else 0
