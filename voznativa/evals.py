@@ -65,7 +65,13 @@ def run(path: Path, require_frozen: bool = False) -> dict:
     origin = provenance(path)
     if require_frozen and not (origin.get("frozen") and origin.get("sha256_matches")):
         raise ValueError(f"{path.name}: not a frozen suite with a matching sha256 in MANIFEST.json")
-    results = [check(case) for case in load(path)]
+    cases = load(path)
+    for case in cases:
+        missing = {"id", "category", "original", "candidate", "expect"} - case.keys()
+        if missing:
+            raise ValueError(f"{path.name}: case {case.get('id', '?')} lacks {sorted(missing)}; "
+                             "not a semantic eval suite (router cases run in the test suite)")
+    results = [check(case) for case in cases]
     by_category = Counter()
     passed = Counter()
     for r in results:

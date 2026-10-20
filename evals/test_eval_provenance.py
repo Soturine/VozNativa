@@ -47,6 +47,10 @@ class Provenance(unittest.TestCase):
             run(SEMANTIC / "cases.jsonl", require_frozen=True)
         self.assertTrue(run(SEMANTIC / "holdout2.jsonl", require_frozen=True)["provenance"]["sha256_matches"])
 
+    def test_non_semantic_file_is_refused_with_a_clear_error(self):
+        with self.assertRaisesRegex(ValueError, "not a semantic eval suite"):
+            run(ROOT / "evals" / "router" / "cases.jsonl")
+
 
 if __name__ == "__main__":
     unittest.main()
