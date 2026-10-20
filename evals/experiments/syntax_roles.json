@@ -1,0 +1,1437 @@
+{
+  "summary": {
+    "model": "pt_core_news_sm 3.8.0 (CC BY-SA 4.0)",
+    "cases": 167,
+    "flagged": 11,
+    "false_reds_on_valid_rewrites": [],
+    "new_detections_over_deterministic": [
+      [
+        "holdout-v030.jsonl",
+        "h3-lim-003",
+        [
+          [
+            "nmod",
+            "proposta",
+            "fornecedor",
+            "cliente"
+          ]
+        ]
+      ]
+    ]
+  },
+  "rows": [
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-002",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-003",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-004",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "neg-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-001",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-002",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-004",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-005",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "mod-006",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "cau-001",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "cau-002",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "cau-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "cau-004",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "causar",
+          "falha",
+          "queda"
+        ]
+      ]
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-001",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-002",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-003",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-004",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-005",
+      "category": "addition",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-002",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-005",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-006",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-007",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-008",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-009",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-011",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-012",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-013",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-014",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fact-015",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "nc-001",
+      "category": "no_change",
+      "deterministic": "identical",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "nc-002",
+      "category": "no_change",
+      "deterministic": "identical",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-001",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-007",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-008",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-009",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "fr-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "idiom-001",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "idiom-002",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-101",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-104",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-105",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-106",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "num-107",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-101",
+      "category": "addition",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "cases.jsonl",
+      "id": "add-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-agent-001",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-agent-002",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-agent-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-agent-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-agent-005",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-001",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "causar",
+          "falha",
+          "queda"
+        ]
+      ]
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-002",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-005",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-001",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-002",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-003",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-004",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-ant-007",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-attr-001",
+      "category": "attribution",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-attr-002",
+      "category": "attribution",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-attr-003",
+      "category": "attribution",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-attr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-attr-005",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-entity-001",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "comprar",
+          "acme",
+          "beta"
+        ]
+      ]
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-entity-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-entity-003",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "comprar",
+          "acme",
+          "beta"
+        ]
+      ]
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-101",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-cause-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-role-101",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "comprar",
+          "natura",
+          "avon"
+        ]
+      ]
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-role-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-role-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "relations.jsonl",
+      "id": "rel-role-104",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "treinar",
+          "marcos",
+          "bianca"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-002",
+      "category": "false_red",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-003",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-006",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-007",
+      "category": "addition",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-008",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-009",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-010",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-011",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-012",
+      "category": "no_change",
+      "deterministic": "identical",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-013",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-014",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-015",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-016",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-017",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-018",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-019",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-020",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-021",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-022",
+      "category": "known_limitation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-023",
+      "category": "addition",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout.jsonl",
+      "id": "ho-024",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-003",
+      "category": "modality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-005",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-006",
+      "category": "false_red",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-007",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-008",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-009",
+      "category": "causality",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-011",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-012",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-013",
+      "category": "no_change",
+      "deterministic": "identical",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-014",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-015",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout2.jsonl",
+      "id": "h2-016",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-001",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-003",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "provocar",
+          "vazamento",
+          "reinicialização"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-005",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-006",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-007",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-008",
+      "category": "attribution",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-009",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-010",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "vencer",
+          "flamengo",
+          "palmeiras"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-011",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-relations.jsonl",
+      "id": "hr-012",
+      "category": "antonym",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-add-001",
+      "category": "addition",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-add-002",
+      "category": "addition",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-add-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-omit-001",
+      "category": "omission",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-num-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-num-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-num-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-num-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-num-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-cause-001",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-cause-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-cause-003",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-role-001",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "adquirir",
+          "itaú",
+          "xp"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-role-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-role-003",
+      "category": "relation",
+      "deterministic": "fail",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "act",
+          "contratar",
+          "joana",
+          "rafael"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-role-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-scope-001",
+      "category": "factual",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-time-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-commit-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-nc-001",
+      "category": "no_change",
+      "deterministic": "identical",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-lim-001",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-lim-002",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-lim-003",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": true,
+      "hits": [
+        [
+          "nmod",
+          "proposta",
+          "fornecedor",
+          "cliente"
+        ]
+      ]
+    },
+    {
+      "suite": "holdout-v030.jsonl",
+      "id": "h3-lim-004",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "syntax_flag": false,
+      "hits": []
+    }
+  ]
+}

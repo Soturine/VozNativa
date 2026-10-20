@@ -1,0 +1,1475 @@
+{
+  "summary": {
+    "model": "ruanchaves/bert-base-portuguese-cased-assin2-entailment",
+    "threshold": 0.5,
+    "violations_flagged": "26/97",
+    "violations_flagged_that_deterministic_missed": [],
+    "violations_missed_by_nli": [
+      "mod-001",
+      "mod-002",
+      "mod-004",
+      "mod-005",
+      "cau-001",
+      "cau-002",
+      "cau-004",
+      "fact-001",
+      "fact-002",
+      "fact-004",
+      "fact-005",
+      "fact-006",
+      "fact-007",
+      "fact-008",
+      "fact-009",
+      "fact-011",
+      "fact-014",
+      "fact-015",
+      "idiom-002",
+      "num-104",
+      "add-101",
+      "rel-agent-001",
+      "rel-agent-002",
+      "rel-cause-001",
+      "rel-cause-002",
+      "rel-cause-005",
+      "rel-ant-001",
+      "rel-ant-003",
+      "rel-ant-004",
+      "rel-attr-001",
+      "rel-attr-002",
+      "rel-attr-003",
+      "rel-entity-001",
+      "rel-entity-003",
+      "rel-cause-101",
+      "rel-role-101",
+      "rel-role-104",
+      "ho-003",
+      "ho-006",
+      "ho-009",
+      "ho-010",
+      "ho-011",
+      "ho-013",
+      "ho-014",
+      "ho-015",
+      "ho-017",
+      "ho-021",
+      "ho-024",
+      "h2-001",
+      "h2-003",
+      "h2-004",
+      "h2-005",
+      "h2-007",
+      "h2-008",
+      "h2-009",
+      "h2-011",
+      "hr-001",
+      "hr-003",
+      "hr-005",
+      "hr-006",
+      "hr-008",
+      "hr-010",
+      "hr-012",
+      "h3-add-001",
+      "h3-omit-001",
+      "h3-num-004",
+      "h3-cause-001",
+      "h3-cause-003",
+      "h3-role-001",
+      "h3-role-003",
+      "h3-time-001"
+    ],
+    "known_limitations_flagged": [
+      "rel-agent-005",
+      "rel-ant-007",
+      "h3-lim-001"
+    ],
+    "known_limitations_not_flagged": [
+      "rel-attr-005",
+      "ho-022",
+      "h2-015",
+      "hr-011",
+      "h3-lim-002",
+      "h3-lim-003",
+      "h3-lim-004"
+    ],
+    "false_reds_on_valid_dev_rewrites": "9/56",
+    "false_reds_on_real_rewrites": "2/9"
+  },
+  "rows": [
+    {
+      "source": "cases.jsonl",
+      "id": "neg-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "neg-002",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "neg-003",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "neg-004",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "neg-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "neg-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.01
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-001",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-002",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.002,
+      "p_backward": 0.037
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-004",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-005",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "mod-006",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "cau-001",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "cau-002",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "cau-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "cau-004",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-001",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-002",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.997
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-003",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-004",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.006,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-005",
+      "category": "addition",
+      "deterministic": "review_required",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-002",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 0.999
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-005",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 0.996,
+      "p_backward": 0.999
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-006",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-007",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-008",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-009",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 0.954
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-011",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-012",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-013",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-014",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fact-015",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "nc-002",
+      "category": "no_change",
+      "deterministic": "identical",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-001",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 0.996
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-007",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-008",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-009",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "fr-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 0.996
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "idiom-001",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "idiom-002",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.996
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-101",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.938,
+      "p_backward": 0.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.998,
+      "p_backward": 0.933
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-104",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-105",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-106",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.83,
+      "p_backward": 0.999
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "num-107",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-101",
+      "category": "addition",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "cases.jsonl",
+      "id": "add-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-agent-001",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-agent-002",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-agent-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-agent-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-agent-005",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "p_forward": 0.004,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-001",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-002",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-005",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-001",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-002",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.998
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-003",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-004",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-006",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-ant-007",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-attr-001",
+      "category": "attribution",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-attr-002",
+      "category": "attribution",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-attr-003",
+      "category": "attribution",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-attr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-attr-005",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.999
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-entity-001",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-entity-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-entity-003",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-101",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-cause-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-role-101",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-role-102",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-role-103",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "relations.jsonl",
+      "id": "rel-role-104",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-002",
+      "category": "false_red",
+      "deterministic": "review_required",
+      "p_forward": 0.0,
+      "p_backward": 0.005
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-003",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-006",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-007",
+      "category": "addition",
+      "deterministic": "review_required",
+      "p_forward": 0.003,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-008",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-009",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-010",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-011",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-013",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 0.936
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-014",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-015",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-016",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-017",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-018",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-019",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-020",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.001
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-021",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-022",
+      "category": "known_limitation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-023",
+      "category": "addition",
+      "deterministic": "review_required",
+      "p_forward": 0.0,
+      "p_backward": 0.995
+    },
+    {
+      "source": "holdout.jsonl",
+      "id": "ho-024",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 0.993
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-001",
+      "category": "negation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-003",
+      "category": "modality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-005",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-006",
+      "category": "false_red",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-007",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-008",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-009",
+      "category": "causality",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-010",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-011",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-012",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-014",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-015",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout2.jsonl",
+      "id": "h2-016",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.002,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-001",
+      "category": "agent_swap",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-003",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-005",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-006",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-007",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-008",
+      "category": "attribution",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-009",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-010",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-011",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-relations.jsonl",
+      "id": "hr-012",
+      "category": "antonym",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-add-001",
+      "category": "addition",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-add-002",
+      "category": "addition",
+      "deterministic": "fail",
+      "p_forward": 0.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-add-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-omit-001",
+      "category": "omission",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.997
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-num-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-num-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-num-003",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 0.999
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-num-004",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-num-005",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-cause-001",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-cause-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-cause-003",
+      "category": "causal_direction",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-role-001",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-role-002",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-role-003",
+      "category": "relation",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-role-004",
+      "category": "false_red",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-scope-001",
+      "category": "factual",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-time-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-commit-001",
+      "category": "factual",
+      "deterministic": "fail",
+      "p_forward": 0.001,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-lim-001",
+      "category": "known_limitation",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 0.01
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-lim-002",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-lim-003",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "holdout-v030.jsonl",
+      "id": "h3-lim-004",
+      "category": "known_limitation",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-corp-001",
+      "category": "real_rewrite",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-tech-001",
+      "category": "real_rewrite",
+      "deterministic": "review_required",
+      "p_forward": 0.0,
+      "p_backward": 0.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-academic-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-social-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 0.333,
+      "p_backward": 0.998
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-support-001",
+      "category": "real_rewrite",
+      "deterministic": "review_required",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-support-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+      "id": "ai-status-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json",
+      "id": "bm-email-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    },
+    {
+      "source": "real:20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json",
+      "id": "bm-corporate-001",
+      "category": "real_rewrite",
+      "deterministic": "no_deterministic_issues",
+      "p_forward": 1.0,
+      "p_backward": 1.0
+    }
+  ]
+}
