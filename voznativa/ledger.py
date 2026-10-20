@@ -27,6 +27,7 @@ class SentenceEntry:
     markers: list[signals.Marker]
     stems: list[str]
     tokens: list[str] = field(default_factory=list)  # all non-marker words, for short sentences
+    content: str = ""  # sentence text with protected values and markers blanked (punctuation kept)
 
     def signal_counts(self) -> Counter:
         return Counter(m.label for m in self.markers)
@@ -77,7 +78,7 @@ def build(text: str) -> Ledger:
     for sent in sentences(text):
         inside = [s for s in all_spans if s.start >= sent.start and s.end <= sent.end]
         if sent.kind == "code":
-            marks, stems, tokens = [], [], []
+            marks, stems, tokens, content = [], [], [], ""
         else:
             rel = [(s.start - sent.start, s.end - sent.start, s.type) for s in inside]
             masked = _mask(sent.text, [(a, b) for a, b, t in rel if t in OPAQUE_TYPES])
@@ -90,7 +91,7 @@ def build(text: str) -> Ledger:
                             + [(m.start, m.end) for m in marks])
             stems = content_stems(content)
             tokens = [fold(w) for w in words(content)]
-        entries.append(SentenceEntry(sent, inside, marks, stems, tokens if sent.kind != "code" else []))
+        entries.append(SentenceEntry(sent, inside, marks, stems, tokens, content))
     return Ledger(text, entries, all_spans)
 
 

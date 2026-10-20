@@ -32,6 +32,8 @@ MIN_STEMS_FOR_COVERAGE = 3
 LENGTH_RATIO_BOUNDS = (0.5, 1.8)
 
 INLINE_ADDITION_MIN_NEW_STEMS = 4
+CLAUSE_MIN_NEW_STEMS = 2
+CLAUSE_MIN_NOVELTY = 0.66
 
 LIMITATIONS = [
     "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
@@ -411,7 +413,31 @@ def _coverage_issues(src, out) -> list[dict]:
                                  "check for added claims",
                                  sentence=entry.sentence.text, novelty=round(novelty, 3),
                                  new_words=sorted(new)))
+            continue
+        clause = _novel_clause(entry, src_stems)
+        if clause:
+            issues.append(_issue("possible_addition", "major",
+                                 "a clause of the candidate is mostly new content; check for an inserted claim",
+                                 sentence=entry.sentence.text, clause=clause[0], new_words=clause[1]))
     return issues
+
+
+_CLAUSE_SPLIT = re.compile(r"[,;:()\[\]]|\s[—–-]\s")
+
+
+def _novel_clause(entry, src_stems: set) -> tuple[str, list[str]] | None:
+    """An inserted clause ("..., onde liderei a migração, ...") can hide inside
+    a sentence whose overall novelty is low. Look at each clause: at least
+    CLAUSE_MIN_NEW_STEMS new content stems making up most of the clause."""
+    pieces = [p for p in _CLAUSE_SPLIT.split(entry.content) if p.strip()]
+    if len(pieces) < 2:  # a single clause is the whole sentence, already checked above
+        return None
+    for piece in pieces:
+        stems = set(content_stems(piece))
+        new = stems - src_stems
+        if len(new) >= CLAUSE_MIN_NEW_STEMS and len(new) / len(stems) >= CLAUSE_MIN_NOVELTY:
+            return piece.strip(), sorted(new)
+    return None
 
 
 def _structure_issues(src, out) -> list[dict]:

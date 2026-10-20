@@ -29,6 +29,10 @@ STOPWORDS = frozenset({
     "seus", "suas", "meu", "minha", "nosso", "nossa", "já", "também", "mas", "como",
     "mais", "muito", "bem", "lá", "aqui", "então", "quando", "onde", "qual", "quais",
     "há", "vai", "vão", "ainda", "sobre", "entre", "até", "sem", "após", "depois", "antes",
+    # auxiliaries: grammatical, not content ("sai" -> "será publicado" adds no claim)
+    "será", "serão", "seria", "seriam", "sendo", "sido", "foram", "fosse", "fossem", "estava",
+    "estavam", "estará", "estarão", "esteve", "estiveram", "tinha", "tinham", "teve", "tiveram",
+    "terá", "terão", "haverá", "havia", "houve", "vamos", "vou", "iria", "iriam",
 })
 
 
