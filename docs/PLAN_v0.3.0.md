@@ -17,12 +17,12 @@ Status por WP: **pendente**, **em andamento**, **implementado** (código + teste
 
 Os critérios 3, 5 e 6 dependem de pessoas ou da conta do GitHub. Enquanto não forem cumpridos, a v0.3.0 fica como `0.3.0.devN`, nunca como release.
 
-## Status em 2026-10-20 (commit `a1ec120`): **v0.3.0 NÃO concluída**
+## Status em 2026-10-20 (commit `558a7cc`): **v0.3.0 NÃO concluída**
 
 | Critério | Situação |
 |---|---|
 | 1. WPs obrigatórios validados | todos os obrigatórios que dependem só de código estão validados (tabela abaixo); M4.4 resultados e M6.5 abertos |
-| 2. Sem regressão | 197 testes OK; holdouts congelados sem falso verde na execução atual |
+| 2. Sem regressão | 199 testes OK; holdouts congelados sem falso verde na execução atual |
 | 3. Holdout independente | **aberto**: precisa de outra pessoa (`evals/semantic/INDEPENDENT_HOLDOUT.md`) |
 | 4. Benchmark prospectivo | **cumprido**: `ptbr-bench-v1` congelado (`264e232`) antes da execução oficial (`benchmarks/runs/ptbr-bench-v1-20261020T060615Z.json`) |
 | 5. Revisão humana cega | **aberto**: instrumento pronto, nenhum julgamento humano registrado |

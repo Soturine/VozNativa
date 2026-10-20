@@ -24,6 +24,8 @@ Work in progress, **not a release**: the independent holdout, a blind human revi
 - `N horas` was taken as a clock time without a preposition.
 - Integration and benchmark runners crashed when git was not installed.
 - The installed-wheel smoke could not clean its temp dir on Windows.
+- `rewrite-prompt` (skill mode) did not include the editorial findings that `rewrite` sends to the model.
+- `eval` on a non-semantic file crashed with a `KeyError`; it now exits 64 with a clear message.
 
 ## 0.2.0.dev0 - 2026-10-19 (pushed to main; development version, not a release)
 
