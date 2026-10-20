@@ -58,8 +58,15 @@ def main() -> int:
                         help="store only hashes, lengths and metrics, never texts or raw model answers")
     args = parser.parse_args()
 
-    git = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()  # noqa: E731
-    code_state = {"commit": git("rev-parse", "HEAD"), "dirty": bool(git("status", "--porcelain", "voznativa"))}
+    def git(*a):
+        """Empty when git is missing or this is not a checkout (e.g. a container)."""
+        try:
+            return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        except OSError:
+            return ""
+
+    commit = git("rev-parse", "HEAD")
+    code_state = {"commit": commit or None, "dirty": bool(git("status", "--porcelain", "voznativa")) if commit else None}
     version = None
     if args.version_cmd:
         version = subprocess.run(json.loads(args.version_cmd), capture_output=True, text=True).stdout.strip()

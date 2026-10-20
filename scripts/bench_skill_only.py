@@ -194,7 +194,10 @@ def main() -> int:
     out_path = ROOT / "benchmarks" / "runs" / f"{manifest['benchmark']}-{stamp}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     version = subprocess.run([args.claude, "--version"], capture_output=True, text=True).stdout.strip()
-    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    try:
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip() or None
+    except OSError:  # git missing
+        commit = None
     rows, lock = [], threading.Lock()
 
     def save(final=False):

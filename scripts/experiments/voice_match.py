@@ -72,7 +72,10 @@ def main() -> int:
         "with_profile_closer": sum(r["with_profile"]["distance"] < r["without_profile"]["distance"] for r in changed),
     }
     out = ROOT / "evals/experiments/voice_match_synthetic_a.json"
-    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    try:
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip() or None
+    except OSError:  # git missing
+        commit = None
     out.write_text(json.dumps({"run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "model": args.model,
                                "voznativa_commit": commit, "summary": summary, "rows": rows},
                               ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
