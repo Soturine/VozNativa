@@ -35,10 +35,11 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 ## Rewrite (padrão)
 
 1. **Contexto.** Rode `$VN route texto.txt` com as dicas que o usuário deu: `--genre`, `--channel`, `--register`, `--audience`. Amostras do autor entram com `--voice-sample` (fonte de voz). Notas e documentos entram com `--fact`, e o repositório com `--repo .` (fontes de fato). Nunca troque os papéis: fato não vem de amostra de voz, e voz não vem de documentação escrita por outras pessoas.
+   **Precisa mudar?** Rode `$VN patterns texto.txt --genre <gênero>`. Com `decision: no_change_candidate` e sem pedido explícito de mudança, responda NO_CHANGE e diga por quê. Com `edit`, a reescrita mira os achados listados (o `rewrite-prompt` já os inclui); não reescreva o resto por gosto. Os achados descrevem estilo editorial; não são detector de autoria.
 2. **Perfil (opcional).** Com amostras autorizadas, rode `$VN profile a1.txt a2.txt --channel whatsapp > perfil.json`. O perfil guarda estatísticas, nunca o texto. Com menos de 3 amostras ou 150 palavras ele fica `explicit_only`, e os hábitos do autor não são aplicados.
 3. **Prompt.** Rode `$VN rewrite-prompt texto.txt [mesmas flags] [--profile perfil.json]`. Ele traz o Voice Contract, o Semantic Ledger e a lista de referências a ler. Leia só essas referências e siga o prompt.
 4. **Escreva** a candidata em `candidata.txt`.
-5. **Gate.** Rode `$VN compare texto.txt candidata.txt` e aja pelo código de saída:
+5. **Gate.** Rode `$VN compare texto.txt candidata.txt` (acrescente `--protect "termo"` para cada termo que o usuário pediu para manter intacto) e aja pelo código de saída:
 
 | Saída | Status | O que fazer |
 |---|---|---|

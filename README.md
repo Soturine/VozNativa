@@ -41,19 +41,24 @@ ledger (spans + marcadores) ──┴─▶ rewrite-prompt / rewrite ─▶ cand
 
 **Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento vinculado ao sha256 dos dois textos, e um juiz LLM não resolve um `review_required`. Só uma revisão humana **assinada** (`voznativa review`, que exige terminal interativo e assina com uma chave em `~/.voznativa/`) resolve; um JSON com `"kind": "human"` sem assinatura válida fica como `human_review_claimed`. A assinatura prova que o dono da chave nesta máquina aprovou aqueles textos, não quem é a pessoa. Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
 
-## Estado (0.2.0.dev0)
+## Estado (0.3.0.dev0, em desenvolvimento)
+
+A v0.3.0 **não está concluída**: faltam um holdout escrito por outra pessoa, uma rodada de revisão humana cega e CI verde (bloqueado por cobrança do GitHub Actions). Situação por work package: `docs/PLAN_v0.3.0.md`.
 
 | Componente | Estado |
 |---|---|
-| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados, negação (com concordância negativa), modalidade, quantificadores, condições, antes/depois, causalidade, compromissos, atribuição |
-| Juiz LLM/humano | contrato implementado; nenhum modelo embarcado |
+| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados (inclusive números por extenso e durações), negação, modalidade, quantificadores, condições, antes/depois, causalidade (também entre frases vizinhas), troca de papéis entre entidades nomeadas (ativa/passiva), antônimos do léxico, atribuição, orações inventadas, termos protegidos pelo usuário |
+| Juiz LLM/humano | contrato implementado; votos concordantes (padrão 2); revisão humana assinada; nenhum modelo embarcado |
+| Detector de padrões (`patterns`) | implementado, com isenções por gênero; descritivo, não é detector de autoria |
 | Context Router + Reference Selector | implementado; gênero `unknown` quando a evidência é fraca |
 | Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
-| Voice Profile v2 + Voice Contract | implementado; limiares heurísticos, sem calibração |
-| Rewrite Engine + providers | implementado (`command`, `static`, `emulate` opcional); executado com um modelo real (claude-sonnet-5-5) em 14 textos; ver `docs/EVALUATION.md` |
-| Benchmark | tier determinístico + julgamentos por tipo; nenhuma execução real publicada |
+| Voice Profile v2 + Voice Contract | implementado; distância ao perfil medida no engine; limiares sem calibração com amostras reais |
+| Rewrite Engine + providers | implementado: NO_CHANGE sem chamar o modelo quando não há achado, reescrita dirigida aos achados, nova tentativa após recusa do juiz, retries de provider; executado com claude-sonnet-5-5 (`docs/EVALUATION.md`, `examples/`) |
+| Benchmark | `ptbr-bench-v1` congelado e executado (skill-only, mesmo LLM, 5 braços); Emulate não executado (falta chave) |
+| Revisão humana cega | instrumento pronto (`blind-*`); **nenhum resultado humano** |
 | Packs regionais, gíria temporal, community packs | **não calibrados**: força efetiva 0 |
-| Avaliação humana, corpus ingerido, adapters/LoRA | não implementados |
+| Corpus | piloto só de metadados do Corpus Carolina; nenhum texto ingerido |
+| Adapters/LoRA | não implementados |
 
 Números e limitações: `docs/EVALUATION.md`. Rastreabilidade: `docs/TRACEABILITY.md`.
 
@@ -90,12 +95,19 @@ voznativa profile a1.txt a2.txt --channel whatsapp > perfil.json
 voznativa contract texto.txt --profile perfil.json --compact
 voznativa rewrite-prompt texto.txt --profile perfil.json   # prompt para o agente responder
 voznativa rewrite texto.txt --cmd "claude -p"      # loop completo com qualquer CLI de modelo
+voznativa rewrite texto.txt --cmd "claude -p" --protect "Projeto Aurora" --judge-votes 2
+voznativa patterns texto.txt --genre corporate     # achados editoriais; decide edit ou no_change_candidate
 voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
 voznativa review original.txt candidata.txt --reviewer ana --out revisao.json   # revisão humana assinada (só em terminal)
+voznativa blind-tasks benchmarks/runs/<execução>.json --out tarefas.json   # pares cegos para revisão humana
+voznativa blind-review tarefas.json --reviewer ana --out respostas.json
+voznativa blind-summary tarefas.json respostas.json   # conta só respostas assinadas
 voznativa ground doc.md --repo .                   # todo valor/caminho/comando tem fonte?
 voznativa eval evals/semantic/cases.jsonl
 voznativa benchmark benchmarks/cases/ptbr-v1.jsonl benchmarks/outputs --manifest m.json
 ```
+
+`rewrite` termina com um destes desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change` (sem achado editorial, o modelo não é chamado; `--force` chama mesmo assim), `returned_original` (nenhuma candidata segura) ou `provider_error` (o comando do modelo falhou depois dos retries; exit 1).
 
 No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1: ele troca acentos por `?` antes de o texto chegar ao programa. Os scripts de `scripts/*.py` da versão 0.1.0 continuam funcionando com os mesmos argumentos.
 
