@@ -100,6 +100,30 @@ class ContractPrecedence(unittest.TestCase):
         self.assertTrue(any("invent" in rule for rule in contract["do_not"]))
 
 
+class VoiceMatchInEngine(unittest.TestCase):
+    def test_engine_reports_distance_to_the_author_profile(self):
+        from voznativa.engine import rewrite
+        from voznativa.providers import StaticProvider
+        source = ("Prezados, é importante destacar que estaremos realizando a atualização do sistema "
+                  "na próxima semana, conforme alinhado anteriormente com todas as áreas envolvidas.")
+        closer = "<final>" + DOCS[1] + "</final>"
+        result = rewrite(source, route(source, genre="documentation", channel="github_docs"),
+                         StaticProvider([closer]), profile=docs_profile(), attempts=1)
+        voice = result["quality"]["voice"]
+        self.assertIn("original_distance", voice)
+        self.assertIn("candidate_distance", voice)
+        self.assertIsInstance(voice["moved_toward_profile"], bool)
+
+    def test_long_rewrites_report_drift_between_windows(self):
+        from voznativa.engine import rewrite
+        from voznativa.providers import StaticProvider
+        long_text = "\n\n".join(DOCS * 2)
+        source = "É importante destacar que " + long_text
+        result = rewrite(source, route(source, genre="documentation"), StaticProvider(["<final>" + long_text + "</final>"]),
+                         attempts=1)
+        self.assertGreaterEqual(result["quality"]["long_text_drift"]["windows"], 2)
+
+
 class DriftAgainstProfile(unittest.TestCase):
     def test_same_author_style_does_not_drift(self):
         result = drift("\n\n".join(DOCS[:2]), profile=docs_profile())

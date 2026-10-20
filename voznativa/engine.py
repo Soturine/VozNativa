@@ -203,8 +203,20 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
             return None
         after = patterns_mod.detect(final, genre)
         new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
-        return {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
-                "model_called": True}
+        out = {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
+               "model_called": True}
+        if profile:
+            src_d, out_d = drift_mod.voice_distance(text, profile), drift_mod.voice_distance(final, profile)
+            if "error" not in src_d:
+                out["voice"] = {"original_distance": src_d["mean"], "candidate_distance": out_d["mean"],
+                                "moved_toward_profile": out_d["mean"] < src_d["mean"],
+                                "candidate_flagged_features": sorted(out_d["flagged"]),
+                                "note": "scaled style distance to the author profile; uncalibrated"}
+        if len(final.split()) >= 240:  # two or more ~120-word windows
+            windows = drift_mod.inspect(final, profile=profile)
+            out["long_text_drift"] = {"windows": windows["window_count"], "drift": windows["drift"],
+                                      "max_distance": windows["max_distance"], "reference": windows["reference"]}
+        return out
 
     if best is None:
         return _result("returned_original", text, None, history, provider, voice_contract, selection,

@@ -31,7 +31,18 @@ def compare_vectors(a: dict, b: dict, profile_stats: dict | None = None) -> dict
         stdev = profile_stats.get(name, {}).get("stdev") if profile_stats else None
         scores[name] = round(abs(a[name] - b[name]) / _scale(name, stdev), 3)
     flagged = {k: v for k, v in scores.items() if v >= FLAG_AT}
-    return {"max": max(scores.values(), default=0.0), "flagged": flagged}
+    return {"max": max(scores.values(), default=0.0), "mean": round(sum(scores.values()) / len(scores), 3),
+            "flagged": flagged}
+
+
+def voice_distance(text: str, profile: dict) -> dict:
+    """Scaled style distance from a text to an author profile (lower = closer).
+    A measurement for reports, not a gate; thresholds are uncalibrated."""
+    stats = profile.get("style", {})
+    means = {k: v["mean"] for k, v in stats.items()}
+    if not set(means) >= set(features.FEATURES):
+        return {"error": "profile has no style statistics"}
+    return compare_vectors(features.vector(text), means, stats)
 
 
 def inspect(text: str, size: int | None = None, profile: dict | None = None) -> dict:
