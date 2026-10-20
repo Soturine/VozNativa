@@ -52,16 +52,30 @@ def _emit(data, as_text: str | None = None) -> None:
     sys.stdout.write(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
 
 
+def _protected(args) -> list[str]:
+    """--protect TERM (repeatable) and --protect-file (one term per line, # comments)."""
+    terms = list(getattr(args, "protect", None) or [])
+    if getattr(args, "protect_file", None):
+        terms += [line.strip() for line in _read(args.protect_file).splitlines()
+                  if line.strip() and not line.strip().startswith("#")]
+    return terms
+
+
+def _protect_args(p):
+    p.add_argument("--protect", action="append", help="term that must survive verbatim (repeatable)")
+    p.add_argument("--protect-file", help="file with one protected term per line")
+
+
 def cmd_ledger(args):
     from .ledger import build
-    _emit(build(_read(args.text)).as_dict())
+    _emit(build(_read(args.text), _protected(args)).as_dict())
 
 
 def cmd_compare(args):
     from .compare import apply_judgment, compare
     from .judge import validate
     original, candidate = _read(args.original), _read(args.candidate)
-    report = compare(original, candidate)
+    report = compare(original, candidate, _protected(args))
     for path in args.judgment or []:
         report = apply_judgment(report, validate(json.loads(_read(path)), original, candidate))
     _emit(report)
@@ -199,7 +213,7 @@ def cmd_rewrite_prompt(args):
     facts = [_read(f) for f in args.fact or []]
     prompt = build_prompt(_read(args.text), context, resolve(context, profile, explicit),
                           select(context, budget_words=args.budget), facts=facts,
-                          inline_references=args.inline_refs)
+                          inline_references=args.inline_refs, protect=_protected(args))
     _emit(None, prompt)
 
 
@@ -228,7 +242,7 @@ def cmd_rewrite(args):
     result = rewrite(_read(args.text), context, provider, profile, explicit, attempts=args.attempts,
                      candidates=args.candidates, judge_provider=judge,
                      facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
-                     budget_words=args.budget)
+                     budget_words=args.budget, protect=_protected(args))
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -244,12 +258,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("ledger", help="build the Semantic Ledger of a text")
     p.add_argument("text", help="file path or - for stdin")
+    _protect_args(p)
     p.set_defaults(func=cmd_ledger)
 
     p = sub.add_parser("compare", help="compare a candidate against its source (gate)")
     p.add_argument("original")
     p.add_argument("candidate")
     p.add_argument("--judgment", action="append", help="judgment JSON from an LLM or human (repeatable)")
+    _protect_args(p)
     p.set_defaults(func=cmd_compare)
 
     p = sub.add_parser("review", help="record a signed human review (interactive terminal only)")
@@ -343,6 +359,7 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--set", help="explicit voice instruction as JSON")
         p.add_argument("--budget", type=int, default=6000)
         _contract_args(p)
+        _protect_args(p)
         if name == "rewrite-prompt":
             p.add_argument("--inline-refs", action="store_true", help="embed reference text instead of paths")
             p.set_defaults(func=cmd_rewrite_prompt)

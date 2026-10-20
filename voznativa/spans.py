@@ -77,7 +77,7 @@ RELATIVE_TIME = {
 HARD_TYPES = frozenset({
     "code_block", "inline_code", "command", "url", "email", "path", "quote", "date", "time",
     "weekday", "relative_time", "money", "percent", "quantity", "version", "identifier",
-    "number", "ordinal",
+    "number", "ordinal", "protected_term",
 })
 
 
@@ -344,9 +344,20 @@ def _anchors(text: str, start: int, end: int) -> tuple:
     return tuple(out)
 
 
-def extract(text: str, include_entities: bool = True) -> list[Span]:
+def extract(text: str, include_entities: bool = True, protect: list[str] | tuple = ()) -> list[Span]:
+    """``protect``: user terms that must survive verbatim (product names,
+    internal acronyms, fixed expressions). They are matched first, by whole
+    word and case-insensitively, and count as hard spans."""
     occupied: list[tuple[int, int]] = []
     out: list[Span] = []
+    for term in sorted({t.strip() for t in protect if t and t.strip()}, key=len, reverse=True):
+        for match in re.finditer(r"(?<!\w)" + re.escape(term) + r"(?!\w)", text, re.IGNORECASE):
+            start, end = match.span()
+            if any(start < e and end > s for s, e in occupied):
+                continue
+            occupied.append((start, end))
+            out.append(Span("protected_term", match.group(0), start, end, "protected_term:" + fold(term),
+                            _anchors(text, start, end)))
     for index, (kind, pattern) in enumerate(PATTERNS):
         if index == _NUMERALS_AT:
             out.extend(_numeral_spans(text, occupied))

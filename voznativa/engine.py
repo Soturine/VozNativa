@@ -71,9 +71,10 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
 
 def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict | None = None,
                  feedback: list[str] | None = None, facts: list[str] | None = None,
-                 inline_references: bool = False, root: Path | None = None) -> str:
+                 inline_references: bool = False, root: Path | None = None,
+                 protect: list[str] | tuple = ()) -> str:
     create = context["task"] == "create"
-    led = ledger_mod.build("\n\n".join(facts) if create and facts else text).as_dict()
+    led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
         INSTRUCTIONS_CREATE if create else INSTRUCTIONS_REWRITE,
         "VOICE_CONTRACT:\n" + json.dumps(contract_mod.compact(voice_contract), ensure_ascii=False, indent=2),
@@ -117,12 +118,12 @@ def _feedback(reports: list[dict]) -> list[str]:
 
 
 def validate_candidate(original: str, candidate: str, context: dict, profile: dict | None,
-                       facts: list[str] | None = None, project=None) -> dict:
+                       facts: list[str] | None = None, project=None, protect: list[str] | tuple = ()) -> dict:
     if context["task"] == "create":
         from .project import ground
         report = ground(candidate, None, facts or [], project)
     else:
-        report = compare(original, candidate)
+        report = compare(original, candidate, protect)
     extra = []
     overfit = region_mod.inspect(candidate)
     if overfit["regional_overfit"] != "low" and region_mod.inspect(original)["regional_overfit"] == "low":
@@ -143,7 +144,8 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
 def rewrite(text: str, context: dict, provider: Provider, profile: dict | None = None,
             explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
             judge_provider: Provider | None = None, facts: list[str] | None = None,
-            project=None, budget_words: int = 6000, inline_references: bool = True) -> dict:
+            project=None, budget_words: int = 6000, inline_references: bool = True,
+            protect: list[str] | tuple = ()) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
     if hasattr(provider, "style_from_contract") and not getattr(provider, "style", None):
         # System-level providers (Emulate) cannot read our prompt; give them the
@@ -156,12 +158,13 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
         if hasattr(provider, "humanize"):  # system-level providers take the source text, not our prompt
             raws = [provider.humanize(text) for _ in range(candidates)]
         else:
-            prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references)
+            prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
+                                  protect=protect)
             raws = provider.generate(prompt, candidates)
         reports = []
         for raw in raws:
             candidate, no_change = parse_candidate(raw, text)
-            report = validate_candidate(text, candidate, context, profile, facts, project)
+            report = validate_candidate(text, candidate, context, profile, facts, project, protect)
             reports.append(report)
             history.append({"attempt": attempt, "no_change": no_change, "status": report["status"],
                             "codes": sorted({i["code"] for i in report["issues"]}),

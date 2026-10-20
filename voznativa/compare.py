@@ -55,12 +55,12 @@ def _issue(code: str, severity: str, message: str, **extra) -> dict:
     return {"code": code, "severity": severity, "message": message, **extra}
 
 
-def compare(original: str, candidate: str) -> dict:
+def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> dict:
     if normalize_surface(original) == normalize_surface(candidate):
         return _report("identical", [], original, candidate)
 
-    src = ledger_mod.build(original)
-    out = ledger_mod.build(candidate)
+    src = ledger_mod.build(original, protect)
+    out = ledger_mod.build(candidate, protect)
     issues: list[dict] = []
     issues += _span_issues(src, out)
     issues += _binding_issues(src, out)

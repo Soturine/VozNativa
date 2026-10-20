@@ -17,7 +17,8 @@ from .text import Sentence, content_stems, fold, sentences, words
 SCHEMA_VERSION = 1
 
 # Spans whose inner words belong to the span, not to the sentence's markers.
-OPAQUE_TYPES = frozenset({"inline_code", "url", "path", "quote", "code_block", "command", "email"})
+OPAQUE_TYPES = frozenset({"inline_code", "url", "path", "quote", "code_block", "command", "email",
+                          "protected_term"})
 
 
 @dataclass
@@ -72,8 +73,8 @@ class Ledger:
         }
 
 
-def build(text: str) -> Ledger:
-    all_spans = spans.extract(text)
+def build(text: str, protect: list[str] | tuple = ()) -> Ledger:
+    all_spans = spans.extract(text, protect=protect)
     entries = []
     for sent in sentences(text):
         inside = [s for s in all_spans if s.start >= sent.start and s.end <= sent.end]
