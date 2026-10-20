@@ -210,10 +210,14 @@ def cmd_rewrite_prompt(args):
     from .references import select
     context = _route(args)
     profile, explicit = _voice_inputs(args)
+    from .patterns import detect
     facts = [_read(f) for f in args.fact or []]
-    prompt = build_prompt(_read(args.text), context, resolve(context, profile, explicit),
+    text = _read(args.text)
+    # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
+    findings = detect(text, context["genre"]["value"]) if context["task"] != "create" else None
+    prompt = build_prompt(text, context, resolve(context, profile, explicit),
                           select(context, budget_words=args.budget), facts=facts,
-                          inline_references=args.inline_refs, protect=_protected(args))
+                          inline_references=args.inline_refs, protect=_protected(args), findings=findings)
     _emit(None, prompt)
 
 

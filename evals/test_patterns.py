@@ -58,6 +58,17 @@ class PatternSuite(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertEqual(json.loads(buffer.getvalue())["decision"], "edit")
 
+    def test_rewrite_prompt_carries_the_findings(self):
+        # Skill mode (the agent is the model) must get the same targeting as `rewrite`.
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp, "t.txt")
+            path.write_text("Estaremos realizando a manutenção no domingo.", encoding="utf-8")
+            buffer = io.StringIO()
+            with redirect_stdout(buffer):
+                cli.main(["rewrite-prompt", str(path), "--genre", "corporate"])
+            self.assertIn('"Estaremos realizando"', buffer.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()
