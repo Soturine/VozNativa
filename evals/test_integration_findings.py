@@ -39,6 +39,23 @@ class FixedExpressions(unittest.TestCase):
             "Conforme o IBGE, o desemprego caiu.", "O desemprego caiu.")["issues"]})
 
 
+class FixedExpressionsSecondRun(unittest.TestCase):
+    """False reds from the 2026-10-20 run (pattern-guided engine)."""
+
+    def test_cada_vez_mais_is_not_a_universal_quantifier(self):
+        report = compare("Em um mundo cada vez mais conectado, a leitura digital tem se tornado cada vez mais comum.",
+                         "A leitura digital tem se tornado cada vez mais comum.")
+        self.assertNotIn("quantifier_changed", {i["code"] for i in report["issues"]})
+
+    def test_courtesy_sempre_is_not_a_universal_quantifier(self):
+        report = compare("Estamos sempre à disposição para ajudar.", "Estamos à disposição para ajudar.")
+        self.assertNotIn("quantifier_changed", {i["code"] for i in report["issues"]})
+
+    def test_real_universal_sempre_is_still_protected(self):
+        self.assertIn("quantifier_changed", {i["code"] for i in compare(
+            "O backup sempre roda à noite.", "O backup roda à noite.")["issues"]})
+
+
 class JudgeFormulaRemoval(unittest.TestCase):
     TEXTS = ("Liderança é sobre pessoas. E isso muda tudo.", "Liderança é sobre pessoas.")
 
