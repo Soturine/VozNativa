@@ -1,0 +1,24 @@
+{
+  "kind": "voznativa.compatibility_matrix",
+  "commit": "e679038",
+  "run_at": "2026-10-20",
+  "where": "developer machine (Windows 10) and Docker Desktop Linux containers; not GitHub Actions (CI blocked by account billing)",
+  "suite": "python -m unittest discover -s evals -p test_*.py",
+  "results": [
+    {"os": "linux", "python": "3.11.17", "image": "python:3.11-slim", "suite": "197 tests OK", "wheel_smoke": "pass (8/8, fresh venv, run outside the checkout)"},
+    {"os": "linux", "python": "3.12.15", "image": "python:3.12-slim", "suite": "197 tests OK", "wheel_smoke": "pass (8/8)"},
+    {"os": "linux", "python": "3.13.16", "image": "python:3.13-slim", "suite": "197 tests OK", "wheel_smoke": "pass (8/8)"},
+    {"os": "windows", "python": "3.11.9", "build": "embeddable amd64", "suite": "197 tests OK", "wheel_smoke": "not run (embeddable has no venv/pip)"},
+    {"os": "windows", "python": "3.12.6", "build": "python.org installer", "suite": "197 tests OK", "wheel_smoke": "pass (8/8, fresh venv, run outside the checkout)"},
+    {"os": "windows", "python": "3.13.16", "build": "embeddable amd64", "suite": "197 tests OK", "wheel_smoke": "not run (embeddable has no venv/pip)"}
+  ],
+  "found_and_fixed_by_this_round": [
+    "scripts/llm_integration.py (and the benchmark/voice runners) crashed when git was not installed (Linux containers): ec8c7fa",
+    "scripts/smoke_installed.py could not delete its temp dir on Windows because it was still the current directory: e679038"
+  ],
+  "not_covered": [
+    "macOS",
+    "wheel smoke on Windows 3.11 and 3.13",
+    "CI (criterion 6 of docs/PLAN_v0.3.0.md stays open)"
+  ]
+}
