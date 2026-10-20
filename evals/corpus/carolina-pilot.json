@@ -1,0 +1,79 @@
+{
+  "kind": "voznativa.corpus_metadata_pilot",
+  "corpus": "Corpus Carolina",
+  "source": "https://huggingface.co/datasets/carolina-c4ai/corpus-carolina",
+  "hf_commit": "55e63a519393c70a48dcfa14a558499c6bb0583b",
+  "corpus_version_in_files": [
+    "Version 2.0.1 (Bea)"
+  ],
+  "recorded_at": "2026-10-20T06:10:44+00:00",
+  "files": [
+    {
+      "file": "social_media_SOCa.xml.gz",
+      "sha256": "9b91136d818cfa25771be11ef3a897d50a0b8b70631e5d7381d3811fc94b7ceb",
+      "documents": 4811
+    },
+    {
+      "file": "public_domain_works_PUBa.xml.gz",
+      "sha256": "fb969d9222b9fe9ebaf21d128d63e5449de625e02fbb77d01f01af4e6672c9bd",
+      "documents": 26
+    }
+  ],
+  "scope": "a pilot sample of whole taxonomy files, not the corpus",
+  "stored": "aggregates only; no text, titles, author names or URLs",
+  "documents": 4837,
+  "tokens": 2487751,
+  "document_license": {
+    "CC BY 4.0": 4824,
+    "CC BY-SA 4.0": 10,
+    "CC BY-NC-SA 4.0": 2,
+    "GNU Free Documentation License Version 1.3": 1
+  },
+  "source_license": {
+    "Public Domain": 2835,
+    "Creative Commons (CC) Attribution": 1517,
+    "Domínio público": 459,
+    "Creative Commons Atribuição-Compartilhamento pela mesma licença2.5 Brazil": 7,
+    "Creative Commons Atribuição-Compartilhamento pela mesma licença 2.5 Brazil": 3,
+    "CC BY 2.5 BR": 3,
+    "Creative Commons Public Domain": 3,
+    "Autorizado para dominio público": 2,
+    "GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation": 1,
+    "Creative Commons Atribuição-Uso Não-Comercial-Compartilhamento pela mesma licença 2.5 Brasil": 1,
+    "CC BY 3.0 BR": 1,
+    "CC BY 3.0": 1,
+    "CC BY-NC 3.0 BR": 1,
+    "CC BY-NC 2.5 BR": 1,
+    "CC0 1.0": 1,
+    "CC BY-NC-SA": 1
+  },
+  "typology": {
+    "ORIGINAL_STORY_LIT_W": 4811,
+    "SOCIAL_MEDIA": 4811,
+    "PUBLIC_DOMAIN_WORKS": 26,
+    "POETRY_LIT_W": 5,
+    "": 5,
+    "NOVEL_LIT_W": 3,
+    "CHILDRENS_AND_YOUNG_ADULT_LITERATURE_LIT_W": 3,
+    "SHORT_STORY_LIT_W": 2,
+    "FABLE_LIT_W": 1,
+    "CRONICA_LIT_W": 1,
+    "CORDEL_LIT_W": 1,
+    "MONOGRAPH_ACA_W": 1,
+    "THESIS_ACA_W": 1,
+    "ESSAY_ACA_W": 1,
+    "ARTICLE_ACA_W": 1,
+    "DISSERTATION_ACA_W": 1
+  },
+  "source_year": {
+    "2020s": 2504,
+    "2010s": 2307,
+    "2000s": 19,
+    "unknown": 5,
+    "1980s": 1,
+    "1990s": 1
+  },
+  "region": {
+    "unspecified": 4837
+  }
+}
