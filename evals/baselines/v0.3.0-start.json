@@ -1,6 +1,6 @@
 {
   "kind": "voznativa.baseline",
-  "label": "v0.2.1-start",
+  "label": "v0.3.0-start",
   "recorded_at": "2026-10-20T05:34:18+00:00",
   "version": "0.2.0.dev0",
   "commit": "595d7aee55a60db9ebf32a23f4df5880ff136cd1",
@@ -106,5 +106,6 @@
       },
       "model": "claude-sonnet-5-5"
     }
-  }
+  },
+  "note": "recorded as v0.2.1-start on the same commit; the milestone was renamed to v0.3.0 before any code change"
 }
