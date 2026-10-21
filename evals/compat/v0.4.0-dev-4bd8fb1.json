@@ -1,0 +1,73 @@
+{
+  "kind": "voznativa.compatibility_matrix",
+  "commit": "4bd8fb1",
+  "version": "0.4.0.dev0",
+  "run_at": "2026-10-21",
+  "where": "developer machine (Windows 10) and Docker Desktop Linux containers from a git archive of the commit; not GitHub Actions (CI blocked by account billing)",
+  "suite": "python -m unittest discover -s evals -p test_*.py (281 tests)",
+  "results": [
+    {
+      "os": "linux",
+      "python": "3.11.17",
+      "image": "python:3.11-slim",
+      "suite": "281 OK (3 skipped: no ssh-keygen in the image)",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns), fresh venv outside the checkout"
+    },
+    {
+      "os": "linux",
+      "python": "3.12.15",
+      "image": "python:3.12-slim",
+      "suite": "281 OK (3 skipped: no ssh-keygen)",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns)"
+    },
+    {
+      "os": "linux",
+      "python": "3.13.16",
+      "image": "python:3.13-slim",
+      "suite": "281 OK (3 skipped: no ssh-keygen)",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns)"
+    },
+    {
+      "os": "linux",
+      "python": "3.12.15",
+      "image": "python:3.12-slim + openssh-client 10.0",
+      "suite": "SSH-signed review tests (evals.test_review_assurance) 13 OK, none skipped"
+    },
+    {
+      "os": "windows",
+      "python": "3.11.9",
+      "build": "embeddable amd64 + PyYAML 6.0.3 wheel",
+      "suite": "281 OK",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns), wheel unpacked into a fresh embeddable (no venv/pip in embeddable builds)"
+    },
+    {
+      "os": "windows",
+      "python": "3.12.6",
+      "build": "python.org installer",
+      "suite": "281 OK (SSH tests run with Windows OpenSSH 9.5)",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns), fresh venv outside the checkout"
+    },
+    {
+      "os": "windows",
+      "python": "3.13.16",
+      "build": "embeddable amd64 + PyYAML 6.0.3 wheel",
+      "suite": "281 OK",
+      "validator": "ok",
+      "wheel_smoke": "pass (11/11: compare, ledger, route, refs, contract, profile, rewrite-prompt, judge-prompt, rewrite, plan, patterns), wheel unpacked into a fresh embeddable"
+    }
+  ],
+  "found_and_fixed_by_this_round": [
+    "--redact kept absolute paths and the privacy test passed on Windows only because it searched the unescaped path: 4bd8fb1",
+    "agent CLIs given by a Windows path were not recognized on Linux: 6f82994",
+    "the wheel smoke did not run rewrite (crashed in v0.3.0), plan or patterns: 91b4815"
+  ],
+  "not_covered": [
+    "macOS",
+    "CI (GitHub Actions blocked by billing; workflows unchanged)"
+  ]
+}
