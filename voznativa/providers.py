@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import signal
 import socket
@@ -72,7 +73,8 @@ def agent_cli_warnings(argv: list[str]) -> list[str]:
     """Warnings for agent CLIs started without their tool/sandbox switch."""
     if not argv:
         return []
-    program = Path(argv[0]).name.lower().removesuffix(".exe").removesuffix(".cmd")
+    # Split on both separators: a Windows path must be recognized on any OS.
+    program = re.split(r"[\\/]", argv[0])[-1].lower().removesuffix(".exe").removesuffix(".cmd")
     if program not in AGENT_CLIS:
         return []
     switches, example = AGENT_CLIS[program]
