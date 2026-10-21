@@ -14,31 +14,59 @@ from pathlib import Path
 
 from .compare import compare
 
+UNSAFE = {"fail", "review_required"}
+CLEARED = {"no_deterministic_issues", "identical"}
+
 
 def load(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def failure_kind(status: str, expected: list[str]) -> str:
+    """Why the status was wrong, so a missed detection is never mixed up with
+    a problem caught under another issue code (``classification_divergence``,
+    set in ``check``).
+
+    * ``false_green``: the case expected a block and the gate cleared it.
+    * ``false_red``: the case expected a cleared result and the gate blocked it.
+    * ``severity_divergence``: blocked, but with another severity
+      (``review_required`` where ``fail`` was expected, or the reverse)."""
+    if status in CLEARED and set(expected) <= UNSAFE:
+        return "false_green"
+    if status in UNSAFE and not set(expected) & UNSAFE:
+        return "false_red"
+    return "severity_divergence" if status in UNSAFE else "status_mismatch"
 
 
 def check(case: dict) -> dict:
     report = compare(case["original"], case["candidate"])
     expect = case["expect"]
     codes = {i["code"] for i in report["issues"]}
-    problems = []
-    if report["status"] not in expect["status"]:
+    problems, code_problems = [], []
+    status_ok = report["status"] in expect["status"]
+    if not status_ok:
         problems.append(f"status {report['status']} not in {expect['status']}")
     for code in expect.get("codes", []):
         if code not in codes:
-            problems.append(f"missing issue {code}")
+            code_problems.append(f"missing issue {code}")
     for code in expect.get("absent_codes", []):
         if code in codes:
-            problems.append(f"unexpected issue {code}")
+            code_problems.append(f"unexpected issue {code}")
     if "safe" in expect and report["safe_to_auto_accept"] != expect["safe"]:
         problems.append(f"safe_to_auto_accept={report['safe_to_auto_accept']}")
     # Global invariant: nothing but identity is auto-accepted without a judgment.
     if report["safe_to_auto_accept"] and report["status"] != "identical":
         problems.append("auto-accepted without identity or judgment")
+    if not status_ok:
+        kind = failure_kind(report["status"], expect["status"])
+    elif problems:
+        kind = "acceptance_mismatch"
+    else:
+        kind = "classification_divergence" if code_problems else None
+    problems += code_problems
     return {"id": case["id"], "category": case["category"], "status": report["status"],
-            "codes": sorted(codes), "passed": not problems, "problems": problems}
+            "codes": sorted(codes), "passed": not problems, "problems": problems,
+            **({"failure_kind": kind} if kind else {})}
 
 
 def sha256_lf(path: Path) -> str:
@@ -77,13 +105,19 @@ def run(path: Path, require_frozen: bool = False) -> dict:
     for r in results:
         by_category[r["category"]] += 1
         passed[r["category"]] += r["passed"]
+    failures = [r for r in results if not r["passed"]]
+    kinds = Counter(r["failure_kind"] for r in failures)
     return {
         "kind": "voznativa.semantic_eval_report",
         "suite": path.name,
         "provenance": origin,
         "independent_validation": bool(origin.get("independent")),
         "cases": len(results),
+        # Strict: status AND issue codes as written in the case. The headline number.
         "passed": sum(r["passed"] for r in results),
+        # Status only: the gate decided as expected, whatever code it used.
+        "status_passed": len(results) - sum(n for k, n in kinds.items() if k != "classification_divergence"),
+        "failure_kinds": dict(sorted(kinds.items())),
         "by_category": {c: f"{passed[c]}/{n}" for c, n in sorted(by_category.items())},
-        "failures": [r for r in results if not r["passed"]],
+        "failures": failures,
     }

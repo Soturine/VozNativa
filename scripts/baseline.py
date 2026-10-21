@@ -46,10 +46,11 @@ def main() -> int:
     suites = {}
     for path in sorted((ROOT / "evals" / "semantic").glob("*.jsonl")):
         report = run_suite(path)
-        suites[path.name] = {"passed": report["passed"], "cases": report["cases"],
+        suites[path.name] = {"passed": report["passed"], "status_passed": report["status_passed"],
+                             "cases": report["cases"], "failure_kinds": report["failure_kinds"],
                              "role": report["provenance"].get("role"),
                              "first_run": report["provenance"].get("first_run"),
-                             "failures": [f["id"] for f in report["failures"]]}
+                             "failures": {f["id"]: f["failure_kind"] for f in report["failures"]}}
     router_cases = [json.loads(line) for line in (ROOT / "evals/router/cases.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
     router_hits = sum(infer_genre(c["text"])["value"] in c["expect"] for c in router_cases)
 

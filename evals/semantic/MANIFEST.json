@@ -27,7 +27,16 @@
         "passed": 19,
         "cases": 24
       },
-      "contaminated": "general fixes were made after inspecting its failures"
+      "contaminated": "general fixes were made after inspecting its failures",
+      "expectation_notes": {
+        "ho-007": {
+          "recorded": "2026-10-21 (v0.4.0 M0)",
+          "case_unchanged": true,
+          "behavior": "review_required with possible_addition (inserted clause 'onde ajudei a triplicar a receita') and quantifier_changed ('triplicar')",
+          "divergence": "classification, not detection: the frozen case asks for span_added, the code for an added protected value (number, date, entity...). The inserted claim has no protected value, so the engine reports it as possible_addition.",
+          "decision": "the case stays frozen and keeps failing the strict count (23/24); the runner reports it as classification_divergence and counts it in status_passed. No code was added to emit span_added for it."
+        }
+      }
     },
     "holdout2.jsonl": {
       "role": "developer_holdout",
