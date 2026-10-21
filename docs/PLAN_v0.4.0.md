@@ -34,6 +34,26 @@ Os itens do critério 4 dependem de pessoas e da conta do GitHub.
 
 Achado durante o M0: `quinta às 10h` sem preposição não era dia da semana (falso vermelho em reescrita para chat). Corrigido. Limitação que fica: `é sexta` sem preposição nem horário continua sem span, então "O prazo é sexta." → "O prazo termina na sexta." dá `span_added` (falso vermelho conhecido).
 
-## M1–M5
+Achados depois do M0, durante M4/M5 (todos com regressão): `voznativa rewrite` lançava `TypeError` em toda chamada desde a v0.3.0 (achado pelo benchmark; nenhum teste rodava o comando); saída cp1252 de providers no Windows virava U+FFFD; um juiz fora do ar fazia o engine descartar uma candidata válida; rótulo de gênero próximo (documentation x technical) virava mudança de destino; `--redact` mantinha caminhos absolutos (o teste passava no Windows por engano); CLIs de agente com caminho Windows não eram reconhecidos no Linux; testes de privacidade escreviam relatórios falsos em `evals/integration`.
 
-Status e evidência por WP são registrados nas seções abaixo à medida que cada um termina.
+## M1–M5: estado em 2026-10-21
+
+| Milestone | Estado | Evidência |
+|---|---|---|
+| M0 Hardening | **implementado e testado** | 8 defeitos da auditoria + 7 achados na fase, cada um com teste |
+| M1 Pattern Library v2 | **implementado e testado**; **não calibrado** | 27 padrões com justificativa, usos legítimos, fontes e casos positivos/falsos positivos (teste obrigatório); limiares e listas do desenvolvedor |
+| M2 Contextual Intelligence | **implementado e testado**; **não calibrado** | `voznativa/ptbr.py`; LanguageTool avaliado e não adotado (`evals/experiments/languagetool_probe.json`); packs regionais e gíria não expandidos (sem evidência) |
+| M3 Rewrite Planner | **implementado e testado** | `voznativa plan`, decisão 28/30 (1ª execução 27/30); múltiplas candidatas com modelo real não medidas (só desempate determinístico) |
+| M4 Evals e benchmarks | **executado** | `holdout-v040` 32/32 (não discrimina); decisão v0.4 28/30 x v0.3 22/30; `ptbr-bench-v2` oficial (US$ 4,64); latência; nada disso é independente |
+| M5 Qualificação | **local concluída**; CI **bloqueado** | matriz Linux/Windows 3.11–3.13 com wheel isolado (`evals/compat/v0.4.0-dev-4bd8fb1.json`); demo `examples/v0.4.0-demo.md`; cobertura 93% das linhas do pacote |
+
+## Critérios de qualificação
+
+| Critério | Situação |
+|---|---|
+| 1. WPs obrigatórios validados | implementados e testados; calibração com dados reais pendente (M1/M2) |
+| 2. Sem regressão | 281 testes; holdouts congelados inalterados e sem falso verde |
+| 3. Benchmark prospectivo | **cumprido**: `ptbr-bench-v2` congelado antes da execução, resultado por sistema e contra a v0.3.0 |
+| 4. Critérios externos herdados | **abertos**: holdout independente, revisão humana cega (registro de revisores vazio), CI (cobrança do GitHub Actions) |
+
+**A v0.4.0 não está qualificada** e continua `0.4.0.dev0`.

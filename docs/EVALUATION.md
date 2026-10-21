@@ -184,3 +184,9 @@ LanguageTool 6.6 (`evals/experiments/languagetool_probe.json`): em 86 reescritas
 | 8.018 | 0,034 → 0,128 s | 6,26 → 6,68 s | 3,65 s |
 
 O detector ficou de 3 a 6 vezes mais lento (padrões e camada PT-BR novos) e continua abaixo de 0,2 s. `compare` não mudou. O planejador custa cerca de 0,45 ms por palavra, quase todo para construir de novo o ledger que `compare` também constrói (otimização possível, não feita). Entradas adversariais (vírgulas, palavra de 50 mil caracteres, aspas aninhadas, tríades repetidas) não provocam retrocesso catastrófico: o pior caso é `compare` com 7,6 s em 80 mil caracteres, igual à v0.3.0. Em chamadas reais o tempo é dominado pelo modelo (mediana de 22 s por caso no braço v0.4.0 do benchmark).
+
+### Compatibilidade e empacotamento (2026-10-21, commit `4bd8fb1`; `evals/compat/v0.4.0-dev-4bd8fb1.json`)
+
+Linux 3.11.17 / 3.12.15 / 3.13.16 (contêineres) e Windows 3.11.9 / 3.13.16 (embeddable) e 3.12.6: 281 testes, validador e smoke do wheel fora do checkout com 11 comandos (inclui `rewrite`, `plan`, `patterns`) passaram em todos. Testes de revisão assinada com SSH rodaram no Windows (OpenSSH 9.5) e no Linux (OpenSSH 10.0). A rodada achou dois defeitos, corrigidos: caminhos absolutos em execuções `--redact` e caminho de CLI de agente no formato Windows não reconhecido no Linux. **CI não rodou** (cobrança do GitHub Actions); isto é evidência local.
+
+Cobertura de linhas do pacote pela suíte: 93% (`coverage`, ferramenta local, não dependência).

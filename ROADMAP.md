@@ -144,7 +144,8 @@ Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios ext
 - [ ] revisão humana e holdout independente (dependem de pessoas)
 
 ### M5 — Qualificação
-- [ ] matriz local, wheel e instalação isolada (ver `docs/EVALUATION.md`)
+- [x] matriz local Linux/Windows 3.11–3.13, wheel e instalação isolada (`evals/compat/v0.4.0-dev-4bd8fb1.json`)
+- [x] demonstração antes/depois reproduzível (`examples/v0.4.0-demo.md`, `scripts/demo.py`)
 - [ ] CI verde (bloqueado: cobrança do GitHub Actions)
 
 ## v0.5 — Regional Layer
