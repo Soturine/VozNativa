@@ -198,3 +198,8 @@ def transformation_targets(text: str, context: dict, profile: dict | None = None
     if explicit:
         add("explicit_instruction", sorted(explicit), None)
     return targets
+
+
+def explicit_channel(context: dict) -> str | None:
+    """The channel the user named, or None when it only mirrors the genre."""
+    return context["channel"]["value"] if context["channel"]["source"] == "explicit" else None

@@ -31,7 +31,7 @@ from .paths import home
 from .providers import Provider, ProviderError
 from .references import select
 from .review import content_hash
-from .router import transformation_targets
+from .router import explicit_channel, transformation_targets
 from .text import fence
 
 NO_CHANGE = "NO_CHANGE"
@@ -259,7 +259,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
     genre = context["genre"]["value"]
-    channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
+    channel = explicit_channel(context)
     register = context["register"]["value"]
     before = patterns_mod.detect(text, genre, channel, register) if context["task"] != "create" else None
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else []

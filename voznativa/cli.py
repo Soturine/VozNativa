@@ -233,13 +233,13 @@ def cmd_rewrite_prompt(args):
     context = _route(args)
     profile, explicit = _voice_inputs(args)
     from .patterns import detect
+    from .router import explicit_channel, transformation_targets
     facts = [_read(f) for f in args.fact or []]
     text = _read(args.text)
     # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
-    channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
+    channel = explicit_channel(context)
     findings = detect(text, context["genre"]["value"], channel,
                       context["register"]["value"]) if context["task"] != "create" else None
-    from .router import transformation_targets
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
     from .planner import plan
     the_plan = plan(text, context, profile, explicit, _protected(args), report=findings) if findings else None

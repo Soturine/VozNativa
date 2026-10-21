@@ -35,7 +35,7 @@ import re
 from . import ledger as ledger_mod
 from . import patterns as patterns_mod
 from . import ptbr
-from .router import transformation_targets
+from .router import explicit_channel, transformation_targets
 from .text import normalize_surface, sentences
 
 OPS = ("keep", "point_edit", "cut_formula", "sentence_rewrite", "paragraph_rewrite")
@@ -112,7 +112,7 @@ def _embedded_instructions(sents) -> list[dict]:
 def plan(text: str, context: dict, profile: dict | None = None, explicit: dict | None = None,
          protect: list[str] | tuple = (), report: dict | None = None) -> dict:
     genre = context["genre"]["value"]
-    channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
+    channel = explicit_channel(context)
     register = context["register"]["value"]
     report = report or patterns_mod.detect(text, genre, channel, register)
     targets = transformation_targets(text, context, profile, explicit)
