@@ -241,10 +241,12 @@ def cmd_rewrite_prompt(args):
                       context["register"]["value"]) if context["task"] != "create" else None
     from .router import transformation_targets
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
+    from .planner import plan
+    the_plan = plan(text, context, profile, explicit, _protected(args), report=findings) if findings else None
     prompt = build_prompt(text, context, resolve(context, profile, explicit),
                           select(context, budget_words=args.budget), facts=facts,
                           inline_references=args.inline_refs, protect=_protected(args), findings=findings,
-                          project=scan(args.repo) if args.repo else None, targets=targets)
+                          project=scan(args.repo) if args.repo else None, targets=targets, plan=the_plan)
     _emit(None, prompt)
 
 
@@ -288,6 +290,12 @@ def cmd_rewrite(args):
             "provider_error": 1}[
         result["outcome"]]
 
+
+
+def cmd_plan(args):
+    from .planner import plan
+    profile, explicit = _voice_inputs(args)
+    _emit(plan(_read(args.text), _route(args), profile, explicit, _protected(args)))
 
 
 def cmd_patterns(args):
@@ -382,6 +390,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--fact", action="append", help="fact source (repeatable): judge grounding instead of equivalence")
     p.add_argument("--repo", help="repository used as a fact source (grounding mode)")
     p.set_defaults(func=cmd_judge_prompt)
+
+    p = sub.add_parser("plan", help="rewrite plan: what to change, why, how much (no model call)")
+    p.add_argument("text")
+    p.add_argument("--profile")
+    p.add_argument("--set", help="explicit voice instruction as JSON")
+    _contract_args(p)
+    _protect_args(p)
+    p.set_defaults(func=cmd_plan)
 
     p = sub.add_parser("patterns", help="editorial pattern findings (genre-aware; not an authorship score)")
     p.add_argument("text")

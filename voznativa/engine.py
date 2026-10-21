@@ -24,6 +24,7 @@ from . import drift as drift_mod
 from . import judge as judge_mod
 from . import ledger as ledger_mod
 from . import patterns as patterns_mod
+from . import planner as planner_mod
 from . import region as region_mod
 from .compare import apply_judgment, compare
 from .paths import home
@@ -101,7 +102,7 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
                  feedback: list[str] | None = None, facts: list[str] | None = None,
                  inline_references: bool = False, root: Path | None = None,
                  protect: list[str] | tuple = (), findings: dict | None = None, project=None,
-                 targets: list[dict] | None = None) -> str:
+                 targets: list[dict] | None = None, plan: dict | None = None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
@@ -114,7 +115,11 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
     if selection is not None:
         sections.append(_references_block(selection, inline_references, root or home()))
     if findings and findings["findings"] and not create:
-        sections.append(_findings_block(findings))
+        sections.append(_findings_block(findings, with_scope=plan is None))
+    if plan and not create:
+        block = planner_mod.prompt_block(plan)
+        if block:
+            sections.append(block)
     if targets and not create:
         sections.append(_targets_block(targets))
     if not create:
@@ -135,14 +140,14 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
     return "\n\n".join(sections)
 
 
-def _findings_block(findings: dict) -> str:
+def _findings_block(findings: dict, with_scope: bool = True) -> str:
     lines = [f'- [{f["strength"]}] {f["family"]}: "{f["text"]}" -> {f["suggestion"]}' for f in findings["findings"]]
     scope = ("Poucos achados: altere só esses trechos e o mínimo necessário para o texto fluir; "
              "o resto fica como está." if len(findings["findings"]) <= 2 else
              "Vários achados: reescreva as frases afetadas; mantenha as frases sem achado, a menos que "
              "precisem mudar para encaixar.")
     return "ACHADOS EDITORIAIS (onde o texto soa como fórmula; não é score de autoria):\n" + \
-        "\n".join(lines) + "\n" + scope
+        "\n".join(lines) + ("\n" + scope if with_scope else "")
 
 
 def _targets_block(targets: list[dict]) -> str:
@@ -261,8 +266,11 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     # A text can be free of editorial problems and still not be what was asked
     # for (an e-mail requested as a WhatsApp message): only skip the model when
     # there is neither a finding nor a requested destination.
-    decision = {"editorial": before["decision"] if before else None, "targets": targets}
-    if before and not force and before["decision"] == "no_change_candidate" and not targets:
+    the_plan = planner_mod.plan(text, context, profile, explicit, protect, report=before) if before else None
+    decision = {"editorial": before["decision"] if before else None, "targets": targets,
+                **({"plan": {k: the_plan[k] for k in ("decision", "scope", "summary", "warnings")}}
+                   if the_plan else {})}
+    if the_plan and not force and the_plan["decision"] == "no_change":
         return _result("no_change", text, None, [], provider, voice_contract, select(context, budget_words=0),
                        reason="no editorial findings and no requested destination; use force to rewrite anyway",
                        quality={"before": before["summary"], "after": before["summary"], "model_called": False},
@@ -280,18 +288,26 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             raws = [provider.humanize(text) for _ in range(candidates)]
         else:
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
-                                  protect=protect, findings=before, project=project, targets=targets)
+                                  protect=protect, findings=before, project=project, targets=targets,
+                                  plan=the_plan)
             raws = provider.generate(prompt, candidates)
         reports, best = [], None
         for raw in raws:
             candidate, no_change = parse_candidate(raw, text)
             report = validate_candidate(text, candidate, context, profile, facts, project, protect)
             reports.append(report)
+            fit = (planner_mod.adherence(the_plan, text, candidate, genre, channel, register)
+                   if the_plan and not no_change else None)
             history.append({"attempt": attempt, "no_change": no_change, "status": report["status"],
                             "codes": sorted({i["code"] for i in report["issues"]}),
-                            "preview": candidate[:120]})
+                            "preview": candidate[:120],
+                            **({"unplanned_edits": len(fit["unplanned_edits"]),
+                                "introduced_strong": fit["introduced_strong"]} if fit else {})})
             if report["status"] != "fail":
-                rank = (STATUS_RANK.get(report["status"], 5), report["summary"]["major"])
+                # Meaning first; among equally safe candidates, the one that followed
+                # the plan (kept what should stay, added no new formula) wins.
+                rank = (STATUS_RANK.get(report["status"], 5), report["summary"]["major"],
+                        fit["introduced_strong"] if fit else 0, len(fit["unplanned_edits"]) if fit else 0)
                 if best is None or rank < best[0]:
                     best = (rank, candidate, report, no_change)
         if best is None:
@@ -326,6 +342,10 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
         new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
         out = {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
                "model_called": True}
+        if the_plan and final != text:
+            fit = planner_mod.adherence(the_plan, text, final, genre, channel, register)
+            out["plan"] = {"scope": fit["scope"], "kept_expected": fit["kept_expected"],
+                           "unplanned_edits": fit["unplanned_edits"], "introduced_strong": fit["introduced_strong"]}
         if profile:
             src_d, out_d = drift_mod.voice_distance(text, profile), drift_mod.voice_distance(final, profile)
             if "error" not in src_d:
