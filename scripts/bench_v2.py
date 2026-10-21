@@ -95,7 +95,8 @@ def engine(checkout: Path, case: dict, tag: str, env: dict, spend: Spend) -> tup
         raise RuntimeError(f"engine imported from the wrong checkout: {result['engine_file']}")
     return result["text"], {"outcome": result["outcome"], "status": (result.get("report") or {}).get("status"),
                             "attempts": len(result.get("attempts") or []),
-                            "no_change_reason": (result.get("decision") or {}).get("no_change_reason")}
+                            "no_change_reason": (result.get("decision") or {}).get("no_change_reason"),
+                            "reason": result.get("reason")}
 
 
 def run_arm(arm: str, case: dict, skills: dict, checkouts: dict, env: dict, spend: Spend) -> dict:
