@@ -125,9 +125,7 @@ class DecisionSuite(unittest.TestCase):
 
     def test_close_genres_are_not_a_destination_change(self):
         # dc-004: documentation labeled on a text that reads as technical.
-        text = "## Instalação
-
-Rode `pip install voznativa`. O comando `voznativa --version` mostra a versão."
+        text = "## Instalação\n\nRode `pip install voznativa`. O comando `voznativa --version` mostra a versão."
         self.assertEqual(make(text, genre="documentation")["decision"], "no_change")
 
 
