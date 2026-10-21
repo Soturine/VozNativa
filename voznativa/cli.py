@@ -237,7 +237,8 @@ def cmd_rewrite_prompt(args):
     text = _read(args.text)
     # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
     channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
-    findings = detect(text, context["genre"]["value"], channel) if context["task"] != "create" else None
+    findings = detect(text, context["genre"]["value"], channel,
+                      context["register"]["value"]) if context["task"] != "create" else None
     from .router import transformation_targets
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
     prompt = build_prompt(text, context, resolve(context, profile, explicit),
@@ -294,7 +295,7 @@ def cmd_patterns(args):
     from .router import infer_genre
     text = _read(args.text)
     genre = args.genre or infer_genre(text)["value"]
-    _emit(detect(text, genre, args.channel))
+    _emit(detect(text, genre, args.channel, args.register))
 
 
 
@@ -386,6 +387,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("text")
     p.add_argument("--genre", help="genre for exemptions (default: inferred)")
     p.add_argument("--channel", help="channel for exemptions (whatsapp, email, linkedin...)")
+    p.add_argument("--register", help="target register (orality and forms of address are judged against it)")
     p.set_defaults(func=cmd_patterns)
 
     p = sub.add_parser("analyze", help="descriptive text measurements")

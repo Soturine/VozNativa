@@ -355,3 +355,15 @@ patterns:
     rationale: "estrutura do inglês com palavra portuguesa de outro sentido (realize, apply for, take place, feel free)"
     legitimate: "'tomar o lugar de' (substituir) e 'realizar' no sentido de executar não são capturados"
     sources: [languagetool_pt, vozn_refs]
+
+  - id: calque_collocation
+    family: tradução literal
+    strength: strong
+    scope: anywhere
+    regex: '\b(?:tom(?:ar|ou|amos|e|ando|ará) (?:uma |as |a )?aç(?:ão|ões)(?! (?:judicial|penal|civil|trabalhista|ordinária|da empresa|na bolsa))|pag(?:ar|ue|ou|amos|ando) atenção|fa(?:zer|z|zendo|zemos|ço) dinheiro|atend(?:er|eu|emos|i|o) (?:a |à |uma |o |um )?(?:reunião|conferência|congresso|evento|palestra|aula)|fa(?:zer|z|zendo) uma diferença|providenci(?:ar|amos|ou|e) (?:um |o )?(?:feedback|suporte)|estar confortável com (?:isso|a proposta|o plano|a decisão))\b'
+    weak_in: [social]
+    exempt: [literary]
+    suggestion: "use a colocação brasileira: 'tomar uma ação' -> 'agir'; 'pagar atenção' -> 'prestar atenção'; 'atender uma reunião' -> 'participar de uma reunião'"
+    rationale: "colocação decalcada do inglês (take action, pay attention, make money, attend a meeting) com verbo português de outro regime"
+    legitimate: "'ação judicial', 'ação na bolsa' e 'atender o cliente' (servir) não são capturados; ficção"
+    sources: [languagetool_pt, vozn_refs]

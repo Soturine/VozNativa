@@ -20,7 +20,7 @@ CASES = [json.loads(line) for line in (ROOT / "evals" / "patterns" / "cases.json
 class PatternSuite(unittest.TestCase):
     def test_genre_aware_suite(self):
         for case in CASES:
-            report = detect(case["text"], case["genre"])
+            report = detect(case["text"], case["genre"], case.get("channel"), case.get("register"))
             ids = {f["id"] for f in report["findings"]}
             expect = case["expect"]
             if "decision" in expect:
@@ -37,7 +37,10 @@ class PatternSuite(unittest.TestCase):
         positive = {pid for c in CASES for pid in c["expect"].get("present", [])}
         negative = {pid for c in CASES for pid in c["expect"].get("absent", [])}
         negative |= {f["id"] for c in CASES if c["expect"].get("decision") == "no_change_candidate"
-                     for f in detect(c["text"], c["genre"])["findings"]}  # found but did not justify an edit
+                     for f in detect(c["text"], c["genre"], c.get("channel"), c.get("register"))["findings"]}
+        for pid in ("pt_pt_variant", "anglicism_out_of_domain", "treatment_mixed", "orality_in_formal"):
+            self.assertIn(pid, positive, f"{pid} has no positive case")  # PT-BR layer (voznativa/ptbr.py)
+            self.assertIn(pid, negative, f"{pid} has no false-positive case")
         for pattern in catalog():
             pid = pattern["id"]
             self.assertIn(pid, positive, f"{pid} has no positive case")

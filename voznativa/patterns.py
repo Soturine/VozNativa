@@ -160,7 +160,7 @@ def _repeated_evaluation(pattern: dict, prose: list) -> list[tuple]:
 DETECTORS = {"triad": _triads, "anaphora": _anaphora, "repeated_evaluation": _repeated_evaluation}
 
 
-def detect(text: str, genre: str = "unknown", channel: str | None = None) -> dict:
+def detect(text: str, genre: str = "unknown", channel: str | None = None, register: str | None = None) -> dict:
     text = _nfc(text)
     contexts = {genre} | ({channel} if channel else set())
     prose = [s for s in sentences(text) if s.kind in {"prose", "list_item"}]
@@ -219,6 +219,10 @@ def detect(text: str, genre: str = "unknown", channel: str | None = None) -> dic
                              "suggestion": pattern["suggestion"],
                              **({"legitimate_when": pattern["legitimate"]} if pattern.get("legitimate") else {})})
 
+    # PT-BR contextual layer: PT-PT forms, foreign terms out of their domain,
+    # mixed forms of address, chat/speech forms in a formal register.
+    from . import ptbr
+    findings += ptbr.findings(text, genre, channel, register)
     findings.sort(key=lambda f: (f["start"], f["id"]))
     strong = sum(f["strength"] == STRONG for f in findings)
     weak = sum(f["strength"] == WEAK for f in findings)
@@ -231,6 +235,7 @@ def detect(text: str, genre: str = "unknown", channel: str | None = None) -> dic
         "schema_version": 2,
         "genre": genre,
         "channel": channel,
+        "register": register,
         "findings": findings,
         "summary": {
             "strong": strong,

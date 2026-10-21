@@ -1,0 +1,104 @@
+# PT-BR contextual layer (v0.4.0 M2): PT-PT markers, foreign terms by domain,
+# forms of address and written orality. Descriptive, like the pattern catalog.
+#
+# Variant markers: confidence exclusive = practically only PT-PT in current use;
+#   likely = also exists in PT-BR with another sense or as a literary form.
+#   meaning_sensitive = a false friend: the PT-BR word has another meaning, so the
+#   rewrite must check the sense instead of swapping the word.
+# Lists were compiled by the developer; LanguageTool pt-BR/replace.txt (CC BY-SA 3.0,
+# from Wikipedia) was read for coverage only, nothing was copied. Uncalibrated (E1).
+schema_version: 1
+evidence: {level: E1, basis: "developer-compiled; checked against general dictionaries and LanguageTool pt-BR coverage", calibration: none}
+
+variant_markers:
+  lexical:
+    - {pt: "telemóve(?:l|is)", br: "celular", confidence: exclusive}
+    - {pt: "ecrã(?:s)?", br: "tela", confidence: exclusive}
+    - {pt: "autocarros?", br: "ônibus", confidence: exclusive}
+    - {pt: "pequeno-almoço", br: "café da manhã", confidence: exclusive}
+    - {pt: "casas? de banho", br: "banheiro", confidence: exclusive}
+    - {pt: "frigoríficos?", br: "geladeira", confidence: exclusive}
+    - {pt: "utilizador(?:es|a|as)?", br: "usuário", confidence: exclusive}
+    - {pt: "ficheiros?", br: "arquivo", confidence: exclusive}
+    - {pt: "equipas?", br: "equipe / time", confidence: exclusive}
+    - {pt: "factos?", br: "fato", confidence: exclusive}
+    - {pt: "contactos?|contactar|contactou|contacte", br: "contato / contatar", confidence: exclusive}
+    - {pt: "registos?", br: "registro", confidence: exclusive}
+    - {pt: "planeamentos?", br: "planejamento", confidence: exclusive}
+    - {pt: "ace(?:der|de|dem|deu|da|dido)", br: "acessar", confidence: exclusive}
+    - {pt: "talhos?", br: "açougue", confidence: exclusive}
+    - {pt: "montras?", br: "vitrine", confidence: exclusive}
+    - {pt: "autoclismo", br: "descarga", confidence: exclusive}
+    - {pt: "bué", br: "muito", confidence: exclusive}
+    - {pt: "fixe", br: "legal", confidence: exclusive}
+    - {pt: "comboios?", br: "trem", confidence: likely, note: "em PT-BR, comboio é fila de veículos"}
+    - {pt: "partilh(?:ar|a|am|ou|amos|ado|ada)", br: "compartilhar", confidence: likely}
+    - {pt: "descarreg(?:ar|ue|a|ou)(?= (?:o|a|os|as) (?:app|aplicação|ficheiro|arquivo|programa|documento))", br: "baixar", confidence: likely}
+    - {pt: "carreg(?:ue|a|ar) (?:no|em) (?:botão|link|ícone)", br: "clique / clicar", confidence: exclusive}
+    - {pt: "passadeiras?(?= de peões| para peões)", br: "faixa de pedestres", confidence: exclusive}
+    - {pt: "rapariga(?:s)?", br: "moça / garota", confidence: exclusive, meaning_sensitive: "em PT-BR a palavra é pejorativa"}
+    - {pt: "propinas?", br: "mensalidade / taxa", confidence: likely, meaning_sensitive: "em PT-BR propina é suborno"}
+    - {pt: "constipaç(?:ão|ões)|constipad[oa]", br: "resfriado", confidence: likely, meaning_sensitive: "em PT-BR constipação é prisão de ventre"}
+    - {pt: "sumos?(?= de)", br: "suco", confidence: likely}
+  spelling:
+    - {pt: "acç(?:ão|ões)", br: "ação"}
+    - {pt: "actua(?:l|is|lmente|lizar|lizado|lização)", br: "atual / atualizar"}
+    - {pt: "objectiv(?:o|os|a|as)", br: "objetivo"}
+    - {pt: "project(?:o|os)", br: "projeto"}
+    - {pt: "direct(?:or|ora|ores|oras|ório)", br: "diretor"}
+    - {pt: "óptim(?:o|a|os|as)", br: "ótimo"}
+    - {pt: "(?:colec|correc|direc|selec|protec|adop)ç(?:ão|ões)", br: "coleção / correção / direção / seleção / proteção / adoção"}
+    - {pt: "efectiv(?:o|a|os|as)|exact(?:o|a|os|as|amente)|eléctric(?:o|a|os|as)|arquitect(?:o|a|os|as)", br: "efetivo / exato / elétrico / arquiteto"}
+    - {pt: "económic(?:o|a|os|as)|académic(?:o|a|os|as)|fenómen(?:o|os)|anónim(?:o|a|os|as)|polémic(?:o|a|as)|géner(?:o|os)|ténis|bebé(?:s)?|António|Amazónia|cómod(?:o|a)|ténue", br: "econômico / acadêmico / fenômeno / anônimo / polêmica / gênero / tênis / bebê / Antônio"}
+  syntax:
+    - id: estar_a_infinitivo
+      pt: "\\b(?:estou|estás|está|estamos|estão|estava|estavas|estávamos|estavam|esteve|estiveram|estar|estarei|estará|estaremos|estarão|esteja|estejam|estivesse|estivessem)\\s+a\\s+\\w+(?:ar|er|ir)\\b"
+      skip: "\\ba (?:seguir|par|fim|caminho|cargo|ponto|tempo|sós|salvo)\\b"
+      br: "estar + gerúndio: 'estou a trabalhar' -> 'estou trabalhando'"
+      confidence: exclusive
+
+foreign_terms:
+  # domain -> terms established in that domain, with the Portuguese option.
+  tech: {deploy: implantação, bug: erro, backend: back-end, frontend: front-end, framework: framework, commit: commit,
+         branch: ramo, merge: mesclagem, "pull request": pull request, cache: cache, build: compilação, release: versão,
+         feature: funcionalidade, debug: depuração, log: registro, endpoint: endpoint, script: script, token: token,
+         upload: envio, download: download, login: login, dashboard: painel, stack: stack, sprint: sprint, rollback: reversão,
+         container: contêiner, pipeline: pipeline, timeout: tempo limite, "pull requests": pull requests, logs: registros}
+  business: {feedback: retorno, deadline: prazo, meeting: reunião, call: ligação, budget: orçamento, report: relatório,
+             insight: percepção, insights: percepções, benchmark: referência, kickoff: reunião de abertura, "follow-up": acompanhamento,
+             briefing: briefing, job: trabalho, startup: startup, business: negócio, target: meta, KPI: indicador,
+             roadmap: planejamento, stakeholder: parte interessada, stakeholders: partes interessadas, networking: networking,
+             "home office": home office, performance: desempenho, compliance: conformidade, onboarding: integração}
+  marketing: {awareness: reconhecimento, engagement: engajamento, lead: contato, leads: contatos, branding: branding,
+              storytelling: narrativa, influencer: influenciador, trend: tendência, hype: alvoroço, post: post, posts: posts}
+  general: {delivery: entrega, sale: liquidação, off: de desconto, fitness: academia, "coffee break": intervalo,
+            "happy hour": happy hour, top: ótimo, cool: legal, nice: bacana, mindset: mentalidade}
+  # Which domains are at home in each genre.
+  genre_domains:
+    technical: [tech]
+    documentation: [tech]
+    corporate: [tech, business]
+    email: [tech, business]
+    social: [business, marketing, general, tech]
+    whatsapp: [tech, business, marketing, general]
+    academic: []
+    legal: []
+    journalistic: [tech]
+    literary: [tech, business, marketing, general]
+    essay: []
+    unknown: [tech, business]
+
+treatment:
+  formal: "\\b(?:o senhor|a senhora|os senhores|as senhoras|V\\. ?S[ªa]\\.?|Vossa Senhoria|Vossa Excelência|V\\. ?Ex[ªa]\\.?)\\b"
+  voce: "\\b(?:você|vocês|vc|vcs|cê)\\b"
+  tu: "\\b(?:tu|teu|tua|teus|tuas|contigo)\\b"
+  formal_registers: [professional-formal, academic, technical, journalistic]
+
+orality:
+  # Chat abbreviations do not belong in any non-casual register; speech forms
+  # ("pra", "tá") are ordinary in Brazilian work e-mail and only clash with formal ones.
+  chat: "\\b(?:vc|vcs|kkk+|rs|haha+|blz|vlw|tbm|pq|msg|obg|qdo|tb)\\b"
+  speech: "\\b(?:pra|pro|pros|pras|tá|tô|tava|né|cê|tipo assim|sei lá|poxa|pô)\\b"
+  formal_registers: [professional-formal, academic, technical, journalistic]
+  casual_registers: [colloquial, casual, personalized, spoken]
+  casual_genres: [whatsapp, social, literary]

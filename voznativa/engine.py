@@ -117,6 +117,10 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
         sections.append(_findings_block(findings))
     if targets and not create:
         sections.append(_targets_block(targets))
+    if not create:
+        block = _ptbr_block(text, context["genre"]["value"])
+        if block:
+            sections.append(block)
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
@@ -148,6 +152,28 @@ def _targets_block(targets: list[dict]) -> str:
         lines.append(f"- {t['target']}: {t['value']}{origin}")
     return ("DESTINO PEDIDO (o pedido define estas propriedades da versão final; mude o necessário "
             "para atendê-las, sem mudar fatos):\n" + "\n".join(lines))
+
+
+def _ptbr_block(text: str, genre: str) -> str | None:
+    """What the PT-BR layer knows about the source that the writer must respect."""
+    from .ptbr import foreign_terms, treatment, variant_markers
+    lines = []
+    keep = sorted({t["text"] for t in foreign_terms(text, genre)["in_domain"]})
+    if keep:
+        lines.append("- termos do domínio, mantenha como estão: " + ", ".join(keep))
+    forms = treatment(text)["forms"]
+    if forms:
+        names = {"formal": "o senhor/a senhora", "voce": "você", "tu": "tu/teu"}
+        lines.append("- forma de tratamento do original: " + ", ".join(names[f] for f in forms) +
+                     "; não troque sem pedido")
+    markers = variant_markers(text)
+    if markers:
+        lines.append("- marcas de português europeu (fora de citações): " +
+                     "; ".join(f"{m['text']} -> {m['pt_br']}" for m in markers[:8]))
+        risky = [m for m in markers if m.get("meaning_sensitive")]
+        if risky:
+            lines.append("- falsos amigos: confira o sentido antes de trocar: " + ", ".join(m["text"] for m in risky))
+    return "PT-BR:\n" + "\n".join(lines) if lines else None
 
 
 def parse_candidate(raw: str, original: str) -> tuple[str, bool]:
@@ -196,6 +222,10 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
         if d.get("drift"):
             extra.append({"code": "voice_drift", "severity": "major",
                           "message": "candidate style drifts from the author profile"})
+    if context["task"] != "create":
+        from .ptbr import candidate_issues
+        extra += candidate_issues(original, candidate, context["genre"]["value"],
+                                  context["flags"].get("register_explicit", False))
     if extra:
         report = dict(report, issues=report["issues"] + extra)
         if any(i["severity"] == "critical" for i in extra):
@@ -225,7 +255,8 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     voice_contract = contract_mod.resolve(context, profile, explicit)
     genre = context["genre"]["value"]
     channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
-    before = patterns_mod.detect(text, genre, channel) if context["task"] != "create" else None
+    register = context["register"]["value"]
+    before = patterns_mod.detect(text, genre, channel, register) if context["task"] != "create" else None
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else []
     # A text can be free of editorial problems and still not be what was asked
     # for (an e-mail requested as a WhatsApp message): only skip the model when
@@ -291,7 +322,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     def quality(final: str) -> dict | None:
         if before is None:
             return None
-        after = patterns_mod.detect(final, genre, channel)
+        after = patterns_mod.detect(final, genre, channel, register)
         new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
         out = {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
                "model_called": True}
