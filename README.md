@@ -30,7 +30,7 @@ texto ─▶ route ─▶ Context Contract (gênero, canal, registro, fontes de 
             ├─▶ profile ──▶ Voice Profile v2 (estatísticas, sem texto bruto)
             └─▶ contract ─▶ Voice Contract (precedência de references/VOICE_STACK.md)
                               │
-ledger (spans + marcadores) ──┴─▶ rewrite-prompt / rewrite ─▶ candidata
+patterns + ptbr + ledger ─▶ plan (o que mudar, por quê, quanto) ──┴─▶ rewrite-prompt / rewrite ─▶ candidata
                                                                │
                           compare / ground ◀───────────────────┘
                                │
@@ -49,7 +49,9 @@ Versão de desenvolvimento, **não qualificada**. A v0.3.0 **continua não concl
 |---|---|
 | Semantic Ledger + `compare` | implementado: valores PT-BR normalizados (inclusive números por extenso e durações), negação, modalidade, quantificadores, condições, antes/depois, causalidade (também entre frases vizinhas), troca de papéis entre entidades nomeadas (ativa/passiva), antônimos do léxico, atribuição, orações inventadas, termos protegidos pelo usuário |
 | Juiz LLM/humano | contrato implementado; votos concordantes (padrão 2); revisão humana assinada; nenhum modelo embarcado |
-| Detector de padrões (`patterns`) | implementado, com isenções por gênero; descritivo, não é detector de autoria |
+| Detector de padrões (`patterns`) | biblioteca v2: 27 padrões decididos por gênero, canal, posição, função e frequência, cada um com casos positivos e falsos positivos; descritivo, não é detector de autoria |
+| Camada PT-BR | marcas de PT-PT (falsos amigos não são trocados às cegas), estrangeirismos por domínio, tratamento, oralidade x registro |
+| Planejador (`plan`) | decide por frase manter, trocar o trecho, cortar a fórmula ou reescrever; lista o que preservar; mede edições fora do plano |
 | Context Router + Reference Selector | implementado; gênero `unknown` quando a evidência é fraca |
 | Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
 | Voice Profile v2 + Voice Contract | implementado; distância ao perfil medida no engine; limiares sem calibração com amostras reais |
@@ -99,6 +101,7 @@ voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd 
   --protect "Projeto Aurora" --judge-votes 2 --provider-env minimal --provider-env-allow ANTHROPIC_API_KEY
 voznativa rewrite email.txt --channel whatsapp --cmd ...   # destino explícito: o engine não devolve NO_CHANGE sem tentar
 voznativa patterns texto.txt --genre corporate     # achados editoriais; decide edit ou no_change_candidate
+voznativa plan texto.txt --genre corporate         # plano de reescrita por frase, sem chamar modelo
 voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
 voznativa review original.txt candidata.txt --reviewer ana --out revisao.json   # revisão humana assinada (só em terminal; nome declarado)
 voznativa review original.txt candidata.txt --reviewer ana --ssh-key ~/.ssh/revisao --principal ana@exemplo.org --out revisao.json

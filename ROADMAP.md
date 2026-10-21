@@ -92,18 +92,60 @@ Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não ser
 - [x] matriz de compatibilidade final (local; `evals/compat/`)
 - [ ] CI verde (bloqueado: cobrança do GitHub Actions)
 
-## v0.4 — PT-BR Pattern Library
-- [ ] expandir oficialês deslocado → v0.3.0 M2
-- [ ] expandir ENEM-ismo → v0.3.0 M2
-- [~] gerundismo, oficialês, ENEM-ismo, conectivos, promocional e fechamento no detector (v0.3.0 M2); expansão de dados continua
-- [ ] expandir gerúndio conclusivo
-- [ ] expandir conectivos empilhados → v0.3.0 M2
-- [ ] expandir trios/paralelismos formulaicos
-- [ ] expandir linguagem promocional vaga → v0.3.0 M2
-- [ ] expandir conclusão genérica → v0.3.0 M2
-- [ ] tradução literal / PT-BR x PT-PT
-- [~] falsos positivos por gênero: isenções no detector (v0.3.0 M2); um natural ainda sinalizado
-- [ ] estrangeirismos por domínio
+## v0.4.0 — PT-BR Writing Intelligence & Hardening (em desenvolvimento, `0.4.0.dev0`)
+
+Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios externos abertos da v0.3.0 (holdout independente, revisão humana cega, CI).
+
+### M0 — Hardening da v0.3
+- [x] `ho-007`: divergência de classificação separada de detecção perdida (caso congelado intacto)
+- [x] create mode: juiz de fundamentação contra as fontes autorizadas, com evidência literal
+- [x] NO_CHANGE: destino pedido (canal, gênero, registro, público, voz) separado de "sem problema editorial"
+- [x] `blind-summary`: todos os hashes, uma resposta por tarefa e chave, mapeamento de braços assinado
+- [x] assinatura: integridade, posse da chave, identidade declarada e independência separadas; chave SSH do revisor
+- [x] `--redact`: credenciais, erros, caminhos e hashes adivinháveis
+- [x] providers: árvore de processos, limite de saída, erros do Emulate, avisos de sandbox, ambiente mínimo; cercas no prompt
+- [x] documentação corrigida (`claim_added`, `--cmd "claude -p"`, CI)
+- [x] achados na fase: `voznativa rewrite` quebrado desde a v0.3.0; saída cp1252 de providers no Windows; juiz fora do ar descartava candidata; dia da semana sem preposição
+
+### M1 — PT-BR Pattern Library v2
+- [x] oficialês deslocado (`officialese`; `a nível de` forte)
+- [x] ENEM-ismo fora da redação escolar (`enem_formula`); aberturas só quando abrem o parágrafo
+- [x] gerundismo com verbo pontual x durativo ancorado; gerúndio de consequência (`gerund_tail`)
+- [x] conectivos empilhados e redundantes (`connector_pleonasm`); isenção em redação escolar
+- [x] trios e paralelismos formulaicos (`formulaic_triad`, `anaphora_run`)
+- [x] nominalização e verbos-suporte (colocações fixas preservadas)
+- [x] linguagem corporativa vaga e promocional (claim atribuído preservado)
+- [x] fechamentos genéricos por posição (`closing_formula`, `generic_closing` só no fim de texto curto)
+- [x] redundância e repetição (`pleonasm`, `repeated_evaluation`)
+- [x] traduções literais (`calque_construction`, `calque_collocation`)
+- [x] cada padrão com casos positivos, falsos positivos, justificativa e fontes (teste obrigatório)
+- [ ] calibração em corpus (limiares e listas montados pelo desenvolvedor)
+
+### M2 — Brazilian Portuguese Contextual Intelligence
+- [x] PT-BR x PT-PT: léxico, `estar a + infinitivo`, grafia; falsos amigos marcados, não trocados
+- [x] estrangeirismos por domínio (técnico, negócios, marketing); termos do domínio preservados na reescrita
+- [x] tratamento formal/informal (mistura e troca sem pedido)
+- [x] oralidade escrita x registro alvo (chat x fala)
+- [x] LanguageTool 6.6 avaliado e não adotado (`evals/experiments/languagetool_probe.json`)
+- [ ] packs regionais e gírias (fora do escopo sem evidência)
+
+### M3 — Contextual Rewrite Planner
+- [x] `voznativa plan`: trechos, motivo, prioridade, operação (manter, troca pontual, corte, frase, parágrafo, documento)
+- [x] preservação por frase (valores, negação, modalidade, compromissos, condições, causalidade), dependência entre frases, consistência
+- [x] aderência ao plano (edições fora do plano, padrões introduzidos) no ranking e no relatório
+- [x] inconsistência da fonte reportada (dia da semana x data)
+- [~] múltiplas candidatas + reranking: só desempate determinístico por aderência; benefício de N>1 não medido com modelo real
+
+### M4 — Evals e benchmarks
+- [x] `holdout-v040` congelado (32 casos por canal e risco): 32/32, não discrimina v0.3 x v0.4
+- [x] suíte de decisão congelada (30 casos): v0.4 27/30 na primeira execução; v0.3 22/30 na decisão de chamar o modelo
+- [x] `ptbr-bench-v2` congelado antes da execução; resultados em `docs/EVALUATION.md`
+- [x] latência do pipeline determinístico (`scripts/perf_probe.py`)
+- [ ] revisão humana e holdout independente (dependem de pessoas)
+
+### M5 — Qualificação
+- [ ] matriz local, wheel e instalação isolada (ver `docs/EVALUATION.md`)
+- [ ] CI verde (bloqueado: cobrança do GitHub Actions)
 
 ## v0.5 — Regional Layer
 - [ ] taxonomia região/estado/localidade quando houver evidência

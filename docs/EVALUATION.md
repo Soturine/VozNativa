@@ -135,3 +135,41 @@ Registro: `evals/compat/v0.3.0-dev-e679038.json`.
 - Voice match com amostras reais e consentidas.
 - Taxas de falso vermelho e falso verde com amostra estatisticamente útil; calibração de limiares.
 - Outros modelos além de `claude-sonnet-5-5`.
+
+## v0.4.0.dev0 (2026-10-21)
+
+### Suítes determinísticas novas (congeladas antes da primeira execução)
+
+| Suíte | Casos | Primeira execução | Leitura |
+|---|---|---|---|
+| `evals/semantic/holdout-v040.jsonl` (`fb4a9738`) | 32 por canal e risco (WhatsApp, e-mail, LinkedIn, docs, acadêmico, técnico; informação implícita, PT-PT, documento longo, instrução plantada) | **32/32** na v0.4.0 e **32/32** no código da v0.3.0 | não discrimina: o gate quase não mudou e os casos foram escritos por quem escreveu o gate. Não é evidência de robustez |
+| `evals/decision/cases.jsonl` | 30 decisões do engine (chamar o modelo ou não, escopo, frases a manter) | **27/30** na v0.4.0; só a decisão de chamar o modelo: v0.4.0 **28/30**, regra da v0.3.0 **22/30** | v0.3.0 perdia as duas mudanças de destino e quatro rascunhos com padrões que ela não conhecia; casos escritos pelo autor das regras da v0.4.0 (favorecem a v0.4.0). Depois de uma correção geral (gêneros próximos): 28/30, não cego |
+
+`holdout.jsonl` continua 23/24 estrito; `ho-007` agora aparece como `classification_divergence` (24/24 por status).
+
+### Benchmark prospectivo `ptbr-bench-v2` (execução oficial `benchmarks/runs/ptbr-bench-v2-20261021T110338Z.json`)
+
+15 casos congelados (`e1af80ba`) antes da execução; mesmo modelo (`claude-sonnet-5-5`, Claude Code CLI 2.1.301, sem ferramentas, diretório vazio) em todos os braços por um único wrapper; custo total US$ 4,64 (teto US$ 15).
+
+| Braço | Invariantes | Gate (fail / revisão / limpo / idêntico) | Juiz: não equivalente | Achados restantes (fortes) | PT-PT restante | Naturais alterados | Mudança de destino ignorada | Custo do sistema | Mediana s |
+|---|---|---|---|---|---|---|---|---|---|
+| B0 original | 15/15 | 0 / 0 / 0 / 15 | — | 31 (15) | 4 | 0/4 | 3/3 | — | 0 |
+| B1 prompt de uma linha | 7/15 | 5 / 7 / 2 / 1 | 4 | 9 (4) | 4 | 4/4 | 0/3 | 0,18 | 4,3 |
+| B2 blader/humanizer | 10/15 | 2 / 8 / 3 / 2 | 5 | 0 (0) | 0 | 3/4 | 0/3 | 0,85 | 6,4 |
+| B3 work-humanizer | 8/15 | 3 / 7 / 5 / 0 | 6 | 4 (0) | 0 | 4/4 | 0/3 | 0,65 | 5,6 |
+| B5 VozNativa v0.3.0 | 15/15 | 0 / 1 / 6 / 8 | 0 | 11 (5) | 4 | 0/4 | 2/3 | 0,53 | 0,5 |
+| B5 VozNativa v0.4.0 | 15/15 | 0 / 1 / 8 / 6 | 0 | 5 (1) | 0 | 0/4 | 1/3 | 0,90 | 22,3 |
+
+Nenhum braço obedeceu à instrução plantada.
+
+Leitura:
+
+- v0.4.0 x v0.3.0, mesmos casos e modelo: mesma fidelidade medida (15/15 invariantes, nenhum "não equivalente"); menos achados restantes (5 x 11; fortes 1 x 5); converteu o texto PT-PT (a v0.3.0 o devolveu intacto, sem chamar o modelo); atendeu 2 de 3 mudanças de destino (a v0.3.0, 1 de 3, e a que ela "aceitou" — chat para e-mail formal — só tirou um ponto de exclamação). Custa mais e demora mais porque chama o modelo em casos que a v0.3.0 pulava.
+- A mudança de destino que a v0.4.0 não atendeu (`bv2-wa-03`) terminou em `provider_error`: o CLI do modelo falhou duas vezes sob concorrência. Uma reexecução diagnóstica isolada desse caso, **post hoc**, deu um e-mail formal aceito (US$ 0,08). O resultado oficial continua sendo o registrado.
+- A v0.4.0 deixou a instrução plantada intacta no texto (`bv2-inj-01` sem achado editorial, NO_CHANGE); não obedeceu, mas também não sinalizou o trecho ao usuário. Os outros sistemas removeram ou reescreveram o trecho.
+- Os outros sistemas apagam mais achados, mas mudam mais o sentido segundo o juiz e alteram textos que não precisavam (3 ou 4 de 4 naturais).
+- Viés declarado no manifesto: casos, invariantes, detector e prompt do juiz são do próprio VozNativa e foram escritos pelo autor da v0.4.0; o juiz é o mesmo modelo que escreve. "Achados restantes" usa o detector que a v0.4.0 mira e a favorece. Nada aqui mede naturalidade para leitores.
+
+### Instrumentos avaliados e não adotados
+
+LanguageTool 6.6 (`evals/experiments/languagetool_probe.json`): em 86 reescritas reais, o único erro "introduzido" era falso positivo; nos originais, 16 de 17 alertas eram termos técnicos ou estilo de chat. Não adotado; a verificação de dia da semana x data, o único acerto útil, virou regra determinística do planejador (só com ano explícito).

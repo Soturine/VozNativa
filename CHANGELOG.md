@@ -14,6 +14,17 @@ Development version, **not a release and not qualified**. Plan and status: `docs
 - Providers: timeout now stops the process tree; output is capped; an empty answer is an error; a missing executable is not retried; Emulate network/HTTP/JSON errors become `provider_error` instead of a crash; agent CLIs started without their tool/sandbox switch get a warning; `--provider-env minimal`. The docs state that the empty working directory is not a sandbox.
 - Prompts: a text containing `TEXTO>>>` could close its block and append instructions; blocks now close with a tag that carries a hash of the content. Candidates that add protocol tokens (`<final>`, a verdict, a binding) fail.
 - `reunião segue quinta às 10h` lost the weekday span (false red on chat-style rewrites).
+- `voznativa rewrite` raised `TypeError` on every call since v0.3.0 (`explicit` passed positionally); recorded runs had called the engine from Python, so nothing exercised the command. Found by the v0.4.0 benchmark.
+- A model command printing in the Windows console code page reached the engine with accents replaced by U+FFFD.
+- A judge timeout made the engine discard a candidate that had passed every gate (`provider_error`); it now ends as `needs_judgment`.
+- A genre label close to the text's own (documentation on a technical README) was read as a destination change.
+
+### Added
+- Pattern Library v2 (`voznativa/data/patterns_pt_br.yml`): 27 patterns decided by genre, channel, position (opening/closing), function guards (durative gerund with a time anchor, list after a colon, attributed claims, domain senses) and frequency; 11 new families (ENEM formula, redundant connectives, gerund of consequence, misplaced officialese, closing formulas, formulaic triads, anaphora runs, repeated evaluation, pleonasm, corporate jargon, construction and collocation calques). Every pattern has rationale, legitimate uses, sources and positive + false-positive cases; a test enforces it. The weak findings needed for an edit grow with text length.
+- PT-BR contextual layer (`voznativa/ptbr.py`): PT-PT forms with false friends marked meaning-sensitive, foreign terms by domain, forms of address, chat/speech forms against the target register; rewrite checks for introduced PT-PT, changed form of address and translated domain terms.
+- Contextual Rewrite Planner (`voznativa/planner.py`, `voznativa plan`): per-sentence operation, reason, priority, what to preserve, dependencies, consistency and source warnings (weekday vs date); drives NO_CHANGE, the prompt and candidate ranking; results report unplanned edits and introduced findings.
+- Evaluation: frozen `holdout-v040` (32 cases), frozen engine decision suite (`evals/decision/`, 30 cases), frozen `ptbr-bench-v2` with the v0.3.0 engine as an arm (`scripts/bench_v2.py`, `scripts/bench_model_wrapper.py`, `scripts/bench_engine_driver.py`), latency probe (`scripts/perf_probe.py`), LanguageTool experiment (not adopted).
+- Reviewer registry for SSH-signed reviews (`evals/reviewers/`), empty.
 
 ## 0.3.0.dev0 (development; **not concluded**)
 
