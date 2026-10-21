@@ -246,7 +246,8 @@ def cmd_rewrite_prompt(args):
     _emit(None, prompt)
 
 
-def _provider(spec: str | None, candidates_files: list[str] | None, timeout: float):
+def _provider(spec: str | None, candidates_files: list[str] | None, timeout: float, env: str = "inherit",
+              env_allow: list[str] | None = None):
     from .providers import CommandProvider, EmulateProvider, StaticProvider
     if candidates_files:
         return StaticProvider([_read(f) for f in candidates_files])
@@ -257,8 +258,8 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
         key = os.environ.get("EMULATE_API_KEY")
         if not key:
             raise ValueError("set EMULATE_API_KEY to use the Emulate provider")
-        return EmulateProvider(key)
-    return CommandProvider.from_string(spec, timeout)
+        return EmulateProvider(key, timeout=timeout)
+    return CommandProvider.from_string(spec, timeout, env=env, env_allow=tuple(env_allow or ()))
 
 
 def cmd_rewrite(args):
@@ -266,8 +267,12 @@ def cmd_rewrite(args):
     from .project import scan
     context = _route(args)
     profile, explicit = _voice_inputs(args)
-    provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout)
-    judge = _provider(args.judge_cmd, None, args.timeout) if args.judge_cmd else None
+    provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
+                         args.provider_env, args.provider_env_allow)
+    judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env,
+                      args.provider_env_allow) if args.judge_cmd else None
+    for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
+        sys.stderr.write(f"voznativa: warning: {warning}\n")
     result = rewrite(_read(args.text), context, provider, profile, explicit, attempts=args.attempts,
                      candidates=args.candidates, judge_provider=judge,
                      facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
@@ -474,6 +479,11 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--attempts", type=int, default=3)
             p.add_argument("--candidates", type=int, default=1)
             p.add_argument("--timeout", type=float, default=300.0)
+            p.add_argument("--provider-env", choices=["inherit", "minimal"], default="inherit",
+                           help="environment for --cmd/--judge-cmd: all variables (default) or only what a "
+                                "CLI needs to start; minimal keeps unrelated credentials out of the model process")
+            p.add_argument("--provider-env-allow", action="append",
+                           help="variable kept with --provider-env minimal (repeatable), e.g. ANTHROPIC_API_KEY")
             p.add_argument("--text-only", action="store_true")
             p.add_argument("--judge-votes", type=int, default=2,
                            help="independent judge calls that must all say equivalent (default 2)")
