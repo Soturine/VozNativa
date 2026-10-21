@@ -95,7 +95,14 @@
       "frozen": true,
       "sha256": "fb4a9738605edb55eeb42329671b101f3e1162ef858f427ca883872e700ee0d7",
       "purpose": "prospective v0.4.0 M4 measurement by channel and risk (WhatsApp, e-mail, LinkedIn, docs, academic, technical; implicit information, PT-PT, long document, planted instructions); written and frozen before its first run",
-      "first_run": null
+      "first_run": {
+        "date": "2026-10-21",
+        "code": "7641878 (v0.4.0.dev0)",
+        "passed": 32,
+        "cases": 32,
+        "same_cases_on_v0.3.0": "32/32 on 0ba7bc2",
+        "reading": "no discrimination: the deterministic gate changed little between v0.3.0 and v0.4.0, and cases written by the gate's developer tend to probe what it already catches. This is not evidence of robustness; only an independent holdout can show that."
+      }
     }
   }
 }
