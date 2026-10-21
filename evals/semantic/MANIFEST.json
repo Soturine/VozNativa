@@ -87,6 +87,15 @@
           "note": "after the M1 work packages; the fixes were designed from the plan and separate dev cases, but the first-run failures (including the h3-role-002 false red) had been seen. Only the first run (15/24) is a blind measurement."
         }
       ]
+    },
+    "holdout-v040.jsonl": {
+      "role": "developer_holdout",
+      "author": "VozNativa developer (the same agent session that wrote the engine)",
+      "independent": false,
+      "frozen": true,
+      "sha256": "fb4a9738605edb55eeb42329671b101f3e1162ef858f427ca883872e700ee0d7",
+      "purpose": "prospective v0.4.0 M4 measurement by channel and risk (WhatsApp, e-mail, LinkedIn, docs, academic, technical; implicit information, PT-PT, long document, planted instructions); written and frozen before its first run",
+      "first_run": null
     }
   }
 }
