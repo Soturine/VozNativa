@@ -119,3 +119,19 @@ Cada detecção deveria registrar:
 - fonte/evidência.
 
 O sistema não deve produzir "AI score".
+
+## Biblioteca v2 (v0.4.0): como o detector decide
+
+O catálogo executável está em `voznativa/data/patterns_pt_br.yml`; cada padrão traz `rationale` (por que soa a fórmula), `legitimate` (quando manter) e `sources`. Casos positivos e falsos positivos em `evals/patterns/cases.jsonl`; um teste exige os dois para todo padrão.
+
+Ocorrência lexical isolada não é prova. O detector combina:
+
+- **gênero e canal**: `exempt` (legítimo ali) e `weak_in` (comum ali);
+- **posição**: abertura genérica só conta quando abre o parágrafo; fecho de efeito e "em suma" só no fim (e "em suma" só em texto curto);
+- **função**: guardas que reconhecem o uso legítimo — gerúndio durativo ancorado num horário, tríade depois de dois-pontos (lista anunciada), "ecossistema" em biologia, "jornada de trabalho", claim promocional atribuído a uma fonte;
+- **frequência**: padrões fracos que só viram fortes quando se repetem (tríades, gerúndio de consequência, pleonasmo, jargão);
+- **decisão**: um achado forte, ou fracos em número que cresce com o tamanho do texto (mínimo 2; um a cada 150 palavras). Limiar sem calibração.
+
+Famílias novas: ENEM-ismo fora da redação escolar (`enem_formula`), conectivo redundante (`connector_pleonasm`), gerúndio de consequência no fim da frase (`gerund_tail`), oficialês deslocado (`officialese`), fecho de efeito (`closing_formula`), tríade de abstratos (`formulaic_triad`), anáfora em série (`anaphora_run`), avaliativo repetido (`repeated_evaluation`), pleonasmo (`pleonasm`), jargão corporativo (`corporate_vague`) e decalque de construção do inglês (`calque_construction`).
+
+Limitações conhecidas: a regex não vê aspas, então uma fórmula citada é capturada; listas de verbos e adjetivos foram montadas pelo desenvolvedor; nada foi calibrado em corpus.

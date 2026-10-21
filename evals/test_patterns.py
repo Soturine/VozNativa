@@ -30,6 +30,26 @@ class PatternSuite(unittest.TestCase):
             for pid in expect.get("absent", []):
                 self.assertNotIn(pid, ids, case["id"])
 
+    def test_every_pattern_is_justified_and_has_both_kinds_of_case(self):
+        # v0.4.0 M1: a pattern needs a positive case, a false-positive case (a legitimate
+        # use it must leave alone), a rationale, a legitimate-use note and known sources.
+        from voznativa.patterns import catalog, sources
+        positive = {pid for c in CASES for pid in c["expect"].get("present", [])}
+        negative = {pid for c in CASES for pid in c["expect"].get("absent", [])}
+        negative |= {f["id"] for c in CASES if c["expect"].get("decision") == "no_change_candidate"
+                     for f in detect(c["text"], c["genre"])["findings"]}  # found but did not justify an edit
+        for pattern in catalog():
+            pid = pattern["id"]
+            self.assertIn(pid, positive, f"{pid} has no positive case")
+            self.assertIn(pid, negative, f"{pid} has no false-positive case")
+            self.assertTrue(pattern.get("rationale") and pattern.get("legitimate"), pid)
+            self.assertTrue(pattern.get("sources") and set(pattern["sources"]) <= set(sources()), pid)
+
+    def test_channel_exemptions_apply(self):
+        text = "oi! não hesite em me chamar se precisar"
+        self.assertIn("formulaic_courtesy", {f["id"] for f in detect(text, "corporate")["findings"]})
+        self.assertNotIn("formulaic_courtesy", {f["id"] for f in detect(text, "corporate", "whatsapp")["findings"]})
+
     def test_separates_ai_style_drafts_from_natural_texts(self):
         # Written by the developer, so this is a sanity check, not independent evidence.
         drafts = load_cases(ROOT / "benchmarks" / "cases" / "ptbr-ai-drafts-v1.jsonl")

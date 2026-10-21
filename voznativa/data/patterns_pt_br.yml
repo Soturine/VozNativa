@@ -1,41 +1,82 @@
-# Editorial patterns for PT-BR rewriting (v0.3.0 M2.1).
+# Editorial patterns for PT-BR rewriting (v0.3.0 M2.1; Pattern Library v2 in v0.4.0 M1).
 #
 # Descriptive findings that tell the rewriter WHERE a text reads as formula.
 # Never an authorship or "AI" score, never an optimization target.
 #
 # strength: strong = one occurrence justifies an edit; weak = only in company
-#   of other findings (see references/patterns/false-positives.md).
-# exempt: genres where the construction is legitimate and must be kept.
-# weak_in: genres where it is common enough to count as weak.
-# scope: sentence_start | anywhere | sentence | document (opener density).
-# Evidence: E1 (references/patterns/*.md, PT-BR writing guides); uncalibrated.
-schema_version: 1
-evidence: {level: E1, basis: "references/patterns/*.md", calibration: none}
+#   of other findings (and the company needed grows with the text length).
+# exempt / weak_in: genres or channels where the construction is legitimate or common.
+# scope: sentence_start | anywhere | sentence | document (opener density) | detector (code).
+# position: first | last | paragraph_first (where the construction is a formula).
+# guards (the construction has a real job here, so it is not reported):
+#   requires, skip_if_match (on the matched text), skip_if_sentence (on its sentence),
+#   skip_if_both: [match regex, sentence regex]; max_sentences: only in short texts.
+# strong_if_match: forms that are strong on their own; escalate: N repeats make it strong.
+# rationale: why it reads as formula; legitimate: when it must be kept; sources: keys below.
+# Evidence: E1 (writing guides, official manual, linguistics literature); uncalibrated.
+# Every pattern has positive and false-positive cases in evals/patterns/cases.jsonl.
+schema_version: 2
+evidence: {level: E1, basis: "references/patterns/*.md and the sources below", calibration: none}
+
+sources:
+  manual_redacao_pr: "Manual de Redação da Presidência da República, 3ª ed., 2018 (clareza, concisão; evitar 'a nível de', jargão burocrático)"
+  lei_linguagem_simples: "Lei nº 15.263/2025, Política Nacional de Linguagem Simples (frases curtas, ordem direta, palavras comuns): https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/Lei/L15263.htm"
+  languagetool_pt: "LanguageTool, módulo pt (style.xml, cliches.txt, redundancies.txt, weaselwords.txt, pt-BR/replace.txt), commit c203fb9 (2026-10-21), LGPL-2.1; consultado como referência, nada foi copiado"
+  torres_2009_ufc: "Torres, O gerúndio na expressão de tempo futuro: um estudo sociofuncionalista (dissertação, UFC, 2009): https://repositorio.ufc.br/handle/riufc/3599"
+  santos_2008_unb: "Santos, P. T. A. (dissertação, UnB, 2008), futuro simples, perifrástico e com gerúndio; estigma do gerundismo: https://www.repositorio.unb.br/bitstream/10482/3406/1/2008_PatriciaTavaresASantos_orig_completo.pdf"
+  enem_guias: "Guias de redação ENEM (Descomplica, Vestibulando Web, Estratégia): 'desde os primórdios' desaconselhado de forma consistente; 'hoje em dia' controverso; nenhum critério do INEP proíbe essas frases"
+  vozn_refs: "references/patterns/pt-br.md, rhetorical.md, false-positives.md (VozNativa)"
 
 patterns:
+  # --- ENEM-ismo e aberturas -------------------------------------------------------
   - id: opening_generic
     family: ENEM-ismo
     strength: strong
     scope: sentence_start
-    regex: "(?:no cenário atual|no contexto atual|nos dias (?:de )?hoje|na sociedade (?:atual|contemporânea|moderna)|em um mundo cada vez mais|num mundo cada vez mais|desde os primórdios|ao longo da história|hoje em dia, (?:é|está) cada vez mais)"
+    position: paragraph_first
+    regex: '(?:no cenário atual|no contexto atual|nos dias (?:de )?hoje|na sociedade (?:atual|contemporânea|moderna)|em um mundo cada vez mais|num mundo cada vez mais|desde os primórdios|ao longo da história|hoje em dia, (?:é|está) cada vez mais)'
     exempt: [literary]
+    weak_in: [essay]
     suggestion: "comece pela afirmação concreta; contexto genérico só se o argumento depender dele"
+    rationale: "abertura de redação escolar que adia a tese com um contexto que vale para qualquer tema"
+    legitimate: "fora da abertura do parágrafo, ou quando o período histórico é o próprio assunto"
+    sources: [enem_guias, vozn_refs]
 
+  - id: enem_formula
+    family: ENEM-ismo
+    strength: strong
+    scope: anywhere
+    regex: '\b(?:é notório que|é de suma importância|nesse viés|sob essa ótica|sob esse viés|hodiernamente|urge que|tal problemática|essa problemática|a fim de mitigar|faz-se necessári[oa] (?:a|o) (?:criação|implementação|adoção|ampliação))\b'
+    weak_in: [academic, essay]
+    exempt: [literary]
+    suggestion: "diga a ideia com palavras comuns: 'é notório que X' -> 'X'; 'tal problemática' -> o nome do problema"
+    rationale: "repertório decorado de redação de vestibular; aparece longe do gênero que o motivou"
+    legitimate: "na própria redação dissertativa escolar, onde a banca espera esse registro (gênero essay)"
+    sources: [enem_guias]
+
+  # --- Metadiscurso e conectivos ---------------------------------------------------
   - id: empty_metadiscourse
     family: metadiscurso vazio
     strength: strong
     scope: anywhere
-    regex: "(?:é (?:importante|fundamental|válido|interessante|relevante) (?:destacar|ressaltar|mencionar|lembrar|salientar|frisar|notar|observar)|vale (?:a pena )?(?:ressaltar|destacar|lembrar|mencionar|salientar)|cabe (?:destacar|ressaltar|mencionar|salientar|lembrar)|convém (?:destacar|ressaltar|lembrar)|não podemos deixar de (?:mencionar|destacar))(?: que)?"
+    regex: '(?:é (?:importante|fundamental|válido|interessante|relevante) (?:destacar|ressaltar|mencionar|lembrar|salientar|frisar|notar|observar)|vale (?:a pena )?(?:ressaltar|destacar|lembrar|mencionar|salientar)|cabe (?:destacar|ressaltar|mencionar|salientar|lembrar)|convém (?:destacar|ressaltar|lembrar)|não podemos deixar de (?:mencionar|destacar))(?: que)?'
     weak_in: [academic]
     suggestion: "remova o marcador e mantenha o conteúdo que ele introduz"
+    rationale: "anuncia importância em vez de mostrá-la; a frase seguinte não perde informação sem ele"
+    legitimate: "em texto acadêmico, para sinalizar ressalva metodológica"
+    sources: [vozn_refs, lei_linguagem_simples]
 
   - id: stacked_connector
     family: conectivos empilhados
     strength: weak
     scope: sentence_start
-    regex: "(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|diante desse cenário|sendo assim|posto isso|por conseguinte)\\s*,"
+    regex: '(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|diante desse cenário|sendo assim|posto isso|por conseguinte)\s*,'
+    exempt: [essay]
     weak_in: [academic, legal]
     suggestion: "use conectivo só quando a relação lógica não é óbvia; prefira encadear pelo conteúdo"
+    rationale: "conectivo de abertura sem relação lógica real, usado como marcador de parágrafo"
+    legitimate: "quando a relação (adição, consequência) não é óbvia pelo conteúdo"
+    sources: [vozn_refs]
 
   - id: connector_density
     family: conectivos empilhados
@@ -43,93 +84,274 @@ patterns:
     scope: document
     min_sentences: 3
     threshold: 0.34
-    regex: "(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|sendo assim|posto isso|por fim|em suma|em resumo|portanto|assim)\\s*,"
+    regex: '(?:além disso|ademais|outrossim|nesse sentido|nesse contexto|neste contexto|dessa forma|desse modo|diante disso|sendo assim|posto isso|por fim|em suma|em resumo|portanto|assim)\s*,'
     exempt: [legal]
+    weak_in: [essay]
     suggestion: "mais de um terço das frases abre com conectivo; corte os que não carregam relação lógica"
+    rationale: "a densidade, não o conectivo isolado, é o que soa mecânico"
+    legitimate: "redação ENEM avalia coesão explícita (competência 4); texto jurídico encadeia por obrigação"
+    sources: [vozn_refs, enem_guias]
 
-  - id: gerundismo
-    family: gerundismo
+  - id: connector_pleonasm
+    family: conectivos empilhados
     strength: strong
     scope: anywhere
-    regex: "\\b(?:vamos|vou|iremos|irei|vai|vão|estaremos|estarei|estará|estarão)\\s+(?:estar\\s+)?(?:\\w+ndo)\\b"
-    requires: "estar|estaremos|estarei|estará|estarão"
+    regex: '\b(?:mas,? porém|mas,? contudo|mas,? todavia|mas,? entretanto|no entanto,? porém|porém,? no entanto|contudo,? porém|portanto,? (?:logo|assim)\b|logo,? portanto|além disso,? ademais|ademais,? além disso)\b'
+    suggestion: "um conectivo basta: 'mas, porém' -> 'mas'"
+    rationale: "dois conectivos com a mesma função lado a lado; redundância clássica"
+    legitimate: "citação literal de fala"
+    sources: [languagetool_pt, manual_redacao_pr]
+
+  # --- Gerundismo e gerúndio de consequência ----------------------------------------
+  - id: gerundismo
+    family: gerundismo
+    strength: weak
+    scope: anywhere
+    regex: '\b(?:vamos|vou|iremos|irei|vai|vão|estaremos|estarei|estará|estarão)\s+(?:estar\s+)?(?:\w+ndo)\b'
+    requires: 'estar|estaremos|estarei|estará|estarão'
+    strong_if_match: '\b(?:enviando|encaminhando|realizando|transferindo|verificando|analisando|providenciando|retornando|agendando|efetuando|ligando|resolvendo|cancelando|liberando|disponibilizando|atualizando|informando|confirmando|processando|avaliando|passando|entrando|retornando|solicitando|repassando|anotando)\b'
+    skip_if_both:
+      - '\b(?:viajando|trabalhando|dormindo|esperando|dirigindo|estudando|morando|almoçando|jantando|voando|chegando|treinando|descansando|acompanhando|participando)\b'
+      - '(?:\bàs? \d|\bas \d|\b(?:quando|enquanto|nesse horário|neste horário|nessa hora|durante|amanhã (?:de|à) (?:manhã|tarde|noite)|o dia (?:todo|inteiro)|a semana (?:toda|inteira))\b)'
     suggestion: "troque por futuro simples ou presente: 'estaremos realizando' -> 'vamos realizar' / 'realizamos'"
+    rationale: "futuro com estar + gerúndio para ação pontual (enviar, verificar) — o gerundismo estigmatizado do atendimento"
+    legitimate: "ação durativa num ponto do futuro: 'às 10h vou estar viajando' (aspecto progressivo real)"
+    sources: [torres_2009_ufc, santos_2008_unb, languagetool_pt]
+
+  - id: gerund_tail
+    family: gerúndio de consequência
+    strength: weak
+    scope: anywhere
+    regex: ',\s+(?:garantindo|proporcionando|possibilitando|permitindo|contribuindo|promovendo|gerando|tornando|fortalecendo|reforçando|evidenciando|ressaltando|destacando|impulsionando|otimizando|potencializando|consolidando|assegurando|resultando|elevando)\b[^.;!?]*[.!?]?$'
+    escalate: 2
+    exempt: [literary]
+    suggestion: "transforme a oração de gerúndio numa frase própria com sujeito, ou corte o benefício que não tem fato por trás"
+    rationale: "oração de gerúndio pendurada no fim que anuncia um efeito positivo genérico ('..., garantindo mais eficiência')"
+    legitimate: "consequência específica e sustentada, ou descrição técnica de comportamento ('..., retornando 404')"
+    sources: [vozn_refs, manual_redacao_pr]
+
+  # --- Oficialês, nominalização e verbos-suporte ------------------------------------
+  - id: officialese
+    family: oficialês
+    strength: strong
+    scope: anywhere
+    regex: '\b(?:destarte|mister se faz|faz-se mister|no que tange (?:a|ao|à|aos|às)|no que concerne (?:a|ao|à|aos|às)|em tempo hábil|ao ensejo|sem mais para o momento|a nível de|vimos por meio des[st]e|cumpre informar|encaminhamos para (?:apreciação|conhecimento)|supracitad[oa]s?|retromencionad[oa]s?)\b'
+    strong_if_match: 'a nível de'
+    exempt: [legal]
+    weak_in: [corporate, email, academic, journalistic, technical, documentation]
+    suggestion: "diga com palavras comuns: 'no que tange a' -> 'sobre'; 'em tempo hábil' -> 'a tempo'; 'a nível de' -> 'em' ou corte"
+    rationale: "registro de ofício transplantado para canais que não pedem formalidade"
+    legitimate: "documento oficial, normativo ou jurídico, onde o registro é convenção"
+    sources: [manual_redacao_pr, lei_linguagem_simples, vozn_refs]
 
   - id: support_verb
     family: oficialês
     strength: weak
     scope: anywhere
-    regex: "\\b(?:realizar|realizamos|realizaremos|realizou|efetuar|efetuamos|efetuou|efetuado|proceder|procederemos|promover|promovemos)\\s+(?:a|o|à|ao|uma|um)\\s+\\w+(?:ção|ções|mento|mentos|agem|são)\\b"
+    regex: '\b(?:realizar|realizamos|realizaremos|realizou|efetuar|efetuamos|efetuou|efetuado|proceder|procederemos|promover|promovemos|fazer|faremos|fez|dar|daremos|deu)\s+(?:a|o|à|ao|uma|um)\s+\w+(?:ção|ções|mento|mentos|agem|são)\s+d[aoe]s?\b'
+    skip_if_match: '\b(?:fazer|faremos|fez|dar|daremos|deu)\s+(?:a|o|uma|um)\s+(?:reunião|apresentação|sessão|viagem|declaração|doação|oração|inscrição)\b'
     exempt: [legal]
     weak_in: [academic, corporate]
-    suggestion: "use o verbo pleno: 'realizar a validação' -> 'validar'"
+    escalate: 3
+    suggestion: "use o verbo pleno: 'realizar a validação dos dados' -> 'validar os dados'"
+    rationale: "verbo genérico + substantivo derivado + 'de' onde há um verbo pleno equivalente"
+    legitimate: "colocações fixas ('fazer uma reunião', 'tomar uma decisão'); texto normativo"
+    sources: [languagetool_pt, manual_redacao_pr]
 
   - id: nominal_chain
     family: nominalização
     strength: weak
     scope: anywhere
-    regex: "\\b\\w+(?:ção|mento)\\s+d[aoe]s?\\s+\\w+(?:ção|mento)\\b"
+    regex: '\b\w+(?:ção|mento)\s+d[aoe]s?\s+\w+(?:ção|mento)\b'
     exempt: [legal, academic, technical]
     suggestion: "desfaça a cadeia de substantivos abstratos com um verbo"
+    rationale: "cadeia de abstratos ('implementação da validação') esconde quem faz o quê"
+    legitimate: "terminologia fixa e textos normativos ou acadêmicos"
+    sources: [vozn_refs, lei_linguagem_simples]
 
+  # --- Cortesia, fechamento e falsa profundidade -------------------------------------
   - id: formulaic_courtesy
     family: fórmulas de cortesia
     strength: weak
     scope: anywhere
-    regex: "(?:desde já,? agrade(?:ço|cemos)|agradecemos imensamente|lamentamos profundamente|não hesite em|estamos sempre à disposição|gostar(?:ia|íamos) de informar que|venho por meio desta)"
+    regex: '(?:desde já,? agrade(?:ço|cemos)|agradecemos imensamente|lamentamos profundamente|não hesite em|estamos sempre à disposição|gostar(?:ia|íamos) de informar que|venho por meio desta|solicitamos a gentileza de)'
     exempt: [whatsapp, literary]
     suggestion: "diga a informação primeiro; uma fórmula de cortesia basta"
-
-  - id: calque_email
-    family: tradução literal
-    strength: strong
-    scope: anywhere
-    regex: "(?:espero que (?:esta|essa|este|esse) (?:mensagem|e-?mail) (?:o|a|os|as|te|lhe|lhes)?\\s*encontre bem|no final do dia(?=,)|endereçar (?:o|a|os|as|este|esse|essa|esta) (?:problema|questão|questões|demanda|ponto))"
-    suggestion: "use a forma brasileira: 'espero que esteja bem', 'no fim das contas', 'resolver o problema'"
-
-  - id: promotional
-    family: linguagem promocional
-    strength: weak
-    scope: anywhere
-    regex: "\\b(?:revolucionári[oa]s?|disruptiv[oa]s?|de última geração|de ponta|sem precedentes|transformador[a]?|transformadora|incríve(?:l|is)|poderos[oa]s?|inovador[a]?(?:es)?|game[- ]changer)\\b"
-    exempt: [literary]
-    suggestion: "troque o adjetivo pelo fato que o sustentaria ou corte"
-
-  - id: dramatic_punchline
-    family: falsa profundidade
-    strength: strong
-    scope: sentence
-    regex: "^(?:e isso muda tudo|simples assim|esse é o ponto|pense nisso|é isso|fica a dica|ninguém fala sobre isso[^.!?]*)[.!]?$"
-    exempt: [literary]
-    suggestion: "corte a frase de efeito ou troque pela consequência concreta"
-
-  - id: contrast_formula
-    family: contraste teatral
-    strength: weak
-    scope: anywhere
-    regex: "(?:não (?:é|se trata) (?:apenas |só |somente )?(?:sobre|de) [^.;]{1,40}[,.;]\\s*(?:é|mas|e sim) (?:sobre|de)|mais do que [^.;]{1,30}, (?:é|trata-se))"
-    exempt: [literary]
-    suggestion: "diga a afirmação diretamente; mantenha o contraste só se alguém de fato pensa o contrário"
+    rationale: "fórmula protocolar que atrasa a informação"
+    legitimate: "uma cortesia final em e-mail; carta formal"
+    sources: [manual_redacao_pr, vozn_refs]
 
   - id: generic_closing
     family: conclusão genérica
     strength: weak
     scope: sentence_start
-    regex: "(?:em suma|em resumo|diante do exposto|conclui-se,? portanto|por fim, mas não menos importante|em última análise)\\b"
+    position: last
+    max_sentences: 12
+    regex: '(?:em suma|em resumo|diante do exposto|conclui-se,? portanto|por fim, mas não menos importante|em última análise)\b'
     exempt: [academic, legal]
     suggestion: "termine no último fato ou na ação esperada; não repita a tese"
+    rationale: "resumo de um texto curto que o leitor acabou de ler"
+    legitimate: "fecho de documento longo, onde o resumo orienta; conclusão acadêmica"
+    sources: [vozn_refs]
+
+  - id: closing_formula
+    family: conclusão genérica
+    strength: strong
+    scope: sentence
+    position: last
+    regex: '^(?:espero ter ajudado|o futuro (?:é|já é|começa) agora|juntos,? somos mais fortes|fica a reflexão|o sucesso é uma jornada[^.!?]*|o resto é história|vamos juntos\b[^.!?]*|e é isso aí)[.!]*$'
+    exempt: [literary]
+    weak_in: [email, whatsapp]
+    suggestion: "termine na informação ou no próximo passo concreto"
+    rationale: "frase final de efeito que serve a qualquer texto"
+    legitimate: "despedida pessoal em mensagem curta (weak em e-mail e WhatsApp); ficção"
+    sources: [vozn_refs]
+
+  - id: dramatic_punchline
+    family: falsa profundidade
+    strength: strong
+    scope: sentence
+    regex: '^(?:e isso muda tudo|simples assim|esse é o ponto|pense nisso|é isso|fica a dica|ninguém fala sobre isso[^.!?]*)[.!]?$'
+    exempt: [literary]
+    suggestion: "corte a frase de efeito ou troque pela consequência concreta"
+    rationale: "frase curta de impacto que não acrescenta fato"
+    legitimate: "ficção e crônica, onde o ritmo é o conteúdo"
+    sources: [vozn_refs]
+
+  - id: contrast_formula
+    family: contraste teatral
+    strength: weak
+    scope: anywhere
+    regex: '(?:não (?:é|se trata) (?:apenas |só |somente )?(?:sobre|de) [^.;]{1,40}[,.;]\s*(?:é|mas|e sim) (?:sobre|de)|mais do que [^.;]{1,30}, (?:é|trata-se))'
+    exempt: [literary]
+    escalate: 2
+    suggestion: "diga a afirmação diretamente; mantenha o contraste só se alguém de fato pensa o contrário"
+    rationale: "corrige uma posição que ninguém defendeu para parecer profundo"
+    legitimate: "quando o texto responde a uma visão real e atribuída"
+    sources: [vozn_refs]
 
   - id: engagement_question
     family: isca de engajamento
     strength: weak
     scope: sentence
-    regex: "^(?:e você|qual (?:foi|é) (?:o|a) (?:seu|sua|maior)|o que você acha|concorda)[^?]{0,120}\\?$"
+    position: last
+    regex: '^(?:e você|qual (?:foi|é) (?:o|a) (?:seu|sua|maior)|o que você acha|concorda)[^?]{0,120}\?$'
     exempt: [whatsapp, email, literary]
     suggestion: "termine na ideia; pergunte só se a resposta importa"
+    rationale: "pergunta final genérica para gerar comentários"
+    legitimate: "pergunta real a um destinatário (e-mail, chat)"
+    sources: [vozn_refs]
+
+  # --- Paralelismo, tríades e repetição ---------------------------------------------
+  - id: formulaic_triad
+    family: paralelismo formulaico
+    strength: weak
+    scope: detector
+    detector: triad
+    escalate: 2
+    evaluative: [robusto, robusta, eficiente, escalável, ágil, moderno, moderna, inovador, inovadora, seguro, segura, simples, intuitivo, intuitiva, completo, completa, sustentável, estratégico, estratégica, dinâmico, dinâmica, eficaz, confiável, transparente, colaborativo, colaborativa]
+    exempt: [legal, literary]
+    weak_in: [academic]
+    suggestion: "fique com o item que o texto sustenta com fato; tríade de abstratos soa como slogan"
+    rationale: "três abstratos ou adjetivos avaliativos em série ('eficiência, agilidade e inovação'), sobretudo repetido"
+    legitimate: "lista real anunciada por dois-pontos; itens concretos; princípios nomeados em lei"
+    sources: [vozn_refs]
+
+  - id: anaphora_run
+    family: paralelismo formulaico
+    strength: weak
+    scope: detector
+    detector: anaphora
+    min_run: 3
+    ignore_openers: ["o", "a", "os", "as", "um", "uma", "e", "de", "em", "no", "na", "se", "para", "com", "por", "eu", "ele", "ela", "nós", "você"]
+    exempt: [literary, legal, documentation]
+    suggestion: "varie a entrada das frases ou junte-as; a repetição só funciona como recurso deliberado"
+    rationale: "três ou mais frases seguidas com a mesma palavra inicial ('É sobre... É sobre... É sobre...')"
+    legitimate: "anáfora retórica deliberada em discurso ou literatura; passos numerados"
+    sources: [vozn_refs]
+
+  - id: repeated_evaluation
+    family: repetição
+    strength: weak
+    scope: detector
+    detector: repeated_evaluation
+    min_count: 3
+    evaluative: [importante, fundamental, essencial, crucial, significativo, significativa, relevante, incrível, extremamente, realmente, estratégico, estratégica, eficiente, inovador, inovadora, transformador, transformadora]
+    exempt: [literary]
+    suggestion: "use o adjetivo uma vez, ou troque pela razão concreta da importância"
+    rationale: "o mesmo avaliativo repetido não informa nada depois da primeira vez"
+    legitimate: "termo técnico com sentido próprio ('fundamental' em física)"
+    sources: [vozn_refs]
+
+  - id: pleonasm
+    family: redundância
+    strength: weak
+    scope: anywhere
+    regex: '\b(?:sub(?:ir|iu|a|indo) para cima|desc(?:er|eu|a|endo) para baixo|entr(?:ar|ou|e) para dentro|sa(?:ir|iu|ia) para fora|elo de ligação|encar(?:ar|ou|e) de frente|há \w+ (?:anos|meses|dias|semanas) atrás|surpresa inesperada|planej(?:ar|amos|ou) antecipadamente|conviver junto|repet(?:ir|iu|e) de novo|consenso geral|fato real|outra alternativa|acabamento final|ganh(?:ar|e|ou) grátis|monopólio exclusivo|criar novas? (?:inovações)|exultar de alegria|gritar alto|metades iguais)\b'
+    exempt: [whatsapp, literary]
+    escalate: 2
+    suggestion: "corte a parte redundante: 'há dois anos atrás' -> 'há dois anos'"
+    rationale: "a segunda parte repete o que a primeira já diz"
+    legitimate: "fala informal, ênfase deliberada, citação"
+    sources: [languagetool_pt, manual_redacao_pr]
+
+  # --- Linguagem promocional e corporativa vaga --------------------------------------
+  - id: promotional
+    family: linguagem promocional
+    strength: weak
+    scope: anywhere
+    regex: '\b(?:revolucionári[oa]s?|disruptiv[oa]s?|de última geração|de ponta|sem precedentes|transformador[a]?|transformadora|incríve(?:l|is)|poderos[oa]s?|inovador[a]?(?:es)?|game[- ]changer|experiência única|solução completa|imperdíve(?:l|is)|sem igual|líder de mercado|o melhor do mercado)\b'
+    skip_if_sentence: '(?:segundo|de acordo com|conforme) (?:o|a) [A-ZÀ-Ý]|"[^"]*\b(?:revolucion|inovador|incríve)'
+    exempt: [literary]
+    escalate: 3
+    suggestion: "troque o adjetivo pelo fato que o sustentaria ou corte"
+    rationale: "qualifica sem dar o fato que justificaria a qualificação"
+    legitimate: "citação, branding ou claim atribuído e sustentado"
+    sources: [vozn_refs, languagetool_pt]
+
+  - id: corporate_vague
+    family: linguagem corporativa vaga
+    strength: weak
+    scope: anywhere
+    regex: '\b(?:alavanc(?:ar|amos|ou|ando|a)|sinergias?|agregar valor|entregar valor|mindset|ressignific(?:ar|ou|ando|a)|potencializar (?:resultados|ganhos|negócios)|fora da caixa|virar a chave|sair da zona de conforto|fazer acontecer|de ponta a ponta|360 graus|next level|ecossistema|jornada)\b'
+    skip_if_both:
+      - '\b(?:ecossistema|jornada)\b'
+      - '\b(?:biol\w*|espécies?|ambienta\w*|marinh\w*|florest\w*|recife|bioma|jornada de trabalho|jornadas? de \d|horas|dupla jornada|turno|viagem|peregrin\w*)\b'
+    exempt: [literary]
+    escalate: 2
+    suggestion: "diga o que muda, para quem e quanto; o jargão não diz"
+    rationale: "jargão de apresentação corporativa que soa a conteúdo sem afirmar nada verificável"
+    legitimate: "termo técnico do domínio (ecossistema em biologia, jornada de trabalho)"
+    sources: [vozn_refs]
 
   - id: double_hedge
     family: hedging empilhado
     strength: strong
     scope: anywhere
-    regex: "\\b(?:pode potencialmente|possivelmente pode|talvez possa|pode eventualmente|poderia talvez|provavelmente pode)\\b"
+    regex: '\b(?:pode potencialmente|possivelmente pode|talvez possa|pode eventualmente|poderia talvez|provavelmente pode)\b'
     suggestion: "um marcador de incerteza basta"
+    rationale: "dois marcadores de incerteza para a mesma afirmação"
+    legitimate: "quase nunca; mantenha só se a dupla incerteza for informação"
+    sources: [vozn_refs]
+
+  # --- Tradução literal ---------------------------------------------------------------
+  - id: calque_email
+    family: tradução literal
+    strength: strong
+    scope: anywhere
+    regex: '(?:espero que (?:esta|essa|este|esse) (?:mensagem|e-?mail) (?:o|a|os|as|te|lhe|lhes)?\s*encontre bem|no final do dia(?=,)|endereçar (?:o|a|os|as|este|esse|essa|esta) (?:problema|questão|questões|demanda|ponto))'
+    suggestion: "use a forma brasileira: 'espero que esteja bem', 'no fim das contas', 'resolver o problema'"
+    rationale: "decalque de fórmulas do inglês ('hope this email finds you well', 'at the end of the day', 'address')"
+    legitimate: "citação"
+    sources: [vozn_refs]
+
+  - id: calque_construction
+    family: tradução literal
+    strength: strong
+    scope: anywhere
+    regex: '\b(?:realiz(?:ei|ou|amos|aram|ar) que|aplic(?:ar|ou|ando|amos|uei) (?:para|pra) (?:uma |a |o )?(?:vaga|posição|cargo|bolsa)|em ordem a|sinta-se livre para|tom(?:a|ou|ará|aram|ar|ando) lugar(?! de)|não poderia estar mais (?:feliz|animad[oa]|orgulhos[oa]|grat[oa])|é tudo sobre)\b'
+    exempt: [literary]
+    suggestion: "use a construção brasileira: 'realizei que' -> 'percebi que'; 'aplicar para a vaga' -> 'me candidatar à vaga'; 'tomou lugar' -> 'aconteceu'"
+    rationale: "estrutura do inglês com palavra portuguesa de outro sentido (realize, apply for, take place, feel free)"
+    legitimate: "'tomar o lugar de' (substituir) e 'realizar' no sentido de executar não são capturados"
+    sources: [languagetool_pt, vozn_refs]
