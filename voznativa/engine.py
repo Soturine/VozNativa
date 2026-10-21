@@ -224,7 +224,8 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit)
     genre = context["genre"]["value"]
-    before = patterns_mod.detect(text, genre) if context["task"] != "create" else None
+    channel = context["channel"]["value"] if context["channel"]["source"] == "explicit" else None
+    before = patterns_mod.detect(text, genre, channel) if context["task"] != "create" else None
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else []
     # A text can be free of editorial problems and still not be what was asked
     # for (an e-mail requested as a WhatsApp message): only skip the model when
@@ -290,7 +291,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     def quality(final: str) -> dict | None:
         if before is None:
             return None
-        after = patterns_mod.detect(final, genre)
+        after = patterns_mod.detect(final, genre, channel)
         new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
         out = {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
                "model_called": True}
