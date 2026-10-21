@@ -14,7 +14,6 @@ as kind=llm and never counts as human review.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
@@ -28,6 +27,8 @@ sys.path.insert(0, str(ROOT))
 from voznativa.benchmark import load_cases  # noqa: E402
 from voznativa.engine import rewrite  # noqa: E402
 from voznativa.providers import CommandProvider  # noqa: E402
+from voznativa.redact import new_key, redact_argv, scrub_message, scrub_secrets  # noqa: E402
+from voznativa.redact import shield as keyed_shield  # noqa: E402
 from voznativa.router import route  # noqa: E402
 
 
@@ -55,7 +56,9 @@ def main() -> int:
     parser.add_argument("--attempts", type=int, default=2)
     parser.add_argument("--timeout", type=float, default=300.0)
     parser.add_argument("--redact", action="store_true",
-                        help="store only hashes, lengths and metrics, never texts or raw model answers")
+                        help="store only keyed hashes, lengths and metrics, never texts or raw model answers")
+    parser.add_argument("--redact-key", help="file with the hex key for --redact hashes (created if missing); "
+                                             "keep it to compare runs. Without it the key is random and not stored")
     args = parser.parse_args()
 
     def git(*a):
@@ -83,24 +86,45 @@ def main() -> int:
             "kind": "voznativa.llm_integration_run",
             "kind_of_evidence": "real external model call; not deterministic; not human review",
             "run_at": stamp,
-            "command": json.loads(args.cmd),
+            # Credentials in the command are masked with or without --redact.
+            "command": redact_argv(json.loads(args.cmd)),
             "model_label": args.model_label,
             "cli_version": version,
             "voznativa_code": code_state,
-            "cases_file": cases_path.relative_to(ROOT).as_posix() if cases_path.is_relative_to(ROOT) else str(cases_path),
+            "cases_file": cases_file,
             "attempts_allowed": args.attempts,
             "complete": len(rows) == total,
             "redacted": args.redact,
+            **({"redaction": {"texts": "HMAC-SHA256 and length; the key is not in this report",
+                              "key": "--redact-key file" if args.redact_key else "random, discarded after the run",
+                              "free_text": "errors scrubbed of secrets, quotes and sentences of the texts",
+                              "command": "credential values masked"}} if args.redact else {}),
             "summary": {o: sum(1 for r in rows if r["outcome"] == o) for o in sorted({str(r["outcome"]) for r in rows})},
             "results": rows,
         }
         path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    key = new_key()
+    if args.redact and args.redact_key:
+        key_file = Path(args.redact_key)
+        if not key_file.exists():
+            key_file.write_text(key.hex(), encoding="ascii")
+        key = bytes.fromhex(key_file.read_text(encoding="ascii").strip())
+
     def shield(text):
-        """With --redact, replace a text by its hash and length (privacy for real user texts)."""
-        if not args.redact or text is None:
-            return text
-        return {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(), "chars": len(text)}
+        """With --redact, replace a text by a keyed hash and its length.
+        Without it the text is kept, but credentials in it are still masked."""
+        if args.redact:
+            return keyed_shield(text, key)
+        return scrub_secrets(text) if text else text
+
+    def free_text(message, texts):
+        """Errors can echo the texts or a credential: scrub them."""
+        return scrub_message(message, texts) if args.redact else scrub_secrets(message) if message else message
+
+    in_root = cases_path.is_relative_to(ROOT)
+    cases_file = (cases_path.name if args.redact else
+                  cases_path.relative_to(ROOT).as_posix() if in_root else str(cases_path))
 
     cases = load_cases(cases_path)
     total = len(cases)
@@ -115,19 +139,24 @@ def main() -> int:
         except Exception as exc:  # recorded, never hidden
             result, error = None, f"{type(exc).__name__}: {exc}"
         report = (result or {}).get("report") or {}
+        seen = [case["text"], (result or {}).get("text") or ""] + [a for c in writer.log + judge.log
+                                                                     for a in c["answers"]]
         rows.append({
             "id": case["id"],
             "original": shield(case["text"]),
             "outcome": (result or {}).get("outcome"),
             "final_text": shield((result or {}).get("text")),
             "final_status": report.get("status"),
-            "attempts": [{k: v for k, v in a.items() if not (args.redact and k == "preview")}
+            "attempts": [{k: scrub_secrets(v) if k == "preview" else v for k, v in a.items()
+                          if not (args.redact and k == "preview")}
                          for a in (result or {}).get("attempts") or []],
-            "judgments": [{k: j.get(k) for k in ("kind", "judge_id", "verdict", "downgraded")}
+            "judgments": [{k: scrub_secrets(str(j.get(k))) if k == "judge_id" else j.get(k)
+                           for k in ("kind", "judge_id", "verdict", "downgraded")}
                           for j in (report.get("evidence") or {}).get("judgments", [])],
-            "judge_error": report.get("judge_error"),
+            "judge_error": free_text(report.get("judge_error"), seen),
             "quality": (result or {}).get("quality"),
-            "error": error,
+            "reason": free_text((result or {}).get("reason"), seen),
+            "error": free_text(error, seen),
             "seconds": round(time.monotonic() - started, 1),
             "calls": [{**c, "answers": [shield(a) for a in c["answers"]]} for c in writer.log + judge.log],
         })

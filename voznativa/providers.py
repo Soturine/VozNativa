@@ -63,7 +63,9 @@ class CommandProvider:
     def __post_init__(self):
         if not self.argv:
             raise ValueError("command provider needs a command")
-        self.id = self.id or "command:" + " ".join(self.argv[:3])
+        from .redact import redact_argv
+        # The id is recorded in reports; never let a credential in argv reach it.
+        self.id = self.id or "command:" + " ".join(redact_argv(self.argv)[:3])
 
     @classmethod
     def from_string(cls, command: str, timeout: float = 300.0) -> "CommandProvider":
@@ -87,8 +89,9 @@ class CommandProvider:
         except (OSError, subprocess.TimeoutExpired) as error:
             raise ProviderError(f"{self.id}: {error}") from error
         if done.returncode != 0:
+            from .redact import scrub_secrets
             raise ProviderError(f"{self.id} exited {done.returncode}: "
-                                f"{done.stderr.decode('utf-8', 'replace')[:500]}")
+                                f"{scrub_secrets(done.stderr.decode('utf-8', 'replace'))[:500]}")
         return done.stdout.decode("utf-8", "replace")
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
