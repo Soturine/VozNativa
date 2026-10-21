@@ -95,6 +95,17 @@ class StaticProvider:
         return out
 
 
+def _decode(data: bytes) -> str:
+    """UTF-8 when it is valid; otherwise the locale encoding. On Windows a
+    command that prints through the console code page (cp1252/cp850) would
+    otherwise turn every accent into U+FFFD."""
+    try:
+        return data.decode("utf-8")
+    except UnicodeDecodeError:
+        import locale
+        return data.decode(locale.getpreferredencoding(False) or "utf-8", "replace")
+
+
 def _kill_tree(process: subprocess.Popen) -> None:
     """Stop the process and whatever it started (agent CLIs spawn helpers)."""
     try:
@@ -191,7 +202,7 @@ class CommandProvider:
             if size > self.max_output_bytes:
                 raise ProviderError(f"{self.id}: answer of {size} bytes exceeds {self.max_output_bytes}",
                                     transient=False)
-            answer = Path(out_path).read_bytes().decode("utf-8", "replace")
+            answer = _decode(Path(out_path).read_bytes())
         if not answer.strip():
             raise ProviderError(f"{self.id}: empty answer")
         return answer
