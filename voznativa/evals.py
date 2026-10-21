@@ -121,3 +121,39 @@ def run(path: Path, require_frozen: bool = False) -> dict:
         "by_category": {c: f"{passed[c]}/{n}" for c, n in sorted(by_category.items())},
         "failures": failures,
     }
+
+
+# --- Engine decision suite (v0.4.0 M4) ----------------------------------------------
+
+def check_decision(case: dict) -> dict:
+    """Does the planner call the model (edit/transform) when it should, stay
+    out (no_change) when it should, and leave the listed sentences alone?"""
+    from .planner import plan
+    from .router import route
+    hints = case.get("hints") or {}
+    context = route(case["text"], genre=case.get("genre"), **hints)
+    p = plan(case["text"], context)
+    expect = case["expect"]
+    problems = []
+    if p["decision"] != expect["decision"]:
+        problems.append(f"decision {p['decision']} != {expect['decision']}")
+    ops = {r["index"]: r["op"] for r in p["sentences"]}
+    for index in expect.get("keep", []):
+        if ops.get(index) != "keep":
+            problems.append(f"sentence {index} planned as {ops.get(index)}, should be kept")
+    called, should_call = p["decision"] != "no_change", expect["decision"] != "no_change"
+    kind = None
+    if problems:
+        kind = ("unnecessary_change" if called and not should_call else
+                "missed_change" if should_call and not called else
+                "wrong_scope" if p["decision"] != expect["decision"] else "unplanned_sentence")
+    return {"id": case["id"], "decision": p["decision"], "scope": p["scope"], "passed": not problems,
+            "problems": problems, **({"failure_kind": kind} if kind else {})}
+
+
+def run_decisions(path: Path) -> dict:
+    results = [check_decision(c) for c in load(path)]
+    kinds = Counter(r["failure_kind"] for r in results if not r["passed"])
+    return {"kind": "voznativa.decision_eval_report", "suite": str(path.name), "cases": len(results),
+            "passed": sum(r["passed"] for r in results), "failure_kinds": dict(sorted(kinds.items())),
+            "failures": [r for r in results if not r["passed"]]}

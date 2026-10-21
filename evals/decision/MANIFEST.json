@@ -7,7 +7,41 @@
       "independent": false,
       "frozen": true,
       "sha256": "e3667c609cc8e1ed3d6347d26e685c8d528fb5a285863a1c654f168938427019",
-      "first_run": null
+      "first_run": {
+        "date": "2026-10-21",
+        "v0.4.0": {
+          "code": "cd84e53 + runner",
+          "passed": 27,
+          "cases": 30,
+          "model_call_correct": 28,
+          "failures": {
+            "dc-004": "unnecessary_change (documentation label read as a change from technical)",
+            "dc-021": "wrong_scope (transform instead of edit; the model is called either way)",
+            "dc-029": "unnecessary_change (two weak findings in a text just under 300 words: the uncalibrated length threshold)"
+          }
+        },
+        "v0.3.0": {
+          "code": "0ba7bc2 (detector decision + explicit register, its rule for calling the model)",
+          "model_call_correct": 22,
+          "cases": 30,
+          "failures": {
+            "unnecessary_change": [
+              "dc-007",
+              "dc-009"
+            ],
+            "missed_change": [
+              "dc-016",
+              "dc-018",
+              "dc-019",
+              "dc-020",
+              "dc-023",
+              "dc-025"
+            ]
+          },
+          "note": "v0.3.0 has no scope or kept-sentence plan, so only the model-call decision is comparable"
+        },
+        "bias": "the cases were written by the developer of the v0.4.0 rules, after writing them; the comparison favors v0.4.0"
+      }
     }
   }
 }
