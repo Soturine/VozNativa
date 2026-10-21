@@ -173,3 +173,14 @@ Leitura:
 ### Instrumentos avaliados e não adotados
 
 LanguageTool 6.6 (`evals/experiments/languagetool_probe.json`): em 86 reescritas reais, o único erro "introduzido" era falso positivo; nos originais, 16 de 17 alertas eram termos técnicos ou estilo de chat. Não adotado; a verificação de dia da semana x data, o único acerto útil, virou regra determinística do planejador (só com ano explícito).
+
+### Latência do pipeline determinístico (mesma máquina, medições sequenciais; `evals/perf/`)
+
+| Palavras | `detect` v0.3.0 → v0.4.0 | `compare` v0.3.0 → v0.4.0 | `plan` (novo) |
+|---|---|---|---|
+| 101 | 0,0005 → 0,002 s | 0,11 → 0,08 s | 0,04 s |
+| 505 | 0,002 → 0,008 s | 0,58 → 0,37 s | 0,26 s |
+| 2.020 | 0,013 → 0,036 s | 1,59 → 1,48 s | 0,89 s |
+| 8.018 | 0,034 → 0,128 s | 6,26 → 6,68 s | 3,65 s |
+
+O detector ficou de 3 a 6 vezes mais lento (padrões e camada PT-BR novos) e continua abaixo de 0,2 s. `compare` não mudou. O planejador custa cerca de 0,45 ms por palavra, quase todo para construir de novo o ledger que `compare` também constrói (otimização possível, não feita). Entradas adversariais (vírgulas, palavra de 50 mil caracteres, aspas aninhadas, tríades repetidas) não provocam retrocesso catastrófico: o pior caso é `compare` com 7,6 s em 80 mil caracteres, igual à v0.3.0. Em chamadas reais o tempo é dominado pelo modelo (mediana de 22 s por caso no braço v0.4.0 do benchmark).

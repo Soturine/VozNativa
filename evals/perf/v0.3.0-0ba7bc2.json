@@ -1,0 +1,56 @@
+{
+  "kind": "voznativa.perf_probe",
+  "version": "0.3.0.dev0",
+  "python": "3.12.6",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "documents": [
+    {
+      "words": 101,
+      "detect_s": 0.0005,
+      "compare_s": 0.1086
+    },
+    {
+      "words": 505,
+      "detect_s": 0.0022,
+      "compare_s": 0.5818
+    },
+    {
+      "words": 2020,
+      "detect_s": 0.0126,
+      "compare_s": 1.5878
+    },
+    {
+      "words": 8018,
+      "detect_s": 0.0336,
+      "compare_s": 6.2631
+    }
+  ],
+  "adversarial": {
+    "commas": {
+      "chars": 12002,
+      "detect_s": 0.0058,
+      "compare_s": 5.5218
+    },
+    "long_word": {
+      "chars": 50000,
+      "detect_s": 0.0115,
+      "compare_s": 0.1016
+    },
+    "no_spaces_numbers": {
+      "chars": 20000,
+      "detect_s": 0.0057,
+      "compare_s": 0.0654
+    },
+    "nested_quotes": {
+      "chars": 80200,
+      "detect_s": 0.0274,
+      "compare_s": 7.4381
+    },
+    "many_triads": {
+      "chars": 27200,
+      "detect_s": 0.0386,
+      "compare_s": 3.03
+    }
+  },
+  "note": "best of 3 for detect, single run otherwise; wall-clock on one machine"
+}
