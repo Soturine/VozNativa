@@ -158,5 +158,33 @@ class EmulateErrors(unittest.TestCase):
         self.assertEqual(result["text"], LONG)
 
 
+
+class JudgeFailures(unittest.TestCase):
+    """v0.3.0: a judge timeout escaped as ProviderError and the engine returned
+    provider_error with the original, discarding a candidate that had passed
+    every deterministic gate."""
+
+    class Down:
+        id = "judge-down"
+
+        def generate(self, prompt, n=1):
+            raise ProviderError("judge timed out")
+
+    def test_judge_outage_leaves_the_candidate_unjudged(self):
+        text = "É importante destacar que o prazo é sexta."
+        result = rewrite(text, route(text, genre="corporate"), StaticProvider(["<final>O prazo é sexta.</final>"]),
+                         judge_provider=self.Down())
+        self.assertEqual(result["outcome"], "needs_judgment")
+        self.assertEqual(result["text"], "O prazo é sexta.")
+        self.assertIn("judge provider failed", result["report"]["judge_error"])
+
+    def test_garbage_from_the_judge_is_unjudged_not_accepted(self):
+        text = "É importante destacar que o prazo é sexta."
+        result = rewrite(text, route(text, genre="corporate"), StaticProvider(["<final>O prazo é sexta.</final>"]),
+                         judge_provider=StaticProvider(["não sei", "ainda não sei", "x", "y"]))
+        self.assertEqual(result["outcome"], "needs_judgment")
+        self.assertIn("no JSON", result["report"]["judge_error"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -458,7 +458,13 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
     for attempt in range(1, tries + 1):
         ask = prompt if error is None else prompt + f"\n\nSUA RESPOSTA ANTERIOR NÃO ERA JSON VÁLIDO ({error}). " \
                                                     "Responda só com o objeto JSON."
-        answers = judge_provider.generate(ask, 1)
+        try:
+            answers = judge_provider.generate(ask, 1)
+        except ProviderError as exc:
+            # The judge being down says nothing about the candidate: leave it
+            # unjudged (needs_judgment) instead of discarding a candidate that
+            # passed every deterministic gate.
+            return dict(report, judge_error=f"judge provider failed: {exc}")
         if not answers:
             error = error or "judge returned no answer"
             break
