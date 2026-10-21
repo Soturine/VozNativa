@@ -51,6 +51,10 @@ def main() -> int:
             "profile": run("profile", "s1.txt")["kind"] == "voznativa.voice_profile",
             "rewrite-prompt": "LEDGER" in run("rewrite-prompt", "t.txt", "--inline-refs"),
             "judge-prompt": "BINDING" in run("judge-prompt", "t.txt", "c.txt"),
+            # v0.4.0: rewrite crashed on every call in v0.3.0 and nothing ran the command.
+            "rewrite": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["outcome"] == "returned_original",
+            "plan": run("plan", "t.txt")["kind"] == "voznativa.rewrite_plan",
+            "patterns": run("patterns", "t.txt")["kind"] == "voznativa.pattern_report",
         }
         os.chdir(start)  # Windows cannot delete the current directory
     failed = [name for name, ok in checks.items() if not ok]
