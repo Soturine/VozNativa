@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "policy": "Decision cases: does the engine call the model, and what must it leave untouched? Written by the developer (not independent); frozen before the first run of v0.3.0 and v0.4.0 against it.",
+  "suites": {
+    "cases.jsonl": {
+      "role": "developer_holdout",
+      "independent": false,
+      "frozen": true,
+      "sha256": "e3667c609cc8e1ed3d6347d26e685c8d528fb5a285863a1c654f168938427019",
+      "first_run": null
+    }
+  }
+}
