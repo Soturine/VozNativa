@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from . import ledger as ledger_mod
 from .compare import JUDGE_KINDS, JUDGE_VERDICTS
 from .review import content_hash
-from .text import normalize_surface
+from .text import fence, normalize_surface
 from .review import assess as assess_review
 
 CLAIM_STATUSES = {"preserved", "formula_removed", "omitted", "changed", "strengthened", "weakened", "reversed"}
@@ -65,8 +65,8 @@ def prompt(original: str, candidate: str, report: dict | None = None) -> str:
         "LEDGER (determinístico, do ORIGINAL):\n" + json.dumps(
             {"protected": led["protected"], "signals": led["signals"]}, ensure_ascii=False, indent=2),
         "ACHADOS DETERMINÍSTICOS (não provam equivalência):\n" + json.dumps(findings, ensure_ascii=False, indent=2),
-        "<<<ORIGINAL\n" + original + "\nORIGINAL>>>",
-        "<<<CANDIDATA\n" + candidate + "\nCANDIDATA>>>",
+        fence("ORIGINAL", original),
+        fence("CANDIDATA", candidate),
     ])
 
 
@@ -174,8 +174,8 @@ def grounding_prompt(sources: list[tuple[str, str]], candidate: str, report: dic
             {"sources_sha256": sources_hash(sources), "candidate_sha256": content_hash(candidate)}, indent=2),
         "VERIFICAÇÃO DETERMINÍSTICA (valores e entidades; não prova as demais afirmações):\n"
         + json.dumps(findings, ensure_ascii=False, indent=2),
-        "FONTES AUTORIZADAS:\n" + "\n\n".join(f"<<<{label}\n{text}\n{label}>>>" for label, text in sources),
-        "<<<CANDIDATA\n" + candidate + "\nCANDIDATA>>>",
+        "FONTES AUTORIZADAS:\n" + "\n\n".join(fence(label, text) for label, text in sources),
+        fence("CANDIDATA", candidate),
     ])
 
 

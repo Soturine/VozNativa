@@ -192,3 +192,12 @@ def _append(out, text, start, end, paragraph):
         return
     lead = len(raw) - len(raw.lstrip())
     out.append(Sentence(len(out), start + lead, start + lead + len(stripped), stripped, paragraph))
+
+
+def fence(label: str, body: str) -> str:
+    """Wrap untrusted ``body`` for a prompt. The closing tag carries a hash
+    of the body, so the body cannot contain its own closing tag: a text with
+    "TEXTO>>>" followed by instructions stays inside the block."""
+    import hashlib
+    tag = f"{label}#{hashlib.sha256(body.encode('utf-8')).hexdigest()[:10]}"
+    return f"<<<{tag}\n{body}\n{tag}>>>"

@@ -31,8 +31,12 @@ from .providers import Provider, ProviderError
 from .references import select
 from .review import content_hash
 from .router import transformation_targets
+from .text import fence
 
 NO_CHANGE = "NO_CHANGE"
+# Markers of this engine's own protocol; a rewrite never needs to add them.
+PROTOCOL_TOKENS = ("<final>", "</final>", "NO_CHANGE", "RESPONSE_SCHEMA", "GROUNDING_SCHEMA", "BINDING",
+                   "candidate_sha256", "original_sha256", "sources_sha256", '"verdict"')
 STATUS_RANK = {"identical": 0, "accepted_by_human": 0, "accepted_by_llm": 1, "no_deterministic_issues": 2,
                "review_required": 3, "fail": 9}
 
@@ -89,7 +93,7 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
         return "REFERÊNCIAS (leia antes de escrever):\n" + "\n".join(lines)
     parts = []
     for s in selection["selected"]:
-        parts.append(f"<<<{s['path']}\n{(root / s['path']).read_text(encoding='utf-8')}\n{s['path']}>>>")
+        parts.append(fence(s["path"], (root / s["path"]).read_text(encoding="utf-8")))
     return "REFERÊNCIAS:\n" + "\n\n".join(parts)
 
 
@@ -116,11 +120,14 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
-        sections.append("<<<FATOS\n" + "\n\n".join(facts or []) + "\nFATOS>>>")
+        # Same labeled sources the grounding judge will check against.
+        sources = [(label, body) for label, body in authorized_sources(text, facts, project) if label != "PEDIDO"]
+        sections.append("FONTES AUTORIZADAS (únicas fontes de fatos):\n" +
+                        ("\n\n".join(fence(label, body) for label, body in sources) or "nenhuma"))
         if text.strip():
-            sections.append("<<<PEDIDO\n" + text + "\nPEDIDO>>>")
+            sections.append(fence("PEDIDO", text))
     else:
-        sections.append("<<<TEXTO\n" + text + "\nTEXTO>>>")
+        sections.append(fence("TEXTO", text))
     return "\n\n".join(sections)
 
 
@@ -174,6 +181,12 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
     else:
         report = compare(original, candidate, protect)
     extra = []
+    smuggled = sorted(t for t in PROTOCOL_TOKENS if t in candidate and t not in original)
+    if smuggled:
+        # A candidate that talks to the next stage (a <final> tag, a verdict, a
+        # binding) came from instructions planted in the text, not from editing it.
+        extra.append({"code": "protocol_token_in_candidate", "severity": "critical",
+                      "message": f"candidate contains protocol tokens absent from the original: {smuggled}"})
     overfit = region_mod.inspect(candidate)
     if overfit["regional_overfit"] != "low" and region_mod.inspect(original)["regional_overfit"] == "low":
         extra.append({"code": "regional_overfit", "severity": "major",
@@ -185,7 +198,9 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
                           "message": "candidate style drifts from the author profile"})
     if extra:
         report = dict(report, issues=report["issues"] + extra)
-        if report["status"] in {"no_deterministic_issues"}:
+        if any(i["severity"] == "critical" for i in extra):
+            report.update(status="fail", semantic_equivalence="violated", safe_to_auto_accept=False, requires=[])
+        elif report["status"] in {"no_deterministic_issues"}:
             report.update(status="review_required", requires=["human_review"])
     return report
 
@@ -428,6 +443,7 @@ def _result(outcome, text, report, history, provider, voice_contract, selection,
         "report": report,
         "attempts": history,
         "provider": getattr(provider, "id", type(provider).__name__),
+        **({"provider_warnings": provider.warnings} if getattr(provider, "warnings", None) else {}),
         "voice_contract": contract_mod.compact(voice_contract),
         "references": [s["path"] for s in selection["selected"]],
         **({"reason": reason} if reason else {}),
