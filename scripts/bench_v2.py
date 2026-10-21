@@ -216,7 +216,8 @@ def main() -> int:
     worktree = Path(tempfile.mkdtemp(prefix="vn-v030-")) / "wt"
     subprocess.run(["git", "worktree", "add", "-q", "--detach", str(worktree), baseline], cwd=ROOT, check=True)
     checkouts = {"B5-voznativa-v030": worktree, "B5-voznativa-v040": ROOT}
-    version = subprocess.run([args.claude, "--version"], capture_output=True, text=True).stdout.strip()
+    version = subprocess.run([args.claude, "--version"], capture_output=True, text=True,
+                             stdin=subprocess.DEVNULL, timeout=60).stdout.strip()
     rows, lock = [], threading.Lock()
 
     def save(final=False):
