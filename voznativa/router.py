@@ -144,3 +144,52 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         "warnings": warnings,
         "words": len(text.split()),
     }
+
+
+def transformation_targets(text: str, context: dict, profile: dict | None = None,
+                           explicit: dict | None = None) -> list[dict]:
+    """Destination properties the request sets and the source may not meet.
+
+    A text with no editorial finding can still need a rewrite: an e-mail asked
+    for WhatsApp, a casual note asked for the formal register, a profile to
+    match. Each target says whether the source already differs from it
+    (``differs``: True) or whether that cannot be told (None: an explicit
+    register on a text of unknown genre, an audience, a voice profile).
+    Targets the source already meets are left out, so labeling a text with
+    its own genre asks for nothing."""
+    d = data()
+    explicit_genre = context["genre"]["source"] == "explicit"
+    source_genre = infer_genre(text)["value"] if explicit_genre else context["genre"]["value"]
+    known = source_genre != "unknown"
+    targets = []
+
+    def add(target: str, value, differs):
+        if differs is not False:
+            targets.append({"target": target, "value": value, "source": source_genre if known else None,
+                            "differs": differs})
+
+    # Genre and channel labels are routine context (benchmarks pass them for
+    # every case): they ask for a change only when the source is confidently
+    # something else, never when its genre is unknown or the channel unmapped.
+    if explicit_genre and known and context["genre"]["value"] != source_genre:
+        add("genre", context["genre"]["value"], True)
+    if context["channel"]["source"] == "explicit" and known:
+        channel = context["channel"]["value"]
+        genre = d.get("channel_genre", {}).get(channel.lower(), channel if channel in d["genres"] else None)
+        if genre and genre != source_genre:
+            add("channel", channel, True)
+    if context["flags"].get("register_explicit"):
+        source_register = d["default_register"].get(source_genre) if known else None
+        register = context["register"]["value"]
+        add("register", register, (register != source_register) if source_register else None)
+    if context.get("audience"):
+        add("audience", context["audience"], None)
+    for flag, target in (("regional_target", "region"), ("community_target", "community"),
+                         ("slang_target", "slang")):
+        if context["flags"].get(flag):
+            add(target, context["targets"].get(target if target != "slang" else "slang_strength"), None)
+    if profile or context["flags"].get("has_voice_samples"):
+        add("voice", "author_profile", None)
+    if explicit:
+        add("explicit_instruction", sorted(explicit), None)
+    return targets

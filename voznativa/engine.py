@@ -30,6 +30,7 @@ from .paths import home
 from .providers import Provider, ProviderError
 from .references import select
 from .review import content_hash
+from .router import transformation_targets
 
 NO_CHANGE = "NO_CHANGE"
 STATUS_RANK = {"identical": 0, "accepted_by_human": 0, "accepted_by_llm": 1, "no_deterministic_issues": 2,
@@ -48,7 +49,8 @@ Processo:
 4. Não acrescente fato, número, nome, motivo, benefício, experiência ou opinião que não estejam
    no original. Calor e voz podem; conteúdo novo não.
 5. Valores protegidos ficam idênticos ou com formato equivalente (R$ 1.500,00 = R$1.500,00).
-6. Se o texto já está adequado ao canal e ao autor, responda apenas NO_CHANGE.
+6. Se o texto já está adequado ao canal e ao autor, responda apenas NO_CHANGE. Se houver DESTINO
+   PEDIDO, NO_CHANGE só vale quando o texto já atende a esse destino.
 
 Responda com o texto final entre <final> e </final>, sem comentários fora das marcas."""
 
@@ -94,7 +96,8 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
 def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict | None = None,
                  feedback: list[str] | None = None, facts: list[str] | None = None,
                  inline_references: bool = False, root: Path | None = None,
-                 protect: list[str] | tuple = (), findings: dict | None = None, project=None) -> str:
+                 protect: list[str] | tuple = (), findings: dict | None = None, project=None,
+                 targets: list[dict] | None = None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
@@ -108,6 +111,8 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
         sections.append(_references_block(selection, inline_references, root or home()))
     if findings and findings["findings"] and not create:
         sections.append(_findings_block(findings))
+    if targets and not create:
+        sections.append(_targets_block(targets))
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
@@ -127,6 +132,15 @@ def _findings_block(findings: dict) -> str:
              "precisem mudar para encaixar.")
     return "ACHADOS EDITORIAIS (onde o texto soa como fórmula; não é score de autoria):\n" + \
         "\n".join(lines) + "\n" + scope
+
+
+def _targets_block(targets: list[dict]) -> str:
+    lines = []
+    for t in targets:
+        origin = f" (o texto parece {t['source']})" if t.get("differs") and t.get("source") else ""
+        lines.append(f"- {t['target']}: {t['value']}{origin}")
+    return ("DESTINO PEDIDO (o pedido define estas propriedades da versão final; mude o necessário "
+            "para atendê-las, sem mudar fatos):\n" + "\n".join(lines))
 
 
 def parse_candidate(raw: str, original: str) -> tuple[str, bool]:
@@ -196,12 +210,17 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     voice_contract = contract_mod.resolve(context, profile, explicit)
     genre = context["genre"]["value"]
     before = patterns_mod.detect(text, genre) if context["task"] != "create" else None
-    if (before and not force and before["decision"] == "no_change_candidate" and not profile and not explicit
-            and not context["flags"].get("register_explicit")):
-        # Nothing to fix and no voice target: do not spend a model call or risk a change.
+    targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else []
+    # A text can be free of editorial problems and still not be what was asked
+    # for (an e-mail requested as a WhatsApp message): only skip the model when
+    # there is neither a finding nor a requested destination.
+    decision = {"editorial": before["decision"] if before else None, "targets": targets}
+    if before and not force and before["decision"] == "no_change_candidate" and not targets:
         return _result("no_change", text, None, [], provider, voice_contract, select(context, budget_words=0),
-                       reason="no editorial findings and no voice target; use force to rewrite anyway",
-                       quality={"before": before["summary"], "after": before["summary"], "model_called": False})
+                       reason="no editorial findings and no requested destination; use force to rewrite anyway",
+                       quality={"before": before["summary"], "after": before["summary"], "model_called": False},
+                       decision=dict(decision, no_change_reason="no_editorial_findings"))
+    must_change = [t for t in targets if t["differs"]]
     if hasattr(provider, "style_from_contract") and not getattr(provider, "style", None):
         # System-level providers (Emulate) cannot read our prompt; give them the
         # closest style hint the Voice Contract allows.
@@ -214,7 +233,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             raws = [provider.humanize(text) for _ in range(candidates)]
         else:
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
-                                  protect=protect, findings=before, project=project)
+                                  protect=protect, findings=before, project=project, targets=targets)
             raws = provider.generate(prompt, candidates)
         reports, best = [], None
         for raw in raws:
@@ -232,6 +251,15 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             feedback = _feedback(reports)
             continue
         _, candidate, report, no_change = best
+        if no_change and must_change and attempt < attempts:
+            # The request names a destination the source does not meet; ask once
+            # more instead of taking NO_CHANGE at face value.
+            feedback = ["você respondeu NO_CHANGE, mas o pedido muda o destino do texto: " +
+                        "; ".join(f"{t['target']} = {t['value']} (o original parece {t['source']})"
+                                  for t in must_change) +
+                        ". Reescreva para esse destino, ou repita NO_CHANGE se ele já é atendido."]
+            history[-1]["no_change_rejected"] = True
+            continue
         if not no_change and judge_provider is not None and report["status"] == "no_deterministic_issues":
             sources = authorized_sources(text, facts, project) if context["task"] == "create" else None
             report = _judge_votes(judge_provider, text, candidate, report, judge_votes, sources)
@@ -271,8 +299,14 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
                        reason=reason, quality=quality(text))
     candidate, report, no_change = final
     if no_change:
+        if must_change:
+            return _result("needs_review", text, report, history, provider, voice_contract, selection,
+                           reason="the model kept the text unchanged although the request changes its "
+                                  "destination; a person should confirm the original already fits it",
+                           quality=quality(text), decision=dict(decision, no_change_reason="model_claims_target_met"))
         return _result("no_change", text, report, history, provider, voice_contract, selection,
-                       quality=quality(text))
+                       quality=quality(text), decision=dict(decision, no_change_reason=(
+                           "model_claims_target_met" if targets else "model_found_nothing_to_change")))
     outcome = {"accepted_by_llm": "accepted", "accepted_by_human": "accepted", "identical": "no_change",
                "no_deterministic_issues": "needs_judgment", "review_required": "needs_review",
                "human_review_claimed": "needs_review", "fail": "returned_original"}[report["status"]]
@@ -280,7 +314,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
         return _result(outcome, text, report, history, provider, voice_contract, selection,
                        reason="the judge rejected the best candidate", quality=quality(text))
     return _result(outcome, candidate, report, history, provider, voice_contract, selection,
-                   quality=quality(candidate))
+                   quality=quality(candidate), decision=decision)
 
 
 _TRAILING_COMMA = re.compile(r",(\s*[}\]])")
@@ -386,7 +420,7 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
 
 
 def _result(outcome, text, report, history, provider, voice_contract, selection, reason=None,
-            quality=None) -> dict:
+            quality=None, decision=None) -> dict:
     return {
         "kind": "voznativa.rewrite_result",
         "outcome": outcome,
@@ -398,4 +432,5 @@ def _result(outcome, text, report, history, provider, voice_contract, selection,
         "references": [s["path"] for s in selection["selected"]],
         **({"reason": reason} if reason else {}),
         **({"quality": quality} if quality else {}),
+        **({"decision": decision} if decision else {}),
     }

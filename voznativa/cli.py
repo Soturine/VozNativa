@@ -226,6 +226,7 @@ def _voice_inputs(args):
 def cmd_rewrite_prompt(args):
     from .contract import resolve
     from .engine import build_prompt
+    from .project import scan
     from .references import select
     context = _route(args)
     profile, explicit = _voice_inputs(args)
@@ -234,9 +235,12 @@ def cmd_rewrite_prompt(args):
     text = _read(args.text)
     # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
     findings = detect(text, context["genre"]["value"]) if context["task"] != "create" else None
+    from .router import transformation_targets
+    targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
     prompt = build_prompt(text, context, resolve(context, profile, explicit),
                           select(context, budget_words=args.budget), facts=facts,
-                          inline_references=args.inline_refs, protect=_protected(args), findings=findings)
+                          inline_references=args.inline_refs, protect=_protected(args), findings=findings,
+                          project=scan(args.repo) if args.repo else None, targets=targets)
     _emit(None, prompt)
 
 

@@ -148,5 +148,74 @@ class CreateModeJudgeChecksTheSources(unittest.TestCase):
             self.assertIn(sources_hash(self.sources), out.getvalue())
 
 
+EMAIL = "Oi, Ana!\nSegue em anexo o relatório revisado. A reunião continua na quinta às 10h.\nAbraços,\nJoão"
+WHATSAPP = "<final>oi Ana! mandei o relatório revisado. reunião segue quinta às 10h. abs, João</final>"
+
+
+class NoChangeRespectsTheRequestedDestination(unittest.TestCase):
+    """v0.3.0 skipped the model whenever the detector found nothing, unless a
+    profile, --set or an explicit register was given: an e-mail asked for as a
+    WhatsApp message came back unchanged, and a model NO_CHANGE was taken at
+    face value even when the request changed the destination."""
+
+    def test_clean_text_with_no_target_skips_the_model(self):
+        provider = StaticProvider([WHATSAPP])
+        result = rewrite(EMAIL, route(EMAIL), provider)
+        self.assertEqual(result["outcome"], "no_change")
+        self.assertEqual(result["decision"]["no_change_reason"], "no_editorial_findings")
+        self.assertEqual(provider.calls, [])
+
+    def test_labeling_a_text_with_its_own_genre_asks_for_nothing(self):
+        provider = StaticProvider([WHATSAPP])
+        rewrite(EMAIL, route(EMAIL, genre="email", channel="email"), provider)
+        self.assertEqual(provider.calls, [])
+
+    def test_explicit_channel_change_calls_the_model(self):
+        provider = StaticProvider([WHATSAPP])
+        result = rewrite(EMAIL, route(EMAIL, channel="whatsapp"), provider)
+        self.assertEqual(len(provider.calls), 1)
+        self.assertIn("DESTINO PEDIDO", provider.calls[0])
+        self.assertIn("channel: whatsapp (o texto parece email)", provider.calls[0])
+        self.assertNotEqual(result["outcome"], "no_change")
+        self.assertEqual(result["decision"]["targets"][0]["target"], "channel")
+
+    def test_model_no_change_on_a_changed_destination_is_retried_then_reviewed(self):
+        provider = StaticProvider(["NO_CHANGE", "NO_CHANGE"])
+        result = rewrite(EMAIL, route(EMAIL, channel="whatsapp"), provider, attempts=2)
+        self.assertEqual(len(provider.calls), 2)
+        self.assertIn("você respondeu NO_CHANGE", provider.calls[1])
+        self.assertEqual(result["outcome"], "needs_review")
+        self.assertEqual(result["text"], EMAIL)
+        self.assertEqual(result["decision"]["no_change_reason"], "model_claims_target_met")
+
+    def test_retry_after_a_rejected_no_change_can_rewrite(self):
+        provider = StaticProvider(["NO_CHANGE", WHATSAPP])
+        result = rewrite(EMAIL, route(EMAIL, channel="whatsapp"), provider, attempts=2)
+        self.assertTrue(result["attempts"][0]["no_change_rejected"])
+        self.assertIn("mandei o relatório", result["text"])
+
+    def test_register_and_audience_are_targets_even_without_findings(self):
+        for ctx in (route(EMAIL, register="professional-formal"), route(EMAIL, audience="diretoria")):
+            provider = StaticProvider(["NO_CHANGE"])
+            result = rewrite(EMAIL, ctx, provider, attempts=1)
+            self.assertEqual(len(provider.calls), 1)
+            self.assertIn(result["decision"]["no_change_reason"], {"model_claims_target_met"})
+
+    def test_findings_without_target_keep_the_model_no_change(self):
+        text = "É importante destacar que o backup roda toda noite."
+        result = rewrite(text, route(text, genre="technical"), StaticProvider(["NO_CHANGE"]), attempts=1)
+        self.assertEqual(result["outcome"], "no_change")
+        self.assertEqual(result["decision"]["no_change_reason"], "model_found_nothing_to_change")
+
+
+    def test_chat_style_weekday_without_preposition_is_kept_as_a_value(self):
+        # Found while writing the channel tests: "segue quinta às 10h" lost the weekday
+        # span and the faithful WhatsApp version failed with span_missing.
+        from voznativa.compare import compare
+        report = compare("A reunião é na quinta às 10h.", "reunião é quinta às 10h")
+        self.assertNotIn("span_missing", {i["code"] for i in report["issues"]})
+        self.assertEqual(compare("a quinta parte do lucro", "a quinta parte do lucro")["status"], "identical")
+
+
 if __name__ == "__main__":
     unittest.main()
