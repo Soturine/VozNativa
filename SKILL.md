@@ -2,7 +2,7 @@
 name: voznativa
 description: Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal. Use para humanizar ou naturalizar texto em PT-BR, tirar cara de IA sem alterar o sentido, adaptar a um canal (WhatsApp, e-mail, documentação, LinkedIn, acadêmico, jurídico) ou à voz de amostras do autor, escrever a partir de notas ou de um repositório, e verificar se uma reescrita mudou o significado.
 metadata:
-  version: "0.3.0.dev0"
+  version: "0.4.0.dev0"
   language: pt-BR
 ---
 
@@ -35,7 +35,7 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 ## Rewrite (padrão)
 
 1. **Contexto.** Rode `$VN route texto.txt` com as dicas que o usuário deu: `--genre`, `--channel`, `--register`, `--audience`. Amostras do autor entram com `--voice-sample` (fonte de voz). Notas e documentos entram com `--fact`, e o repositório com `--repo .` (fontes de fato). Nunca troque os papéis: fato não vem de amostra de voz, e voz não vem de documentação escrita por outras pessoas.
-   **Precisa mudar?** Rode `$VN patterns texto.txt --genre <gênero>`. Com `decision: no_change_candidate` e sem pedido explícito de mudança, responda NO_CHANGE e diga por quê. Com `edit`, a reescrita mira os achados listados (o `rewrite-prompt` já os inclui); não reescreva o resto por gosto. Os achados descrevem estilo editorial; não são detector de autoria.
+   **Precisa mudar?** Rode `$VN patterns texto.txt --genre <gênero>`. Com `decision: no_change_candidate` e sem pedido explícito de mudança, responda NO_CHANGE e diga por quê. Mudança de canal, gênero, registro, público ou voz pedida pelo usuário **é** pedido de mudança, mesmo sem achado: o `rewrite-prompt` traz o bloco DESTINO PEDIDO, e NO_CHANGE só vale se o texto já atende a esse destino. Com `edit`, a reescrita mira os achados listados (o `rewrite-prompt` já os inclui); não reescreva o resto por gosto. Os achados descrevem estilo editorial; não são detector de autoria.
 2. **Perfil (opcional).** Com amostras autorizadas, rode `$VN profile a1.txt a2.txt --channel whatsapp > perfil.json`. O perfil guarda estatísticas, nunca o texto. Com menos de 3 amostras ou 150 palavras ele fica `explicit_only`, e os hábitos do autor não são aplicados.
 3. **Prompt.** Rode `$VN rewrite-prompt texto.txt [mesmas flags] [--profile perfil.json]`. Ele traz o Voice Contract, o Semantic Ledger e a lista de referências a ler. Leia só essas referências e siga o prompt.
 4. **Escreva** a candidata em `candidata.txt`.
@@ -50,13 +50,13 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 | 3 | `no_deterministic_issues` | Os gates não acharam problema, o que não prova equivalência. Faça a etapa 6. |
 
 6. **Juiz.** Rode `$VN judge-prompt texto.txt candidata.txt`, responda o JSON pedido com honestidade em `juizo.json` (`"kind": "llm"`, `"judge_id"` com o seu modelo, e os dois hashes do bloco BINDING) e rode `$VN compare texto.txt candidata.txt --judgment juizo.json`. Como juiz LLM você só aprova resultados limpos; `fail` e `review_required` continuam como estão.
-   **Nunca escreva um julgamento `"kind": "human"`.** Um arquivo assim, sem assinatura, vira `human_review_claimed` e não aprova nada. Para resolver uma revisão, peça ao usuário que rode no terminal dele `$VN review texto.txt candidata.txt --reviewer <nome> --out revisao.json` e depois use `--judgment revisao.json`.
+   **Nunca escreva um julgamento `"kind": "human"`.** Um arquivo assim, sem assinatura, vira `human_review_claimed` e não aprova nada. Para resolver uma revisão, peça ao usuário que rode no terminal dele `$VN review texto.txt candidata.txt --reviewer <nome> --out revisao.json` e depois use `--judgment revisao.json`. Uma revisão assinada com a chave local prova integridade, não identidade nem independência: não a apresente como avaliação independente.
 7. **Entrega.** O texto primeiro. Depois, uma linha com o status final e, se houver, os itens pendentes. Relatório completo só quando pedido.
 
 ## Outros modos
 
 - **audit:** `$VN audit texto.txt [--original original.txt] [--profile perfil.json]`. Contagens descritivas, nunca score de autoria. Aponte trechos e explique; não reescreva sem pedido.
-- **create:** `$VN route pedido.txt --task create --fact notas.md [--repo .]`, depois `$VN rewrite-prompt ...` com as mesmas flags. Antes de entregar, rode `$VN ground candidata.txt --fact notas.md [--repo .]`: todo número, data, caminho, comando ou identificador precisa ter fonte. Se faltar dado, escreva `[DADO NECESSÁRIO: ...]`.
+- **create:** `$VN route pedido.txt --task create --fact notas.md [--repo .]`, depois `$VN rewrite-prompt ...` com as mesmas flags. Antes de entregar, rode `$VN ground candidata.txt --request pedido.txt --fact notas.md [--repo .]`: todo número, data, caminho, comando ou identificador precisa ter fonte. Depois o juiz de fundamentação: `$VN judge-prompt pedido.txt candidata.txt --fact notas.md [--repo .]`, responda o JSON (cada afirmação `supported` cita o trecho literal da fonte) e rode `$VN ground ... --judgment juizo.json`. Afirmação sem fonte não é aprovada, mesmo que não tenha número. Se faltar dado, escreva `[DADO NECESSÁRIO: ...]` (o gate pede revisão até alguém preencher).
 - **profile:** só com amostras que o usuário escreveu e autorizou. Mostre `maturity` e os hábitos com confiança; não descreva a pessoa.
 - **compare:** `$VN compare original.txt candidata.txt` e explique cada item.
 

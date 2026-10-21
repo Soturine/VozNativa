@@ -45,7 +45,8 @@ class SkillMatchesCli(unittest.TestCase):
             name = line.split()[0]
             self.assertIn(name, commands, f"README documents unknown command: {name}")
             known = {opt for a in commands[name]._actions for opt in a.option_strings}
-            for flag in re.findall(r"(?<![\w-])(--[a-z][\w-]*)", line):
+            # Flags inside a quoted value ('["claude", "-p", "--tools", ""]') belong to the model CLI.
+            for flag in re.findall(r"(?<![\w-])(--[a-z][\w-]*)", re.sub(r"'[^']*'", "", line)):
                 self.assertIn(flag, known, f"README documents unknown flag {flag} for {name}")
 
     def test_exit_code_table_matches_cli(self):

@@ -1,12 +1,27 @@
 # Changelog
 
-## Unreleased (0.3.0.dev0)
+## Unreleased (0.4.0.dev0)
 
-Work in progress, **not a release**: the independent holdout, a blind human review round and CI are still open (`docs/PLAN_v0.3.0.md`).
+Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.4.0.md`. The v0.3.0 external criteria (independent holdout, blind human review round, CI) are still open and are not closed by anything below.
+
+### Fixed (v0.3.0 audit gaps; each has a regression test)
+- Eval reports mixed a missed detection with a different issue code: `ho-007` (frozen) is caught as `possible_addition` but asks for `span_added`. The strict count stays 23/24; reports now add `status_passed` and `failure_kind` (`false_green`, `false_red`, `severity_divergence`, `classification_divergence`). The case is unchanged.
+- Create mode judged the output against the user's request only. The writer and a new grounding judge get the same labeled sources (fact files, repository docs, the request); a `supported` claim must quote evidence found in them. Values stated in the request count as sourced; `[DADO NECESSÁRIO]` gaps need review. `judge-prompt --fact/--repo` and `ground --request/--judgment` for skill mode.
+- NO_CHANGE ignored an explicit change of destination: an e-mail asked for as WhatsApp came back untouched, and a model NO_CHANGE was accepted even then. Requested targets (genre or channel confidently different, register, audience, voice, region/community) now reach the prompt; a model NO_CHANGE on a changed destination is retried once and then sent to review; results name the NO_CHANGE kind.
+- `blind-summary` counted repeated answers, ignored `original_sha256`, accepted any signed value as a choice and could not tell participants apart; the arm mapping was unsigned, so relabeling arms flipped results. Answers carry `task_sha256`; one answer per (task, key); disagreeing repeats are excluded; participants are listed by key.
+- Review signatures were reported as one "verified". `review.assess` now separates integrity, key possession, declared identity and independence. An HMAC review is never independent (any process of the OS user can sign); reviewers can sign with their own SSH key (`--ssh-key`, `ssh-keygen -Y`), verified against `evals/reviewers/`.
+- `--redact` stored the model command with its credentials, errors that quoted the texts, the cases path and an unkeyed sha256 of each text. Credentials are masked in every stored field (with or without `--redact`); free text is scrubbed; hashes are HMAC with a key not stored (`--redact-key` to compare runs).
+- Providers: timeout now stops the process tree; output is capped; an empty answer is an error; a missing executable is not retried; Emulate network/HTTP/JSON errors become `provider_error` instead of a crash; agent CLIs started without their tool/sandbox switch get a warning; `--provider-env minimal`. The docs state that the empty working directory is not a sandbox.
+- Prompts: a text containing `TEXTO>>>` could close its block and append instructions; blocks now close with a tag that carries a hash of the content. Candidates that add protocol tokens (`<final>`, a verdict, a binding) fail.
+- `reunião segue quinta às 10h` lost the weekday span (false red on chat-style rewrites).
+
+## 0.3.0.dev0 (development; **not concluded**)
+
+Not a release: the independent holdout, a blind human review round and CI are still open (`docs/PLAN_v0.3.0.md`).
 
 ### Added
 - PT-BR number words (`vinte e três`, `mil e quinhentos reais`, `meia dúzia`, `meia hora`) compared with digits; durations compared in seconds.
-- Claims inserted as a new clause inside a sentence (`claim_added`), with a single-clause guard against false reds.
+- Claims inserted as a new clause inside a sentence (reported as `possible_addition`; an earlier version of this entry called it `claim_added`, a code that never existed), with a single-clause guard against false reds.
 - Reversed causality across adjacent sentences (`X. Por isso, Y.`) and swapped agent/patient between named entities, including active ↔ passive.
 - `--protect` / `--protect-file`: user terms that must survive (`span_missing`).
 - `voznativa patterns`: genre-aware editorial findings (oficialês, ENEM-ismo, gerundismo, stacked connectives, formulas, support verbs, promotional, empty closings); descriptive, never an authorship score.

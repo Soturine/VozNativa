@@ -10,11 +10,11 @@ O que foi medido, por qual tipo de evidência, e o que **não** foi provado. Atu
 | Teste simulado | testes unitários com providers estáticos ou subprocessos que fazem papel de modelo | Não é evidência de integração |
 | Execução real de modelo | `scripts/llm_integration.py`: modelo externo de verdade, relatório gravado em `evals/integration/` | Não é revisão humana |
 | Juiz LLM | `judge-prompt` + `--judgment`, `kind: llm`, vinculado aos hashes dos textos | Só resultados determinísticos limpos |
-| Revisão humana | `voznativa review` (terminal interativo, assinatura HMAC com chave local) | Sim, exceto sobre `fail` |
+| Revisão humana | `voznativa review` (terminal interativo; assinatura HMAC com chave local ou SSH do revisor) | Sim, exceto sobre `fail`; o relatório diz o que a assinatura **não** mostra (identidade, independência) |
 | Leitura do agente | eu (o agente que escreveu o código) lendo resultados | **Nunca**: não é revisão humana nem independente |
 | Detector de IA | — | Não é usado |
 
-Um JSON com `"kind": "human"` sem assinatura válida vira `human_review_claimed`. A assinatura prova que o dono da chave, nesta máquina, aprovou aqueles textos exatos; não prova quem é a pessoa, e quem lê o arquivo da chave consegue forjá-la.
+Um JSON com `"kind": "human"` sem assinatura válida vira `human_review_claimed`. `review.assess` separa quatro propriedades: integridade (os bytes foram assinados por aquela chave), posse da chave (a chave HMAC é um segredo da máquina: o desenvolvedor ou um agente com o mesmo usuário também assina; uma chave SSH fica com o revisor), identidade declarada (nunca comprovada) e independência (no máximo declarada em `evals/reviewers/`; revisão HMAC nunca é independente).
 
 ## Suítes determinísticas (0.3.0.dev0, 2026-10-20, commit `86830c4`)
 
@@ -24,7 +24,7 @@ Proveniência completa em `evals/semantic/MANIFEST.json`. **Nenhuma suíte é va
 |---|---|---|---|
 | `cases.jsonl` | dev | — | 59/59 |
 | `relations.jsonl` | dev (escrita antes dos detectores de relação) | 14/25 (baseline vermelha) | 32/32 |
-| `holdout.jsonl` (`ae479a2c`) | holdout do desenvolvedor | **19/24** | 23/24, contaminado |
+| `holdout.jsonl` (`ae479a2c`) | holdout do desenvolvedor | **19/24** | 23/24 estrito, 24/24 por status, contaminado. A falha é `ho-007`: detectado (`review_required` com `possible_addition`), mas o caso congelado pede `span_added`; é divergência de classificação, não detecção perdida, e o caso não foi editado |
 | `holdout2.jsonl` (`3981a4ef`) | holdout do desenvolvedor | **16/16** | 16/16, contaminado |
 | `holdout-relations.jsonl` (`ba591007`) | holdout do desenvolvedor | **11/12** | 12/12, contaminado |
 | `holdout-v030.jsonl` (`09c1b3dd`) | holdout do desenvolvedor, congelado antes das correções da v0.3.0 | **15/24** | 24/24, contaminado |
@@ -33,7 +33,7 @@ Proveniência completa em `evals/semantic/MANIFEST.json`. **Nenhuma suíte é va
 
 Testes unitários: 199, todos passando.
 
-Só a primeira execução de um holdout é cega; números posteriores vêm depois de correções motivadas por ele. O protocolo para um holdout independente está em `evals/semantic/INDEPENDENT_HOLDOUT.md`.
+Só a primeira execução de um holdout é cega; números posteriores vêm depois de correções motivadas por ele. Desde a v0.4.0 o relatório de cada suíte separa `passed` (status e códigos, a conta oficial) de `status_passed` (só o status) e classifica cada falha (`false_green`, `false_red`, `severity_divergence`, `classification_divergence`). O protocolo para um holdout independente está em `evals/semantic/INDEPENDENT_HOLDOUT.md`.
 
 ## Comportamento por categoria
 
