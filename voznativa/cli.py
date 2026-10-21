@@ -84,8 +84,17 @@ def cmd_compare(args):
 
 def cmd_judge_prompt(args):
     from .compare import compare
-    from .judge import prompt
+    from .judge import grounding_prompt, prompt
     original, candidate = _read(args.original), _read(args.candidate)
+    if args.fact or args.repo:
+        # Create mode: the first argument is the request; the judge checks the
+        # candidate against every authorized source, not only the request.
+        from .engine import authorized_sources
+        from .project import ground, scan
+        facts, project = [_read(f) for f in args.fact or []], scan(args.repo) if args.repo else None
+        _emit(None, grounding_prompt(authorized_sources(original, facts, project), candidate,
+                                     ground(candidate, None, facts + [original], project)))
+        return
     _emit(None, prompt(original, candidate, compare(original, candidate)))
 
 
@@ -168,9 +177,19 @@ def cmd_project(args):
 
 
 def cmd_ground(args):
+    from .compare import apply_judgment
     from .project import ground, scan
-    report = ground(_read(args.candidate), _read(args.original) if args.original else None,
-                    [_read(f) for f in args.fact or []], scan(args.repo) if args.repo else None)
+    candidate = _read(args.candidate)
+    original = _read(args.original) if args.original else None
+    request = _read(args.request) if args.request else ""
+    facts, project = [_read(f) for f in args.fact or []], scan(args.repo) if args.repo else None
+    report = ground(candidate, original, facts + ([request] if request.strip() else []), project)
+    if args.judgment:
+        from .engine import authorized_sources
+        from .judge import validate_grounding
+        sources = authorized_sources(request, facts, project, original=original)
+        for path in args.judgment:
+            report = apply_judgment(report, validate_grounding(json.loads(_read(path)), sources, candidate))
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -334,8 +353,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_blind_summary)
 
     p = sub.add_parser("judge-prompt", help="print the semantic-judge prompt for any LLM or reviewer")
-    p.add_argument("original")
+    p.add_argument("original", help="the original text, or the request when --fact/--repo is given")
     p.add_argument("candidate")
+    p.add_argument("--fact", action="append", help="fact source (repeatable): judge grounding instead of equivalence")
+    p.add_argument("--repo", help="repository used as a fact source (grounding mode)")
     p.set_defaults(func=cmd_judge_prompt)
 
     p = sub.add_parser("patterns", help="editorial pattern findings (genre-aware; not an authorship score)")
@@ -397,6 +418,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--original")
     p.add_argument("--fact", action="append")
     p.add_argument("--repo")
+    p.add_argument("--request", help="the request the text was written for; a source only for facts it states")
+    p.add_argument("--judgment", action="append", help="grounding judgment JSON (from judge-prompt --fact)")
     p.set_defaults(func=cmd_ground)
 
     p = sub.add_parser("profile", help="build a Voice Profile v2 from authorized samples (no raw text stored)")

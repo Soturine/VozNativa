@@ -58,6 +58,27 @@ comando, cliente, resultado, motivo ou experiência. Se faltar um dado essencial
 [DADO NECESSÁRIO: ...] no lugar. Responda com o texto entre <final> e </final>."""
 
 
+REPOSITORY_SOURCE_WORDS = 4000
+
+
+def authorized_sources(request: str, facts: list[str] | None = None, project=None,
+                       repo_words: int = REPOSITORY_SOURCE_WORDS, original: str | None = None) -> list[tuple[str, str]]:
+    """The fact sources a created text may draw on, labeled, in a fixed order.
+
+    The writer prompt and the grounding judge get exactly this list, so the
+    judge checks the output against what the writer was allowed to use, not
+    only against the request. Repository docs are cut to ``repo_words``."""
+    sources = [("ORIGINAL", original)] if original and original.strip() else []
+    sources += [(f"FATO {i}", fact) for i, fact in enumerate(facts or [], 1) if fact.strip()]
+    if project is not None and project.doc_text.strip():
+        words = project.doc_text.split()
+        cut = " ".join(words[:repo_words]) + (" [...]" if len(words) > repo_words else "")
+        sources.append(("REPOSITÓRIO (documentação)", cut))
+    if request.strip():
+        sources.append(("PEDIDO", request))
+    return sources
+
+
 def _references_block(selection: dict, inline: bool, root: Path) -> str:
     if not selection["selected"]:
         return "REFERÊNCIAS: nenhuma."
@@ -73,7 +94,7 @@ def _references_block(selection: dict, inline: bool, root: Path) -> str:
 def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict | None = None,
                  feedback: list[str] | None = None, facts: list[str] | None = None,
                  inline_references: bool = False, root: Path | None = None,
-                 protect: list[str] | tuple = (), findings: dict | None = None) -> str:
+                 protect: list[str] | tuple = (), findings: dict | None = None, project=None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
@@ -134,7 +155,8 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
                        facts: list[str] | None = None, project=None, protect: list[str] | tuple = ()) -> dict:
     if context["task"] == "create":
         from .project import ground
-        report = ground(candidate, None, facts or [], project)
+        # The request is an authorized source for the facts it states itself.
+        report = ground(candidate, None, (facts or []) + ([original] if original.strip() else []), project)
     else:
         report = compare(original, candidate, protect)
     extra = []
@@ -192,7 +214,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             raws = [provider.humanize(text) for _ in range(candidates)]
         else:
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
-                                  protect=protect, findings=before)
+                                  protect=protect, findings=before, project=project)
             raws = provider.generate(prompt, candidates)
         reports, best = [], None
         for raw in raws:
@@ -211,7 +233,8 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             continue
         _, candidate, report, no_change = best
         if not no_change and judge_provider is not None and report["status"] == "no_deterministic_issues":
-            report = _judge_votes(judge_provider, text, candidate, report, judge_votes)
+            sources = authorized_sources(text, facts, project) if context["task"] == "create" else None
+            report = _judge_votes(judge_provider, text, candidate, report, judge_votes, sources)
             history[-1]["judge"] = report["status"]
             if report["status"] == "fail" and attempt < attempts:
                 # The judge found a meaning change: retry with what it saw instead of
@@ -285,7 +308,8 @@ def _extract_json(raw: str) -> tuple[dict, list[str]]:
         return data, repairs + ["removed trailing commas"]
 
 
-def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes: int) -> dict:
+def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes: int,
+                 sources: list[tuple[str, str]] | None = None) -> dict:
     """Independent judge calls; acceptance needs every vote to say equivalent.
 
     A single LLM verdict proved unstable (same model and prompt accepted and
@@ -295,7 +319,7 @@ def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes:
     unjudged instead of accepted."""
     deterministic, current = report, report
     for _ in range(max(1, votes)):
-        current = _judge(judge_provider, text, candidate, current)
+        current = _judge(judge_provider, text, candidate, current, sources=sources)
         if "judge_error" in current:
             if current["status"] == "fail":
                 return current
@@ -309,15 +333,27 @@ def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes:
 
 def _judge_feedback(report: dict) -> list[str]:
     last = report["evidence"]["judgments"][-1]
+    if last.get("mode") == "grounding":
+        lines = [f'afirmação sem fonte ({c.get("status")}): "{c.get("claim", "")}" {c.get("note", "")}'.strip()
+                 for c in last.get("claims", []) if c.get("status") != "supported"]
+        lines += [f'evidência citada não está nas fontes: "{c}"' for c in last.get("unbacked_claims", [])]
+        return lines or ["o juiz não encontrou nas fontes autorizadas o que a candidata afirma"]
     lines = [f'o juiz semântico apontou: "{c.get("source", "")}" -> {c.get("status")}: {c.get("note", "")}'.strip()
              for c in last.get("claims", []) if c.get("status") not in judge_mod.NON_PROBLEM_STATUSES]
     lines += [f"afirmação sem suporte no original: {a}" for a in last.get("added_claims", [])]
     return lines or ["o juiz semântico considerou a candidata não equivalente ao original"]
 
 
-def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2) -> dict:
-    """Ask the judge; on unparseable JSON, ask once more with the error."""
-    prompt, error = judge_mod.prompt(text, candidate, report), None
+def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2,
+           sources: list[tuple[str, str]] | None = None) -> dict:
+    """Ask the judge; on unparseable JSON, ask once more with the error.
+
+    With ``sources`` (create mode) the judge checks the candidate against the
+    authorized sources instead of comparing it with an original."""
+    grounding = sources is not None
+    prompt = (judge_mod.grounding_prompt(sources, candidate, report) if grounding
+              else judge_mod.prompt(text, candidate, report))
+    error = None
     for attempt in range(1, tries + 1):
         ask = prompt if error is None else prompt + f"\n\nSUA RESPOSTA ANTERIOR NÃO ERA JSON VÁLIDO ({error}). " \
                                                     "Responda só com o objeto JSON."
@@ -332,12 +368,18 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
             continue
         # A model provider is never a human reviewer, whatever it writes; and the
         # engine knows which texts it asked about, so it binds the hashes itself.
-        answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
+        if grounding:
+            answer.update(kind="llm", sources_sha256=judge_mod.sources_hash(sources),
+                          candidate_sha256=content_hash(candidate))
+        else:
+            answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
         answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
         if repairs or attempt > 1:
             answer["parse_repairs"] = repairs + ([f"answered on judge attempt {attempt}"] if attempt > 1 else [])
         try:
-            return apply_judgment(report, judge_mod.validate(answer, text, candidate))
+            judgment = (judge_mod.validate_grounding(answer, sources, candidate) if grounding
+                        else judge_mod.validate(answer, text, candidate))
+            return apply_judgment(report, judgment)
         except ValueError as exc:
             return dict(report, judge_error=str(exc))
     return dict(report, judge_error=error)

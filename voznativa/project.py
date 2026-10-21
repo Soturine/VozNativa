@@ -51,6 +51,7 @@ _CLI_NAMES = [
 # Tools the repository cannot vouch for; only project-specific tokens are checked.
 EXTERNAL_TOOLS = {"pip", "pip3", "python", "python3", "py", "npm", "npx", "pnpm", "yarn", "node", "git", "gh",
                   "uv", "uvx", "poetry", "make", "docker", "cargo", "go", "curl", "cd", "ls", "cat", "echo"}
+_PLACEHOLDER_GAP = re.compile(r"\[DADO NECESS[ÁA]RIO:[^\]]*\]", re.I)
 _PLACEHOLDER = re.compile(r"^(?:<.*>|\{.*\}|[A-Z][A-Z0-9_]+|.*[./\\].*)$")
 
 
@@ -225,6 +226,11 @@ def ground(candidate: str, original: str | None = None, facts: list[str] | None 
             issues.append({"code": "unsupported_span", "severity": "critical",
                            "message": f"{span.type} '{span.text}' is not supported by the original, "
                                       "fact files or repository", "text": span.text, "type": span.type})
+    for gap in _PLACEHOLDER_GAP.findall(candidate):
+        # The writer was told to mark missing data instead of inventing it; a text
+        # with a gap is honest but not finished, so a person has to fill it.
+        issues.append({"code": "missing_data_placeholder", "severity": "major",
+                       "message": f"the text still asks for data: {gap}", "text": gap})
     if any(i["severity"] == "critical" for i in issues):
         status = "fail"
     elif issues:
