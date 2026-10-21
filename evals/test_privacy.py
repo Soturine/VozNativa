@@ -58,7 +58,10 @@ def run_integration(tmp: Path, model_source: str, label: str, *extra: str) -> tu
 
 class RedactedIntegrationReports(unittest.TestCase):
     def assert_nothing_sensitive(self, content: str, tmp: Path):
-        for secret in ("SEGREDO-42", FAKE_KEY, FAKE_TOKEN, "private-cases-dir", str(tmp)):
+        # The path is checked raw and JSON-escaped: on Windows "C:\\Users\\..." is what the
+        # report contains, and a raw-only check passed there by accident (found on Linux).
+        for secret in ("SEGREDO-42", FAKE_KEY, FAKE_TOKEN, "private-cases-dir", str(tmp), json.dumps(str(tmp))[1:-1],
+                       Path(tmp).name):
             self.assertNotIn(secret, content)
         # An unkeyed sha256 would let anyone confirm a guessed text.
         self.assertNotIn(hashlib.sha256(SECRET_TEXT.encode("utf-8")).hexdigest(), content)
@@ -119,6 +122,13 @@ class RedactionHelpers(unittest.TestCase):
         self.assertNotIn("SEGREDO-42", out)
         self.assertNotIn(FAKE_KEY, out)
         self.assertIn("claim status must be one of", out)
+
+    def test_absolute_paths_keep_only_the_file_name(self):
+        from voznativa.redact import strip_paths
+        self.assertEqual(strip_paths(r"C:\Users\ana\AppData\Local\Temp\x\model.py"), "<path>/model.py")
+        self.assertEqual(strip_paths("command:/usr/bin/python /home/ana/m.py"), "command:<path>/python <path>/m.py")
+        for keep in ("vence em 18/10/2026", "https://example.org/a/b", "e/ou"):
+            self.assertEqual(strip_paths(keep), keep)
 
     def test_short_texts_are_not_reversible_by_plain_hash(self):
         a, b = shield("sim", b"k1"), shield("sim", b"k2")

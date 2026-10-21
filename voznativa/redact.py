@@ -78,6 +78,16 @@ def redact_argv(argv: list[str]) -> list[str]:
     return out
 
 
+# Absolute paths (C:\..., \\server\..., /home/...) reveal user names and folder
+# layouts; a redacted run keeps only the file name.
+_ABS_PATH = re.compile(r"(?:(?<![\w])[A-Za-z]:[\\/]|(?<![\w\\])\\\\|(?<![\w/])/(?!/))"
+                       r"(?:[A-Za-z_.~$][^\s\\/\"'<>|:]*[\\/])+([^\s\\/\"'<>|:]*)")
+
+
+def strip_paths(text: str) -> str:
+    return _ABS_PATH.sub(lambda m: "<path>/" + m.group(1), text)
+
+
 def scrub_message(message: str | None, texts: list[str] = (), limit: int = 300) -> str | None:
     """Free text safe to record in a redacted run: secrets masked, quoted
     material removed, and any sentence of a known text (input, output, model
@@ -89,5 +99,5 @@ def scrub_message(message: str | None, texts: list[str] = (), limit: int = 300) 
         for piece in sorted({p.strip() for p in re.split(r"(?<=[.!?\n])\s+", text)}, key=len, reverse=True):
             if len(piece) >= 8:
                 message = message.replace(piece, MASK)
-    message = _QUOTED.sub(MASK, message)
+    message = strip_paths(_QUOTED.sub(MASK, message))
     return message if len(message) <= limit else message[:limit] + f"... [{len(message) - limit} chars cut]"

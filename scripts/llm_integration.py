@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT))
 from voznativa.benchmark import load_cases  # noqa: E402
 from voznativa.engine import rewrite  # noqa: E402
 from voznativa.providers import CommandProvider  # noqa: E402
-from voznativa.redact import new_key, redact_argv, scrub_message, scrub_secrets  # noqa: E402
+from voznativa.redact import new_key, redact_argv, scrub_message, scrub_secrets, strip_paths  # noqa: E402
 from voznativa.redact import shield as keyed_shield  # noqa: E402
 from voznativa.router import route  # noqa: E402
 
@@ -87,7 +87,7 @@ def main() -> int:
             "kind_of_evidence": "real external model call; not deterministic; not human review",
             "run_at": stamp,
             # Credentials in the command are masked with or without --redact.
-            "command": redact_argv(json.loads(args.cmd)),
+            "command": [strip_paths(a) if args.redact else a for a in redact_argv(json.loads(args.cmd))],
             "model_label": args.model_label,
             "cli_version": version,
             "voznativa_code": code_state,
