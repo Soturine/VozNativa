@@ -69,6 +69,10 @@ def main() -> int:
     parts = [
         "# Exemplos reais",
         "",
+        "> v0.4.0: `examples/v0.4.0-demo.md` mostra, para cinco casos do `ptbr-bench-v2`, o plano (o que mudar e "
+        "por quê), a saída real, o gate e os riscos detectados, ao lado do prompt de uma linha. Regenerar: "
+        "`python scripts/demo.py` (não chama modelo).",
+        "",
         "Gerado por `scripts/make_examples.py` a partir de execuções gravadas com `claude-sonnet-5-5`. "
         "Os textos de entrada são sintéticos (escritos para os benchmarks). O relatório semântico é recalculado "
         "com o código atual; o veredito do juiz é o registrado na execução. Nada aqui é revisão humana.",
