@@ -163,7 +163,12 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("number", re.compile(r"\b(?:dobro|metade|triplo)\b", re.I)),
     ("weekday", re.compile(r"\b(?:segunda|ter[cç]a|quarta|quinta|sexta)-feira\b|\bs[aá]bado\b|\bdomingo\b", re.I)),
     ("weekday", re.compile(
-        r"\b(?:at[eé]|na|nesta|pr[oó]xima|esta|toda|de)\s+(?:a\s+)?(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)\b", re.I)),
+        r"\b(?:at[eé]|na|nesta|pr[oó]xima|esta|toda|de|pra|para)\s+(?:a\s+)?(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)\b",
+        re.I)),
+    # Chat style drops the preposition ("reunião segue quinta às 10h"); a clock
+    # time right after the bare day name makes it a weekday, not an ordinal.
+    ("weekday", re.compile(
+        r"\b(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)(?=,?\s+(?:[àa]s?\s+)?\d{1,2}(?:h|:\d{2}))", re.I)),
     ("relative_time", re.compile(
         r"\b(?:depois de amanh[aã]|anteontem|amanh[aã]|hoje|ontem|semana que vem|pr[oó]xima semana|"
         r"m[eê]s que vem|pr[oó]ximo m[eê]s|ano que vem|pr[oó]ximo ano|(?:fim|final) do m[eê]s|"
