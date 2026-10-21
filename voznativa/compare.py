@@ -577,6 +577,10 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
     elif verdict == "uncertain":
         merged.update(status="review_required", safe_to_auto_accept=False, requires=["human_review"])
     elif status == "no_deterministic_issues" or (status == "review_required" and kind == "human"):
+        if kind == "human":
+            # Accepted on a valid signature; what the signature does NOT show
+            # (who the person is, whether they are independent) travels with it.
+            merged["human_review"] = {"authenticity": "verified", "assurance": judgment.get("assurance")}
         judged = "grounded" if judgment.get("mode") == "grounding" else "equivalent"
         merged.update(status=f"accepted_by_{kind}",
                       semantic_equivalence=f"judged_{judged}_by_{kind}",

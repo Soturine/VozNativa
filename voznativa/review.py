@@ -6,13 +6,26 @@ valid signature made by ``voznativa review``, which:
 * runs only in an interactive terminal (an agent's non-interactive shell
   cannot answer it);
 * binds the verdict to the exact texts (sha256 of original and candidate);
-* signs the judgment with HMAC-SHA256 using a per-user key kept outside the
-  repository (``~/.voznativa/review.key`` or ``VOZNATIVA_REVIEW_KEY``).
+* signs the judgment, by default with HMAC-SHA256 and a per-user key kept
+  outside the repository (``~/.voznativa/review.key`` or
+  ``VOZNATIVA_REVIEW_KEY``), or with the reviewer's own SSH key
+  (``--ssh-key``), verified against the public keys in a reviewer registry.
 
-What this proves: the holder of that key, on a machine that has it, approved
-these exact texts. It does not prove who the person is, and a process that
-reads the key file can forge a signature; on a machine without the key the
-signature cannot be checked and the review stays "claimed".
+A signature answers four different questions, and ``assess()`` reports them
+apart instead of folding them into one "verified":
+
+* integrity: were these exact bytes signed by that key?
+* key possession: who can hold the key? The HMAC key is a shared secret on
+  this machine: any process running as this OS user (the developer, an
+  agent) can read it and sign, and checking it needs the same secret. An SSH
+  key is private to the signer; the project keeps only the public key.
+* declared identity: ``judge_id``, the SSH principal and the OS user are
+  what someone typed or what the machine reports. Nothing here proves who a
+  person is.
+* independence: whether the reviewer is someone other than the people who
+  built what is being judged. A signature can never show it; at most the
+  reviewer registry records it as declared, and an HMAC review on the
+  developer's machine is never counted as independent.
 """
 from __future__ import annotations
 
@@ -23,11 +36,17 @@ import json
 import os
 import platform
 import secrets
+import shutil
+import subprocess
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
 
 SIGNATURE_ALG = "HMAC-SHA256"
+SSH_ALG = "ssh-sig"
+SSH_NAMESPACE = "voznativa-review"
+RELATIONSHIPS = {"independent", "collaborator", "developer"}
 
 
 def content_hash(text: str) -> str:
@@ -57,7 +76,7 @@ def _load_key(create: bool = False) -> bytes | None:
 
 
 def _canonical(judgment: dict) -> bytes:
-    body = {k: v for k, v in judgment.items() if k not in {"signature", "authenticity"}}
+    body = {k: v for k, v in judgment.items() if k not in {"signature", "authenticity", "assurance"}}
     return json.dumps(body, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
@@ -71,11 +90,89 @@ def sign(judgment: dict, key: bytes) -> dict:
     return signed
 
 
-def verify(judgment: dict) -> str:
-    """'verified', 'unsigned', 'no_local_key', 'other_key' or 'invalid'."""
+# --- SSH signatures (ssh-keygen -Y, OpenSSH >= 8.1; no Python dependency) -------
+
+def _ssh_keygen() -> str:
+    found = shutil.which("ssh-keygen")
+    if not found:
+        raise ValueError("ssh-keygen (OpenSSH 8.1+) is needed for SSH-signed reviews")
+    return found
+
+
+def sign_ssh(judgment: dict, key_file: str | Path, principal: str, timeout: float = 120.0) -> dict:
+    """Sign with the reviewer's own SSH private key. The principal is part of
+    the signed body, so it cannot be swapped afterwards."""
+    if not principal:
+        raise ValueError("an SSH-signed review needs a principal (the name in allowed_signers)")
+    body = dict(judgment, signer={"principal": principal, "method": SSH_ALG})
+    with tempfile.TemporaryDirectory(prefix="voznativa-sign-") as tmp:
+        data = Path(tmp) / "judgment.json"
+        data.write_bytes(_canonical(body))
+        # Fresh paths only: ssh-keygen asks before overwriting a .sig and would hang.
+        done = subprocess.run([_ssh_keygen(), "-Y", "sign", "-f", str(key_file), "-n", SSH_NAMESPACE, str(data)],
+                              stdin=subprocess.DEVNULL, capture_output=True, timeout=timeout, check=False)
+        sig = data.with_name(data.name + ".sig")
+        if done.returncode != 0 or not sig.is_file():
+            raise ValueError("ssh-keygen could not sign: " + done.stderr.decode("utf-8", "replace").strip()[:300])
+        value = sig.read_text(encoding="ascii")
+    body["signature"] = {"alg": SSH_ALG, "namespace": SSH_NAMESPACE, "principal": principal, "value": value}
+    return body
+
+
+def registry_dir() -> Path | None:
+    """Reviewer registry: ``allowed_signers`` (OpenSSH public keys) and
+    ``registry.json`` (declared identity and relationship to the project)."""
+    env = os.environ.get("VOZNATIVA_REVIEWERS")
+    if env:
+        return Path(env)
+    from .paths import candidates
+    for root in candidates():
+        if (root / "evals" / "reviewers" / "allowed_signers").is_file():
+            return root / "evals" / "reviewers"
+    return None
+
+
+def load_registry(directory: Path | None = None) -> dict:
+    directory = directory or registry_dir()
+    if directory is None or not (directory / "registry.json").is_file():
+        return {}
+    data = json.loads((directory / "registry.json").read_text(encoding="utf-8"))
+    return data.get("reviewers", {})
+
+
+def _verify_ssh(judgment: dict, directory: Path | None) -> str:
+    signature = judgment["signature"]
+    allowed = directory / "allowed_signers" if directory else None
+    if allowed is None or not allowed.is_file():
+        return "no_registry"
+    principal = signature.get("principal") or ""
+    if principal != (judgment.get("signer") or {}).get("principal"):
+        return "invalid"
+    if not any(line.split()[:1] == [principal] for line in allowed.read_text(encoding="utf-8").splitlines()
+               if line.strip() and not line.startswith("#")):
+        return "unknown_signer"
+    try:
+        keygen = _ssh_keygen()
+    except ValueError:
+        return "no_verifier"
+    with tempfile.TemporaryDirectory(prefix="voznativa-verify-") as tmp:
+        sig = Path(tmp) / "judgment.sig"
+        sig.write_text(signature.get("value", ""), encoding="ascii")
+        done = subprocess.run([keygen, "-Y", "verify", "-f", str(allowed), "-I", principal, "-n", SSH_NAMESPACE,
+                               "-s", str(sig)], input=_canonical(judgment), capture_output=True, timeout=60,
+                              check=False)
+    return "verified" if done.returncode == 0 else "invalid"
+
+
+def verify(judgment: dict, registry: Path | None = None) -> str:
+    """'verified', 'unsigned', 'invalid', and why a signature could not be
+    checked here: 'no_local_key', 'other_key' (HMAC from another machine or
+    user), 'no_registry', 'unknown_signer' or 'no_verifier' (SSH)."""
     signature = judgment.get("signature")
     if not signature:
         return "unsigned"
+    if signature.get("alg") == SSH_ALG:
+        return _verify_ssh(judgment, registry or registry_dir())
     key = _load_key()
     if key is None:
         return "no_local_key"
@@ -85,11 +182,52 @@ def verify(judgment: dict) -> str:
     return "verified" if hmac.compare_digest(expected, signature.get("value", "")) else "invalid"
 
 
+def signer_key(judgment: dict) -> str | None:
+    """A stable id of the key that signed (HMAC key id or SSH principal)."""
+    signature = judgment.get("signature") or {}
+    if signature.get("alg") == SSH_ALG:
+        return "ssh:" + str(signature.get("principal"))
+    return "hmac:" + str(signature.get("key_id")) if signature.get("key_id") else None
+
+
+def assess(judgment: dict, registry: Path | None = None) -> dict:
+    """Integrity, key possession, declared identity and independence, apart."""
+    status = verify(judgment, registry)
+    integrity = {"verified": "valid", "invalid": "invalid", "unsigned": "unsigned"}.get(status, "unverifiable")
+    signature = judgment.get("signature") or {}
+    attestation = judgment.get("attestation") or {}
+    identity = {"judge_id": judgment.get("judge_id"), "os_user": attestation.get("os_user"),
+                "host": attestation.get("host"), "verified": False,
+                "note": "declared by the reviewer or reported by the machine; never proof of who signed"}
+    if signature.get("alg") == SSH_ALG:
+        principal = signature.get("principal")
+        entry = load_registry(registry).get(principal, {}) if integrity == "valid" else {}
+        identity.update(principal=principal, registry_name=entry.get("declared_name"))
+        possession = ("private SSH key of the registered principal; the project holds only its public key"
+                      if integrity == "valid" else "SSH key not checked against the registry here")
+        relationship = entry.get("relationship")
+        independence = ("declared" if relationship == "independent" else
+                        "none" if relationship == "developer" else "not_established")
+        independence_basis = (f"reviewer registry: relationship={relationship}" if relationship else
+                              "no relationship recorded for this principal")
+    else:
+        possession = ("shared HMAC secret of this machine's OS user: anyone or any process with access to "
+                      f"{key_path()} could have signed" if integrity == "valid" else
+                      "HMAC key not available here" if status in {"no_local_key", "other_key"} else None)
+        independence = "not_established"
+        independence_basis = ("a local HMAC key cannot tell the developer, an agent and another person apart"
+                              if signature else "unsigned")
+    return {"integrity": integrity, "check": status, "method": signature.get("alg"), "key": signer_key(judgment),
+            "key_possession": possession, "declared_identity": identity,
+            "independence": independence, "independence_basis": independence_basis}
+
+
 VERDICTS = {"e": "equivalent", "n": "not_equivalent", "u": "uncertain"}
 
 
 def interactive_review(original: str, candidate: str, report: dict, reviewer: str,
-                       ask: Callable[[str], str] = input, show: Callable[[str], None] = print) -> dict:
+                       ask: Callable[[str], str] = input, show: Callable[[str], None] = print,
+                       ssh_key: str | None = None, principal: str | None = None) -> dict:
     """Ask a person for a verdict and return a signed, text-bound judgment."""
     show("=== ORIGINAL ===\n" + original + "\n=== CANDIDATA ===\n" + candidate)
     show(f"Gate determinístico: {report['status']}")
@@ -113,4 +251,6 @@ def interactive_review(original: str, candidate: str, report: dict, reviewer: st
         "attestation": {"method": "interactive_tty", "os_user": getpass.getuser(), "host": platform.node()},
         "recorded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
+    if ssh_key:
+        return sign_ssh(judgment, ssh_key, principal or reviewer)
     return sign(judgment, _load_key(create=True))

@@ -29,11 +29,13 @@ def cmd_review(args):
                          "Agents and scripts cannot record a human review.")
     original, candidate = _read(args.original), _read(args.candidate)
     report = compare(original, candidate)
-    judgment = interactive_review(original, candidate, report, args.reviewer)
+    judgment = interactive_review(original, candidate, report, args.reviewer, ssh_key=args.ssh_key,
+                                  principal=args.principal)
     Path(args.out).write_text(json.dumps(judgment, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     from .judge import validate
     final = apply_judgment(report, validate(judgment, original, candidate))
-    sys.stdout.write(f"saved {args.out} (signed with {key_path()}); status: {final['status']}\n")
+    signer = args.ssh_key or key_path()
+    sys.stdout.write(f"saved {args.out} (signed with {signer}); status: {final['status']}\n")
     return EXIT_BY_STATUS.get(final["status"], 2)
 
 
@@ -301,7 +303,8 @@ def cmd_blind_review(args):
     from .blind import review
     if not (sys.stdin.isatty() and sys.stdout.isatty()):
         raise ValueError("blind-review needs an interactive terminal: a person must answer it")
-    answers = review(json.loads(_read(args.tasks)), args.reviewer, limit=args.limit)
+    answers = review(json.loads(_read(args.tasks)), args.reviewer, limit=args.limit, ssh_key=args.ssh_key,
+                     principal=args.principal)
     with open(args.out, "a", encoding="utf-8") as handle:
         for answer in answers:
             handle.write(json.dumps(answer, ensure_ascii=False) + "\n")
@@ -310,7 +313,14 @@ def cmd_blind_review(args):
 
 def cmd_blind_summary(args):
     from .blind import load_jsonl, summarize
-    _emit(summarize(json.loads(_read(args.tasks)), load_jsonl(Path(args.answers))))
+    _emit(summarize(json.loads(_read(args.tasks)), load_jsonl(Path(args.answers)),
+                    Path(args.reviewers) if args.reviewers else None))
+
+
+def _signing_args(p):
+    p.add_argument("--ssh-key", help="sign with your own SSH private key (ssh-keygen -Y) instead of the local "
+                                     "HMAC key; the project verifies it with the public key in its registry")
+    p.add_argument("--principal", help="name of your key in allowed_signers (default: --reviewer)")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -333,8 +343,9 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("review", help="record a signed human review (interactive terminal only)")
     p.add_argument("original")
     p.add_argument("candidate")
-    p.add_argument("--reviewer", required=True, help="who is reviewing (name or id)")
+    p.add_argument("--reviewer", required=True, help="who is reviewing (a declared name; not verified)")
     p.add_argument("--out", required=True, help="where to save the signed judgment JSON")
+    _signing_args(p)
     p.set_defaults(func=cmd_review)
 
     p = sub.add_parser("blind-tasks", help="build blind pairwise review tasks from a benchmark run")
@@ -349,11 +360,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--reviewer", required=True)
     p.add_argument("--out", required=True, help="JSONL file to append signed answers to")
     p.add_argument("--limit", type=int)
+    _signing_args(p)
     p.set_defaults(func=cmd_blind_review)
 
     p = sub.add_parser("blind-summary", help="wins per arm from verified human answers")
     p.add_argument("tasks")
     p.add_argument("answers")
+    p.add_argument("--reviewers", help="reviewer registry dir (allowed_signers + registry.json) for SSH signatures")
     p.set_defaults(func=cmd_blind_summary)
 
     p = sub.add_parser("judge-prompt", help="print the semantic-judge prompt for any LLM or reviewer")

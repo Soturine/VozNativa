@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "note": "Declared identity and relationship of each SSH principal in allowed_signers. Everything here is declared (by the reviewer, recorded by the maintainer); nothing is identity-proofed. relationship: independent | collaborator | developer.",
+  "reviewers": {}
+}

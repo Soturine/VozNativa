@@ -1,0 +1,2 @@
+# OpenSSH allowed_signers: "<principal> <public key>", one per line.
+# Added only by the maintainer, from a key the reviewer sent; see README.md.

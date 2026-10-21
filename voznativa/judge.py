@@ -15,7 +15,7 @@ from . import ledger as ledger_mod
 from .compare import JUDGE_KINDS, JUDGE_VERDICTS
 from .review import content_hash
 from .text import normalize_surface
-from .review import verify as verify_review
+from .review import assess as assess_review
 
 CLAIM_STATUSES = {"preserved", "formula_removed", "omitted", "changed", "strengthened", "weakened", "reversed"}
 # Statuses compatible with an "equivalent" verdict. formula_removed covers emphasis
@@ -101,7 +101,8 @@ def validate(judgment: dict, original: str, candidate: str) -> dict:
     normalized = dict(judgment)
     normalized.setdefault("recorded_at", datetime.now(timezone.utc).isoformat(timespec="seconds"))
     if kind == "human":
-        normalized["authenticity"] = verify_review(judgment)
+        normalized["assurance"] = assess_review(judgment)
+        normalized["authenticity"] = normalized["assurance"]["check"]
     interactive = kind == "human" and normalized.get("authenticity") == "verified" and \
         (judgment.get("attestation") or {}).get("method") == "interactive_tty"
     problems = [c for c in claims if c["status"] not in NON_PROBLEM_STATUSES]
