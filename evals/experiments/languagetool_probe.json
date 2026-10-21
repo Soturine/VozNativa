@@ -1,0 +1,769 @@
+{
+  "kind": "voznativa.experiment",
+  "name": "languagetool_probe",
+  "version": "v0.4.0 M2",
+  "tool": {
+    "name": "LanguageTool",
+    "version": "6.6 (standalone, LanguageTool-stable.zip, build 2025-03-27)",
+    "license": "LGPL-2.1",
+    "mode": "local HTTP server; default rules; language pt-BR"
+  },
+  "originals": {
+    "texts": 28,
+    "with_errors": 8,
+    "rules": {
+      "MORFOLOGIK_RULE_PT_BR": 9,
+      "UPPERCASE_SENTENCE_START": 6,
+      "NUMBER_ABREVIATION": 1,
+      "PT_DATE_WEEKDAY_CURRENTYEAR": 1
+    }
+  },
+  "outputs": {
+    "pairs": 86,
+    "with_introduced": 1,
+    "rules": {
+      "GENERAL_VERB_AGREEMENT_ERRORS": 1
+    },
+    "introduced_by_arm": {
+      "B1-one-line": 1,
+      "B2-blader": 0,
+      "B3-work-humanizer": 0,
+      "B5a-voznativa-prompt": 0,
+      "B5b-voznativa-engine": 0,
+      "engine-integration": 0
+    }
+  },
+  "details": {
+    "originals": [
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-academic-001",
+        "words": 70,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-corp-001",
+        "words": 67,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-social-001",
+        "words": 56,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-status-001",
+        "words": 57,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-support-001",
+        "words": 57,
+        "errors": [
+          {
+            "rule": "NUMBER_ABREVIATION",
+            "category": "PUNCTUATION",
+            "text": "nº",
+            "message": "As abreviaturas para número são: “n.º” ou “núm.”"
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-ai-drafts-v1",
+        "id": "ai-tech-001",
+        "words": 57,
+        "errors": [
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "DATABASE_URL",
+            "message": "Encontrado possível erro de ortografia."
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-01",
+        "words": 50,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-02",
+        "words": 42,
+        "errors": [
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "npm",
+            "message": "Encontrado possível erro de ortografia."
+          },
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "audit",
+            "message": "Encontrado possível erro de ortografia."
+          },
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "release",
+            "message": "Encontrado possível erro de ortografia."
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-03",
+        "words": 57,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-04",
+        "words": 41,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-05",
+        "words": 47,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-06",
+        "words": 49,
+        "errors": [
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "deploy",
+            "message": "Encontrado possível erro de ortografia."
+          },
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "rollback",
+            "message": "Encontrado possível erro de ortografia."
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-07",
+        "words": 45,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-08",
+        "words": 33,
+        "errors": [
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "gente",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          },
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "cada",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          },
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "quem",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-09",
+        "words": 27,
+        "errors": [
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "pytest",
+            "message": "Encontrado possível erro de ortografia."
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-10",
+        "words": 34,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-11",
+        "words": 28,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-bench-v1",
+        "id": "pb-12",
+        "words": 31,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-academic-001",
+        "words": 54,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-corporate-001",
+        "words": 54,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-email-001",
+        "words": 54,
+        "errors": [
+          {
+            "rule": "PT_DATE_WEEKDAY_CURRENTYEAR",
+            "category": "SEMANTICS",
+            "text": "sábado, 8",
+            "message": "Refere-se ao ano atual? 8 de novembro, 2026 não é sábado, mas sim domingo."
+          },
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "deploy",
+            "message": "Encontrado possível erro de ortografia."
+          }
+        ]
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-journalistic-001",
+        "words": 54,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-legal-001",
+        "words": 49,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-social-001",
+        "words": 58,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-tech-001",
+        "words": 53,
+        "errors": []
+      },
+      {
+        "suite": "ptbr-v1",
+        "id": "bm-whatsapp-001",
+        "words": 47,
+        "errors": [
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "oi",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          },
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "vou",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          },
+          {
+            "rule": "MORFOLOGIK_RULE_PT_BR",
+            "category": "TYPOS",
+            "text": "nn",
+            "message": "Encontrado possível erro de ortografia."
+          },
+          {
+            "rule": "UPPERCASE_SENTENCE_START",
+            "category": "CASING",
+            "text": "qualquer",
+            "message": "Esta frase não inicia com um letra maiúscula"
+          }
+        ]
+      },
+      {
+        "suite": "smoke",
+        "id": "tech-001",
+        "words": 25,
+        "errors": []
+      },
+      {
+        "suite": "smoke",
+        "id": "work-001",
+        "words": 22,
+        "errors": []
+      }
+    ],
+    "pairs": [
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-02",
+        "introduced": [
+          {
+            "rule": "GENERAL_VERB_AGREEMENT_ERRORS",
+            "category": "GRAMMAR",
+            "text": "as dependências é",
+            "message": "Possível erro de concordância verbal.",
+            "replacements": [
+              "as dependências são",
+              "as dependências, é"
+            ]
+          }
+        ]
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B1-one-line",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-02",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-02",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B2-blader",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B3-work-humanizer",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-02",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5a-voznativa-prompt",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-02",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T060615Z.json:B5b-voznativa-engine",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-02",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-03",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-04",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-01",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-08",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-09",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-10",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-11",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-12",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-05",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-07",
+        "introduced": []
+      },
+      {
+        "source": "ptbr-bench-v1-20261020T061509Z.json:B5b-voznativa-engine",
+        "id": "pb-06",
+        "introduced": []
+      },
+      {
+        "source": "20261019T060846Z-claude-sonnet-5-5-ptbr-v1-prefix.json",
+        "id": "bm-email-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-corp-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-tech-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-academic-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-support-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-status-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json",
+        "id": "bm-email-001",
+        "introduced": []
+      },
+      {
+        "source": "20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json",
+        "id": "bm-corporate-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-corp-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-tech-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-academic-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-support-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json",
+        "id": "ai-status-001",
+        "introduced": []
+      },
+      {
+        "source": "20261020T060331Z-claude-sonnet-5-5-ptbr-v1.json",
+        "id": "bm-email-001",
+        "introduced": []
+      }
+    ]
+  },
+  "note": "matches are what LanguageTool reports, not verified errors; the reading is in docs/EVALUATION.md",
+  "developer_reading": {
+    "who": "the VozNativa developer (agent session), not independent review",
+    "introduced_in_outputs": "1 match in 86 real rewrites (B1 one-line prompt, pb-02): 'gerenciar bem as dependências é essencial' — the infinitive clause takes a singular verb, so the match is a false positive. True introduced errors found: 0.",
+    "originals": "16 of 17 matches are false positives for this use: technical terms read as typos (deploy, rollback, release, npm, pytest, DATABASE_URL), lowercase chat sentences, 'nº'. One real catch: bm-email-001 says 'sábado, 8 de novembro'; 8 Nov 2026 is a Sunday (LanguageTool assumed the current year).",
+    "decision": "not adopted: no measured benefit for rewrite safety and noise on technical and chat text. The client lives only in this script. The weekday/date consistency idea is implemented deterministically in VozNativa, only when the year is explicit.",
+    "date": "2026-10-21"
+  }
+}
