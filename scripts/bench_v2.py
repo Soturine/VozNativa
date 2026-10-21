@@ -44,6 +44,7 @@ from voznativa.review import content_hash  # noqa: E402
 from voznativa.router import route  # noqa: E402
 
 WRAPPER = ROOT / "scripts" / "bench_model_wrapper.py"
+DRIVER = ROOT / "scripts" / "bench_engine_driver.py"
 
 
 class Spend:
@@ -76,23 +77,22 @@ def ask(prompt: str, tag: str, env: dict, spend: Spend, timeout: float = 450) ->
 
 def engine(checkout: Path, case: dict, tag: str, env: dict, spend: Spend) -> tuple[str, dict]:
     spend.check()
-    hints = case.get("hints") or {}
+    hints = dict(case.get("hints") or {})
+    if case.get("channel") and "channel" not in hints:
+        hints["channel"] = case["channel"]
     cmd = json.dumps([sys.executable, str(WRAPPER)])
     with tempfile.TemporaryDirectory(prefix="vn-case-") as tmp:
         path = Path(tmp) / "texto.txt"
         path.write_text(case["text"], encoding="utf-8")
-        argv = [sys.executable, str(checkout / "scripts" / "voznativa_cli.py"), "rewrite", str(path),
-                "--genre", case["genre"], "--cmd", cmd, "--judge-cmd", cmd, "--attempts", "3", "--judge-votes", "2"]
-        if case.get("channel") and "channel" not in hints:
-            argv += ["--channel", case["channel"]]
-        for key in ("channel", "register", "audience"):
-            if hints.get(key):
-                argv += [f"--{key}", hints[key]]
+        argv = [sys.executable, str(DRIVER), str(checkout), str(path), case["genre"],
+                json.dumps({k: v for k, v in hints.items() if k in {"channel", "register", "audience"}}), cmd]
         done = subprocess.run(argv, capture_output=True, env=dict(env, VN_TAG=tag), timeout=3600, cwd=tmp)
     try:
         result = json.loads(done.stdout.decode("utf-8"))
     except json.JSONDecodeError:
-        raise RuntimeError(f"engine exited {done.returncode}: {done.stderr.decode('utf-8', 'replace')[:300]}")
+        raise RuntimeError(f"engine exited {done.returncode}: {done.stderr.decode('utf-8', 'replace')[-300:]}")
+    if not Path(result["engine_file"]).is_relative_to(Path(checkout).resolve()):
+        raise RuntimeError(f"engine imported from the wrong checkout: {result['engine_file']}")
     return result["text"], {"outcome": result["outcome"], "status": (result.get("report") or {}).get("status"),
                             "attempts": len(result.get("attempts") or []),
                             "no_change_reason": (result.get("decision") or {}).get("no_change_reason")}

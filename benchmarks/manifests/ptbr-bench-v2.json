@@ -5,26 +5,63 @@
   "cases_sha256": "e1af80bad74983b4e3f349a519141087646e077fe54854bc3aa6e2e1d969d4e0",
   "author": "VozNativa developer (not independent; wrote the v0.4.0 rules before the cases)",
   "class": "skill-only + engine: every arm uses the same model through scripts/bench_model_wrapper.py",
-  "base_model": {"cli": "Claude Code CLI 2.1.301", "model": "claude-sonnet-5-5", "tools": "none", "mcp": "none", "workdir": "empty temp dir"},
+  "base_model": {
+    "cli": "Claude Code CLI 2.1.301",
+    "model": "claude-sonnet-5-5",
+    "tools": "none",
+    "mcp": "none",
+    "workdir": "empty temp dir"
+  },
   "cases": "15: 6 AI-style drafts, 4 natural texts, 3 destination changes (e-mail -> WhatsApp, chat -> formal e-mail, technical -> lay audience), 1 PT-PT text, 1 text with a planted instruction",
   "arms": {
     "B0-original": "the input text itself",
     "B1-one-line": "Reescreva para soar mais natural, sem alterar o significado. (+ the case request, if any)",
-    "B2-blader": {"repo": "https://github.com/blader/humanizer", "commit": "8c307f3", "file": "SKILL.md", "license": "MIT"},
-    "B3-work-humanizer": {"repo": "https://github.com/phuryn/work-humanizer", "commit": "0a90657", "file": "skills/work-humanizer/SKILL.md", "license": "MIT"},
-    "B5-voznativa-v030": {"commit": "0ba7bc2", "what": "full v0.3.0 engine (previous baseline): rewrite --attempts 3 --judge-votes 2, request as --channel/--register/--audience"},
-    "B5-voznativa-v040": {"commit": "the checkout that runs (recorded in the run)", "what": "full v0.4.0 engine, same flags"}
+    "B2-blader": {
+      "repo": "https://github.com/blader/humanizer",
+      "commit": "8c307f3",
+      "file": "SKILL.md",
+      "license": "MIT"
+    },
+    "B3-work-humanizer": {
+      "repo": "https://github.com/phuryn/work-humanizer",
+      "commit": "0a90657",
+      "file": "skills/work-humanizer/SKILL.md",
+      "license": "MIT"
+    },
+    "B5-voznativa-v030": {
+      "commit": "0ba7bc2",
+      "what": "full v0.3.0 engine (previous baseline): rewrite(attempts=3, judge_votes=2) called in-process from a worktree at 0ba7bc2 through scripts/bench_engine_driver.py, request as channel/register/audience hints. The v0.3.0 CLI rewrite command crashes before reaching the engine (fixed in v0.4.0, 568e35a), so the CLI is not used for either engine arm."
+    },
+    "B5-voznativa-v040": {
+      "commit": "the checkout that runs (recorded in the run)",
+      "what": "full v0.4.0 engine, same driver and arguments, from this checkout"
+    }
   },
   "requests": "B1-B3 get the case request appended to their instruction; the engine arms get the same request as CLI hints",
   "metrics": {
-    "deterministic": ["VozNativa v0.4.0 compare status vs the original", "must_preserve invariants (surface check)", "editorial findings after (v0.4.0 detector)", "PT-PT forms after", "length ratio"],
-    "behavior": ["natural texts changed", "destination-change cases left unchanged", "planted instruction obeyed"],
+    "deterministic": [
+      "VozNativa v0.4.0 compare status vs the original",
+      "must_preserve invariants (surface check)",
+      "editorial findings after (v0.4.0 detector)",
+      "PT-PT forms after",
+      "length ratio"
+    ],
+    "behavior": [
+      "natural texts changed",
+      "destination-change cases left unchanged",
+      "planted instruction obeyed"
+    ],
     "llm_judge": "same judge prompt (v0.4.0 judge-prompt) for every changed output, kind=llm, separate call",
-    "operational": ["system cost (calls made by the arm itself)", "judge cost", "latency"],
+    "operational": [
+      "system cost (calls made by the arm itself)",
+      "judge cost",
+      "latency"
+    ],
     "human": "none; blind review packets can be built from the run",
     "detectors": "not used"
   },
   "bias_disclosure": "Instruments, cases and the judge prompt are VozNativa's own, written by the developer of the v0.4.0 rules; the 'findings after' metric uses the detector v0.4.0 targets and favors it. The judge is the same model as the writers. Invariants are surface checks: a faithful paraphrase can miss one.",
   "budget_usd": 15,
-  "rule": "the first complete run is the official result; reruns are reported separately, never replace it"
+  "rule": "the first complete run is the official result; reruns are reported separately, never replace it",
+  "amended_before_first_run": "2026-10-21: engine arms switched from the CLI to the in-process driver after a dry run with a fake model found the v0.3.0 CLI crash; cases and metrics unchanged"
 }
