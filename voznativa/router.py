@@ -171,12 +171,17 @@ def transformation_targets(text: str, context: dict, profile: dict | None = None
     # Genre and channel labels are routine context (benchmarks pass them for
     # every case): they ask for a change only when the source is confidently
     # something else, never when its genre is unknown or the channel unmapped.
-    if explicit_genre and known and context["genre"]["value"] != source_genre:
+    groups = [set(g) for g in d.get("compatible_genres", {}).get("groups", [])]
+
+    def different(a: str, b: str) -> bool:
+        return a != b and not any(a in g and b in g for g in groups)
+
+    if explicit_genre and known and different(context["genre"]["value"], source_genre):
         add("genre", context["genre"]["value"], True)
     if context["channel"]["source"] == "explicit" and known:
         channel = context["channel"]["value"]
         genre = d.get("channel_genre", {}).get(channel.lower(), channel if channel in d["genres"] else None)
-        if genre and genre != source_genre:
+        if genre and different(genre, source_genre):
             add("channel", channel, True)
     if context["flags"].get("register_explicit"):
         source_register = d["default_register"].get(source_genre) if known else None

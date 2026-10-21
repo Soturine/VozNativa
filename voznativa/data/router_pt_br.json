@@ -126,5 +126,18 @@
     "press": "journalistic",
     "paper": "academic",
     "thesis": "academic"
+  },
+  "compatible_genres": {
+    "_note": "genres close enough that labeling a text with one when it reads as the other is not a request to change it",
+    "groups": [
+      [
+        "technical",
+        "documentation"
+      ],
+      [
+        "corporate",
+        "email"
+      ]
+    ]
   }
 }

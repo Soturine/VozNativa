@@ -113,6 +113,24 @@ class Adherence(unittest.TestCase):
         self.assertEqual(result["decision"]["plan"]["scope"], "local")
 
 
+class DecisionSuite(unittest.TestCase):
+    def test_frozen_decision_cases_do_not_regress(self):
+        from voznativa.evals import run_decisions, sha256_lf
+        path = ROOT / "evals" / "decision" / "cases.jsonl"
+        manifest = json.loads((path.parent / "MANIFEST.json").read_text(encoding="utf-8"))
+        self.assertEqual(sha256_lf(path), manifest["suites"]["cases.jsonl"]["sha256"])  # frozen
+        report = run_decisions(path)
+        self.assertGreaterEqual(report["passed"], 28)
+        self.assertEqual({f["id"] for f in report["failures"]} - {"dc-021", "dc-029"}, set())
+
+    def test_close_genres_are_not_a_destination_change(self):
+        # dc-004: documentation labeled on a text that reads as technical.
+        text = "## Instalação
+
+Rode `pip install voznativa`. O comando `voznativa --version` mostra a versão."
+        self.assertEqual(make(text, genre="documentation")["decision"], "no_change")
+
+
 class CommandLine(unittest.TestCase):
     def test_plan_command(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -41,7 +41,20 @@
           "note": "v0.3.0 has no scope or kept-sentence plan, so only the model-call decision is comparable"
         },
         "bias": "the cases were written by the developer of the v0.4.0 rules, after writing them; the comparison favors v0.4.0"
-      }
+      },
+      "later_runs": [
+        {
+          "date": "2026-10-21",
+          "passed": 28,
+          "cases": 30,
+          "blind": false,
+          "change": "technical/documentation and corporate/email are compatible genres, so a label does not read as a destination change (dc-004)",
+          "still_failing": [
+            "dc-021 (debatable expectation)",
+            "dc-029 (length threshold not tuned to the case)"
+          ]
+        }
+      ]
     }
   }
 }
