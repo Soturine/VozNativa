@@ -217,5 +217,43 @@ class NoChangeRespectsTheRequestedDestination(unittest.TestCase):
         self.assertEqual(compare("a quinta parte do lucro", "a quinta parte do lucro")["status"], "identical")
 
 
+
+class RewriteCommandRuns(unittest.TestCase):
+    """Since faaaf0c (v0.3.0) `voznativa rewrite` raised TypeError on every call:
+    the CLI passed `explicit` positionally to rewrite(text, context, provider,
+    profile=None, **kwargs). Recorded real runs called rewrite() from Python,
+    so no run and no test went through the command."""
+
+    def run_cli(self, *argv):
+        import io
+        from contextlib import redirect_stdout
+        from voznativa import cli
+        out = io.StringIO()
+        with redirect_stdout(out):
+            code = cli.main(list(argv))
+        return code, out.getvalue()
+
+    def test_rewrite_with_a_candidate_file(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            src, cand = Path(tmp, "t.txt"), Path(tmp, "c.txt")
+            src.write_text("É importante destacar que o prazo é sexta.", encoding="utf-8")
+            cand.write_text("<final>O prazo é sexta.</final>", encoding="utf-8")
+            code, out = self.run_cli("rewrite", str(src), "--genre", "corporate", "--candidate", str(cand))
+        self.assertEqual(code, 3)  # needs_judgment
+        self.assertEqual(json.loads(out)["text"], "O prazo é sexta.")
+
+    def test_rewrite_with_a_model_command_and_set(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp, "t.txt")
+            src.write_text("É importante destacar que o prazo é sexta.", encoding="utf-8")
+            model = json.dumps([sys.executable, "-c", "import sys; sys.stdin.read(); print('<final>O prazo é sexta.</final>')"])
+            code, out = self.run_cli("rewrite", str(src), "--genre", "corporate", "--cmd", model,
+                                     "--set", '{"emoji": "none"}', "--text-only")
+        self.assertEqual(code, 3)
+        self.assertEqual(out.strip(), "O prazo é sexta.")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -277,7 +277,7 @@ def cmd_rewrite(args):
                       args.provider_env_allow) if args.judge_cmd else None
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
-    result = rewrite(_read(args.text), context, provider, profile, explicit, attempts=args.attempts,
+    result = rewrite(_read(args.text), context, provider, profile, explicit=explicit, attempts=args.attempts,
                      candidates=args.candidates, judge_provider=judge,
                      facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
                      budget_words=args.budget, protect=_protected(args), force=args.force,
