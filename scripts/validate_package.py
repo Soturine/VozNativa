@@ -32,6 +32,8 @@ JSONL_FIELDS = {
     "evals/semantic": ("id", "category", "original", "candidate", "expect"),
     "benchmarks/cases": ("id", "text"),
     "evals/patterns": ("id", "genre", "text", "expect"),
+    "evals/decision": ("id", "text", "expect"),
+    "benchmarks/runs": ("tag", "cost_usd"),  # per-call cost logs of benchmark runs: records, not cases
 }
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "build", "dist"}
 
@@ -102,7 +104,7 @@ def check_data(errors: list[str]) -> None:
             missing = [f for f in required if f not in row]
             if missing:
                 errors.append(f"{rel(path)}:{number}: missing fields {missing}")
-            if row.get("id") in ids:
+            if "id" in required and row.get("id") in ids:
                 errors.append(f"{rel(path)}:{number}: duplicate id {row.get('id')}")
             ids.add(row.get("id"))
             expect = row.get("expect")
