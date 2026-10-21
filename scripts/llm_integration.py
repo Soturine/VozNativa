@@ -55,6 +55,8 @@ def main() -> int:
     parser.add_argument("--cases", default=str(ROOT / "benchmarks" / "cases" / "ptbr-v1.jsonl"))
     parser.add_argument("--attempts", type=int, default=2)
     parser.add_argument("--timeout", type=float, default=300.0)
+    parser.add_argument("--out-dir", default=str(ROOT / "evals" / "integration"),
+                        help="where to write the report (default: evals/integration)")
     parser.add_argument("--redact", action="store_true",
                         help="store only keyed hashes, lengths and metrics, never texts or raw model answers")
     parser.add_argument("--redact-key", help="file with the hex key for --redact hashes (created if missing); "
@@ -74,7 +76,7 @@ def main() -> int:
     if args.version_cmd:
         version = subprocess.run(json.loads(args.version_cmd), capture_output=True, text=True).stdout.strip()
     cases_path = Path(args.cases).resolve()
-    out_dir = ROOT / "evals" / "integration"
+    out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     path = out_dir / f"{stamp}-{args.model_label}-{cases_path.stem}.json"
@@ -164,7 +166,7 @@ def main() -> int:
         save()
 
     save()
-    print("report:", path.relative_to(ROOT).as_posix())
+    print("report:", path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else path)
     return 0 if all(r["error"] is None for r in rows) else 1
 
 

@@ -45,9 +45,12 @@ def run_integration(tmp: Path, model_source: str, label: str, *extra: str) -> tu
     command = [sys.executable, str(model), "--api-key", FAKE_KEY, f"ANTHROPIC_TOKEN={FAKE_TOKEN}",
                "-H", f"Authorization: Bearer {FAKE_TOKEN}"]
     done = subprocess.run([sys.executable, str(ROOT / "scripts" / "llm_integration.py"), "--cases", str(cases),
-                           "--cmd", json.dumps(command), "--model-label", label, "--attempts", "1", *extra],
+                           "--cmd", json.dumps(command), "--model-label", label, "--attempts", "1",
+                           "--out-dir", str(tmp / "reports"), *extra],
                           capture_output=True, text=True, cwd=ROOT)
-    reports = sorted((ROOT / "evals" / "integration").glob(f"*{label}*"))
+    # Reports go to the test's temp dir: an interrupted run must not leave fake
+    # integration reports in evals/integration, where they would read as real runs.
+    reports = sorted((tmp / "reports").glob(f"*{label}*"))
     try:
         content = reports[-1].read_text(encoding="utf-8") if reports else ""
     finally:
