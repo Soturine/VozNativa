@@ -1,0 +1,75 @@
+{
+  "kind": "voznativa.corpus_integrity_run",
+  "date": "2026-11-05",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "records": 9357,
+      "groups": 1961,
+      "read_errors": 0,
+      "split_records": {
+        "calibration": 4808,
+        "evaluation": 4549
+      },
+      "split_groups": {
+        "calibration": 998,
+        "evaluation": 963
+      },
+      "asset_sha256": {
+        "pt_bosque-ud-train.conllu": "b56d7124af821e2968302c38298904ec67af342304a33ae8a9dc4fa57df89648",
+        "pt_bosque-ud-dev.conllu": "f8a67abae12fbab85a3995204a6459d1958c11065062d4ea5349d6b914e78f81",
+        "pt_bosque-ud-test.conllu": "9a824650b7a02cf411f6e09b39e8fb423c85e1a5fb3a55b87e7f4c0c2ea5b3bb"
+      }
+    },
+    "b2w-reviews01": {
+      "records": 21700,
+      "groups": 19883,
+      "read_errors": 1,
+      "split_records": {
+        "calibration": 10518,
+        "evaluation": 11182
+      },
+      "split_groups": {
+        "calibration": 9663,
+        "evaluation": 10220
+      },
+      "asset_sha256": {
+        "B2W-Reviews01.prefix.csv": "ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3"
+      }
+    }
+  },
+  "deduplication": {
+    "records": 31057,
+    "exact_duplicates": 744,
+    "near_duplicate_links": 66,
+    "clusters": 30247,
+    "cross_source_clusters": 0
+  },
+  "split": {
+    "fractions": {
+      "calibration": 0.5,
+      "evaluation": 0.5
+    },
+    "unit": "group merged with duplicate cluster",
+    "salt": "voznativa-v0.6"
+  },
+  "leakage": {
+    "group": 0,
+    "cluster": 0,
+    "original": 0,
+    "normalized": 0,
+    "contaminated": false
+  },
+  "manifests": {
+    "ud-portuguese-bosque": {
+      "records": 9357,
+      "sha256": "74d77a656f35b284400c735de3a39ec86682226151b290e627c76a08780964b5",
+      "location": "local cache (not committed)"
+    },
+    "b2w-reviews01": {
+      "records": 21700,
+      "sha256": "8d06a316423cbe11b794ee4a32e6b4104de931bd8986e97756d2fa249e05375c",
+      "location": "local cache (not committed)"
+    }
+  },
+  "seconds": 9.8
+}

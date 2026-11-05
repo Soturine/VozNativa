@@ -28,7 +28,7 @@ relations:
 - type: derived_from
   target: cetenfolha
   note: CF-* sentences come from CETENFolha (Brazil)
-status: CONNECTOR_READY
+status: LOCALLY_VALIDATED
 evidence_role: 'annotated news sentences, Brazilian (CF) and European (CP) parts: a PT-BR x PT-PT contrast'
 notes: []
 verification:
@@ -85,3 +85,12 @@ connector:
     hosts:
     - raw.githubusercontent.com
     sha256: 9a824650b7a02cf411f6e09b39e8fb423c85e1a5fb3a55b87e7f4c0c2ea5b3bb
+processing:
+  group_by: sent_id_prefix
+  variant_by_sent_id_prefix:
+    CF: pt-BR
+    CP: pt-PT
+  note: CF = Folha de S.Paulo (Brazil), CP = Público (Portugal); the document is the sent_id prefix
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-05.json
+- evals/corpus/runs/integrity-2026-11-05.json

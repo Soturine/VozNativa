@@ -25,7 +25,7 @@ access:
   type: open_download
   note: CSV in the GitHub repository
 relations: []
-status: CONNECTOR_READY
+status: LOCALLY_VALIDATED
 evidence_role: informal written PT-BR by consumers; natural-text control for detectors
 notes: []
 verification:
@@ -74,3 +74,9 @@ connector:
     note: first 8,000,000 bytes of the 49,453,175-byte CSV (explicit prefix; the last row may be cut)
     sha256: ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3
     partial: true
+processing:
+  group_by: reviewer_id
+  note: all reviews of one reviewer stay in one split
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-05.json
+- evals/corpus/runs/integrity-2026-11-05.json
