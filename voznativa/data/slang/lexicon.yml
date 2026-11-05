@@ -1,0 +1,220 @@
+# VozNativa slang lexicon (schema_version 2; contract: references/slang/schema.yml).
+#
+# Every entry starts as a developer hypothesis (E0). `period.attestations` is
+# written only by scripts/slang_attest.py from dated corpora read through the
+# Corpus Registry; counts are surface-form counts, not sense-checked, unless
+# an attestation says `sense_checked: true`.
+#
+# Generation (adding a term the author did not write) is allowed only when an
+# entry has `generation.allowed: true`, evidence E2 or higher, an attestation
+# inside the requested epoch and a verification younger than
+# temporal.STALE_AFTER_DAYS. No entry meets that today; terms the author
+# already wrote are always kept.
+schema_version: 2
+kind: voznativa.slang_lexicon
+version: 0.1.0
+status: draft
+locale: pt-BR
+defaults:
+  register: {min: very_casual, max: casual}
+  generation:
+    allowed: false
+    do_not_force: true
+    max_density_per_100_words: 1.0
+    forbidden_contexts: [technical, documentation, academic, legal, corporate, email, journalistic]
+entries:
+- id: mo
+  term: mó
+  forms: ['mó']
+  type: intensifier
+  meanings: ['muito, maior ("mó calor")']
+  ambiguity: {ambiguous: false}
+- id: vei
+  term: véi
+  forms: ['véi', 'véio', 'vey']
+  type: address_term
+  meanings: ['vocativo informal entre pares']
+  ambiguity: {ambiguous: true, other_senses: ['"véio" = velho, adjetivo'], detection: form}
+- id: mano
+  term: mano
+  forms: ['mano', 'mana']
+  detect: '(?<![\w-])(?:mano|mana)(?![\w-])'   # not "mano-a-mano" (calibration sense check)
+  type: address_term
+  meanings: ['vocativo informal; interjeição de surpresa']
+  ambiguity: {ambiguous: true, other_senses: ['irmão, irmã (sentido de parentesco)', 'nome próprio ou apelido'],
+              detection: form}
+- id: parca
+  term: parça
+  forms: ['parça', 'parças', 'parceiro']
+  detect: '\bparças?\b'
+  type: address_term
+  meanings: ['amigo, parceiro']
+  ambiguity: {ambiguous: false, note: '"parceiro" fica fora da detecção (sentido comum)'}
+- id: da-hora
+  term: da hora
+  forms: ['da hora', 'dahora']
+  detect: '\b(?:muito |mó |que |é |eh |tá |ta )?da hora\b(?!\s+(?:marcada|certa|do|da|de|em))'
+  type: slang
+  meanings: ['ótimo, legal']
+  ambiguity: {ambiguous: true, other_senses: ['"da hora marcada", "da hora do almoço"'], detection: context}
+- id: show-de-bola
+  term: show de bola
+  forms: ['show de bola']
+  type: slang
+  meanings: ['ótimo, excelente']
+  ambiguity: {ambiguous: false}
+- id: massa
+  term: massa
+  forms: ['massa']
+  detect: '\b(?:muito|bem|que|é|eh|tá|ta|achei|ficou|mó|super)\s+massa\b(?!\s+(?:de|do|da|muscular|corporal|magra))'
+  type: slang
+  meanings: ['legal, ótimo (adjetivo)']
+  ambiguity: {ambiguous: true, other_senses: ['massa (alimento, física, multidão)'], detection: context}
+- id: top
+  term: top
+  forms: ['top']
+  # "top de linha" excluded after the evaluation-split sense check (1 of 18 matches).
+  detect: '\b(?:muito|bem|que|é|eh|tá|ta|achei|ficou|super|mó)\s+top\b(?!\s*\d)(?!\s+de\s+linha)|\btop demais\b'
+  type: slang
+  meanings: ['ótimo, de alta qualidade']
+  ambiguity: {ambiguous: true, other_senses: ['"top 10", "top de linha", peça de roupa'], detection: context}
+- id: irado
+  term: irado
+  forms: ['irado', 'irada', 'irados', 'iradas']
+  type: slang
+  meanings: ['excelente, impressionante']
+  ambiguity: {ambiguous: true, other_senses: ['zangado, furioso'], detection: form}
+- id: sinistro
+  term: sinistro
+  forms: ['sinistro']
+  detect: '\b(?:muito|mó|que|é|eh|tá|ta|ficou|bem)\s+sinistro\b'
+  type: slang
+  meanings: ['impressionante (positivo ou negativo)']
+  ambiguity: {ambiguous: true, other_senses: ['sinistro (seguro, acidente)', 'ameaçador'], detection: context}
+- id: de-boa
+  term: de boa
+  forms: ['de boa', 'na boa']
+  # Agent sense checks (2026-11-05, evals/corpus/SLANG_SENSE_CHECK.md): "de boa" + noun
+  # ("de boa qualidade") dominates; the slang use is not followed by a word. This pattern was
+  # revised after reading evaluation-split matches: it has no held-out precision.
+  detect: '\b(?:de|na) boa(?!\s*[a-záàâãéêíóôõúüç])'
+  type: slang
+  meanings: ['tranquilo, sem problema']
+  ambiguity: {ambiguous: true, other_senses: ['"de boa qualidade", "de boa fé"'], detection: context}
+- id: suave
+  term: suave
+  forms: ['suave']
+  detect: '\b(?:na|de|tá|ta|tudo|fica)\s+suave\b'
+  type: slang
+  meanings: ['tranquilo']
+  ambiguity: {ambiguous: true, other_senses: ['macio, leve ("sabor suave")'], detection: context}
+- id: role
+  term: rolê
+  forms: ['rolê', 'rolé', 'rolês']
+  type: slang
+  meanings: ['passeio, saída']
+  ambiguity: {ambiguous: false}
+- id: zoeira
+  term: zoeira
+  forms: ['zoeira', 'zoera', 'zuera', 'zueira']
+  type: slang
+  meanings: ['brincadeira, bagunça']
+  ambiguity: {ambiguous: false}
+- id: migue
+  term: migué
+  forms: ['migué', 'migués']
+  type: slang
+  meanings: ['desculpa, enrolação']
+  ambiguity: {ambiguous: false}
+- id: treta
+  term: treta
+  forms: ['treta', 'tretas']
+  type: slang
+  meanings: ['briga, confusão']
+  ambiguity: {ambiguous: false}
+- id: trampo
+  term: trampo
+  forms: ['trampo', 'trampar', 'trampando']
+  type: slang
+  meanings: ['trabalho']
+  ambiguity: {ambiguous: false}
+- id: busao
+  term: busão
+  forms: ['busão']
+  type: slang
+  meanings: ['ônibus']
+  ambiguity: {ambiguous: false}
+- id: bagulho
+  term: bagulho
+  forms: ['bagulho', 'bagulhos']
+  type: slang
+  meanings: ['coisa, objeto']
+  ambiguity: {ambiguous: false}
+- id: crush
+  term: crush
+  forms: ['crush']
+  type: borrowing
+  meanings: ['pessoa por quem se tem interesse amoroso']
+  ambiguity: {ambiguous: false}
+- id: cringe
+  term: cringe
+  forms: ['cringe']
+  type: borrowing
+  meanings: ['constrangedor, vergonha alheia']
+  ambiguity: {ambiguous: false}
+- id: sextou
+  term: sextou
+  forms: ['sextou']
+  type: meme
+  meanings: ['celebração da chegada da sexta-feira']
+  ambiguity: {ambiguous: false}
+- id: lacrar
+  term: lacrar
+  forms: ['lacrou', 'lacrando', 'lacração', 'lacradora']
+  type: slang
+  meanings: ['arrasar, ter êxito marcante']
+  ambiguity: {ambiguous: true, other_senses: ['lacrar = selar ("veio lacrado")'], detection: form,
+              note: 'só formas pouco usadas no sentido de selar entram na detecção; "lacrado" fica fora'}
+- id: flopar
+  term: flopar
+  forms: ['flopar', 'flopou', 'flopada', 'flopado']
+  type: borrowing
+  meanings: ['fracassar']
+  ambiguity: {ambiguous: false}
+- id: shippar
+  term: shippar
+  forms: ['shippar', 'shippo', 'shippa', 'shipp']
+  type: borrowing
+  meanings: ['torcer por um casal']
+  ambiguity: {ambiguous: false}
+- id: tankar
+  term: tankar
+  forms: ['tankar', 'tanko', 'tankei', 'tankou']
+  type: slang
+  meanings: ['aguentar, suportar']
+  ambiguity: {ambiguous: false}
+- id: po
+  term: pô
+  forms: ['pô']
+  type: interjection
+  meanings: ['interjeição de ênfase ou queixa']
+  ambiguity: {ambiguous: false, note: 'acento obrigatório na detecção: "pó" é outra palavra'}
+- id: kkk
+  term: kkk
+  forms: ['kkk']
+  detect: '\bk{3,}\b'
+  type: chat_form
+  meanings: ['riso escrito']
+  ambiguity: {ambiguous: false}
+- id: vlw
+  term: vlw
+  forms: ['vlw', 'vlws']
+  type: chat_form
+  meanings: ['valeu, obrigado']
+  ambiguity: {ambiguous: false}
+- id: blz
+  term: blz
+  forms: ['blz']
+  type: chat_form
+  meanings: ['beleza, combinado']
+  ambiguity: {ambiguous: false}

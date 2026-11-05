@@ -188,6 +188,8 @@ def validate() -> list[str]:
     try:
         from voznativa.corpus.registry import load_registry
         load_registry()
+        from voznativa.temporal import load_lexicon
+        load_lexicon()
     except ValueError as error:
         errors.append(str(error))
     from voznativa.review import registry_problems

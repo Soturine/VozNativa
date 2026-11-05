@@ -1,0 +1,180 @@
+{
+  "kind": "voznativa.slang_attestation_run",
+  "date": "2026-11-05",
+  "split": "calibration",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "words": 33792,
+      "documents_or_sentences": 2091,
+      "scope": "pt-BR sentences only (CF)",
+      "period": {
+        "from": 1994,
+        "to": 1995
+      }
+    },
+    "b2w-reviews01": {
+      "words": 233803,
+      "documents_or_sentences": 10518,
+      "scope": "all records in the prefix",
+      "period": {
+        "from": 2018,
+        "to": 2018
+      }
+    }
+  },
+  "counts": {
+    "mo": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "vei": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "mano": {
+      "ud-portuguese-bosque": 1,
+      "b2w-reviews01": 1
+    },
+    "parca": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "da-hora": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "show-de-bola": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 18
+    },
+    "massa": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "top": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 19
+    },
+    "irado": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "sinistro": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "de-boa": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 3
+    },
+    "suave": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "role": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "zoeira": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "migue": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "treta": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "trampo": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "busao": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "bagulho": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "crush": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "cringe": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "sextou": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "lacrar": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "flopar": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "shippar": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "tankar": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "po": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 0
+    },
+    "kkk": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 21
+    },
+    "vlw": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    },
+    "blz": {
+      "ud-portuguese-bosque": 0,
+      "b2w-reviews01": 1
+    }
+  },
+  "min_count_for_e2": 3,
+  "levels": {
+    "mo": "E0",
+    "vei": "E0",
+    "mano": "E0",
+    "parca": "E0",
+    "da-hora": "E0",
+    "show-de-bola": "E2",
+    "massa": "E0",
+    "top": "E2",
+    "irado": "E0",
+    "sinistro": "E0",
+    "de-boa": "E2",
+    "suave": "E0",
+    "role": "E0",
+    "zoeira": "E0",
+    "migue": "E0",
+    "treta": "E0",
+    "trampo": "E0",
+    "busao": "E0",
+    "bagulho": "E0",
+    "crush": "E0",
+    "cringe": "E0",
+    "sextou": "E0",
+    "lacrar": "E0",
+    "flopar": "E0",
+    "shippar": "E0",
+    "tankar": "E0",
+    "po": "E0",
+    "kkk": "E2",
+    "vlw": "E0",
+    "blz": "E0"
+  }
+}

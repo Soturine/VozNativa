@@ -1,0 +1,27 @@
+{
+  "kind": "voznativa.slang_sense_check",
+  "date": "2026-11-05",
+  "checker": "agent (Claude Opus 5.5) reading matches locally; not a human review",
+  "source": "b2w-reviews01 (8 MB prefix) and ud-portuguese-bosque CF; text not exported",
+  "rows": [
+    {"id": "top", "pattern": "initial", "split": "calibration", "matches": 19, "slang_sense": 19},
+    {"id": "top", "pattern": "initial", "split": "evaluation", "matches": 18, "slang_sense": 17,
+     "other": "top de linha (1)", "held_out": true},
+    {"id": "top", "pattern": "final (excludes 'top de linha')", "split": "evaluation", "matches": 17, "slang_sense": 17,
+     "held_out": false, "note": "exclusion added after reading evaluation matches"},
+    {"id": "show-de-bola", "pattern": "initial", "split": "calibration", "matches": 18, "slang_sense": 18},
+    {"id": "show-de-bola", "pattern": "initial", "split": "evaluation", "matches": 5, "slang_sense": 5, "held_out": true},
+    {"id": "kkk", "pattern": "initial", "split": "evaluation", "matches": 26, "slang_sense": 26, "held_out": true},
+    {"id": "de-boa", "pattern": "initial", "split": "calibration", "matches": 14, "slang_sense": 4,
+     "other": "de boa + noun (vazão, duração, ...)"},
+    {"id": "de-boa", "pattern": "initial", "split": "evaluation", "matches": 16, "slang_sense": 9, "held_out": true},
+    {"id": "de-boa", "pattern": "revision 1 (copula list)", "split": "evaluation", "matches": 26, "slang_sense": 8,
+     "held_out": true, "other": "é de boa qualidade"},
+    {"id": "de-boa", "pattern": "final (no word after)", "split": "calibration", "matches": 3, "slang_sense": 3,
+     "missed_seen": 1},
+    {"id": "de-boa", "pattern": "final (no word after)", "split": "evaluation", "matches": 9, "slang_sense": 9,
+     "held_out": false, "note": "pattern written after reading evaluation matches"},
+    {"id": "mano", "pattern": "initial", "split": "calibration", "matches": 4, "slang_sense": 1,
+     "other": "mano-a-mano (2), proper name (1)"}
+  ]
+}

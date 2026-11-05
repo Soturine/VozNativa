@@ -1,0 +1,928 @@
+# Written by scripts/slang_attest.py; do not edit by hand.
+# Surface-form counts on the calibration split; sense_checked: false.
+schema_version: 2
+kind: voznativa.slang_attestations
+date: '2026-11-05'
+entries:
+  mo:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  vei:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  mano:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 1
+        per_million_words: 29.59
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 1994
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  parca:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  da-hora:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  show-de-bola:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 18
+        per_million_words: 76.99
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E2
+      sources:
+      - b2w-reviews01
+      notes: []
+  massa:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  top:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 19
+        per_million_words: 81.26
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E2
+      sources:
+      - b2w-reviews01
+      notes: []
+  irado:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  sinistro:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  de-boa:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 3
+        per_million_words: 12.83
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E2
+      sources:
+      - b2w-reviews01
+      notes: []
+  suave:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  role:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  zoeira:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  migue:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  treta:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  trampo:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  busao:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  bagulho:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  crush:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  cringe:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  sextou:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  lacrar:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  flopar:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  shippar:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  tankar:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  po:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: null
+      observed_until: null
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes:
+      - not attested in the available corpora
+  kkk:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 21
+        per_million_words: 89.82
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E2
+      sources:
+      - b2w-reviews01
+      notes: []
+  vlw:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []
+  blz:
+    period:
+      attestations:
+      - source: ud-portuguese-bosque
+        from: 1994
+        to: 1995
+        genre: jornalístico
+        split: calibration
+        words: 33792
+        count: 0
+        per_million_words: 0.0
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      - source: b2w-reviews01
+        from: 2018
+        to: 2018
+        genre: avaliação de produto
+        split: calibration
+        words: 233803
+        count: 1
+        per_million_words: 4.28
+        sense_checked: false
+        run: evals/corpus/runs/slang-attestation-2026-11-05.json
+      observed_from: 2018
+      observed_until: 2018
+      last_verified_at: '2026-11-05'
+    evidence:
+      level: E0
+      sources: []
+      notes: []

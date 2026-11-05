@@ -1,44 +1,65 @@
+# Slang lexicon contract, schema_version 2 (v0.6.0).
+#
+# Data: voznativa/data/slang/lexicon.yml (hand-written entries) merged with
+# voznativa/data/slang/attestations.yml (written by scripts/slang_attest.py).
+# Validator: voznativa/temporal.py (validate_lexicon); the package refuses to
+# load a lexicon that breaks any rule below.
+#
+# Rules
+# - Every entry starts at E0 (developer hypothesis). Only the attestation
+#   script raises it, to E2, when a registered corpus with provenance attests
+#   the form >= 3 times and the form is unambiguous or detected by context.
+# - An ambiguous form lists its other senses and says how it is detected:
+#   `form` (surface: counts may be other senses, so it stays E0) or `context`
+#   (a `detect` pattern that excludes the other senses).
+# - `period.observed_from/observed_until` bound the years of VozNativa's own
+#   attestations. They are not the year a word appeared in the language.
+# - Generation (adding a form the author did not write) needs
+#   generation.allowed, evidence >= E2, an attestation overlapping the
+#   requested epoch, a verification younger than 18 months, an allowed genre
+#   and a register not above register.max. Forms the author wrote are kept.
+# - Nothing infers a writer's age, generation or origin from the forms used.
 schema_version: 2
+kind: voznativa.slang_lexicon
+defaults:                 # merged under every entry
+  register: {min: very_casual, max: casual}
+  generation:
+    allowed: false
+    do_not_force: true
+    max_density_per_100_words: 1.0
+    forbidden_contexts: [technical, documentation, academic, legal, corporate, email, journalistic]
 entries:
-  - id: null
-    term: null
-    normalized_form: null
-    type: slang
+  - id: example                 # unique, kebab-case
+    term: exemplo               # headword
+    forms: [exemplo]            # surface forms (accent-sensitive, case-insensitive)
+    detect: null                # optional regex replacing `forms` for detection
+    type: slang                 # slang | meme | interjection | address_term | intensifier |
+                                # discourse_marker | borrowing | chat_form
     meanings: []
-    regions: []
-    localities: []
-    communities: []
-    channels: []
-    contexts: []
-    modality:
-      spoken: null
-      written: null
-    period:
+    ambiguity:
+      ambiguous: false
+      other_senses: []          # required when ambiguous
+      detection: form           # form | context (context requires `detect`)
+    register: {min: very_casual, max: casual}   # very_casual | casual | neutral | formal
+    communities: []             # community pack ids (references/communities/README.md)
+    regions: []                 # not assessed unless a regional pack documents it
+    modality: {spoken: null, written: null}
+    period:                     # written by scripts/slang_attest.py
+      attestations:
+        - source: corpus-id     # Corpus Registry id
+          from: 2018            # the source's own period (registry `period`)
+          to: 2018
+          genre: null
+          split: calibration
+          words: 0
+          count: 0
+          per_million_words: 0.0
+          sense_checked: false
+          run: evals/corpus/runs/slang-attestation-YYYY-MM-DD.json
       observed_from: null
       observed_until: null
       last_verified_at: null
-    register:
-      min: very_casual
-      max: casual
-    pragmatics:
-      functions: []
-      politeness_effect: null
-      intensity: null
-    variation:
-      spellings: []
-      inflections: []
-    evidence:
-      level: E0
-      confidence: 0.0
-      sources: []
-      sample_size: null
-      notes: []
-    generation:
-      do_not_force: true
-      default_strength: low
-      max_density_per_100_words: null
-      forbidden_contexts: []
+    evidence: {level: E0, sources: [], notes: []}
+    generation: {allowed: false}
     false_positives: []
-    deprecation:
-      status: active
-      reason: null
+    deprecation: {status: active, reason: null}   # active | fading | dated | obsolete (reason required)
