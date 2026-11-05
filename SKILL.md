@@ -2,7 +2,7 @@
 name: voznativa
 description: Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal. Use para humanizar ou naturalizar texto em PT-BR, tirar cara de IA sem alterar o sentido, adaptar a um canal (WhatsApp, e-mail, documentação, LinkedIn, acadêmico, jurídico) ou à voz de amostras do autor, escrever a partir de notas ou de um repositório, e verificar se uma reescrita mudou o significado.
 metadata:
-  version: "0.4.0.dev0"
+  version: "0.5.0.dev0"
   language: pt-BR
 ---
 
@@ -15,7 +15,7 @@ Escreva como **esta pessoa** escreveria **neste canal**, sem perder fatos. Fidel
 - Valores protegidos não mudam: números, datas, horários, valores, versões, código, caminhos, comandos, citações e nomes.
 - Força das afirmações não muda: "pode" não vira "causa", "até 5 dias" não vira "5 dias", "associado" não vira "causa", "apenas X" não vira "X".
 - Não acrescente fato, número, nome, motivo, benefício, cliente ou experiência pessoal.
-- Não use gíria ou marca regional para sinalizar identidade; força regional e de gíria é 0 enquanto não houver pack com evidência.
+- Não use gíria ou marca regional para sinalizar identidade. Regionalidade só com um Regional Evidence Pack e uma região que a pessoa pediu explicitamente (`--region`); nunca deduza a região do texto ou do autor. Sem pack que cubra a região, o contexto e o referente, a força é 0: diga que não há evidência e não regionalize. A forma que o autor já usa vence a do pack. Gíria segue com força 0.
 - Não infira idade, gênero, origem, classe ou personalidade a partir da escrita.
 - Não produza "probabilidade de IA" nem prometa passar em detector.
 - Se o texto já serve ao canal e ao autor, a resposta certa é não mudar (NO_CHANGE).
@@ -76,7 +76,7 @@ Para documentar ou explicar um projeto, use `--repo .`: README, docs, código e 
 | WhatsApp ou chat | `references/genres/whatsapp.md` |
 | Literário | `references/genres/literary.md` |
 | Amostras do autor | `references/VOICE_STACK.md`, `references/voice/idiolect.md` |
-| Pedido regional | `references/regions/README.md` (força efetiva 0 sem pack com evidência) |
+| Pedido regional | `voznativa regional check texto.txt --region <região>` antes de reescrever; `docs/REGIONAL_EVIDENCE.md` (packs, abstenção, fontes) |
 | Registro pedido explicitamente | `references/registers.md` |
 
 Estado real de cada componente: `docs/TRACEABILITY.md`.
