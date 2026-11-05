@@ -36,7 +36,9 @@ Hoje **nenhum** texto, léxico, modelo ou dataset de terceiros está incluído n
 | CORAA ASR v1.1 | CC BY-NC-ND 4.0 | Reportado (documentação CORAA) | Sem derivados redistribuíveis; só estatística interna. |
 | NURC-SP Corpus Mínimo | CC BY-NC-ND 4.0 | Reportado (2022, Portulan CLARIN) | Idem. Licença do NURC-SP Audio Corpus (2024) não verificada. |
 | Projeto SP2010 | **Não encontrada** | Lacuna | Contatar GESOL-USP antes de qualquer uso. |
-| ALiB | Publicações com direitos autorais; dataset aberto não identificado | Lacuna | Usar apenas como referência bibliográfica (E1). |
+| ALiB | Publicações com direitos autorais; dataset aberto não identificado | Lacuna | Usado só como referência bibliográfica: o pack `br-norte-lex-mandioca` (v0.5.0) guarda formas, contagens e proporções publicadas por Romano (2020), com citação; nenhum texto do atlas ou do artigo é reproduzido. |
+| ALIP (Iboruna, UNESP) | Sem licença definida; uso acadêmico com cadastro (CORAA, arXiv 2110.15731) | Reportado, não verificado no site | Não usar até haver termos de uso verificados. |
+| PHPB | Termos não localizados | Lacuna | Diacrônico; fora do escopo de packs atuais. |
 
 ### Modelos (candidatos para trilhas opcionais)
 
@@ -69,3 +71,13 @@ Hoje **nenhum** texto, léxico, modelo ou dataset de terceiros está incluído n
 | mackswendhell/humanizer-pt-br | MIT | Estudado; nada copiado. |
 | gabrielkashimarki/humanizer-ptbr | **sem licença** | Não reutilizar nada. |
 | Emulate-1 | API proprietária | Só como sistema de comparação via API; nada embarcado. |
+
+### Skills de terceiros usadas como braços de benchmark (v0.5.0)
+
+Buscadas por commit no momento da execução para `benchmarks/.cache/` (ignorado pelo Git); **nunca** copiadas para o repositório.
+
+| Skill | Commit | Licença |
+|---|---|---|
+| blader/humanizer | `0ef9fe5` | MIT |
+| phuryn/work-humanizer | `0a90657` | MIT |
+| fabricioctelles/skills `humanizar` | `ec4099f` | Apache-2.0 |

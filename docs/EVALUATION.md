@@ -192,3 +192,40 @@ O detector ficou de 3 a 6 vezes mais lento (padrões e camada PT-BR novos) e con
 Linux 3.11.17 / 3.12.15 / 3.13.16 (contêineres) e Windows 3.11.9 / 3.13.16 (embeddable) e 3.12.6: 281 testes, validador e smoke do wheel fora do checkout com 11 comandos (inclui `rewrite`, `plan`, `patterns`) passaram em todos. Testes de revisão assinada com SSH rodaram no Windows (OpenSSH 9.5) e no Linux (OpenSSH 10.0). A rodada achou dois defeitos, corrigidos: caminhos absolutos em execuções `--redact` e caminho de CLI de agente no formato Windows não reconhecido no Linux. **CI não rodou** (cobrança do GitHub Actions); isto é evidência local.
 
 Cobertura de linhas do pacote pela suíte: 93% (`coverage`, ferramenta local, não dependência).
+
+## v0.5.0.dev0 (2026-11-05)
+
+Tudo abaixo foi executado nesta rodada e é escrito pelo desenvolvedor (não independente). Registro por checkpoint: `evals/assurance/CHECKPOINTS.md`.
+
+### Gates locais (`scripts/qualify.py`)
+
+Windows 11, Python 3.12: validador, unittest, suíte dev, holdouts (segurança e estrito), decisão, router, exit codes do CLI e pacote (sdist → wheel → venv limpo → smoke) **PASS**; `review:pty` NOT_RUN no Windows. Linux e Python 3.11/3.13: ver o registro de qualificação do CP10 em `evals/qualification/`.
+
+### Semantic Ledger
+
+| Instrumento | Antes | Depois |
+|---|---|---|
+| Probe H4 (29 pares, `evals/experiments/ledger_probe_h4.*.json`) | 19/29 | 25/29 (faltam pronomes, troca entre frases, inflexão diferente) |
+| `holdout.jsonl` estrito | 23/24 (`ho-007`) | **24/24** (caso congelado intacto) |
+| Testes metamórficos: mesmo NFD/NBSP nos dois textos (216 pares) | 20 + 1 vereditos mudavam, alguns para falso verde | 0 |
+| Reescritas reais do `ptbr-bench-v2` com status diferente do oficial | — | 3, todas `bv2-li-02`, de `fail` para `no_deterministic_issues` (falso vermelho corrigido) |
+
+### Benchmark `ptbr-bench-v2` em eixos (oficial inalterado)
+
+`evals/assurance/H2_BENCHMARK_REANALYSIS.md`: tarefa cumprida ou pendente de avaliação — v0.4.0 12/15 (IC 95% 0,55–0,93, 1 falha de sistema), v0.3.0 10/15, B0 5/15, blader 4/15, work-humanizer 2/15, prompt de uma linha 0/15. "Pendente de avaliação" não é sucesso: nenhuma pessoa avaliou.
+
+### `ptbr-bench-v3`
+
+Congelado (19 casos, 7 braços, `c67caa7f…`), **NOT_RUN**: nenhuma CLI de modelo configurada no ambiente que o preparou, e nenhum orçamento aprovado para execução paga. O runner foi verificado ponta a ponta com um modelo falso (`evals/test_bench_v3_harness.py`), o que não é resultado.
+
+### Regionalidade
+
+Comportamento determinístico do pack piloto testado (`evals/test_regional.py`, 15 testes; 3 controles negativos detectados). Nenhuma avaliação humana regional (protocolo `evals/reviewers/PROTOCOL_v0.5.md`, NOT_RUN).
+
+### Mutação (Cosmic Ray, rodada pelo agente; `evals/assurance/runs/2026-11-05-cp4-mutation`)
+
+`voznativa/benchmark.py` com os testes de benchmark: sobreviventes 263 → 212 → 204 de 825 conforme os oráculos foram reforçados; dos 19 restantes nos eixos de desfecho, 17 são equivalentes no domínio dos valores e 2 viraram testes. As funções antigas de pontuação seguem com sobreviventes.
+
+### Desempenho (mesma máquina, `evals/perf/v0.4.0-dev-h5-*.json`)
+
+`compare` em 8.018 palavras 10,4 s → 0,96 s; entrada de vírgulas 9,7 s → 0,10 s; loop de reescrita sem modelo em 2.020 palavras 48,6 s → 1,1 s. Saída idêntica comprovada por testes diferenciais.

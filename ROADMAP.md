@@ -148,13 +148,32 @@ Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios ext
 - [x] demonstração antes/depois reproduzível (`examples/v0.4.0-demo.md`, `scripts/demo.py`)
 - [ ] CI verde (bloqueado: cobrança do GitHub Actions)
 
-## v0.5 — Regional Layer
-- [ ] taxonomia região/estado/localidade quando houver evidência
-- [ ] distinções capital/interior quando sustentadas por dados
-- [ ] packs com fonte, período e confiança
+### Hardening da v0.4.0 (CP4, 2026-11-05)
+- [x] runner único de qualificação local (`scripts/qualify.py`) com exit codes preservados
+- [x] erro de uso sai 64 em todo comando (antes 2 = `review_required`)
+- [x] falso verde de suíte congelada corrigido (conjunto fixo; decisão e benchmark com hash)
+- [x] benchmark em eixos separados; `provider_error` nunca conta como sucesso; v2 reanalisado sem alterar o oficial
+- [x] `dc-021`/`dc-029` determinados sem ajuste de limiar (`dc-029` INCONCLUSIVE até haver dados)
+- [x] ledger: dia da semana sem preposição, "2 da tarde", verbos multiplicadores (`ho-007` 24/24), troca de papéis/ordem com substantivos comuns
+- [x] desempenho: `compare` 10× mais rápido; loop sem modelo 48,6 s → 1,1 s
+- [x] chave de revisão criada privada; sanitizador de relatórios testado
+- [ ] pronomes, troca entre frases, inflexões diferentes (limitações registradas; extração de claims como experimento)
+
+## v0.5 — Regional Layer (em desenvolvimento, `0.5.0.dev0`)
+
+Plano e status: `docs/PLAN_v0.5.0.md`.
+
+- [x] registro de fontes (ALiB, SP2010, C-ORAL-BRASIL, ALIP, PHPB, Carolina, NURC) com licença, amostragem e decisão
+- [x] contrato versionado de Regional Evidence Pack (escopo, época, gênero/canal, formas, contextos, confusões, confiança, ativação, proveniência, licença) e ADR-0001
+- [~] packs com fonte, período e confiança: **um** piloto (Norte, um referente), confiança baixa
+- [x] abstenção por padrão; região nunca inferida; voz do autor vence; troca que muda o referente pede revisão
+- [x] Regional Overfit / Dialect Mixing por evidência (`regional_form_introduced`)
+- [ ] taxonomia região/estado/localidade além do piloto
+- [ ] distinções capital/interior sustentadas por dados
 - [ ] calibração do Regional Overfit Guard
-- [ ] Dialect Mixing contextual
-- [ ] avaliação humana regional
+- [ ] avaliação humana regional (protocolo pronto; NOT_RUN)
+- [ ] `ptbr-bench-v3` executado (congelado; NOT_RUN)
+- [ ] triagem de escopo para textos normativos ou de segurança crítica (ADAPT do `humanizar`)
 
 ## v0.6 — Temporal Slang & Communities
 - [ ] léxico temporal real

@@ -41,13 +41,13 @@ patterns + ptbr + ledger ─▶ plan (o que mudar, por quê, quanto) ──┴�
 
 **Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento vinculado ao sha256 dos dois textos, e um juiz LLM não resolve um `review_required`. Só uma revisão humana **assinada** (`voznativa review`, que exige terminal interativo) resolve; um JSON com `"kind": "human"` sem assinatura válida fica como `human_review_claimed`. O relatório separa o que a assinatura mostra: **integridade** (aqueles bytes foram assinados), **posse da chave** (a chave HMAC padrão em `~/.voznativa/` é um segredo da máquina: o desenvolvedor ou um agente rodando como o mesmo usuário também assina; com `--ssh-key` a chave privada é do revisor), **identidade declarada** (nome digitado, nunca comprovado) e **independência** (no máximo declarada no registro `evals/reviewers/`; revisão HMAC nunca conta como independente). Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
 
-## Estado (0.4.0.dev0, em desenvolvimento)
+## Estado (0.5.0.dev0, em desenvolvimento)
 
-Versão de desenvolvimento, **não qualificada**. A v0.3.0 **continua não concluída**: faltam um holdout escrito por outra pessoa, uma rodada de revisão humana cega e CI verde (bloqueado por cobrança do GitHub Actions). Plano e situação da v0.4.0: `docs/PLAN_v0.4.0.md`; da v0.3.0: `docs/PLAN_v0.3.0.md`.
+Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa, rodada de revisão humana cega e CI verde (bloqueado por cobrança do GitHub Actions). Plano e situação da v0.5.0 (inclui o hardening da v0.4.0): `docs/PLAN_v0.5.0.md`; anteriores: `docs/PLAN_v0.4.0.md`, `docs/PLAN_v0.3.0.md`. Qualificação local: `python scripts/qualify.py`.
 
 | Componente | Estado |
 |---|---|
-| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados (inclusive números por extenso e durações), negação, modalidade, quantificadores, condições, antes/depois, causalidade (também entre frases vizinhas), troca de papéis entre entidades nomeadas (ativa/passiva), antônimos do léxico, atribuição, orações inventadas, termos protegidos pelo usuário |
+| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados (números por extenso, durações, "2 da tarde", verbos multiplicadores, dia da semana sem preposição), negação, modalidade, quantificadores, condições, antes/depois, causalidade (também entre frases vizinhas), troca de papéis entre entidades nomeadas (ativa/passiva) e entre substantivos comuns, inversão de ordem temporal, antônimos do léxico, atribuição, orações inventadas, termos protegidos, troca regional que muda o referente; análise sobre cópia canônica (NFC, espaços). Não detecta pronomes nem trocas entre frases |
 | Juiz LLM/humano | contrato implementado; votos concordantes (padrão 2); revisão humana assinada; nenhum modelo embarcado |
 | Detector de padrões (`patterns`) | biblioteca v2: 27 padrões decididos por gênero, canal, posição, função e frequência, cada um com casos positivos e falsos positivos; descritivo, não é detector de autoria |
 | Camada PT-BR | marcas de PT-PT (falsos amigos não são trocados às cegas), estrangeirismos por domínio, tratamento, oralidade x registro |
@@ -56,9 +56,10 @@ Versão de desenvolvimento, **não qualificada**. A v0.3.0 **continua não concl
 | Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
 | Voice Profile v2 + Voice Contract | implementado; distância ao perfil medida no engine; limiares sem calibração com amostras reais |
 | Rewrite Engine + providers | implementado: NO_CHANGE sem chamar o modelo quando não há achado, reescrita dirigida aos achados, nova tentativa após recusa do juiz, retries de provider; executado com claude-sonnet-5-5 (`docs/EVALUATION.md`, `examples/`) |
-| Benchmark | `ptbr-bench-v1` congelado e executado (skill-only, mesmo LLM, 5 braços); Emulate não executado (falta chave) |
+| Benchmark | `ptbr-bench-v1` e `-v2` executados (v2 reanalisado em eixos: tarefa, segurança, falha de sistema); `ptbr-bench-v3` congelado, **NOT_RUN**; Emulate não executado (falta chave) |
 | Revisão humana cega | instrumento pronto (`blind-*`); **nenhum resultado humano** |
-| Packs regionais, gíria temporal, community packs | **não calibrados**: força efetiva 0 |
+| Regional Evidence Packs | implementado (v0.5.0): contrato versionado, abstenção por padrão, voz do autor vence; **um** pack piloto (`br-norte-lex-mandioca`, ALiB, confiança baixa, sem revisão humana). Fora dele, força efetiva 0 |
+| Gíria temporal, community packs | **não calibrados**: força efetiva 0 |
 | Corpus | piloto só de metadados do Corpus Carolina; nenhum texto ingerido |
 | Adapters/LoRA | não implementados |
 
@@ -102,6 +103,8 @@ voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd 
 voznativa rewrite email.txt --channel whatsapp --cmd ...   # destino explícito: o engine não devolve NO_CHANGE sem tentar
 voznativa patterns texto.txt --genre corporate     # achados editoriais; decide edit ou no_change_candidate
 voznativa plan texto.txt --genre corporate         # plano de reescrita por frase, sem chamar modelo
+voznativa regional packs                           # Regional Evidence Packs disponíveis
+voznativa regional check texto.txt --region norte  # o que a região pedida permite, ou por que o sistema se abstém
 voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
 voznativa review original.txt candidata.txt --reviewer ana --out revisao.json   # revisão humana assinada (só em terminal; nome declarado)
 voznativa review original.txt candidata.txt --reviewer ana --ssh-key ~/.ssh/revisao --principal ana@exemplo.org --out revisao.json
@@ -123,13 +126,14 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1: ele troca acen
 
 ## Regionalidade e voz
 
-"Sotaque escrito" é um atalho coloquial: sotaque é fonético. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso e formas de tratamento. Regionalidade é **distribuição, não decoração**: um pedido "mineiro informal" não autoriza inserir `uai` em toda frase. Enquanto não houver pack com proveniência e revisão humana, a força regional efetiva é 0 e o guard regional só detecta exagero.
+"Sotaque escrito" é um atalho coloquial: sotaque é fonético. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso e formas de tratamento. Regionalidade é **distribuição, não decoração**: um pedido "mineiro informal" não autoriza inserir `uai` em toda frase. Regionalidade só entra por um Regional Evidence Pack (`docs/REGIONAL_EVIDENCE.md`) e por uma região que a pessoa pede (`--region`); o sistema nunca deduz a região do texto ou do autor. Sem pack que cubra a região, o gênero e o referente, a força é 0 e o relatório diz por quê. A forma que o autor usa vence a do pack; uma troca que pode mudar o referente (macaxeira → mandioca no Norte) pede revisão; uma forma regional que ninguém pediu é sinalizada.
 
 O Voice Profile observa ritmo, pontuação, abreviações, contrações, termos de comunidade e aberturas, com confiança limitada pelo número de amostras. Ele não guarda o texto nem palavras de tópico e não infere identidade.
 
 ## Desenvolvimento
 
 ```bash
+python scripts/qualify.py                 # todos os gates locais; exit 0 PASS, 1 FAIL, 3 incompleto
 python scripts/validate_package.py
 python -m unittest discover -s evals -p "test_*.py"
 ```

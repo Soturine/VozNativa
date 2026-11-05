@@ -1,6 +1,33 @@
 # Changelog
 
-## Unreleased (0.4.0.dev0)
+## Unreleased (0.5.0.dev0)
+
+Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.5.0.md`. Builds on the hardened v0.4.0 (`v0.4.0-dev` at `8a530f8`). The external criteria inherited from v0.3.0 (independent holdout, blind human review, CI) are still open.
+
+### Fixed (v0.4.0 hardening; each has a regression test)
+- Usage errors (unknown flag, missing argument) exited 2, the same code `compare` uses for `review_required`; every command now exits 64 (found by the new qualification runner).
+- A frozen holdout could be edited with the test green if the manifest's `frozen` key was renamed (false green confirmed with a negative control after an Assertiva lead); the set of frozen suites is now pinned and the decision and benchmark cases are hash-checked too.
+- Benchmark scoring counted a `provider_error` (original returned) as preserved invariants; rows are now classified on separate axes and the official `ptbr-bench-v2` run is rescored without being changed (v0.4.0: 14/14 invariants where an output exists and 1 system failure, not 15/15).
+- Semantic Ledger: a bare weekday in a temporal slot ("começo segunda") was not a span (false red in `bv2-li-02` and a false green "segunda" → "terça"); "2 da tarde" did not equal "14h"; multiplier verbs ("triplicar a receita") were not values (`ho-007` now passes strictly; the frozen case is unchanged); role and order swaps between common nouns ("o cliente processou a empresa" reversed), also when the rewrite drops a formula, now need review (`role_or_order_swapped`).
+- Decomposed accents (NFD) split "não" into "na" + "o" and changed 20 of 216 suite verdicts, some into false greens; a no-break space hid "fim do mês". Analysis runs on a canonical copy (NFC, plain spaces, no zero-width); the user's text is returned as given.
+- An article contraction in a marker's first slot made "na função de gerente" causal and "pela conta de luz" a cause.
+- The HMAC review key was written readable by other users and chmod-ed afterwards; it is created 0600 in one call.
+- The installed-wheel smoke hid its real error behind a Windows `PermissionError`.
+- The reviewer registry's relationship values were never validated; dead code and a duplicated command list removed.
+
+### Performance
+- `signals.markers` tries a phrase only where its first token occurs: `compare` on 8,000 words 10.4 s → 0.96 s; the comma-flood input 9.7 s → 0.10 s (identical markers, differential test).
+- Plan adherence prunes sentence matching by difflib upper bounds: a model-free rewrite of 2,000 words 48.6 s → 1.1 s (same values). Ledger caching measured and rejected.
+
+### Added
+- `scripts/qualify.py`: single local qualification runner; each gate in its own process with its exit code; PASS / FAIL / BLOCKED / NOT_RUN / SKIPPED / INCONCLUSIVE / WAIVED_BY_OWNER; reproduces the CI package job; known failures and external evidence declared in `evals/qualification/`.
+- Regional Evidence Packs (`voznativa/regional.py`, `voznativa/data/regional_packs/`, `docs/REGIONAL_EVIDENCE.md`, ADR-0001): versioned, validated contract; abstention by default; the author's observed form wins; pilot `br-norte-lex-mandioca` from published ALiB findings (counts and citations only). Wired into the Voice Contract, Voice Profile (`regional_form.*` counts), planner, `compare` (`regional_referent_changed`), engine (`regional_form_introduced`) and `voznativa regional packs|check`.
+- Benchmark outcome axes (`voznativa.benchmark.outcome_axes`) with Wilson intervals; `ptbr-bench-v3` cases and manifest frozen (NOT_RUN) and its runner, with a fake-model harness test.
+- Metamorphic tests of the gate (`evals/test_metamorphic.py`); H4 ledger probe; three targeted mutation runs recorded.
+- Assurance records under `evals/assurance/` (Derivanta Engine and Assertiva runs, negative controls, dogfood ledger) and `scripts/assurance_record.py` (sanitized outputs with hashes).
+- `examples/v0.5.0-demo.md` (`scripts/demo_v05.py`, no model): plan, review, returned original, planted instruction, regional abstention and option, provider outage.
+
+## 0.4.0.dev0 (development; continued as 0.5.0.dev0, never released)
 
 Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.4.0.md`. The v0.3.0 external criteria (independent holdout, blind human review round, CI) are still open and are not closed by anything below.
 
