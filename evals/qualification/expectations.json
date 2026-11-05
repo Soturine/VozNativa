@@ -1,14 +1,21 @@
 {
   "_doc": "Known failures of developer-written suites at the hardening start (4044cfc). scripts/qualify.py fails on any failure NOT listed here and reports listed items that start passing. Removing an item needs the fix that makes it pass; adding one needs a written reason here.",
   "semantic_strict_known": {
-    "holdout.jsonl": ["ho-007"]
+    "holdout.jsonl": [
+      "ho-007"
+    ]
   },
-  "decision_known": ["dc-021", "dc-029"],
-  "router_known": ["rt-014"],
+  "decision_known": [
+    "dc-021",
+    "dc-029"
+  ],
+  "router_known": [
+    "rt-014"
+  ],
   "reasons": {
     "holdout.jsonl:ho-007": "classification_divergence: blocked under another issue code; frozen case not edited (PLAN_v0.4.0 M0.1); under H4 review",
-    "dc-021": "wrong_scope (transform instead of edit); under H3 investigation",
-    "dc-029": "unnecessary_change at the uncalibrated length threshold; under H3 investigation",
+    "dc-021": "expectation contradicts the README destination-change contract (register change = transform); determination in evals/assurance/H3_PLANNER_CASES.md",
+    "dc-029": "INCONCLUSIVE: two legitimate weak findings meet the uncalibrated weak_needed_for_edit=max(2, ceil(words/150)); not tuned to the case (evals/assurance/H3_PLANNER_CASES.md)",
     "rt-014": "router 15/16 since v0.3.0; recorded in the baselines"
   }
 }
