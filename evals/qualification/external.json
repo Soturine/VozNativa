@@ -1,0 +1,6 @@
+{
+  "_doc": "Evidence that cannot be produced locally. Only the maintainer changes a status to WAIVED_BY_OWNER, with reason and date.",
+  "ci": {"status": "BLOCKED", "reason": "GitHub Actions blocked by account billing; workflows are kept and not weakened", "since": "2026-10-19"},
+  "independent_holdout": {"status": "NOT_RUN", "reason": "needs a semantic holdout written by someone other than the developer (evals/semantic/INDEPENDENT_HOLDOUT.md)"},
+  "blind_human_review": {"status": "NOT_RUN", "reason": "instrument ready (voznativa blind-*); evals/reviewers/registry.json has no reviewer"}
+}
