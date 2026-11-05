@@ -1,0 +1,325 @@
+{
+  "kind": "voznativa.longform_run",
+  "date": "2026-11-05",
+  "source": "machado-de-assis-corpus",
+  "sources": {
+    "machado-de-assis-corpus": {}
+  },
+  "records": 309,
+  "read_errors": 1,
+  "segmentation": {
+    "900": {
+      "gutenberg_tuning": {
+        "documents": 12,
+        "paragraphs": 17914,
+        "segments": 806,
+        "cuts": 794,
+        "cuts_on_dependency": 2,
+        "forced_cuts": 2,
+        "unreported": 0,
+        "oversize_segments": 11,
+        "dependencies": 5969
+      },
+      "wikisource_heldout": {
+        "documents": 169,
+        "paragraphs": 8142,
+        "segments": 353,
+        "cuts": 184,
+        "cuts_on_dependency": 0,
+        "forced_cuts": 0,
+        "unreported": 0,
+        "oversize_segments": 1,
+        "dependencies": 3715
+      },
+      "wikisource_same_works": {
+        "documents": 128,
+        "paragraphs": 1791,
+        "segments": 164,
+        "cuts": 36,
+        "cuts_on_dependency": 0,
+        "forced_cuts": 0,
+        "unreported": 0,
+        "oversize_segments": 0,
+        "dependencies": 796
+      }
+    },
+    "400": {
+      "gutenberg_tuning": {
+        "documents": 12,
+        "paragraphs": 17914,
+        "segments": 1953,
+        "cuts": 1941,
+        "cuts_on_dependency": 18,
+        "forced_cuts": 18,
+        "unreported": 0,
+        "oversize_segments": 56,
+        "dependencies": 5969
+      },
+      "wikisource_heldout": {
+        "documents": 169,
+        "paragraphs": 8142,
+        "segments": 719,
+        "cuts": 550,
+        "cuts_on_dependency": 1,
+        "forced_cuts": 1,
+        "unreported": 0,
+        "oversize_segments": 7,
+        "dependencies": 3715
+      },
+      "wikisource_same_works": {
+        "documents": 128,
+        "paragraphs": 1791,
+        "segments": 283,
+        "cuts": 155,
+        "cuts_on_dependency": 0,
+        "forced_cuts": 0,
+        "unreported": 0,
+        "oversize_segments": 5,
+        "dependencies": 796
+      }
+    }
+  },
+  "verse_share": {
+    "Dom Casmurro": 0.009,
+    "Memórias Póstumas de Brás Cubas": 0.011,
+    "Quincas Borba": 0.001,
+    "Papéis Avulsos": 0.007,
+    "Poesias Completas": 0.921,
+    "A Mão e a Luva": 0.001,
+    "Histórias sem Data": 0.004,
+    "Helena": 0.001,
+    "Iaiá Garcia": 0.001,
+    "Esaú e Jacó": 0.01,
+    "Relíquias de Casa Velha": 0.006,
+    "Memorial de Aires": 0.001
+  },
+  "literary_control": {
+    "gutenberg_tuning": {
+      "literary": {
+        "segments": 804,
+        "words": 667186,
+        "edit_rate": {
+          "k": 4,
+          "n": 804,
+          "rate": 0.005,
+          "wilson95": [
+            0.002,
+            0.013
+          ]
+        },
+        "findings_per_1000_words": 0.907,
+        "edit_drivers": {
+          "weak_accumulation": 2,
+          "double_hedge": 2
+        }
+      },
+      "unknown": {
+        "segments": 804,
+        "words": 667186,
+        "edit_rate": {
+          "k": 444,
+          "n": 804,
+          "rate": 0.5522,
+          "wilson95": [
+            0.518,
+            0.586
+          ]
+        },
+        "findings_per_1000_words": 1.207,
+        "edit_drivers": {
+          "pt_pt_variant": 376,
+          "treatment_mixed": 96,
+          "double_hedge": 2,
+          "corporate_vague": 1,
+          "dramatic_punchline": 1
+        }
+      },
+      "router_inferred_genre": {
+        "unknown": 498,
+        "whatsapp": 268,
+        "literary": 36,
+        "legal": 2
+      }
+    },
+    "wikisource_same_works": {
+      "literary": {
+        "segments": 162,
+        "words": 80616,
+        "edit_rate": {
+          "k": 0,
+          "n": 162,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.023
+          ]
+        },
+        "findings_per_1000_words": 0.236,
+        "edit_drivers": {}
+      },
+      "unknown": {
+        "segments": 162,
+        "words": 80616,
+        "edit_rate": {
+          "k": 20,
+          "n": 162,
+          "rate": 0.1235,
+          "wilson95": [
+            0.081,
+            0.183
+          ]
+        },
+        "findings_per_1000_words": 0.62,
+        "edit_drivers": {
+          "treatment_mixed": 11,
+          "pt_pt_variant": 10
+        }
+      },
+      "router_inferred_genre": {
+        "literary": 117,
+        "unknown": 44,
+        "social": 1
+      }
+    },
+    "wikisource_heldout": {
+      "literary": {
+        "segments": 343,
+        "words": 229968,
+        "edit_rate": {
+          "k": 0,
+          "n": 343,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.011
+          ]
+        },
+        "findings_per_1000_words": 0.27,
+        "edit_drivers": {}
+      },
+      "unknown": {
+        "segments": 343,
+        "words": 229968,
+        "edit_rate": {
+          "k": 60,
+          "n": 343,
+          "rate": 0.1749,
+          "wilson95": [
+            0.138,
+            0.219
+          ]
+        },
+        "findings_per_1000_words": 0.57,
+        "edit_drivers": {
+          "pt_pt_variant": 31,
+          "treatment_mixed": 29,
+          "calque_construction": 2,
+          "formulaic_triad": 1
+        }
+      },
+      "router_inferred_genre": {
+        "literary": 268,
+        "unknown": 72,
+        "whatsapp": 1,
+        "legal": 1,
+        "social": 1
+      }
+    }
+  },
+  "variant_markers": {
+    "gutenberg_tuning": {
+      "segments": 804,
+      "segments_with_pt_pt_marker": {
+        "k": 380,
+        "n": 804,
+        "rate": 0.4726,
+        "wilson95": [
+          0.438,
+          0.507
+        ]
+      },
+      "markers": {
+        "acção": 104,
+        "facto": 70,
+        "acções": 48,
+        "projecto": 42,
+        "direcção": 41,
+        "factos": 26,
+        "exacta": 22,
+        "director": 21,
+        "exacto": 19,
+        "contacto": 19,
+        "exactamente": 18,
+        "actual": 17,
+        "projectos": 14,
+        "protecção": 13,
+        "correcção": 6
+      }
+    },
+    "wikisource_same_works": {
+      "segments": 162,
+      "segments_with_pt_pt_marker": {
+        "k": 11,
+        "n": 162,
+        "rate": 0.0679,
+        "wilson95": [
+          0.038,
+          0.117
+        ]
+      },
+      "markers": {
+        "estar a cair": 1,
+        "estava a entrar": 1,
+        "estou a duvidar": 1,
+        "estivessem a conversar": 1,
+        "estava a pingar": 1,
+        "estivesse a pigarrear": 1,
+        "estivesse a espiar": 1,
+        "estivesse a esperar": 1,
+        "está a expirar": 1,
+        "constipação": 1,
+        "constipado": 1,
+        "estava a recusar": 1
+      }
+    },
+    "wikisource_heldout": {
+      "segments": 343,
+      "segments_with_pt_pt_marker": {
+        "k": 35,
+        "n": 343,
+        "rate": 0.102,
+        "wilson95": [
+          0.074,
+          0.139
+        ]
+      },
+      "markers": {
+        "rapariga": 8,
+        "constipação": 8,
+        "contacto": 4,
+        "estou a ver": 2,
+        "estar a olhar": 2,
+        "estavam a sair": 1,
+        "estar a cair": 1,
+        "estava a almoçar": 1,
+        "acedeu": 1,
+        "estava a agradecer": 1,
+        "estava a ver": 1,
+        "estava a falar": 1,
+        "estavam a pender": 1,
+        "contactos": 1,
+        "estivessem a elogiar": 1
+      }
+    }
+  },
+  "verse_share_heldout": {
+    "pages": 297,
+    "pages_mostly_verse": 26
+  },
+  "subsets": {
+    "gutenberg_tuning": 12,
+    "wikisource_heldout": 169,
+    "wikisource_same_works": 128
+  },
+  "seconds": 83.7
+}

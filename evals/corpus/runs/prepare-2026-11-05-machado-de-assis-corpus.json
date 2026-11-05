@@ -1,0 +1,44 @@
+{
+  "kind": "voznativa.corpus_prepare_run",
+  "date": "2026-11-05",
+  "reports": [
+    {
+      "source": "machado-de-assis-corpus",
+      "date": "2026-11-05",
+      "connector": "local-files",
+      "records_by_asset": {
+        "machado_corpus.prefix.jsonl": 309
+      },
+      "records_read": 309,
+      "read_errors": 1,
+      "read_error_examples": [
+        {
+          "line": 310,
+          "error": "JSON: Unterminated string starting at"
+        }
+      ],
+      "downloads": [
+        {
+          "asset": "machado_corpus.prefix.jsonl",
+          "bytes": 6000000,
+          "sha256": "79ff4bd1f9ff603d65089e467d559fbe9eda3eaa4c8012e954d7d7c279155bd6",
+          "partial": true,
+          "seconds": 2.77
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC0-1.0 permits it"
+          ],
+          "conditions": [],
+          "evidence": [
+            "registry:machado-de-assis-corpus licence CC0-1.0 (dataset card (read 2026-11-05): compilation dedicated CC0; texts in the public domain (author died 1908))"
+          ]
+        }
+      ]
+    }
+  ]
+}

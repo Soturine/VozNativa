@@ -176,6 +176,27 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
     else:
         scope, decision = "local", "edit"
 
+    # Literary policy (v0.6.0): verse is not rewritten without an explicit
+    # request; literary prose found to need work is edited locally only.
+    # A requested destination (a target) is the user's explicit request.
+    from .longform import literary_policy
+    literary = literary_policy(text, genre, explicit=bool(explicit) or bool(must_change))
+    if literary["policy"] == "verse" and literary["max_scope"] is None and decision == "edit":
+        scope, decision = "none", "no_change"
+        for r in rows:
+            r["op"], r["reasons"], r["priority"] = "keep", [], None
+        for p in paragraphs:
+            p["op"] = "keep"
+    elif literary["max_scope"] == "local" and scope == "paragraph":
+        scope = "local"
+        for p in paragraphs:
+            if p["op"] == "paragraph_rewrite":
+                p["op"] = "sentence_rewrite"
+        for r in rows:
+            if r["op"] == "paragraph_rewrite":
+                r["op"] = "sentence_rewrite"
+            r.pop("note", None)       # no paragraph is rewritten, so nothing changes "to fit"
+
     tr = ptbr.treatment(text)
     names = sorted({s.text for s in led.spans if s.type == "entity"})
     consistency = {
@@ -196,6 +217,7 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
         "consistency": consistency,
         "warnings": _weekday_conflicts(led) + _embedded_instructions(sents),
         "regional": _regional(text, context, profile),
+        "literary": literary,
         "temporal": _temporal(text, context),
         "community": _community(text, context),
         "summary": {"sentences": len(rows), "keep": sum(r["op"] == "keep" for r in rows),

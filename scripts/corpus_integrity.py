@@ -27,6 +27,7 @@ from voznativa.corpus.connectors import LocalFilesConnector, cache_dir  # noqa: 
 from voznativa.corpus.policy import require  # noqa: E402
 from voznativa.corpus.processing import assign_splits, cluster, leakage, provenance  # noqa: E402
 from voznativa.corpus.registry import get_source  # noqa: E402
+from voznativa.corpus.runs import run_file  # noqa: E402
 
 FRACTIONS = {"calibration": 0.5, "evaluation": 0.5}
 
@@ -76,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
                                                 "salt": "voznativa-v0.6"},
               "leakage": {k: (len(v) if isinstance(v, list) else v) for k, v in leak.items()},
               "manifests": manifests, "seconds": round(time.monotonic() - started, 1)}
-    out = ROOT / "evals" / "corpus" / "runs" / f"integrity-{args.date}.json"
+    out = run_file(ROOT, "integrity", args.date, args.sources)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({k: report[k] for k in ("deduplication", "leakage", "seconds")}, indent=1))
     print(out.relative_to(ROOT).as_posix())

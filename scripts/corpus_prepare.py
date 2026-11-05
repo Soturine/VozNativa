@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT))
 from voznativa.corpus.prepare import prepare  # noqa: E402
 from voznativa.corpus.registry import REGISTRY_DIR, _load, get_source, validate_source  # noqa: E402
 from voznativa.corpus.connectors import CONNECTORS  # noqa: E402
+from voznativa.corpus.runs import run_file  # noqa: E402
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -44,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{source_id}: {report['records_read']} records, {report['read_errors']} read errors, "
               f"status {updated['status']}")
     _load.cache_clear()
-    out = ROOT / "evals" / "corpus" / "runs" / f"prepare-{args.date}.json"
+    out = run_file(ROOT, "prepare", args.date, args.sources)
     out.write_text(json.dumps({"kind": "voznativa.corpus_prepare_run", "date": args.date, "reports": reports},
                               ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(out.relative_to(ROOT).as_posix())

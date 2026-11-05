@@ -1,0 +1,52 @@
+{
+  "kind": "voznativa.corpus_integrity_run",
+  "date": "2026-11-05",
+  "sources": {
+    "machado-de-assis-corpus": {
+      "records": 309,
+      "groups": 309,
+      "read_errors": 1,
+      "split_records": {
+        "calibration": 162,
+        "evaluation": 147
+      },
+      "split_groups": {
+        "calibration": 162,
+        "evaluation": 147
+      },
+      "asset_sha256": {
+        "machado_corpus.prefix.jsonl": "79ff4bd1f9ff603d65089e467d559fbe9eda3eaa4c8012e954d7d7c279155bd6"
+      }
+    }
+  },
+  "deduplication": {
+    "records": 309,
+    "exact_duplicates": 1,
+    "near_duplicate_links": 1,
+    "clusters": 307,
+    "cross_source_clusters": 0
+  },
+  "split": {
+    "fractions": {
+      "calibration": 0.5,
+      "evaluation": 0.5
+    },
+    "unit": "group merged with duplicate cluster",
+    "salt": "voznativa-v0.6"
+  },
+  "leakage": {
+    "group": 0,
+    "cluster": 0,
+    "original": 0,
+    "normalized": 0,
+    "contaminated": false
+  },
+  "manifests": {
+    "machado-de-assis-corpus": {
+      "records": 309,
+      "sha256": "5b4ffe643a8c179783e150c45f6032efd173c8e6f48155ac74e1d49c0a47fbfa",
+      "location": "local cache (not committed)"
+    }
+  },
+  "seconds": 20.3
+}

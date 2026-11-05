@@ -1,0 +1,34 @@
+{
+  "kind": "voznativa.corpus_verification_run",
+  "date": "2026-11-05",
+  "results": [
+    {
+      "id": "machado-de-assis-corpus",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus",
+        "identity_terms_found": [
+          "Machado de Assis"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "Hugging Face API + file read",
+        "result": "data_read",
+        "detail": {
+          "file": "machado_corpus.jsonl",
+          "bytes_read": 65536,
+          "truncated": true,
+          "sha": "7f637594fde21c19bd68cf50d1db207d595d32ac",
+          "data_files_listed": 2
+        }
+      }
+    }
+  ]
+}

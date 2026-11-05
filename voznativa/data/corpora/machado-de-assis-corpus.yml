@@ -1,0 +1,92 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: machado-de-assis-corpus
+name: Machado de Assis Corpus (Hugging Face)
+maintainer: R. R. Silva Filho (MachadoGPT, PPMEC/UnB)
+urls:
+  official: https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus
+  official_kind: data_host
+  huggingface: https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus
+identity_terms:
+- Machado de Assis
+modality: written
+genres:
+- literário
+regions:
+- BR
+period:
+  from: 1855
+  to: 1908
+  note: the author's publishing span; the texts follow the orthography of the editions transcribed (Garnier and
+    others)
+license:
+  code: CC0-1.0
+  per_document: false
+  evidence: 'dataset card (read 2026-11-05): compilation dedicated CC0; texts in the public domain (author died
+    1908)'
+access:
+  type: open_download
+  note: one JSONL file (about 14 MB); VozNativa reads an explicit prefix only
+relations: []
+status: EVALUATION_INTEGRATED
+evidence_role: 'long-form 19th-century Brazilian literary prose: natural-text control for literary rewrites, long-text
+  segmentation and historical orthography'
+notes:
+- built from Project Gutenberg (12 complete works) and pt.wikisource.org pages, per the card; neither upstream is
+  registered, so no relation is declared
+privacy:
+  personal_data: false
+  note: published literature of an author who died in 1908
+connector:
+  id: local-files
+  reader:
+    format: jsonl
+    text_field: texto
+    id_field: null
+  assets:
+  - name: machado_corpus.prefix.jsonl
+    format: jsonl
+    max_bytes: 7000000
+    prefix_bytes: 6000000
+    url: https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus/resolve/7f637594fde21c19bd68cf50d1db207d595d32ac/machado_corpus.jsonl
+    hosts:
+    - huggingface.co
+    - '*.hf.co'
+    note: first 6,000,000 bytes of the JSONL at commit 7f63759 (explicit prefix; the last record may be cut)
+    partial: true
+    sha256: 79ff4bd1f9ff603d65089e467d559fbe9eda3eaa4c8012e954d7d7c279155bd6
+processing:
+  group_by: titulo
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://huggingface.co/datasets/ronenfilho/machado-de-assis-corpus
+    identity_terms_found:
+    - Machado de Assis
+  access:
+    date: '2026-11-05'
+    method: Hugging Face API + file read
+    result: data_read
+    detail:
+      file: machado_corpus.jsonl
+      bytes_read: 65536
+      truncated: true
+      sha: 7f637594fde21c19bd68cf50d1db207d595d32ac
+      data_files_listed: 2
+  connector:
+    date: '2026-11-05'
+    connector: local-files
+    records_read: 309
+    read_errors: 1
+    result: read
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-05-machado-de-assis-corpus.json
+- evals/corpus/runs/integrity-2026-11-05-machado-de-assis-corpus.json
+evaluations:
+- voznativa/longform.py
+- scripts/corpus_longform.py
+- evals/corpus/runs/longform-2026-11-05.json

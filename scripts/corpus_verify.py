@@ -22,6 +22,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from voznativa.corpus.runs import run_file  # noqa: E402
 from voznativa.corpus.registry import REGISTRY_DIR, _load, load_registry, validate_source  # noqa: E402
 from voznativa.corpus.verify import apply, verify_access, verify_source  # noqa: E402
 
@@ -49,7 +50,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{entry['id']:24s} {entry['status']:>18s} -> {updated['status']:18s} source={source['result']}"
               f"{' access=' + access['result'] if access else ''}", flush=True)
     _load.cache_clear()
-    out = ROOT / "evals" / "corpus" / "runs" / f"verify-{args.date}.json"
+    # A partial run (--only) gets its own file (v0.6 CP10: --only replaced the full CP2 run file).
+    out = run_file(ROOT, "verify", args.date, {r["id"] for r in log["results"]})
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(log, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(out.relative_to(ROOT).as_posix())

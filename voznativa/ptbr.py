@@ -121,8 +121,14 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
     sents = sentences(text)
     out = []
     markers = variant_markers(text)
+    # Literary text (v0.6.0 CP10): a character's or a period's variant is the
+    # text's material. On Machado de Assis (public domain, BR) the strong PT-PT
+    # finding fired on pre-1943 Brazilian spelling ("acção", "facto") and on
+    # 19th-century usage ("rapariga"), and drove 55% / 16% of segments to
+    # `edit` (evals/corpus/LONGFORM_v0.6.md). In literature it is a note.
+    literary = genre == "literary"
     for m in markers:
-        exclusive = m["confidence"] == "exclusive"
+        exclusive = m["confidence"] == "exclusive" and not literary
         out.append(_finding("pt_pt_variant", "variante PT-PT", "strong" if exclusive else "weak", m["text"],
                             m["start"], m["end"], sents,
                             f"PT-BR: {m['pt_br']}" + (f" (atenção: {m['meaning_sensitive']}; confira o sentido)"
@@ -142,7 +148,9 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
               or register in d["orality"]["casual_registers"])
     tr = treatment(text)
     plain = _unquoted(text)
-    if "formal" in tr["forms"] and ("voce" in tr["forms"] or "tu" in tr["forms"]):
+    if literary:
+        pass  # characters address each other differently; that is dialogue, not inconsistency
+    elif "formal" in tr["forms"] and ("voce" in tr["forms"] or "tu" in tr["forms"]):
         hit = data()["_treatment"]["formal"].search(plain)
         out.append(_finding("treatment_mixed", "tratamento", "strong", hit.group(0), hit.start(), hit.end(), sents,
                             "escolha uma forma de tratamento: 'o senhor' ou 'você', e mantenha"))
