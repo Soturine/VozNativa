@@ -1,0 +1,90 @@
+{
+ "schema_version": "0.1",
+ "kind": "derivanta-engine/proposal-set",
+ "report_sha256": "f5e28584a0f848c606739b8905d7ad237247493f536c31e649d86a96e56391a6",
+ "producer": {
+  "kind": "agent",
+  "name": "voznativa-cp8-agent",
+  "model": "claude-opus-5-5"
+ },
+ "proposals": [
+  {
+   "id": "absent-is-the-split",
+   "kind": "triage",
+   "statement": "The benchmark.py complexity finding is ABSENT because outcome_axes was split into one function per axis (db2dff3).",
+   "cites": [
+    {
+     "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653"
+    },
+    {
+     "pointer": "/findings/29/state"
+    }
+   ],
+   "asserts": [
+    {
+     "pointer": "/findings/29/state",
+     "value": "ABSENT"
+    }
+   ]
+  },
+  {
+   "id": "dup-20",
+   "kind": "triage",
+   "statement": "Duplicated regional field table introduced in this round; fixed by giving the list one owner (regional.DECISION_FIELDS / SUMMARY_FIELDS).",
+   "cites": [
+    {
+     "fingerprint": "33c31dcaf14f0092407dcd0936a53a7a9f1ae753c9191cefbfd3ac48aef8d89e"
+    }
+   ],
+   "asserts": [
+    {
+     "pointer": "/findings/20/state",
+     "value": "NEW"
+    }
+   ]
+  },
+  {
+   "id": "dup-32",
+   "kind": "triage",
+   "statement": "Duplicated regional field table introduced in this round; fixed by giving the list one owner (regional.DECISION_FIELDS / SUMMARY_FIELDS).",
+   "cites": [
+    {
+     "fingerprint": "5e2274d0665a848a2898c2a0e2ad165846c2bbed512af7eb26f25614e7c5be95"
+    }
+   ],
+   "asserts": [
+    {
+     "pointer": "/findings/32/state",
+     "value": "NEW"
+    }
+   ]
+  },
+  {
+   "id": "negative-control-false-count",
+   "kind": "triage",
+   "statement": "Deliberately wrong: claims only 3 NEW findings.",
+   "cites": [
+    {
+     "pointer": "/summary/NEW"
+    }
+   ],
+   "asserts": [
+    {
+     "pointer": "/summary/NEW",
+     "value": 3
+    }
+   ]
+  },
+  {
+   "id": "negative-control-requested-retest",
+   "kind": "triage",
+   "statement": "Asks the Engine to mark the absent finding RETESTED.",
+   "cites": [
+    {
+     "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653"
+    }
+   ],
+   "requested_status": "RETESTED"
+  }
+ ]
+}

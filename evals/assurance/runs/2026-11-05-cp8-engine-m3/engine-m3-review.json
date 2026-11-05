@@ -1,0 +1,104 @@
+{
+  "review_format_version": 1,
+  "kind": "derivanta-engine/proposal-review",
+  "engine": {
+    "name": "derivanta-engine",
+    "version": "0.1.0"
+  },
+  "generated_at": "2026-11-05T15:32:13Z",
+  "report_sha256": "f5e28584a0f848c606739b8905d7ad237247493f536c31e649d86a96e56391a6",
+  "proposals_sha256": "e8692ec8c2e61d801ff7802300c29b052a93aee9b44ef37402e9495e694314a3",
+  "producer": {
+    "kind": "agent",
+    "name": "voznativa-cp8-agent",
+    "model": "claude-opus-5-5",
+    "model_version": null
+  },
+  "attempts": [],
+  "independence": "NOT_INDEPENDENT",
+  "decisions": [
+    {
+      "id": "absent-is-the-split",
+      "decision": "CANDIDATE",
+      "reasons": [],
+      "basis": "INFERRED",
+      "grounded_in": [
+        {
+          "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653",
+          "evidence_id": null,
+          "pointer": null
+        },
+        {
+          "fingerprint": null,
+          "evidence_id": null,
+          "pointer": "/findings/29/state"
+        }
+      ]
+    },
+    {
+      "id": "dup-20",
+      "decision": "CANDIDATE",
+      "reasons": [],
+      "basis": "INFERRED",
+      "grounded_in": [
+        {
+          "fingerprint": "33c31dcaf14f0092407dcd0936a53a7a9f1ae753c9191cefbfd3ac48aef8d89e",
+          "evidence_id": null,
+          "pointer": null
+        }
+      ]
+    },
+    {
+      "id": "dup-32",
+      "decision": "CANDIDATE",
+      "reasons": [],
+      "basis": "INFERRED",
+      "grounded_in": [
+        {
+          "fingerprint": "5e2274d0665a848a2898c2a0e2ad165846c2bbed512af7eb26f25614e7c5be95",
+          "evidence_id": null,
+          "pointer": null
+        }
+      ]
+    },
+    {
+      "id": "negative-control-false-count",
+      "decision": "REJECTED",
+      "reasons": [
+        "CONTRADICTED"
+      ],
+      "basis": "INFERRED",
+      "grounded_in": [
+        {
+          "fingerprint": null,
+          "evidence_id": null,
+          "pointer": "/summary/NEW"
+        }
+      ]
+    },
+    {
+      "id": "negative-control-requested-retest",
+      "decision": "REJECTED",
+      "reasons": [
+        "STATUS_NOT_REQUESTABLE"
+      ],
+      "basis": "INFERRED",
+      "grounded_in": [
+        {
+          "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653",
+          "evidence_id": null,
+          "pointer": null
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "CANDIDATE": 3,
+    "REJECTED": 2
+  },
+  "limitations": [
+    "A CANDIDATE is grounded, not true: its citations exist in the report and its asserted values match, but the statement itself is the producer's inference (INFERRED) and was not judged.",
+    "The review is not independent: no second judge, and the producer's identity is DECLARED.",
+    "Accepting a candidate changes no finding, status or gate; lifecycle states still come only from a triage ledger (DECLARED) and the Engine's own re-observation (RETESTED)."
+  ]
+}

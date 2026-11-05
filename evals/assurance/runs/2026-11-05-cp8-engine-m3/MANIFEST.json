@@ -1,0 +1,67 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-cp8-engine-m3",
+  "entries": [
+    {
+      "file": "engine-m3-compare-vs-cp4.json",
+      "command": "derivanta-engine compare <cp4 inspect (engine 0be2a38)> <this inspect> --format json",
+      "exit_code": 0,
+      "raw_sha256": "f5e28584a0f848c606739b8905d7ad237247493f536c31e649d86a96e56391a6",
+      "published_sha256": "f5e28584a0f848c606739b8905d7ad237247493f536c31e649d86a96e56391a6",
+      "sanitized": false
+    },
+    {
+      "file": "engine-m3-evaluate.json",
+      "command": "derivanta-engine evaluate --input evals/assurance/evaluation-request.json --framework ../Derivanta --repository . --format json",
+      "exit_code": 0,
+      "raw_sha256": "24b8c641d13e0842c48c79956a45aee8ba77ed14df7f37a9f248c5f38b847b1e",
+      "published_sha256": "24b8c641d13e0842c48c79956a45aee8ba77ed14df7f37a9f248c5f38b847b1e",
+      "sanitized": false
+    },
+    {
+      "file": "engine-m3-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json",
+      "exit_code": 0,
+      "raw_sha256": "a96366dccc833315aebac6a4e847f06e2c17ea0aeae1244934a03234347cffdd",
+      "published_sha256": "a96366dccc833315aebac6a4e847f06e2c17ea0aeae1244934a03234347cffdd",
+      "sanitized": false
+    },
+    {
+      "file": "engine-m3-review.json",
+      "command": "derivanta-engine review <compare report> --proposals proposals.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "5cf3b6fc240d1454615db4c817fda3d8654782c18a3916f05a5b868b020d68b8",
+      "published_sha256": "5cf3b6fc240d1454615db4c817fda3d8654782c18a3916f05a5b868b020d68b8",
+      "sanitized": false
+    },
+    {
+      "file": "proposals.json",
+      "command": "agent proposal set about the compare report (3 triage proposals, 2 negative controls)",
+      "exit_code": 0,
+      "raw_sha256": "e8692ec8c2e61d801ff7802300c29b052a93aee9b44ef37402e9495e694314a3",
+      "published_sha256": "b093fb1d3b772f87327d34be4ba064d626859feec5d75dc77567267c4f614e65",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-05T15:32:40+00:00",
+  "revision": "5d7ae603b3ecc715da66cc5c7e8fa8d72e04c9db",
+  "dirty_paths": [
+    "voznativa/cli.py",
+    "voznativa/contract.py",
+    "voznativa/planner.py",
+    "voznativa/regional.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@17fa564",
+    "derivanta-framework": "0.1.0-dev@218761d"
+  },
+  "notes": [
+    "Engine installed from origin/main 17fa564 via git archive into a scratch venv; the local Engine checkout (0be2a38, used in CP0/CP4) was 7 commits behind and lacks the review command. Both report version 0.1.0.",
+    "inspect ran at 5d7ae60 before the duplication fix; the two NEW regional duplication findings it raised were fixed right after (single owner for the field lists)."
+  ]
+}

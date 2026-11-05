@@ -1,0 +1,2893 @@
+{
+  "report_format_version": 2,
+  "kind": "derivanta-engine/inspection-report",
+  "engine": {
+    "name": "derivanta-engine",
+    "version": "0.1.0"
+  },
+  "generated_at": "2026-11-05T15:31:34Z",
+  "mode": "offline-deterministic",
+  "inspection": {
+    "inspection_format_version": 2,
+    "scope": {
+      "root": "VozNativa",
+      "access": "read-only",
+      "project_code_execution": "NOT_AUTHORIZED",
+      "links": "recorded-not-followed",
+      "git": "static-metadata-and-guarded-status",
+      "excluded_directory_names": [
+        ".git",
+        ".hg",
+        ".svn",
+        "node_modules",
+        "bower_components",
+        ".venv",
+        "venv",
+        "site-packages",
+        "__pycache__",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".hypothesis",
+        ".tox",
+        ".nox",
+        ".gradle",
+        ".next",
+        ".nuxt",
+        ".svelte-kit",
+        ".dart_tool",
+        ".terraform",
+        ".cache",
+        "dist",
+        "build",
+        "target",
+        "vendor",
+        "Pods",
+        "coverage"
+      ],
+      "declared_exclusions": [],
+      "analyses": [
+        "python-maintainability"
+      ],
+      "limits": {
+        "max_entries": 20000,
+        "max_depth": 32,
+        "max_file_bytes": 1048576,
+        "max_read_bytes": 16777216
+      }
+    },
+    "snapshot": {
+      "inventory_sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f",
+      "files": 264,
+      "bytes": 2195214,
+      "source": "working-tree"
+    },
+    "git": {
+      "state": "REPOSITORY",
+      "revision": "5d7ae603b3ecc715da66cc5c7e8fa8d72e04c9db",
+      "branch": "v0.5.0-dev",
+      "detached": false,
+      "unborn": false,
+      "status": "EXECUTED",
+      "dirty": false,
+      "modified": 0,
+      "untracked": 0,
+      "submodules": 0,
+      "origin": "https://github.com/Soturine/VozNativa",
+      "limitations": []
+    },
+    "coverage": {
+      "inventory_complete": true,
+      "limits_hit": [],
+      "files_discovered": 264,
+      "directories_discovered": 55,
+      "links_not_followed": 0,
+      "special_entries": 0,
+      "unreadable_entries": 0,
+      "skipped_directories": [
+        {
+          "path": ".git",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "evals/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "scripts/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "voznativa/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        }
+      ],
+      "skipped_directories_unlisted": 0,
+      "structurally_inventoried": 264,
+      "selected_for_reading": 100,
+      "read": 100,
+      "truncated": 0,
+      "failed": 0,
+      "changed_during_read": 0,
+      "over_budget": 0,
+      "deep_inspected": 0,
+      "runtime_exercised": 0,
+      "by_class": [
+        {
+          "artifact_class": "source",
+          "discovered": 66,
+          "content_read": 66
+        },
+        {
+          "artifact_class": "test",
+          "discovered": 32,
+          "content_read": 32
+        },
+        {
+          "artifact_class": "documentation",
+          "discovered": 73,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "manifest",
+          "discovered": 2,
+          "content_read": 2
+        },
+        {
+          "artifact_class": "ci",
+          "discovered": 1,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "configuration",
+          "discovered": 71,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "other",
+          "discovered": 19,
+          "content_read": 0
+        }
+      ],
+      "selection": "deterministic: dependency manifests only (ENG-INSPECT-COVERAGE); every other file is inventoried by path and size, never opened",
+      "declared_exclusions": []
+    },
+    "artifacts": [
+      {
+        "path": "evals/test_additions.py",
+        "artifact_class": "test",
+        "bytes": 1620,
+        "read": "READ",
+        "sha256": "03538ba19024b68ae0933a650e62c5560042bf8d82d2cb4e5f8b41bf1a0bf368"
+      },
+      {
+        "path": "evals/test_analyzers.py",
+        "artifact_class": "test",
+        "bytes": 3319,
+        "read": "READ",
+        "sha256": "daae6eac33cfd28d163605b769fee3f65929f4268cd229da80fa2f265cdc16ce"
+      },
+      {
+        "path": "evals/test_bench_v3_harness.py",
+        "artifact_class": "test",
+        "bytes": 3253,
+        "read": "READ",
+        "sha256": "24b758a0c1159a591c846041459d99c7581efbfd084bfecc12a27ad87a51055d"
+      },
+      {
+        "path": "evals/test_benchmark.py",
+        "artifact_class": "test",
+        "bytes": 3813,
+        "read": "READ",
+        "sha256": "7b7b397d95f5434202702315abe443e22472e832183d36ba4ec4143ad0fae368"
+      },
+      {
+        "path": "evals/test_benchmark_axes.py",
+        "artifact_class": "test",
+        "bytes": 11776,
+        "read": "READ",
+        "sha256": "c75ffb3dee71b06fb7ddf3425e97eef7a76f950639acc870dff5a6d4c2a31d82"
+      },
+      {
+        "path": "evals/test_blind_review.py",
+        "artifact_class": "test",
+        "bytes": 3822,
+        "read": "READ",
+        "sha256": "78912775c132b4743b95fa27d3f089ca3821e2fee405deb0f241b702bf0e48b2"
+      },
+      {
+        "path": "evals/test_context_layer.py",
+        "artifact_class": "test",
+        "bytes": 7581,
+        "read": "READ",
+        "sha256": "3dc303c09013a6081cb5e1083b9745dc34c0ccd4918561ef0a3555fe700ba09f"
+      },
+      {
+        "path": "evals/test_engine.py",
+        "artifact_class": "test",
+        "bytes": 14452,
+        "read": "READ",
+        "sha256": "b2931449149feb827519ec9b429e711feeacbe67b9369211c169dac8b5e549d9"
+      },
+      {
+        "path": "evals/test_eval_provenance.py",
+        "artifact_class": "test",
+        "bytes": 3967,
+        "read": "READ",
+        "sha256": "da4f56a185c008e3a988f3d6e68b9743e092670d63e33fcaef39634b51138b4e"
+      },
+      {
+        "path": "evals/test_foundation.py",
+        "artifact_class": "test",
+        "bytes": 4071,
+        "read": "READ",
+        "sha256": "76446e977fd3323670e09e8feabd3abdd2ec912494613cb446678d7c853d2d31"
+      },
+      {
+        "path": "evals/test_hardening_v040.py",
+        "artifact_class": "test",
+        "bytes": 15018,
+        "read": "READ",
+        "sha256": "5e551db2f2f28eff8a4b63b78234182ba64a10c90c2570b79b91c78b28dd7317"
+      },
+      {
+        "path": "evals/test_identity_structure.py",
+        "artifact_class": "test",
+        "bytes": 1899,
+        "read": "READ",
+        "sha256": "ccd107d5877e0b82585c92afb77a74389eba6063d976136308f8eb6f798df63d"
+      },
+      {
+        "path": "evals/test_integration_findings.py",
+        "artifact_class": "test",
+        "bytes": 4214,
+        "read": "READ",
+        "sha256": "9090dd977057d11e2e42475afb5a4dd8686ee6f4a64d5fcc6e3e86dfc59c06ac"
+      },
+      {
+        "path": "evals/test_metamorphic.py",
+        "artifact_class": "test",
+        "bytes": 4358,
+        "read": "READ",
+        "sha256": "a1fe0f0eea946711caecfbae4de2190e71d48f34036da6e55c4ed0e55e157539"
+      },
+      {
+        "path": "evals/test_numerals.py",
+        "artifact_class": "test",
+        "bytes": 2757,
+        "read": "READ",
+        "sha256": "00a71d2e22dfc48b0e46063e38834433222185ca12cbe2d7f8cca7dea1f47f38"
+      },
+      {
+        "path": "evals/test_p0_regressions.py",
+        "artifact_class": "test",
+        "bytes": 4203,
+        "read": "READ",
+        "sha256": "2821d32ad7e12d62a624fde366ab15e325d8e457b2eadfcee6e3f3f059a20877"
+      },
+      {
+        "path": "evals/test_patterns.py",
+        "artifact_class": "test",
+        "bytes": 5246,
+        "read": "READ",
+        "sha256": "71cc9a8cc4506fdd515f1203672aa612bb7f9e0ac68718b7d558020aefec60cb"
+      },
+      {
+        "path": "evals/test_planner.py",
+        "artifact_class": "test",
+        "bytes": 10580,
+        "read": "READ",
+        "sha256": "181537ce3d96415e0cb7cd29ed9d019423a017b0912f34573e674ebeca288452"
+      },
+      {
+        "path": "evals/test_privacy.py",
+        "artifact_class": "test",
+        "bytes": 10885,
+        "read": "READ",
+        "sha256": "5ea79a3028ba74ef17fb93b78aa36b21ed8d0d4e5fa77a45bfd35c1622b8ee32"
+      },
+      {
+        "path": "evals/test_protected_terms.py",
+        "artifact_class": "test",
+        "bytes": 2466,
+        "read": "READ",
+        "sha256": "71aa64c9a26f9027373d5699791e4b34853864dab388b2444c081f935b697407"
+      },
+      {
+        "path": "evals/test_providers_hardening.py",
+        "artifact_class": "test",
+        "bytes": 9714,
+        "read": "READ",
+        "sha256": "9b5b39e01f78bf5dafc7a5f23daa62dc5a4e5b4bfa6692a3d22eb8743859b131"
+      },
+      {
+        "path": "evals/test_ptbr_layer.py",
+        "artifact_class": "test",
+        "bytes": 3304,
+        "read": "READ",
+        "sha256": "ee05de3fba2b54b10e2d447b0491ee8cf97bd9685247f758992fa50f02c262b5"
+      },
+      {
+        "path": "evals/test_qualify.py",
+        "artifact_class": "test",
+        "bytes": 3499,
+        "read": "READ",
+        "sha256": "3e5f04fd6c2f8b8006623f4fb98d106c29626d4b25136e5c180ec1d4082fc4e6"
+      },
+      {
+        "path": "evals/test_regional.py",
+        "artifact_class": "test",
+        "bytes": 7525,
+        "read": "READ",
+        "sha256": "ff7c8291056490b1262a450246f60a9fefe853fd86ad290ecf8d9327aeb9c99d"
+      },
+      {
+        "path": "evals/test_relations.py",
+        "artifact_class": "test",
+        "bytes": 6158,
+        "read": "READ",
+        "sha256": "5364a2cb05242555395f81ff3b76c6c0f33886be1f71d3c884a0c6b654ddf9c0"
+      },
+      {
+        "path": "evals/test_review_assurance.py",
+        "artifact_class": "test",
+        "bytes": 11432,
+        "read": "READ",
+        "sha256": "002cc2913aa37d7618ea983ca40b5aa74108dbce0a9604e6c7bbad8a60164fb2"
+      },
+      {
+        "path": "evals/test_semantic_layer.py",
+        "artifact_class": "test",
+        "bytes": 13568,
+        "read": "READ",
+        "sha256": "1c4b3a52317987ba8c67d68fbef06e0b3b222e03bbf1a2835043489c3697beea"
+      },
+      {
+        "path": "evals/test_short_sentences.py",
+        "artifact_class": "test",
+        "bytes": 780,
+        "read": "READ",
+        "sha256": "2d2fbe321148ceb2929bc2e734c611eb4628dd9d1e7c74aca606126a920d0b16"
+      },
+      {
+        "path": "evals/test_signals_equivalence.py",
+        "artifact_class": "test",
+        "bytes": 5296,
+        "read": "READ",
+        "sha256": "237780df8d4988841041358044bc3241f9c2acaaf476d30ac7660130e7a7332d"
+      },
+      {
+        "path": "evals/test_skill_contract.py",
+        "artifact_class": "test",
+        "bytes": 3389,
+        "read": "READ",
+        "sha256": "440f1e9d20df879b50f5c6e606d31cb2196222f42653d75f2f4bd2ee109383ff"
+      },
+      {
+        "path": "evals/test_voice_layer.py",
+        "artifact_class": "test",
+        "bytes": 7137,
+        "read": "READ",
+        "sha256": "dd45f1744ad0affcf2341a9a1a9ed10afb6fed1ef5c2e03070f3e54b2061ba3a"
+      },
+      {
+        "path": "evals/test_whole_word_matching.py",
+        "artifact_class": "test",
+        "bytes": 1213,
+        "read": "READ",
+        "sha256": "20aa44561ae04f8e2e73e484fbfd2679116d4cbb7344a240ce4dbe5dd334d266"
+      },
+      {
+        "path": "pyproject.toml",
+        "artifact_class": "manifest",
+        "bytes": 761,
+        "read": "READ",
+        "sha256": "761643cfb05e7257cbea01d9a6f4f7f86a58ab0d5cebed21e1be26b1255b289f"
+      },
+      {
+        "path": "scripts/_bootstrap.py",
+        "artifact_class": "source",
+        "bytes": 244,
+        "read": "READ",
+        "sha256": "6a9bb93fd0d969f36957502d4efa4dba89796b5ce047d063d65bf56dba715817"
+      },
+      {
+        "path": "scripts/analyze.py",
+        "artifact_class": "source",
+        "bytes": 477,
+        "read": "READ",
+        "sha256": "97477fe49535ec9b20b27a56494410abe001a11aa91d442500cc11bca79ae123"
+      },
+      {
+        "path": "scripts/assurance_record.py",
+        "artifact_class": "source",
+        "bytes": 5485,
+        "read": "READ",
+        "sha256": "b1697f8a0ec6ab8dab1776f2fefa330e57b2c0d5a59aae00ca7d0e8826b1aa2d"
+      },
+      {
+        "path": "scripts/audit.py",
+        "artifact_class": "source",
+        "bytes": 591,
+        "read": "READ",
+        "sha256": "189982c3223935f2fab73d9cd6bdd45062a182f7ea60687733d6e0be4f74a1e9"
+      },
+      {
+        "path": "scripts/baseline.py",
+        "artifact_class": "source",
+        "bytes": 4399,
+        "read": "READ",
+        "sha256": "da4806998a8f0f65cf340488c63b8119658c8c5940ce1fc161e95066962f46ae"
+      },
+      {
+        "path": "scripts/bench_engine_driver.py",
+        "artifact_class": "source",
+        "bytes": 1544,
+        "read": "READ",
+        "sha256": "b68aefe0261400a7409db1aaf99cc827f84ddb78eb08e9a384c6d5afd8bbcf9a"
+      },
+      {
+        "path": "scripts/bench_model_wrapper.py",
+        "artifact_class": "source",
+        "bytes": 2480,
+        "read": "READ",
+        "sha256": "b1164c3ca31a08a30e222a4a47698f2fce26314e7a4a32d67167597949a0745a"
+      },
+      {
+        "path": "scripts/bench_skill_only.py",
+        "artifact_class": "source",
+        "bytes": 11533,
+        "read": "READ",
+        "sha256": "8fe61178310c7a33d615f194651926668ddcf955e9e4f116319dd79a68e12f99"
+      },
+      {
+        "path": "scripts/bench_v2.py",
+        "artifact_class": "source",
+        "bytes": 14526,
+        "read": "READ",
+        "sha256": "b2a07e0df10a38079dde83f55285bcaa8961460267f9ad177f02bcbb9bc0cf97"
+      },
+      {
+        "path": "scripts/bench_v3.py",
+        "artifact_class": "source",
+        "bytes": 9568,
+        "read": "READ",
+        "sha256": "fcbb9c46a2f129b71ffa8a540b2cf403f50f04c8831e0265a774b00a60155255"
+      },
+      {
+        "path": "scripts/benchmark_runner.py",
+        "artifact_class": "source",
+        "bytes": 793,
+        "read": "READ",
+        "sha256": "7aead3a36d5380e6e22fc76242c609df38ffed6fa039fbacf2081c83edaf6c1e"
+      },
+      {
+        "path": "scripts/carolina_metadata.py",
+        "artifact_class": "source",
+        "bytes": 5224,
+        "read": "READ",
+        "sha256": "53fba1ee876e83188e2f3b23e8cd06650952683598c0ee92a6839a8228454ae4"
+      },
+      {
+        "path": "scripts/demo.py",
+        "artifact_class": "source",
+        "bytes": 4907,
+        "read": "READ",
+        "sha256": "d4144213154aa1dc85982260d63c4112e0bb2c84be75d5f9acb3f5086ee8caaf"
+      },
+      {
+        "path": "scripts/experiments/languagetool_probe.py",
+        "artifact_class": "source",
+        "bytes": 7789,
+        "read": "READ",
+        "sha256": "2335334fc00457d95ee03a2490e23f6ea5e7a1b68278db8f2e99490d7b6c8ca8"
+      },
+      {
+        "path": "scripts/experiments/ledger_probe_h4.py",
+        "artifact_class": "source",
+        "bytes": 4055,
+        "read": "READ",
+        "sha256": "6030342379ea8b8cf1072bf43c7f9749f1415440a063a5f129f8b2760150ddc1"
+      },
+      {
+        "path": "scripts/experiments/nli_probe.py",
+        "artifact_class": "source",
+        "bytes": 5147,
+        "read": "READ",
+        "sha256": "7af80fc9112eef2d444f1dba41353a793309789e65882e9ddbf0ef6ab17bcdc1"
+      },
+      {
+        "path": "scripts/experiments/syntax_roles.py",
+        "artifact_class": "source",
+        "bytes": 4692,
+        "read": "READ",
+        "sha256": "290b02fb13f79c48dc46ea3130c7f60d617625c6b05f17a505517c22da4270e7"
+      },
+      {
+        "path": "scripts/experiments/voice_match.py",
+        "artifact_class": "source",
+        "bytes": 4267,
+        "read": "READ",
+        "sha256": "ee97fa3281613b69f2696d28e3888b47c3fafadd79e6b2128b75a7721a4b1f1f"
+      },
+      {
+        "path": "scripts/fact_guard.py",
+        "artifact_class": "source",
+        "bytes": 715,
+        "read": "READ",
+        "sha256": "13ef98cc303a4e8671da6ea9b45c6d75db09453138363eb1f0416788221f32f5"
+      },
+      {
+        "path": "scripts/llm_integration.py",
+        "artifact_class": "source",
+        "bytes": 8874,
+        "read": "READ",
+        "sha256": "4af99aafb8ca81dcad45884b658a6a340b7dcf4d4f7f0d53e49c48d8f6ad02b2"
+      },
+      {
+        "path": "scripts/make_examples.py",
+        "artifact_class": "source",
+        "bytes": 5779,
+        "read": "READ",
+        "sha256": "915d3192dfe84be5e477f75dc8d26608ee2de1c752d70bc79481691dfe48cb73"
+      },
+      {
+        "path": "scripts/perf_probe.py",
+        "artifact_class": "source",
+        "bytes": 3649,
+        "read": "READ",
+        "sha256": "d50c43639348a8d36033a6997d11f8dd714b4580a3f6c35bae402c669eaa04a5"
+      },
+      {
+        "path": "scripts/protect_spans.py",
+        "artifact_class": "source",
+        "bytes": 428,
+        "read": "READ",
+        "sha256": "50af801ae17bc72afe7a5ae0490102795ef5a2f65d2be5883483ac7e9268e2dd"
+      },
+      {
+        "path": "scripts/pty_review_check.py",
+        "artifact_class": "source",
+        "bytes": 2522,
+        "read": "READ",
+        "sha256": "7fc5e67f4cdc1ec2a88fdb09429e63d32dbab95d7aba73fdbbe9ae2eaa3aaf54"
+      },
+      {
+        "path": "scripts/qualify.py",
+        "artifact_class": "source",
+        "bytes": 24876,
+        "read": "READ",
+        "sha256": "fe0dbbf74dfeb3ccae2b9b28720ac53c3be8e3440c1f11a35d5d7a9ff977c12d"
+      },
+      {
+        "path": "scripts/region_consistency.py",
+        "artifact_class": "source",
+        "bytes": 575,
+        "read": "READ",
+        "sha256": "45e5aaa48552ab39512e765048a3cafa9f001d9b75669028f4fdc3346fe53a09"
+      },
+      {
+        "path": "scripts/rescore_bench_axes.py",
+        "artifact_class": "source",
+        "bytes": 3219,
+        "read": "READ",
+        "sha256": "61885be244edcf962d386392a10c1c92ba187edfd08ad3a0302e4cc9b75257d9"
+      },
+      {
+        "path": "scripts/rescore_integration.py",
+        "artifact_class": "source",
+        "bytes": 2317,
+        "read": "READ",
+        "sha256": "1c20ef5a852e6b696ffc9b4629d7e3e172fb9ca9eb84105121dc3d156cafb5b8"
+      },
+      {
+        "path": "scripts/semantic_guard.py",
+        "artifact_class": "source",
+        "bytes": 2141,
+        "read": "READ",
+        "sha256": "8525963dca7b7695a66ea9a026fcbab7cc1dd2f1f63358af3c0008c68b34a47a"
+      },
+      {
+        "path": "scripts/smoke_installed.py",
+        "artifact_class": "source",
+        "bytes": 3602,
+        "read": "READ",
+        "sha256": "b5207fdd932cd039e9b761707124f2ccce2e3093567c142f823f987ca6ddf273"
+      },
+      {
+        "path": "scripts/validate_package.py",
+        "artifact_class": "source",
+        "bytes": 9928,
+        "read": "READ",
+        "sha256": "1dca3d4b645ad1e0d65eeaef6d64c2573486d7c810098ca7da305bb6893c3dd6"
+      },
+      {
+        "path": "scripts/voice_drift.py",
+        "artifact_class": "source",
+        "bytes": 477,
+        "read": "READ",
+        "sha256": "ab97a121102a84b495ee5406583047763515c0dfb165188a6495c81ed9a0a3ac"
+      },
+      {
+        "path": "scripts/voice_profile.py",
+        "artifact_class": "source",
+        "bytes": 691,
+        "read": "READ",
+        "sha256": "a5406a26b54376ca7a1eca70bbdebd567f5e13283e300a61255fae2a12f9382c"
+      },
+      {
+        "path": "scripts/voznativa_cli.py",
+        "artifact_class": "source",
+        "bytes": 564,
+        "read": "READ",
+        "sha256": "038d458c5d20fdc3fe6c20f29a3c137e52d66096a7fd5b39a5ef3670f369baf6"
+      },
+      {
+        "path": "setup.py",
+        "artifact_class": "manifest",
+        "bytes": 884,
+        "read": "READ",
+        "sha256": "e6696aa31a210eb32346674e72cb46e4cd34e72130904dfe68fe43d2c84777ba"
+      },
+      {
+        "path": "voznativa/__init__.py",
+        "artifact_class": "source",
+        "bytes": 114,
+        "read": "READ",
+        "sha256": "469a63396815bdc0529294d5b0d123895fd73437efea53694d307c96a86a9a55"
+      },
+      {
+        "path": "voznativa/__main__.py",
+        "artifact_class": "source",
+        "bytes": 51,
+        "read": "READ",
+        "sha256": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea"
+      },
+      {
+        "path": "voznativa/analyze.py",
+        "artifact_class": "source",
+        "bytes": 3551,
+        "read": "READ",
+        "sha256": "cec6270ac1123746b2b76f450f998c35b652432c99dafb39d3ea385cc67a0973"
+      },
+      {
+        "path": "voznativa/audit.py",
+        "artifact_class": "source",
+        "bytes": 1708,
+        "read": "READ",
+        "sha256": "2f07f1cd30102056930def0c0fe75b6f5537254352e7b867e45e7d2a40e0d44b"
+      },
+      {
+        "path": "voznativa/benchmark.py",
+        "artifact_class": "source",
+        "bytes": 15769,
+        "read": "READ",
+        "sha256": "719f5b4bcaa3e1a46fd7dc516ac503e24b0caecbd37b9ca16fc8d3f20393105d"
+      },
+      {
+        "path": "voznativa/blind.py",
+        "artifact_class": "source",
+        "bytes": 9185,
+        "read": "READ",
+        "sha256": "995eee2a47b6cb88b8eb8a1b8efcccea83ba166fc1515fd4799065e83dd6998b"
+      },
+      {
+        "path": "voznativa/cli.py",
+        "artifact_class": "source",
+        "bytes": 27125,
+        "read": "READ",
+        "sha256": "6cfe82e28b8a6c1f6a0621beaafd377885be92e81b337ebc85125f4e2953038e"
+      },
+      {
+        "path": "voznativa/compare.py",
+        "artifact_class": "source",
+        "bytes": 32133,
+        "read": "READ",
+        "sha256": "faba22a9556b7e6db9e30f39c1662bf32c95f0ad9493faf7734600d45769b068"
+      },
+      {
+        "path": "voznativa/contract.py",
+        "artifact_class": "source",
+        "bytes": 11048,
+        "read": "READ",
+        "sha256": "9dc373f02c0dabdaaeb09196c98d76872d37c86a992cd534c74c534f126381df"
+      },
+      {
+        "path": "voznativa/drift.py",
+        "artifact_class": "source",
+        "bytes": 3817,
+        "read": "READ",
+        "sha256": "06889d86d6fe6996018ebc5e0350696634c33e352d3df14f61b2a25922096995"
+      },
+      {
+        "path": "voznativa/engine.py",
+        "artifact_class": "source",
+        "bytes": 30365,
+        "read": "READ",
+        "sha256": "1608216a4c2b43d1c22dea20a0d5b35427915efef06b31401a612e9dc7fe42b6"
+      },
+      {
+        "path": "voznativa/evals.py",
+        "artifact_class": "source",
+        "bytes": 7516,
+        "read": "READ",
+        "sha256": "96ff585fb57430e0c9617a3dccc6f5e2d420a8b3ba02aeb564172021b2cd5bf0"
+      },
+      {
+        "path": "voznativa/features.py",
+        "artifact_class": "source",
+        "bytes": 4620,
+        "read": "READ",
+        "sha256": "ac507833d61853db0047237c7aa1354f7c13387dab93ecf23c2046870068ed08"
+      },
+      {
+        "path": "voznativa/judge.py",
+        "artifact_class": "source",
+        "bytes": 13318,
+        "read": "READ",
+        "sha256": "4c4cbf4998e92bac3659a50402f5766c7b37d91a5dfb31263e196cab2d20d4b4"
+      },
+      {
+        "path": "voznativa/ledger.py",
+        "artifact_class": "source",
+        "bytes": 4418,
+        "read": "READ",
+        "sha256": "fc84653383e0ae244c8ff5775bd53f6a0122c3923dfeddacaa62d9fe0aa44bd3"
+      },
+      {
+        "path": "voznativa/numerals.py",
+        "artifact_class": "source",
+        "bytes": 4241,
+        "read": "READ",
+        "sha256": "b05f0d245996c308e91bd43a6efa6ba02b4aa8b29c135a3cbc00dc8656762806"
+      },
+      {
+        "path": "voznativa/paths.py",
+        "artifact_class": "source",
+        "bytes": 1052,
+        "read": "READ",
+        "sha256": "6ba960d7814d9c140410cfeacbaef915ab183b2fa5d37267437811fb98610aa5"
+      },
+      {
+        "path": "voznativa/patterns.py",
+        "artifact_class": "source",
+        "bytes": 10990,
+        "read": "READ",
+        "sha256": "c10e47ab7867a86bdbb908e74e95e5fdd05c4a61f1fa132927440ce784ad5fbe"
+      },
+      {
+        "path": "voznativa/planner.py",
+        "artifact_class": "source",
+        "bytes": 16936,
+        "read": "READ",
+        "sha256": "8776fee25ed0255b081c57ddb3de462de45488e0e190a5ab10e3ceb2d7f78301"
+      },
+      {
+        "path": "voznativa/profile.py",
+        "artifact_class": "source",
+        "bytes": 9117,
+        "read": "READ",
+        "sha256": "23048356036ebdd2d727650efec55945bf6ab882996ef8f5df952ecaf396a087"
+      },
+      {
+        "path": "voznativa/project.py",
+        "artifact_class": "source",
+        "bytes": 12032,
+        "read": "READ",
+        "sha256": "e1fa189e9f08c3304df12301ded56420ab27ccb813927199f2e3ec58cbf7652d"
+      },
+      {
+        "path": "voznativa/providers.py",
+        "artifact_class": "source",
+        "bytes": 14784,
+        "read": "READ",
+        "sha256": "86137e59456ea71aad72c2e4ac20e9e9edf0fdf64cfb524d07f146a1bb9822dc"
+      },
+      {
+        "path": "voznativa/ptbr.py",
+        "artifact_class": "source",
+        "bytes": 10110,
+        "read": "READ",
+        "sha256": "5d713949cb009d0915cf600da7647c94ff585dcfe932eb32c93ce33edd12d1ed"
+      },
+      {
+        "path": "voznativa/redact.py",
+        "artifact_class": "source",
+        "bytes": 4453,
+        "read": "READ",
+        "sha256": "27369d61458b592e401757c8fab3027432d48e60464bb7e0b7422667213107ff"
+      },
+      {
+        "path": "voznativa/references.py",
+        "artifact_class": "source",
+        "bytes": 3074,
+        "read": "READ",
+        "sha256": "b9b26cafb613194849a85dbb427438a9c32e0c38a06841c31a0bc9d8c7b1c5ac"
+      },
+      {
+        "path": "voznativa/region.py",
+        "artifact_class": "source",
+        "bytes": 2184,
+        "read": "READ",
+        "sha256": "8e291766d2b39044a5a2b7c1055a61dd4a04b15cefdcfb728fb38f3d73e8b23f"
+      },
+      {
+        "path": "voznativa/regional.py",
+        "artifact_class": "source",
+        "bytes": 13717,
+        "read": "READ",
+        "sha256": "cb2cc839b3956bef1179d59192aa8add4f70e99d0cbd6e7144408673dba1180f"
+      },
+      {
+        "path": "voznativa/review.py",
+        "artifact_class": "source",
+        "bytes": 13380,
+        "read": "READ",
+        "sha256": "11770314a9921ea8946b3e0a6fd0aad1fd32a57411e9078abeb2156b975f3f15"
+      },
+      {
+        "path": "voznativa/router.py",
+        "artifact_class": "source",
+        "bytes": 10386,
+        "read": "READ",
+        "sha256": "02aa8d144262536e0381afc13b1e0e593f17b92a0dbf1ccaeac78acc29f77ab4"
+      },
+      {
+        "path": "voznativa/signals.py",
+        "artifact_class": "source",
+        "bytes": 8608,
+        "read": "READ",
+        "sha256": "c0314f1db7820ebd8088254babc4b414c65630bd7bf20afb902fce42078f88a2"
+      },
+      {
+        "path": "voznativa/spans.py",
+        "artifact_class": "source",
+        "bytes": 20084,
+        "read": "READ",
+        "sha256": "1962a32d8e289190697228ce69f107039a56e29cef53e0c567b212cea95c659c"
+      },
+      {
+        "path": "voznativa/text.py",
+        "artifact_class": "source",
+        "bytes": 8816,
+        "read": "READ",
+        "sha256": "4ebb03798b0245ebd0549b3ab796cec577215e9baacdb91a4d1ad472d6e93819"
+      }
+    ],
+    "artifacts_unlisted": 0,
+    "manifests": [
+      {
+        "path": "pyproject.toml",
+        "ecosystem": "python",
+        "extraction": "DEPENDENCIES",
+        "dependencies": [
+          {
+            "name": "PyYAML",
+            "spec": ">=6.0",
+            "scope": "runtime",
+            "resolved": null
+          },
+          {
+            "name": "setuptools",
+            "spec": ">=69",
+            "scope": "build",
+            "resolved": null
+          }
+        ],
+        "dependencies_unlisted": 0,
+        "rejected_entries": 0,
+        "lockfiles": [],
+        "note": null
+      },
+      {
+        "path": "setup.py",
+        "ecosystem": "python",
+        "extraction": "PRESENCE_ONLY",
+        "dependencies": [],
+        "dependencies_unlisted": 0,
+        "rejected_entries": 0,
+        "lockfiles": [],
+        "note": null
+      }
+    ],
+    "manifests_unlisted": 0,
+    "technologies": [
+      {
+        "name": "GitHub Actions",
+        "kind": "ci",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 1,
+        "evidence": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "name": "Python packaging",
+        "kind": "ecosystem",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 1,
+        "evidence": [
+          "setup.py"
+        ]
+      },
+      {
+        "name": "Python packaging",
+        "kind": "ecosystem",
+        "basis": "OBSERVED",
+        "support": "manifest-declaration",
+        "files": 1,
+        "evidence": [
+          "pyproject.toml"
+        ]
+      },
+      {
+        "name": "Python",
+        "kind": "language",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 98,
+        "evidence": [
+          "evals/test_additions.py",
+          "evals/test_analyzers.py",
+          "evals/test_bench_v3_harness.py",
+          "evals/test_benchmark.py",
+          "evals/test_benchmark_axes.py"
+        ]
+      }
+    ],
+    "areas": [
+      {
+        "area": "tests",
+        "presence": "PRESENT",
+        "files": 32,
+        "examples": [
+          "evals/test_additions.py",
+          "evals/test_analyzers.py",
+          "evals/test_bench_v3_harness.py",
+          "evals/test_benchmark.py",
+          "evals/test_benchmark_axes.py"
+        ]
+      },
+      {
+        "area": "ci",
+        "presence": "PRESENT",
+        "files": 1,
+        "examples": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "area": "documentation",
+        "presence": "PRESENT",
+        "files": 73,
+        "examples": [
+          "CHANGELOG.md",
+          "README.md",
+          "ROADMAP.md",
+          "SKILL.md",
+          "benchmarks/README.md"
+        ]
+      },
+      {
+        "area": "readme",
+        "presence": "PRESENT",
+        "files": 19,
+        "examples": [
+          "README.md",
+          "benchmarks/README.md",
+          "examples/README.md",
+          "evals/academic/README.md",
+          "evals/adversarial/README.md"
+        ]
+      },
+      {
+        "area": "changelog",
+        "presence": "PRESENT",
+        "files": 1,
+        "examples": [
+          "CHANGELOG.md"
+        ]
+      },
+      {
+        "area": "license",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "adr",
+        "presence": "PRESENT",
+        "files": 1,
+        "examples": [
+          "docs/adr/ADR-0001-regional-evidence-packs.md"
+        ]
+      },
+      {
+        "area": "containers",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "migrations",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "api-schemas",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "build",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "shell-scripts",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      }
+    ],
+    "execution_surfaces": [
+      {
+        "kind": "ci-workflow",
+        "path": ".github/workflows/ci.yml",
+        "detail": "runs on a CI provider, not locally"
+      },
+      {
+        "kind": "python-build-backend",
+        "path": "pyproject.toml",
+        "detail": "build backend 'setuptools.build_meta' runs on install/build"
+      },
+      {
+        "kind": "python-setup-script",
+        "path": "setup.py",
+        "detail": "runs on legacy install/build"
+      }
+    ],
+    "execution_surfaces_unlisted": 0,
+    "redacted_artifacts": [],
+    "links": [],
+    "limitations": [
+      "Static inspection only (ENG-INSPECT-READ-ONLY): no project code, build, test, hook or package manager was executed; execution surfaces are listed, not evaluated.",
+      "Files were classified by path only; only dependency manifests and Python sources were content-read. A class or area is structural evidence, not a statement about content or quality.",
+      "Areas without a match are not observed in the inspected scope, never absent (ENG-INSPECT-ABSENCE).",
+      "Declared specs are not installed versions; `resolved` is what a supported lockfile beside the manifest pins (npm v2/v3, uv, poetry; ENG-LOCK-DRIFT), still not what is installed.",
+      "Conventional dependency/cache/build-output directories were not descended (listed in coverage)."
+    ],
+    "maintainability": {
+      "language": "Python",
+      "method": "syntax-tree; nothing imported or executed",
+      "complexity_threshold": 15,
+      "files_analyzed": 99,
+      "files_not_analyzed": [],
+      "files_not_analyzed_unlisted": 0,
+      "complete": true,
+      "candidates": [
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "evals/test_signals_equivalence.py",
+          "symbol": "reference_markers",
+          "line": 20,
+          "detail": "23 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/bench_skill_only.py",
+          "symbol": "table-4f376c0c2a8f",
+          "line": 55,
+          "detail": "repeats 8 strings of the table at scripts/bench_model_wrapper.py:29; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/bench_model_wrapper.py:29"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/bench_skill_only.py",
+          "symbol": "summarize",
+          "line": 152,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/bench_v2.py",
+          "symbol": "score",
+          "line": 127,
+          "detail": "18 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/bench_v2.py",
+          "symbol": "summarize",
+          "line": 165,
+          "detail": "32 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/bench_v3.py",
+          "symbol": "table-612081615a85",
+          "line": 145,
+          "detail": "repeats 5 strings of the table at scripts/bench_v2.py:226; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/bench_v2.py:226"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/bench_v3.py",
+          "symbol": "table-6fa4018e4795",
+          "line": 122,
+          "detail": "repeats 5 strings of the table at scripts/bench_v2.py:211; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/bench_v2.py:211"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/bench_v3.py",
+          "symbol": "table-ec9b9e6f9cd4",
+          "line": 181,
+          "detail": "repeats 4 strings of the table at scripts/bench_v2.py:258; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/bench_v2.py:258"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/bench_v3.py",
+          "symbol": "main",
+          "line": 104,
+          "detail": "25 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/carolina_metadata.py",
+          "symbol": "scan",
+          "line": 31,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/demo.py",
+          "symbol": "section",
+          "line": 32,
+          "detail": "24 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/experiments/languagetool_probe.py",
+          "symbol": "table-580ae0d68d7a",
+          "line": 123,
+          "detail": "repeats 4 strings of the table at scripts/experiments/languagetool_probe.py:118; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/experiments/languagetool_probe.py:118"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/experiments/languagetool_probe.py",
+          "symbol": "main",
+          "line": 90,
+          "detail": "31 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/experiments/nli_probe.py",
+          "symbol": "table-d0d4d3f226bd",
+          "line": 25,
+          "detail": "repeats 4 strings of the table at evals/test_eval_provenance.py:28; consider one owner",
+          "deadness": null,
+          "related": [
+            "evals/test_eval_provenance.py:28",
+            "evals/test_semantic_layer.py:87"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/experiments/nli_probe.py",
+          "symbol": "main",
+          "line": 31,
+          "detail": "30 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/experiments/syntax_roles.py",
+          "symbol": "table-d0d4d3f226bd",
+          "line": 31,
+          "detail": "repeats 4 strings of the table at evals/test_eval_provenance.py:28; consider one owner",
+          "deadness": null,
+          "related": [
+            "evals/test_eval_provenance.py:28",
+            "evals/test_semantic_layer.py:87",
+            "scripts/experiments/nli_probe.py:25"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/experiments/syntax_roles.py",
+          "symbol": "facts",
+          "line": 35,
+          "detail": "17 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/experiments/syntax_roles.py",
+          "symbol": "swapped",
+          "line": 55,
+          "detail": "17 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/experiments/voice_match.py",
+          "symbol": "table-cba0b0fac48f",
+          "line": 43,
+          "detail": "repeats 7 strings of the table at scripts/bench_model_wrapper.py:29; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/bench_model_wrapper.py:29",
+            "scripts/bench_skill_only.py:55"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/llm_integration.py",
+          "symbol": "main",
+          "line": 50,
+          "detail": "37 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "scripts/qualify.py",
+          "symbol": "table-67f198decf2a",
+          "line": 50,
+          "detail": "repeats 4 strings of the table at evals/test_qualify.py:59; consider one owner",
+          "deadness": null,
+          "related": [
+            "evals/test_qualify.py:59",
+            "evals/test_qualify.py:71"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/qualify.py",
+          "symbol": "main",
+          "line": 430,
+          "detail": "22 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/validate_package.py",
+          "symbol": "check_data",
+          "line": 82,
+          "detail": "32 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "scripts/validate_package.py",
+          "symbol": "check_docs",
+          "line": 129,
+          "detail": "21 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/analyze.py",
+          "symbol": "analyze",
+          "line": 51,
+          "detail": "18 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/benchmark.py",
+          "symbol": "summarize",
+          "line": 89,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/benchmark.py",
+          "symbol": "summarize_axes",
+          "line": 288,
+          "detail": "17 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/blind.py",
+          "symbol": "summarize",
+          "line": 114,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/compare.py",
+          "symbol": "_attributions",
+          "line": 464,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/contract.py",
+          "symbol": "_bucket",
+          "line": 65,
+          "detail": "25 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/contract.py",
+          "symbol": "resolve",
+          "line": 109,
+          "detail": "36 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/drift.py",
+          "symbol": "inspect",
+          "line": 48,
+          "detail": "17 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/engine.py",
+          "symbol": "_rewrite",
+          "line": 263,
+          "detail": "44 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/engine.py",
+          "symbol": "build_prompt",
+          "line": 101,
+          "detail": "26 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/engine.py",
+          "symbol": "validate_candidate",
+          "line": 206,
+          "detail": "20 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/evals.py",
+          "symbol": "table-13b31e3197b8",
+          "line": 98,
+          "detail": "repeats 5 strings of the table at scripts/validate_package.py:32; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/validate_package.py:32"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/judge.py",
+          "symbol": "validate",
+          "line": 73,
+          "detail": "29 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/judge.py",
+          "symbol": "validate_grounding",
+          "line": 188,
+          "detail": "23 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/numerals.py",
+          "symbol": "find",
+          "line": 64,
+          "detail": "21 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/patterns.py",
+          "symbol": "detect",
+          "line": 158,
+          "detail": "34 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/planner.py",
+          "symbol": "table-16ca9b1b3477",
+          "line": 211,
+          "detail": "repeats 5 strings of the table at voznativa/contract.py:199; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/contract.py:199"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/planner.py",
+          "symbol": "table-ff0a88c8ab91",
+          "line": 62,
+          "detail": "repeats 4 strings of the table at scripts/experiments/nli_probe.py:27; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/experiments/nli_probe.py:27"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/planner.py",
+          "symbol": "adherence",
+          "line": 275,
+          "detail": "16 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/planner.py",
+          "symbol": "plan",
+          "line": 112,
+          "detail": "53 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/planner.py",
+          "symbol": "prompt_block",
+          "line": 215,
+          "detail": "24 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/profile.py",
+          "symbol": "table-22680202c071",
+          "line": 128,
+          "detail": "repeats 7 strings of the table at voznativa/features.py:22; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/features.py:22"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/profile.py",
+          "symbol": "build",
+          "line": 63,
+          "detail": "42 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/project.py",
+          "symbol": "table-622b458df5e4",
+          "line": 26,
+          "detail": "repeats 6 strings of the table at scripts/validate_package.py:168; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/validate_package.py:168"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/project.py",
+          "symbol": "table-e847a384807f",
+          "line": 24,
+          "detail": "repeats 6 strings of the table at scripts/validate_package.py:38; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/validate_package.py:38"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/project.py",
+          "symbol": "_command_support",
+          "line": 179,
+          "detail": "26 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/project.py",
+          "symbol": "_supported",
+          "line": 148,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/project.py",
+          "symbol": "ground",
+          "line": 208,
+          "detail": "18 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/project.py",
+          "symbol": "scan",
+          "line": 85,
+          "detail": "21 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/ptbr.py",
+          "symbol": "findings",
+          "line": 117,
+          "detail": "25 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/references.py",
+          "symbol": "table-fbf815cf00a9",
+          "line": 23,
+          "detail": "repeats 4 strings of the table at scripts/validate_package.py:118; consider one owner",
+          "deadness": null,
+          "related": [
+            "scripts/validate_package.py:118"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/regional.py",
+          "symbol": "table-8c7e38aaee38",
+          "line": 44,
+          "detail": "repeats 7 strings of the table at voznativa/cli.py:127; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/cli.py:127"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/regional.py",
+          "symbol": "activate",
+          "line": 142,
+          "detail": "26 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/regional.py",
+          "symbol": "validate_pack",
+          "line": 65,
+          "detail": "29 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/router.py",
+          "symbol": "route",
+          "line": 75,
+          "detail": "26 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/router.py",
+          "symbol": "transformation_targets",
+          "line": 151,
+          "detail": "21 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/signals.py",
+          "symbol": "markers",
+          "line": 99,
+          "detail": "25 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/spans.py",
+          "symbol": "table-9792d654f140",
+          "line": 70,
+          "detail": "repeats 8 strings of the table at voznativa/ledger.py:20; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/ledger.py:20",
+            "voznativa/project.py:30"
+          ]
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/spans.py",
+          "symbol": "table-b1d95bd1e191",
+          "line": 202,
+          "detail": "repeats 5 strings of the table at voznativa/ledger.py:20; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/ledger.py:20",
+            "voznativa/spans.py:70"
+          ]
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/spans.py",
+          "symbol": "_key",
+          "line": 200,
+          "detail": "32 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "HIGH_COMPLEXITY",
+          "path": "voznativa/spans.py",
+          "symbol": "extract",
+          "line": 374,
+          "detail": "19 decision paths (threshold 15); a refactoring driver, not a defect",
+          "deadness": null,
+          "related": []
+        },
+        {
+          "kind": "DUPLICATE_TABLE",
+          "path": "voznativa/text.py",
+          "symbol": "table-6e852aa4e9d2",
+          "line": 22,
+          "detail": "repeats 4 strings of the table at voznativa/features.py:19; consider one owner",
+          "deadness": null,
+          "related": [
+            "voznativa/features.py:19",
+            "voznativa/features.py:20",
+            "voznativa/signals.py:155",
+            "voznativa/signals.py:156",
+            "voznativa/signals.py:157"
+          ]
+        }
+      ],
+      "candidates_unlisted": 0,
+      "marker_comments": 0,
+      "commented_out_lines": 1,
+      "limitations": [
+        "Python files were parsed into syntax trees only; nothing was imported or executed. Results are review candidates, never verdicts: one text search is rarely sufficient in dynamic systems (Framework).",
+        "References were counted as words in the files read (manifests and Python sources): uses from other languages, templates, configuration, reflection, excluded directories or external consumers are not seen."
+      ]
+    },
+    "lockfiles": [],
+    "lockfiles_unlisted": 0
+  },
+  "evidence": [
+    {
+      "id": "EV-REPOSITORY-INVENTORY",
+      "method": "read-only directory listing; links recorded, never followed; limits and exclusions applied",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "264 files, 55 directories, 0 links not followed, 4 directories skipped"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-REPOSITORY-CONTENT",
+      "method": "content read of dependency manifests and Python sources only (ENG-INSPECT-COVERAGE); SHA-256 if complete",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "100/100 selected files read completely"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-REPOSITORY-GIT",
+      "method": "static HEAD/ref read; guarded git status (no index write, blocked by program-starting config)",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "state REPOSITORY, revision 5d7ae603b3ecc715da66cc5c7e8fa8d72e04c9db, dirty False"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-PROJECT-EXECUTION",
+      "method": "execution of project-controlled code (ENG-INSPECT-READ-ONLY)",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "NOT_EXECUTED",
+      "result": null,
+      "observations": [],
+      "limitations": [
+        "not authorized: inspection is static; tests, builds, hooks and installs were not run"
+      ]
+    },
+    {
+      "id": "EV-REPOSITORY-STATIC-ANALYSIS",
+      "method": "Python syntax-tree analysis of read files (ENG-MAINT-UNREFERENCED and related rules); nothing imported or executed",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "b6b215bee4886c88cd5ea41853d79065d1cbcb5e377657f7322fcac80d9a9a5f"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "99 files analysed, 66 candidates, 0 marker comments, 1 commented-out code lines"
+      ],
+      "limitations": []
+    }
+  ],
+  "fingerprint_algorithm": "derivanta-fp/2",
+  "findings": [
+    {
+      "fingerprint": "d33f25aa9e928eecd10e5bcc2de5ad8adf3a31409170d2767e1dd8d8057b18b0",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "evals/test_signals_equivalence.py",
+      "explanation": "HIGH_COMPLEXITY reference_markers (line 20): 23 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "8811e1e37e01ff315bf1399703d10e57beb2c7f717b3c50e470e4302fee51518",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_skill_only.py",
+      "explanation": "DUPLICATE_TABLE table-4f376c0c2a8f (line 55): repeats 8 strings of the table at scripts/bench_model_wrapper.py:29; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "2cd07a6352da7e3c072ecfd75b7d175b7e7ef2111b2099d14044d78b237a3486",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_skill_only.py",
+      "explanation": "HIGH_COMPLEXITY summarize (line 152): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "072b29598e594eced057db64cd634c92df77aa2a4f5ce795134f8f6870372807",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v2.py",
+      "explanation": "HIGH_COMPLEXITY score (line 127): 18 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "3a2e937a3ed94c986aedff8023650328761afeb3299fc13b3ec544c8b6edbd46",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v2.py",
+      "explanation": "HIGH_COMPLEXITY summarize (line 165): 32 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "f46ab54f042d4ed7ef731cd3043e8add4e2370c5f0545640e22daba335449882",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v3.py",
+      "explanation": "DUPLICATE_TABLE table-612081615a85 (line 145): repeats 5 strings of the table at scripts/bench_v2.py:226; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "cf97deb42bed741b327a97782c386cd6821faf53337c1b8db57712531a9ca503",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v3.py",
+      "explanation": "DUPLICATE_TABLE table-6fa4018e4795 (line 122): repeats 5 strings of the table at scripts/bench_v2.py:211; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "3669228ee2c90b24b4ada82a35ed7871f4adaee682597965d0b40a652a75d531",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v3.py",
+      "explanation": "DUPLICATE_TABLE table-ec9b9e6f9cd4 (line 181): repeats 4 strings of the table at scripts/bench_v2.py:258; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "049542968dfafd69ad49d8e1ae2b31f122a347fe8b0059aa294d56fa74577f9f",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/bench_v3.py",
+      "explanation": "HIGH_COMPLEXITY main (line 104): 25 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "101783df313e69d0beca6ff97a9fafd6fd3fcaecfa1f9831cc4378744fb7c437",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/carolina_metadata.py",
+      "explanation": "HIGH_COMPLEXITY scan (line 31): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "a693d88d337a3a593e685c23b0cd76144e67a302351b7a1f9a48afd72d6e98ae",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/demo.py",
+      "explanation": "HIGH_COMPLEXITY section (line 32): 24 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "816cedfc7ac5175fca4935c442e6d5097806d974d950aa4817ead35615b99b43",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/languagetool_probe.py",
+      "explanation": "DUPLICATE_TABLE table-580ae0d68d7a (line 123): repeats 4 strings of the table at scripts/experiments/languagetool_probe.py:118; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "ad00197e54e3958badcbe493d6b519ef21730002717a1c1096df881eb0eac95d",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/languagetool_probe.py",
+      "explanation": "HIGH_COMPLEXITY main (line 90): 31 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "30f4879156ff7c9eb7cf147c27e1a2352bd7ca52e7cfcb4c88767f2d73e6bb70",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/nli_probe.py",
+      "explanation": "DUPLICATE_TABLE table-d0d4d3f226bd (line 25): repeats 4 strings of the table at evals/test_eval_provenance.py:28; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "877310cd53457c8f079117417de7f6775c53acbbef9dca00c2ff2945ed13ea88",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/nli_probe.py",
+      "explanation": "HIGH_COMPLEXITY main (line 31): 30 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "fe9ef5cc532684654c22abbd773579712fadedf2c10a14c17977a2601204463b",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "explanation": "DUPLICATE_TABLE table-d0d4d3f226bd (line 31): repeats 4 strings of the table at evals/test_eval_provenance.py:28; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "09128163c666c591285726a74caa82c99e11e22bb7f14e5890e439b04b968cfe",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "explanation": "HIGH_COMPLEXITY facts (line 35): 17 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "cb068bc0c1c691ec146b38a89f69e31325a12a406e74da88fcffe928035e3ab0",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "explanation": "HIGH_COMPLEXITY swapped (line 55): 17 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "2fb89746275edded5101e361adf25ac993c989380c1ea4eb5d8cadc1d88e8eda",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/experiments/voice_match.py",
+      "explanation": "DUPLICATE_TABLE table-cba0b0fac48f (line 43): repeats 7 strings of the table at scripts/bench_model_wrapper.py:29; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "0608706dc3ecd98fa932ea9026e42cc552ccd9b92454e45e0baa3429aeb1741f",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/llm_integration.py",
+      "explanation": "HIGH_COMPLEXITY main (line 50): 37 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "c04ea4f3f1d8a6c088088578fc9807e533873378d82ea729c35d76ca50d13df6",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/qualify.py",
+      "explanation": "DUPLICATE_TABLE table-67f198decf2a (line 50): repeats 4 strings of the table at evals/test_qualify.py:59; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "92a2a83b811b49f3115bc8073e65f88bc14befbface9b14ad55f483310c824d5",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/qualify.py",
+      "explanation": "HIGH_COMPLEXITY main (line 430): 22 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "3665a13554f45f86f0cd881da5d0ec08e66df999639ed76748d666cd24848401",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/validate_package.py",
+      "explanation": "HIGH_COMPLEXITY check_data (line 82): 32 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "dcabc1cb376cb0d63229a7e9294abfbaee88f0e5b6bd83f5ee507f8a9f735fed",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "scripts/validate_package.py",
+      "explanation": "HIGH_COMPLEXITY check_docs (line 129): 21 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "7e2c9cd584614972df0b043e5e62f662f61fa51f469ed43a3a46605323665440",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/analyze.py",
+      "explanation": "HIGH_COMPLEXITY analyze (line 51): 18 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "09611e4bd13fc7ca49b9edf9c4d76675ccd12bf639f8701febf21a1cce4697f7",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/benchmark.py",
+      "explanation": "HIGH_COMPLEXITY summarize (line 89): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "907b2b5f94fa9cbee45de67b0ce99543a5b3586e5671c72512447bbbf1b71179",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/benchmark.py",
+      "explanation": "HIGH_COMPLEXITY summarize_axes (line 288): 17 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "45ffda9ba595156224808eed889aa2c71c8ccbf8eca58c6ab7d2a36724f38915",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/blind.py",
+      "explanation": "HIGH_COMPLEXITY summarize (line 114): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "761f1a5402b20dc5e90911dacb25e053267f2a2684ebe35a9f75215b51d87fdd",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/compare.py",
+      "explanation": "HIGH_COMPLEXITY _attributions (line 464): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "56c1fb24a70db05a31677919e0664533621f05de6132dda130f6c91f8d42700b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/contract.py",
+      "explanation": "HIGH_COMPLEXITY _bucket (line 65): 25 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "bfb4a96ac2d3cc5fb19b13bead21a46592178a0771ce73bbac24697024eea11a",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/contract.py",
+      "explanation": "HIGH_COMPLEXITY resolve (line 109): 36 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "0e10221dec73b4ff293bcef73d18d8ba2a1b7cba157d6db57421f9b41735a3d5",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/drift.py",
+      "explanation": "HIGH_COMPLEXITY inspect (line 48): 17 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "f42c7b71088f5381acc57f948484f0fc6a3af82dc0255040adda42e49490391b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/engine.py",
+      "explanation": "HIGH_COMPLEXITY _rewrite (line 263): 44 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "ef85bc6a6e95afa451ded142c5f6ea1bbd7766843c52fdde2871ecadc8ab6afa",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/engine.py",
+      "explanation": "HIGH_COMPLEXITY build_prompt (line 101): 26 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "33b3650801e5e7600650b0e5eeb0f5721fa5f3637671cb2a44c1524b50684bae",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/engine.py",
+      "explanation": "HIGH_COMPLEXITY validate_candidate (line 206): 20 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "173cafb6aec9532e93daa6b7c725ac0e7f94c99dc88d74ba4bb5ba31cced93cf",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/evals.py",
+      "explanation": "DUPLICATE_TABLE table-13b31e3197b8 (line 98): repeats 5 strings of the table at scripts/validate_package.py:32; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "36d7313be2524a11b093896f2fd5ee02704e704155dcb690e1ab641987deda5a",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/judge.py",
+      "explanation": "HIGH_COMPLEXITY validate (line 73): 29 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "e6db95b05423fc3e037ed5b47ac45f346d48127124ce3c6b2cfec735a3b454c1",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/judge.py",
+      "explanation": "HIGH_COMPLEXITY validate_grounding (line 188): 23 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "bc43ec08fa3d5fc7b7c3bfbf9132a457bb1f1a73f9d764c7a36c03a706b1e115",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/numerals.py",
+      "explanation": "HIGH_COMPLEXITY find (line 64): 21 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "063884aa482831eabe224c784f4a13caf51b434bf080f53ad0ee8ca94c808c4c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/patterns.py",
+      "explanation": "HIGH_COMPLEXITY detect (line 158): 34 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "5e2274d0665a848a2898c2a0e2ad165846c2bbed512af7eb26f25614e7c5be95",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/planner.py",
+      "explanation": "DUPLICATE_TABLE table-16ca9b1b3477 (line 211): repeats 5 strings of the table at voznativa/contract.py:199; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "52c5557d2948f7acc34442adbd83bde6d581114379d7c3b6f64ae055a6509518",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/planner.py",
+      "explanation": "DUPLICATE_TABLE table-ff0a88c8ab91 (line 62): repeats 4 strings of the table at scripts/experiments/nli_probe.py:27; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "8c81804412cbb42e23a841a39dfec666467b99d675a89d99ea2930a49f32fb4c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/planner.py",
+      "explanation": "HIGH_COMPLEXITY adherence (line 275): 16 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "2409e15747a0c746c399ffc6c478a06b2d3f176415473dd3b4f5df2baded8e53",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/planner.py",
+      "explanation": "HIGH_COMPLEXITY plan (line 112): 53 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "ae9b1e0d746fc84c762d84e0f8b91e3611b212437cef09bf5e8649452923c215",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/planner.py",
+      "explanation": "HIGH_COMPLEXITY prompt_block (line 215): 24 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "d82fcbf30c02a4698cc0da0b281a9b5e8b7a809b47268c88c3fa46f5f70da007",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/profile.py",
+      "explanation": "DUPLICATE_TABLE table-22680202c071 (line 128): repeats 7 strings of the table at voznativa/features.py:22; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "833b446737799cdc3fca188b92434be03630d31a0dbce2d60c6163fbef395981",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/profile.py",
+      "explanation": "HIGH_COMPLEXITY build (line 63): 42 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "7ca503cd3f7b8e6dcb821de065958f37ab7f33f6f4e5d0080132380b0ddde3db",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "DUPLICATE_TABLE table-622b458df5e4 (line 26): repeats 6 strings of the table at scripts/validate_package.py:168; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "27f62e81b0ca0736152de7ce350a33a3117ec8672893f8db709c7ef14fc3bb20",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "DUPLICATE_TABLE table-e847a384807f (line 24): repeats 6 strings of the table at scripts/validate_package.py:38; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "ea14f65abc556ce6bec2a101919fb0e1d3feda7a81295060726816d92139c671",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "HIGH_COMPLEXITY _command_support (line 179): 26 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "24c82baf3b60f912915531365b7457e378f1347b479a9f00424dede00c336792",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "HIGH_COMPLEXITY _supported (line 148): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "158427ea3a5ee63574a1fe7006159ead7e2188de241762d163685b4a53669b2c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "HIGH_COMPLEXITY ground (line 208): 18 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "1efbf9a80b927501f697ff17b71a7d846bc5121f6665cf71cb8ece9814ba091b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/project.py",
+      "explanation": "HIGH_COMPLEXITY scan (line 85): 21 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "492db75f53576bbb295f90c776beb6327abe6990ebc1b3b107b5490c3d0f5156",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/ptbr.py",
+      "explanation": "HIGH_COMPLEXITY findings (line 117): 25 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "96839171be0d4068dc595ffaa23daaab8e12fc343662344fb37bb7e7454c2dd7",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/references.py",
+      "explanation": "DUPLICATE_TABLE table-fbf815cf00a9 (line 23): repeats 4 strings of the table at scripts/validate_package.py:118; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "33c31dcaf14f0092407dcd0936a53a7a9f1ae753c9191cefbfd3ac48aef8d89e",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/regional.py",
+      "explanation": "DUPLICATE_TABLE table-8c7e38aaee38 (line 44): repeats 7 strings of the table at voznativa/cli.py:127; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "1210a8973808b18fe8f2d3a97d5035897c8db338f57f72727f6c8433fddd85b7",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/regional.py",
+      "explanation": "HIGH_COMPLEXITY activate (line 142): 26 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "b056178b0086b83764587d15ca4dc469b5155cf985658822fe304619b922cd43",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/regional.py",
+      "explanation": "HIGH_COMPLEXITY validate_pack (line 65): 29 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "c4fbbd4f044b1924b12d0cea2e34d90ff5c69ce5a7213417eab1f12710d10322",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/router.py",
+      "explanation": "HIGH_COMPLEXITY route (line 75): 26 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "2f6c08dda7980e3ea664bb076a7fe5182c1520984d41b3e0ac65e1a74e2cbacb",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/router.py",
+      "explanation": "HIGH_COMPLEXITY transformation_targets (line 151): 21 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "d1cceed67a01ec3bd23b82b78c19201d344e8e292a53255ad575b701f02a474e",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/signals.py",
+      "explanation": "HIGH_COMPLEXITY markers (line 99): 25 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "3b63c4e64ee3c563d0d006cda840797c4ab4e77262a5db7d45e71e5a635f667e",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/spans.py",
+      "explanation": "DUPLICATE_TABLE table-9792d654f140 (line 70): repeats 8 strings of the table at voznativa/ledger.py:20; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "6d180f62fc98905ddb68e94882c003244fb82c3483b6dbaab9bb4bb4e0d52196",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/spans.py",
+      "explanation": "DUPLICATE_TABLE table-b1d95bd1e191 (line 202): repeats 5 strings of the table at voznativa/ledger.py:20; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    },
+    {
+      "fingerprint": "3f65c2b5738ffc2587c92124072906b460ef5d1022a74a7243bab9642a40e5b2",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/spans.py",
+      "explanation": "HIGH_COMPLEXITY _key (line 200): 32 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "7659d6c7d66c18070089cf6dcab9a09903e9762f0ff63aff50a8048cdc5f5edc",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/spans.py",
+      "explanation": "HIGH_COMPLEXITY extract (line 374): 19 decision paths (threshold 15); a refactoring driver, not a defect",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/REFACTOR_AND_REGRESSION.md#Valid drivers"
+    },
+    {
+      "fingerprint": "61096f8553c9662abe708807d81a27cfcad7f7df0fb29939e8f3f98ee739702e",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "evidence_state": "HYPOTHESIS",
+      "basis": "INFERRED",
+      "subject_path": "voznativa/text.py",
+      "explanation": "DUPLICATE_TABLE table-6e852aa4e9d2 (line 22): repeats 4 strings of the table at voznativa/features.py:19; consider one owner",
+      "recommendation": "Review before acting: check dynamic, external and lifecycle uses (Framework removal workflow); never delete or merge on this candidate alone.",
+      "evidence_ids": [
+        "EV-REPOSITORY-STATIC-ANALYSIS",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "assurance/DEAD_CODE_AND_DUPLICATION.md#Semantic duplication detection"
+    }
+  ],
+  "traceability": null,
+  "imports": []
+}
