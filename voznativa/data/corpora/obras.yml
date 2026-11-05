@@ -1,0 +1,30 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: obras
+name: OBras (obras literárias brasileiras em domínio público)
+maintainer: Linguateca (D. Santos, C. Freitas, E. Bick)
+urls:
+  official: https://dspace.rcaap.pt/entities/publication/ebe94d50-e3ff-48f2-a90a-688addcb786f/full
+  official_kind: citation
+identity_terms:
+- OBras
+modality: written
+genres:
+- literário
+regions:
+- BR
+period:
+  from: null
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: 'repository record (read 2026-11-05) says openAccess and names no licence'
+access:
+  type: unknown
+  note: publication record only; data location on Linguateca not verified
+relations: []
+status: CATALOGUED
+evidence_role: human-revised annotated Brazilian literature; candidate literary control (CP11)
+notes:
+- 'found in CP11 research; size and licence not verified'

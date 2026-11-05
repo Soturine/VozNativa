@@ -56,3 +56,7 @@ Ver `references/corpora/` e `docs/LICENSING.md`. Fatos que mudaram decisões:
 | Manual de Redação da Presidência da República | 3ª ed., 2018 | clareza, concisão, impessoalidade; desaconselha "a nível de" e jargão | "a nível de" forte em qualquer gênero não isento; oficialês isento em `legal` | cópia oficial não verificada nesta consulta (há cópias institucionais) |
 | [Torres, UFC (2009)](https://repositorio.ufc.br/handle/riufc/3599); [Santos, UnB (2008)](https://www.repositorio.unb.br/bitstream/10482/3406/1/2008_PatriciaTavaresASantos_orig_completo.pdf) | dissertações | gerúndio na expressão do futuro; definição de gerundismo por forma, aspecto, modalidade e tempo; estigma social | gerundismo passou a forte só com verbo pontual (enviar, verificar...) e fica de fora quando o verbo é durativo e há âncora temporal ("às 10h vou estar viajando") | listas de verbos montadas pelo desenvolvedor a partir dessas definições; não calibradas em corpus |
 | Guias de redação ENEM (Descomplica, Vestibulando Web, Estratégia) | consultados 2026-10-21 | "desde os primórdios" desaconselhado de forma consistente; "hoje em dia" controverso; nenhum critério do INEP proíbe essas frases | aberturas genéricas só na primeira frase do parágrafo; gênero `essay` (redação escolar) com isenções: conectivo explícito é critério de coesão | guias comerciais, não pesquisa; usados só para não punir o que a banca pede |
+
+## v0.6.0 (2026-11-05)
+
+Corpus tooling, dated slang, community lexicons and public-domain literature: `docs/COMPETITIVE_ANALYSIS_v0.6.md`.
