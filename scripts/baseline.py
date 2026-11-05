@@ -30,11 +30,17 @@ def sh(*args: str) -> str:
 
 
 def unit_tests() -> dict:
-    done = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "evals", "-p", "test_*.py"],
-                          cwd=ROOT, capture_output=True, text=True)
-    tail = done.stderr.strip().splitlines()
-    ran = next((line for line in tail if line.startswith("Ran ")), "")
-    return {"ok": done.returncode == 0, "summary": ran, "result": tail[-1] if tail else ""}
+    """Every outcome counted by the qualification runner's collector (passed,
+    failed, errors, import errors, skipped, unexpected successes); the old
+    reading of the last stderr line could not see skips or import errors."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("qualify", ROOT / "scripts" / "qualify.py")
+    qualify = importlib.util.module_from_spec(spec)
+    sys.modules["qualify"] = qualify
+    spec.loader.exec_module(qualify)
+    gate = qualify.gate_unittest(None)
+    return {"ok": gate["status"] == "PASS", "status": gate["status"], "counts": gate.get("counts"),
+            "summary": f"Ran {gate.get('counts', {}).get('ran', '?')} tests", "result": gate["status"]}
 
 
 def main() -> int:
