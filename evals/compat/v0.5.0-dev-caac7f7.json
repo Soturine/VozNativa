@@ -1,0 +1,154 @@
+{
+  "kind": "voznativa.compat_matrix",
+  "schema_version": 1,
+  "recorded_at": "2026-11-05",
+  "source_revision": "caac7f7",
+  "tool": "scripts/qualify.py --scope release",
+  "evidence": "evals/assurance/runs/2026-11-05-cp10-final",
+  "summary": "every local gate PASS on Windows (3.11, 3.12) and Linux/WSL (3.11, 3.12, 3.13); review:pty runs only on Linux; package gate BLOCKED only with Ubuntu's system 3.12 (no ensurepip), PASS with a managed 3.12; external gates: CI BLOCKED (billing), independent holdout and blind human review NOT_RUN",
+  "not_covered": [
+    "Windows Python 3.13 (not installed)",
+    "macOS",
+    "real GitHub Actions runners"
+  ],
+  "rows": [
+    {
+      "report": "qualify-linux-py3.11.json",
+      "os": "Linux",
+      "python": "3.11.16",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "PASS",
+        "review:pty": "PASS",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    },
+    {
+      "report": "qualify-linux-py3.12-system-python.json",
+      "os": "Linux",
+      "python": "3.12.3",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "BLOCKED",
+        "review:pty": "PASS",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    },
+    {
+      "report": "qualify-linux-py3.12.json",
+      "os": "Linux",
+      "python": "3.12.14",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "PASS",
+        "review:pty": "PASS",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    },
+    {
+      "report": "qualify-linux-py3.13.json",
+      "os": "Linux",
+      "python": "3.13.15",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "PASS",
+        "review:pty": "PASS",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    },
+    {
+      "report": "qualify-win-py311.json",
+      "os": "Windows",
+      "python": "3.11.18",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "PASS",
+        "review:pty": "NOT_RUN",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    },
+    {
+      "report": "qualify-win-py312.json",
+      "os": "Windows",
+      "python": "3.12.10",
+      "verdict": "INCOMPLETE",
+      "exit_code": 3,
+      "tests": 348,
+      "gates": {
+        "validator": "PASS",
+        "unittest": "PASS",
+        "semantic:dev": "PASS",
+        "semantic:holdouts:safety": "PASS",
+        "semantic:holdouts:strict": "PASS",
+        "decision:regression": "PASS",
+        "router:regression": "PASS",
+        "cli:exit-codes": "PASS",
+        "package:sdist-wheel-smoke": "PASS",
+        "review:pty": "NOT_RUN",
+        "ci:github-actions": "BLOCKED",
+        "holdout:independent": "NOT_RUN",
+        "review:blind-human": "NOT_RUN"
+      }
+    }
+  ]
+}

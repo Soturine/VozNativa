@@ -1,0 +1,63 @@
+{
+  "run_id": "f52e06411ce844b9",
+  "lang": "pt-BR",
+  "summary": "A suíte unittest do VozNativa roda inteira e passa numa cópia descartável (348 invocações, exit 0), com cobertura medida (pacote voznativa ~92% linhas+ramos pelo coverage.py; o total do produto cai para 83,9% de linhas porque scripts/ inclui drivers de benchmark executados como subprocesso, que a cobertura não mede). O falso verde real apontado na primeira auditoria (suítes congeladas) foi confirmado por controle negativo e corrigido; dos quatro candidatos de asserção condicional resta um, contextual. O que este verde não prova: CI remoto (bloqueado por cobrança), holdout independente, revisão humana, comportamento com modelo real depois das correções, e os testes contra o wheel instalado (NOT_RUN aqui; o gate package do próprio projeto roda o smoke do wheel em venv limpo no Windows e no Linux).",
+  "dispositions": [
+    {
+      "finding": "FALSE_GREEN_CANDIDATE",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "Único teste restante: exige campos de protocolo quando uma suíte se declara independente. Hoje nenhuma suíte é independente, então não afirma nada; o controle negativo NC2 mostrou que falha quando a alegação aparece.",
+      "evidence": [
+        "evals/assurance/runs/2026-11-05-cp0-baseline/negative-controls.json (NC2)",
+        "evals/semantic/MANIFEST.json"
+      ],
+      "scope": {
+        "reviewed": 1,
+        "of": 1
+      },
+      "subjects": [
+        {
+          "subject": "evals/test_eval_provenance.py::Provenance::test_independent_claims_need_the_protocol_fields",
+          "disposition": "CONTEXTUAL",
+          "note": "guarda condicional por desenho; detecta a alegação sem campos (NC2)"
+        }
+      ]
+    },
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "Os passos não classificados são scripts do próprio projeto (validador, eval semântica, revisão em pseudo-terminal, build e smoke do pacote). Todos são reproduzidos com exit code real por scripts/qualify.py.",
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "scripts/qualify.py",
+        "evals/qualification/"
+      ],
+      "scope": {
+        "reviewed": 5,
+        "of": 5
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "wheel-tests-covered-by-project-gate",
+      "title": "Testes contra o wheel ficam NOT_RUN no Assertiva, mas o gate do projeto roda o smoke do wheel",
+      "claim": "A qualificação de artefato do Assertiva não roda testes unittest contra o wheel; o gate package:sdist-wheel-smoke do projeto constrói sdist, wheel, instala num venv limpo e roda os comandos fora do checkout.",
+      "why": "Sem esse gate, a lacuna de artefato ficaria aberta.",
+      "priority": "low",
+      "basis": "OBSERVED",
+      "evidence": [
+        "scripts/qualify.py (gate_package)",
+        "scripts/smoke_installed.py"
+      ],
+      "recommendation": "Manter o gate; ver AXF-VN-04 no repositório Assertiva (PR #8)."
+    }
+  ],
+  "unknowns": [
+    "Se o CI declarado roda verde: GitHub Actions bloqueado por cobrança; nenhuma execução remota existe.",
+    "Comportamento com modelo real depois das correções do CP4/CP5: nenhuma chamada paga nesta rodada (ptbr-bench-v3 NOT_RUN).",
+    "Qual cópia do código o run unittest importou: o adaptador não registra source_identity (AXF-VN-03); os testes inserem a raiz do repositório no sys.path."
+  ]
+}

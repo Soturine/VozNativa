@@ -1,0 +1,111 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-cp10-final",
+  "entries": [
+    {
+      "file": "assertiva-assessed.json",
+      "command": "assertiva audit . --assessment assertiva-assessment.json --output json",
+      "exit_code": 0,
+      "raw_sha256": "357d9771f9ebd4495ef753a19c27ff565cd6f43bcbbd5b253319b260a0614380",
+      "published_sha256": "361544a99ece5567f7f88a54ac8e5983dbf59bb685df8591cbc50222b08b0437",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-assessment.json",
+      "command": "agent assessment attached with assertiva audit . --assessment",
+      "exit_code": 0,
+      "raw_sha256": "210ea340352ba0866e4d2718b9a0c456e284b902297c6b5708cf7a3d24696ddb",
+      "published_sha256": "6d9289973f7ed1cd30215e202d221d4c9280744360788aa4e8b94e67479de0bb",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-execute.json",
+      "command": "assertiva audit . --execute --python <venv>/python --output json",
+      "exit_code": 0,
+      "raw_sha256": "e6b81aea994b7eef76a0e77cd4212a3e04517c6faedc600a803a14f459ae7712",
+      "published_sha256": "a4ef8289e67a69e5d56375656f80e26c6069ac0b60969bf0cc92ebb2c1c4d1c1",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare-vs-cp0.json",
+      "command": "derivanta-engine compare <cp0 inspect, engine 0be2a38> <this inspect> --format json",
+      "exit_code": 0,
+      "raw_sha256": "5d66f9683a2d3b4049e3f0e70d8768641de273825cdc7a93ba9cd61493607e4e",
+      "published_sha256": "5d66f9683a2d3b4049e3f0e70d8768641de273825cdc7a93ba9cd61493607e4e",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json",
+      "exit_code": 0,
+      "raw_sha256": "ec332e9cd7487fe1b9afc89e569caa16d09554aabf1b24cbad4b83fd9c85b002",
+      "published_sha256": "ec332e9cd7487fe1b9afc89e569caa16d09554aabf1b24cbad4b83fd9c85b002",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.11.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "695345d7002a337e09d853ea39ed57282fce5e9cc78580c854bd816bacf1dc66",
+      "published_sha256": "695345d7002a337e09d853ea39ed57282fce5e9cc78580c854bd816bacf1dc66",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.12-system-python.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "509c5a487eb60e0e555b726ab64da97dd578c7900ac98e60f38dc47cf9a76bc7",
+      "published_sha256": "509c5a487eb60e0e555b726ab64da97dd578c7900ac98e60f38dc47cf9a76bc7",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.12.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "8d7801dcb7c0ef7558cb831e05b1a00e3e1ab3dab6c1164f485fa1ec4ec3c30f",
+      "published_sha256": "8d7801dcb7c0ef7558cb831e05b1a00e3e1ab3dab6c1164f485fa1ec4ec3c30f",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.13.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "48569aa91965b98a81fe877b6d3e3ebc28d3095ca970d691c62e5b983a9710bf",
+      "published_sha256": "48569aa91965b98a81fe877b6d3e3ebc28d3095ca970d691c62e5b983a9710bf",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py311.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "c9abf5fa7d5c0089771c0c30ef8156ae5633abd0b673cef3284b04de5871fa19",
+      "published_sha256": "c9abf5fa7d5c0089771c0c30ef8156ae5633abd0b673cef3284b04de5871fa19",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py312.json",
+      "command": "python scripts/qualify.py --scope release (see notes for the interpreter)",
+      "exit_code": 3,
+      "raw_sha256": "9e65241e9aaa9876c2ac6a5549aaa4f64a13260c19be81d27afa93eccffa530b",
+      "published_sha256": "9e65241e9aaa9876c2ac6a5549aaa4f64a13260c19be81d27afa93eccffa530b",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-05T15:47:11+00:00",
+  "revision": "caac7f737ba914bc617e7edbf45a7b2cd780fcfb",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "assertiva": "0.10.1@2618d95",
+    "derivanta-engine": "0.1.0@17fa564"
+  },
+  "notes": [
+    "Source revision for every run: caac7f7 (clean). Linux legs ran in WSL Ubuntu 24.04 on a git archive of caac7f7 re-committed in a scratch repo; their report field 'revision' (3305d8e) is that scratch commit, not a VozNativa commit.",
+    "Interpreters: Windows CPython 3.12.10 and 3.11.18 (uv); Linux uv-managed CPython 3.11.16, 3.12.14, 3.13.15; qualify-linux-py3.12-system-python used Ubuntu's 3.12.3 without ensurepip, so its package gate is BLOCKED (venv creation), kept as recorded.",
+    "Coverage (Assertiva, product files): 83.9% lines / 80.2% branches; voznativa/ alone 92% by coverage.py (lines+branches). scripts/ drivers run as subprocesses are not measured."
+  ]
+}
