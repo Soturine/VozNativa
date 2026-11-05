@@ -183,7 +183,7 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [ ] interação comunidade x região x canal
 
 ## Pesquisa/decisões pendentes
-- [ ] licença do repositório (proposta Apache-2.0 em `docs/LICENSING.md`)
+- [x] licença do repositório: MIT para o material original (v0.6.0; `LICENSE`, `docs/LICENSING.md`)
 - [ ] resolver o conflito de licença do Corpus Carolina antes de qualquer ingestão (o piloto metadata-only da v0.3.0 M5 não ingere texto)
 - [ ] holdout semântico escrito por outra pessoa
 - [x] execução real do benchmark skill-only (B0–B3, B5) com manifesto e juízes; B4 (Emulate) bloqueado

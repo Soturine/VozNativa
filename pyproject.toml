@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,6 +8,10 @@ dynamic = ["version"]
 description = "Brazilian Portuguese voice engine and Agent Skill with semantic preservation gates"
 readme = "README.md"
 requires-python = ">=3.11"
+# SPDX expression and file (PEP 639, setuptools >= 77). Covers original
+# VozNativa material only; see LICENSE and docs/LICENSING.md.
+license = "MIT"
+license-files = ["LICENSE"]
 # PyYAML reads the YAML reference manifest, packs and voice contracts.
 # The semantic layer (spans, ledger, compare, judge) is stdlib-only.
 dependencies = ["PyYAML>=6.0"]

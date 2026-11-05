@@ -2,16 +2,24 @@
 
 **Estado:** o repositório ainda **não tem licença**. Este documento é uma proposta; nada aqui aplica licença ao projeto. Até a decisão, ninguém tem permissão legal para reutilizar o código.
 
-## 1. Proposta para o VozNativa
+## 1. Licença do VozNativa (decisão do mantenedor, v0.6.0)
 
-| Artefato | Proposta | Motivo |
+**MIT** (`LICENSE`), para o material original do projeto. Todos os commits até `106fd50` têm um único autor (Rafael Souza) e nenhum arquivo copiado de terceiros foi encontrado no repositório. O MIT permite inclusive uso comercial por terceiros; isso não muda as restrições dos materiais abaixo.
+
+| Material | Licença | Observação |
 |---|---|---|
-| Código (`voznativa/`, `scripts/`, `evals/*.py`) | Apache-2.0 | Permissiva, com concessão explícita de patentes e regra clara de NOTICE para contribuições. |
-| Documentação e referências originais (`docs/`, `references/`, `SKILL.md`) | Apache-2.0 (mesma licença, para simplificar) ou CC BY 4.0 | Decidir junto com o código; CC BY 4.0 é mais comum para prosa. |
-| Léxicos e dados próprios (`voznativa/data/*`) | Apache-2.0 | Escritos para o projeto (ver `evidence.basis` em cada arquivo); nenhum foi copiado de terceiros. |
-| Casos de eval/benchmark (`evals/**/*.jsonl`, `benchmarks/cases/`) | Apache-2.0 | Sintéticos, escritos para o projeto; não contêm texto de corpus. |
+| Código original (`voznativa/`, `scripts/`, `evals/*.py`) | MIT | |
+| Documentação e referências originais (`docs/`, `references/`, `SKILL.md`, `README.md`) | MIT | citações bibliográficas são referências, não cópias |
+| Exemplos próprios (`examples/`) | MIT | candidatas fixas escritas para o projeto; saídas registradas de modelo em `examples/README.md` |
+| Dados próprios (`voznativa/data/*`, casos de eval e benchmark sintéticos) | MIT | escritos para o projeto; nenhum texto de corpus |
+| Packs de evidência (`voznativa/data/regional_packs/`, packs temporais e de comunidade) | MIT para a curadoria | **fatos e contagens** de fontes citadas; nenhum texto das fontes é reproduzido |
+| Corpora externos | licença de cada fonte (tabela §3) | o VozNativa não os redistribui; a política por operação está em `voznativa/corpus/policy.py` (v0.6.0) |
+| Derivados de corpora (estatísticas, índices) | condicionados à licença da fonte | publicados só quando a política permite `EXPORT_STATISTICS` |
+| Modelos externos | licença de cada modelo | nenhum é distribuído |
+| Skills de terceiros usadas em benchmark | licença de cada skill | buscadas por commit em tempo de execução, nunca versionadas |
+| Relatórios de avaliação e saídas de ferramentas (`evals/assurance/runs/`, `benchmarks/runs/`) | MIT para o registro | contêm saídas de modelos e ferramentas sobre textos do projeto; sem texto de corpus |
 
-Para aplicar: adicionar `LICENSE` (texto Apache-2.0), `NOTICE`, o campo `license` no `SKILL.md`/`pyproject.toml`/`.claude-plugin/plugin.json` e remover a nota "licença não definida" do README.
+O uso não comercial pelo mantenedor não elimina direitos autorais, privacidade ou termos de acesso das fontes.
 
 ## 2. Regra de separação
 

@@ -54,7 +54,7 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Cross-genre eval suites | `evals/semantic/*.jsonl`, `evals/semantic/MANIFEST.json`, `evals/router/cases.jsonl` | dev: 77 + 32 (relations); developer holdouts: 24 + 16 + 12 + 24 (v0.3.0) + 32 (v0.4.0), frozen with first-run results. None is independent validation (all written by the engine's developer); genre README folders are still scaffolds |
 | Package/CLI | `pyproject.toml`, `setup.py`, `MANIFEST.in`, `voznativa/cli.py`, `scripts/voznativa_cli.py` | implemented: the wheel bundles references/ and assets/; verified sdist -> wheel -> clean venv outside the checkout locally (Linux containers, Windows); the CI packaging job ran green on `40e19e4` (run #123) |
 | Agent packaging | `.claude-plugin/`, `agents/openai.yaml`, README install table | implemented; validated by `scripts/validate_package.py` |
-| Licensing | `docs/LICENSING.md` | proposal only; repository has no license (also reported by the Derivanta Engine) |
+| Licensing | `LICENSE`, `docs/LICENSING.md`, wheel metadata (`License-Expression: MIT`) | implemented (v0.6.0): MIT for original material; third-party corpora, models and skills keep their own terms; checked by the installed-wheel smoke |
 | Detector-evasion promise | prohibited | enforced by design (no detector in any gate) |
 | Identity inference | prohibited | enforced by `profile.validate` and the Voice Contract `do_not` list |
 

@@ -1,4 +1,4 @@
-include setup.py README.md
+include setup.py README.md LICENSE
 recursive-include references *.md *.yml
 recursive-include assets *.yml
 recursive-include voznativa/data *.json *.yml

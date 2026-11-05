@@ -28,6 +28,13 @@ def run(*args: str) -> dict | str:
         return out
 
 
+def _license_ok() -> bool:
+    from importlib import metadata
+    dist = metadata.distribution("voznativa")
+    files = [str(f) for f in (dist.files or [])]
+    return dist.metadata.get("License-Expression") == "MIT" and any(f.endswith("LICENSE") for f in files)
+
+
 def main() -> int:
     os.environ.pop("VOZNATIVA_HOME", None)
     import voznativa
@@ -62,6 +69,8 @@ def main() -> int:
                 # v0.5.0: the evidence packs are package data; abstention needs no pack.
                 "regional-packs": bool(run("regional", "packs")["packs"]),
                 "regional-abstains": run("regional", "check", "t.txt")["status"] == "abstain",
+                # v0.6.0: the installed distribution declares the MIT licence and ships its file.
+                "license-metadata": _license_ok(),
             }
         finally:
             os.chdir(start)  # Windows cannot delete the current directory

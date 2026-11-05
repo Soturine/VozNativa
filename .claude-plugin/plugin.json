@@ -9,6 +9,15 @@
   },
   "homepage": "https://github.com/Soturine/VozNativa",
   "repository": "https://github.com/Soturine/VozNativa",
-  "keywords": ["pt-br", "portuguese", "writing", "voice", "semantic-preservation"],
-  "skills": ["./"]
+  "license": "MIT",
+  "keywords": [
+    "pt-br",
+    "portuguese",
+    "writing",
+    "voice",
+    "semantic-preservation"
+  ],
+  "skills": [
+    "./"
+  ]
 }

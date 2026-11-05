@@ -144,4 +144,4 @@ Toda correção de comportamento entra com um caso de regressão. Casos novos de
 
 Projetos e corpora estudados, com versões e decisões: `docs/RESEARCH_LOG.md`. Licenças de terceiros: `docs/LICENSING.md`.
 
-**Licença do VozNativa: ainda não definida** (proposta: Apache-2.0, ver `docs/LICENSING.md`). Até a decisão, não há permissão de reutilização.
+**Licença:** MIT (`LICENSE`) para o código, a documentação, os exemplos e os dados originais do VozNativa. Corpora, modelos, skills de terceiros e dados derivados deles mantêm suas próprias licenças e termos (`docs/LICENSING.md`).
