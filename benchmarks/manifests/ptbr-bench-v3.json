@@ -1,0 +1,31 @@
+{
+  "benchmark": "ptbr-bench-v3",
+  "frozen_at": "2026-11-05",
+  "status": "frozen; NOT_RUN (no model CLI configured in the environment that prepared it, and no budget approved by the owner for a paid run)",
+  "cases_file": "benchmarks/cases/ptbr-bench-v3.jsonl",
+  "cases_sha256": "c67caa7f220a0523d5cd2b4a0f21c1d3281f635e29fa95c7d3946030eed4a49c",
+  "author": "VozNativa developer's agent (not independent; wrote the v0.5.0 regional rules before the cases)",
+  "cases": "19: 6 AI-style drafts (one long, three paragraphs), 4 natural texts (one with a regional marker the author used), 1 destination change, 1 PT-PT text, 1 planted instruction, 6 regional requests (1 with a pack option, 1 where the form must stay, 4 that must abstain: no pack, technical genre, recorded exception, no region requested)",
+  "class": "skill-only + engine: every arm uses the same model through scripts/bench_model_wrapper.py",
+  "base_model": {"cli": "Claude Code CLI (version recorded at run time)", "model": "claude-sonnet-5-5", "tools": "none", "mcp": "none", "workdir": "empty temp dir"},
+  "arms": {
+    "B0-original": "original",
+    "B1-one-line": "one_line",
+    "B2-blader": {"kind": "skill", "repo": "https://github.com/blader/humanizer", "commit": "0ef9fe5", "file": "SKILL.md", "license": "MIT", "sha_of_file_blob": "19fc634"},
+    "B3-work-humanizer": {"kind": "skill", "repo": "https://github.com/phuryn/work-humanizer", "commit": "0a90657", "file": "skills/work-humanizer/SKILL.md", "license": "MIT", "sha_of_file_blob": "47f3f77"},
+    "B4-humanizar": {"kind": "skill", "repo": "https://github.com/fabricioctelles/skills", "commit": "ec4099f", "file": "skills/humanizar/SKILL.md", "license": "Apache-2.0", "sha_of_file_blob": "f5dfc07", "note": "only SKILL.md is sent, like the other skill arms; its references/ are not loaded; fetched at run time, never committed"},
+    "B5-voznativa-v040": {"kind": "engine", "engine_commit": "8a530f8", "what": "hardened v0.4.0 (end of CP4): rewrite(attempts=3, judge_votes=2) in-process from a worktree via scripts/bench_engine_driver.py, case hints as route() arguments (including region)"},
+    "B6-voznativa-v050": {"kind": "engine", "engine": "checkout", "what": "v0.5.0 from the checkout that runs (recorded in the run), same driver and arguments"}
+  },
+  "not_run_arms": {"Emulate": "no valid API key; EmulateProvider never validated live"},
+  "requests": "B1-B4 get the case request appended to their instruction; the engine arms get it as route() hints (channel, register, audience, region, region_strength)",
+  "metrics": {
+    "per_row_axes": "voznativa.benchmark.outcome_axes: delivery, semantic_safety, task (by case kind), destination, regional, evaluation, human_preference, invariants (only where an output exists), quality, cost, latency",
+    "deterministic": ["v0.5.0 compare status vs the original (canonical text)", "must_preserve invariants", "editorial findings after (v0.5.0 detector)", "PT-PT forms after", "regional forms or E0 markers added without a licensing activation", "referent-changing swaps", "pack suggestion used"],
+    "llm_judge": "same judge prompt for every changed output, kind=llm, separate call",
+    "uncertainty": "Wilson 95% interval of task met-or-pending per arm; n = 19 per arm is not enough for general estimates",
+    "human": "NOT_RUN; blind packets can be built from the run (voznativa blind-tasks); regional review protocol in evals/reviewers/PROTOCOL_v0.5.md"
+  },
+  "bias_disclosure": "Cases, invariants, detector, regional pack and judge prompt are VozNativa's own; the judge is the model that writes; regional cases test rules the same author wrote. Returning the original preserves every invariant, so invariants are reported only where an output exists and the task axis decides success.",
+  "harness_check": "evals/test_bench_v3_harness.py runs the full runner with a fake model on two cases into a temp directory; such runs are never official and never written to benchmarks/runs"
+}
