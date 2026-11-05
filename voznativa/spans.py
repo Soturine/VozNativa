@@ -162,6 +162,17 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     # time right after the bare day name makes it a weekday, not an ordinal.
     ("weekday", re.compile(
         r"\b(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)(?=,?\s+(?:[àa]s?\s+)?\d{1,2}(?:h|:\d{2}))", re.I)),
+    # A bare day name in a temporal slot ("começo segunda no time", "o prazo é
+    # sexta.") is a weekday: nothing follows it that it could number, and no
+    # article precedes it. Ordinals keep a noun after them ("segunda opção",
+    # "terça parte") or an article before ("a segunda é melhor"). Without this,
+    # "começo segunda" -> "começo na segunda" was span_added (false red seen in
+    # ptbr-bench-v2 bv2-li-02, and the "é sexta" limitation of PLAN_v0.4.0).
+    ("weekday", re.compile(
+        r"(?<![\w-])(?<!\b[aoAO]\s)(?<!\b[aoAO]s\s)(?<!\bum\s)(?<!\buma\s)(?<!\bd[aoe]\s)(?<!\bn[ao]\s)"
+        r"(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)"
+        r"(?=\s*(?:[.,;:!?)]|$)|\s+(?:no|na|nos|nas|em|e|ou|que|pela|pelo|cedo|[àa]\s+(?:tarde|noite)|de\s+manh[ãa])\b)",
+        re.I)),
     ("relative_time", re.compile(
         r"\b(?:depois de amanh[aã]|anteontem|amanh[aã]|hoje|ontem|semana que vem|pr[oó]xima semana|"
         r"m[eê]s que vem|pr[oó]ximo m[eê]s|ano que vem|pr[oó]ximo ano|(?:fim|final) do m[eê]s|"
