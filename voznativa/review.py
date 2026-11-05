@@ -140,6 +140,21 @@ def load_registry(directory: Path | None = None) -> dict:
     return data.get("reviewers", {})
 
 
+def registry_problems(directory: Path | None = None) -> list[str]:
+    """Entries that cannot be read as declared: an unknown ``relationship``
+    (only RELATIONSHIPS are understood) or no declared name. ``assess`` already
+    treats an unknown value as ``not_established``; this makes the typo visible
+    instead of silently downgrading a reviewer."""
+    problems = []
+    for principal, entry in sorted(load_registry(directory).items()):
+        relationship = entry.get("relationship")
+        if relationship not in RELATIONSHIPS:
+            problems.append(f"{principal}: relationship {relationship!r} is not one of {sorted(RELATIONSHIPS)}")
+        if not entry.get("declared_name"):
+            problems.append(f"{principal}: no declared_name")
+    return problems
+
+
 def _verify_ssh(judgment: dict, directory: Path | None) -> str:
     signature = judgment["signature"]
     allowed = directory / "allowed_signers" if directory else None

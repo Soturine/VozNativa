@@ -209,3 +209,28 @@ class SshSignedReviews(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReviewerRegistry(unittest.TestCase):
+    """CP1 finding: RELATIONSHIPS was declared but never checked, so a typo in
+    the registry ("Independent", "indepedent") silently downgraded a reviewer."""
+
+    def write(self, reviewers: dict) -> Path:
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, True)
+        (tmp / "registry.json").write_text(json.dumps({"schema_version": 1, "reviewers": reviewers}), encoding="utf-8")
+        return tmp
+
+    def test_unknown_relationship_and_missing_name_are_reported(self):
+        from voznativa.review import registry_problems
+        problems = registry_problems(self.write({
+            "a@x.org": {"declared_name": "A", "relationship": "Independent"},
+            "b@x.org": {"relationship": "collaborator"},
+            "c@x.org": {"declared_name": "C", "relationship": "independent"}}))
+        self.assertEqual(len(problems), 2, problems)
+        self.assertTrue(problems[0].startswith("a@x.org: relationship 'Independent'"))
+        self.assertTrue(problems[1].startswith("b@x.org: no declared_name"))
+
+    def test_committed_registry_is_valid(self):
+        from voznativa.review import registry_problems
+        self.assertEqual(registry_problems(ROOT / "evals" / "reviewers"), [])

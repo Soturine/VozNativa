@@ -185,6 +185,8 @@ def validate() -> list[str]:
     check_skill(errors)
     check_data(errors)
     check_docs(errors)
+    from voznativa.review import registry_problems
+    errors += [f"evals/reviewers/registry.json: {p}" for p in registry_problems(ROOT / "evals" / "reviewers")]
     return errors
 
 

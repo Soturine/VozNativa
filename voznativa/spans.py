@@ -33,13 +33,6 @@ NUMBER_WORDS = {
     "cem": 100, "duzentos": 200, "duzentas": 200, "trezentos": 300, "quinhentos": 500,
     "dobro": "x2", "metade": "x0.5", "triplo": "x3",
 }
-_NUMBER_WORD_ALT = "|".join(sorted(
-    ["zero", "dois", "duas", "tr[eê]s", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez",
-     "onze", "doze", "treze", "catorze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito",
-     "dezenove", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta",
-     "noventa", "cem", "duzentos", "duzentas", "trezentos", "quinhentos", "dobro", "metade", "triplo"],
-    key=len, reverse=True))
-
 MULTIPLIERS = {"mil": 1000, "milhao": 10**6, "milhoes": 10**6, "bilhao": 10**9, "bilhoes": 10**9,
                "mi": 10**6, "bi": 10**9}
 _MULT_ALT = r"mil|milh(?:ão|ões|ao|oes)|bilh(?:ão|ões|ao|oes)|mi|bi"
