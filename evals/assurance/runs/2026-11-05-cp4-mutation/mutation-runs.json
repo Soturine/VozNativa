@@ -1,0 +1,124 @@
+{
+  "kind": "voznativa.mutation_runs",
+  "schema_version": 1,
+  "provenance": "AGENT_OBSERVED: Cosmic Ray 8.7.0 run by the developer's agent in disposable copies (git archive); not engine-executed by Assertiva (its --mutate-tests path failed for unittest files, see dogfood AXF-VN-01)",
+  "target": "voznativa/benchmark.py",
+  "test_command": "python -m unittest discover -s evals -p test_benchmark*.py",
+  "environment": "Windows 11, CPython 3.12.10",
+  "runs": {
+    "run1 (8a530f8^ state, tests before the mutation-driven oracles)": {
+      "mutants": 825,
+      "killed": 562,
+      "survived": 263,
+      "survivors_by_static_class": {
+        "needs_review": 180,
+        "annotation_or_default": 55,
+        "identity_on_interned_literal": 28
+      }
+    },
+    "run2 (8a530f8)": {
+      "mutants": 825,
+      "killed": 613,
+      "survived": 212,
+      "survivors_by_static_class": {
+        "needs_review": 131,
+        "annotation_or_default": 55,
+        "identity_on_interned_literal": 26
+      }
+    },
+    "run3 (4c228f3)": {
+      "mutants": 825,
+      "killed": 621,
+      "survived": 204,
+      "survivors_by_static_class": {
+        "needs_review": 124,
+        "annotation_or_default": 55,
+        "identity_on_interned_literal": 25
+      }
+    }
+  },
+  "run3_axes_section_survivors_needing_judgement": [
+    {
+      "line": 195,
+      "change": "+            \"evaluation\": (\"not_needed\" if delivery < \"changed\" else"
+    },
+    {
+      "line": 195,
+      "change": "+            \"evaluation\": (\"not_needed\" if delivery > \"changed\" else"
+    },
+    {
+      "line": 221,
+      "change": "+    if delivery > \"changed\":"
+    },
+    {
+      "line": 223,
+      "change": "+    if (not score.get(\"invariants_ok\", True) or score.get(\"deterministic\") <= \"fail\" or verdict in VIOLATED"
+    },
+    {
+      "line": 228,
+      "change": "+    return \"judged_equivalent\" if verdict <= \"equivalent\" else \"unverified\""
+    },
+    {
+      "line": 228,
+      "change": "+    return \"judged_equivalent\" if verdict >= \"equivalent\" else \"unverified\""
+    },
+    {
+      "line": 235,
+      "change": "+        return \"met\" if delivery > \"changed\" else \"unnecessary_change\""
+    },
+    {
+      "line": 236,
+      "change": "+    if expectation >= \"resist\":"
+    },
+    {
+      "line": 237,
+      "change": "+        return \"not_met\" if score.get(\"obeyed_injection\") or safety > \"violated\" else \"met\""
+    },
+    {
+      "line": 237,
+      "change": "+        return \"not_met\" if score.get(\"obeyed_injection\") or safety >= \"violated\" else \"met\""
+    },
+    {
+      "line": 238,
+      "change": "+    if delivery != \"changed\" or safety >= \"violated\":"
+    },
+    {
+      "line": 238,
+      "change": "+    if delivery > \"changed\" or safety == \"violated\":"
+    },
+    {
+      "line": 245,
+      "change": "+    if kind < \"transform\":"
+    },
+    {
+      "line": 249,
+      "change": "+    return \"met_pending_evaluation\" if delivery <= \"changed\" and safety != \"violated\" else \"not_met\""
+    },
+    {
+      "line": 249,
+      "change": "+    return \"met_pending_evaluation\" if delivery == \"changed\" and safety < \"violated\" else \"not_met\""
+    },
+    {
+      "line": 254,
+      "change": "+    if n <= 0:"
+    },
+    {
+      "line": 259,
+      "change": "+    return [round(max( -1.0, centre - half), 3), round(min(1.0, centre + half), 3)]"
+    },
+    {
+      "line": 259,
+      "change": "+    return [round(max(0.0, centre - half), 3), round(min( 2.0, centre + half), 3)]"
+    },
+    {
+      "line": 272,
+      "change": "+    changed = [a for a in axes if a[\"delivery\"] <= \"changed\"]"
+    }
+  ],
+  "agent_disposition": {
+    "orderings_no_domain_value_crosses": "equivalent: e.g. safety >= 'violated' (no safety value sorts after 'violated'), delivery > 'changed' for the string set used",
+    "wilson_clamps": "equivalent: max(-1, lower) and min(2, upper) never bind for 0 <= successes <= n",
+    "n_le_0": "equivalent: n is a count",
+    "remaining": "17 of the 19 axes-section survivors of run 3 are equivalent on the value domain (no delivery, safety or kind value crosses the mutated comparison; Wilson clamps never bind; n is a count). The other 2 were real gaps (evaluation not_needed for unchanged rows; the changed-clean-unjudged path) and are pinned by test_unchanged_needs_no_evaluation_and_an_unjudged_clean_change_is_pending: both mutants, applied by hand, fail it. The older score_case/summarize/run functions keep survivors from tests that predate this round: recorded, not addressed in CP4."
+  }
+}

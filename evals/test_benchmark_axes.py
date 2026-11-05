@@ -158,6 +158,13 @@ class MutationFindings(unittest.TestCase):
         del r["score"]["invariants_ok"]
         self.assertEqual(outcome_axes(DRAFT, r)["semantic_safety"], "judged_equivalent")
 
+    def test_unchanged_needs_no_evaluation_and_an_unjudged_clean_change_is_pending(self):
+        # Third mutation run: the only two non-equivalent survivors left.
+        self.assertEqual(outcome_axes(DRAFT, row(changed=False))["evaluation"], "not_needed")
+        a = outcome_axes(DRAFT, row())  # changed, clean gate, no judge
+        self.assertEqual((a["semantic_safety"], a["task"], a["evaluation"]),
+                         ("unverified", "met_pending_evaluation", "pending"))
+
     def test_wilson_exact_values(self):
         self.assertEqual(wilson(12, 15), [0.548, 0.93])
         self.assertEqual(wilson(0, 15), [0.0, 0.204])

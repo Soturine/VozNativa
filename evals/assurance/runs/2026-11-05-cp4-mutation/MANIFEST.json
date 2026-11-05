@@ -1,0 +1,56 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-cp4-mutation",
+  "entries": [
+    {
+      "file": "assertiva-execute-mutate.json",
+      "command": "assertiva audit . --execute --python <venv>/python --mutate voznativa/benchmark.py --mutate-tests evals/test_benchmark_axes.py --mutate-tests evals/test_benchmark.py --output json",
+      "exit_code": 0,
+      "raw_sha256": "31c81222fab7adadaebf8690eb89c854583a13370e1795014f012ce2b448d572",
+      "published_sha256": "506fe49a61b26e86b0676ec74e4b53f3b5c69d9a81c39ceae938cd4d7fc5cc08",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare.json",
+      "command": "derivanta-engine compare cp0/engine-inspect.json cp4/engine-inspect.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "74b99a04ee7b057720a02750b3e119ce2cc356d46a247b2189b1b59a387d509c",
+      "published_sha256": "2d72a2d9f79ed39e5d12ae0a79cb3b6bbc371d9705d8e3f7f6b2cc5e1aac93a2",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (at 66b918e)",
+      "exit_code": 0,
+      "raw_sha256": "905363432ecb96bffce56048834872ce92695ee3dfef7b186eb1a65575b0b80b",
+      "published_sha256": "35bdc04095bf6a303fe8276c42414ccd2ba3071584cbba34c011102a5116e790",
+      "sanitized": true
+    },
+    {
+      "file": "mutation-runs.json",
+      "command": "cosmic-ray init/exec cr.toml (module voznativa/benchmark.py; test-command unittest discover -s evals -p test_benchmark*.py), three runs",
+      "exit_code": 0,
+      "raw_sha256": "18c529fe73111eb1d416f0e50dc2274f0c687e05fb5d40cd95eab9c6de58b190",
+      "published_sha256": "6800e60af8ef258d1e7695a8c63d020143f6c1fbf25e652fbdb9e38d58aa4b74",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-05T15:21:23+00:00",
+  "revision": "1191080e80560c95e8a202cfee5114023549ca46",
+  "dirty_paths": [
+    "evals/test_benchmark_axes.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "cosmic-ray": "8.7.0",
+    "assertiva": "0.10.1@2618d95"
+  },
+  "notes": [
+    "Assertiva's --mutate with --mutate-tests FILE under unittest ran discover -s FILE and failed (ImportError); no mutant ran (dogfood AXF-VN-01). The mutation evidence here was produced by the agent with Cosmic Ray directly and is AGENT_OBSERVED, not engine-executed.",
+    "Engine compare 4044cfc -> 66b918e: COMPARABLE; 54 PERSISTING, 4 NEW, 3 ABSENT (the three CP1 items fixed in CP4)."
+  ]
+}

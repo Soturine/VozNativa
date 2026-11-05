@@ -1,0 +1,1104 @@
+{
+  "report_format_version": 1,
+  "kind": "derivanta-engine/comparison-report",
+  "engine": {
+    "name": "derivanta-engine",
+    "version": "0.1.0"
+  },
+  "generated_at": "2026-11-05T15:01:11Z",
+  "fingerprint_algorithm": "derivanta-fp/2",
+  "baseline": {
+    "kind": "derivanta-engine/inspection-report",
+    "report_format_version": 2,
+    "sha256": "f520f3bf0614bb1cace0ea39d8acacd5293d311d1fe166f45387aebf2906d9c8",
+    "generated_at": "2026-11-05T14:21:05Z",
+    "target": "https://github.com/Soturine/VozNativa",
+    "revision": "4044cfc99db91a0a5f7a704f407c2e698d753a34",
+    "inventory_complete": true
+  },
+  "current": {
+    "kind": "derivanta-engine/inspection-report",
+    "report_format_version": 2,
+    "sha256": "905363432ecb96bffce56048834872ce92695ee3dfef7b186eb1a65575b0b80b",
+    "generated_at": "2026-11-05T15:01:10Z",
+    "target": "https://github.com/Soturine/VozNativa",
+    "revision": "66b918e5b0c839b6537b17a600af9c71d128631c",
+    "inventory_complete": true
+  },
+  "comparability": "COMPARABLE",
+  "comparability_reasons": [],
+  "findings": [
+    {
+      "fingerprint": "0608706dc3ecd98fa932ea9026e42cc552ccd9b92454e45e0baa3429aeb1741f",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/llm_integration.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "063884aa482831eabe224c784f4a13caf51b434bf080f53ad0ee8ca94c808c4c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/patterns.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "072b29598e594eced057db64cd634c92df77aa2a4f5ce795134f8f6870372807",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/bench_v2.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "09128163c666c591285726a74caa82c99e11e22bb7f14e5890e439b04b968cfe",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "09611e4bd13fc7ca49b9edf9c4d76675ccd12bf639f8701febf21a1cce4697f7",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/benchmark.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "0e10221dec73b4ff293bcef73d18d8ba2a1b7cba157d6db57421f9b41735a3d5",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/drift.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "101783df313e69d0beca6ff97a9fafd6fd3fcaecfa1f9831cc4378744fb7c437",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/carolina_metadata.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "158427ea3a5ee63574a1fe7006159ead7e2188de241762d163685b4a53669b2c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "173cafb6aec9532e93daa6b7c725ac0e7f94c99dc88d74ba4bb5ba31cced93cf",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/evals.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "1efbf9a80b927501f697ff17b71a7d846bc5121f6665cf71cb8ece9814ba091b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "2409e15747a0c746c399ffc6c478a06b2d3f176415473dd3b4f5df2baded8e53",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/planner.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "24c82baf3b60f912915531365b7457e378f1347b479a9f00424dede00c336792",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "27f62e81b0ca0736152de7ce350a33a3117ec8672893f8db709c7ef14fc3bb20",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "2cd07a6352da7e3c072ecfd75b7d175b7e7ef2111b2099d14044d78b237a3486",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/bench_skill_only.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "2f6c08dda7980e3ea664bb076a7fe5182c1520984d41b3e0ac65e1a74e2cbacb",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/router.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "2fb89746275edded5101e361adf25ac993c989380c1ea4eb5d8cadc1d88e8eda",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/voice_match.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "30f4879156ff7c9eb7cf147c27e1a2352bd7ca52e7cfcb4c88767f2d73e6bb70",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/nli_probe.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "33b3650801e5e7600650b0e5eeb0f5721fa5f3637671cb2a44c1524b50684bae",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/engine.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "3665a13554f45f86f0cd881da5d0ec08e66df999639ed76748d666cd24848401",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/validate_package.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "36d7313be2524a11b093896f2fd5ee02704e704155dcb690e1ab641987deda5a",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/judge.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "3a2e937a3ed94c986aedff8023650328761afeb3299fc13b3ec544c8b6edbd46",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/bench_v2.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "3b63c4e64ee3c563d0d006cda840797c4ab4e77262a5db7d45e71e5a635f667e",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/spans.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "3e8c32809d8fd868875335e5eb347be8d0df26c8f8918372abaef737929d0385",
+      "rule_id": "ENG-MAINT-UNREFERENCED",
+      "title": "Definition named nowhere else in the analysed files (deadness candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/review.py",
+      "state": "ABSENT"
+    },
+    {
+      "fingerprint": "3f65c2b5738ffc2587c92124072906b460ef5d1022a74a7243bab9642a40e5b2",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/spans.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "45ffda9ba595156224808eed889aa2c71c8ccbf8eca58c6ab7d2a36724f38915",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/blind.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "492db75f53576bbb295f90c776beb6327abe6990ebc1b3b107b5490c3d0f5156",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/ptbr.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/benchmark.py",
+      "state": "NEW"
+    },
+    {
+      "fingerprint": "52c5557d2948f7acc34442adbd83bde6d581114379d7c3b6f64ae055a6509518",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/planner.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "56c1fb24a70db05a31677919e0664533621f05de6132dda130f6c91f8d42700b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/contract.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "61096f8553c9662abe708807d81a27cfcad7f7df0fb29939e8f3f98ee739702e",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/text.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "6d180f62fc98905ddb68e94882c003244fb82c3483b6dbaab9bb4bb4e0d52196",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/spans.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "761f1a5402b20dc5e90911dacb25e053267f2a2684ebe35a9f75215b51d87fdd",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/compare.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "7659d6c7d66c18070089cf6dcab9a09903e9762f0ff63aff50a8048cdc5f5edc",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/spans.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "7ca503cd3f7b8e6dcb821de065958f37ab7f33f6f4e5d0080132380b0ddde3db",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "7e2c9cd584614972df0b043e5e62f662f61fa51f469ed43a3a46605323665440",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/analyze.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "816cedfc7ac5175fca4935c442e6d5097806d974d950aa4817ead35615b99b43",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/languagetool_probe.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "833b446737799cdc3fca188b92434be03630d31a0dbce2d60c6163fbef395981",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/profile.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "877310cd53457c8f079117417de7f6775c53acbbef9dca00c2ff2945ed13ea88",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/nli_probe.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "8811e1e37e01ff315bf1399703d10e57beb2c7f717b3c50e470e4302fee51518",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/bench_skill_only.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "8c81804412cbb42e23a841a39dfec666467b99d675a89d99ea2930a49f32fb4c",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/planner.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "92a2a83b811b49f3115bc8073e65f88bc14befbface9b14ad55f483310c824d5",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/qualify.py",
+      "state": "NEW"
+    },
+    {
+      "fingerprint": "96839171be0d4068dc595ffaa23daaab8e12fc343662344fb37bb7e7454c2dd7",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/references.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "a693d88d337a3a593e685c23b0cd76144e67a302351b7a1f9a48afd72d6e98ae",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/demo.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "ad00197e54e3958badcbe493d6b519ef21730002717a1c1096df881eb0eac95d",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/languagetool_probe.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "ae9b1e0d746fc84c762d84e0f8b91e3611b212437cef09bf5e8649452923c215",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/planner.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "bc43ec08fa3d5fc7b7c3bfbf9132a457bb1f1a73f9d764c7a36c03a706b1e115",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/numerals.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "bfb4a96ac2d3cc5fb19b13bead21a46592178a0771ce73bbac24697024eea11a",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/contract.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "c04ea4f3f1d8a6c088088578fc9807e533873378d82ea729c35d76ca50d13df6",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/qualify.py",
+      "state": "NEW"
+    },
+    {
+      "fingerprint": "c4fbbd4f044b1924b12d0cea2e34d90ff5c69ce5a7213417eab1f12710d10322",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/router.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "cb068bc0c1c691ec146b38a89f69e31325a12a406e74da88fcffe928035e3ab0",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "d1cceed67a01ec3bd23b82b78c19201d344e8e292a53255ad575b701f02a474e",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/signals.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "d33f25aa9e928eecd10e5bcc2de5ad8adf3a31409170d2767e1dd8d8057b18b0",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "evals/test_signals_equivalence.py",
+      "state": "NEW"
+    },
+    {
+      "fingerprint": "d82fcbf30c02a4698cc0da0b281a9b5e8b7a809b47268c88c3fa46f5f70da007",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/profile.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "dcabc1cb376cb0d63229a7e9294abfbaee88f0e5b6bd83f5ee507f8a9f735fed",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "scripts/validate_package.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "e6db95b05423fc3e037ed5b47ac45f346d48127124ce3c6b2cfec735a3b454c1",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/judge.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "ea14f65abc556ce6bec2a101919fb0e1d3feda7a81295060726816d92139c671",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/project.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "ec0e61c1bb074161dee02d78fc8fb8fa987c440f06d47a3b71e71dbe8f2a2b46",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/router.py",
+      "state": "ABSENT"
+    },
+    {
+      "fingerprint": "ef85bc6a6e95afa451ded142c5f6ea1bbd7766843c52fdde2871ecadc8ab6afa",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/engine.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "f42c7b71088f5381acc57f948484f0fc6a3af82dc0255040adda42e49490391b",
+      "rule_id": "ENG-MAINT-COMPLEXITY",
+      "title": "Function above the decision-path threshold (refactoring driver)",
+      "severity": "INFO",
+      "subject_path": "voznativa/engine.py",
+      "state": "PERSISTING"
+    },
+    {
+      "fingerprint": "f9a040bfca908132b52b8ecabc87dd7c80f3380e8558ea2130ade6b0581dacec",
+      "rule_id": "ENG-MAINT-UNREFERENCED",
+      "title": "Definition named nowhere else in the analysed files (deadness candidate)",
+      "severity": "INFO",
+      "subject_path": "voznativa/spans.py",
+      "state": "ABSENT"
+    },
+    {
+      "fingerprint": "fe9ef5cc532684654c22abbd773579712fadedf2c10a14c17977a2601204463b",
+      "rule_id": "ENG-MAINT-DUPLICATION",
+      "title": "Structurally identical function body or repeated literal table (duplication candidate)",
+      "severity": "INFO",
+      "subject_path": "scripts/experiments/syntax_roles.py",
+      "state": "PERSISTING"
+    }
+  ],
+  "lifecycle": [
+    {
+      "fingerprint": "0608706dc3ecd98fa932ea9026e42cc552ccd9b92454e45e0baa3429aeb1741f",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "063884aa482831eabe224c784f4a13caf51b434bf080f53ad0ee8ca94c808c4c",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "072b29598e594eced057db64cd634c92df77aa2a4f5ce795134f8f6870372807",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "09128163c666c591285726a74caa82c99e11e22bb7f14e5890e439b04b968cfe",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "09611e4bd13fc7ca49b9edf9c4d76675ccd12bf639f8701febf21a1cce4697f7",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "0e10221dec73b4ff293bcef73d18d8ba2a1b7cba157d6db57421f9b41735a3d5",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "101783df313e69d0beca6ff97a9fafd6fd3fcaecfa1f9831cc4378744fb7c437",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "158427ea3a5ee63574a1fe7006159ead7e2188de241762d163685b4a53669b2c",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "173cafb6aec9532e93daa6b7c725ac0e7f94c99dc88d74ba4bb5ba31cced93cf",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "1efbf9a80b927501f697ff17b71a7d846bc5121f6665cf71cb8ece9814ba091b",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "2409e15747a0c746c399ffc6c478a06b2d3f176415473dd3b4f5df2baded8e53",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "24c82baf3b60f912915531365b7457e378f1347b479a9f00424dede00c336792",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "27f62e81b0ca0736152de7ce350a33a3117ec8672893f8db709c7ef14fc3bb20",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "2cd07a6352da7e3c072ecfd75b7d175b7e7ef2111b2099d14044d78b237a3486",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "2f6c08dda7980e3ea664bb076a7fe5182c1520984d41b3e0ac65e1a74e2cbacb",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "2fb89746275edded5101e361adf25ac993c989380c1ea4eb5d8cadc1d88e8eda",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "30f4879156ff7c9eb7cf147c27e1a2352bd7ca52e7cfcb4c88767f2d73e6bb70",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "33b3650801e5e7600650b0e5eeb0f5721fa5f3637671cb2a44c1524b50684bae",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "3665a13554f45f86f0cd881da5d0ec08e66df999639ed76748d666cd24848401",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "36d7313be2524a11b093896f2fd5ee02704e704155dcb690e1ab641987deda5a",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "3a2e937a3ed94c986aedff8023650328761afeb3299fc13b3ec544c8b6edbd46",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "3b63c4e64ee3c563d0d006cda840797c4ab4e77262a5db7d45e71e5a635f667e",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "3e8c32809d8fd868875335e5eb347be8d0df26c8f8918372abaef737929d0385",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "not observed in the comparable current report; record FIXED with evidence to let the Engine mark it RETESTED",
+      "actor": null
+    },
+    {
+      "fingerprint": "3f65c2b5738ffc2587c92124072906b460ef5d1022a74a7243bab9642a40e5b2",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "45ffda9ba595156224808eed889aa2c71c8ccbf8eca58c6ab7d2a36724f38915",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "492db75f53576bbb295f90c776beb6327abe6990ebc1b3b107b5490c3d0f5156",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "512ea4cf300d1d1229ea40fcfe80dd29910786fa89a4a0975cf2d9bdb22a6653",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "52c5557d2948f7acc34442adbd83bde6d581114379d7c3b6f64ae055a6509518",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "56c1fb24a70db05a31677919e0664533621f05de6132dda130f6c91f8d42700b",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "61096f8553c9662abe708807d81a27cfcad7f7df0fb29939e8f3f98ee739702e",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "6d180f62fc98905ddb68e94882c003244fb82c3483b6dbaab9bb4bb4e0d52196",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "761f1a5402b20dc5e90911dacb25e053267f2a2684ebe35a9f75215b51d87fdd",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "7659d6c7d66c18070089cf6dcab9a09903e9762f0ff63aff50a8048cdc5f5edc",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "7ca503cd3f7b8e6dcb821de065958f37ab7f33f6f4e5d0080132380b0ddde3db",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "7e2c9cd584614972df0b043e5e62f662f61fa51f469ed43a3a46605323665440",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "816cedfc7ac5175fca4935c442e6d5097806d974d950aa4817ead35615b99b43",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "833b446737799cdc3fca188b92434be03630d31a0dbce2d60c6163fbef395981",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "877310cd53457c8f079117417de7f6775c53acbbef9dca00c2ff2945ed13ea88",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "8811e1e37e01ff315bf1399703d10e57beb2c7f717b3c50e470e4302fee51518",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "8c81804412cbb42e23a841a39dfec666467b99d675a89d99ea2930a49f32fb4c",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "92a2a83b811b49f3115bc8073e65f88bc14befbface9b14ad55f483310c824d5",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "96839171be0d4068dc595ffaa23daaab8e12fc343662344fb37bb7e7454c2dd7",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "a693d88d337a3a593e685c23b0cd76144e67a302351b7a1f9a48afd72d6e98ae",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "ad00197e54e3958badcbe493d6b519ef21730002717a1c1096df881eb0eac95d",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "ae9b1e0d746fc84c762d84e0f8b91e3611b212437cef09bf5e8649452923c215",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "bc43ec08fa3d5fc7b7c3bfbf9132a457bb1f1a73f9d764c7a36c03a706b1e115",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "bfb4a96ac2d3cc5fb19b13bead21a46592178a0771ce73bbac24697024eea11a",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "c04ea4f3f1d8a6c088088578fc9807e533873378d82ea729c35d76ca50d13df6",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "c4fbbd4f044b1924b12d0cea2e34d90ff5c69ce5a7213417eab1f12710d10322",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "cb068bc0c1c691ec146b38a89f69e31325a12a406e74da88fcffe928035e3ab0",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "d1cceed67a01ec3bd23b82b78c19201d344e8e292a53255ad575b701f02a474e",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "d33f25aa9e928eecd10e5bcc2de5ad8adf3a31409170d2767e1dd8d8057b18b0",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "d82fcbf30c02a4698cc0da0b281a9b5e8b7a809b47268c88c3fa46f5f70da007",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "dcabc1cb376cb0d63229a7e9294abfbaee88f0e5b6bd83f5ee507f8a9f735fed",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "e6db95b05423fc3e037ed5b47ac45f346d48127124ce3c6b2cfec735a3b454c1",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "ea14f65abc556ce6bec2a101919fb0e1d3feda7a81295060726816d92139c671",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "ec0e61c1bb074161dee02d78fc8fb8fa987c440f06d47a3b71e71dbe8f2a2b46",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "not observed in the comparable current report; record FIXED with evidence to let the Engine mark it RETESTED",
+      "actor": null
+    },
+    {
+      "fingerprint": "ef85bc6a6e95afa451ded142c5f6ea1bbd7766843c52fdde2871ecadc8ab6afa",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "f42c7b71088f5381acc57f948484f0fc6a3af82dc0255040adda42e49490391b",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    },
+    {
+      "fingerprint": "f9a040bfca908132b52b8ecabc87dd7c80f3380e8558ea2130ade6b0581dacec",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "not observed in the comparable current report; record FIXED with evidence to let the Engine mark it RETESTED",
+      "actor": null
+    },
+    {
+      "fingerprint": "fe9ef5cc532684654c22abbd773579712fadedf2c10a14c17977a2601204463b",
+      "status": "OPEN",
+      "basis": "OBSERVED",
+      "requested": null,
+      "accepted": true,
+      "reason": "observed in the current report",
+      "actor": null
+    }
+  ],
+  "orphan_triage_entries": [],
+  "inspection_diff": {
+    "changes": [
+      {
+        "category": "coverage",
+        "key": "files_discovered",
+        "state": "UPDATED",
+        "before": "216",
+        "after": "246"
+      },
+      {
+        "category": "git",
+        "key": "revision",
+        "state": "UPDATED",
+        "before": "4044cfc99db91a0a5f7a704f407c2e698d753a34",
+        "after": "66b918e5b0c839b6537b17a600af9c71d128631c"
+      }
+    ],
+    "unchanged": 28,
+    "complete": true,
+    "notes": []
+  },
+  "summary": {
+    "NEW": 4,
+    "PERSISTING": 54,
+    "ABSENT": 3,
+    "UPDATED": 0,
+    "NOT_OBSERVED_IN_SCOPE": 0
+  },
+  "limitations": [
+    "Comparison uses finding fingerprints (derivanta-fp/2: rule + position-independent identity key) (ENG-COMPARE-IDENTITY); a finding whose identity key changed meaning is one ABSENT plus one NEW.",
+    "Triage entries are DECLARED; RETESTED is only derived from the Engine's own comparable re-observation (ENG-LIFECYCLE)."
+  ]
+}
