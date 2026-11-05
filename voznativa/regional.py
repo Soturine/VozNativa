@@ -46,6 +46,19 @@ REQUIRED = ("schema_version", "kind", "id", "version", "status", "human_reviewed
 FEATURE_REQUIRED = ("id", "level", "referent", "forms", "total_answers", "contexts_legitimate", "confusions",
                     "confidence", "evidence_level", "limitations")
 STATUSES = ("pilot", "experimental", "calibrated")
+# One owner for the decision fields other layers expose (contract, plan) and
+# for the pack summary the CLI lists.
+DECISION_FIELDS = ("pack", "feature", "keep", "suggest", "replaces", "why")
+SUMMARY_FIELDS = ("id", "version", "status", "human_reviewed", "scope", "epoch", "modality")
+
+
+def decision_view(feature_decision: dict) -> dict:
+    return {k: feature_decision.get(k) for k in DECISION_FIELDS}
+
+
+def pack_summary(pack: dict) -> dict:
+    return {**{k: pack[k] for k in SUMMARY_FIELDS}, "features": [f["id"] for f in pack["features"]],
+            "sources": [s["citation"] for s in pack["sources"]]}
 
 
 def normalize_region(code: str | None) -> dict | None:

@@ -205,11 +205,10 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
 def _regional(text: str, context: dict, profile: dict | None) -> dict:
     """The Regional Evidence Pack decision for this text (v0.5.0); abstains,
     with its reason, unless the request names a region a pack covers."""
-    from .regional import activate
+    from .regional import activate, decision_view
     a = activate(context, text, profile)
     return {"status": a["status"], "reasons": a["reasons"], "effective_strength": a["effective_strength"],
-            "features": [{k: f.get(k) for k in ("pack", "feature", "keep", "suggest", "replaces", "why")}
-                         for f in a["features"]]}
+            "features": [decision_view(f) for f in a["features"]]}
 
 
 def prompt_block(p: dict) -> str | None:

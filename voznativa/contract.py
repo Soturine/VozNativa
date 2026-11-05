@@ -128,7 +128,7 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
     # Regionality only through an evidence pack (v0.5.0): with no pack for the
     # requested region, a context its evidence does not cover, or nothing in
     # the text to apply it to, the effective strength stays 0.
-    from .regional import activate
+    from .regional import activate, decision_view
     regional = activate(context, text, profile)
     if requested_region > 0 and regional["status"] != "active":
         warnings.append("regional strength stays 0.0: " + "; ".join(regional["reasons"]))
@@ -196,8 +196,7 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
                               "code": region.get("code")},
         "regional": {"status": regional["status"], "reasons": regional["reasons"],
                      "packs": [p["id"] for p in regional["packs"]],
-                     "features": [{k: f[k] for k in ("pack", "feature", "keep", "suggest", "why")}
-                                  for f in regional["features"]]},
+                     "features": [decision_view(f) for f in regional["features"]]},
         "slang_strength": {"requested": slang_requested, "effective": 0.0},
         "profile": {"used": bool(profile) and maturity != "explicit_only", "maturity": maturity,
                     "id": (profile or {}).get("profile", {}).get("id")},

@@ -121,12 +121,9 @@ def cmd_region(args):
 def cmd_regional(args):
     """Regional Evidence Packs: list them, or say for a text and a requested
     region what a pack may inform and why the system abstains otherwise."""
-    from .regional import activate, load_packs
+    from .regional import activate, load_packs, pack_summary
     if args.action == "packs":
-        _emit({"kind": "voznativa.regional_packs", "packs": [
-            {k: p[k] for k in ("id", "version", "status", "human_reviewed", "scope", "epoch", "modality")}
-            | {"features": [f["id"] for f in p["features"]],
-               "sources": [s["citation"] for s in p["sources"]]} for p in load_packs()]})
+        _emit({"kind": "voznativa.regional_packs", "packs": [pack_summary(p) for p in load_packs()]})
         return 0
     if not args.text:
         raise ValueError("regional check needs a text")
