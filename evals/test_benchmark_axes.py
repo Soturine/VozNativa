@@ -100,3 +100,46 @@ class OfficialRunRescore(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MutationFindings(unittest.TestCase):
+    """Oracles added after a targeted Cosmic Ray run on voznativa/benchmark.py
+    (CP4, agent-run; evals/assurance/runs/2026-11-05-cp4-mutation): each pins a
+    surviving mutant that was not equivalent."""
+
+    def test_summary_counts_on_asymmetric_data(self):
+        axes = [outcome_axes(TRANSFORM, row(changed=False, outcome="provider_error")),
+                outcome_axes(DRAFT, row(verdict="equivalent")),
+                outcome_axes(DRAFT, row(invariants=False, verdict="equivalent")),
+                outcome_axes(NATURAL, row(changed=False))]
+        for a, cost in zip(axes, (0.25, 0.5, 0.125, 0.0)):
+            a["cost_usd"], a["judge_cost_usd"] = cost, 0.1 if a["delivery"] == "changed" else None
+        s = summarize_axes(axes)
+        self.assertEqual(s["n"], 4)
+        self.assertEqual(s["system_failures"], 1)
+        self.assertEqual(s["delivery"], {"changed": 2, "provider_error": 1, "unchanged": 1})
+        self.assertEqual(s["task"], {"met": 1, "met_pending_evaluation": 1, "not_met": 1, "system_failure": 1})
+        self.assertEqual(s["destination"], {"unknown": 1})
+        self.assertEqual(s["changed_and_preserved"], "1/2")
+        self.assertEqual(s["invariants_ok_where_produced"], "2/3")
+        self.assertEqual((s["cost_usd"], s["judge_cost_usd"]), (0.875, 0.2))
+
+    def test_destination_is_not_met_when_the_transform_broke_meaning_and_na_elsewhere(self):
+        self.assertEqual(outcome_axes(TRANSFORM, row(deterministic="fail"))["destination"], "not_met")
+        self.assertEqual(outcome_axes(DRAFT, row(verdict="equivalent"))["destination"], "n/a")
+        self.assertEqual(outcome_axes(TRANSFORM, row(changed=False))["destination"], "not_met")
+
+    def test_failed_system_has_no_quality_and_an_empty_row_is_a_harness_error(self):
+        self.assertIsNone(outcome_axes(DRAFT, row(changed=False, outcome="provider_error"))["quality"])
+        self.assertIsNotNone(outcome_axes(DRAFT, row(verdict="equivalent"))["quality"])
+        self.assertEqual(outcome_axes(DRAFT, {})["delivery"], "harness_error")
+
+    def test_a_row_without_invariants_is_not_a_violation(self):
+        r = row(verdict="equivalent")
+        del r["score"]["invariants_ok"]
+        self.assertEqual(outcome_axes(DRAFT, r)["semantic_safety"], "judged_equivalent")
+
+    def test_wilson_exact_values(self):
+        self.assertEqual(wilson(12, 15), [0.548, 0.93])
+        self.assertEqual(wilson(0, 15), [0.0, 0.204])
+        self.assertEqual(wilson(15, 15), [0.796, 1.0])
