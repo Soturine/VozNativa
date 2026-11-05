@@ -103,6 +103,25 @@ if __name__ == "__main__":
 
 
 class MutationFindings(unittest.TestCase):
+    def test_summary_on_data_where_no_two_axes_coincide(self):
+        # Second mutation run: survivors coincided with the first data set by chance
+        # (1/2 either way). Here every count differs from its complement.
+        axes = [outcome_axes(TRANSFORM, row(verdict="equivalent")),             # changed, preserved
+                outcome_axes(DRAFT, row(verdict="equivalent")),                 # changed, preserved
+                outcome_axes(DRAFT, row(invariants=False, verdict="equivalent")),  # changed, not preserved
+                outcome_axes(NATURAL, row(verdict="equivalent")),               # changed: unnecessary
+                outcome_axes(NATURAL, row(changed=False)),                      # kept: met
+                outcome_axes(TRANSFORM, row(changed=False, outcome="provider_error"))]
+        for a, cost in zip(axes, (0.1234, 0.0001, 0.0002, 0.0, 0.0, 0.0)):
+            a["cost_usd"], a["judge_cost_usd"] = cost, cost / 2
+        s = summarize_axes(axes)
+        self.assertEqual(s["changed_and_preserved"], "3/4")
+        self.assertEqual(s["system_failures"], 1)
+        self.assertEqual(s["task"], {"met": 1, "met_pending_evaluation": 2, "not_met": 1, "system_failure": 1,
+                                     "unnecessary_change": 1})
+        self.assertEqual(s["destination"], {"met_pending_evaluation": 1, "unknown": 1})
+        self.assertEqual((s["cost_usd"], s["judge_cost_usd"]), (0.124, 0.062))
+
     """Oracles added after a targeted Cosmic Ray run on voznativa/benchmark.py
     (CP4, agent-run; evals/assurance/runs/2026-11-05-cp4-mutation): each pins a
     surviving mutant that was not equivalent."""
