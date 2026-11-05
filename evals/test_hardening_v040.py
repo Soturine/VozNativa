@@ -16,24 +16,34 @@ SEMANTIC = ROOT / "evals" / "semantic"
 
 
 class Ho007IsAClassificationDivergence(unittest.TestCase):
-    """ho-007 asks for span_added; the engine catches the inserted clause as
-    possible_addition. It was detected, so it must not be reported as a
-    missed detection, and the strict count must not hide it either."""
+    """ho-007 asks for span_added. Until CP4/H4 the engine caught the inserted
+    clause only as possible_addition, a classification divergence that must not
+    be reported as a missed detection. H4 made multiplier verbs ("triplicar a
+    receita") a value, so the frozen expectation is now met as written; the
+    divergence mechanism is pinned with a synthetic case."""
 
-    def test_detected_but_classified_under_another_code(self):
+    def test_inserted_multiplier_is_an_added_value(self):
         case = next(c for c in map(json.loads, (SEMANTIC / "holdout.jsonl").read_text(encoding="utf-8").splitlines())
                     if c["id"] == "ho-007")
         result = check(case)
-        self.assertIn(result["status"], {"fail", "review_required"})
-        self.assertIn("possible_addition", result["codes"])
-        self.assertFalse(result["passed"])
-        self.assertEqual(result["failure_kind"], "classification_divergence")
+        self.assertEqual(result["status"], "fail")
+        self.assertIn("span_added", result["codes"])
+        self.assertTrue(result["passed"])
 
     def test_suite_reports_strict_and_status_counts_apart(self):
         report = run(SEMANTIC / "holdout.jsonl", require_frozen=True)
-        self.assertEqual(report["passed"], 23)          # the frozen expectation still fails
-        self.assertEqual(report["status_passed"], 24)   # but nothing was missed
-        self.assertEqual(report["failure_kinds"], {"classification_divergence": 1})
+        self.assertEqual((report["passed"], report["status_passed"], report["cases"]), (24, 24, 24))
+        self.assertEqual(report["failure_kinds"], {})
+
+    def test_detected_under_another_code_is_a_classification_divergence(self):
+        case = {"id": "x", "category": "addition", "original": "Lançamos o recurso de exportação para CSV.",
+                "candidate": "Lançamos o recurso de exportação para CSV. Os clientes adoraram e o engajamento "
+                             "disparou desde então.",
+                "expect": {"status": ["fail", "review_required"], "codes": ["span_added"]}}
+        result = check(case)
+        self.assertIn(result["status"], {"fail", "review_required"})
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["failure_kind"], "classification_divergence")
 
     def test_missed_detection_is_a_false_green(self):
         case = {"id": "x", "category": "value", "original": "O prazo é sexta.", "candidate": "O prazo é sexta.",

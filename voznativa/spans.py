@@ -133,6 +133,9 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
         rf"\b(?:\d{{1,2}}|1º|1°)\s+de\s+(?:{_MONTH_ALT})(?:\s+de\s+\d{{4}})?\b", re.I)),
     ("date", re.compile(rf"\b(?:{_MONTH_ALT})\s+de\s+\d{{4}}\b", re.I)),
     ("date", re.compile(r"\b(?:0?[1-9]|[12]\d|3[01])/(?:0?[1-9]|1[0-2])\b(?!/)")),
+    # "2 da tarde" is 14:00, the same time as "14h" (H4: false red when a
+    # rewrite switched between the two clock styles).
+    ("time", re.compile(r"\b(?:[01]?\d)(?:h|\s+horas?)?\s+da\s+(?:manh[ãa]|tarde|noite|madrugada)\b", re.I)),
     ("time", re.compile(r"\b(?:[01]?\d|2[0-3])(?::[0-5]\d|h[0-5]\d|h(?:rs?)?)(?![\w:])", re.I)),
     # "N horas" is a clock time only after às/das/pelas; "leva 2 horas" is a duration.
     ("time", re.compile(r"\b(?:[àa]s|das|pelas)\s+(?P<v>(?:[01]?\d|2[0-3])\s+horas)\b", re.I)),
@@ -154,6 +157,14 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("ordinal", re.compile(r"\b\d+[ºª°]")),
     ("number", re.compile(rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?(?![\w])", re.I)),
     ("number", re.compile(r"\b(?:dobro|metade|triplo)\b", re.I)),
+    # Multiplier verbs state a value ("a receita triplicou" = x3; ho-007).
+    # "dobrar" also means to fold or to turn a corner: it counts as x2 only
+    # without an object right after it ("a receita dobrou", "dobrou em 2025"),
+    # never in "dobrou a esquina" / "dobrou o papel".
+    ("number", re.compile(
+        r"\b(?:duplic|triplic|quadruplic)(?:a|ou|aram|am|ar|ará|arão|ando|ado|ada|ados|adas|aria|ariam)\b", re.I)),
+    ("number", re.compile(
+        r"\bdobr(?:a|ou|aram|am|ará|arão|aria|ariam)\b(?!\s+(?:[ao]s?|um|uma|seu|sua|meu|minha)\b)", re.I)),
     ("weekday", re.compile(r"\b(?:segunda|ter[cç]a|quarta|quinta|sexta)-feira\b|\bs[aá]bado\b|\bdomingo\b", re.I)),
     ("weekday", re.compile(
         r"\b(?:at[eé]|na|nesta|pr[oó]xima|esta|toda|de|pra|para)\s+(?:a\s+)?(?P<v>segunda|ter[cç]a|quarta|quinta|sexta)\b",
@@ -200,8 +211,12 @@ def _key(kind: str, raw: str) -> str:
     if kind == "time":
         if low.strip() in RELATIVE_TIME:
             return RELATIVE_TIME[low.strip()]
-        m = re.match(r"(\d{1,2})\s*(?::|h(?:rs?)?|\s+horas)\s*(\d{2})?", low)
+        m = re.match(r"(\d{1,2})\s*(?::|h(?:rs?)?|\s+horas?)?\s*(\d{2})?", low)
         hour, minute = (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
+        if re.search(r"\bda noite\b", low) and hour == 12:
+            hour = 0
+        elif re.search(r"\bda (?:tarde|noite)\b", low) and hour < 12:
+            hour += 12
         return f"time:{hour:02d}:{minute:02d}"
     if kind == "money":
         currency = "BRL"
@@ -229,6 +244,9 @@ def _key(kind: str, raw: str) -> str:
     if kind == "ordinal":
         return "ordinal:" + re.match(r"\d+", raw).group(0)
     if kind == "number":
+        for prefix, factor in (("duplic", "x2"), ("dobr", "x2"), ("triplic", "x3"), ("quadruplic", "x4")):
+            if low.startswith(prefix):
+                return f"number:{factor}"
         if low in NUMBER_WORDS:
             return f"number:{NUMBER_WORDS[low]}"
         m = re.match(rf"({_NUM})(?:\s+({_MULT_ALT}))?", raw, re.I)
