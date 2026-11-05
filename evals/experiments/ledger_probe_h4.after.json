@@ -1,0 +1,316 @@
+[
+ {
+  "category": "temporal-equiv",
+  "original": "A reunião é às 14h.",
+  "candidate": "A reunião é às 2 da tarde.",
+  "should_block": false,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": true
+ },
+ {
+  "category": "temporal-equiv",
+  "original": "Entrego em 48 horas.",
+  "candidate": "Entrego em dois dias.",
+  "should_block": false,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": true
+ },
+ {
+  "category": "temporal-equiv",
+  "original": "O prazo é amanhã às 9h.",
+  "candidate": "O prazo é amanhã às 21h.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "span_added",
+   "span_missing"
+  ],
+  "ok": true
+ },
+ {
+  "category": "temporal-equiv",
+  "original": "Volto em 15 minutos.",
+  "candidate": "Volto em meia hora.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "span_added",
+   "span_missing"
+  ],
+  "ok": true
+ },
+ {
+  "category": "weekday",
+  "original": "O deploy é quinta.",
+  "candidate": "O deploy é na quinta-feira.",
+  "should_block": false,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": true
+ },
+ {
+  "category": "weekday",
+  "original": "Fechamos sexta, dia 12.",
+  "candidate": "Fechamos sábado, dia 12.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "span_added",
+   "span_missing"
+  ],
+  "ok": true
+ },
+ {
+  "category": "temporal-order",
+  "original": "Teste antes de publicar.",
+  "candidate": "Publique antes de testar.",
+  "should_block": true,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": false
+ },
+ {
+  "category": "temporal-order",
+  "original": "Primeiro a Ana revisa, depois o Caio aprova.",
+  "candidate": "Primeiro o Caio aprova, depois a Ana revisa.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "causality",
+  "original": "O site caiu porque o certificado expirou.",
+  "candidate": "O certificado expirou porque o site caiu.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "causal_direction_reversed",
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "causality",
+  "original": "As vendas caíram e o preço subiu.",
+  "candidate": "As vendas caíram porque o preço subiu.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "causality_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "causality",
+  "original": "O uso de cache está associado a menos erros.",
+  "candidate": "O uso de cache reduz os erros.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "causality_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "agent-swap",
+  "original": "A Ana aprovou o orçamento do Caio.",
+  "candidate": "O Caio aprovou o orçamento da Ana.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "entity_binding_changed",
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "agent-swap",
+  "original": "O cliente processou a empresa.",
+  "candidate": "A empresa processou o cliente.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "agent-swap",
+  "original": "O gerente demitiu o analista.",
+  "candidate": "O analista demitiu o gerente.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "pronoun",
+  "original": "A Ana ligou para a Bia porque ela estava atrasada.",
+  "candidate": "A Ana ligou para a Bia porque estava atrasada.",
+  "should_block": true,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": false
+ },
+ {
+  "category": "pronoun",
+  "original": "Pedimos ao fornecedor que ele mande a nota.",
+  "candidate": "O fornecedor pediu que nós mandássemos a nota.",
+  "should_block": true,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": false
+ },
+ {
+  "category": "cross-sentence",
+  "original": "O servidor A está estável. O servidor B caiu.",
+  "candidate": "O servidor A caiu. O servidor B está estável.",
+  "should_block": true,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": false
+ },
+ {
+  "category": "cross-sentence",
+  "original": "Contratamos a Lia em março. Ela lidera o time de dados.",
+  "candidate": "Contratamos a Lia em março. O time de dados é liderado por ela.",
+  "should_block": false,
+  "status": "no_deterministic_issues",
+  "codes": [],
+  "ok": true
+ },
+ {
+  "category": "addition",
+  "original": "O app agora exporta CSV.",
+  "candidate": "O app agora exporta CSV e PDF.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "span_added"
+  ],
+  "ok": true
+ },
+ {
+  "category": "addition",
+  "original": "Lançamos a versão 2.",
+  "candidate": "Lançamos a versão 2, a mais rápida do mercado.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "possible_addition"
+  ],
+  "ok": true
+ },
+ {
+  "category": "omission",
+  "original": "Só administradores podem apagar projetos, exceto os arquivados.",
+  "candidate": "Só administradores podem apagar projetos.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "condition_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "omission",
+  "original": "O reembolso sai em até 5 dias úteis, se o pedido for aprovado.",
+  "candidate": "O reembolso sai em até 5 dias úteis.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "condition_changed",
+   "polarity_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "pragmatic",
+  "original": "Você poderia revisar o contrato?",
+  "candidate": "Revise o contrato.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "modality_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "pragmatic",
+  "original": "Talvez a gente atrase a entrega.",
+  "candidate": "A gente vai atrasar a entrega.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "modality_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "pragmatic",
+  "original": "Sugiro adiar o lançamento.",
+  "candidate": "Vamos adiar o lançamento.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "commitment_changed"
+  ],
+  "ok": true
+ },
+ {
+  "category": "common-entity",
+  "original": "o fornecedor pagou a transportadora.",
+  "candidate": "a transportadora pagou o fornecedor.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "common-entity",
+  "original": "o banco notificou o cliente sobre a fraude.",
+  "candidate": "o cliente notificou o banco sobre a fraude.",
+  "should_block": true,
+  "status": "review_required",
+  "codes": [
+   "role_or_order_swapped"
+  ],
+  "ok": true
+ },
+ {
+  "category": "multiplier",
+  "original": "A receita cresceu.",
+  "candidate": "A receita triplicou.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "polarity_changed",
+   "quantifier_changed",
+   "span_added"
+  ],
+  "ok": true
+ },
+ {
+  "category": "multiplier",
+  "original": "A receita dobrou.",
+  "candidate": "A receita cresceu duas vezes.",
+  "should_block": true,
+  "status": "fail",
+  "codes": [
+   "polarity_changed",
+   "quantifier_changed",
+   "span_added",
+   "span_missing"
+  ],
+  "ok": true
+ }
+]
