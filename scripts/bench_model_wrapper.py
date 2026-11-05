@@ -23,7 +23,10 @@ import time
 
 def main() -> int:
     prompt = sys.stdin.buffer.read().decode("utf-8")
-    argv = [os.environ["VN_CLAUDE"], "-p", "--tools", "", "--strict-mcp-config", "--no-session-persistence",
+    # VN_CLAUDE is a path, or a JSON argv list (the harness test runs a fake model this way).
+    claude = os.environ["VN_CLAUDE"]
+    base = json.loads(claude) if claude.lstrip().startswith("[") else [claude]
+    argv = [*base, "-p", "--tools", "", "--strict-mcp-config", "--no-session-persistence",
             "--model", os.environ.get("VN_MODEL", "claude-sonnet-5-5"), "--output-format", "json"]
     start = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="vn-bench-") as workdir:

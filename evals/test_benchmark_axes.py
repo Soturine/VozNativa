@@ -169,3 +169,31 @@ class MutationFindings(unittest.TestCase):
         self.assertEqual(wilson(12, 15), [0.548, 0.93])
         self.assertEqual(wilson(0, 15), [0.0, 0.204])
         self.assertEqual(wilson(15, 15), [0.796, 1.0])
+
+
+class RegionalAxis(unittest.TestCase):
+    """ptbr-bench-v3: a regional request without evidence is met only when no
+    regional form or marker was added; returning the original also meets it."""
+
+    def test_abstention_case(self):
+        case = {"id": "r", "kind": "regional_abstain"}
+        self.assertEqual(outcome_axes(case, row(changed=False))["task"], "met")
+        self.assertEqual(outcome_axes(case, row(verdict="equivalent"))["task"], "met_pending_evaluation")
+        added = outcome_axes(case, row(verdict="equivalent", regional_introduced=["uai"]))
+        self.assertEqual((added["task"], added["regional"]), ("not_met", "introduced_without_evidence"))
+
+    def test_option_and_referent_cases(self):
+        option = {"id": "o", "kind": "regional_option"}
+        self.assertEqual(outcome_axes(option, row(verdict="equivalent", regional_suggestion_used=True))["regional"],
+                         "suggestion_used")
+        self.assertEqual(outcome_axes(option, row(verdict="equivalent"))["regional"], "suggestion_not_used")
+        keep = {"id": "k", "kind": "regional_keep"}
+        self.assertEqual(outcome_axes(keep, row(verdict="equivalent", regional_swaps=[{"from": "macaxeira"}]))
+                         ["regional"], "referent_changed")
+        self.assertIsNone(outcome_axes(DRAFT, row(verdict="equivalent"))["regional"])
+
+    def test_summary_counts_regional_outcomes_only_where_they_apply(self):
+        axes = [outcome_axes({"id": "a", "kind": "regional_abstain"}, row(changed=False)),
+                outcome_axes({"id": "b", "kind": "regional_abstain"}, row(verdict="equivalent", regional_introduced=["sô"])),
+                outcome_axes(DRAFT, row(verdict="equivalent"))]
+        self.assertEqual(summarize_axes(axes)["regional"], {"abstained_or_kept": 1, "introduced_without_evidence": 1})

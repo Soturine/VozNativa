@@ -75,7 +75,11 @@ def ask(prompt: str, tag: str, env: dict, spend: Spend, timeout: float = 450) ->
     return done.stdout.decode("utf-8")
 
 
-def engine(checkout: Path, case: dict, tag: str, env: dict, spend: Spend) -> tuple[str, dict]:
+ENGINE_HINTS = frozenset({"channel", "register", "audience"})
+
+
+def engine(checkout: Path, case: dict, tag: str, env: dict, spend: Spend,
+           hint_keys: frozenset = ENGINE_HINTS) -> tuple[str, dict]:
     spend.check()
     hints = dict(case.get("hints") or {})
     if case.get("channel") and "channel" not in hints:
@@ -85,7 +89,7 @@ def engine(checkout: Path, case: dict, tag: str, env: dict, spend: Spend) -> tup
         path = Path(tmp) / "texto.txt"
         path.write_text(case["text"], encoding="utf-8")
         argv = [sys.executable, str(DRIVER), str(checkout), str(path), case["genre"],
-                json.dumps({k: v for k, v in hints.items() if k in {"channel", "register", "audience"}}), cmd]
+                json.dumps({k: v for k, v in hints.items() if k in hint_keys}), cmd]
         done = subprocess.run(argv, capture_output=True, env=dict(env, VN_TAG=tag), timeout=3600, cwd=tmp)
     try:
         result = json.loads(done.stdout.decode("utf-8"))
