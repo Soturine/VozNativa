@@ -1,0 +1,131 @@
+{
+  "kind": "voznativa.perf_comparison",
+  "schema_version": 1,
+  "recorded_at": "2026-11-05",
+  "change": "signals.markers: candidate start positions indexed by first token; bisect for regex spans (H5)",
+  "baseline_code": "24ba7e2",
+  "candidate_code": "24ba7e2 + H5 signals change (working tree, then committed)",
+  "machine": "same machine, back-to-back runs, Windows 11, CPython 3.12.10",
+  "equivalence": "evals/test_signals_equivalence.py: identical markers to the previous algorithm on every recorded text and on edge inputs",
+  "note": "wall-clock; detect best of 3, compare and plan single runs; earlier results in v0.4.0-dev.json are kept unchanged",
+  "before": {
+    "kind": "voznativa.perf_probe",
+    "version": "0.4.0.dev0",
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "documents": [
+      {
+        "words": 101,
+        "detect_s": 0.0015,
+        "compare_s": 0.0562,
+        "plan_s": 0.0323
+      },
+      {
+        "words": 505,
+        "detect_s": 0.0069,
+        "compare_s": 0.2958,
+        "plan_s": 0.1482
+      },
+      {
+        "words": 2020,
+        "detect_s": 0.0257,
+        "compare_s": 1.167,
+        "plan_s": 0.5962
+      },
+      {
+        "words": 8018,
+        "detect_s": 0.1042,
+        "compare_s": 10.4371,
+        "plan_s": 5.6189
+      }
+    ],
+    "adversarial": {
+      "commas": {
+        "chars": 12002,
+        "detect_s": 0.0719,
+        "compare_s": 9.6692
+      },
+      "long_word": {
+        "chars": 50000,
+        "detect_s": 0.0984,
+        "compare_s": 0.1956
+      },
+      "no_spaces_numbers": {
+        "chars": 20000,
+        "detect_s": 0.0475,
+        "compare_s": 0.1356
+      },
+      "nested_quotes": {
+        "chars": 80200,
+        "detect_s": 0.3365,
+        "compare_s": 13.612
+      },
+      "many_triads": {
+        "chars": 27200,
+        "detect_s": 0.2132,
+        "compare_s": 5.4941
+      }
+    },
+    "note": "best of 3 for detect, single run otherwise; wall-clock on one machine"
+  },
+  "after": {
+    "kind": "voznativa.perf_probe",
+    "version": "0.4.0.dev0",
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "documents": [
+      {
+        "words": 101,
+        "detect_s": 0.0015,
+        "compare_s": 0.0121,
+        "plan_s": 0.0086
+      },
+      {
+        "words": 505,
+        "detect_s": 0.0071,
+        "compare_s": 0.0401,
+        "plan_s": 0.0298
+      },
+      {
+        "words": 2020,
+        "detect_s": 0.0296,
+        "compare_s": 0.181,
+        "plan_s": 0.1169
+      },
+      {
+        "words": 8018,
+        "detect_s": 0.1082,
+        "compare_s": 0.9617,
+        "plan_s": 0.5557
+      }
+    ],
+    "adversarial": {
+      "commas": {
+        "chars": 12002,
+        "detect_s": 0.0312,
+        "compare_s": 0.1039
+      },
+      "long_word": {
+        "chars": 50000,
+        "detect_s": 0.0365,
+        "compare_s": 0.0783
+      },
+      "no_spaces_numbers": {
+        "chars": 20000,
+        "detect_s": 0.0204,
+        "compare_s": 0.0502
+      },
+      "nested_quotes": {
+        "chars": 80200,
+        "detect_s": 0.1332,
+        "compare_s": 0.6568
+      },
+      "many_triads": {
+        "chars": 27200,
+        "detect_s": 0.2308,
+        "compare_s": 1.9148
+      }
+    },
+    "note": "best of 3 for detect, single run otherwise; wall-clock on one machine"
+  }
+}

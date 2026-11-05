@@ -8,6 +8,7 @@ ser que" counts as a condition and does not also count as a negation.
 from __future__ import annotations
 
 import json
+from bisect import bisect_left
 import re
 from collections import Counter
 from dataclasses import dataclass
@@ -101,10 +102,19 @@ def markers(text: str) -> list[Marker]:
     used = [False] * len(tokens)
     found: list[Marker] = []
 
+    starts = [t[1] for t in tokens]
+
     # 1. Constructions (regex) consume their tokens first.
     for pattern, category, cls in _patterns():
         for m in pattern.finditer(text):
-            idx = [i for i, t in enumerate(tokens) if t[1] >= m.start() and t[2] <= m.end()]
+            # Tokens wholly inside the match; bisect instead of a scan per match (H5).
+            first = bisect_left(starts, m.start())
+            idx = []
+            for i in range(first, len(tokens)):
+                if tokens[i][1] >= m.end():
+                    break
+                if tokens[i][2] <= m.end():
+                    idx.append(i)
             if not idx or any(used[i] for i in idx):
                 continue
             for i in idx:
@@ -121,9 +131,15 @@ def markers(text: str) -> list[Marker]:
 
     # 3. Closed-class phrases, longest first. Prepositions inside a phrase
     #    also match their article contractions ("leva a" ~ "leva à/ao").
+    #    Same phrase order and claiming as a scan of every position, but only
+    #    positions whose token can start the phrase are tried (H5: this loop
+    #    was ~95% of compare's time).
+    positions = _first_token_positions(folded)
     for phrase, category, cls in _phrases():
         n = len(phrase)
-        for i in range(len(tokens) - n + 1):
+        for i in positions(phrase[0]):
+            if i > len(tokens) - n:
+                break
             if any(used[i:i + n]) or not _phrase_matches(phrase, folded[i:i + n]):
                 continue
             if phrase == ("se",) and not _clause_initial(folded, i):
@@ -141,6 +157,32 @@ _CONTRACTIONS = {
     "em": frozenset({"em", "no", "na", "nos", "nas", "num", "numa"}),
     "por": frozenset({"por", "pelo", "pela", "pelos", "pelas"}),
 }
+
+
+def _first_token_positions(folded: list[str]):
+    """Ascending positions where a phrase's first entry can match: the exact
+    token, its article contractions (multiword phrases only, as in
+    _phrase_matches) or, for a prefix entry, every token with that prefix."""
+    index: dict[str, list[int]] = {}
+    for i, token in enumerate(folded):
+        index.setdefault(token, []).append(i)
+    cache: dict[tuple[str, bool], list[int]] = {}
+
+    def positions(first: str, multiword: bool = True) -> list[int]:
+        key = (first, multiword)
+        if key not in cache:
+            if first.endswith("*"):
+                stem = first[:-1]
+                hits = [i for token, where in index.items()
+                        if token.startswith(stem) and len(token) > len(stem) for i in where]
+            elif multiword and first in _CONTRACTIONS:
+                hits = [i for token in _CONTRACTIONS[first] for i in index.get(token, [])]
+            else:
+                hits = list(index.get(first, []))
+            cache[key] = sorted(hits)
+        return cache[key]
+
+    return positions
 
 
 def _token_matches(pattern: str, token: str) -> bool:
