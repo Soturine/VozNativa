@@ -1,0 +1,1196 @@
+{
+  "report_format_version": 3,
+  "schema_version": "0.3",
+  "fingerprint_algorithm": "derivanta-fp/2",
+  "kind": "derivanta-engine/report",
+  "engine": {
+    "name": "derivanta-engine",
+    "version": "0.1.0"
+  },
+  "generated_at": "2026-11-05T14:26:41Z",
+  "mode": "offline-deterministic",
+  "input": {
+    "name": "evaluation-request.json",
+    "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04",
+    "bytes": 6359,
+    "schema_version": "0.1"
+  },
+  "framework": {
+    "repository": "https://github.com/Soturine/Derivanta",
+    "compatible_revision": "218761dbd7ce78809ace0ae2c03ee23adf9b406b",
+    "verification": "EXECUTED",
+    "result": "PASSED",
+    "observed": {
+      "revision": "218761dbd7ce78809ace0ae2c03ee23adf9b406b",
+      "dirty": false,
+      "unknown_reason": null
+    },
+    "sources": [
+      {
+        "path": "assurance/DEAD_CODE_AND_DUPLICATION.md",
+        "sha256_at_compatible_revision": "b88b28ec441c118a0c6b59be2f0b0079681fa11fd38d5539b5d05118e379f217",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "assurance/EVIDENCE_MODEL.md",
+        "sha256_at_compatible_revision": "15c20ee5125fdff138177c254e309466ffd4a1feda4673d27bd68fc89b84e74f",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "assurance/REFACTOR_AND_REGRESSION.md",
+        "sha256_at_compatible_revision": "22c8faf05837197833ae0f549d57cb07f8adb66e117dade7c604239d11522b54",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "assurance/VERIFICATION_VALIDATION_INDEPENDENT_REVIEW.md",
+        "sha256_at_compatible_revision": "0f45c92ecdc7f9f0fe498c30badcb69d6aade14708151cae21c0d4142fd4e9eb",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "constitution/ENGINEERING_CONSTITUTION.md",
+        "sha256_at_compatible_revision": "f902bce58bd9b93563a86a6d5aa1d4a69f53e98824f0a3d8b6fd52cc2a328bd9",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "constitution/QUALITY_ATTRIBUTES.md",
+        "sha256_at_compatible_revision": "19630973cc0cfb797238c171d392cdf1d97944f9d015aecc878f9744c3fc8d8d",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "discovery/DISCOVERY.md",
+        "sha256_at_compatible_revision": "e27c48f1571997f8ee207e84e7fa0ffa14e9e0fe33c388f2cb2a25cfcbb931b1",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/engineering/CONCURRENCY_TIME_BUDGETS.md",
+        "sha256_at_compatible_revision": "a89029971866c52144b79f820a29bee4e8057eb3a4bb01974fcb5442644e8dfe",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/engineering/IMPLEMENTATION_STATUS_AND_CAPABILITY_EVIDENCE.md",
+        "sha256_at_compatible_revision": "a745146c402ff10634a412298e19ddb418ab5f4e36449759eca2fdfbdb019d9b",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/engineering/MIGRATION_CUTOVER_AND_DATA_ADMISSION.md",
+        "sha256_at_compatible_revision": "104c503a1fd7bb7ea22ffb4b00024cbdb291f90eb1dd50a2fadcef74fdfe4dc6",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/engineering/REQUIREMENTS_ENGINEERING.md",
+        "sha256_at_compatible_revision": "1cf82acab735cb972e0e9230fbdd2d9cd1f1b28c6893e4afbd50c55fd3cf4797",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/engineering/SAAS_MULTI_TENANCY_ENTITLEMENTS_AND_METERING.md",
+        "sha256_at_compatible_revision": "f3ee300d6cdd59385b58ed4b3a5835998b29e979303ba5ee1ac8ed76e2f34525",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/governance/DOCUMENT_AUTHORITY_AND_DRIFT.md",
+        "sha256_at_compatible_revision": "7c9c575dd9172cf457529e47905f2a82ed219eba807143a6cf1de2f82e4752b7",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "docs/governance/VERSIONING.md",
+        "sha256_at_compatible_revision": "3a98035a34fdb52a315c54149d2cb1ec82d6579b9b323836eeb3de837f8bbc64",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "profiles/UNKNOWN_TECHNOLOGY.md",
+        "sha256_at_compatible_revision": "19f0d92da06e9ad3b1da96179e43f6914110931bb3430687d5c19ab4437b629a",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "research/RESEARCH_POLICY.md",
+        "sha256_at_compatible_revision": "41840d8c792f7e24547b18cfa794910edc271be71a970f6b1794fa88e4094781",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "safety/SAFETY_ENGINEERING.md",
+        "sha256_at_compatible_revision": "13b64fff64a3eb32ead418a0ef647ad7758863ad7eb9ecd0d1c3d4b0919c8168",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "security/SECURITY_INTERCHANGE_FORMATS.md",
+        "sha256_at_compatible_revision": "df6f49c66add45e6bb52e116c45ec4e3df6075b5557f2240530c467f94aa7a8b",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "security/SUPPLY_CHAIN.md",
+        "sha256_at_compatible_revision": "2b9040a98f51a3dbd544ae89e0b0dac4cee7a7c10241e9b46df6c15c7d296e13",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/APPLICABILITY_MATRIX.md",
+        "sha256_at_compatible_revision": "e8c577a81b3b5f85add6d16532b65f51c49a71eabf58a8b30370f123167ef2f0",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/SKILL.md",
+        "sha256_at_compatible_revision": "b7d78b8b29b92972bba669285e2963caf22ea118ffb4e5bd4c15526ddb461097",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/WORKFLOW_ROUTING.md",
+        "sha256_at_compatible_revision": "310e8af05e6ef1bc1457c4ed8f4131d44c178f811911609aecacde30b5445115",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/ADAPTIVE_TEST_ASSURANCE.md",
+        "sha256_at_compatible_revision": "b4523a9c13269e996b2fafa61ffdfa743b353a9f26d840301b13a692a1cf8875",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/ARCHITECTURE.md",
+        "sha256_at_compatible_revision": "40c7f5a755518f0c91f81fd427e205b3487059a44038e50fc0fb2c37eaf98f3a",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/AUDIT.md",
+        "sha256_at_compatible_revision": "6ce9ee515fb072546b60343d9f5a1e504986d983bc641223af1caeb268217bd7",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/BUILD.md",
+        "sha256_at_compatible_revision": "f14f769493ab5b8a0abc9bf74cf7549c522ec7c4d5bb8d4cef2025dbb24f61fe",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/DEBUG.md",
+        "sha256_at_compatible_revision": "1bf5ec0a9e8765913a84153523aca7525744a7a3425b1888605f93fa76025f33",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/DISCOVERY.md",
+        "sha256_at_compatible_revision": "06ec0352f022c39fbe70dc131a4bcd28a13485a7c3e541cafe5d42720b304ed1",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/MIGRATION_MODERNIZATION.md",
+        "sha256_at_compatible_revision": "a8868102b1c3dbcd3d0f26748ebed34287a36c0821e290a5880ef07ff744120d",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/REFACTOR.md",
+        "sha256_at_compatible_revision": "5df5d0b461efd8a13a24e7fa3f96ddf26b9aeb918d1a8f650fd516589bbb50aa",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/RELEASE.md",
+        "sha256_at_compatible_revision": "d866f403d5e1a047a35761cd2e2caeca81358ebe98e29dabdc506caf81b2ebb3",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/SECURITY.md",
+        "sha256_at_compatible_revision": "1b205a4bc67ea756a0b22f33b7158fef9ab320156f678f67c2318395ff03d47f",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/SOLUTION_SYNTHESIS.md",
+        "sha256_at_compatible_revision": "3dc65fa2ae80f97aa23755d7ce464cc5af0630b75363f8880b553da94c7bc4ca",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/STACK_SELECTION.md",
+        "sha256_at_compatible_revision": "2e42d7aff26f57f5fb0b8d1ec8d3056500808cdda8f10ae06b2f0464cee8300f",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "skill/workflows/UNTRUSTED_REPOSITORY_INTAKE.md",
+        "sha256_at_compatible_revision": "496a6712d8901323ee061b6d0c4fe1935b9873d298c986d738c425d6cdb1cf2b",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "templates/AUDIT_FINDING.md",
+        "sha256_at_compatible_revision": "4432318bd78dffa6a1f209f660a256ed83ed2a7f7725c6cbfc6eb39e02b326b4",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "templates/INSPECTION_COVERAGE.md",
+        "sha256_at_compatible_revision": "c09cd2492a1f2aea62bfc48d365bbb4eee3a6026b97541e11a40029cfdebda19",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "templates/PROJECT_CONTEXT.md",
+        "sha256_at_compatible_revision": "6bf9a5d0996554c5aac37b6f8f2dad51121bddd1052b3f638e68589be49218fe",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "templates/TASK_SPEC.md",
+        "sha256_at_compatible_revision": "603eb761ade196dec8f9d967446725300f7687122d788049d4993117408701e2",
+        "status": "UNCHANGED"
+      },
+      {
+        "path": "templates/TRACEABILITY_MATRIX.md",
+        "sha256_at_compatible_revision": "de78eda8b6be066f9a6d53bdd10db2ae3abb60f7b84192bd729fa737e3c76cb3",
+        "status": "UNCHANGED"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "path": "/project/name",
+      "value": "VozNativa",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/objective",
+      "value": "Brazilian Portuguese voice engine and Agent Skill that rewrites text for a channel, audience and author voice while verifying, before delivery, that facts, negation, modality, quantities, dates, conditions and roles were preserved",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/platform/targets",
+      "value": [
+        "Python package and CLI on Windows and Linux",
+        "Agent Skill (SKILL.md) for Claude Code, Codex, Gemini CLI"
+      ],
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/security_privacy_safety/sensitive_data",
+      "value": [
+        "user-authored text that may contain personal data",
+        "author writing samples used for a voice profile",
+        "provider credentials in the environment"
+      ],
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/security_privacy_safety/auth_required",
+      "value": false,
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/security_privacy_safety/safety_relevance",
+      "value": "none",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/task/intent",
+      "value": "test_assurance",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/task/objective",
+      "value": "Harden v0.4.0 (single local qualification runner, benchmark outcome separation, planner and ledger residual cases, performance, privacy) and start v0.5.0 Regional Evidence Packs whose activation requires provenance-backed evidence",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/task/risk_flags",
+      "value": [
+        "untrusted_source",
+        "sensitive_data",
+        "consequential_ai_actions",
+        "weak_test_baseline",
+        "external_public_contract"
+      ],
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/technologies/0",
+      "value": "Python [3.11-3.13]",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/technologies/1",
+      "value": "PyYAML [>=6.0]",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/technologies/2",
+      "value": "unittest [stdlib]",
+      "basis": "DECLARED"
+    },
+    {
+      "path": "/project/technologies/3",
+      "value": "external LLM CLI (claude -p and similar) [provider-defined]",
+      "basis": "DECLARED"
+    }
+  ],
+  "inferences": [
+    {
+      "statement": "risk trigger 'sensitive_data': sensitive data declared",
+      "rule_id": "ENG-INFER-TRIGGER",
+      "derived_from": [
+        "/project/security_privacy_safety/sensitive_data"
+      ],
+      "basis": "INFERRED"
+    }
+  ],
+  "assumptions": [
+    "the developer-written eval cases are not independent evidence",
+    "GitHub Actions cannot run (billing block)"
+  ],
+  "unknowns": [
+    "independent holdout author",
+    "blind human reviewers",
+    "real regional evidence sufficient for calibration"
+  ],
+  "missing_information": [
+    {
+      "path": "/project/success_criteria",
+      "dimension": "success/MVP",
+      "needed_from_depth": "LIGHT",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/constraints/timeline",
+      "dimension": "timeline",
+      "needed_from_depth": "LIGHT",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/integrations",
+      "dimension": "integrations",
+      "needed_from_depth": "STANDARD",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/scale",
+      "dimension": "scale/load",
+      "needed_from_depth": "STANDARD",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/platform/deployment_environment",
+      "dimension": "deployment",
+      "needed_from_depth": "STANDARD",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/operations/backup_restore",
+      "dimension": "recovery",
+      "needed_from_depth": "STANDARD",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/security_privacy_safety/compliance_constraints",
+      "dimension": "compliance",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/operations/availability_target",
+      "dimension": "availability",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/operations/rto",
+      "dimension": "recovery",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/operations/rpo",
+      "dimension": "recovery",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/data/residency",
+      "dimension": "data residency",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    },
+    {
+      "path": "/project/users/privileged_roles",
+      "dimension": "human control",
+      "needed_from_depth": "DEEP",
+      "framework_source": "discovery/DISCOVERY.md#Progressive depth"
+    }
+  ],
+  "risk": {
+    "level": "HIGH",
+    "triggers": [
+      {
+        "flag": "consequential_ai_actions",
+        "basis": "DECLARED",
+        "derived_from": [
+          "/task/risk_flags"
+        ],
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "flag": "external_public_contract",
+        "basis": "DECLARED",
+        "derived_from": [
+          "/task/risk_flags"
+        ],
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "flag": "sensitive_data",
+        "basis": "DECLARED",
+        "derived_from": [
+          "/task/risk_flags"
+        ],
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "flag": "untrusted_source",
+        "basis": "DECLARED",
+        "derived_from": [
+          "/task/risk_flags"
+        ],
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "flag": "weak_test_baseline",
+        "basis": "DECLARED",
+        "derived_from": [
+          "/task/risk_flags"
+        ],
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      }
+    ],
+    "undeclared_determinants": [],
+    "rule_id": "ENG-RISK-TRIAGE"
+  },
+  "decision": {
+    "outcome": "NEEDS_REVIEW",
+    "primary": {
+      "framework_path": "skill/workflows/ADAPTIVE_TEST_ASSURANCE.md",
+      "reason": "declared intent 'test_assurance'",
+      "rule_id": "ENG-ROUTE-INTENT"
+    },
+    "secondary": [
+      {
+        "framework_path": "skill/workflows/SECURITY.md",
+        "reason": "trigger 'sensitive_data' (DECLARED)",
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "framework_path": "skill/workflows/UNTRUSTED_REPOSITORY_INTAKE.md",
+        "reason": "trigger 'untrusted_source' (DECLARED)",
+        "rule_id": "ENG-ROUTE-TRIGGER"
+      },
+      {
+        "framework_path": "assurance/VERIFICATION_VALIDATION_INDEPENDENT_REVIEW.md",
+        "reason": "risk HIGH",
+        "rule_id": "ENG-INDEPENDENT-REVIEW"
+      }
+    ],
+    "discovery_depth": "DEEP",
+    "research_required": false,
+    "research_reasons": [],
+    "independent_review": true,
+    "reasons": [
+      "intent 'test_assurance' declared (skill/WORKFLOW_ROUTING.md#Primary classifier)",
+      "risk HIGH from 5 trigger(s) (ENG-RISK-TRIAGE, Engine heuristic)",
+      "discovery depth DEEP (discovery/DISCOVERY.md#Progressive depth)"
+    ],
+    "conditions": [
+      "12 material field(s) undeclared at DEEP discovery depth",
+      "resolve or accept 2 finding(s)"
+    ],
+    "questions": [
+      "Which regulations or contractual controls apply?",
+      "What availability is required?",
+      "What is the recovery time objective?",
+      "What is the recovery point objective?",
+      "Are there data-residency requirements?"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C-TESTS",
+      "asserted_state": "executed",
+      "support": "ATTESTATION",
+      "evidence_refs": [
+        "EV-BASELINE-0405"
+      ],
+      "verification": "NOT_EXECUTED",
+      "note": "evidence references resolve inside the request but were not verified (unavailable in M0)"
+    },
+    {
+      "claim_id": "C-CI",
+      "asserted_state": "implemented",
+      "support": "ATTESTATION",
+      "evidence_refs": [
+        "EV-CI-BLOCKED"
+      ],
+      "verification": "NOT_EXECUTED",
+      "note": "evidence references resolve inside the request but were not verified (unavailable in M0)"
+    }
+  ],
+  "findings": [
+    {
+      "fingerprint": "7e1e0d032fb46f2528b8a9fd6b922da63a21c26454794b254aef3748f70dad1c",
+      "rule_id": "ENG-F-DECLARED-NOT-OBSERVED",
+      "title": "Declared technology not observed in the inspected scope",
+      "severity": "INFO",
+      "evidence_state": "STATIC_OBSERVATION",
+      "basis": "OBSERVED",
+      "subject_path": "/project/technologies/2",
+      "explanation": "Declared technology 'unittest' was not observed in the inspected scope (complete inventory within the recorded exclusions). The Engine reads dependency manifests and file names only, so this does not show the declaration is false; configuration, runtime and undeclared dependencies were not examined.",
+      "recommendation": "Confirm where the technology is used (manifest, configuration, deployment) or correct it.",
+      "evidence_ids": [
+        "EV-REPOSITORY-INVENTORY",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "docs/governance/DOCUMENT_AUTHORITY_AND_DRIFT.md#Core rules"
+    },
+    {
+      "fingerprint": "633891978dbecba9f0d333af2ee3bf1a302b44d8dcdaa76b4da113ffba81e533",
+      "rule_id": "ENG-F-DECLARED-NOT-OBSERVED",
+      "title": "Declared technology not observed in the inspected scope",
+      "severity": "INFO",
+      "evidence_state": "STATIC_OBSERVATION",
+      "basis": "OBSERVED",
+      "subject_path": "/project/technologies/3",
+      "explanation": "Declared technology 'external LLM CLI (claude -p and similar)' was not observed in the inspected scope (complete inventory within the recorded exclusions). The Engine reads dependency manifests and file names only, so this does not show the declaration is false; configuration, runtime and undeclared dependencies were not examined.",
+      "recommendation": "Confirm where the technology is used (manifest, configuration, deployment) or correct it.",
+      "evidence_ids": [
+        "EV-REPOSITORY-INVENTORY",
+        "EV-REPOSITORY-CONTENT"
+      ],
+      "framework_source": "docs/governance/DOCUMENT_AUTHORITY_AND_DRIFT.md#Core rules"
+    }
+  ],
+  "redacted_paths": [],
+  "evidence": [
+    {
+      "id": "EV-INPUT-IDENTITY",
+      "method": "sha256 over the exact bytes read",
+      "subject": {
+        "kind": "request-document",
+        "name": "evaluation-request.json",
+        "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "6359 bytes"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-INPUT-PARSE",
+      "method": "strict JSON parse: UTF-8, no duplicate keys, no NaN/Infinity, size and depth limits",
+      "subject": {
+        "kind": "request-document",
+        "name": "evaluation-request.json",
+        "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [],
+      "limitations": []
+    },
+    {
+      "id": "EV-SCHEMA",
+      "method": "validation against EvaluationRequest 0.1 incl. unique ids and reference integrity",
+      "subject": {
+        "kind": "request-document",
+        "name": "evaluation-request.json",
+        "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [],
+      "limitations": []
+    },
+    {
+      "id": "EV-SECRET-SCAN",
+      "method": "pattern-based secret scan with redaction before validation",
+      "subject": {
+        "kind": "request-document",
+        "name": "evaluation-request.json",
+        "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "0 value(s) redacted"
+      ],
+      "limitations": [
+        "pattern-based: secrets in unrecognised formats can be missed"
+      ]
+    },
+    {
+      "id": "EV-RULES",
+      "method": "deterministic rule evaluation over the validated request",
+      "subject": {
+        "kind": "engine-rules",
+        "name": "derivanta-engine rule catalogue",
+        "sha256": "f2a02f681041155572549b8b42b9c0622dcf980f706c4d8a1a213d12f305e305"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "34 rules evaluated; 2 finding(s)"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-FRAMEWORK",
+      "method": "hash comparison of pinned Framework sources in a local checkout",
+      "subject": {
+        "kind": "framework-checkout",
+        "name": "provided",
+        "sha256": null
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "observed revision 218761dbd7ce78809ace0ae2c03ee23adf9b406b (dirty: False)",
+        "40 pinned sources: 0 changed, 0 missing"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-CLAIM-VERIFICATION",
+      "method": "verification of caller claims against referenced evidence",
+      "subject": {
+        "kind": "request-document",
+        "name": "evaluation-request.json",
+        "sha256": "8d0900ae669eb2c13703471a9665c83989adc594282f90914b21db6cb7368f04"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "NOT_EXECUTED",
+      "result": null,
+      "observations": [],
+      "limitations": [
+        "capability unavailable in M0: referenced evidence is not fetched or inspected"
+      ]
+    },
+    {
+      "id": "EV-REPOSITORY-INVENTORY",
+      "method": "read-only directory listing; links recorded, never followed; limits and exclusions applied",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "451531ff1f8e5c2ef05c2dbefd54c930939135079281017e4384b2902fb936bf"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "225 files, 51 directories, 0 links not followed, 4 directories skipped"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-REPOSITORY-CONTENT",
+      "method": "content read of dependency manifests only (ENG-INSPECT-COVERAGE); SHA-256 if complete",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "451531ff1f8e5c2ef05c2dbefd54c930939135079281017e4384b2902fb936bf"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "1/1 selected files read completely"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-REPOSITORY-GIT",
+      "method": "static HEAD/ref read; guarded git status (no index write, blocked by program-starting config)",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "451531ff1f8e5c2ef05c2dbefd54c930939135079281017e4384b2902fb936bf"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "EXECUTED",
+      "result": "PASSED",
+      "observations": [
+        "state REPOSITORY, revision 4044cfc99db91a0a5f7a704f407c2e698d753a34, dirty True"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "EV-PROJECT-EXECUTION",
+      "method": "execution of project-controlled code (ENG-INSPECT-READ-ONLY)",
+      "subject": {
+        "kind": "repository-snapshot",
+        "name": "VozNativa",
+        "sha256": "451531ff1f8e5c2ef05c2dbefd54c930939135079281017e4384b2902fb936bf"
+      },
+      "tool": {
+        "name": "derivanta-engine",
+        "version": "0.1.0"
+      },
+      "execution": "NOT_EXECUTED",
+      "result": null,
+      "observations": [],
+      "limitations": [
+        "not authorized: inspection is static; tests, builds, hooks and installs were not run"
+      ]
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "request-validation",
+      "status": "IMPLEMENTED",
+      "description": "strict validation of EvaluationRequest 0.1",
+      "planned_milestone": null
+    },
+    {
+      "id": "declared-intent-routing",
+      "status": "IMPLEMENTED",
+      "description": "routes a declared intent and risk triggers to Framework workflows",
+      "planned_milestone": null
+    },
+    {
+      "id": "risk-triage",
+      "status": "EXPERIMENTAL",
+      "description": "heuristic risk level over declared and derived triggers; not empirically validated",
+      "planned_milestone": null
+    },
+    {
+      "id": "secret-redaction",
+      "status": "IMPLEMENTED",
+      "description": "pattern-based masking of secret-like values",
+      "planned_milestone": null
+    },
+    {
+      "id": "framework-drift-check",
+      "status": "IMPLEMENTED",
+      "description": "per-source hash comparison against a local Framework checkout",
+      "planned_milestone": null
+    },
+    {
+      "id": "free-text-intent-classification",
+      "status": "UNAVAILABLE",
+      "description": "semantic classification of free-text tasks is left to agents/humans by design",
+      "planned_milestone": null
+    },
+    {
+      "id": "repository-inspection",
+      "status": "IMPLEMENTED",
+      "description": "static, bounded, read-only inspection of a local repository with a coverage record (used only when a repository is given)",
+      "planned_milestone": null
+    },
+    {
+      "id": "declared-observed-merge",
+      "status": "IMPLEMENTED",
+      "description": "declared technologies compared with observed manifests; divergences become findings",
+      "planned_milestone": null
+    },
+    {
+      "id": "evidence-verification",
+      "status": "UNAVAILABLE",
+      "description": "fetching and checking referenced test/CI evidence",
+      "planned_milestone": "M2"
+    },
+    {
+      "id": "provider-integration",
+      "status": "UNAVAILABLE",
+      "description": "LLM/agent provider or MCP integration",
+      "planned_milestone": "M3"
+    }
+  ],
+  "limitations": [
+    "Facts are DECLARED; repository observations are in 'inspection', bounded by its coverage record. Routing and risk use the declared context only.",
+    "Task intent is taken as declared; no free-text classification is performed.",
+    "Risk level is an Engine heuristic (EXPERIMENTAL), not a Framework rule.",
+    "Claims and evidence references were not verified (capability unavailable in M0)."
+  ],
+  "inspection": {
+    "inspection_format_version": 2,
+    "scope": {
+      "root": "VozNativa",
+      "access": "read-only",
+      "project_code_execution": "NOT_AUTHORIZED",
+      "links": "recorded-not-followed",
+      "git": "static-metadata-and-guarded-status",
+      "excluded_directory_names": [
+        ".git",
+        ".hg",
+        ".svn",
+        "node_modules",
+        "bower_components",
+        ".venv",
+        "venv",
+        "site-packages",
+        "__pycache__",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".hypothesis",
+        ".tox",
+        ".nox",
+        ".gradle",
+        ".next",
+        ".nuxt",
+        ".svelte-kit",
+        ".dart_tool",
+        ".terraform",
+        ".cache",
+        "dist",
+        "build",
+        "target",
+        "vendor",
+        "Pods",
+        "coverage"
+      ],
+      "analyses": [],
+      "limits": {
+        "max_entries": 20000,
+        "max_depth": 32,
+        "max_file_bytes": 1048576,
+        "max_read_bytes": 16777216
+      }
+    },
+    "snapshot": {
+      "inventory_sha256": "451531ff1f8e5c2ef05c2dbefd54c930939135079281017e4384b2902fb936bf",
+      "files": 225,
+      "bytes": 1680057,
+      "source": "working-tree"
+    },
+    "git": {
+      "state": "REPOSITORY",
+      "revision": "4044cfc99db91a0a5f7a704f407c2e698d753a34",
+      "branch": "v0.4.0-dev",
+      "detached": false,
+      "unborn": false,
+      "status": "EXECUTED",
+      "dirty": true,
+      "modified": 0,
+      "untracked": 2,
+      "submodules": 0,
+      "origin": "https://github.com/Soturine/VozNativa",
+      "limitations": []
+    },
+    "coverage": {
+      "inventory_complete": true,
+      "limits_hit": [],
+      "files_discovered": 225,
+      "directories_discovered": 51,
+      "links_not_followed": 0,
+      "special_entries": 0,
+      "unreadable_entries": 0,
+      "skipped_directories": [
+        {
+          "path": ".git",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "evals/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "scripts/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        },
+        {
+          "path": "voznativa/__pycache__",
+          "reason": "POLICY_EXCLUDED",
+          "tracked_files": 0
+        }
+      ],
+      "skipped_directories_unlisted": 0,
+      "structurally_inventoried": 225,
+      "selected_for_reading": 1,
+      "read": 1,
+      "truncated": 0,
+      "failed": 0,
+      "changed_during_read": 0,
+      "over_budget": 0,
+      "deep_inspected": 0,
+      "runtime_exercised": 0,
+      "by_class": [
+        {
+          "artifact_class": "source",
+          "discovered": 61,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "test",
+          "discovered": 26,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "documentation",
+          "discovered": 62,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "manifest",
+          "discovered": 2,
+          "content_read": 1
+        },
+        {
+          "artifact_class": "ci",
+          "discovered": 1,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "configuration",
+          "discovered": 55,
+          "content_read": 0
+        },
+        {
+          "artifact_class": "other",
+          "discovered": 18,
+          "content_read": 0
+        }
+      ],
+      "selection": "deterministic: dependency manifests only (ENG-INSPECT-COVERAGE); every other file is inventoried by path and size, never opened"
+    },
+    "artifacts": [
+      {
+        "path": "pyproject.toml",
+        "artifact_class": "manifest",
+        "bytes": 760,
+        "read": "READ",
+        "sha256": "7153e154210c48874a47833285c56a82a27aac1cea6347eb6f4be0fc440cc4e0"
+      }
+    ],
+    "artifacts_unlisted": 0,
+    "manifests": [
+      {
+        "path": "pyproject.toml",
+        "ecosystem": "python",
+        "extraction": "DEPENDENCIES",
+        "dependencies": [
+          {
+            "name": "PyYAML",
+            "spec": ">=6.0",
+            "scope": "runtime",
+            "resolved": null
+          },
+          {
+            "name": "setuptools",
+            "spec": ">=69",
+            "scope": "build",
+            "resolved": null
+          }
+        ],
+        "dependencies_unlisted": 0,
+        "rejected_entries": 0,
+        "lockfiles": [],
+        "note": null
+      },
+      {
+        "path": "setup.py",
+        "ecosystem": "python",
+        "extraction": "PRESENCE_ONLY",
+        "dependencies": [],
+        "dependencies_unlisted": 0,
+        "rejected_entries": 0,
+        "lockfiles": [],
+        "note": null
+      }
+    ],
+    "manifests_unlisted": 0,
+    "technologies": [
+      {
+        "name": "GitHub Actions",
+        "kind": "ci",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 1,
+        "evidence": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "name": "Python packaging",
+        "kind": "ecosystem",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 1,
+        "evidence": [
+          "setup.py"
+        ]
+      },
+      {
+        "name": "Python packaging",
+        "kind": "ecosystem",
+        "basis": "OBSERVED",
+        "support": "manifest-declaration",
+        "files": 1,
+        "evidence": [
+          "pyproject.toml"
+        ]
+      },
+      {
+        "name": "Python",
+        "kind": "language",
+        "basis": "INFERRED",
+        "support": "file-pattern",
+        "files": 87,
+        "evidence": [
+          "evals/test_additions.py",
+          "evals/test_analyzers.py",
+          "evals/test_benchmark.py",
+          "evals/test_blind_review.py",
+          "evals/test_context_layer.py"
+        ]
+      }
+    ],
+    "areas": [
+      {
+        "area": "tests",
+        "presence": "PRESENT",
+        "files": 26,
+        "examples": [
+          "evals/test_additions.py",
+          "evals/test_analyzers.py",
+          "evals/test_benchmark.py",
+          "evals/test_blind_review.py",
+          "evals/test_context_layer.py"
+        ]
+      },
+      {
+        "area": "ci",
+        "presence": "PRESENT",
+        "files": 1,
+        "examples": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "area": "documentation",
+        "presence": "PRESENT",
+        "files": 62,
+        "examples": [
+          "CHANGELOG.md",
+          "README.md",
+          "ROADMAP.md",
+          "SKILL.md",
+          "benchmarks/README.md"
+        ]
+      },
+      {
+        "area": "readme",
+        "presence": "PRESENT",
+        "files": 19,
+        "examples": [
+          "README.md",
+          "benchmarks/README.md",
+          "examples/README.md",
+          "evals/academic/README.md",
+          "evals/adversarial/README.md"
+        ]
+      },
+      {
+        "area": "changelog",
+        "presence": "PRESENT",
+        "files": 1,
+        "examples": [
+          "CHANGELOG.md"
+        ]
+      },
+      {
+        "area": "license",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "adr",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "containers",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "migrations",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "api-schemas",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "build",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      },
+      {
+        "area": "shell-scripts",
+        "presence": "NOT_OBSERVED_IN_SCOPE",
+        "files": 0,
+        "examples": []
+      }
+    ],
+    "execution_surfaces": [
+      {
+        "kind": "ci-workflow",
+        "path": ".github/workflows/ci.yml",
+        "detail": "runs on a CI provider, not locally"
+      },
+      {
+        "kind": "python-build-backend",
+        "path": "pyproject.toml",
+        "detail": "build backend 'setuptools.build_meta' runs on install/build"
+      },
+      {
+        "kind": "python-setup-script",
+        "path": "setup.py",
+        "detail": "runs on legacy install/build"
+      }
+    ],
+    "execution_surfaces_unlisted": 0,
+    "redacted_artifacts": [],
+    "links": [],
+    "limitations": [
+      "Static inspection only (ENG-INSPECT-READ-ONLY): no project code, build, test, hook or package manager was executed; execution surfaces are listed, not evaluated.",
+      "Files were classified by path only; only dependency manifests were content-read. A class or area is structural evidence, not a statement about content or quality.",
+      "Areas without a match are not observed in the inspected scope, never absent (ENG-INSPECT-ABSENCE).",
+      "Declared specs are not installed versions; `resolved` is what a supported lockfile beside the manifest pins (npm v2/v3, uv, poetry; ENG-LOCK-DRIFT), still not what is installed.",
+      "The working tree differs from HEAD: observations describe the working tree, not the commit.",
+      "Conventional dependency/cache/build-output directories were not descended (listed in coverage)."
+    ],
+    "maintainability": null,
+    "lockfiles": [],
+    "lockfiles_unlisted": 0
+  }
+}

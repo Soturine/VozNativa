@@ -1,0 +1,83 @@
+{
+  "schema_version": "0.1",
+  "kind": "derivanta-engine/evaluation-request",
+  "project": {
+    "name": "VozNativa",
+    "objective": "Brazilian Portuguese voice engine and Agent Skill that rewrites text for a channel, audience and author voice while verifying, before delivery, that facts, negation, modality, quantities, dates, conditions and roles were preserved",
+    "users": {"audiences": ["writers using an AI coding/writing agent", "AI agents that load SKILL.md", "developers using the Python CLI"]},
+    "platform": {"targets": ["Python package and CLI on Windows and Linux", "Agent Skill (SKILL.md) for Claude Code, Codex, Gemini CLI"], "connectivity": "offline core; optional model provider command for rewrite and judge"},
+    "technologies": [
+      {"name": "Python", "version": "3.11-3.13", "role": "language"},
+      {"name": "PyYAML", "version": ">=6.0", "role": "reference manifests, packs and voice contracts"},
+      {"name": "unittest", "version": "stdlib", "role": "test runner"},
+      {"name": "external LLM CLI (claude -p and similar)", "version": "provider-defined", "role": "rewrite candidates and semantic judge"}
+    ],
+    "security_privacy_safety": {
+      "auth_required": false,
+      "sensitive_data": ["user-authored text that may contain personal data", "author writing samples used for a voice profile", "provider credentials in the environment"],
+      "safety_relevance": "none"
+    },
+    "quality_attributes": {
+      "critical": ["semantic preservation (no silent change of facts, negation, modality, quantities, dates, conditions, roles)", "evidence honesty in reports and benchmarks", "privacy of user text in recorded runs"],
+      "important": ["portability Windows/Linux and Python 3.11-3.13", "reproducibility of eval and benchmark results", "bounded provider cost and time", "no invented regional or identity traits"]
+    },
+    "business_rules": {
+      "authoritative_sources": ["README.md (conservative acceptance policy)", "SKILL.md", "docs/DESIGN_SPEC.md", "docs/PLAN_v0.4.0.md", "references/VOICE_STACK.md"],
+      "key_invariants": [
+        "only identity is accepted automatically; passing the deterministic gates yields no_deterministic_issues with semantic_equivalence unverified",
+        "a fail from compare is never overridden by a judge or a reviewer",
+        "an LLM judge never resolves review_required; only a signed human review does",
+        "if no candidate is safe the engine returns the original",
+        "a provider_error is an outcome of its own and never counts as task success",
+        "frozen holdouts and benchmark manifests are not edited after their first run",
+        "regional markers have effective strength 0 without an evidence pack with provenance; the observed author voice wins over generic regional markers"
+      ]
+    },
+    "data": {
+      "categories": ["user text (untrusted input)", "voice profile statistics (no raw text)", "eval cases written by the developer", "benchmark outputs of real model runs", "corpus metadata (no text ingested)"],
+      "retention": "recorded runs keep hashes and summaries; --redact removes text, credentials and absolute paths",
+      "residency": null,
+      "consistency": null,
+      "transactions": null
+    },
+    "constraints": {
+      "budget": "paid model runs only with a stated expected value; ptbr-bench-v2 cost US$ 4.64",
+      "licensing_restrictions": ["corpora and third-party skills are used only as their licenses allow; no raw corpus text is copied", "repository license not yet decided (Apache-2.0 proposed)"],
+      "team_size": 1,
+      "team_skills": ["Python", "Brazilian Portuguese linguistics (developer, not independent)"],
+      "hosting_restrictions": [],
+      "timeline": null
+    },
+    "operations": {
+      "observability": "JSON reports with kind and schema_version for every command; benchmark manifests with sha256",
+      "availability_target": null,
+      "backup_restore": null,
+      "rpo": null,
+      "rto": null
+    }
+  },
+  "task": {
+    "objective": "Harden v0.4.0 (single local qualification runner, benchmark outcome separation, planner and ledger residual cases, performance, privacy) and start v0.5.0 Regional Evidence Packs whose activation requires provenance-backed evidence",
+    "intent": "test_assurance",
+    "risk_flags": ["untrusted_source", "sensitive_data", "consequential_ai_actions", "weak_test_baseline", "external_public_contract"],
+    "in_scope": ["voznativa package and CLI", "SKILL.md contract", "eval suites and benchmark scoring", "regional evidence pack contract and its integration"],
+    "out_of_scope": ["training or fine-tuning models", "AI-detector evasion", "ingesting raw corpus text"],
+    "acceptance_criteria": [
+      "qualification runner preserves each gate's real exit code and distinguishes FAIL, BLOCKED, NOT_RUN, SKIPPED, INCONCLUSIVE and PASS",
+      "benchmark reports separate semantic safety, transformation success, provider failure and pending evaluation",
+      "a provider_error never counts as a completed task",
+      "regionalization abstains without an evidence pack that matches scope, epoch and channel",
+      "every behavior fix has a regression test whose oracle is the behavior, not the implementation"
+    ],
+    "assumptions": ["the developer-written eval cases are not independent evidence", "GitHub Actions cannot run (billing block)"],
+    "unknowns": ["independent holdout author", "blind human reviewers", "real regional evidence sufficient for calibration"],
+    "claims": [
+      {"id": "C-TESTS", "statement": "281 unit tests pass at 4044cfc", "asserted_state": "executed", "asserted_by": "developer", "evidence_refs": ["EV-BASELINE-0405"]},
+      {"id": "C-CI", "statement": "CI declared for Linux/Windows 3.11-3.13 is green", "asserted_state": "implemented", "asserted_by": "developer", "evidence_refs": ["EV-CI-BLOCKED"]}
+    ]
+  },
+  "evidence": [
+    {"id": "EV-BASELINE-0405", "kind": "test_run", "reference": "evals/baselines/v0.4.0-hardening-start.json", "revision": "4044cfc", "description": "local unittest, validator and semantic suites run by the developer on Windows, Python 3.12"},
+    {"id": "EV-CI-BLOCKED", "kind": "ci_run", "reference": ".github/workflows/ci.yml", "revision": "4044cfc", "description": "workflow declared; no run executed because GitHub Actions is blocked by billing"}
+  ]
+}

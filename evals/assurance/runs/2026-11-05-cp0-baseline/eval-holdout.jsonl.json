@@ -1,0 +1,60 @@
+{
+  "kind": "voznativa.semantic_eval_report",
+  "suite": "holdout.jsonl",
+  "provenance": {
+    "role": "developer_holdout",
+    "author": "VozNativa developer (the same agent session that wrote the engine)",
+    "independent": false,
+    "frozen": true,
+    "sha256": "ae479a2cc1c2ed5ddca07e7825f6a6a81cc533be7df41c0e282d91e82f1049ce",
+    "first_run": {
+      "date": "2026-10-19",
+      "passed": 19,
+      "cases": 24
+    },
+    "contaminated": "general fixes were made after inspecting its failures",
+    "expectation_notes": {
+      "ho-007": {
+        "recorded": "2026-10-21 (v0.4.0 M0)",
+        "case_unchanged": true,
+        "behavior": "review_required with possible_addition (inserted clause 'onde ajudei a triplicar a receita') and quantifier_changed ('triplicar')",
+        "divergence": "classification, not detection: the frozen case asks for span_added, the code for an added protected value (number, date, entity...). The inserted claim has no protected value, so the engine reports it as possible_addition.",
+        "decision": "the case stays frozen and keeps failing the strict count (23/24); the runner reports it as classification_divergence and counts it in status_passed. No code was added to emit span_added for it."
+      }
+    },
+    "sha256_matches": true
+  },
+  "independent_validation": false,
+  "cases": 24,
+  "passed": 23,
+  "status_passed": 24,
+  "failure_kinds": {
+    "classification_divergence": 1
+  },
+  "by_category": {
+    "addition": "2/3",
+    "causality": "2/2",
+    "factual": "8/8",
+    "false_red": "5/5",
+    "known_limitation": "1/1",
+    "modality": "2/2",
+    "negation": "2/2",
+    "no_change": "1/1"
+  },
+  "failures": [
+    {
+      "id": "ho-007",
+      "category": "addition",
+      "status": "review_required",
+      "codes": [
+        "possible_addition",
+        "quantifier_changed"
+      ],
+      "passed": false,
+      "problems": [
+        "missing issue span_added"
+      ],
+      "failure_kind": "classification_divergence"
+    }
+  ]
+}

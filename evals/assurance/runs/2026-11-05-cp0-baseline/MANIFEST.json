@@ -1,0 +1,75 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-cp0-baseline",
+  "entries": [
+    {
+      "file": "assertiva-execute.json",
+      "command": "assertiva audit . --execute --python <venv>/python --output json",
+      "exit_code": 0,
+      "raw_sha256": "ac9440fae745b3bb2acbcc5daa8ffc2b988f500f017b24ef4ef82ecce85d1768",
+      "published_sha256": "af6e40ccc21c3f6d1f3b119c3bc68787e87cc689eda9eb87b41280a67cf9cbda",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-static.json",
+      "command": "assertiva audit . --python <venv>/python --output json",
+      "exit_code": 0,
+      "raw_sha256": "5f4d147a1fa732121383fd337ffdf0482b15adc6cb8454d7573ec64a7ba3085d",
+      "published_sha256": "459c4b215c765542000a14df774820bdafb1cdab52f022972d90c36f282ad406",
+      "sanitized": true
+    },
+    {
+      "file": "engine-evaluate.json",
+      "command": "derivanta-engine evaluate --input evals/assurance/evaluation-request.json --framework ../Derivanta --repository . --format json",
+      "exit_code": 0,
+      "raw_sha256": "ab08eba350d70ad592c4979edd27a1c1a39ec132a2efd432538228e96d225406",
+      "published_sha256": "ab08eba350d70ad592c4979edd27a1c1a39ec132a2efd432538228e96d225406",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json",
+      "exit_code": 0,
+      "raw_sha256": "f520f3bf0614bb1cace0ea39d8acacd5293d311d1fe166f45387aebf2906d9c8",
+      "published_sha256": "f520f3bf0614bb1cace0ea39d8acacd5293d311d1fe166f45387aebf2906d9c8",
+      "sanitized": false
+    },
+    {
+      "file": "eval-holdout.jsonl.json",
+      "command": "python -m voznativa eval evals/semantic/holdout.jsonl",
+      "exit_code": 1,
+      "raw_sha256": "c8f13f10679e24f20248f1b3974c0e3fba765cba50b49124e322b6f81698ce71",
+      "published_sha256": "c8f13f10679e24f20248f1b3974c0e3fba765cba50b49124e322b6f81698ce71",
+      "sanitized": false
+    },
+    {
+      "file": "unittest.txt",
+      "command": "python -m unittest discover -s evals -p test_*.py",
+      "exit_code": 0,
+      "raw_sha256": "f864fff9f753a09b30fd7a9b14d9d5ec8526eb5f0459c182750362d24d90cf7e",
+      "published_sha256": "f864fff9f753a09b30fd7a9b14d9d5ec8526eb5f0459c182750362d24d90cf7e",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-05T14:26:41+00:00",
+  "revision": "4044cfc99db91a0a5f7a704f407c2e698d753a34",
+  "dirty_paths": [
+    "evals/assurance/",
+    "scripts/assurance_record.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@0be2a38",
+    "derivanta-framework": "0.1.0-dev@218761d",
+    "assertiva": "0.10.1@2618d95"
+  },
+  "notes": [
+    "inspect ran on a clean tree at 4044cfc; evaluate and both Assertiva audits ran with evals/assurance/evaluation-request.json untracked (Assertiva: local_changes true)",
+    "the other six semantic suites exited 0; holdout.jsonl exits 1 for the known ho-007 classification divergence (23/24 strict, 24/24 by status)",
+    "ASSERTIVA_HOME pointed at a session temp directory; both venvs (project: PyYAML, coverage, build, cosmic-ray; assertiva: wheel built from the v0.10.1 tag) are outside the project"
+  ]
+}

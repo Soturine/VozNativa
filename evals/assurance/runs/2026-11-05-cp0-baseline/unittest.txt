@@ -1,0 +1,8 @@
+...................voznativa: blind-review needs an interactive terminal: a person must answer it
+...................................................................................................................................................................................................................voznativa: [Errno 2] No such file or directory: 'does-not-exist.txt'
+......voznativa: voznativa review needs an interactive terminal: a person must answer it. Agents and scripts cannot record a human review.
+.............................................
+----------------------------------------------------------------------
+Ran 281 tests in 23.597s
+
+OK
