@@ -126,6 +126,19 @@ class LiteraryPolicy(unittest.TestCase):
         self.assertIn("strong", {f["strength"] for f in unknown["findings"] if f["id"] == "pt_pt_variant"})
         self.assertIn("treatment_mixed", {f["id"] for f in unknown["findings"]})
 
+    def test_literary_notes_never_decide_or_get_acted_on(self):
+        # ptbr-bench-v4 bv4-lt-03: three weak PT-PT notes in a short dialogue reached the weak threshold.
+        text = ("-- O senhor não sabe o facto, disse ela. Você ainda não leu a carta?\n\n"
+                "-- Li a acção toda, respondeu o tio, e o projecto não me agrada nada.")
+        report = detect(text, "literary")
+        notes = [f for f in report["findings"] if f["id"] == "pt_pt_variant"]
+        self.assertEqual(len(notes), 3)
+        self.assertTrue(all(f.get("note_only") for f in notes))
+        self.assertEqual(report["decision"], "no_change_candidate")
+        p = plan(text, route(text, genre="literary"))
+        self.assertEqual(p["decision"], "no_change")
+        self.assertFalse(any(r["reasons"] for r in p["sentences"]))
+
     def test_planner_leaves_verse_alone_without_an_explicit_request(self):
         poem = POEM + "\n\nÉ importante ressaltar que, no cenário atual, cabe destacar a relevância do tema."
         p = plan(poem, route(poem))

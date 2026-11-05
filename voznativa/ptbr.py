@@ -125,7 +125,9 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
     # text's material. On Machado de Assis (public domain, BR) the strong PT-PT
     # finding fired on pre-1943 Brazilian spelling ("acção", "facto") and on
     # 19th-century usage ("rapariga"), and drove 55% / 16% of segments to
-    # `edit` (evals/corpus/LONGFORM_v0.6.md). In literature it is a note.
+    # `edit` (evals/corpus/LONGFORM_v0.6.md). In literature it is a note that
+    # never counts toward an edit (ptbr-bench-v4 bv4-lt-03: three weak notes in
+    # a 25-word dialogue still reached the weak threshold).
     literary = genre == "literary"
     for m in markers:
         exclusive = m["confidence"] == "exclusive" and not literary
@@ -133,7 +135,8 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
                             m["start"], m["end"], sents,
                             f"PT-BR: {m['pt_br']}" + (f" (atenção: {m['meaning_sensitive']}; confira o sentido)"
                                                       if m.get("meaning_sensitive") else ""),
-                            **({"meaning_sensitive": True} if m.get("meaning_sensitive") else {})))
+                            **({"meaning_sensitive": True} if m.get("meaning_sensitive") else {}),
+                            **({"note_only": True} if literary else {})))
 
     terms = foreign_terms(text, genre if not channel else _channel_genre(channel, genre))
     distinct = {t["text"].lower() for t in terms["out_of_domain"]}

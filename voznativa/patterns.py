@@ -220,7 +220,7 @@ def detect(text: str, genre: str = "unknown", channel: str | None = None, regist
     findings += ptbr.findings(text, genre, channel, register)
     findings.sort(key=lambda f: (f["start"], f["id"]))
     strong = sum(f["strength"] == STRONG for f in findings)
-    weak = sum(f["strength"] == WEAK for f in findings)
+    weak = sum(f["strength"] == WEAK and not f.get("note_only") for f in findings)   # notes never decide
     n_words = max(1, len(words(text)))
     weak_needed, decision = decide(strong, weak, n_words)
     return {
@@ -254,7 +254,7 @@ def decide(strong: int, weak: int, n_words: int) -> tuple[int, str]:
 def with_findings(report: dict, findings: list[dict], withdrawn: list[dict], text: str) -> dict:
     """The report recomputed after a context layer withdrew findings."""
     strong = sum(f["strength"] == STRONG for f in findings)
-    weak = sum(f["strength"] == WEAK for f in findings)
+    weak = sum(f["strength"] == WEAK and not f.get("note_only") for f in findings)   # notes never decide
     n_words = max(1, len(words(text)))
     weak_needed, decision = decide(strong, weak, n_words)
     summary = dict(report["summary"], strong=strong, weak=weak, weak_needed_for_edit=weak_needed,

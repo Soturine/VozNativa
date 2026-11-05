@@ -99,17 +99,16 @@
         "segments": 804,
         "words": 667186,
         "edit_rate": {
-          "k": 4,
+          "k": 2,
           "n": 804,
-          "rate": 0.005,
+          "rate": 0.0025,
           "wilson95": [
-            0.002,
-            0.013
+            0.001,
+            0.009
           ]
         },
         "findings_per_1000_words": 0.907,
         "edit_drivers": {
-          "weak_accumulation": 2,
           "double_hedge": 2
         }
       },
@@ -321,5 +320,5 @@
     "wikisource_heldout": 169,
     "wikisource_same_works": 128
   },
-  "seconds": 83.7
+  "seconds": 48.4
 }

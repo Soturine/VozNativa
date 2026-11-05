@@ -54,14 +54,14 @@ Os segmentos de 900 palavras foram lidos pelo detector editorial:
 
 | subconjunto | gênero `literary` antes da regra | `literary` depois | gênero `unknown` |
 |---|---|---|---|
-| Gutenberg | 437/798 = 55% | 4/804 = 0,5% [0,2–1,3] | 444/804 = 55% |
+| Gutenberg | 437/798 = 55% | 2/804 = 0,25% [0,1–0,9] | 444/804 = 55% |
 | mesmas obras, Wikisource | — | 0/162 [0–2,3] | 20/162 = 12% |
 | outras obras | 80/501 = 16% (antes da separação) | 0/343 [0–1,1] | 60/343 = 17% |
 
 - **Causa medida:** o gênero literário já isentava os padrões editoriais, mas não a camada PT-BR. Dois achados disparavam:
   - `pt_pt_variant` forte, na ortografia brasileira anterior a 1943 ("acção" 104 ocorrências, "facto" 70, "projecto" 42) e no uso do século XIX ("rapariga", "constipação", "estar a + infinitivo");
   - `treatment_mixed`, quando personagens diferentes usam formas de tratamento diferentes.
-- **Regra adotada,** coerente com `references/genres/literary.md`: no gênero `literary`, a variante PT-PT é uma nota (achado fraco) e a mistura de tratamento não é achado. A regra é categórica, por gênero, e não um limiar ajustado. Ela foi decidida **depois** de ver todos os subconjuntos, então a queda para 0–0,5% não é evidência separada: é o efeito mecânico da regra.
+- **Regra adotada,** coerente com `references/genres/literary.md`: no gênero `literary`, a variante PT-PT é uma nota (`note_only`), que é relatada mas nunca conta para `edit` nem é tratada pelo planejador, e a mistura de tratamento não é achado. A primeira versão só rebaixava a variante para fraca. O `ptbr-bench-v4` (caso `bv4-lt-03`) mostrou que três notas num diálogo curto ainda passavam do limiar de fracos. A regra é categórica, por gênero, e não um limiar ajustado. Ela foi decidida **depois** de ver todos os subconjuntos, então a queda para 0–0,25% não é evidência separada: é o efeito mecânico da regra.
 - **Risco que continua:**
   - com o gênero `unknown`, o texto literário histórico ainda recebe achados PT-PT em 12–55% dos segmentos;
   - o roteador inferiu `literary` em só 36 de 804 segmentos do Gutenberg e chamou 259 de `whatsapp`, provavelmente por causa do diálogo com "--";

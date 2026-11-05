@@ -67,9 +67,13 @@ def check_case(case: dict) -> dict:
             got = contract["temporal"]["allowed"]
             add(key, want, got, got == want)
         elif key == "review_codes":
-            got = {i["code"]: i["severity"] for i in (review or {}).get("issues", [])}
+            # every severity an issue code has (one code can appear several times:
+            # 'deploy' info and 'call' major; first run kept only the last one)
+            got: dict[str, set] = {}
+            for i in (review or {}).get("issues", []):
+                got.setdefault(i["code"], set()).add(i["severity"])
             for code, severity in want.items():
-                add(f"review:{code}", severity, got.get(code), got.get(code) == severity)
+                add(f"review:{code}", severity, sorted(got.get(code, ())), severity in got.get(code, ()))
         elif key == "epoch_notes":
             got = sorted({n["id"] for n in contract["temporal"]["epoch_notes"]})
             add(key, sorted(want), got, got == sorted(want))

@@ -129,8 +129,8 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
         entry = entries.get(sent.index)
         reasons = []
         for f in report["findings"]:
-            if f["sentence"] != sent.index:
-                continue
+            if f["sentence"] != sent.index or f.get("note_only"):
+                continue  # a note (e.g. a period spelling in literature) is reported, never acted on
             priority = "P1" if f["id"] in P1_FINDINGS else "P2" if f["strength"] == "strong" else "P3"
             if priority == "P3" and not act_on_weak:
                 continue  # weak and alone: noted by the detector, not acted on
