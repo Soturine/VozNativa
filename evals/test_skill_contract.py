@@ -71,3 +71,22 @@ class SkillMatchesCli(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DemoV05(unittest.TestCase):
+    """CP9: the v0.5.0 demonstration is derived, not written by hand: it
+    regenerates identically from the code and carries no machine path."""
+
+    def test_demo_regenerates_identically_and_shows_every_outcome(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("demo_v05", ROOT / "scripts" / "demo_v05.py")
+        demo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(demo)
+        page = demo.render()
+        self.assertEqual(page, (ROOT / "examples" / "v0.5.0-demo.md").read_text(encoding="utf-8").replace("\r\n", "\n"))
+        for outcome in ("needs_judgment", "returned_original", "needs_review", "provider_error"):
+            self.assertIn(f"desfecho `{outcome}`", page)
+        self.assertIn("embedded_instruction", page)
+        self.assertIn("regionalidade: `abstain`", page)
+        for leak in ("\\Users\\\\", "/Users/", "/home/", "AppData"):
+            self.assertNotIn(leak, page)
