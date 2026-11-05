@@ -1,0 +1,63 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-v06-cp0",
+  "entries": [
+    {
+      "file": "assertiva-static.json",
+      "command": "assertiva audit . --python <venv>/python --output json",
+      "exit_code": 0,
+      "raw_sha256": "ce6389c8a2ef0ac57be432b0ce51a04599802953d77b69a702227caea6c06502",
+      "published_sha256": "f3f17fc33ff1899f2f987705d1b989fb0786cc6b85fdc37b891ec8fb327d1867",
+      "sanitized": true
+    },
+    {
+      "file": "ci-run-123.json",
+      "command": "gh run view 42058735003 --json number,headSha,conclusion,event,headBranch,createdAt,jobs",
+      "exit_code": 0,
+      "raw_sha256": "ade5a3bd802b02d6af7714072fb2e79fa042fb770624f6d6fa86ed10cec3880b",
+      "published_sha256": "ade5a3bd802b02d6af7714072fb2e79fa042fb770624f6d6fa86ed10cec3880b",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json",
+      "exit_code": 0,
+      "raw_sha256": "e4c67fc450c150c22334842f7148a34f93b4f334ed6ce5b8a994b66ee8755799",
+      "published_sha256": "e4c67fc450c150c22334842f7148a34f93b4f334ed6ce5b8a994b66ee8755799",
+      "sanitized": false
+    },
+    {
+      "file": "frozen-sets.json",
+      "command": "sha256 (LF) of every frozen suite and benchmark case file vs its manifest",
+      "exit_code": 0,
+      "raw_sha256": "97e187e674b7e1688a71bc7417dd6c85ed4f3ba982fce8348ab85349f6668f25",
+      "published_sha256": "61ab8a85ec0f707c8cf9af2aabf7138ff91ecc4cfdbdb155f69d145bf406f6ca",
+      "sanitized": true
+    },
+    {
+      "file": "qualify-win-py312.json",
+      "command": "python scripts/qualify.py --scope release (Windows, CPython 3.12.10) at 3c5d284",
+      "exit_code": 3,
+      "raw_sha256": "4f350a0d34d2c1c5f69c9894585dbb9c92bf5cd397bbc09aa63ffd3b8349b855",
+      "published_sha256": "4f350a0d34d2c1c5f69c9894585dbb9c92bf5cd397bbc09aa63ffd3b8349b855",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-05T17:43:27+00:00",
+  "revision": "106fd50d806af56f57cfb94c5a3669b0e21f3ab5",
+  "dirty_paths": [
+    "docs/AS_IS_v0.6.0.md"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@17fa564",
+    "assertiva": "0.10.1@2618d95"
+  },
+  "notes": [
+    "qualify ran at 3c5d284 (CI policy commit); later CP0 commits changed only the provider tree kill, CI evidence and docs."
+  ]
+}

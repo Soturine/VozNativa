@@ -1,0 +1,24 @@
+{
+ "frozen": {
+  "evals/semantic/holdout.jsonl": "ae479a2cc1c2ed5ddca07e7825f6a6a81cc533be7df41c0e282d91e82f1049ce",
+  "evals/semantic/holdout2.jsonl": "3981a4ef20188db322d9fb4f718137591337a8862c83aaada444552e7ef8c08f",
+  "evals/semantic/holdout-relations.jsonl": "ba5910076817b02d394a81a6051d929ddd4b5574f0e3975ba5be0ac41469646d",
+  "evals/semantic/holdout-v030.jsonl": "09c1b3dda119cba99ff376a818d4b461e64b5b4d004471d600cdf67ccce6222b",
+  "evals/semantic/holdout-v040.jsonl": "fb4a9738605edb55eeb42329671b101f3e1162ef858f427ca883872e700ee0d7",
+  "evals/decision/cases.jsonl": "e3667c609cc8e1ed3d6347d26e685c8d528fb5a285863a1c654f168938427019",
+  "benchmarks/cases/ptbr-bench-v1.jsonl": "c70b2f7b734190e4f1371c17263805ebd294a60a94e7667432b8c19f041273d8",
+  "benchmarks/cases/ptbr-bench-v2.jsonl": "e1af80bad74983b4e3f349a519141087646e077fe54854bc3aa6e2e1d969d4e0",
+  "benchmarks/cases/ptbr-bench-v3.jsonl": "c67caa7f220a0523d5cd2b4a0f21c1d3281f635e29fa95c7d3946030eed4a49c"
+ },
+ "match": {
+  "evals/semantic/holdout.jsonl": true,
+  "evals/semantic/holdout2.jsonl": true,
+  "evals/semantic/holdout-relations.jsonl": true,
+  "evals/semantic/holdout-v030.jsonl": true,
+  "evals/semantic/holdout-v040.jsonl": true,
+  "evals/decision/cases.jsonl": true,
+  "benchmarks/cases/ptbr-bench-v1.jsonl": true,
+  "benchmarks/cases/ptbr-bench-v2.jsonl": true,
+  "benchmarks/cases/ptbr-bench-v3.jsonl": true
+ }
+}
