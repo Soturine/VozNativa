@@ -1,0 +1,97 @@
+{
+  "kind": "voznativa.corpus_prepare_run",
+  "date": "2026-11-05",
+  "reports": [
+    {
+      "source": "ud-portuguese-bosque",
+      "date": "2026-11-05",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_bosque-ud-train.conllu": 7018,
+        "pt_bosque-ud-dev.conllu": 1172,
+        "pt_bosque-ud-test.conllu": 1167
+      },
+      "records_read": 9357,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_bosque-ud-train.conllu",
+          "bytes": 11291250,
+          "sha256": "b56d7124af821e2968302c38298904ec67af342304a33ae8a9dc4fa57df89648",
+          "partial": false,
+          "seconds": 6.17
+        },
+        {
+          "asset": "pt_bosque-ud-dev.conllu",
+          "bytes": 1873903,
+          "sha256": "f8a67abae12fbab85a3995204a6459d1958c11065062d4ea5349d6b914e78f81",
+          "partial": false,
+          "seconds": 1.09
+        },
+        {
+          "asset": "pt_bosque-ud-test.conllu",
+          "bytes": 1819980,
+          "sha256": "9a824650b7a02cf411f6e09b39e8fb423c85e1a5fb3a55b87e7f4c0c2ea5b3bb",
+          "partial": false,
+          "seconds": 1.24
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-bosque licence CC-BY-SA-4.0 (LICENSE.txt in the repository (read 2026-11-05))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "b2w-reviews01",
+      "date": "2026-11-05",
+      "connector": "local-files",
+      "records_by_asset": {
+        "B2W-Reviews01.prefix.csv": 21700
+      },
+      "records_read": 21700,
+      "read_errors": 1,
+      "read_error_examples": [
+        {
+          "line": 21702,
+          "error": "CSV: unexpected end of data"
+        }
+      ],
+      "downloads": [
+        {
+          "asset": "B2W-Reviews01.prefix.csv",
+          "bytes": 8000000,
+          "sha256": "ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3",
+          "partial": true,
+          "seconds": 5.34
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-NC-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-NC-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:b2w-reviews01 licence CC-BY-NC-SA-4.0 (Licensing section of README.md (read 2026-11-05))"
+          ]
+        }
+      ]
+    }
+  ]
+}

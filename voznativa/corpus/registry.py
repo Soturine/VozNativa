@@ -110,6 +110,9 @@ def _status_evidence(entry: dict, known_connectors, root: Path) -> list[str]:
             problems.append("CONNECTOR_READY needs connector.id")
         elif known_connectors is not None and connector not in known_connectors:
             problems.append(f"connector {connector!r} is not registered")
+        conn = verification.get("connector") or {}
+        if not (conn.get("date") and conn.get("records_read") and conn.get("result") == "read"):
+            problems.append("CONNECTOR_READY needs verification.connector with date, records_read and result read")
     if rung >= 4:
         runs = entry.get("processing_runs") or []
         if not runs:

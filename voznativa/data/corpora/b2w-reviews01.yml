@@ -25,7 +25,7 @@ access:
   type: open_download
   note: CSV in the GitHub repository
 relations: []
-status: ACCESS_VERIFIED
+status: CONNECTOR_READY
 evidence_role: informal written PT-BR by consumers; natural-text control for detectors
 notes: []
 verification:
@@ -48,6 +48,29 @@ verification:
       bytes_read: 65536
       declared_size: 49453175
       truncated: true
+  connector:
+    date: '2026-11-05'
+    connector: local-files
+    records_read: 21700
+    read_errors: 1
+    result: read
 privacy:
   personal_data: true
   note: 'reviews written by users, with reviewer gender, birth year and state: quasi-identifiers'
+connector:
+  id: local-files
+  reader:
+    format: csv
+    text_field: review_text
+    id_field: null
+  assets:
+  - name: B2W-Reviews01.prefix.csv
+    format: csv
+    max_bytes: 9000000
+    prefix_bytes: 8000000
+    url: https://raw.githubusercontent.com/americanas-tech/b2w-reviews01/4639429ec698d7821fc99a0bc665fa213d9fcd5a/B2W-Reviews01.csv
+    hosts:
+    - raw.githubusercontent.com
+    note: first 8,000,000 bytes of the 49,453,175-byte CSV (explicit prefix; the last row may be cut)
+    sha256: ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3
+    partial: true

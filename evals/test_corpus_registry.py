@@ -70,6 +70,8 @@ class StatusEvidence(unittest.TestCase):
         self.assertTrue(any("connector.id" in p for p in self.check(status="CONNECTOR_READY", verification=access)))
         self.assertTrue(any("not registered" in p for p in self.check(status="CONNECTOR_READY", verification=access,
                                                                        connector={"id": "nope"})))
+        self.assertTrue(any("verification.connector" in p for p in self.check(
+            status="CONNECTOR_READY", verification=access, connector={"id": "local-files"})))
         ready = dict(status="LOCALLY_VALIDATED", verification=access, connector={"id": "local-files"},
                      processing_runs=["evals/corpus/runs/does-not-exist.json"])
         self.assertTrue(any("not found" in p for p in self.check(**ready)))
