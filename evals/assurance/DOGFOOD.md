@@ -53,4 +53,10 @@ Framework: o perfil derivado (`docs/ENGINEERING_PROFILE.md`) usou a Constituiç�
 
 ## 4. Estado de encaminhamento
 
-Atualizado quando os registros forem publicados nos repositórios responsáveis; "encaminhado" não significa corrigido.
+| Destino | Itens | Registro | Estado |
+|---|---|---|---|
+| Assertiva | AXF-VN-01…05 | [PR #8](https://github.com/Soturine/Assertiva/pull/8), branch `docs/voznativa-v05-dogfood-intake-20261105` (`3d55391`): `docs/assurance/VOZNATIVA_V05_DOGFOOD_INTAKE.md` + `VOZNATIVA_V05_FEEDBACK.json` | **encaminhado, não corrigido**; validador do repositório passou |
+| Derivanta Engine | DEF-VN-01, 02, 05 | [PR #3](https://github.com/Soturine/Derivanta-Engine/pull/3), branch `docs/voznativa-v05-dogfood-intake-20261105`: `docs/audits/external/VOZNATIVA_V05_FEEDBACK.md` + `.json` | **encaminhado, não corrigido**; suíte do Engine: 908 passaram, falhas só por falta do pacote `mcp` no venv usado |
+| Derivanta Framework | — | nenhum item generalizável para a Constituição | não aplicável |
+
+Nenhum item é marcado como corrigido em outro repositório: isso só muda quando a correção existir e for verificada lá.
