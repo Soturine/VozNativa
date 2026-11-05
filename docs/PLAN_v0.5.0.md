@@ -27,6 +27,6 @@ H1 runner de qualificação; H2 eixos de desfecho do benchmark; H3 determinaçõ
 | 2. Sem regressão; holdouts congelados intactos e sem falso verde | **PASS** em `caac7f7` (gates `semantic:holdouts:*`, `decision:regression`, `router:regression`) |
 | 3. `ptbr-bench-v3` executado oficialmente, com resultado por eixo e por braço | **NOT_RUN** |
 | 4. Avaliação regional humana com revisores da região | **NOT_RUN** |
-| 5. Herdados: holdout independente, revisão humana cega, CI verde | **abertos** (CI BLOCKED por cobrança) |
+| 5. Herdados: holdout independente, revisão humana cega, CI verde | holdout e revisão humana **abertos**; CI **verde** em `caac7f7` (run #121) e em `40e19e4` (run #123, 8/8). Correção de 2026-11-05: este plano dizia "BLOCKED por cobrança" sem conferir as execuções; o bloqueio real foi #100–#106 (20–21/10) |
 
 **A v0.5.0 não está qualificada** e continua `0.5.0.dev0`.

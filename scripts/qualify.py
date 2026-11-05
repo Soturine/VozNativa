@@ -390,6 +390,29 @@ def gate_pty(args) -> dict:
             "output": _tail(proc["stdout"] + proc["stderr"])}
 
 
+def classify_ci(entry: dict, revision: str) -> dict:
+    """PASS only for a recorded successful run of this exact revision; any
+    other revision is NOT_RUN (a nearby green run proves nothing about it)."""
+    for run in entry.get("runs", []):
+        if run.get("conclusion") == "success" and revision and run.get("head_sha", "").startswith(revision[:12]) \
+                and revision.startswith(run.get("head_sha", "")[:12]):
+            return {"status": "PASS", "run": run}
+    last = next((r for r in reversed(entry.get("runs", [])) if r.get("conclusion") == "success"), None)
+    return {"status": entry.get("status", "NOT_RUN") if entry.get("status") != "PASS" else "NOT_RUN",
+            "reason": "no recorded CI run for this revision" + (f"; last green run #{last['run']} was on "
+                                                                 f"{last['head_sha'][:12]}" if last else ""),
+            "policy": entry.get("policy")}
+
+
+def gate_ci(args) -> dict:
+    entry = json.loads(EXTERNAL.read_text(encoding="utf-8"))["ci"]
+    revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    if dirty:
+        return {"status": "NOT_RUN", "reason": "working tree has changes: no CI run can prove it"}
+    return dict(classify_ci(entry, revision), source=EXTERNAL.relative_to(ROOT).as_posix())
+
+
 def gate_external(key: str) -> Callable:
     def gate(args) -> dict:
         data = json.loads(EXTERNAL.read_text(encoding="utf-8"))[key]
@@ -410,7 +433,7 @@ GATES = [
     Gate("cli:exit-codes", gate_cli, description="CLI exit codes are the documented gate interface"),
     Gate("package:sdist-wheel-smoke", gate_package, description="sdist -> wheel -> clean venv -> smoke (CI package job)"),
     Gate("review:pty", gate_pty, description="interactive signed review through a real pseudo-terminal"),
-    Gate("ci:github-actions", gate_external("ci"), scope="release", description="declared CI matrix ran green on this revision"),
+    Gate("ci:github-actions", gate_ci, scope="release", description="declared CI matrix ran green on this exact revision"),
     Gate("holdout:independent", gate_external("independent_holdout"), scope="release",
          description="semantic holdout written by someone other than the developer"),
     Gate("review:blind-human", gate_external("blind_human_review"), scope="release",

@@ -85,3 +85,7 @@ README, ROADMAP, CHANGELOG, PLAN_v0.5.0, TRACEABILITY, EVALUATION, LICENSING sin
 | Revisão humana cega e regional | **NOT_RUN** | `evals/reviewers/PROTOCOL_v0.5.md` |
 
 Veredito do runner: **INCOMPLETE** (exit 3) em todas as plataformas, só pelos critérios externos. A v0.5.0 **não está qualificada** e segue `0.5.0.dev0`.
+
+## Correção (v0.6.0 CP0, 2026-11-05)
+
+Esta rodada registrou o CI como **BLOCKED** (cobrança) até o CP10, sem conferir as execuções. Os dados do GitHub Actions mostram outra coisa: o bloqueio real foi #100–#106 (2026-10-20..21, jobs com 0 passos); a partir de #107 (`fc62e2a`) todos os pushes rodaram, incluindo #121 verde em `caac7f7` (a revisão qualificada no CP10) e #123 verde em `40e19e4` (8/8). O run #122 falhou em `40e19e4` no Windows 3.11 por um teste instável de timeout, cuja classe de defeito foi corrigida na v0.6.0 (`daca4bc`). As linhas acima ficam como foram escritas; a evidência correta está em `evals/qualification/external.json`.

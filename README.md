@@ -43,7 +43,7 @@ patterns + ptbr + ledger ─▶ plan (o que mudar, por quê, quanto) ──┴�
 
 ## Estado (0.5.0.dev0, em desenvolvimento)
 
-Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa, rodada de revisão humana cega e CI verde (bloqueado por cobrança do GitHub Actions). Plano e situação da v0.5.0 (inclui o hardening da v0.4.0): `docs/PLAN_v0.5.0.md`; anteriores: `docs/PLAN_v0.4.0.md`, `docs/PLAN_v0.3.0.md`. Qualificação local: `python scripts/qualify.py`.
+Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa e rodada de revisão humana cega. O CI (GitHub Actions) voltou a rodar em 2026-11-05: run #123 verde em `40e19e4` (8/8 jobs); desde a v0.6.0 ele só roda por disparo manual no fechamento de cada rodada, e a evidência vale só para a revisão testada (`evals/qualification/external.json`). Plano e situação da v0.5.0 (inclui o hardening da v0.4.0): `docs/PLAN_v0.5.0.md`; anteriores: `docs/PLAN_v0.4.0.md`, `docs/PLAN_v0.3.0.md`. Qualificação local: `python scripts/qualify.py`.
 
 | Componente | Estado |
 |---|---|

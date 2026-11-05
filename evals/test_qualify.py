@@ -67,10 +67,32 @@ class Verdict(unittest.TestCase):
     def test_external_evidence_is_never_pass_without_a_run(self):
         import json
         external = json.loads(qualify.EXTERNAL.read_text(encoding="utf-8"))
-        for key in ("ci", "independent_holdout", "blind_human_review"):
+        for key in ("independent_holdout", "blind_human_review"):
             self.assertIn(external[key]["status"], {"BLOCKED", "NOT_RUN", "WAIVED_BY_OWNER", "PASS"}, key)
             if external[key]["status"] == "PASS":
                 self.assertIn("evidence", external[key], f"{key}: PASS needs a recorded run")
+        self.assertNotEqual(external["ci"]["status"], "PASS", "CI status is derived per revision, never stored")
+
+
+class CiEvidenceBindsToARevision(unittest.TestCase):
+    """v0.6.0 CP0: CI evidence is PASS only for the revision a green run tested
+    (the v0.5.0 records kept a stale BLOCKED while runs were passing)."""
+    ENTRY = {"status": "NOT_RUN", "runs": [
+        {"run": 122, "head_sha": "40e19e49993f865119c2d7efb43ec130b3b2b574", "conclusion": "failure"},
+        {"run": 123, "head_sha": "40e19e49993f865119c2d7efb43ec130b3b2b574", "conclusion": "success"}]}
+
+    def test_green_run_of_this_revision_is_pass(self):
+        r = qualify.classify_ci(self.ENTRY, "40e19e49993f865119c2d7efb43ec130b3b2b574")
+        self.assertEqual((r["status"], r["run"]["run"]), ("PASS", 123))
+
+    def test_another_revision_is_not_run_even_after_a_green_run(self):
+        r = qualify.classify_ci(self.ENTRY, "3c5d2849cb3b0000000000000000000000000000")
+        self.assertEqual(r["status"], "NOT_RUN")
+        self.assertIn("40e19e49993f", r["reason"])
+
+    def test_a_failed_run_of_this_revision_is_not_pass(self):
+        entry = {"status": "NOT_RUN", "runs": [self.ENTRY["runs"][0]]}
+        self.assertEqual(qualify.classify_ci(entry, "40e19e49993f865119c2d7efb43ec130b3b2b574")["status"], "NOT_RUN")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,48 @@
 {
   "_doc": "Evidence that cannot be produced locally. Only the maintainer changes a status to WAIVED_BY_OWNER, with reason and date.",
-  "ci": {"status": "BLOCKED", "reason": "GitHub Actions blocked by account billing; workflows are kept and not weakened", "since": "2026-10-19"},
-  "independent_holdout": {"status": "NOT_RUN", "reason": "needs a semantic holdout written by someone other than the developer (evals/semantic/INDEPENDENT_HOLDOUT.md)"},
-  "blind_human_review": {"status": "NOT_RUN", "reason": "instrument ready (voznativa blind-*); evals/reviewers/registry.json has no reviewer"}
+  "ci": {
+    "status": "NOT_RUN",
+    "policy": "Since v0.6.0 the workflow runs only by workflow_dispatch, at the close of a round. The ci:github-actions gate is PASS only when a recorded successful run's head SHA equals the revision being qualified; otherwise NOT_RUN.",
+    "runs": [
+      {
+        "run": 123,
+        "id": 42058735003,
+        "head_sha": "40e19e49993f865119c2d7efb43ec130b3b2b574",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "started": "2026-11-05T15:48:37Z",
+        "evidence": "gh run view 42058735003 (GitHub Actions)"
+      }
+    ],
+    "history": [
+      {
+        "period": "2026-10-20 .. 2026-10-21",
+        "runs": "#100-#106",
+        "state": "BLOCKED",
+        "evidence": "every job ended with 0 steps: never started (account billing)"
+      },
+      {
+        "period": "2026-11-05",
+        "runs": "#107-#123",
+        "state": "EXECUTED",
+        "evidence": "jobs ran on every push; the v0.5.0 records still said BLOCKED for this period, which was wrong (corrected in v0.6.0 CP0)"
+      },
+      {
+        "run": 122,
+        "head_sha": "40e19e4",
+        "state": "FAIL (flaky)",
+        "evidence": "windows-latest/3.11 test_timeout_stops_the_whole_process_tree; the same SHA passed in #123; failure class fixed in v0.6.0 CP0 (Job Object)"
+      }
+    ]
+  },
+  "independent_holdout": {
+    "status": "NOT_RUN",
+    "reason": "needs a semantic holdout written by someone other than the developer (evals/semantic/INDEPENDENT_HOLDOUT.md)"
+  },
+  "blind_human_review": {
+    "status": "NOT_RUN",
+    "reason": "instrument ready (voznativa blind-*); evals/reviewers/registry.json has no reviewer"
+  }
 }

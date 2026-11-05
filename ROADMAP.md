@@ -90,7 +90,7 @@ Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não ser
 - [x] privacidade em relatórios de integração (`--redact`)
 - [x] exemplos reais antes/depois (`examples/`)
 - [x] matriz de compatibilidade final (local; `evals/compat/`)
-- [ ] CI verde (bloqueado: cobrança do GitHub Actions)
+- [x] CI verde: run #123 em `40e19e4` (8/8 jobs, Linux e Windows, 3.11–3.13); bloqueado por cobrança só em 20–21/10
 
 ## v0.4.0 — PT-BR Writing Intelligence & Hardening (em desenvolvimento, `0.4.0.dev0`)
 
@@ -146,7 +146,7 @@ Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios ext
 ### M5 — Qualificação
 - [x] matriz local Linux/Windows 3.11–3.13, wheel e instalação isolada (`evals/compat/v0.4.0-dev-4bd8fb1.json`)
 - [x] demonstração antes/depois reproduzível (`examples/v0.4.0-demo.md`, `scripts/demo.py`)
-- [ ] CI verde (bloqueado: cobrança do GitHub Actions)
+- [x] CI verde: run #123 em `40e19e4` (8/8 jobs, Linux e Windows, 3.11–3.13); bloqueado por cobrança só em 20–21/10
 
 ### Hardening da v0.4.0 (CP4, 2026-11-05)
 - [x] runner único de qualificação local (`scripts/qualify.py`) com exit codes preservados

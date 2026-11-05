@@ -92,7 +92,7 @@ Estados terminais e o texto entregue: só `accepted`, `needs_judgment` e `needs_
 
 - Pipeline determinístico: latência medida em `evals/perf/`; `compare` domina (≈6–7 s em 8 mil palavras).
 - Custo: só chamadas de modelo custam; benchmark v2 US$ 4,64. Nova execução paga exige justificativa de valor.
-- Compatibilidade declarada: Python 3.11–3.13, Windows e Linux; matriz local em `evals/compat/`; CI remoto BLOCKED (cobrança).
+- Compatibilidade declarada: Python 3.11–3.13, Windows e Linux; matriz local em `evals/compat/`; CI remoto por disparo manual (último verde: run #123 em `40e19e4`).
 
 ## Achados estruturais do CP1 (insumo do CP4)
 
