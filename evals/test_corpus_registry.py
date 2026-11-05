@@ -76,6 +76,19 @@ class StatusEvidence(unittest.TestCase):
                      processing_runs=["evals/corpus/runs/does-not-exist.json"])
         self.assertTrue(any("not found" in p for p in self.check(**ready)))
 
+    def test_evidence_files_are_checked_in_the_checkout_but_not_required_in_a_wheel(self):
+        access = dict(VERIFIED, access={"date": "2026-11-05", "method": "read", "result": "data_read"},
+                      connector={"date": "2026-11-05", "records_read": 3, "result": "read"})
+        entry = dict(copy.deepcopy(BASE), status="EVALUATION_INTEGRATED", verification=access,
+                     connector={"id": "local-files"}, processing_runs=["evals/corpus/runs/gone.json"],
+                     evaluations=["evals/corpus/runs/gone-too.json"])
+        in_checkout = registry.validate_source(entry, frozenset({"local-files"}), root=ROOT)
+        self.assertEqual(sum("not found" in p for p in in_checkout), 2)
+        with tempfile.TemporaryDirectory() as installed:            # site-packages: no evals/ or scripts/
+            self.assertEqual(registry.validate_source(entry, frozenset({"local-files"}), root=Path(installed)), [])
+        self.assertTrue(any("needs evaluations" in p for p in registry.validate_source(
+            dict(entry, evaluations=[]), frozenset({"local-files"}), root=ROOT)))   # the claim still needs a list
+
     def test_citation_cannot_be_source_verified(self):
         urls = {"official": "https://doi.org/x", "official_kind": "citation"}
         self.assertTrue(any("not a citation" in p for p in self.check(status="SOURCE_VERIFIED", urls=urls,

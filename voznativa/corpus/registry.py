@@ -117,13 +117,23 @@ def _status_evidence(entry: dict, known_connectors, root: Path) -> list[str]:
         runs = entry.get("processing_runs") or []
         if not runs:
             problems.append("LOCALLY_VALIDATED needs processing_runs")
-        problems += [f"processing run {r} not found" for r in runs if not (root / r).is_file()]
+        if has_evidence_tree(root):
+            problems += [f"processing run {r} not found" for r in runs if not (root / r).is_file()]
     if rung >= 5:
         evals = entry.get("evaluations") or []
         if not evals:
             problems.append("EVALUATION_INTEGRATED needs evaluations")
-        problems += [f"evaluation {e} not found" for e in evals if not (root / e).is_file()]
+        if has_evidence_tree(root):
+            problems += [f"evaluation {e} not found" for e in evals if not (root / e).is_file()]
     return problems
+
+
+def has_evidence_tree(root: Path) -> bool:
+    """Evidence files (evals/, scripts/) live in the repository, not in an
+    installed wheel: there the status claims are checked for shape only, and
+    the checkout (tests, validate_package, qualify) checks that each file
+    exists. Found in v0.6 CP9: the installed smoke refused the registry."""
+    return (root / "evals").is_dir() and (root / "scripts").is_dir()
 
 
 def _connector_ids() -> frozenset:
