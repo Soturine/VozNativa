@@ -43,6 +43,24 @@ class CommandProviderLimits(unittest.TestCase):
             time.sleep(3.5)
             self.assertFalse(marker.exists(), "the child kept running after the timeout")
 
+    def test_timeout_also_stops_an_orphaned_grandchild_and_raises_provider_error(self):
+        # v0.6.0 CP0: the provider's child starts a grandchild and exits, so the
+        # grandchild has no living parent. `taskkill /T` cannot reach it on
+        # Windows; it kept the provider's temp files open and the cleanup raised
+        # PermissionError instead of ProviderError (reproduced 3/6 survivals and
+        # a crash before the Job Object fix; flaky CI run #122 was this class).
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
+            marker = Path(tmp, "grandchild-was-alive")
+            grandchild = f"import time, pathlib; time.sleep(3); pathlib.Path({str(marker)!r}).write_text('x')"
+            child = f"import subprocess, sys; subprocess.Popen([sys.executable, '-c', {grandchild!r}])"
+            parent = (f"import subprocess, sys, time; subprocess.Popen([sys.executable, '-c', {child!r}]).wait(); "
+                      "time.sleep(30)")
+            provider = CommandProvider([PY, "-c", parent], timeout=2, retries=0)
+            with self.assertRaises(ProviderError):
+                provider.generate("x")
+            time.sleep(3.5)
+            self.assertFalse(marker.exists(), "the orphaned grandchild kept running after the timeout")
+
     def test_oversized_answer_is_an_error_and_is_not_retried(self):
         provider = CommandProvider([PY, "-c", "print('x' * 5000)"], max_output_bytes=1000, retries=3, backoff=0.01)
         with self.assertRaises(ProviderError):

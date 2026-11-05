@@ -108,8 +108,90 @@ def _decode(data: bytes) -> str:
         return data.decode(locale.getpreferredencoding(False) or "utf-8", "replace")
 
 
-def _kill_tree(process: subprocess.Popen) -> None:
+class _WindowsJob:
+    """A Windows Job Object holding the provider process and every process it
+    starts. Terminating the job stops the whole tree without walking parent
+    PIDs: `taskkill /T` cannot reach a grandchild whose parent already exited,
+    and let a child escape on a GitHub Windows runner (CI run #122).
+
+    Race-free use: create the job, start the process suspended
+    (``creation_flags``), then ``adopt`` it (assign, then resume), so nothing
+    the process starts can exist before it is in the job. Only used to stop
+    the tree on timeout; a normal run keeps its children as before."""
+
+    CREATE_SUSPENDED = 0x00000004
+
+    def __init__(self):
+        self.handle = None
+        try:
+            import ctypes
+            from ctypes import wintypes
+            kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+            ntdll = ctypes.WinDLL("ntdll")
+            kernel32.CreateJobObjectW.restype = wintypes.HANDLE
+            kernel32.CreateJobObjectW.argtypes = [ctypes.c_void_p, wintypes.LPCWSTR]
+            kernel32.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
+            kernel32.TerminateJobObject.argtypes = [wintypes.HANDLE, wintypes.UINT]
+            kernel32.QueryInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p,
+                                                           wintypes.DWORD, ctypes.c_void_p]
+            kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+            ntdll.NtResumeProcess.argtypes = [wintypes.HANDLE]
+            handle = kernel32.CreateJobObjectW(None, None)
+            if handle:
+                self.handle, self.kernel32, self.ntdll = handle, kernel32, ntdll
+        except (AttributeError, OSError, ValueError):
+            self.handle = None
+
+    @property
+    def creation_flags(self) -> int:
+        return self.CREATE_SUSPENDED if self.handle else 0
+
+    def adopt(self, process: subprocess.Popen) -> None:
+        """Assign the suspended process to the job, then resume it. If the
+        assignment fails the process still resumes (taskkill stays the fallback)."""
+        if not self.handle:
+            return
+        if not self.kernel32.AssignProcessToJobObject(self.handle, int(process._handle)):
+            self.close()
+        self.ntdll.NtResumeProcess(int(process._handle))
+
+    def terminate(self, wait: float = 5.0) -> bool:
+        """Terminate every process of the job and wait (bounded) until none is
+        active: TerminateJobObject returns before the processes release their
+        handles, and the provider's temporary files are still open until then."""
+        if not self.handle or not self.kernel32.TerminateJobObject(self.handle, 1):
+            return False
+        import ctypes
+        from ctypes import wintypes
+
+        class Accounting(ctypes.Structure):  # JOBOBJECT_BASIC_ACCOUNTING_INFORMATION
+            _fields_ = [("user", ctypes.c_int64), ("kernel", ctypes.c_int64), ("period_user", ctypes.c_int64),
+                        ("period_kernel", ctypes.c_int64), ("page_faults", wintypes.DWORD),
+                        ("total", wintypes.DWORD), ("active", wintypes.DWORD), ("terminated", wintypes.DWORD)]
+
+        info = Accounting()
+        deadline = time.monotonic() + wait
+        while time.monotonic() < deadline:
+            if not self.kernel32.QueryInformationJobObject(self.handle, 1, ctypes.byref(info), ctypes.sizeof(info),
+                                                           None) or info.active == 0:
+                break
+            time.sleep(0.05)
+        return True
+
+    def close(self) -> None:
+        if self.handle:
+            self.kernel32.CloseHandle(self.handle)
+            self.handle = None
+
+
+def _kill_tree(process: subprocess.Popen, job: "_WindowsJob | None" = None) -> None:
     """Stop the process and whatever it started (agent CLIs spawn helpers)."""
+    if job is not None and job.terminate():
+        try:
+            process.kill()
+        except OSError:
+            pass
+        return
     try:
         if os.name == "nt":
             subprocess.run(["taskkill", "/F", "/T", "/PID", str(process.pid)], capture_output=True, check=False)
@@ -176,27 +258,39 @@ class CommandProvider:
     def _once(self, prompt: str) -> str:
         from .redact import scrub_secrets
         self.calls += 1
-        with tempfile.TemporaryDirectory(prefix="voznativa-provider-") as workdir, \
-                tempfile.TemporaryDirectory(prefix="voznativa-capture-") as capture:
+        # ignore_cleanup_errors: a process that outlives the timeout can keep a
+        # file open on Windows; its cleanup error must not replace the
+        # ProviderError the caller needs (it used to surface as PermissionError).
+        with tempfile.TemporaryDirectory(prefix="voznativa-provider-", ignore_cleanup_errors=True) as workdir, \
+                tempfile.TemporaryDirectory(prefix="voznativa-capture-", ignore_cleanup_errors=True) as capture:
             out_path = os.path.join(capture, "stdout")
             err_path = os.path.join(capture, "stderr")
             # stdout/stderr go to files, so a runaway answer fills a temp file, not memory.
             with open(out_path, "wb") as out, open(err_path, "wb") as err:
+                job = _WindowsJob() if os.name == "nt" else None
                 try:
                     process = subprocess.Popen(
                         self.argv, stdin=subprocess.PIPE, stdout=out, stderr=err,
                         cwd=workdir if self.isolate else None, env=self._environment(),
                         start_new_session=os.name != "nt",
-                        creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) if os.name == "nt" else 0)
+                        creationflags=(subprocess.CREATE_NEW_PROCESS_GROUP | job.creation_flags)
+                        if job is not None else 0)
                 except OSError as error:  # command not found, not executable: retrying cannot help
+                    if job is not None:
+                        job.close()
                     raise ProviderError(f"{self.id}: cannot start: {error.strerror or error}", transient=False) \
                         from error
+                if job is not None:
+                    job.adopt(process)
                 try:
                     process.communicate(prompt.encode("utf-8"), timeout=self.timeout)
                 except subprocess.TimeoutExpired:
-                    _kill_tree(process)
+                    _kill_tree(process, job)
                     process.wait()
                     raise ProviderError(f"{self.id}: no answer after {self.timeout:g}s (process tree stopped)")
+                finally:
+                    if job is not None:
+                        job.close()
             size = os.path.getsize(out_path)
             stderr = Path(err_path).read_bytes()[:2000].decode("utf-8", "replace")
             if process.returncode != 0:
