@@ -1,0 +1,30 @@
+{
+  "benchmark": "ptbr-bench-v4",
+  "frozen_at": "2026-11-05",
+  "status": "frozen before any run; deterministic arm runnable; model arms NOT_RUN (no budget approved by the owner for paid model calls)",
+  "cases_file": "benchmarks/cases/ptbr-bench-v4.jsonl",
+  "cases_sha256": "614050779ae12a4661b3e1b2e00f56afcb47bb4d372225b93851078a3240f0a9",
+  "author": "VozNativa developer's agent (not independent): the cases were written after the v0.6.0 temporal, community, long-text and literary rules they exercise",
+  "cases": "22: 6 temporal slang (author's slang kept, slang not added for a 'current' request, epoch notes, author's slang removed, stuffing, other senses not read as slang), 4 community (terms kept and anglicism findings withdrawn, control without the community, jargon added by a candidate, unknown pack), 2 long texts (dependencies a cut must not break, dialogue), 4 literary (2 verse, literary prose with period spelling and characters' forms of address, the same text without the genre as a recorded risk), 3 natural texts, 2 AI-style drafts, 1 regional regression",
+  "class": "conformance of VozNativa's deterministic decisions to the v0.6.0 specification; not a quality benchmark",
+  "arms": {
+    "D-voznativa-v060-deterministic": {
+      "kind": "deterministic",
+      "runner": "scripts/bench_v4.py",
+      "what": "route + Voice Contract + plan + editorial report + engine review of a given candidate + segmentation; no model call"
+    }
+  },
+  "not_run_arms": {
+    "B0-original": "needs a judge only for preference; not part of the deterministic arm",
+    "B1-one-line": "model call; no budget approved",
+    "B6-voznativa-v060-engine": "model call (rewrite with plan, review and judge); no budget approved",
+    "human": "NOT_RUN; no reviewers recruited"
+  },
+  "metrics": {
+    "per_case": "every key of `expect` is one check; a case passes when all its checks pass",
+    "summary": "cases passed with a 95% Wilson interval; n = 22 is a conformance count, not an estimate of quality",
+    "must_preserve": "kept for model arms; the deterministic arm does not rewrite"
+  },
+  "freeze_rule": "the cases file is not edited after this commit; a wrong expectation is reported and determined (case error or implementation bug), and a later suite version fixes it",
+  "bias_disclosure": "Cases, expectations, rules and runner are VozNativa's own and were written by the same agent; passing shows the implementation does what its specification says, not that the specification is right for readers"
+}
