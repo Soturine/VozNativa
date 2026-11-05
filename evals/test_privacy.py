@@ -151,3 +151,57 @@ class RedactionHelpers(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReviewKeyCreation(unittest.TestCase):
+    """H6: the HMAC review key is created with mode 0600 in one step (it used
+    to be written world-readable and chmod-ed after), and a pre-existing file
+    is read, never overwritten."""
+
+    def test_new_key_is_private_from_creation(self):
+        import os
+        import stat
+        from voznativa.review import _load_key
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "keys" / "review.key"
+            os.environ["VOZNATIVA_REVIEW_KEY"] = str(path)
+            try:
+                key = _load_key(create=True)
+                self.assertEqual(len(key), 32)
+                self.assertEqual(bytes.fromhex(path.read_text(encoding="ascii")), key)
+                if os.name == "posix":
+                    self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+                self.assertEqual(_load_key(create=True), key)  # existing key reused, not replaced
+            finally:
+                os.environ.pop("VOZNATIVA_REVIEW_KEY", None)
+
+
+class AssuranceRecordSanitizer(unittest.TestCase):
+    """CP0 tool: recorded tool output is published only after the home, temp
+    and project directories are replaced, in every spelling tools print."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("assurance_record", ROOT / "scripts" / "assurance_record.py")
+        self.mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.mod)
+
+    def test_every_spelling_of_a_directory_is_replaced(self):
+        rules = [(p, label) for p, label in self.mod.sanitizer(Path(r"C:\Users\ana\proj"))]
+        # Synthetic spellings of a Windows project path (the rules come from the real
+        # home/temp too, so only the project rule is asserted here).
+        project_rules = [(p, l) for p, l in rules if l == "<PROJECT>"]
+        for text in (r"C:\Users\ana\proj\voznativa\x.py", "C:/Users/ana/proj/voznativa/x.py",
+                     r'"C:\Users\ana\proj\voznativa\x.py"', "/c/Users/ana/proj/voznativa/x.py",
+                     r"c:\users\ana\PROJ\voznativa\x.py"):
+            out = self.mod.sanitize(text, project_rules)
+            self.assertNotIn("ana", out, text)
+            self.assertIn("<PROJECT>", out, text)
+
+    def test_home_and_temp_of_this_machine_are_replaced(self):
+        import tempfile as tf
+        rules = self.mod.sanitizer(ROOT)
+        for path in (str(Path.home() / "secret-folder" / "a.txt"), str(Path(tf.gettempdir()) / "run" / "b.json")):
+            out = self.mod.sanitize(path + " | " + path.replace("\\", "/") + " | " + json.dumps(path), rules)
+            self.assertNotIn(Path.home().name, out.replace("<HOME>", "").replace("<TMP>", "").replace("<PROJECT>", ""),
+                             out)

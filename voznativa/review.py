@@ -67,11 +67,13 @@ def _load_key(create: bool = False) -> bytes | None:
         return None
     path.parent.mkdir(parents=True, exist_ok=True)
     key = secrets.token_bytes(32)
-    path.write_text(key.hex(), encoding="ascii")
-    try:
-        os.chmod(path, 0o600)
-    except OSError:  # Windows ignores POSIX modes; the file stays in the user profile
-        pass
+    # Created with mode 0600 in one step (H6): writing first and chmod-ing after
+    # left the secret readable by other users of the machine in between. O_EXCL
+    # also refuses to follow a planted file or link in place of a new key.
+    # Windows ignores POSIX modes; there the file stays in the user profile.
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+    with os.fdopen(fd, "w", encoding="ascii") as handle:
+        handle.write(key.hex())
     return key
 
 
