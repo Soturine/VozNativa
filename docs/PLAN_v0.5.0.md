@@ -23,8 +23,8 @@ H1 runner de qualificação; H2 eixos de desfecho do benchmark; H3 determinaçõ
 
 | Critério | Estado |
 |---|---|
-| 1. Gates locais (`scripts/qualify.py`) PASS no Windows e no Linux, Python 3.11–3.13 | ver `evals/qualification/` (registro do CP10) |
-| 2. Sem regressão; holdouts congelados intactos e sem falso verde | gate `semantic:holdouts:*` |
+| 1. Gates locais (`scripts/qualify.py`) PASS no Windows e no Linux, Python 3.11–3.13 | **PASS** em `caac7f7`: Windows 3.11/3.12, Linux 3.11/3.12/3.13 (`evals/compat/v0.5.0-dev-caac7f7.json`); Windows 3.13 NOT_RUN |
+| 2. Sem regressão; holdouts congelados intactos e sem falso verde | **PASS** em `caac7f7` (gates `semantic:holdouts:*`, `decision:regression`, `router:regression`) |
 | 3. `ptbr-bench-v3` executado oficialmente, com resultado por eixo e por braço | **NOT_RUN** |
 | 4. Avaliação regional humana com revisores da região | **NOT_RUN** |
 | 5. Herdados: holdout independente, revisão humana cega, CI verde | **abertos** (CI BLOCKED por cobrança) |

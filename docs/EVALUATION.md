@@ -199,7 +199,7 @@ Tudo abaixo foi executado nesta rodada e é escrito pelo desenvolvedor (não ind
 
 ### Gates locais (`scripts/qualify.py`)
 
-Windows 11, Python 3.12: validador, unittest, suíte dev, holdouts (segurança e estrito), decisão, router, exit codes do CLI e pacote (sdist → wheel → venv limpo → smoke) **PASS**; `review:pty` NOT_RUN no Windows. Linux e Python 3.11/3.13: ver o registro de qualificação do CP10 em `evals/qualification/`.
+Windows 11, Python 3.12: validador, unittest, suíte dev, holdouts (segurança e estrito), decisão, router, exit codes do CLI e pacote (sdist → wheel → venv limpo → smoke) **PASS**; `review:pty` NOT_RUN no Windows. Em `caac7f7`, todos os gates locais também passaram no Windows 3.11 e no Linux (WSL) 3.11, 3.12 e 3.13, incluindo `review:pty` no Linux (`evals/compat/v0.5.0-dev-caac7f7.json`).
 
 ### Semantic Ledger
 

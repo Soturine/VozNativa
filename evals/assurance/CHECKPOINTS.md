@@ -35,3 +35,53 @@ Registro do que foi **implementado, validado, não validado e bloqueado** em cad
 | H6 | chave de revisão criada com 0600 em uma chamada; testes do sanitizador de relatórios; varredura de caminhos/nomes nos arquivos versionados: limpa | `218e912` |
 
 Não validado neste ponto: Linux (WSL disponível; vai no CP10), Python 3.11/3.13, comportamento com modelo depois das correções (nenhuma chamada paga feita no CP4).
+
+## CP2/CP3 contínuos — Engine e Assertiva ao longo da rodada
+
+| Momento | Engine | Assertiva |
+|---|---|---|
+| CP0 (`4044cfc`) | `inspect` 57 candidatos; `evaluate` HIGH, revisão independente exigida | estática + `--execute`: 281 PASS; 4 candidatos de falso verde → 1 confirmado (NC1) |
+| CP4 (`66b918e`) | `compare` vs CP0: COMPARABLE, 3 ABSENT (corrigidos), 4 NEW | `--mutate --mutate-tests FILE`: nenhum mutante (AXF-VN-01); mutação feita pelo agente com Cosmic Ray |
+| CP8 (`5d7ae60`) | Engine atual `17fa564`: `review` das conclusões do agente (3 CANDIDATE, 2 controles REJECTED); 2 duplicações NEW corrigidas | reprodutores sintéticos de AXF-VN-01…05 |
+| CP10 (`caac7f7`) | `compare` vs CP0: COMPARABLE; 54 PERSISTING, 12 NEW (complexidade/duplicação de código novo, INFO), 3 ABSENT | `--execute`: 348 PASS; 1 candidato restante (contextual); assessment anexado e aceito |
+
+## CP5 — v0.5.0 Regional Evidence — implementado e testado
+
+Contrato de pack, piloto `br-norte-lex-mandioca`, integração em todas as camadas, CLI e Skill. Avaliação regional humana NOT_RUN. `docs/REGIONAL_EVIDENCE.md`, ADR-0001.
+
+## CP6 — pesquisa competitiva — feita
+
+`docs/COMPETITIVE_ANALYSIS_v0.5.md` (código e testes lidos pela API do GitHub; decisões ADOPT/ADAPT/EXPERIMENT/MONITOR/REJECT).
+
+## CP7 — avaliação e benchmark v3
+
+Testes metamórficos (acharam NFD/NBSP, corrigido); `ptbr-bench-v3` congelado e **NOT_RUN** (sem CLI de modelo; sem orçamento aprovado); runner verificado com modelo falso; protocolo humano pré-registrado, **NOT_RUN**.
+
+## CP8 — dogfood cruzado — encaminhado
+
+`evals/assurance/DOGFOOD.md`; Assertiva PR #8 e Derivanta-Engine PR #3 (registro, nada corrigido lá).
+
+## CP9 — documentação e demonstração
+
+README, ROADMAP, CHANGELOG, PLAN_v0.5.0, TRACEABILITY, EVALUATION, LICENSING sincronizados; `examples/v0.5.0-demo.md` regenerável (achou um falso verde de troca de papéis com edição junto, corrigido em `2eb903f`).
+
+## CP10 — qualificação (`caac7f7`)
+
+| Critério | Estado | Evidência |
+|---|---|---|
+| Testes nativos (348) | **PASS** em Windows 3.11/3.12 e Linux 3.11/3.12/3.13 | `runs/2026-11-05-cp10-final/qualify-*.json` |
+| Avaliação semântica (dev + holdouts) | **PASS** (holdouts estritos sem falha conhecida restante) | idem |
+| Suíte de decisões | **PASS** (sem regressão; `dc-021`, `dc-029` conhecidos e determinados) | idem, `H3_PLANNER_CASES.md` |
+| Smoke da CLI e exit codes | **PASS** | gate `cli:exit-codes` |
+| sdist → wheel → instalação isolada → smoke | **PASS** (BLOCKED só com o 3.12 do sistema Ubuntu sem `ensurepip`) | gate `package:sdist-wheel-smoke` |
+| Revisão em pseudo-terminal | **PASS** no Linux; NOT_RUN no Windows | gate `review:pty` |
+| Documentação e schemas | **PASS** (validador; demo regenera igual) | gate `validator`, `DemoV05` |
+| Auditoria Assertiva | executada; 1 candidato contextual; assessment aceito | `assertiva-*.json` |
+| Inspeção Derivanta Engine | executada; COMPARABLE com a baseline | `engine-*.json` |
+| Benchmark com modelo (`ptbr-bench-v3`) | **NOT_RUN** | manifesto congelado |
+| Python 3.13 no Windows, macOS | **NOT_RUN** (não instalados) | `evals/compat/v0.5.0-dev-caac7f7.json` |
+| CI GitHub Actions | **BLOCKED** (cobrança) | `evals/qualification/external.json` |
+| Holdout independente | **NOT_RUN** | idem |
+| Revisão humana cega e regional | **NOT_RUN** | `evals/reviewers/PROTOCOL_v0.5.md` |
+
+Veredito do runner: **INCOMPLETE** (exit 3) em todas as plataformas, só pelos critérios externos. A v0.5.0 **não está qualificada** e segue `0.5.0.dev0`.
