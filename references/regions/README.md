@@ -103,7 +103,11 @@ Rio capital = estado do Rio
 
 Se a fonte não sustenta granularidade local, o pack também não sustenta.
 
-## Estrutura futura de pack
+## Estrutura de pack
+
+Substituída pelo contrato versionado de Regional Evidence Pack (v0.5.0): `docs/REGIONAL_EVIDENCE.md` e `docs/adr/ADR-0001-regional-evidence-packs.md`. O esboço abaixo fica como histórico.
+
+### Esboço original
 
 ```yaml
 pack_id: br-sp-capital
