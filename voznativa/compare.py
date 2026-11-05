@@ -277,6 +277,15 @@ def _ordered_units(text: str) -> list[str]:
     return units
 
 
+def _project(units: list[str], shared: Counter) -> list[str]:
+    left, out = Counter(shared), []
+    for unit in units:
+        if left[unit] > 0:
+            out.append(unit)
+            left[unit] -= 1
+    return out
+
+
 def _crossing_issues(src, out, alignment) -> list[dict]:
     """Same words, exchanged across a pivot: "o cliente processou a empresa" ->
     "a empresa processou o cliente", "teste antes de publicar" -> "publique antes
@@ -292,7 +301,13 @@ def _crossing_issues(src, out, alignment) -> list[dict]:
             continue
         a_text, b_text = src.entries[i].sentence.text, out.entries[j].sentence.text
         a, b = _ordered_units(a_text), _ordered_units(b_text)
-        if a == b or Counter(a) != Counter(b) or len(a) < 3:
+        # Project both onto the words they share: a rewrite that also drops a
+        # formula ("vale ressaltar que") and swaps the roles must still be seen
+        # (false green found by the v0.5.0 demo). Each unit keeps at most the
+        # count both sentences have.
+        shared = Counter(a) & Counter(b)
+        a, b = _project(a, shared), _project(b, shared)
+        if a == b or len(a) < 3:
             continue
         if bool(_VOICE_MARK.search(a_text)) != bool(_VOICE_MARK.search(b_text)):
             continue
