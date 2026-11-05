@@ -161,22 +161,19 @@ _CONTRACTIONS = {
 
 def _first_token_positions(folded: list[str]):
     """Ascending positions where a phrase's first entry can match: the exact
-    token, its article contractions (multiword phrases only, as in
-    _phrase_matches) or, for a prefix entry, every token with that prefix."""
+    token or, for a prefix entry, every token with that prefix."""
     index: dict[str, list[int]] = {}
     for i, token in enumerate(folded):
         index.setdefault(token, []).append(i)
-    cache: dict[tuple[str, bool], list[int]] = {}
+    cache: dict[str, list[int]] = {}
 
-    def positions(first: str, multiword: bool = True) -> list[int]:
-        key = (first, multiword)
+    def positions(first: str) -> list[int]:
+        key = first
         if key not in cache:
             if first.endswith("*"):
                 stem = first[:-1]
                 hits = [i for token, where in index.items()
                         if token.startswith(stem) and len(token) > len(stem) for i in where]
-            elif multiword and first in _CONTRACTIONS:
-                hits = [i for token in _CONTRACTIONS[first] for i in index.get(token, [])]
             else:
                 hits = list(index.get(first, []))
             cache[key] = sorted(hits)
@@ -194,7 +191,11 @@ def _token_matches(pattern: str, token: str) -> bool:
 def _phrase_matches(phrase: tuple[str, ...], window: list[str]) -> bool:
     if len(phrase) == 1:
         return _token_matches(phrase[0], window[0])
-    return all(p == w or (p in _CONTRACTIONS and w in _CONTRACTIONS[p]) for p, w in zip(phrase, window))
+    # Contractions only after the first word ("leva a" ~ "leva ao"): in the
+    # first slot they turned "na função de gerente" (in the role of) into "em
+    # função de" (because of) and "pela conta de luz" into "por conta de".
+    return phrase[0] == window[0] and all(
+        p == w or (p in _CONTRACTIONS and w in _CONTRACTIONS[p]) for p, w in zip(phrase[1:], window[1:]))
 
 
 _HEAD_NEGATORS = frozenset({"nao", "nn"})

@@ -77,9 +77,8 @@ class MarkersEquivalence(unittest.TestCase):
         for text in ("", "a", "se", "Se não for possível, a não ser que chova, ao menos tente.",
                      "a, " * 300 + "b.", "não " * 200, "aumentou aumento aument", "pelo pela pelos ao à às",
                      "Não afetou nenhum cliente, nem nunca afetará.",
-                     # a contraction in a phrase's first slot ("na função de" ~ "em função de",
-                     # "pela conta de" ~ "por conta de"): absent from the recorded corpus, so
-                     # pinned here (a mutant dropping that path survived without these).
+                     # inputs near a phrase's first slot ("na função de", "pela conta de"), absent
+                     # from the recorded corpus; a mutant of the position index survived without them.
                      "Ele atua na função de gerente.", "Pagou pela conta de luz.", "Saiu pelo isso mesmo.",
                      "Chegou nas razão de sempre.", "Do jeito nenhum que pediram."):
             self.assertEqual(signals.markers(text), reference_markers(text), text[:40])
@@ -87,3 +86,21 @@ class MarkersEquivalence(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FirstSlotContractions(unittest.TestCase):
+    """A contraction matches only inside a phrase: "na função de gerente" (in
+    the role of) is not "em função de" (because of)."""
+
+    def labels(self, text):
+        return [m.label for m in signals.markers(text)]
+
+    def test_contraction_in_the_first_slot_is_not_the_phrase(self):
+        self.assertNotIn("causality.causal", self.labels("Ele atua na função de gerente."))
+        self.assertNotIn("causality.causal", self.labels("Pagou pela conta de luz."))
+        self.assertNotIn("attribution.source", self.labels("Do acordo com a empresa saiu nada."))
+
+    def test_the_phrase_itself_and_inner_contractions_still_match(self):
+        self.assertIn("causality.causal", self.labels("Atrasou em função de chuva."))
+        self.assertIn("causality.causal", self.labels("Atrasou por conta da chuva."))
+        self.assertIn("causality.causal", self.labels("A chuva leva ao atraso."))
