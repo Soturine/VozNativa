@@ -1,0 +1,85 @@
+# Regional Evidence Pack — contract: docs/REGIONAL_EVIDENCE.md (schema_version 1)
+#
+# Pilot. Facts and counts from a published analysis of the Atlas Linguístico do
+# Brasil (ALiB) data, cited; no corpus text is copied. Effective strength is low
+# and the pack never inserts a form: it only tells the engine which forms of one
+# referent belong to the requested region, which form changes the referent there,
+# and when to abstain.
+schema_version: 1
+kind: voznativa.regional_evidence_pack
+id: br-norte-lex-mandioca
+version: 0.1.0
+status: pilot                     # pilot | experimental | calibrated
+human_reviewed: false
+
+scope:
+  country: BR
+  macro_region: norte
+  states: [AC, AM, AP, PA, RO, RR, TO]
+  localities: "24 pontos da rede ALiB na Região Norte (capitais e interior), conforme Cardoso et al. 2014a"
+  urbanity: capitals_and_interior
+
+epoch:
+  collected_from: 2001
+  collected_to: 2013
+  note: "fala registrada entre 2001 e 2013; uso escrito atual não foi medido"
+
+modality: spoken
+data_type: semi_directed_questionnaire_answers
+genre_channel: "inquérito dialetal (Questionário Semântico-Lexical do ALiB); não é escrita espontânea"
+informants:
+  count: 96
+  schooling: "até o ensino fundamental"
+  age_bands: ["18-30", "50-65"]
+  sex: "48 homens, 48 mulheres"
+  born_locally: true
+
+sources:
+  - id: romano-2020
+    citation: "ROMANO, Valter. Macaxeira e mandioca na Região Norte do Brasil em uma perspectiva diatópica nos dados do Projeto ALiB. Revista Porto das Letras, v. 6, n. 3, 2020, p. 78-103."
+    url: "https://sistemas.uft.edu.br/periodicos/index.php/portodasletras/article/view/9856"
+    kind: secondary_analysis
+    accessed: "2026-11-05"
+  - id: alib
+    citation: "COMITÊ NACIONAL DO PROJETO ALiB. Questionários 2001; CARDOSO, S. A. M. et al. Atlas Linguístico do Brasil, v. 1 e 2. Londrina: EDUEL, 2014."
+    url: "https://alib.ufba.br/"
+    kind: primary_atlas
+    accessed: "2026-11-05 (site with an invalid TLS certificate; not read directly)"
+
+license:
+  pack: "facts, counts and citations only; no text of the atlas or the article is reproduced"
+  source_terms: "published scientific article and atlas; cited, not redistributed"
+
+features:
+  - id: mandioca-comestivel
+    level: lexical
+    referent: "raiz de mandioca de mesa, comestível sem processamento (ALiB QSL 50)"
+    forms:
+      - {form: macaxeira, count: 92, share: 0.836}
+      - {form: mandioca, count: 13, share: 0.118}
+      - {form: aipim, count: 5, share: 0.045}
+    total_answers: 110
+    preferred_in_scope: macaxeira
+    exceptions:
+      - scope: TO
+        note: "Tocantins diverge: mandioca predomina e aipim chega a 15,38% das respostas"
+    contexts_legitimate: ["texto informal ou conversacional para leitores da região", "cardápio, receita, comércio local"]
+    contexts_not: ["texto técnico ou agronômico (usa a nomenclatura da área)", "texto acadêmico", "citação ou nome próprio"]
+    confusions:
+      - forms: [macaxeira, mandioca]
+        risk: "na Região Norte, 'mandioca' designa sobretudo a mandioca brava, não comestível sem processamento (QSL 51); trocar macaxeira por mandioca pode mudar o referente"
+      - forms: [aipim, mandioca]
+        risk: "idem: 'aipim' é a variedade de mesa; 'mandioca' pode ser a brava"
+    confidence: low
+    evidence_level: E2
+    limitations:
+      - "inquérito de fala com informantes de escolaridade fundamental; não mede escrita, internet nem outros níveis de escolaridade"
+      - "fonte secundária (análise publicada); os dados primários do ALiB não foram consultados diretamente"
+      - "não há contraste quantitativo com outras regiões nesta fonte"
+
+activation:
+  requires_explicit_region: true        # never inferred from the text or the author
+  requires_referent_in_text: true       # nothing to do when the text does not mention the root
+  author_form_wins: true                # a form the author used (text or profile) is kept
+  max_strength: 0.25
+  allowed_genres: [whatsapp, email, social, corporate, journalistic, literary, unknown]
