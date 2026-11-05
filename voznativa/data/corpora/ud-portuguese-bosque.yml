@@ -28,7 +28,7 @@ relations:
 - type: derived_from
   target: cetenfolha
   note: CF-* sentences come from CETENFolha (Brazil)
-status: LOCALLY_VALIDATED
+status: EVALUATION_INTEGRATED
 evidence_role: 'annotated news sentences, Brazilian (CF) and European (CP) parts: a PT-BR x PT-PT contrast'
 notes: []
 verification:
@@ -94,3 +94,7 @@ processing:
 processing_runs:
 - evals/corpus/runs/prepare-2026-11-05.json
 - evals/corpus/runs/integrity-2026-11-05.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_calibrate.py
+- evals/corpus/runs/calibration-2026-11-05.json

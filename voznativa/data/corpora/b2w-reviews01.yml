@@ -25,7 +25,7 @@ access:
   type: open_download
   note: CSV in the GitHub repository
 relations: []
-status: LOCALLY_VALIDATED
+status: EVALUATION_INTEGRATED
 evidence_role: informal written PT-BR by consumers; natural-text control for detectors
 notes: []
 verification:
@@ -80,3 +80,7 @@ processing:
 processing_runs:
 - evals/corpus/runs/prepare-2026-11-05.json
 - evals/corpus/runs/integrity-2026-11-05.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_calibrate.py
+- evals/corpus/runs/calibration-2026-11-05.json

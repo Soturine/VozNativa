@@ -1,0 +1,2068 @@
+{
+  "kind": "voznativa.corpus_calibration_run",
+  "date": "2026-11-05",
+  "splits": "integrity run splits (same salt and units)",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "genre": "journalistic",
+      "calibration": {
+        "documents": 484,
+        "words": 33792,
+        "edit_rate": {
+          "k": 1,
+          "n": 484,
+          "rate": 0.0021,
+          "wilson95": [
+            0.0,
+            0.012
+          ]
+        },
+        "edit_drivers": {
+          "weak_accumulation": 1
+        },
+        "weak_findings_histogram": {
+          "0": 457,
+          "1": 26,
+          "2": 1
+        },
+        "by_length": {
+          "0-49": {
+            "documents": 143,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 143,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.026
+                ]
+              }
+            }
+          },
+          "150-299": {
+            "documents": 17,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 17,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.184
+                ]
+              }
+            }
+          },
+          "300+": {
+            "documents": 1,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 1,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.793
+                ]
+              }
+            }
+          },
+          "50-149": {
+            "documents": 323,
+            "threshold": {
+              "weak/75": {
+                "k": 1,
+                "n": 323,
+                "rate": 0.0031,
+                "wilson95": [
+                  0.001,
+                  0.017
+                ]
+              },
+              "weak/100": {
+                "k": 1,
+                "n": 323,
+                "rate": 0.0031,
+                "wilson95": [
+                  0.001,
+                  0.017
+                ]
+              },
+              "weak/150": {
+                "k": 1,
+                "n": 323,
+                "rate": 0.0031,
+                "wilson95": [
+                  0.001,
+                  0.017
+                ]
+              },
+              "weak/200": {
+                "k": 1,
+                "n": 323,
+                "rate": 0.0031,
+                "wilson95": [
+                  0.001,
+                  0.017
+                ]
+              },
+              "weak/300": {
+                "k": 1,
+                "n": 323,
+                "rate": 0.0031,
+                "wilson95": [
+                  0.001,
+                  0.017
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 323,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.012
+                ]
+              }
+            }
+          }
+        },
+        "findings_per_1000_words": 0.829,
+        "documents_with_pattern": {
+          "stacked_connector": {
+            "documents": 6,
+            "rate": {
+              "k": 6,
+              "n": 484,
+              "rate": 0.0124,
+              "wilson95": [
+                0.006,
+                0.027
+              ]
+            },
+            "per_1000_words": 0.178
+          },
+          "anglicism_out_of_domain": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 484,
+              "rate": 0.0083,
+              "wilson95": [
+                0.003,
+                0.021
+              ]
+            },
+            "per_1000_words": 0.118
+          },
+          "formulaic_triad": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 484,
+              "rate": 0.0083,
+              "wilson95": [
+                0.003,
+                0.021
+              ]
+            },
+            "per_1000_words": 0.118
+          },
+          "gerundismo": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 484,
+              "rate": 0.0062,
+              "wilson95": [
+                0.002,
+                0.018
+              ]
+            },
+            "per_1000_words": 0.118
+          },
+          "promotional": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 484,
+              "rate": 0.0062,
+              "wilson95": [
+                0.002,
+                0.018
+              ]
+            },
+            "per_1000_words": 0.089
+          },
+          "nominal_chain": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 484,
+              "rate": 0.0041,
+              "wilson95": [
+                0.001,
+                0.015
+              ]
+            },
+            "per_1000_words": 0.059
+          },
+          "gerund_tail": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 484,
+              "rate": 0.0041,
+              "wilson95": [
+                0.001,
+                0.015
+              ]
+            },
+            "per_1000_words": 0.059
+          },
+          "corporate_vague": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 484,
+              "rate": 0.0021,
+              "wilson95": [
+                0.0,
+                0.012
+              ]
+            },
+            "per_1000_words": 0.03
+          },
+          "anaphora_run": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 484,
+              "rate": 0.0021,
+              "wilson95": [
+                0.0,
+                0.012
+              ]
+            },
+            "per_1000_words": 0.03
+          },
+          "support_verb": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 484,
+              "rate": 0.0021,
+              "wilson95": [
+                0.0,
+                0.012
+              ]
+            },
+            "per_1000_words": 0.03
+          }
+        },
+        "threshold": {
+          "weak/75": {
+            "k": 1,
+            "n": 484,
+            "rate": 0.0021,
+            "wilson95": [
+              0.0,
+              0.012
+            ]
+          },
+          "weak/100": {
+            "k": 1,
+            "n": 484,
+            "rate": 0.0021,
+            "wilson95": [
+              0.0,
+              0.012
+            ]
+          },
+          "weak/150": {
+            "k": 1,
+            "n": 484,
+            "rate": 0.0021,
+            "wilson95": [
+              0.0,
+              0.012
+            ]
+          },
+          "weak/200": {
+            "k": 1,
+            "n": 484,
+            "rate": 0.0021,
+            "wilson95": [
+              0.0,
+              0.012
+            ]
+          },
+          "weak/300": {
+            "k": 1,
+            "n": 484,
+            "rate": 0.0021,
+            "wilson95": [
+              0.0,
+              0.012
+            ]
+          },
+          "strong_only": {
+            "k": 0,
+            "n": 484,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.008
+            ]
+          }
+        }
+      },
+      "evaluation": {
+        "documents": 499,
+        "words": 34034,
+        "edit_rate": {
+          "k": 1,
+          "n": 499,
+          "rate": 0.002,
+          "wilson95": [
+            0.0,
+            0.011
+          ]
+        },
+        "edit_drivers": {
+          "weak_accumulation": 1
+        },
+        "weak_findings_histogram": {
+          "0": 473,
+          "1": 25,
+          "2": 1
+        },
+        "by_length": {
+          "0-49": {
+            "documents": 164,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 164,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.023
+                ]
+              }
+            }
+          },
+          "150-299": {
+            "documents": 18,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 18,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.176
+                ]
+              }
+            }
+          },
+          "50-149": {
+            "documents": 317,
+            "threshold": {
+              "weak/75": {
+                "k": 1,
+                "n": 317,
+                "rate": 0.0032,
+                "wilson95": [
+                  0.001,
+                  0.018
+                ]
+              },
+              "weak/100": {
+                "k": 1,
+                "n": 317,
+                "rate": 0.0032,
+                "wilson95": [
+                  0.001,
+                  0.018
+                ]
+              },
+              "weak/150": {
+                "k": 1,
+                "n": 317,
+                "rate": 0.0032,
+                "wilson95": [
+                  0.001,
+                  0.018
+                ]
+              },
+              "weak/200": {
+                "k": 1,
+                "n": 317,
+                "rate": 0.0032,
+                "wilson95": [
+                  0.001,
+                  0.018
+                ]
+              },
+              "weak/300": {
+                "k": 1,
+                "n": 317,
+                "rate": 0.0032,
+                "wilson95": [
+                  0.001,
+                  0.018
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 317,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.012
+                ]
+              }
+            }
+          }
+        },
+        "findings_per_1000_words": 0.793,
+        "documents_with_pattern": {
+          "nominal_chain": {
+            "documents": 9,
+            "rate": {
+              "k": 9,
+              "n": 499,
+              "rate": 0.018,
+              "wilson95": [
+                0.01,
+                0.034
+              ]
+            },
+            "per_1000_words": 0.264
+          },
+          "promotional": {
+            "documents": 6,
+            "rate": {
+              "k": 6,
+              "n": 499,
+              "rate": 0.012,
+              "wilson95": [
+                0.006,
+                0.026
+              ]
+            },
+            "per_1000_words": 0.176
+          },
+          "gerund_tail": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 499,
+              "rate": 0.006,
+              "wilson95": [
+                0.002,
+                0.018
+              ]
+            },
+            "per_1000_words": 0.088
+          },
+          "support_verb": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 499,
+              "rate": 0.006,
+              "wilson95": [
+                0.002,
+                0.018
+              ]
+            },
+            "per_1000_words": 0.088
+          },
+          "anglicism_out_of_domain": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 499,
+              "rate": 0.004,
+              "wilson95": [
+                0.001,
+                0.014
+              ]
+            },
+            "per_1000_words": 0.059
+          },
+          "formulaic_triad": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 499,
+              "rate": 0.004,
+              "wilson95": [
+                0.001,
+                0.014
+              ]
+            },
+            "per_1000_words": 0.059
+          },
+          "gerundismo": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 499,
+              "rate": 0.002,
+              "wilson95": [
+                0.0,
+                0.011
+              ]
+            },
+            "per_1000_words": 0.029
+          },
+          "anaphora_run": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 499,
+              "rate": 0.002,
+              "wilson95": [
+                0.0,
+                0.011
+              ]
+            },
+            "per_1000_words": 0.029
+          }
+        },
+        "threshold": {
+          "weak/75": {
+            "k": 1,
+            "n": 499,
+            "rate": 0.002,
+            "wilson95": [
+              0.0,
+              0.011
+            ]
+          },
+          "weak/100": {
+            "k": 1,
+            "n": 499,
+            "rate": 0.002,
+            "wilson95": [
+              0.0,
+              0.011
+            ]
+          },
+          "weak/150": {
+            "k": 1,
+            "n": 499,
+            "rate": 0.002,
+            "wilson95": [
+              0.0,
+              0.011
+            ]
+          },
+          "weak/200": {
+            "k": 1,
+            "n": 499,
+            "rate": 0.002,
+            "wilson95": [
+              0.0,
+              0.011
+            ]
+          },
+          "weak/300": {
+            "k": 1,
+            "n": 499,
+            "rate": 0.002,
+            "wilson95": [
+              0.0,
+              0.011
+            ]
+          },
+          "strong_only": {
+            "k": 0,
+            "n": 499,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.008
+            ]
+          }
+        }
+      }
+    },
+    "b2w-reviews01": {
+      "genre": "social",
+      "calibration": {
+        "documents": 9663,
+        "words": 233803,
+        "edit_rate": {
+          "k": 30,
+          "n": 9663,
+          "rate": 0.0031,
+          "wilson95": [
+            0.002,
+            0.004
+          ]
+        },
+        "edit_drivers": {
+          "officialese": 7,
+          "empty_metadiscourse": 7,
+          "dramatic_punchline": 4,
+          "pt_pt_variant": 4,
+          "weak_accumulation": 4,
+          "gerundismo": 2,
+          "enem_formula": 1,
+          "formulaic_triad": 1
+        },
+        "weak_findings_histogram": {
+          "0": 9503,
+          "1": 156,
+          "2": 3,
+          "3": 1
+        },
+        "by_length": {
+          "0-49": {
+            "documents": 8786,
+            "threshold": {
+              "weak/75": {
+                "k": 23,
+                "n": 8786,
+                "rate": 0.0026,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              },
+              "weak/100": {
+                "k": 23,
+                "n": 8786,
+                "rate": 0.0026,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              },
+              "weak/150": {
+                "k": 23,
+                "n": 8786,
+                "rate": 0.0026,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              },
+              "weak/200": {
+                "k": 23,
+                "n": 8786,
+                "rate": 0.0026,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              },
+              "weak/300": {
+                "k": 23,
+                "n": 8786,
+                "rate": 0.0026,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              },
+              "strong_only": {
+                "k": 21,
+                "n": 8786,
+                "rate": 0.0024,
+                "wilson95": [
+                  0.002,
+                  0.004
+                ]
+              }
+            }
+          },
+          "150-299": {
+            "documents": 40,
+            "threshold": {
+              "weak/75": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              },
+              "weak/100": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              },
+              "weak/150": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              },
+              "weak/200": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              },
+              "weak/300": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              },
+              "strong_only": {
+                "k": 1,
+                "n": 40,
+                "rate": 0.025,
+                "wilson95": [
+                  0.004,
+                  0.129
+                ]
+              }
+            }
+          },
+          "300+": {
+            "documents": 5,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 5,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.434
+                ]
+              }
+            }
+          },
+          "50-149": {
+            "documents": 832,
+            "threshold": {
+              "weak/75": {
+                "k": 6,
+                "n": 832,
+                "rate": 0.0072,
+                "wilson95": [
+                  0.003,
+                  0.016
+                ]
+              },
+              "weak/100": {
+                "k": 6,
+                "n": 832,
+                "rate": 0.0072,
+                "wilson95": [
+                  0.003,
+                  0.016
+                ]
+              },
+              "weak/150": {
+                "k": 6,
+                "n": 832,
+                "rate": 0.0072,
+                "wilson95": [
+                  0.003,
+                  0.016
+                ]
+              },
+              "weak/200": {
+                "k": 6,
+                "n": 832,
+                "rate": 0.0072,
+                "wilson95": [
+                  0.003,
+                  0.016
+                ]
+              },
+              "weak/300": {
+                "k": 6,
+                "n": 832,
+                "rate": 0.0072,
+                "wilson95": [
+                  0.003,
+                  0.016
+                ]
+              },
+              "strong_only": {
+                "k": 4,
+                "n": 832,
+                "rate": 0.0048,
+                "wilson95": [
+                  0.002,
+                  0.012
+                ]
+              }
+            }
+          }
+        },
+        "findings_per_1000_words": 0.83,
+        "documents_with_pattern": {
+          "promotional": {
+            "documents": 44,
+            "rate": {
+              "k": 44,
+              "n": 9663,
+              "rate": 0.0046,
+              "wilson95": [
+                0.003,
+                0.006
+              ]
+            },
+            "per_1000_words": 0.197
+          },
+          "formulaic_triad": {
+            "documents": 25,
+            "rate": {
+              "k": 25,
+              "n": 9663,
+              "rate": 0.0026,
+              "wilson95": [
+                0.002,
+                0.004
+              ]
+            },
+            "per_1000_words": 0.115
+          },
+          "anaphora_run": {
+            "documents": 24,
+            "rate": {
+              "k": 24,
+              "n": 9663,
+              "rate": 0.0025,
+              "wilson95": [
+                0.002,
+                0.004
+              ]
+            },
+            "per_1000_words": 0.103
+          },
+          "nominal_chain": {
+            "documents": 20,
+            "rate": {
+              "k": 20,
+              "n": 9663,
+              "rate": 0.0021,
+              "wilson95": [
+                0.001,
+                0.003
+              ]
+            },
+            "per_1000_words": 0.09
+          },
+          "stacked_connector": {
+            "documents": 18,
+            "rate": {
+              "k": 18,
+              "n": 9663,
+              "rate": 0.0019,
+              "wilson95": [
+                0.001,
+                0.003
+              ]
+            },
+            "per_1000_words": 0.077
+          },
+          "gerund_tail": {
+            "documents": 9,
+            "rate": {
+              "k": 9,
+              "n": 9663,
+              "rate": 0.0009,
+              "wilson95": [
+                0.0,
+                0.002
+              ]
+            },
+            "per_1000_words": 0.038
+          },
+          "gerundismo": {
+            "documents": 8,
+            "rate": {
+              "k": 8,
+              "n": 9663,
+              "rate": 0.0008,
+              "wilson95": [
+                0.0,
+                0.002
+              ]
+            },
+            "per_1000_words": 0.034
+          },
+          "officialese": {
+            "documents": 7,
+            "rate": {
+              "k": 7,
+              "n": 9663,
+              "rate": 0.0007,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.034
+          },
+          "empty_metadiscourse": {
+            "documents": 7,
+            "rate": {
+              "k": 7,
+              "n": 9663,
+              "rate": 0.0007,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.03
+          },
+          "support_verb": {
+            "documents": 6,
+            "rate": {
+              "k": 6,
+              "n": 9663,
+              "rate": 0.0006,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.026
+          },
+          "dramatic_punchline": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 9663,
+              "rate": 0.0004,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.017
+          },
+          "corporate_vague": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 9663,
+              "rate": 0.0004,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.017
+          },
+          "pt_pt_variant": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 9663,
+              "rate": 0.0004,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.017
+          },
+          "formulaic_courtesy": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 9663,
+              "rate": 0.0003,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.013
+          },
+          "generic_closing": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 9663,
+              "rate": 0.0002,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.009
+          },
+          "repeated_evaluation": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 9663,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          },
+          "pleonasm": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 9663,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          },
+          "enem_formula": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 9663,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          }
+        },
+        "threshold": {
+          "weak/75": {
+            "k": 30,
+            "n": 9663,
+            "rate": 0.0031,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          },
+          "weak/100": {
+            "k": 30,
+            "n": 9663,
+            "rate": 0.0031,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          },
+          "weak/150": {
+            "k": 30,
+            "n": 9663,
+            "rate": 0.0031,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          },
+          "weak/200": {
+            "k": 30,
+            "n": 9663,
+            "rate": 0.0031,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          },
+          "weak/300": {
+            "k": 30,
+            "n": 9663,
+            "rate": 0.0031,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          },
+          "strong_only": {
+            "k": 26,
+            "n": 9663,
+            "rate": 0.0027,
+            "wilson95": [
+              0.002,
+              0.004
+            ]
+          }
+        }
+      },
+      "evaluation": {
+        "documents": 10220,
+        "words": 235822,
+        "edit_rate": {
+          "k": 18,
+          "n": 10220,
+          "rate": 0.0018,
+          "wilson95": [
+            0.001,
+            0.003
+          ]
+        },
+        "edit_drivers": {
+          "weak_accumulation": 5,
+          "officialese": 4,
+          "empty_metadiscourse": 2,
+          "dramatic_punchline": 2,
+          "connector_pleonasm": 1,
+          "closing_formula": 1,
+          "promotional": 1,
+          "formulaic_triad": 1,
+          "gerundismo": 1
+        },
+        "weak_findings_histogram": {
+          "0": 10060,
+          "1": 155,
+          "2": 5
+        },
+        "by_length": {
+          "0-49": {
+            "documents": 9329,
+            "threshold": {
+              "weak/75": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              },
+              "weak/100": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              },
+              "weak/150": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              },
+              "weak/200": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              },
+              "weak/300": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              },
+              "strong_only": {
+                "k": 10,
+                "n": 9329,
+                "rate": 0.0011,
+                "wilson95": [
+                  0.001,
+                  0.002
+                ]
+              }
+            }
+          },
+          "150-299": {
+            "documents": 34,
+            "threshold": {
+              "weak/75": {
+                "k": 1,
+                "n": 34,
+                "rate": 0.0294,
+                "wilson95": [
+                  0.005,
+                  0.149
+                ]
+              },
+              "weak/100": {
+                "k": 1,
+                "n": 34,
+                "rate": 0.0294,
+                "wilson95": [
+                  0.005,
+                  0.149
+                ]
+              },
+              "weak/150": {
+                "k": 2,
+                "n": 34,
+                "rate": 0.0588,
+                "wilson95": [
+                  0.016,
+                  0.191
+                ]
+              },
+              "weak/200": {
+                "k": 2,
+                "n": 34,
+                "rate": 0.0588,
+                "wilson95": [
+                  0.016,
+                  0.191
+                ]
+              },
+              "weak/300": {
+                "k": 2,
+                "n": 34,
+                "rate": 0.0588,
+                "wilson95": [
+                  0.016,
+                  0.191
+                ]
+              },
+              "strong_only": {
+                "k": 1,
+                "n": 34,
+                "rate": 0.0294,
+                "wilson95": [
+                  0.005,
+                  0.149
+                ]
+              }
+            }
+          },
+          "300+": {
+            "documents": 4,
+            "threshold": {
+              "weak/75": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              },
+              "weak/100": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              },
+              "weak/150": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              },
+              "weak/200": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              },
+              "weak/300": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              },
+              "strong_only": {
+                "k": 0,
+                "n": 4,
+                "rate": 0.0,
+                "wilson95": [
+                  0.0,
+                  0.49
+                ]
+              }
+            }
+          },
+          "50-149": {
+            "documents": 853,
+            "threshold": {
+              "weak/75": {
+                "k": 6,
+                "n": 853,
+                "rate": 0.007,
+                "wilson95": [
+                  0.003,
+                  0.015
+                ]
+              },
+              "weak/100": {
+                "k": 6,
+                "n": 853,
+                "rate": 0.007,
+                "wilson95": [
+                  0.003,
+                  0.015
+                ]
+              },
+              "weak/150": {
+                "k": 6,
+                "n": 853,
+                "rate": 0.007,
+                "wilson95": [
+                  0.003,
+                  0.015
+                ]
+              },
+              "weak/200": {
+                "k": 6,
+                "n": 853,
+                "rate": 0.007,
+                "wilson95": [
+                  0.003,
+                  0.015
+                ]
+              },
+              "weak/300": {
+                "k": 6,
+                "n": 853,
+                "rate": 0.007,
+                "wilson95": [
+                  0.003,
+                  0.015
+                ]
+              },
+              "strong_only": {
+                "k": 2,
+                "n": 853,
+                "rate": 0.0023,
+                "wilson95": [
+                  0.001,
+                  0.009
+                ]
+              }
+            }
+          }
+        },
+        "findings_per_1000_words": 0.776,
+        "documents_with_pattern": {
+          "promotional": {
+            "documents": 53,
+            "rate": {
+              "k": 53,
+              "n": 10220,
+              "rate": 0.0052,
+              "wilson95": [
+                0.004,
+                0.007
+              ]
+            },
+            "per_1000_words": 0.237
+          },
+          "nominal_chain": {
+            "documents": 27,
+            "rate": {
+              "k": 27,
+              "n": 10220,
+              "rate": 0.0026,
+              "wilson95": [
+                0.002,
+                0.004
+              ]
+            },
+            "per_1000_words": 0.119
+          },
+          "anaphora_run": {
+            "documents": 23,
+            "rate": {
+              "k": 23,
+              "n": 10220,
+              "rate": 0.0023,
+              "wilson95": [
+                0.002,
+                0.003
+              ]
+            },
+            "per_1000_words": 0.102
+          },
+          "formulaic_triad": {
+            "documents": 19,
+            "rate": {
+              "k": 19,
+              "n": 10220,
+              "rate": 0.0019,
+              "wilson95": [
+                0.001,
+                0.003
+              ]
+            },
+            "per_1000_words": 0.093
+          },
+          "stacked_connector": {
+            "documents": 16,
+            "rate": {
+              "k": 16,
+              "n": 10220,
+              "rate": 0.0016,
+              "wilson95": [
+                0.001,
+                0.003
+              ]
+            },
+            "per_1000_words": 0.068
+          },
+          "gerund_tail": {
+            "documents": 6,
+            "rate": {
+              "k": 6,
+              "n": 10220,
+              "rate": 0.0006,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.025
+          },
+          "gerundismo": {
+            "documents": 6,
+            "rate": {
+              "k": 6,
+              "n": 10220,
+              "rate": 0.0006,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.025
+          },
+          "corporate_vague": {
+            "documents": 5,
+            "rate": {
+              "k": 5,
+              "n": 10220,
+              "rate": 0.0005,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.021
+          },
+          "officialese": {
+            "documents": 4,
+            "rate": {
+              "k": 4,
+              "n": 10220,
+              "rate": 0.0004,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.017
+          },
+          "support_verb": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 10220,
+              "rate": 0.0003,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.013
+          },
+          "repeated_evaluation": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 10220,
+              "rate": 0.0003,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.013
+          },
+          "formulaic_courtesy": {
+            "documents": 3,
+            "rate": {
+              "k": 3,
+              "n": 10220,
+              "rate": 0.0003,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.013
+          },
+          "empty_metadiscourse": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 10220,
+              "rate": 0.0002,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.008
+          },
+          "dramatic_punchline": {
+            "documents": 2,
+            "rate": {
+              "k": 2,
+              "n": 10220,
+              "rate": 0.0002,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.008
+          },
+          "connector_pleonasm": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 10220,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          },
+          "closing_formula": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 10220,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          },
+          "generic_closing": {
+            "documents": 1,
+            "rate": {
+              "k": 1,
+              "n": 10220,
+              "rate": 0.0001,
+              "wilson95": [
+                0.0,
+                0.001
+              ]
+            },
+            "per_1000_words": 0.004
+          }
+        },
+        "threshold": {
+          "weak/75": {
+            "k": 17,
+            "n": 10220,
+            "rate": 0.0017,
+            "wilson95": [
+              0.001,
+              0.003
+            ]
+          },
+          "weak/100": {
+            "k": 17,
+            "n": 10220,
+            "rate": 0.0017,
+            "wilson95": [
+              0.001,
+              0.003
+            ]
+          },
+          "weak/150": {
+            "k": 18,
+            "n": 10220,
+            "rate": 0.0018,
+            "wilson95": [
+              0.001,
+              0.003
+            ]
+          },
+          "weak/200": {
+            "k": 18,
+            "n": 10220,
+            "rate": 0.0018,
+            "wilson95": [
+              0.001,
+              0.003
+            ]
+          },
+          "weak/300": {
+            "k": 18,
+            "n": 10220,
+            "rate": 0.0018,
+            "wilson95": [
+              0.001,
+              0.003
+            ]
+          },
+          "strong_only": {
+            "k": 13,
+            "n": 10220,
+            "rate": 0.0013,
+            "wilson95": [
+              0.001,
+              0.002
+            ]
+          }
+        }
+      }
+    }
+  },
+  "variant": {
+    "calibration": {
+      "pt_pt_sentences": 2717,
+      "pt_br_sentences": 2091,
+      "recall_pt_pt": {
+        "k": 326,
+        "n": 2717,
+        "rate": 0.12,
+        "wilson95": [
+          0.108,
+          0.133
+        ]
+      },
+      "false_positive_rate_pt_br": {
+        "k": 0,
+        "n": 2091,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.002
+        ]
+      },
+      "precision": {
+        "k": 326,
+        "n": 326,
+        "rate": 1.0,
+        "wilson95": [
+          0.988,
+          1.0
+        ]
+      },
+      "false_positive_markers": {},
+      "true_positive_marker_kinds": {
+        "spelling": 208,
+        "lexical": 112,
+        "syntax": 51
+      }
+    },
+    "evaluation": {
+      "pt_pt_sentences": 2433,
+      "pt_br_sentences": 2116,
+      "recall_pt_pt": {
+        "k": 302,
+        "n": 2433,
+        "rate": 0.1241,
+        "wilson95": [
+          0.112,
+          0.138
+        ]
+      },
+      "false_positive_rate_pt_br": {
+        "k": 0,
+        "n": 2116,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.002
+        ]
+      },
+      "precision": {
+        "k": 302,
+        "n": 302,
+        "rate": 1.0,
+        "wilson95": [
+          0.987,
+          1.0
+        ]
+      },
+      "false_positive_markers": {},
+      "true_positive_marker_kinds": {
+        "spelling": 198,
+        "lexical": 105,
+        "syntax": 42
+      }
+    }
+  },
+  "variant_documents": {
+    "calibration": {
+      "recall_pt_pt": {
+        "k": 226,
+        "n": 514,
+        "rate": 0.4397,
+        "wilson95": [
+          0.397,
+          0.483
+        ]
+      },
+      "false_positive_rate_pt_br": {
+        "k": 0,
+        "n": 484,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.008
+        ]
+      },
+      "precision": {
+        "k": 226,
+        "n": 226,
+        "rate": 1.0,
+        "wilson95": [
+          0.983,
+          1.0
+        ]
+      }
+    },
+    "evaluation": {
+      "recall_pt_pt": {
+        "k": 189,
+        "n": 464,
+        "rate": 0.4073,
+        "wilson95": [
+          0.364,
+          0.453
+        ]
+      },
+      "false_positive_rate_pt_br": {
+        "k": 0,
+        "n": 499,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.008
+        ]
+      },
+      "precision": {
+        "k": 189,
+        "n": 189,
+        "rate": 1.0,
+        "wilson95": [
+          0.98,
+          1.0
+        ]
+      }
+    }
+  },
+  "seconds": 21.2
+}

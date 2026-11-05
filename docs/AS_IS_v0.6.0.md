@@ -15,7 +15,7 @@ Estados: IMPLEMENTED (código + testes executados), PARTIAL (código com lacuna 
 |---|---|---|
 | Semantic Ledger + `compare` | IMPLEMENTED; PARTIAL em pronomes, trocas entre frases e inflexões | `evals/test_semantic_layer.py`, `evals/test_metamorphic.py`, H4 |
 | Juiz LLM/humano, revisão assinada | IMPLEMENTED; revisão humana real NOT_RUN | `evals/test_review_assurance.py` |
-| Pattern Library v2 (27 padrões) | IMPLEMENTED, **UNCALIBRATED** (listas e limiares do desenvolvedor; `dc-029`) | `evals/test_patterns.py` |
+| Pattern Library v2 (27 padrões) | IMPLEMENTED; medido em texto humano no CP6 (`evals/corpus/CALIBRATION_v0.6.md`), limiar `dc-029` ainda INCONCLUSIVE | `evals/test_patterns.py` |
 | Camada PT-BR (PT-PT, estrangeirismos, tratamento) | IMPLEMENTED, **UNCALIBRATED** | `evals/test_ptbr_layer.py` |
 | Planejador | IMPLEMENTED; decisão 28/30 conhecida | `evals/decision/` |
 | Router, Reference Selector | IMPLEMENTED | `evals/test_context_layer.py` |
