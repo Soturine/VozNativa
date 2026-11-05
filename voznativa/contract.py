@@ -106,7 +106,7 @@ def _profile_layer(profile: dict, stats: dict, scope: str) -> dict:
     return out
 
 
-def resolve(context: dict, profile: dict | None = None, explicit: dict | None = None) -> dict:
+def resolve(context: dict, profile: dict | None = None, explicit: dict | None = None, text: str | None = None) -> dict:
     d = defaults()
     genre = context["genre"]["value"]
     genre_spec = d["genres"].get(genre, d["genres"]["unknown"])
@@ -125,9 +125,13 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
     apply("pt_br_default", d["pt_br_default"])
     region = context["targets"]["region"]
     requested_region = float(region.get("strength") or 0.0)
-    if requested_region > 0:
-        warnings.append("no evidence-backed regional pack exists (assets/regional-pack.yml is a draft); "
-                        "effective regional strength is 0.0")
+    # Regionality only through an evidence pack (v0.5.0): with no pack for the
+    # requested region, a context its evidence does not cover, or nothing in
+    # the text to apply it to, the effective strength stays 0.
+    from .regional import activate
+    regional = activate(context, text, profile)
+    if requested_region > 0 and regional["status"] != "active":
+        warnings.append("regional strength stays 0.0: " + "; ".join(regional["reasons"]))
     community = context["targets"].get("community")
     community_terms = []
     if community:
@@ -188,8 +192,12 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
         "constraints": ["semantic_preservation", *constraints],
         "features": features,
         "community_terms_preserve": community_terms,
-        "regional_strength": {"requested": requested_region, "effective": 0.0,
+        "regional_strength": {"requested": requested_region, "effective": regional["effective_strength"],
                               "code": region.get("code")},
+        "regional": {"status": regional["status"], "reasons": regional["reasons"],
+                     "packs": [p["id"] for p in regional["packs"]],
+                     "features": [{k: f[k] for k in ("pack", "feature", "keep", "suggest", "why")}
+                                  for f in regional["features"]]},
         "slang_strength": {"requested": slang_requested, "effective": 0.0},
         "profile": {"used": bool(profile) and maturity != "explicit_only", "maturity": maturity,
                     "id": (profile or {}).get("profile", {}).get("id")},
@@ -207,6 +215,9 @@ def compact(contract: dict) -> dict:
         view[key] = entry["value"] if "allowed" not in entry else {"value": entry["value"],
                                                                    "allowed": entry["allowed"]}
     view["regional_strength"] = contract["regional_strength"]["effective"]
+    regional = contract.get("regional") or {}
+    if regional.get("status") == "active":
+        view["regional"] = [{k: v for k, v in f.items() if v} for f in regional["features"]]
     view["slang_strength"] = contract["slang_strength"]["effective"]
     if contract["community_terms_preserve"]:
         view["preserve_terms"] = contract["community_terms_preserve"]

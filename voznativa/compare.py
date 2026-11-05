@@ -73,6 +73,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _coverage_issues(src, out)
     issues += _length_issues(original, candidate)
     issues += _structure_issues(src, out)
+    issues += _regional_referent_issues(original, candidate)
 
     if any(i["severity"] == "critical" for i in issues):
         status = "fail"
@@ -307,6 +308,17 @@ def _crossing_issues(src, out, alignment) -> list[dict]:
                                      pivot=pivot, moved=sorted(to_right | to_left)))
                 break
     return issues
+
+
+def _regional_referent_issues(original: str, candidate: str) -> list[dict]:
+    """A regional variant replaced by another form that a Regional Evidence Pack
+    records as a different referent in its scope ("macaxeira" -> "mandioca" in the
+    North, where "mandioca" is mostly the wild, inedible root). Major: a person
+    decides, since the swap is harmless in other regions."""
+    from .regional import referent_swaps
+    return [_issue("regional_referent_changed", "major",
+                   f"'{s['from']}' became '{s['to']}': {s['risk']} (pack {s['pack']})",
+                   text=s["from"], replacement=s["to"], pack=s["pack"]) for s in referent_swaps(original, candidate)]
 
 
 def _align(src, out) -> list[tuple[int, int | None, float]]:

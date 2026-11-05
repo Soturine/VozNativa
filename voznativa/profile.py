@@ -111,6 +111,18 @@ def build(samples: list[dict]) -> dict:
         habits.append(_habit(f"contraction.{token}", True, contractions[token], support_contr[token], n, "lexicon"))
     for token in sorted(foreign):
         habits.append(_habit(f"community_term.{token}", "keep", foreign[token], support_foreign[token], n, "lexicon"))
+    # Regional forms of evidence packs the author actually used (closed list,
+    # counts only): a form the author writes wins over a pack's regional default.
+    from .regional import forms_in, load_packs
+    regional, support_regional = Counter(), Counter()
+    for t in texts:
+        for pack in load_packs():
+            for feature in pack["features"]:
+                for form in forms_in(t, feature):
+                    regional[fold(form)] += len(re.findall(r"(?<!\w)" + re.escape(fold(form)) + r"(?!\w)", fold(t)))
+                    support_regional[fold(form)] += 1
+    for token in sorted(regional):
+        habits.append(_habit(f"regional_form.{token}", "keep", regional[token], support_regional[token], n, "lexicon"))
     for opener in sorted(openers):
         habits.append(_habit(f"opener.{opener}", True, openers[opener], opener_support[opener], n, "discourse"))
     for name in ("em_dash_per_100w", "emoji_per_100w", "exclamation_per_sentence", "semicolon_per_100w",

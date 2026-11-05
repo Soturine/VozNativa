@@ -118,6 +118,27 @@ def cmd_region(args):
     _emit(inspect(_read(args.text), args.region))
 
 
+def cmd_regional(args):
+    """Regional Evidence Packs: list them, or say for a text and a requested
+    region what a pack may inform and why the system abstains otherwise."""
+    from .regional import activate, load_packs
+    if args.action == "packs":
+        _emit({"kind": "voznativa.regional_packs", "packs": [
+            {k: p[k] for k in ("id", "version", "status", "human_reviewed", "scope", "epoch", "modality")}
+            | {"features": [f["id"] for f in p["features"]],
+               "sources": [s["citation"] for s in p["sources"]]} for p in load_packs()]})
+        return 0
+    if not args.text:
+        raise ValueError("regional check needs a text")
+    from .router import route
+    text = _read(args.text)
+    profile = json.loads(_read(args.profile)) if args.profile else None
+    context = route(text, genre=args.genre, channel=args.channel, region=args.region,
+                    region_strength=args.region_strength)
+    _emit(activate(context, text, profile))
+    return 0
+
+
 def cmd_drift(args):
     from .drift import inspect
     profile = json.loads(_read(args.profile)) if args.profile else None
@@ -215,7 +236,7 @@ def cmd_contract(args):
         if errors:
             raise ValueError("invalid voice profile: " + "; ".join(errors))
     explicit = json.loads(args.set) if args.set else None
-    contract = resolve(context, profile, explicit)
+    contract = resolve(context, profile, explicit, _read(args.text) if getattr(args, "text", None) else None)
     _emit(compact(contract) if args.compact else contract)
 
 
@@ -246,7 +267,7 @@ def cmd_rewrite_prompt(args):
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
     from .planner import plan
     the_plan = plan(text, context, profile, explicit, _protected(args), report=findings) if findings else None
-    prompt = build_prompt(text, context, resolve(context, profile, explicit),
+    prompt = build_prompt(text, context, resolve(context, profile, explicit, text),
                           select(context, budget_words=args.budget), facts=facts,
                           inline_references=args.inline_refs, protect=_protected(args), findings=findings,
                           project=scan(args.repo) if args.repo else None, targets=targets, plan=the_plan)
@@ -435,6 +456,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("text")
     p.add_argument("--region")
     p.set_defaults(func=cmd_region)
+
+    p = sub.add_parser("regional", help="Regional Evidence Packs: list them or check what a requested region allows")
+    p.add_argument("action", choices=["packs", "check"])
+    p.add_argument("text", nargs="?", help="file path or - for stdin (check)")
+    p.add_argument("--region", help="macro region (norte, nordeste, ...) or state code; never inferred")
+    p.add_argument("--region-strength", type=float, default=0.25)
+    p.add_argument("--genre")
+    p.add_argument("--channel")
+    p.add_argument("--profile", help="Voice Profile JSON: forms the author uses win over the pack")
+    p.set_defaults(func=cmd_regional)
 
     p = sub.add_parser("drift", help="voice drift across windows or against a profile")
     p.add_argument("text")

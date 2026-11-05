@@ -222,6 +222,14 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
     if overfit["regional_overfit"] != "low" and region_mod.inspect(original)["regional_overfit"] == "low":
         extra.append({"code": "regional_overfit", "severity": "major",
                       "message": f"regional markers stuffed into the candidate: {overfit['markers']}"})
+    from .regional import activate, introduced_forms
+    added = introduced_forms(original, candidate, activate(context, original, profile))
+    if added:
+        # Dialect mixing / overfit by evidence: a regional form the source did
+        # not have and the activation did not offer is decoration nobody asked for.
+        extra.append({"code": "regional_form_introduced", "severity": "major",
+                      "message": "regional forms added without a licensing pack activation: "
+                                 + ", ".join(f"{a['form']} ({a['pack']})" for a in added)})
     if profile and len(candidate.split()) >= 60:
         d = drift_mod.inspect(candidate, profile=profile)
         if d.get("drift"):
@@ -247,7 +255,7 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
     try:
         return _rewrite(text, context, provider, profile, **kwargs)
     except ProviderError as error:
-        voice_contract = contract_mod.resolve(context, profile, kwargs.get("explicit"))
+        voice_contract = contract_mod.resolve(context, profile, kwargs.get("explicit"), text)
         return _result("provider_error", text, None, [], provider, voice_contract,
                        select(context, budget_words=0), reason=f"model provider failed: {error}")
 
@@ -257,7 +265,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True,
             protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2) -> dict:
-    voice_contract = contract_mod.resolve(context, profile, explicit)
+    voice_contract = contract_mod.resolve(context, profile, explicit, text)
     genre = context["genre"]["value"]
     channel = explicit_channel(context)
     register = context["register"]["value"]
