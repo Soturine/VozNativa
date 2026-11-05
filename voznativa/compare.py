@@ -20,7 +20,7 @@ from . import ledger as ledger_mod
 from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import STOPWORDS, contains_word, content_stems, fold, normalize_surface, stem
+from .text import STOPWORDS, contains_word, content_stems, fold, normalize_surface, stem, words
 
 _STOP_FOLDED = frozenset(fold(w) for w in STOPWORDS)
 
@@ -67,6 +67,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     alignment = _align(src, out)
     issues += _signal_issues(src, out, alignment)
     issues += _causal_direction_issues(src, out, alignment)
+    issues += _crossing_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -255,6 +256,57 @@ def _role_issues(src, out, names: list[str]) -> tuple[list[dict], set]:
                                  f"'{agent}' and '{patient}' swapped agent and patient of the same action",
                                  text=agent, swapped_with=patient, verb=verb))
     return issues, preserved
+
+
+# Words around which an exchange of content changes who does what or what
+# comes first. Most are stopwords, so they are added back to the sequence.
+_PIVOT_WORDS = frozenset({"antes", "depois", "apos", "entao", "primeiro", "ate", "desde"})
+_VOICE_MARK = re.compile(r"\b(?:pel[oa]s?|por)\b|\b(?:foi|foram|é|são|será|serão)\s+\w+(?:d[oa]s?)\b", re.I)
+
+
+def _ordered_units(text: str) -> list[str]:
+    units = []
+    for word in words(text):
+        folded = fold(word)
+        if folded in _PIVOT_WORDS:
+            units.append(folded)
+        elif folded not in _STOP_FOLDED and len(word) > 2:
+            units.append(stem(word))
+    return units
+
+
+def _crossing_issues(src, out, alignment) -> list[dict]:
+    """Same words, exchanged across a pivot: "o cliente processou a empresa" ->
+    "a empresa processou o cliente", "teste antes de publicar" -> "publique antes
+    de testar". The named-entity role check misses common nouns and actions;
+    this catches an exchange when the aligned sentences use exactly the same
+    content words and some move left-to-right across a word that occurs once
+    while others move right-to-left. Fronting a clause moves words one way only
+    ("antes de virar X, trabalhei" keeps every word on its side of "antes"), and
+    a change of voice ("foi processada pelo") is left to the role check."""
+    issues = []
+    for i, j, _ in alignment:
+        if j is None:
+            continue
+        a_text, b_text = src.entries[i].sentence.text, out.entries[j].sentence.text
+        a, b = _ordered_units(a_text), _ordered_units(b_text)
+        if a == b or Counter(a) != Counter(b) or len(a) < 3:
+            continue
+        if bool(_VOICE_MARK.search(a_text)) != bool(_VOICE_MARK.search(b_text)):
+            continue
+        counts = Counter(a)
+        for pivot in (u for u in a if counts[u] == 1):
+            ia, ib = a.index(pivot), b.index(pivot)
+            left_a, right_a, left_b, right_b = set(a[:ia]), set(a[ia + 1:]), set(b[:ib]), set(b[ib + 1:])
+            to_right, to_left = left_a & right_b, right_a & left_b
+            if to_right and to_left:
+                issues.append(_issue("role_or_order_swapped", "major",
+                                     f"the same words traded sides around '{pivot}': who does what, or what comes "
+                                     "first, may have changed",
+                                     location={"source_sentence": a_text, "candidate_sentence": b_text},
+                                     pivot=pivot, moved=sorted(to_right | to_left)))
+                break
+    return issues
 
 
 def _align(src, out) -> list[tuple[int, int | None, float]]:
