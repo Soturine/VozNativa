@@ -1,8 +1,10 @@
 name: CI
 
+# Maintainer policy (v0.6.0): CI runs only when dispatched by hand, at the close
+# of a round, on the revision being qualified. Day-to-day validation is local
+# (python scripts/qualify.py). Jobs, matrices and checks are unchanged.
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
