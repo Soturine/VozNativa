@@ -5,7 +5,9 @@ Exit codes for ``compare`` and ``ground`` (usable as a gate in scripts and CI):
   1  fail: deterministic violation
   2  review_required: a human must look
   3  no_deterministic_issues: equivalence unverified, a semantic judgment is required
-Other commands exit 0 on success and 64 on usage errors.
+Usage errors (unknown flag, missing argument) and unreadable input exit 64 for
+every command, so a gate never reads a typo as one of the statuses above.
+Other commands exit 0 on success.
 """
 from __future__ import annotations
 
@@ -139,7 +141,8 @@ def cmd_benchmark(args):
 
 
 def _contract_args(p):
-    p.add_argument("--task", default="rewrite", choices=["rewrite", "audit", "create", "profile", "compare"])
+    from .router import TASKS
+    p.add_argument("--task", default="rewrite", choices=TASKS)
     p.add_argument("--genre")
     p.add_argument("--channel")
     p.add_argument("--register")
@@ -338,8 +341,20 @@ def _signing_args(p):
     p.add_argument("--principal", help="name of your key in allowed_signers (default: --reviewer)")
 
 
+EXIT_USAGE = 64
+
+
+class _Parser(argparse.ArgumentParser):
+    """argparse exits 2 on a usage error, which is compare's ``review_required``.
+    Subparsers inherit this class, so every command exits EXIT_USAGE instead."""
+
+    def error(self, message):
+        self.print_usage(sys.stderr)
+        self.exit(EXIT_USAGE, f"{self.prog}: error: {message}\n")
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="voznativa", description="VozNativa PT-BR voice engine")
+    parser = _Parser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 

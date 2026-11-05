@@ -5,7 +5,7 @@ import os
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,19 +70,27 @@ class EvalSuites(unittest.TestCase):
     def test_holdouts_never_report_false_green(self):
         # Safety property on the held-out sets: when a case expects a violation,
         # the system must not answer "no issues" or "identical".
+        checked = 0
         for name in ("holdout.jsonl", "holdout2.jsonl", "holdout-relations.jsonl"):
             for case in load(SEMANTIC / name):
                 expected = set(case["expect"]["status"])
                 if expected <= UNSAFE_STATUSES:
+                    checked += 1
                     status = compare(case["original"], case["candidate"])["status"]
                     self.assertIn(status, UNSAFE_STATUSES, f"{name}:{case['id']} false green")
+        # The property is only as strong as the cases it reaches (34 at CP0);
+        # it must not pass vacuously if the selection stops matching.
+        self.assertGreaterEqual(checked, 30)
 
     def test_nothing_is_auto_accepted_without_identity(self):
+        accepted = 0
         for name in ("cases.jsonl", "holdout.jsonl", "holdout2.jsonl", "relations.jsonl", "holdout-relations.jsonl"):
             for case in load(SEMANTIC / name):
                 report = compare(case["original"], case["candidate"])
                 if report["safe_to_auto_accept"]:
+                    accepted += 1
                     self.assertEqual(report["status"], "identical", case["id"])
+        self.assertGreater(accepted, 0, "no identity case reached the assertion")
 
 
 class VerdictPolicy(unittest.TestCase):
@@ -257,6 +265,17 @@ class CommandLine(unittest.TestCase):
     def test_missing_file_is_a_usage_error(self):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(cli.main(["ledger", "does-not-exist.txt"]), 64)
+
+    def test_argument_errors_never_exit_with_a_gate_status(self):
+        # Regression (CP4/H1, found by scripts/qualify.py): argparse exits 2 on a
+        # usage error, and 2 is compare's review_required; a gate script read a
+        # mistyped flag as "a person must review". Every usage error exits 64.
+        for argv in (["compare", "--no-such-flag", "a.txt", "b.txt"], ["compare"], ["no-such-command"],
+                     ["eval"], ["rewrite", "x.txt", "--attempts", "many"]):
+            with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as raised:
+                    cli.main(argv)
+            self.assertEqual(raised.exception.code, 64, argv)
 
 
 if __name__ == "__main__":
