@@ -33,7 +33,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from scripts.bench_skill_only import FINAL, ONE_LINE, SKILL_TASK, fetch_skill  # noqa: E402
-from voznativa.benchmark import invariant_preserved, load_cases  # noqa: E402
+from voznativa.benchmark import invariant_preserved, load_cases, outcome_axes, summarize_axes  # noqa: E402
 from voznativa.compare import apply_judgment, compare  # noqa: E402
 from voznativa.engine import _extract_json, parse_candidate  # noqa: E402
 from voznativa.judge import prompt as judge_prompt  # noqa: E402
@@ -164,8 +164,12 @@ def summarize(rows: list[dict]) -> dict:
         rs = [r for r in rows if r["arm"] == arm and "score" in r]
         by_kind = lambda k: [r for r in rs if r["kind"] == k]  # noqa: E731
         verdicts = [r["score"].get("judge", {}).get("verdict") for r in rs]
+        arm_rows = [r for r in rows if r["arm"] == arm]
         out[arm] = {
-            "n": len(rs), "errors": sum(1 for r in rows if r["arm"] == arm and "error" in r),
+            # A provider failure returns the original: it is an error, never a preserved success (H2).
+            "n": len(rs), "errors": sum(1 for r in arm_rows if "error" in r or (r.get("raw") or {}).get("outcome")
+                                        == "provider_error"),
+            "axes": summarize_axes([outcome_axes({"id": r["id"], "kind": r["kind"]}, r) for r in arm_rows]),
             "invariants_ok": f"{sum(r['score']['invariants_ok'] for r in rs)}/{len(rs)}",
             "gate": {s: sum(r["score"]["deterministic"] == s for r in rs)
                      for s in sorted({r["score"]["deterministic"] for r in rs})},

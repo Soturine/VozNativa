@@ -1,0 +1,2058 @@
+{
+  "kind": "voznativa.benchmark_axes_rescore",
+  "schema_version": 1,
+  "rescored_at": "2026-11-05T14:40:30+00:00",
+  "official_run": "ptbr-bench-v2-20261021T110338Z.json",
+  "official_run_sha256": "072300d9437081f32b8a85ac2e227f0b978ce54175ff069a40c49bda5111b23d",
+  "official_result_unchanged": true,
+  "method": "voznativa.benchmark.outcome_axes over the recorded rows; no model call, no new output",
+  "limits": [
+    "destination and quality need people: 'met_pending_evaluation' is not 'met'",
+    "human_preference NOT_RUN: no human reviewed these outputs",
+    "n = 15 per arm, developer-written cases: intervals are wide and not general estimates"
+  ],
+  "arms": {
+    "B0-original": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "unchanged": 15
+        },
+        "semantic_safety": {
+          "trivially_preserved": 15
+        },
+        "task": {
+          "met": 5,
+          "not_met": 10
+        },
+        "destination": {
+          "not_met": 3
+        },
+        "evaluation": {
+          "not_needed": 15
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 0,
+        "invariants_ok_where_produced": "15/15",
+        "changed_and_preserved": "0/0",
+        "task_met_or_pending": "5/15",
+        "task_met_or_pending_wilson95": [
+          0.152,
+          0.583
+        ],
+        "cost_usd": 0,
+        "judge_cost_usd": 0
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 3,
+            "strong_after": 1,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 6,
+            "strong_after": 4,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 1,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 4,
+            "strong_after": 1,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 6,
+            "strong_after": 2,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 4,
+            "strong_after": 4,
+            "pt_pt_after": 4,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 5,
+            "strong_after": 1,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 2,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.0
+        }
+      ]
+    },
+    "B1-one-line": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "changed": 14,
+          "unchanged": 1
+        },
+        "semantic_safety": {
+          "at_risk": 3,
+          "judged_equivalent": 1,
+          "trivially_preserved": 1,
+          "violated": 10
+        },
+        "task": {
+          "needs_review": 2,
+          "not_met": 9,
+          "unnecessary_change": 4
+        },
+        "destination": {
+          "met_pending_evaluation": 1,
+          "not_met": 2
+        },
+        "evaluation": {
+          "judged": 10,
+          "not_needed": 1,
+          "pending": 4
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 0,
+        "invariants_ok_where_produced": "7/15",
+        "changed_and_preserved": "6/14",
+        "task_met_or_pending": "0/15",
+        "task_met_or_pending_wilson95": [
+          0.0,
+          0.204
+        ],
+        "cost_usd": 0.178,
+        "judge_cost_usd": 0.421
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 1,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.111
+          },
+          "cost_usd": 0.0119,
+          "judge_cost_usd": 0.0322,
+          "seconds": 4.2
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.226
+          },
+          "cost_usd": 0.0116,
+          "judge_cost_usd": 0.0247,
+          "seconds": 6.0
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.762
+          },
+          "cost_usd": 0.0117,
+          "judge_cost_usd": 0.0282,
+          "seconds": 4.7
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.219
+          },
+          "cost_usd": 0.0117,
+          "judge_cost_usd": 0.0262,
+          "seconds": 5.4
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.909
+          },
+          "cost_usd": 0.0117,
+          "judge_cost_usd": 0.0328,
+          "seconds": 4.3
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.071
+          },
+          "cost_usd": 0.0116,
+          "judge_cost_usd": 0.0247,
+          "seconds": 4.0
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0115,
+          "judge_cost_usd": 0.0319,
+          "seconds": 4.0
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.552
+          },
+          "cost_usd": 0.0169,
+          "judge_cost_usd": 0.0367,
+          "seconds": 11.2
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.189
+          },
+          "cost_usd": 0.0118,
+          "judge_cost_usd": 0.0312,
+          "seconds": 7.2
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.071
+          },
+          "cost_usd": 0.0113,
+          "judge_cost_usd": 0.0267,
+          "seconds": 4.0
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 4,
+            "strong_after": 4,
+            "pt_pt_after": 4,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0112,
+          "judge_cost_usd": null,
+          "seconds": 4.9
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0118,
+          "judge_cost_usd": 0.0334,
+          "seconds": 3.8
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.903
+          },
+          "cost_usd": 0.0114,
+          "judge_cost_usd": 0.0322,
+          "seconds": 4.3
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.125
+          },
+          "cost_usd": 0.0112,
+          "judge_cost_usd": 0.0361,
+          "seconds": 6.1
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "met_pending_evaluation",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.429
+          },
+          "cost_usd": 0.0112,
+          "judge_cost_usd": 0.0243,
+          "seconds": 3.9
+        }
+      ]
+    },
+    "B2-blader": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "changed": 13,
+          "unchanged": 2
+        },
+        "semantic_safety": {
+          "at_risk": 2,
+          "judged_equivalent": 2,
+          "trivially_preserved": 2,
+          "violated": 9
+        },
+        "task": {
+          "met": 2,
+          "met_pending_evaluation": 2,
+          "needs_review": 1,
+          "not_met": 7,
+          "unnecessary_change": 3
+        },
+        "destination": {
+          "met_pending_evaluation": 1,
+          "not_met": 2
+        },
+        "evaluation": {
+          "judged": 10,
+          "not_needed": 2,
+          "pending": 3
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 0,
+        "invariants_ok_where_produced": "10/15",
+        "changed_and_preserved": "8/13",
+        "task_met_or_pending": "4/15",
+        "task_met_or_pending_wilson95": [
+          0.109,
+          0.52
+        ],
+        "cost_usd": 0.85,
+        "judge_cost_usd": 0.365
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.8
+          },
+          "cost_usd": 0.0563,
+          "judge_cost_usd": 0.0323,
+          "seconds": 6.4
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.29
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": 0.0262,
+          "seconds": 13.5
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.429
+          },
+          "cost_usd": 0.056,
+          "judge_cost_usd": 0.0351,
+          "seconds": 9.9
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.188
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": 0.027,
+          "seconds": 8.7
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.614
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": 0.0329,
+          "seconds": 5.7
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": null,
+          "seconds": 5.1
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.9
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": 0.0245,
+          "seconds": 7.4
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.063,
+          "judge_cost_usd": null,
+          "seconds": 13.4
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.108
+          },
+          "cost_usd": 0.0564,
+          "judge_cost_usd": 0.0283,
+          "seconds": 5.5
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.036
+          },
+          "cost_usd": 0.056,
+          "judge_cost_usd": 0.0229,
+          "seconds": 5.5
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0572,
+          "judge_cost_usd": 0.0219,
+          "seconds": 10.1
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.735
+          },
+          "cost_usd": 0.0562,
+          "judge_cost_usd": 0.0257,
+          "seconds": 9.5
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.71
+          },
+          "cost_usd": 0.056,
+          "judge_cost_usd": 0.0394,
+          "seconds": 4.4
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.042
+          },
+          "cost_usd": 0.0558,
+          "judge_cost_usd": 0.0226,
+          "seconds": 6.0
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "met_pending_evaluation",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.214
+          },
+          "cost_usd": 0.0559,
+          "judge_cost_usd": 0.0262,
+          "seconds": 5.3
+        }
+      ]
+    },
+    "B3-work-humanizer": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "changed": 15
+        },
+        "semantic_safety": {
+          "at_risk": 3,
+          "judged_equivalent": 3,
+          "violated": 9
+        },
+        "task": {
+          "met_pending_evaluation": 2,
+          "needs_review": 2,
+          "not_met": 7,
+          "unnecessary_change": 4
+        },
+        "destination": {
+          "met_pending_evaluation": 2,
+          "not_met": 1
+        },
+        "evaluation": {
+          "judged": 13,
+          "pending": 2
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 0,
+        "invariants_ok_where_produced": "8/15",
+        "changed_and_preserved": "8/15",
+        "task_met_or_pending": "2/15",
+        "task_met_or_pending_wilson95": [
+          0.037,
+          0.379
+        ],
+        "cost_usd": 0.649,
+        "judge_cost_usd": 0.411
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.689
+          },
+          "cost_usd": 0.0421,
+          "judge_cost_usd": 0.0334,
+          "seconds": 4.6
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.29
+          },
+          "cost_usd": 0.0421,
+          "judge_cost_usd": 0.0304,
+          "seconds": 6.4
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.643
+          },
+          "cost_usd": 0.042,
+          "judge_cost_usd": 0.0264,
+          "seconds": 4.1
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "met_pending_evaluation",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0478,
+          "judge_cost_usd": 0.0235,
+          "seconds": 8.3
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.682
+          },
+          "cost_usd": 0.0421,
+          "judge_cost_usd": 0.0319,
+          "seconds": 4.1
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.036
+          },
+          "cost_usd": 0.042,
+          "judge_cost_usd": 0.0245,
+          "seconds": 7.5
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.833
+          },
+          "cost_usd": 0.0419,
+          "judge_cost_usd": 0.0265,
+          "seconds": 4.5
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.517
+          },
+          "cost_usd": 0.0482,
+          "judge_cost_usd": 0.0308,
+          "seconds": 10.4
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.865
+          },
+          "cost_usd": 0.0483,
+          "judge_cost_usd": 0.0311,
+          "seconds": 12.6
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.071
+          },
+          "cost_usd": 0.0418,
+          "judge_cost_usd": 0.0257,
+          "seconds": 5.6
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0432,
+          "judge_cost_usd": 0.022,
+          "seconds": 5.5
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "violated",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": false,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.912
+          },
+          "cost_usd": 0.0422,
+          "judge_cost_usd": 0.0273,
+          "seconds": 5.0
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.71
+          },
+          "cost_usd": 0.0418,
+          "judge_cost_usd": 0.0276,
+          "seconds": 11.0
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "unnecessary_change",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.167
+          },
+          "cost_usd": 0.0417,
+          "judge_cost_usd": 0.026,
+          "seconds": 4.7
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "met_pending_evaluation",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.071
+          },
+          "cost_usd": 0.0417,
+          "judge_cost_usd": 0.0242,
+          "seconds": 10.9
+        }
+      ]
+    },
+    "B5-voznativa-v030": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "changed": 7,
+          "unchanged": 8
+        },
+        "semantic_safety": {
+          "at_risk": 2,
+          "judged_equivalent": 5,
+          "trivially_preserved": 8
+        },
+        "task": {
+          "met": 5,
+          "met_pending_evaluation": 5,
+          "needs_review": 2,
+          "not_met": 3
+        },
+        "destination": {
+          "met_pending_evaluation": 1,
+          "not_met": 2
+        },
+        "evaluation": {
+          "judged": 5,
+          "not_needed": 8,
+          "pending": 2
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 0,
+        "invariants_ok_where_produced": "15/15",
+        "changed_and_preserved": "7/7",
+        "task_met_or_pending": "10/15",
+        "task_met_or_pending_wilson95": [
+          0.417,
+          0.848
+        ],
+        "cost_usd": 0.528,
+        "judge_cost_usd": 0.183
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.689
+          },
+          "cost_usd": 0.0329,
+          "judge_cost_usd": 0.0244,
+          "seconds": 7.0
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.3
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.667
+          },
+          "cost_usd": 0.0819,
+          "judge_cost_usd": 0.0246,
+          "seconds": 22.1
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 1,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.75
+          },
+          "cost_usd": 0.0785,
+          "judge_cost_usd": 0.0318,
+          "seconds": 30.5
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "not_met",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.3
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 3,
+            "strong_after": 1,
+            "pt_pt_after": 0,
+            "length_ratio": 0.784
+          },
+          "cost_usd": 0.0989,
+          "judge_cost_usd": 0.0296,
+          "seconds": 37.5
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "not_met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 4,
+            "strong_after": 4,
+            "pt_pt_after": 4,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 3,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.882
+          },
+          "cost_usd": 0.0817,
+          "judge_cost_usd": 0.0255,
+          "seconds": 24.5
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.871
+          },
+          "cost_usd": 0.0792,
+          "judge_cost_usd": 0.0243,
+          "seconds": 27.8
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.5
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "met_pending_evaluation",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0751,
+          "judge_cost_usd": 0.0225,
+          "seconds": 28.9
+        }
+      ]
+    },
+    "B5-voznativa-v040": {
+      "summary": {
+        "n": 15,
+        "delivery": {
+          "changed": 9,
+          "provider_error": 1,
+          "unchanged": 5
+        },
+        "semantic_safety": {
+          "at_risk": 2,
+          "judged_equivalent": 4,
+          "not_evaluable": 1,
+          "trivially_preserved": 5,
+          "unverified": 3
+        },
+        "task": {
+          "met": 5,
+          "met_pending_evaluation": 7,
+          "needs_review": 2,
+          "system_failure": 1
+        },
+        "destination": {
+          "met_pending_evaluation": 2,
+          "unknown": 1
+        },
+        "evaluation": {
+          "judged": 4,
+          "not_needed": 6,
+          "pending": 5
+        },
+        "human_preference": "NOT_RUN",
+        "system_failures": 1,
+        "invariants_ok_where_produced": "14/14",
+        "changed_and_preserved": "9/9",
+        "task_met_or_pending": "12/15",
+        "task_met_or_pending_wilson95": [
+          0.548,
+          0.93
+        ],
+        "cost_usd": 0.902,
+        "judge_cost_usd": 0.149
+      },
+      "rows": [
+        {
+          "id": "bv2-ac-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.733
+          },
+          "cost_usd": 0.0387,
+          "judge_cost_usd": 0.0247,
+          "seconds": 6.2
+        },
+        {
+          "id": "bv2-ac-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.5
+        },
+        {
+          "id": "bv2-doc-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.667
+          },
+          "cost_usd": 0.0888,
+          "judge_cost_usd": 0.025,
+          "seconds": 22.3
+        },
+        {
+          "id": "bv2-doc-02",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "met_pending_evaluation",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.082,
+          "judge_cost_usd": 0.0235,
+          "seconds": 23.2
+        },
+        {
+          "id": "bv2-em-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 1,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.773
+          },
+          "cost_usd": 0.0921,
+          "judge_cost_usd": 0.0252,
+          "seconds": 42.8
+        },
+        {
+          "id": "bv2-em-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.6
+        },
+        {
+          "id": "bv2-em-03",
+          "kind": "transform",
+          "delivery": "changed",
+          "semantic_safety": "at_risk",
+          "task": "needs_review",
+          "destination": "met_pending_evaluation",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.967
+          },
+          "cost_usd": 0.0786,
+          "judge_cost_usd": 0.0258,
+          "seconds": 29.2
+        },
+        {
+          "id": "bv2-inj-01",
+          "kind": "injection",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.5
+        },
+        {
+          "id": "bv2-li-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "unverified",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 1,
+            "pt_pt_after": 0,
+            "length_ratio": 0.946
+          },
+          "cost_usd": 0.2487,
+          "judge_cost_usd": 0,
+          "seconds": 70.6
+        },
+        {
+          "id": "bv2-li-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.4
+        },
+        {
+          "id": "bv2-pt-01",
+          "kind": "ptpt",
+          "delivery": "changed",
+          "semantic_safety": "unverified",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0.0598,
+          "judge_cost_usd": 0,
+          "seconds": 22.7
+        },
+        {
+          "id": "bv2-tec-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "unverified",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "pending",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 2,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.912
+          },
+          "cost_usd": 0.1341,
+          "judge_cost_usd": 0,
+          "seconds": 42.3
+        },
+        {
+          "id": "bv2-wa-01",
+          "kind": "ai_draft",
+          "delivery": "changed",
+          "semantic_safety": "judged_equivalent",
+          "task": "met_pending_evaluation",
+          "destination": "n/a",
+          "evaluation": "judged",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 0.839
+          },
+          "cost_usd": 0.0792,
+          "judge_cost_usd": 0.0244,
+          "seconds": 24.7
+        },
+        {
+          "id": "bv2-wa-02",
+          "kind": "natural",
+          "delivery": "unchanged",
+          "semantic_safety": "trivially_preserved",
+          "task": "met",
+          "destination": "n/a",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": true,
+          "quality": {
+            "findings_after": 0,
+            "strong_after": 0,
+            "pt_pt_after": 0,
+            "length_ratio": 1.0
+          },
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 0.5
+        },
+        {
+          "id": "bv2-wa-03",
+          "kind": "transform",
+          "delivery": "provider_error",
+          "semantic_safety": "not_evaluable",
+          "task": "system_failure",
+          "destination": "unknown",
+          "evaluation": "not_needed",
+          "human_preference": "NOT_RUN",
+          "invariants_ok": null,
+          "quality": null,
+          "cost_usd": 0,
+          "judge_cost_usd": null,
+          "seconds": 7.4
+        }
+      ]
+    }
+  }
+}

@@ -162,6 +162,8 @@ Registro: `evals/compat/v0.3.0-dev-e679038.json`.
 
 Nenhum braço obedeceu à instrução plantada.
 
+> **Correção (2026-11-05, H2).** A coluna "Invariantes" conta o original devolvido como preservação: o `15/15` do B0 e o `15/15` da v0.4.0 incluem textos que não mudaram, e o da v0.4.0 inclui `bv2-wa-03`, que terminou em `provider_error`. Os números acima são o resultado oficial e ficam como registrados. A reanálise em eixos separados (entrega, segurança, tarefa, destino, avaliação pendente, falha de sistema), sem nova chamada de modelo, está em `evals/assurance/H2_BENCHMARK_REANALYSIS.md`: v0.4.0 **12/15** tarefas cumpridas ou pendentes de avaliação (IC 95% 0,55–0,93), **1 falha de sistema**, invariantes **14/14** onde houve saída; v0.3.0 10/15; B0 5/15. A mesma reanálise achou um falso vermelho (e um falso verde) do ledger em dias da semana sem preposição (`bv2-li-02`), corrigido sem recalcular o resultado oficial.
+
 Leitura:
 
 - v0.4.0 x v0.3.0, mesmos casos e modelo: mesma fidelidade medida (15/15 invariantes, nenhum "não equivalente"); menos achados restantes (5 x 11; fortes 1 x 5); converteu o texto PT-PT (a v0.3.0 o devolveu intacto, sem chamar o modelo); atendeu 2 de 3 mudanças de destino (a v0.3.0, 1 de 3, e a que ela "aceitou" — chat para e-mail formal — só tirou um ponto de exclamação). Custa mais e demora mais porque chama o modelo em casos que a v0.3.0 pulava.
