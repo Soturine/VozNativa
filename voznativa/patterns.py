@@ -24,14 +24,13 @@ from __future__ import annotations
 
 import math
 import re
-import unicodedata
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
 import yaml
 
-from .text import fold, sentences, words
+from .text import canonical, fold, sentences, words
 
 DATA = Path(__file__).resolve().parent / "data" / "patterns_pt_br.yml"
 STRONG, WEAK = "strong", "weak"
@@ -60,10 +59,6 @@ def catalog() -> list[dict]:
 @lru_cache(maxsize=1)
 def sources() -> dict:
     return yaml.safe_load(DATA.read_text(encoding="utf-8")).get("sources", {})
-
-
-def _nfc(text: str) -> str:
-    return unicodedata.normalize("NFC", text)
 
 
 def _strength(pattern: dict, contexts: set[str]) -> str | None:
@@ -161,7 +156,7 @@ DETECTORS = {"triad": _triads, "anaphora": _anaphora, "repeated_evaluation": _re
 
 
 def detect(text: str, genre: str = "unknown", channel: str | None = None, register: str | None = None) -> dict:
-    text = _nfc(text)
+    text = canonical(text)
     contexts = {genre} | ({channel} if channel else set())
     prose = [s for s in sentences(text) if s.kind in {"prose", "list_item"}]
     findings = []

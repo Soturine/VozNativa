@@ -20,7 +20,7 @@ from . import ledger as ledger_mod
 from . import spans as spans_mod
 from . import signals
 from .spans import HARD_TYPES
-from .text import STOPWORDS, contains_word, content_stems, fold, normalize_surface, stem, words
+from .text import STOPWORDS, canonical, contains_word, content_stems, fold, normalize_surface, stem, words
 
 _STOP_FOLDED = frozenset(fold(w) for w in STOPWORDS)
 
@@ -56,6 +56,7 @@ def _issue(code: str, severity: str, message: str, **extra) -> dict:
 
 
 def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> dict:
+    original, candidate = canonical(original), canonical(candidate)
     if normalize_surface(original) == normalize_surface(candidate):
         return _report("identical", [], original, candidate)
 

@@ -12,7 +12,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from . import signals, spans
-from .text import Sentence, content_stems, fold, sentences, words
+from .text import Sentence, canonical, content_stems, fold, sentences, words
 
 SCHEMA_VERSION = 1
 
@@ -74,6 +74,7 @@ class Ledger:
 
 
 def build(text: str, protect: list[str] | tuple = ()) -> Ledger:
+    text = canonical(text)
     all_spans = spans.extract(text, protect=protect)
     entries = []
     for sent in sentences(text):

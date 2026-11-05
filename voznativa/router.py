@@ -78,6 +78,8 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
           spoken: bool | None = None, fact_sources: list[str] | None = None,
           voice_samples: list[str] | None = None, voice_channel: str | None = None,
           repo: str | None = None) -> dict:
+    from .text import canonical
+    text = canonical(text)
     if task not in TASKS:
         raise ValueError(f"task must be one of {TASKS}")
     if register and register not in REGISTERS:

@@ -36,7 +36,7 @@ from . import ledger as ledger_mod
 from . import patterns as patterns_mod
 from . import ptbr
 from .router import explicit_channel, transformation_targets
-from .text import normalize_surface, sentences
+from .text import canonical, normalize_surface, sentences
 
 OPS = ("keep", "point_edit", "cut_formula", "sentence_rewrite", "paragraph_rewrite")
 OP_RANK = {op: i for i, op in enumerate(OPS)}
@@ -111,6 +111,7 @@ def _embedded_instructions(sents) -> list[dict]:
 
 def plan(text: str, context: dict, profile: dict | None = None, explicit: dict | None = None,
          protect: list[str] | tuple = (), report: dict | None = None) -> dict:
+    text = canonical(text)
     genre = context["genre"]["value"]
     channel = explicit_channel(context)
     register = context["register"]["value"]
@@ -276,6 +277,7 @@ def adherence(p: dict, original: str, candidate: str, genre: str = "unknown", ch
     """How the candidate followed the plan: kept sentences that changed, and
     findings introduced (the candidate's findings whose id was absent from
     the source), reported per kept sentence when they can be placed."""
+    original, candidate = canonical(original), canonical(candidate)
     out_units = _units(candidate)
     out_set = set(out_units)
     changed = []

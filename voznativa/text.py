@@ -36,6 +36,20 @@ STOPWORDS = frozenset({
 })
 
 
+_SPACE_SEPARATORS = re.compile(r"[   -   　]")
+_ZERO_WIDTH = re.compile(r"[​‌‍⁠﻿]")
+
+
+def canonical(text: str) -> str:
+    """The form every analysis runs on: NFC, Unicode spaces as plain spaces,
+    zero-width characters removed. Decomposed accents (NFD, common in text
+    pasted from macOS) split "não" into "na" + "o" and the negation vanished;
+    a no-break space hid "fim do mês" from the time spans (CP7 metamorphic
+    tests). Only analysis copies are canonical: the user's text is returned
+    as given."""
+    return _ZERO_WIDTH.sub("", _SPACE_SEPARATORS.sub(" ", unicodedata.normalize("NFC", text)))
+
+
 def fold(text: str) -> str:
     """Lower-case and strip diacritics ("Não" -> "nao") for robust matching."""
     decomposed = unicodedata.normalize("NFKD", text.lower())
