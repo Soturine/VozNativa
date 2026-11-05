@@ -1,8 +1,0 @@
-schema_version: 1
-id: academia
-status: draft
-locale: pt-BR
-terms:
-  preserve_if_natural: []
-notes:
-  - "Academic register is not equivalent to bureaucracy."

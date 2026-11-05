@@ -1,42 +1,51 @@
-# Community / sociolect packs
+# Community Evidence Packs (schema 2, v0.6.0)
 
-Community packs model vocabulary and discourse conventions associated with a **context of practice**, not a person's identity.
+A community pack models the vocabulary and discourse conventions of a **context of practice**. Examples: software teams, an office, academic research, a gaming community. It never models a person's identity. VozNativa never infers a community from a text or an author. A pack applies only when the request names it (`--community tech`).
 
-Examples:
-- tech;
-- gaming;
-- academia;
-- engineering;
-- corporate;
-- legal;
-- marketing;
-- streaming/creator communities.
+Data: `voznativa/data/community_packs/<id>.yml`. Validator and behaviour: `voznativa/community.py`. The package refuses to load a pack that breaks a rule below.
+
+## Taxonomy
+
+Every item has one category, and the category decides how it is treated:
+
+| category | what it is | example | default behaviour |
+|---|---|---|---|
+| `terminology` | the field's name for a thing; translating it loses precision | deploy, pull request, sprint | `preserve` |
+| `jargon` | insider shorthand, legitimate among peers, opaque outside | stack, call, nerf | `avoid_outside` or `preserve` |
+| `borrowing` | a foreign word with a common Portuguese equivalent | feature, deadline | `avoid_outside` |
+| `slang` | informal and temporal (see `references/slang/schema.yml`) | tankar | `avoid_outside` |
+| `meme` | a formula tied to a moment | — | `avoid_outside` |
+| `discourse_habit` | a recurring way of saying things | alinhar, subir para produção | `avoid_outside` |
+
+Behaviours:
+- **`preserve`**: kept where the author wrote it. With the community requested, editorial `anglicism_out_of_domain` findings on it are withdrawn, and the withdrawn findings are listed in the report.
+- **`avoid_outside`**: kept where the author wrote it, never added outside `legitimate_in`.
+- **`never_add`**: kept, never added.
+
+A slang or meme item marked `preserve` must say it is temporal.
 
 ## Admission rule
 
-A term or construction may enter a community pack only when we know:
-1. what community/context it was observed in;
-2. which period;
-3. whether it is technical terminology, jargon, borrowing, slang or discourse habit;
-4. whether it is appropriate in writing, speech or both;
-5. whether it conflicts with a more specific author sample;
-6. its source/provenance;
-7. a false-positive case.
+An item enters a pack only with:
+- its context of practice;
+- its category and behaviour;
+- the channels where it is legitimate;
+- a known false-positive case;
+- an evidence level.
+
+A pack moves out of `draft` only with evidence E2 or higher and listed sources. Generation (adding a term) needs a non-draft pack at E2 or higher. **No shipped pack meets that; all four are `draft`, E0.**
 
 ## Precedence
 
 ```text
-author sample > channel/context > community > region > pt-BR default
+invariants > explicit instruction > author voice > genre/channel/audience
+  > regional / temporal / community evidence > generic editorial rules
 ```
 
-A pack is not a stereotype dictionary.
+The author's own words win over a pack. A pack's terms win over a generic editorial rule only by withdrawing that rule's anglicism finding on a preserved term. A pack never forces a term into a text.
 
-## Example distinction
+## Review signals
 
-"deploy", "backend" and "pull request" may be natural terminology in software engineering and should not be "translated" merely to sound more Portuguese.
-
-By contrast, a meme/slang term from a gaming community may be highly temporal and inappropriate in a technical README.
-
-## Status of current YAML files
-
-The existing community YAMLs are **scaffolds**, not calibrated lexicons. They must remain marked `status: draft` until corpus/source-backed entries and evals exist.
+When a candidate adds a pack term the source did not have, the engine review flags it as `community_term_introduced`:
+- `info` for terminology;
+- `major` for jargon, borrowings, slang and discourse habits.

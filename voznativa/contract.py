@@ -7,7 +7,7 @@ Layers, highest first:
   4. author general profile
   5. genre/channel preferences
   6. register
-  7. community
+  7. community and temporal slang (evidence packs; the author's own forms win)
   8. regionality
   9. pt-BR default
 
@@ -24,7 +24,6 @@ from pathlib import Path
 import yaml
 
 from .drift import DEFAULT_FLOOR, SCALE_FLOOR
-from .paths import references_dir
 from .profile import confidence as habit_confidence
 
 DATA = Path(__file__).resolve().parent / "data" / "voice_defaults.yml"
@@ -132,17 +131,15 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
     regional = activate(context, text, profile)
     if requested_region > 0 and regional["status"] != "active":
         warnings.append("regional strength stays 0.0: " + "; ".join(regional["reasons"]))
-    community = context["targets"].get("community")
-    community_terms = []
-    if community:
-        pack = references_dir() / "communities" / f"{community}.yml"
-        if pack.exists():
-            data = yaml.safe_load(pack.read_text(encoding="utf-8")) or {}
-            community_terms = (data.get("terms") or {}).get("preserve_if_natural") or []
-            if data.get("status") == "draft":
-                warnings.append(f"community pack '{community}' is a draft; terms are preserved, never inserted")
-        else:
-            warnings.append(f"unknown community pack: {community}")
+    # Community context (v0.6.0 packs): terms of the requested context of
+    # practice that the author wrote are kept; no pack adds terms.
+    from .community import activate as community_activate
+    community = community_activate(context, text)
+    community_terms = sorted({f["term"] for f in community["keep"]})
+    if community["requested"] and community["pack"] is None:
+        warnings.append("; ".join(community["reasons"]))
+    elif community["pack"] and community["pack"]["status"] == "draft":
+        warnings.append(f"community pack '{community['pack']['id']}' is a draft; terms are preserved, never inserted")
     apply("register", REGISTER_PREFERENCES.get(register, {}))
     apply("genre_preferences", genre_spec.get("preferences", {}))
 
@@ -178,8 +175,16 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
                                   "resolution": "constraint wins (precedence level 1)"})
                 explicit.pop(key)
     explicit.pop("slang_strength", None)
-    if slang_requested > 0:
-        warnings.append("slang lexicon has no evidence-backed entries; effective slang strength is 0.0")
+    # Temporal slang (v0.6.0): the author's forms are kept; new forms only
+    # with evidence for the requested epoch, genre and register.
+    from .temporal import activate as temporal_activate
+    slang_context = dict(context, targets=dict(context["targets"], slang_strength=slang_requested))
+    temporal = temporal_activate(slang_context, text)
+    if slang_requested > 0 and temporal["status"] != "active":
+        warnings.append("slang strength stays 0.0: " + temporal["reasons"][-1])
+    for note in temporal["epoch_notes"]:
+        warnings.append(f"'{note['text']}' has no attestation in the requested epoch "
+                        f"(attested: {', '.join(note['attested']) or 'none'}); kept as the author's form")
     apply("explicit_instruction", {k: v for k, v in explicit.items() if k != "register"})
 
     return {
@@ -197,7 +202,12 @@ def resolve(context: dict, profile: dict | None = None, explicit: dict | None = 
         "regional": {"status": regional["status"], "reasons": regional["reasons"],
                      "packs": [p["id"] for p in regional["packs"]],
                      "features": [decision_view(f) for f in regional["features"]]},
-        "slang_strength": {"requested": slang_requested, "effective": 0.0},
+        "slang_strength": {"requested": slang_requested, "effective": temporal["effective_strength"]},
+        "temporal": {"status": temporal["status"], "epoch": temporal["requested"]["epoch"],
+                     "keep": temporal["keep"], "allowed": temporal["allowed"], "reasons": temporal["reasons"],
+                     "epoch_notes": temporal["epoch_notes"]},
+        "community": {"status": community["status"], "pack": community["pack"], "keep": community["keep"],
+                      "withdraw_findings_for": community["withdraw_findings_for"], "reasons": community["reasons"]},
         "profile": {"used": bool(profile) and maturity != "explicit_only", "maturity": maturity,
                     "id": (profile or {}).get("profile", {}).get("id")},
         "do_not": DO_NOT,
@@ -220,4 +230,7 @@ def compact(contract: dict) -> dict:
     view["slang_strength"] = contract["slang_strength"]["effective"]
     if contract["community_terms_preserve"]:
         view["preserve_terms"] = contract["community_terms_preserve"]
+    keep_slang = (contract.get("temporal") or {}).get("keep")
+    if keep_slang:
+        view["keep_author_slang"] = keep_slang
     return view

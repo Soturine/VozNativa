@@ -222,9 +222,7 @@ def detect(text: str, genre: str = "unknown", channel: str | None = None, regist
     strong = sum(f["strength"] == STRONG for f in findings)
     weak = sum(f["strength"] == WEAK for f in findings)
     n_words = max(1, len(words(text)))
-    # Weak findings justify an edit only in company, and the company must grow
-    # with the text: two weak findings in 600 words are not a pattern.
-    weak_needed = max(2, math.ceil(n_words / 150))
+    weak_needed, decision = decide(strong, weak, n_words)
     return {
         "kind": "voznativa.pattern_report",
         "schema_version": 2,
@@ -239,6 +237,27 @@ def detect(text: str, genre: str = "unknown", channel: str | None = None, regist
             "families": sorted({f["family"] for f in findings}),
             "weak_needed_for_edit": weak_needed,
         },
-        "decision": "edit" if strong >= 1 or weak >= weak_needed else "no_change_candidate",
+        "decision": decision,
         "note": "editorial findings, not an authorship score; never optimize for this number",
     }
+
+
+def decide(strong: int, weak: int, n_words: int) -> tuple[int, str]:
+    """The edit rule (one owner). Weak findings justify an edit only in
+    company, and the company must grow with the text: two weak findings in
+    600 words are not a pattern (``dc-029``: /150 is uncalibrated; CP6 found
+    no corpus evidence to change it)."""
+    weak_needed = max(2, math.ceil(n_words / 150))
+    return weak_needed, "edit" if strong >= 1 or weak >= weak_needed else "no_change_candidate"
+
+
+def with_findings(report: dict, findings: list[dict], withdrawn: list[dict], text: str) -> dict:
+    """The report recomputed after a context layer withdrew findings."""
+    strong = sum(f["strength"] == STRONG for f in findings)
+    weak = sum(f["strength"] == WEAK for f in findings)
+    n_words = max(1, len(words(text)))
+    weak_needed, decision = decide(strong, weak, n_words)
+    summary = dict(report["summary"], strong=strong, weak=weak, weak_needed_for_edit=weak_needed,
+                   per_100_words=round(100 * (strong + weak) / n_words, 2),
+                   families=sorted({f["family"] for f in findings}))
+    return dict(report, findings=findings, withdrawn=withdrawn, summary=summary, decision=decision)

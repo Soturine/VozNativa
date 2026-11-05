@@ -203,6 +203,41 @@ def _feedback(reports: list[dict]) -> list[str]:
     return out
 
 
+def _temporal_and_community_issues(original: str, candidate: str, context: dict) -> list[dict]:
+    """Slang and community guards (v0.6.0). Slang or jargon the candidate
+    added without a licensing activation is decoration nobody asked for;
+    slang piled up past the source's density is stuffing; the author's own
+    slang dropped is reported (a register change may justify it)."""
+    from . import stuffing, temporal
+    from .community import introduced_terms as community_added
+    issues = []
+    if context["task"] == "create":
+        return issues
+    activation = temporal.activate(context, original)
+    added = temporal.introduced_terms(original, candidate, activation)
+    if added:
+        issues.append({"code": "slang_introduced", "severity": "major",
+                       "message": "slang added without evidence for this request: "
+                                  + ", ".join(f"{a['form']} ({a['id']})" for a in added)})
+    before, after = temporal.observe(original), temporal.observe(candidate)
+    stuffed = stuffing.compare("slang", [h["text"] for h in before], [h["text"] for h in after],
+                               len(original.split()), len(candidate.split()))
+    if stuffed["stuffed"]:
+        issues.append({"code": "slang_stuffing", "severity": "major",
+                       "message": f"slang density rose to {stuffed['candidate']['level']}: "
+                                  f"{stuffed['candidate']['forms']}"})
+    dropped = sorted({h["id"] for h in before} - {h["id"] for h in after})
+    if dropped:
+        issues.append({"code": "author_slang_removed", "severity": "info",
+                       "message": f"the author's slang is gone from the candidate: {dropped} "
+                                  "(fine only if the request changed the register)"})
+    for a in community_added(original, candidate):
+        severity = "info" if a["category"] == "terminology" else "major"
+        issues.append({"code": "community_term_introduced", "severity": severity,
+                       "message": f"{a['category']} '{a['term']}' ({a['pack']}) added; no pack licenses additions"})
+    return issues
+
+
 def validate_candidate(original: str, candidate: str, context: dict, profile: dict | None,
                        facts: list[str] | None = None, project=None, protect: list[str] | tuple = ()) -> dict:
     if context["task"] == "create":
@@ -230,6 +265,7 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
         extra.append({"code": "regional_form_introduced", "severity": "major",
                       "message": "regional forms added without a licensing pack activation: "
                                  + ", ".join(f"{a['form']} ({a['pack']})" for a in added)})
+    extra += _temporal_and_community_issues(original, candidate, context)
     if profile and len(candidate.split()) >= 60:
         d = drift_mod.inspect(candidate, profile=profile)
         if d.get("drift"):
@@ -269,7 +305,9 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     genre = context["genre"]["value"]
     channel = explicit_channel(context)
     register = context["register"]["value"]
-    before = patterns_mod.detect(text, genre, channel, register) if context["task"] != "create" else None
+    from .community import apply_to_report
+    before = (apply_to_report(patterns_mod.detect(text, genre, channel, register), context, text)
+              if context["task"] != "create" else None)
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else []
     # A text can be free of editorial problems and still not be what was asked
     # for (an e-mail requested as a WhatsApp message): only skip the model when
@@ -346,7 +384,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
     def quality(final: str) -> dict | None:
         if before is None:
             return None
-        after = patterns_mod.detect(final, genre, channel, register)
+        after = apply_to_report(patterns_mod.detect(final, genre, channel, register), context, final)
         new_ids = {f["id"] for f in after["findings"]} - {f["id"] for f in before["findings"]}
         out = {"before": before["summary"], "after": after["summary"], "introduced": sorted(new_ids),
                "model_called": True}

@@ -10,6 +10,7 @@ import re
 import unicodedata
 from collections import Counter
 
+from . import stuffing
 from .analyze import data
 
 
@@ -34,22 +35,15 @@ def inspect(text: str, requested_region: str | None = None) -> dict:
                 found.append(token)
                 regions[region] += 1
     counts = Counter(found)
-    density = len(found) / max(1, len(tokens))
-    repeated = max(counts.values(), default=0)
+    measured = stuffing.measure(found, len(tokens))   # one owner for the density thresholds
+    density, overfit = measured["density"], measured["level"]
     active = sorted(regions)
-
-    if density > 0.04 or repeated >= 4:
-        overfit = "high"
-    elif density > 0.02 or repeated >= 3:
-        overfit = "medium"
-    else:
-        overfit = "low"
     mixing = "high" if len(active) >= 3 else "medium" if len(active) == 2 else "low"
     requested = requested_region.lower() if requested_region else None
     return {
         "marker_count": len(found),
         "token_count": len(tokens),
-        "density": round(density, 4),
+        "density": density,
         "markers": dict(counts),
         "regions_observed": dict(regions),
         "regional_overfit": overfit,

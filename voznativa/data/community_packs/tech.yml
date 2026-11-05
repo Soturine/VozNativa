@@ -1,0 +1,95 @@
+schema_version: 2
+kind: voznativa.community_pack
+id: tech
+name: Engenharia de software
+status: draft
+context_of_practice: equipes de desenvolvimento de software, repositórios, documentação técnica e chats de trabalho
+locale: pt-BR
+evidence:
+  level: E0
+  sources: []
+  notes:
+  - lista do desenvolvedor (v0.4), reclassificada pela taxonomia v2; nenhum corpus técnico no registro ainda
+period: {observed_from: null, observed_until: null, last_verified_at: null}
+generation: {allowed: false, reason: "pack draft: termos só são preservados"}
+items:
+- term: deploy
+  forms: [deploy, deploys, deployar, deployado]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email, corporate]
+  false_positive: para leitores leigos, "publicação" pode ser mais claro; é decisão de público, não de comunidade
+  evidence: E0
+- term: pull request
+  forms: [pull request, pull requests]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email]
+  false_positive: a sigla "PR" ficou fora da detecção porque também é a sigla do Paraná
+  evidence: E0
+- term: backend
+  forms: [backend, back-end]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email, corporate]
+  false_positive: nenhum conhecido
+  evidence: E0
+- term: frontend
+  forms: [frontend, front-end]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email, corporate]
+  false_positive: nenhum conhecido
+  evidence: E0
+- term: framework
+  forms: [framework, frameworks]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, academic, corporate]
+  false_positive: em gestão, "framework" também é usado de forma vaga; ali vale o achado editorial
+  evidence: E0
+- term: stack
+  forms: [stack]
+  category: jargon
+  origin: english_borrowing
+  behaviour: avoid_outside
+  legitimate_in: [technical, documentation, whatsapp]
+  false_positive: a "stack" de dados (pilha) é terminologia; "nossa stack" é jargão de equipe
+  evidence: E0
+- term: bug
+  forms: [bug, bugs, bugado, bugou]
+  category: jargon
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email, corporate, social]
+  false_positive: num relatório formal, "falha" pode ser pedido pelo registro
+  evidence: E0
+- term: feature
+  forms: [feature, features]
+  category: borrowing
+  origin: english_borrowing
+  behaviour: avoid_outside
+  legitimate_in: [technical, whatsapp]
+  false_positive: para leitores de fora da equipe, "funcionalidade" é o equivalente comum
+  evidence: E0
+- term: sprint
+  forms: [sprint, sprints]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [technical, documentation, whatsapp, email, corporate]
+  false_positive: em esporte, "sprint" é outra coisa
+  evidence: E0
+- term: subir para produção
+  forms: [subir pra produção, subir para produção, subi pra produção, subiu pra produção]
+  category: discourse_habit
+  origin: native
+  behaviour: avoid_outside
+  legitimate_in: [technical, whatsapp]
+  false_positive: nenhum conhecido na forma completa
+  evidence: E0

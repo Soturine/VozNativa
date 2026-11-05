@@ -169,6 +169,7 @@ def _contract_args(p):
     p.add_argument("--region-strength", type=float, default=0.0)
     p.add_argument("--community")
     p.add_argument("--slang-strength", type=float, default=0.0)
+    p.add_argument("--epoch", help="reader's period: current, a year (1995) or a range (1994-1996)")
     p.add_argument("--fact", action="append", help="fact source file (repeatable); never used for voice")
     p.add_argument("--voice-sample", action="append", help="text the author wrote (repeatable); never used for facts")
     p.add_argument("--voice-channel")
@@ -180,7 +181,7 @@ def _route(args):
     return route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
                  register=args.register, audience=args.audience, region=args.region,
                  region_strength=args.region_strength, community=args.community,
-                 slang_strength=args.slang_strength, fact_sources=args.fact,
+                 slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
                  voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo)
 
 
@@ -259,8 +260,9 @@ def cmd_rewrite_prompt(args):
     text = _read(args.text)
     # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
     channel = explicit_channel(context)
-    findings = detect(text, context["genre"]["value"], channel,
-                      context["register"]["value"]) if context["task"] != "create" else None
+    from .community import apply_to_report
+    findings = apply_to_report(detect(text, context["genre"]["value"], channel, context["register"]["value"]),
+                               context, text) if context["task"] != "create" else None
     targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
     from .planner import plan
     the_plan = plan(text, context, profile, explicit, _protected(args), report=findings) if findings else None

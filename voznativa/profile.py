@@ -16,10 +16,7 @@ import re
 from collections import Counter
 from datetime import datetime, timezone
 
-import yaml
-
 from . import features
-from .paths import references_dir
 from .text import fold, words
 
 SCHEMA_VERSION = 2
@@ -28,11 +25,10 @@ DISCOURSE_OPENERS = {"entao", "olha", "bom", "enfim", "tipo", "na verdade", "sin
 
 
 def _community_terms() -> set[str]:
-    terms = set()
-    for path in (references_dir() / "communities").glob("*.yml"):
-        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-        terms.update(fold(t) for t in (data.get("terms") or {}).get("preserve_if_natural") or [])
-    return terms
+    """Every community pack form (v0.6.0 packs, schema 2): the author's use of
+    them is a habit to keep, not an anglicism to fix."""
+    from .community import all_terms
+    return all_terms()
 
 
 def confidence(support: int, samples: int) -> float:
@@ -123,6 +119,17 @@ def build(samples: list[dict]) -> dict:
                     support_regional[fold(form)] += 1
     for token in sorted(regional):
         habits.append(_habit(f"regional_form.{token}", "keep", regional[token], support_regional[token], n, "lexicon"))
+    # Slang the author writes (temporal lexicon, closed list, counts only): the
+    # author's forms are kept whatever their attestation; nothing is inferred
+    # about the author's age or generation from them.
+    from .temporal import observe
+    slang, support_slang = Counter(), Counter()
+    for t in texts:
+        hits = observe(t)
+        slang.update(h["id"] for h in hits)
+        support_slang.update({h["id"] for h in hits})
+    for sid in sorted(slang):
+        habits.append(_habit(f"slang.{sid}", "keep", slang[sid], support_slang[sid], n, "lexicon"))
     for opener in sorted(openers):
         habits.append(_habit(f"opener.{opener}", True, openers[opener], opener_support[opener], n, "discourse"))
     for name in ("em_dash_per_100w", "emoji_per_100w", "exclamation_per_sentence", "semicolon_per_100w",

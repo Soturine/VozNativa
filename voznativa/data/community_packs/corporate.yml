@@ -1,0 +1,55 @@
+schema_version: 2
+kind: voznativa.community_pack
+id: corporate
+name: Escritório e gestão
+status: draft
+context_of_practice: comunicação interna de empresas (e-mails, reuniões, chats de trabalho)
+locale: pt-BR
+evidence:
+  level: E0
+  sources: []
+  notes:
+  - lista do desenvolvedor (v0.4); não supor que vocabulário de startup vale para toda organização
+period: {observed_from: null, observed_until: null, last_verified_at: null}
+generation: {allowed: false, reason: "pack draft: termos só são preservados"}
+items:
+- term: feedback
+  forms: [feedback, feedbacks]
+  category: borrowing
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [corporate, email, whatsapp, social, technical]
+  false_positive: nenhum conhecido; o empréstimo é corrente em PT-BR
+  evidence: E0
+- term: deadline
+  forms: [deadline, deadlines]
+  category: borrowing
+  origin: english_borrowing
+  behaviour: avoid_outside
+  legitimate_in: [corporate, whatsapp]
+  false_positive: fora do ambiente de trabalho, "prazo" é o equivalente comum
+  evidence: E0
+- term: call
+  forms: [call, calls]
+  category: jargon
+  origin: english_borrowing
+  behaviour: avoid_outside
+  legitimate_in: [corporate, whatsapp]
+  false_positive: para leitores de fora, "reunião" ou "ligação"
+  evidence: E0
+- term: onboarding
+  forms: [onboarding]
+  category: terminology
+  origin: english_borrowing
+  behaviour: preserve
+  legitimate_in: [corporate, email, technical, documentation]
+  false_positive: nenhum conhecido
+  evidence: E0
+- term: alinhar
+  forms: [alinhar, alinhamento, alinhados]
+  category: discourse_habit
+  origin: native
+  behaviour: avoid_outside
+  legitimate_in: [corporate, email, whatsapp]
+  false_positive: no sentido físico ("alinhar as peças") não é hábito de escritório
+  evidence: E0

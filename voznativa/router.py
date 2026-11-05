@@ -75,7 +75,7 @@ def _source(path: str, kind: str, channel: str | None = None) -> dict:
 def route(text: str, task: str = "rewrite", genre: str | None = None, channel: str | None = None,
           register: str | None = None, audience: str | None = None, region: str | None = None,
           region_strength: float = 0.0, community: str | None = None, slang_strength: float = 0.0,
-          spoken: bool | None = None, fact_sources: list[str] | None = None,
+          epoch: str | None = None, spoken: bool | None = None, fact_sources: list[str] | None = None,
           voice_samples: list[str] | None = None, voice_channel: str | None = None,
           repo: str | None = None) -> dict:
     from .text import canonical
@@ -84,6 +84,8 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         raise ValueError(f"task must be one of {TASKS}")
     if register and register not in REGISTERS:
         raise ValueError(f"register must be one of {REGISTERS}")
+    from .temporal import parse_epoch
+    epoch_info = parse_epoch(epoch)        # ValueError on a malformed epoch, like an unknown register
     d = data()
     genre_info = ({"value": genre, "source": "explicit", "confidence": "explicit"} if genre
                   else infer_genre(text) if text.strip() else
@@ -114,6 +116,7 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         "regional_target": bool(region) and region_strength > 0,
         "community_target": bool(community),
         "slang_target": slang_strength > 0,
+        "epoch_target": epoch_info is not None,
         "spoken": bool(spoken),
         "register_explicit": bool(register),
         "register_conflict": bool(register and default_register and register != default_register),
@@ -129,7 +132,7 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         "audience": audience,
         "register": register_info,
         "targets": {"region": {"code": region.lower() if region else None, "strength": region_strength},
-                    "community": community, "slang_strength": slang_strength},
+                    "community": community, "slang_strength": slang_strength, "epoch": epoch_info},
         "flags": flags,
         "constraints": {
             "preserve_markdown_structure": flags["has_markdown"],
@@ -191,10 +194,12 @@ def transformation_targets(text: str, context: dict, profile: dict | None = None
         add("register", register, (register != source_register) if source_register else None)
     if context.get("audience"):
         add("audience", context["audience"], None)
-    for flag, target in (("regional_target", "region"), ("community_target", "community"),
-                         ("slang_target", "slang")):
+    # An epoch alone describes the reader's time; it informs notes and slang
+    # activation but does not by itself ask for a rewrite.
+    for flag, target, key in (("regional_target", "region", "region"), ("community_target", "community", "community"),
+                              ("slang_target", "slang", "slang_strength")):
         if context["flags"].get(flag):
-            add(target, context["targets"].get(target if target != "slang" else "slang_strength"), None)
+            add(target, context["targets"].get(key), None)
     if profile or context["flags"].get("has_voice_samples"):
         add("voice", "author_profile", None)
     if explicit:

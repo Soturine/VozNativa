@@ -1,8 +1,0 @@
-schema_version: 1
-id: gaming
-status: draft
-locale: pt-BR
-terms:
-  preserve_if_natural: []
-notes:
-  - "Populate only with sourced, time-bounded observations."
