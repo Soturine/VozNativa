@@ -24,8 +24,8 @@ period:
 license:
   code: per_document
   per_document: true
-  evidence: portal header CC-BY-NC-SA-4.0 (1.3 Ada); HF card cc-by-4.0 (2.0.1 Bea); each document carries its own
-    licence
+  evidence: HF card cc-by-4.0 (2.0.1, sha 55e63a5); USP portal CC-BY-NC-SA-4.0 (1.3); per-document licences in the
+    TEI headers
 access:
   type: open_download
   note: Hugging Face carolina-c4ai/corpus-carolina, TEI files
@@ -54,3 +54,6 @@ verification:
       truncated: true
       sha: 55e63a519393c70a48dcfa14a558499c6bb0583b
       data_files_listed: 554
+privacy:
+  personal_data: possible
+  note: web, wiki and social texts; headers carry usernames (not stored by the pilot)

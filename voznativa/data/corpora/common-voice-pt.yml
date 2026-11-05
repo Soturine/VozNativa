@@ -38,3 +38,6 @@ verification:
     final_url: https://commonvoice.mozilla.org/pt/datasets
     identity_terms_found:
     - Common Voice
+privacy:
+  personal_data: true
+  note: voice recordings

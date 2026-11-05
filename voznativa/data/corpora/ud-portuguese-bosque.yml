@@ -20,7 +20,7 @@ period:
 license:
   code: CC-BY-SA-4.0
   per_document: false
-  evidence: treebank README (to verify)
+  evidence: LICENSE.txt in the repository (read 2026-11-05)
 access:
   type: open_download
   note: CoNLL-U files in the GitHub repository
@@ -50,3 +50,6 @@ verification:
       bytes_read: 65536
       declared_size: 11291250
       truncated: true
+privacy:
+  personal_data: false
+  note: edited news sentences; no personal metadata

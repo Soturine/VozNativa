@@ -77,6 +77,9 @@ def validate_source(entry: dict, known_connectors: frozenset | None = None, root
     access = entry["access"]
     if not isinstance(access, dict) or access.get("type") not in ACCESS_TYPES:
         problems.append(f"access.type must be one of {ACCESS_TYPES}")
+    privacy = entry.get("privacy")
+    if privacy is not None and privacy.get("personal_data") not in (True, False, "possible", "unknown"):
+        problems.append("privacy.personal_data must be true, false, possible or unknown")
     for rel in entry["relations"] or []:
         if rel.get("type") not in RELATIONS or not rel.get("target"):
             problems.append(f"relation {rel} needs type in {RELATIONS} and a target")

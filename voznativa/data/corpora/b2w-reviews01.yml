@@ -20,7 +20,7 @@ period:
 license:
   code: CC-BY-NC-SA-4.0
   per_document: false
-  evidence: GitHub repository licence (to verify)
+  evidence: Licensing section of README.md (read 2026-11-05)
 access:
   type: open_download
   note: CSV in the GitHub repository
@@ -48,3 +48,6 @@ verification:
       bytes_read: 65536
       declared_size: 49453175
       truncated: true
+privacy:
+  personal_data: true
+  note: 'reviews written by users, with reviewer gender, birth year and state: quasi-identifiers'

@@ -20,10 +20,9 @@ period:
   from: null
   to: null
 license:
-  code: CC-BY-NC-ND-4.0
+  code: unknown
   per_document: false
-  evidence: reported by the CORAA documentation and the Racoci mirror card; the gabrielrstan HF card lists the licence
-    as unknown
+  evidence: official HF card (gabrielrstan/CORAA-v1.1) says unknown; a mirror README points to CC-BY-NC-ND-4.0 (2026-11-05)
 access:
   type: open_download
   note: Hugging Face dataset gabrielrstan/CORAA-v1.1 (audio + transcriptions, ~290 h)
@@ -64,3 +63,6 @@ verification:
       truncated: true
       sha: 719c91226a79f5f9a8984145f15f29626eabc29a
       data_files_listed: 5
+privacy:
+  personal_data: true
+  note: recorded voices and transcribed speech of identifiable speakers
