@@ -1,0 +1,42 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: phpb
+name: PHPB — Projeto para a História do Português Brasileiro
+maintainer: rede nacional de equipes
+urls:
+  official: https://phpp.fflch.usp.br/
+  official_kind: project_site
+identity_terms:
+- PHPB
+- História do Português
+modality: written
+genres:
+- cartas
+- documentos
+- jornais
+regions:
+- BR
+period:
+  from: 1700
+  to: 1999
+license:
+  code: unknown
+  per_document: false
+  evidence: terms not found
+access:
+  type: unknown
+  note: editions spread across regional teams
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: diachronic; not a source for present-day regionality
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://phpp.fflch.usp.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://phpp.fflch.usp.br/
+    identity_terms_found:
+    - História do Português

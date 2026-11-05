@@ -1,0 +1,44 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: norpofor
+name: NORPOFOR — Norma Oral do Português Popular de Fortaleza
+maintainer: UECE
+urls:
+  official: https://repositorio.ufc.br/handle/riufc/53380
+  official_kind: citation
+identity_terms:
+- NORPOFOR
+modality: spoken_transcribed
+genres:
+- DID
+- D2
+- entrevista
+regions:
+- CE:Fortaleza
+period:
+  from: null
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: request
+  note: studies thank the coordinators for access; no public site found
+relations:
+- type: sister
+  target: porcufort
+  note: popular vs educated speech of Fortaleza
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://repositorio.ufc.br/handle/riufc/53380
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://repositorio.ufc.br/handle/riufc/53380
+    identity_terms_found:
+    - NORPOFOR

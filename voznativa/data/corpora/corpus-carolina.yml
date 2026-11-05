@@ -1,0 +1,56 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: corpus-carolina
+name: Corpus Carolina
+maintainer: C4AI / USP
+urls:
+  official: https://sites.usp.br/corpuscarolina/
+  official_kind: project_site
+  huggingface: https://huggingface.co/datasets/carolina-c4ai/corpus-carolina
+identity_terms:
+- Carolina
+modality: written
+genres:
+- wiki
+- jurídico
+- jornalístico
+- literário
+- web
+regions:
+- BR
+period:
+  from: null
+  to: null
+license:
+  code: per_document
+  per_document: true
+  evidence: portal header CC-BY-NC-SA-4.0 (1.3 Ada); HF card cc-by-4.0 (2.0.1 Bea); each document carries its own
+    licence
+access:
+  type: open_download
+  note: Hugging Face carolina-c4ai/corpus-carolina, TEI files
+relations: []
+status: ACCESS_VERIFIED
+evidence_role: contemporary written PT-BR by typology; no reliable geography per document
+notes:
+- 'metadata-only pilot: evals/corpus/carolina-pilot.json (2026-10-20)'
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://sites.usp.br/corpuscarolina/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://sites.usp.br/corpuscarolina/
+    identity_terms_found:
+    - Carolina
+  access:
+    date: '2026-11-05'
+    method: Hugging Face API + file read
+    result: data_read
+    detail:
+      file: corpus/datasets_and_other_corpora/pt-BR/DATa.xml.gz
+      bytes_read: 65536
+      truncated: true
+      sha: 55e63a519393c70a48dcfa14a558499c6bb0583b
+      data_files_listed: 554

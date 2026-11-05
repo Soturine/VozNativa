@@ -1,0 +1,43 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: chave
+name: CHAVE
+maintainer: Linguateca / ELRA
+urls:
+  official: https://www.linguateca.pt/CHAVE/
+  official_kind: project_site
+identity_terms:
+- CHAVE
+modality: written
+genres:
+- jornalístico
+regions:
+- BR
+- PT
+period:
+  from: 1994
+  to: 1995
+license:
+  code: elra_licence
+  per_document: false
+  evidence: distributed by ELRA under its licence (reported)
+access:
+  type: restricted
+  note: ELRA licence required
+relations:
+- type: overlaps
+  target: cetenfolha
+  note: Folha 1994 text in both
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.linguateca.pt/CHAVE/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://www.linguateca.pt/CHAVE/
+    identity_terms_found:
+    - CHAVE

@@ -1,0 +1,52 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-bosque
+name: UD Portuguese-Bosque
+maintainer: Universal Dependencies
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-Bosque
+  official_kind: data_host
+identity_terms:
+- Bosque
+modality: written
+genres:
+- jornalístico
+regions:
+- BR
+- PT
+period:
+  from: 1994
+  to: 1995
+license:
+  code: CC-BY-SA-4.0
+  per_document: false
+  evidence: treebank README (to verify)
+access:
+  type: open_download
+  note: CoNLL-U files in the GitHub repository
+relations:
+- type: derived_from
+  target: cetenfolha
+  note: CF-* sentences come from CETENFolha (Brazil)
+status: ACCESS_VERIFIED
+evidence_role: 'annotated news sentences, Brazilian (CF) and European (CP) parts: a PT-BR x PT-PT contrast'
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-Bosque
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-Bosque
+    identity_terms_found:
+    - Bosque
+  access:
+    date: '2026-11-05'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_bosque-ud-train.conllu
+      bytes_read: 65536
+      declared_size: 11291250
+      truncated: true

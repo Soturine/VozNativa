@@ -1,0 +1,38 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: alib
+name: Atlas Linguístico do Brasil (ALiB)
+maintainer: Comitê Nacional do Projeto ALiB / UFBA
+urls:
+  official: https://alib.ufba.br/
+  official_kind: project_site
+identity_terms:
+- ALiB
+- Atlas Linguístico
+modality: spoken_transcribed
+genres:
+- inquérito dialetal
+regions:
+- BR
+period:
+  from: 2001
+  to: 2013
+license:
+  code: unknown
+  per_document: false
+  evidence: atlas volumes published under copyright; no open dataset licence found (docs/LICENSING.md)
+access:
+  type: unknown
+  note: results published in the atlas and articles; raw data access not documented
+relations: []
+status: CATALOGUED
+evidence_role: regional lexical distributions through published findings (pack br-norte-lex-mandioca)
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://alib.ufba.br/
+    method: GET official page; identity terms
+    result: failed
+    failure: tls
+    detail: SSLCertVerificationError reaching alib.ufba.br

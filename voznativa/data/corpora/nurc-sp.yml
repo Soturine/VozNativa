@@ -1,0 +1,43 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: nurc-sp
+name: NURC-SP
+maintainer: FFLCH-USP
+urls:
+  official: https://nurc.fflch.usp.br/
+  official_kind: project_site
+identity_terms:
+- NURC
+modality: spoken_transcribed
+genres:
+- elocução formal
+- diálogo
+regions:
+- SP:São Paulo
+period:
+  from: 1970
+  to: 1990
+license:
+  code: CC-BY-NC-ND-4.0
+  per_document: false
+  evidence: Corpus Mínimo (2022, Portulan CLARIN), docs/LICENSING.md
+access:
+  type: unknown
+  note: Corpus Mínimo distributed through Portulan CLARIN (reported)
+relations:
+- type: part_of
+  target: nurc
+  note: ''
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://nurc.fflch.usp.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://nurc.fflch.usp.br/
+    identity_terms_found:
+    - NURC

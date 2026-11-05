@@ -1,0 +1,41 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: linguateca-acdc
+name: Linguateca AC/DC
+maintainer: Linguateca
+urls:
+  official: https://www.linguateca.pt/ACDC/
+  official_kind: project_site
+identity_terms:
+- AC/DC
+- Linguateca
+modality: mixed
+genres:
+- vários
+regions:
+- BR
+- PT
+period:
+  from: null
+  to: null
+license:
+  code: query_only
+  per_document: false
+  evidence: query service; corpora keep their own terms
+access:
+  type: open_query
+  note: web query interface to many corpora
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.linguateca.pt/ACDC/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://www.linguateca.pt/ACDC/
+    identity_terms_found:
+    - Linguateca

@@ -1,0 +1,42 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: alip
+name: Amostra Linguística do Interior Paulista (ALIP / Iboruna)
+maintainer: UNESP / IBILCE
+urls:
+  official: http://www.alip.ibilce.unesp.br/
+  official_kind: project_site
+identity_terms:
+- ALIP
+- Iboruna
+modality: spoken_transcribed
+genres:
+- entrevista
+- diálogo
+regions:
+- SP:noroeste paulista
+period:
+  from: 2004
+  to: 2005
+license:
+  code: none_stated
+  per_document: false
+  evidence: academic use without a defined licence (CORAA paper, arXiv 2110.15731)
+access:
+  type: registration
+  note: registration on the project site (reported; not verified)
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.alip.ibilce.unesp.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://alip.ibilce.unesp.br/
+    identity_terms_found:
+    - ALIP
+    - Iboruna

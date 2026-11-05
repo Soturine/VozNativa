@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: varsul
+name: VARSUL — Variação Linguística na Região Sul
+maintainer: UFSC, UFRGS, UFPR
+urls:
+  official: https://www.ufrgs.br/letras/varsul/
+  official_kind: project_site
+identity_terms:
+- VARSUL
+modality: spoken_transcribed
+genres:
+- entrevista sociolinguística
+regions:
+- PR
+- SC
+- RS
+period:
+  from: 1990
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: request
+  note: 288 interviews in 12 cities (base sample); access through the university teams
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.ufrgs.br/letras/varsul/
+    method: GET official page; identity terms
+    result: failed
+    failure: tls
+    detail: SSLEOFError reaching www.ufrgs.br

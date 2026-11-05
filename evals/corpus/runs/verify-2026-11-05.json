@@ -1,0 +1,558 @@
+{
+  "kind": "voznativa.corpus_verification_run",
+  "date": "2026-11-05",
+  "results": [
+    {
+      "id": "alib",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://alib.ufba.br/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "tls",
+        "detail": "SSLCertVerificationError reaching alib.ufba.br"
+      },
+      "access": null
+    },
+    {
+      "id": "alip",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.alip.ibilce.unesp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://alip.ibilce.unesp.br/",
+        "identity_terms_found": [
+          "ALIP",
+          "Iboruna"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "b2w-reviews01",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://github.com/americanas-tech/b2w-reviews01",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/americanas-tech/b2w-reviews01",
+        "identity_terms_found": [
+          "B2W-Reviews01",
+          "b2w-reviews01"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "B2W-Reviews01.csv",
+          "bytes_read": 65536,
+          "declared_size": 49453175,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "brwac",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.inf.ufrgs.br/pln/wiki/index.php?title=BrWaC",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.inf.ufrgs.br/pln/wiki/index.php?title=BrWaC",
+        "identity_terms_found": [
+          "BrWaC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "c-oral-brasil-i",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.c-oral-brasil.org/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.c-oral-brasil.org/",
+        "identity_terms_found": [
+          "C-ORAL-BRASIL"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "c-oral-brasil-ii",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://repositorio.ufmg.br/handle/1843/57812",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://repositorio.ufmg.br/items/2f81428b-b61a-4cae-a76f-f795d82a82d1",
+        "identity_terms_found": [
+          "C-ORAL-BRASIL"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "cetenfolha",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.linguateca.pt/cetenfolha/",
+        "method": "GET official page; identity terms",
+        "result": "not_identified",
+        "http_status": 200,
+        "final_url": "https://www.linguateca.pt/cetenfolha/",
+        "identity_terms_found": []
+      },
+      "access": null
+    },
+    {
+      "id": "chave",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.linguateca.pt/CHAVE/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.linguateca.pt/CHAVE/",
+        "identity_terms_found": [
+          "CHAVE"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "common-voice-pt",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://commonvoice.mozilla.org/pt/datasets",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://commonvoice.mozilla.org/pt/datasets",
+        "identity_terms_found": [
+          "Common Voice"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "coraa-asr",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://github.com/nilc-nlp/CORAA",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/nilc-nlp/CORAA",
+        "identity_terms_found": [
+          "CORAA"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "Hugging Face API + file read",
+        "result": "data_read",
+        "detail": {
+          "file": "dev.zip",
+          "bytes_read": 65536,
+          "truncated": true,
+          "sha": "719c91226a79f5f9a8984145f15f29626eabc29a",
+          "data_files_listed": 5
+        }
+      }
+    },
+    {
+      "id": "corpus-brasileiro",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.linguateca.pt/acesso/corpus.php?corpus=CBRAS",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.linguateca.pt/acesso/corpus.php?corpus=CBRAS",
+        "identity_terms_found": [
+          "Corpus Brasileiro"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "corpus-carolina",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://sites.usp.br/corpuscarolina/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://sites.usp.br/corpuscarolina/",
+        "identity_terms_found": [
+          "Carolina"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "Hugging Face API + file read",
+        "result": "data_read",
+        "detail": {
+          "file": "corpus/datasets_and_other_corpora/pt-BR/DATa.xml.gz",
+          "bytes_read": 65536,
+          "truncated": true,
+          "sha": "55e63a519393c70a48dcfa14a558499c6bb0583b",
+          "data_files_listed": 554
+        }
+      }
+    },
+    {
+      "id": "discurso-gramatica",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://periodicos.ufrn.br/gelne/article/view/9176",
+        "method": "GET official page; identity terms",
+        "result": "not_identified",
+        "http_status": 200,
+        "final_url": "https://periodicos.ufrn.br/gelne/article/view/9176",
+        "identity_terms_found": []
+      },
+      "access": null
+    },
+    {
+      "id": "falares-sergipanos",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://periodicos.ufsc.br/index.php/workingpapers/article/view/1984-8420.2013v14n2p156",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://periodicos.ufsc.br/index.php/workingpapers/article/view/1984-8420.2013v14n2p156",
+        "identity_terms_found": [
+          "Falares Sergipanos"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "linguateca-acdc",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.linguateca.pt/ACDC/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.linguateca.pt/ACDC/",
+        "identity_terms_found": [
+          "Linguateca"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "mac-morpho",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.nilc.icmc.usp.br/macmorpho/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "http",
+        "detail": "HTTP 404 from www.nilc.icmc.usp.br"
+      },
+      "access": null
+    },
+    {
+      "id": "nilc-corpora",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.nilc.icmc.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "http://www.nilc.icmc.usp.br/",
+        "identity_terms_found": [
+          "NILC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "norpofor",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://repositorio.ufc.br/handle/riufc/53380",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://repositorio.ufc.br/handle/riufc/53380",
+        "identity_terms_found": [
+          "NORPOFOR"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "nurc-recife",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://github.com/nilc-nlp/CORAA",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/nilc-nlp/CORAA",
+        "identity_terms_found": [
+          "NURC-Recife"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "data read",
+        "result": "failed",
+        "detail": "no data file at the repository root"
+      }
+    },
+    {
+      "id": "nurc-rj",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://nurcrj.letras.ufrj.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurcrj.letras.ufrj.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "nurc-sp",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://nurc.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurc.fflch.usp.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "nurc",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://nurcrj.letras.ufrj.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurcrj.letras.ufrj.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "peul",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.letras.ufrj.br/peul/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "http",
+        "detail": "HTTP 503 from www.letras.ufrj.br"
+      },
+      "access": null
+    },
+    {
+      "id": "phpb",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://phpp.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://phpp.fflch.usp.br/",
+        "identity_terms_found": [
+          "História do Português"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "porcufort",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://repositorio.ufc.br/handle/riufc/53380",
+        "method": "GET official page; identity terms",
+        "result": "not_identified",
+        "http_status": 200,
+        "final_url": "https://repositorio.ufc.br/handle/riufc/53380",
+        "identity_terms_found": []
+      },
+      "access": null
+    },
+    {
+      "id": "sp2010",
+      "status_before": "CATALOGUED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://projetosp2010.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://projetosp2010.fflch.usp.br/",
+        "identity_terms_found": [
+          "SP2010"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "tycho-brahe",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://www.tycho.iel.unicamp.br/corpus/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "host_not_allowed",
+        "detail": "www.corpushub.app is not a host of this registry entry"
+      },
+      "access": null
+    },
+    {
+      "id": "ud-portuguese-bosque",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-Bosque",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-Bosque",
+        "identity_terms_found": [
+          "Bosque"
+        ]
+      },
+      "access": {
+        "date": "2026-11-05",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_bosque-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 11291250,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "valpb",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.scielo.br/j/alfa/a/6yq7LDqPXxDgyNjYVXqtVXM/abstract/?lang=en",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.scielo.br/j/alfa/a/6yq7LDqPXxDgyNjYVXqtVXM/abstract/?lang=en",
+        "identity_terms_found": [
+          "VALPB"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "varsul",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "https://www.ufrgs.br/letras/varsul/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "tls",
+        "detail": "SSLEOFError reaching www.ufrgs.br"
+      },
+      "access": null
+    },
+    {
+      "id": "vercial",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-05",
+        "url": "http://alfarrabio.di.uminho.pt/vercial/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "http",
+        "detail": "HTTP 502 from alfarrabio.di.uminho.pt"
+      },
+      "access": null
+    }
+  ]
+}

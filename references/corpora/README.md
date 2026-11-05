@@ -27,3 +27,8 @@ Este diretório é o **Source Ledger linguístico** do VozNativa. Ele registra f
 ## Estado
 
 Os arquivos deste diretório documentam **como** cada corpus pode sustentar o produto. A ingestão automática dos corpora e a geração de métricas ainda são trabalho de pipeline futuro.
+
+
+## Registro executável (v0.6.0)
+
+A fonte de verdade sobre cada corpus — identidade, URL oficial e seu tipo, licença, acesso, relações e o status comprovado — é o **Corpus Registry**: `voznativa/data/corpora/<id>.yml`, validado por `voznativa/corpus/registry.py` (o antigo molde `source.schema.yml` foi substituído por ele). As notas em prosa desta pasta continuam como análise; quando divergirem do registro, vale o registro. Verificação ao vivo: `python scripts/corpus_verify.py`.

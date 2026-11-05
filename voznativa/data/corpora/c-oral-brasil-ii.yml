@@ -1,0 +1,41 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: c-oral-brasil-ii
+name: C-ORAL-BRASIL II
+maintainer: UFMG
+urls:
+  official: https://repositorio.ufmg.br/handle/1843/57812
+  official_kind: citation
+identity_terms:
+- C-ORAL-BRASIL
+modality: spoken_transcribed
+genres:
+- fala formal
+- mídia
+- telefone
+regions:
+- MG
+period:
+  from: null
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: unknown
+  note: a UFMG record (2022) lists it as 'to be published'
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://repositorio.ufmg.br/handle/1843/57812
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://repositorio.ufmg.br/items/2f81428b-b61a-4cae-a76f-f795d82a82d1
+    identity_terms_found:
+    - C-ORAL-BRASIL

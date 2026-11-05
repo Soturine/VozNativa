@@ -1,0 +1,37 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: vercial
+name: Projecto Vercial
+maintainer: Universidade do Minho
+urls:
+  official: http://alfarrabio.di.uminho.pt/vercial/
+  official_kind: project_site
+identity_terms:
+- Vercial
+modality: written
+genres:
+- literário
+regions:
+- PT
+period:
+  from: null
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: not verified
+access:
+  type: open_query
+  note: Portuguese literature site
+relations: []
+status: CATALOGUED
+evidence_role: European Portuguese literature; at most a PT-PT contrast
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://alfarrabio.di.uminho.pt/vercial/
+    method: GET official page; identity terms
+    result: failed
+    failure: http
+    detail: HTTP 502 from alfarrabio.di.uminho.pt

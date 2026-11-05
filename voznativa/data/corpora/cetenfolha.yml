@@ -1,0 +1,38 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: cetenfolha
+name: CETENFolha
+maintainer: Linguateca
+urls:
+  official: https://www.linguateca.pt/cetenfolha/
+  official_kind: project_site
+identity_terms:
+- CETENFolha
+modality: written
+genres:
+- jornalístico
+regions:
+- BR
+period:
+  from: 1994
+  to: 1994
+license:
+  code: unknown
+  per_document: false
+  evidence: distributed by Linguateca; terms not verified
+access:
+  type: open_download
+  note: corpus of Folha de S.Paulo 1994 text (reported)
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.linguateca.pt/cetenfolha/
+    method: GET official page; identity terms
+    result: not_identified
+    http_status: 200
+    final_url: https://www.linguateca.pt/cetenfolha/
+    identity_terms_found: []

@@ -1,0 +1,45 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: nurc
+name: Projeto NURC (Norma Urbana Culta)
+maintainer: universidades das cinco capitais
+urls:
+  official: https://nurcrj.letras.ufrj.br/
+  official_kind: project_site
+identity_terms:
+- NURC
+modality: spoken_transcribed
+genres:
+- elocução formal
+- diálogo
+- entrevista
+regions:
+- RJ
+- SP
+- PE
+- BA
+- RS
+period:
+  from: 1970
+  to: 1990
+license:
+  code: per_subset
+  per_document: true
+  evidence: each city's collection has its own terms (NURC-SP Corpus Mínimo CC-BY-NC-ND-4.0, docs/LICENSING.md)
+access:
+  type: unknown
+  note: access differs per city collection
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: educated urban speech of five capitals; old (1970s, 1990s recontact)
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://nurcrj.letras.ufrj.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://nurcrj.letras.ufrj.br/
+    identity_terms_found:
+    - NURC

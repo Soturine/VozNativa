@@ -1,0 +1,38 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: tycho-brahe
+name: Corpus Histórico do Português Tycho Brahe
+maintainer: UNICAMP
+urls:
+  official: http://www.tycho.iel.unicamp.br/corpus/
+  official_kind: project_site
+identity_terms:
+- Tycho Brahe
+modality: written
+genres:
+- histórico
+regions:
+- PT
+- BR
+period:
+  from: 1380
+  to: 1881
+license:
+  code: unknown
+  per_document: false
+  evidence: not verified
+access:
+  type: open_download
+  note: annotated historical texts (mostly European Portuguese authors)
+relations: []
+status: CATALOGUED
+evidence_role: diachronic; not a source for present-day PT-BR
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.tycho.iel.unicamp.br/corpus/
+    method: GET official page; identity terms
+    result: failed
+    failure: host_not_allowed
+    detail: www.corpushub.app is not a host of this registry entry

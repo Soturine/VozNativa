@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: brwac
+name: BrWaC — Brazilian Web as Corpus
+maintainer: PLN / UFRGS
+urls:
+  official: https://www.inf.ufrgs.br/pln/wiki/index.php?title=BrWaC
+  official_kind: project_site
+identity_terms:
+- BrWaC
+modality: written
+genres:
+- web
+regions:
+- BR
+period:
+  from: null
+  to: null
+license:
+  code: research_only
+  per_document: false
+  evidence: academic use on request (reported)
+access:
+  type: request
+  note: download after a request form (reported)
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.inf.ufrgs.br/pln/wiki/index.php?title=BrWaC
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://www.inf.ufrgs.br/pln/wiki/index.php?title=BrWaC
+    identity_terms_found:
+    - BrWaC

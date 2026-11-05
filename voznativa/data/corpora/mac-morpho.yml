@@ -1,0 +1,43 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: mac-morpho
+name: Mac-Morpho
+maintainer: NILC / ICMC-USP
+urls:
+  official: http://www.nilc.icmc.usp.br/macmorpho/
+  official_kind: project_site
+identity_terms:
+- Mac-Morpho
+modality: written
+genres:
+- jornalístico
+regions:
+- BR
+period:
+  from: 1994
+  to: 1994
+license:
+  code: unknown
+  per_document: false
+  evidence: not verified
+access:
+  type: open_download
+  note: POS-tagged Folha de S.Paulo 1994 text
+relations:
+- type: part_of
+  target: nilc-corpora
+  note: ''
+- type: overlaps
+  target: cetenfolha
+  note: both from Folha de S.Paulo 1994
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.nilc.icmc.usp.br/macmorpho/
+    method: GET official page; identity terms
+    result: failed
+    failure: http
+    detail: HTTP 404 from www.nilc.icmc.usp.br

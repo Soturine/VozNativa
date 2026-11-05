@@ -20,10 +20,10 @@ dependencies = ["PyYAML>=6.0"]
 voznativa = "voznativa.cli:main"
 
 [tool.setuptools]
-packages = ["voznativa"]
+packages = ["voznativa", "voznativa.corpus"]
 
 [tool.setuptools.package-data]
-voznativa = ["data/*.json", "data/*.yml", "data/regional_packs/*.yml"]
+voznativa = ["data/*.json", "data/*.yml", "data/regional_packs/*.yml", "data/corpora/*.yml"]
 
 [tool.setuptools.dynamic]
 version = { attr = "voznativa.__version__" }

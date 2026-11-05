@@ -28,6 +28,11 @@ def run(*args: str) -> dict | str:
         return out
 
 
+def _registry_ok() -> bool:
+    from voznativa.corpus.registry import load_registry
+    return len(load_registry()) >= 25
+
+
 def _license_ok() -> bool:
     from importlib import metadata
     dist = metadata.distribution("voznativa")
@@ -71,6 +76,8 @@ def main() -> int:
                 "regional-abstains": run("regional", "check", "t.txt")["status"] == "abstain",
                 # v0.6.0: the installed distribution declares the MIT licence and ships its file.
                 "license-metadata": _license_ok(),
+                # v0.6.0: the corpus registry ships as package data and validates.
+                "corpus-registry": _registry_ok(),
             }
         finally:
             os.chdir(start)  # Windows cannot delete the current directory

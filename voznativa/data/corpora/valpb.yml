@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: valpb
+name: VALPB — Variação Linguística no Estado da Paraíba
+maintainer: UFPB
+urls:
+  official: https://www.scielo.br/j/alfa/a/6yq7LDqPXxDgyNjYVXqtVXM/abstract/?lang=en
+  official_kind: citation
+identity_terms:
+- VALPB
+modality: spoken_transcribed
+genres:
+- entrevista sociolinguística
+regions:
+- PB
+period:
+  from: 1993
+  to: 2015
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: request
+  note: no access procedure published; contact the UFPB group (citation URL, no project site)
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://www.scielo.br/j/alfa/a/6yq7LDqPXxDgyNjYVXqtVXM/abstract/?lang=en
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://www.scielo.br/j/alfa/a/6yq7LDqPXxDgyNjYVXqtVXM/abstract/?lang=en
+    identity_terms_found:
+    - VALPB

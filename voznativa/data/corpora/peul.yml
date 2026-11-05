@@ -1,0 +1,37 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: peul
+name: PEUL — Programa de Estudos sobre o Uso da Língua
+maintainer: UFRJ
+urls:
+  official: http://www.letras.ufrj.br/peul/
+  official_kind: project_site
+identity_terms:
+- PEUL
+modality: spoken_transcribed
+genres:
+- entrevista sociolinguística
+regions:
+- RJ:Rio de Janeiro
+period:
+  from: 1980
+  to: 2000
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: unknown
+  note: Censo 1980/2000 samples said to be online (2012, 2016 articles); not verified
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.letras.ufrj.br/peul/
+    method: GET official page; identity terms
+    result: failed
+    failure: http
+    detail: HTTP 503 from www.letras.ufrj.br

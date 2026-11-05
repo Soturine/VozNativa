@@ -1,0 +1,42 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: c-oral-brasil-i
+name: C-ORAL-BRASIL I
+maintainer: UFMG
+urls:
+  official: http://www.c-oral-brasil.org/
+  official_kind: project_site
+identity_terms:
+- C-ORAL-BRASIL
+modality: spoken_transcribed
+genres:
+- fala espontânea informal
+regions:
+- MG:Belo Horizonte
+period:
+  from: null
+  to: null
+license:
+  code: CC-BY-NC-SA-4.0
+  per_document: false
+  evidence: reported in arXiv 2110.15731; not verified on the project site
+access:
+  type: open_download
+  note: the project says published resources are downloadable from its site
+relations:
+- type: sister
+  target: c-oral-brasil-ii
+  note: same project, other registers
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.c-oral-brasil.org/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://www.c-oral-brasil.org/
+    identity_terms_found:
+    - C-ORAL-BRASIL

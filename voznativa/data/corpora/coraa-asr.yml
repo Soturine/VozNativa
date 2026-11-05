@@ -1,0 +1,66 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: coraa-asr
+name: CORAA ASR v1.1
+maintainer: NILC / C4AI (USP)
+urls:
+  official: https://github.com/nilc-nlp/CORAA
+  official_kind: data_host
+  huggingface: https://huggingface.co/datasets/gabrielrstan/CORAA-v1.1
+identity_terms:
+- CORAA
+modality: spoken_audio
+genres:
+- entrevista
+- conversa
+- palestra
+regions:
+- BR
+period:
+  from: null
+  to: null
+license:
+  code: CC-BY-NC-ND-4.0
+  per_document: false
+  evidence: reported by the CORAA documentation and the Racoci mirror card; the gabrielrstan HF card lists the licence
+    as unknown
+access:
+  type: open_download
+  note: Hugging Face dataset gabrielrstan/CORAA-v1.1 (audio + transcriptions, ~290 h)
+relations:
+- type: contains
+  target: alip
+  note: ALIP subset
+- type: contains
+  target: c-oral-brasil-i
+  note: C-ORAL-BRASIL subset
+- type: contains
+  target: nurc-recife
+  note: NURC-Recife subset
+- type: contains
+  target: sp2010
+  note: SP2010 subset
+status: ACCESS_VERIFIED
+evidence_role: speech recognition corpus; its transcriptions repeat records of the projects it contains
+notes:
+- also contains a TEDx Portuguese subset not registered here
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://github.com/nilc-nlp/CORAA
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/nilc-nlp/CORAA
+    identity_terms_found:
+    - CORAA
+  access:
+    date: '2026-11-05'
+    method: Hugging Face API + file read
+    result: data_read
+    detail:
+      file: dev.zip
+      bytes_read: 65536
+      truncated: true
+      sha: 719c91226a79f5f9a8984145f15f29626eabc29a
+      data_files_listed: 5

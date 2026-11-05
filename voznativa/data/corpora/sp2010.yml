@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: sp2010
+name: Projeto SP2010 — Amostra da Fala Paulistana
+maintainer: GESOL / FFLCH-USP
+urls:
+  official: https://projetosp2010.fflch.usp.br/
+  official_kind: project_site
+identity_terms:
+- SP2010
+modality: spoken_transcribed
+genres:
+- entrevista sociolinguística
+regions:
+- SP:São Paulo (capital)
+period:
+  from: 2012
+  to: 2013
+license:
+  code: none_stated
+  per_document: false
+  evidence: no licence on the corpus page (consulted 2026-11-05)
+access:
+  type: registration
+  note: free for researchers after registration; files requested by e-mail
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: urban speech of the city of São Paulo, 60 speakers in 12 profiles
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://projetosp2010.fflch.usp.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://projetosp2010.fflch.usp.br/
+    identity_terms_found:
+    - SP2010

@@ -1,0 +1,41 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: discurso-gramatica
+name: Corpus Discurso & Gramática (D&G)
+maintainer: UFRN / UFRJ / UFF
+urls:
+  official: https://periodicos.ufrn.br/gelne/article/view/9176
+  official_kind: citation
+identity_terms:
+- Discurso & Gramática
+- D&G
+modality: mixed
+genres:
+- narrativa
+- relato
+- opinião
+regions:
+- RN:Natal
+period:
+  from: 1998
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: request
+  note: spoken and written texts of the same informants; no access site found
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://periodicos.ufrn.br/gelne/article/view/9176
+    method: GET official page; identity terms
+    result: not_identified
+    http_status: 200
+    final_url: https://periodicos.ufrn.br/gelne/article/view/9176
+    identity_terms_found: []

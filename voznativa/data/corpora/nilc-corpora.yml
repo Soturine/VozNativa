@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: nilc-corpora
+name: NILC corpora (São Carlos)
+maintainer: NILC / ICMC-USP
+urls:
+  official: http://www.nilc.icmc.usp.br/
+  official_kind: project_site
+identity_terms:
+- NILC
+modality: written
+genres:
+- vários
+regions:
+- BR
+period:
+  from: null
+  to: null
+license:
+  code: per_subset
+  per_document: false
+  evidence: each resource has its own terms
+access:
+  type: unknown
+  note: collection of resources from the group
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: http://www.nilc.icmc.usp.br/
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: http://www.nilc.icmc.usp.br/
+    identity_terms_found:
+    - NILC

@@ -1,0 +1,48 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: nurc-recife
+name: NURC-Recife
+maintainer: UFPE
+urls:
+  official: https://github.com/nilc-nlp/CORAA
+  official_kind: containing_corpus
+identity_terms:
+- NURC-Recife
+modality: spoken_transcribed
+genres:
+- elocução formal
+- diálogo
+regions:
+- PE:Recife
+period:
+  from: 1970
+  to: 1990
+license:
+  code: unknown
+  per_document: false
+  evidence: only reached through CORAA (not verified)
+access:
+  type: unknown
+  note: known here only as a CORAA subset
+relations:
+- type: part_of
+  target: nurc
+  note: ''
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://github.com/nilc-nlp/CORAA
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/nilc-nlp/CORAA
+    identity_terms_found:
+    - NURC-Recife
+  access:
+    date: '2026-11-05'
+    method: data read
+    result: failed
+    detail: no data file at the repository root

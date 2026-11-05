@@ -1,0 +1,40 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: common-voice-pt
+name: Common Voice — português
+maintainer: Mozilla Foundation
+urls:
+  official: https://commonvoice.mozilla.org/pt/datasets
+  official_kind: project_site
+identity_terms:
+- Common Voice
+modality: spoken_audio
+genres:
+- frases lidas
+regions:
+- BR
+- PT
+period:
+  from: null
+  to: null
+license:
+  code: CC0-1.0
+  per_document: false
+  evidence: recordings and sentences dedicated CC0 (reported)
+access:
+  type: registration
+  note: downloads through the Common Voice / Mozilla Data Collective site
+relations: []
+status: SOURCE_VERIFIED
+evidence_role: read sentences; not spontaneous speech
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://commonvoice.mozilla.org/pt/datasets
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://commonvoice.mozilla.org/pt/datasets
+    identity_terms_found:
+    - Common Voice

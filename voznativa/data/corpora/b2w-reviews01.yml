@@ -1,0 +1,50 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: b2w-reviews01
+name: B2W-Reviews01
+maintainer: Americanas S.A. (B2W Digital)
+urls:
+  official: https://github.com/americanas-tech/b2w-reviews01
+  official_kind: data_host
+identity_terms:
+- B2W-Reviews01
+- b2w-reviews01
+modality: written
+genres:
+- avaliação de produto
+regions:
+- BR
+period:
+  from: 2018
+  to: 2018
+license:
+  code: CC-BY-NC-SA-4.0
+  per_document: false
+  evidence: GitHub repository licence (to verify)
+access:
+  type: open_download
+  note: CSV in the GitHub repository
+relations: []
+status: ACCESS_VERIFIED
+evidence_role: informal written PT-BR by consumers; natural-text control for detectors
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://github.com/americanas-tech/b2w-reviews01
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/americanas-tech/b2w-reviews01
+    identity_terms_found:
+    - B2W-Reviews01
+    - b2w-reviews01
+  access:
+    date: '2026-11-05'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: B2W-Reviews01.csv
+      bytes_read: 65536
+      declared_size: 49453175
+      truncated: true

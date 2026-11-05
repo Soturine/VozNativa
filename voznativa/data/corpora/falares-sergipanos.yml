@@ -1,0 +1,39 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: falares-sergipanos
+name: Banco de Dados Falares Sergipanos
+maintainer: UFS
+urls:
+  official: https://periodicos.ufsc.br/index.php/workingpapers/article/view/1984-8420.2013v14n2p156
+  official_kind: citation
+identity_terms:
+- Falares Sergipanos
+modality: spoken_transcribed
+genres:
+- entrevista
+regions:
+- SE
+period:
+  from: null
+  to: null
+license:
+  code: unknown
+  per_document: false
+  evidence: no licence found
+access:
+  type: request
+  note: described in a 2013 article; no access procedure found
+relations: []
+status: CATALOGUED
+evidence_role: ''
+notes: []
+verification:
+  source:
+    date: '2026-11-05'
+    url: https://periodicos.ufsc.br/index.php/workingpapers/article/view/1984-8420.2013v14n2p156
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://periodicos.ufsc.br/index.php/workingpapers/article/view/1984-8420.2013v14n2p156
+    identity_terms_found:
+    - Falares Sergipanos
