@@ -39,24 +39,32 @@ def main() -> int:
     start = os.getcwd()
     with tempfile.TemporaryDirectory() as tmp:
         os.chdir(tmp)
-        Path("t.txt").write_text(TEXT, encoding="utf-8")
-        Path("c.txt").write_text(TEXT.replace("não deve", "deve"), encoding="utf-8")
-        Path("s1.txt").write_text("vc viu o deploy? nn subiu ainda kkk " * 20, encoding="utf-8")
-        checks = {
-            "compare": run("compare", "t.txt", "c.txt")["status"] == "fail",
-            "ledger": run("ledger", "t.txt")["kind"] == "voznativa.semantic_ledger",
-            "route": run("route", "t.txt")["kind"] == "voznativa.context_contract",
-            "refs": bool(run("refs", "t.txt")["selected"]),
-            "contract": run("contract", "t.txt", "--compact")["regional_strength"] == 0.0,
-            "profile": run("profile", "s1.txt")["kind"] == "voznativa.voice_profile",
-            "rewrite-prompt": "LEDGER" in run("rewrite-prompt", "t.txt", "--inline-refs"),
-            "judge-prompt": "BINDING" in run("judge-prompt", "t.txt", "c.txt"),
-            # v0.4.0: rewrite crashed on every call in v0.3.0 and nothing ran the command.
-            "rewrite": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["outcome"] == "returned_original",
-            "plan": run("plan", "t.txt")["kind"] == "voznativa.rewrite_plan",
-            "patterns": run("patterns", "t.txt")["kind"] == "voznativa.pattern_report",
-        }
-        os.chdir(start)  # Windows cannot delete the current directory
+        # finally: a failing check must not leave the temp dir as the current
+        # directory; on Windows its cleanup then raised PermissionError and hid
+        # the real error (seen in CP5).
+        try:
+            Path("t.txt").write_text(TEXT, encoding="utf-8")
+            Path("c.txt").write_text(TEXT.replace("não deve", "deve"), encoding="utf-8")
+            Path("s1.txt").write_text("vc viu o deploy? nn subiu ainda kkk " * 20, encoding="utf-8")
+            checks = {
+                "compare": run("compare", "t.txt", "c.txt")["status"] == "fail",
+                "ledger": run("ledger", "t.txt")["kind"] == "voznativa.semantic_ledger",
+                "route": run("route", "t.txt")["kind"] == "voznativa.context_contract",
+                "refs": bool(run("refs", "t.txt")["selected"]),
+                "contract": run("contract", "t.txt", "--compact")["regional_strength"] == 0.0,
+                "profile": run("profile", "s1.txt")["kind"] == "voznativa.voice_profile",
+                "rewrite-prompt": "LEDGER" in run("rewrite-prompt", "t.txt", "--inline-refs"),
+                "judge-prompt": "BINDING" in run("judge-prompt", "t.txt", "c.txt"),
+                # v0.4.0: rewrite crashed on every call in v0.3.0 and nothing ran the command.
+                "rewrite": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["outcome"] == "returned_original",
+                "plan": run("plan", "t.txt")["kind"] == "voznativa.rewrite_plan",
+                "patterns": run("patterns", "t.txt")["kind"] == "voznativa.pattern_report",
+                # v0.5.0: the evidence packs are package data; abstention needs no pack.
+                "regional-packs": bool(run("regional", "packs")["packs"]),
+                "regional-abstains": run("regional", "check", "t.txt")["status"] == "abstain",
+            }
+        finally:
+            os.chdir(start)  # Windows cannot delete the current directory
     failed = [name for name, ok in checks.items() if not ok]
     print(json.dumps(checks, indent=2))
     return 1 if failed else 0
