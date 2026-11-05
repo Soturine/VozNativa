@@ -22,6 +22,16 @@ Registro do que foi **implementado, validado, não validado e bloqueado** em cad
 - Primeira execução (`--scope release`, Windows/3.12): o runner achou o próprio defeito de descoberta (crash classificado como FAIL, corrigido); `cli:exit-codes` **FAIL**: erro de uso sai com 2, o mesmo código de `review_required` do `compare` (defeito confirmado, ainda não corrigido).
 - Não validado: Linux (gate `review:pty` só roda em POSIX), Python 3.11/3.13.
 
-## Próximo (não iniciado)
+## CP4 — hardening da v0.4.0 — implementado e testado (2026-11-05)
 
-H1 restante: corrigir exit 64 de uso no CLI; trocar a leitura de unittest do `baseline.py` pelo runner. Depois H2 (benchmark: `provider_error` não conta como invariantes ok), correção do falso verde NC1, H3–H6, CP5+.
+| Item | Resultado | Evidência |
+|---|---|---|
+| H1 | runner `scripts/qualify.py`; exit 64 para erro de uso em todo comando (antes 2 = `review_required`); `baseline.py` conta todos os desfechos do unittest; falso verde NC1 corrigido (conjunto congelado fixo, decisão e benchmark com hash); registro de revisores validado; código morto e lista duplicada removidos | `8b103e7`…`9793d0d` |
+| H2 | eixos de desfecho separados; `provider_error` nunca conta como sucesso; reanálise do oficial sem alterá-lo (v0.4.0: 12/15 tarefa cumprida ou pendente, 1 falha de sistema, invariantes 14/14 onde houve saída) | `286dfc8`, `H2_BENCHMARK_REANALYSIS.md` |
+| H3 | `dc-021` erro de expectativa (contradiz o contrato do README); `dc-029` INCONCLUSIVE (limiar sem calibração); nada ajustado | `bbdc5d6`, `H3_PLANNER_CASES.md` |
+| H4 | dia da semana sem preposição (falso vermelho de `bv2-li-02` e um falso verde), "2 da tarde", verbos multiplicadores (`ho-007` passa estrito), troca de papéis/ordem com substantivos comuns; probe 19/29 → 25/29; pronomes, troca entre frases e inflexão diferente ficam como limitação | `4af90ac`, `78502c1`, `c341967`, `24ba7e2`, `H4_SEMANTIC_LEDGER.md` |
+| H5 | `signals.markers` indexado (compare 8k palavras 10,4 s → 0,96 s); `adherence` com poda por limite superior (loop sem modelo 48,6 s → 1,1 s); cache de ledger medido e rejeitado; testes diferenciais com mutantes mortos | `eb8ea99`, `a8c9d41`, `evals/perf/v0.4.0-dev-h5-*.json` |
+| H5 (achado) | contração no primeiro termo de uma frase marcadora ("na função de" lido como causal) | `df42939` |
+| H6 | chave de revisão criada com 0600 em uma chamada; testes do sanitizador de relatórios; varredura de caminhos/nomes nos arquivos versionados: limpa | `218e912` |
+
+Não validado neste ponto: Linux (WSL disponível; vai no CP10), Python 3.11/3.13, comportamento com modelo depois das correções (nenhuma chamada paga feita no CP4).
