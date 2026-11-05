@@ -1,0 +1,12 @@
+{
+  "kind": "voznativa.perf_comparison",
+  "schema_version": 1,
+  "recorded_at": "2026-11-05",
+  "measured": "engine.rewrite on scripts/perf_probe.py doc(2020) (technical genre), StaticProvider returning 3 candidates, force=True: the deterministic part of the loop, no model call",
+  "machine": "same machine, single runs, Windows 11, CPython 3.12.10",
+  "before": {"code": "df42939", "seconds": 48.61, "hotspot": "planner.adherence: 4 calls, 44.5 s (SequenceMatcher.ratio for every kept sentence x every candidate sentence)"},
+  "after": {"code": "df42939 + _best_ratio (exact-match shortcut, upper-bound pruning)", "seconds": 1.08},
+  "equivalence": "evals/test_planner.py BestRatioEquivalence: equal to the plain max on 300 sampled pairs from real rewrites and on a near-tie case; two pruning mutants (+0.05 and +0.02 slack) fail it",
+  "limits": ["the probe document repeats five paragraphs, so the exact-match shortcut fires often; texts with many changed sentences gain less", "single runs; not a latency distribution"],
+  "rejected": ["caching Semantic Ledgers across candidates and attempts: after the signals and adherence changes, compare on 2,000 words takes ~0.18 s, against ~20 s per model call; the cache would add mutable shared state for no measurable gain"]
+}

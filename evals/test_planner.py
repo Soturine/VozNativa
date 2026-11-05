@@ -161,3 +161,38 @@ class CommandLine(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BestRatioEquivalence(unittest.TestCase):
+    """H5: adherence skips SequenceMatcher pairs whose upper bounds cannot beat
+    the best so far. The value must equal the plain max over every pair."""
+
+    def test_same_value_as_the_plain_max(self):
+        import difflib
+        import json
+        import random
+        from voznativa.planner import _best_ratio
+        from voznativa.text import sentences
+        run = json.loads((ROOT / "benchmarks" / "runs" / "ptbr-bench-v2-20261021T110338Z.json").read_text(encoding="utf-8"))
+        units = sorted({s.text.lower() for r in run["rows"] if isinstance(r.get("output"), str)
+                        for s in sentences(r["output"])})
+        rng = random.Random(7)
+        self.assertGreater(len(units), 100)
+        for _ in range(300):
+            unit = rng.choice(units)
+            if rng.random() < 0.5:  # a perturbed copy, so near misses are exercised
+                unit = unit.replace(rng.choice("aeios"), rng.choice("aeios"), 2)
+            others = rng.sample(units, 12)
+            plain = max((difflib.SequenceMatcher(None, unit, u).ratio() for u in others), default=0.0)
+            self.assertEqual(_best_ratio(unit, others), plain, unit)
+        self.assertEqual(_best_ratio("x", []), 0.0)
+
+    def test_a_best_pair_that_beats_the_runner_up_by_a_hair_is_not_pruned(self):
+        # Prefixes: the bound equals the ratio, and each one beats the previous by
+        # under 0.03, so any pruning looser than "bound <= best" loses the true max
+        # (a +0.05 slack mutant survived the random sample above).
+        from voznativa.planner import _best_ratio
+        unit = "o deploy de sexta foi adiado para segunda"
+        others = [unit[:k] for k in range(len(unit) - 6, len(unit))]
+        self.assertEqual(_best_ratio(unit, others), 2 * (len(unit) - 1) / (2 * len(unit) - 1))
+        self.assertEqual(_best_ratio(unit, list(reversed(others))), _best_ratio(unit, others))

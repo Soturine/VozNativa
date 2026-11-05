@@ -239,12 +239,27 @@ def _units(text: str) -> list[str]:
     return [normalize_surface(s.text).lower() for s in sentences(text)]
 
 
+def _best_ratio(unit: str, others: list[str]) -> float:
+    """max(SequenceMatcher(None, unit, u).ratio()) over ``others``, skipping
+    pairs whose cheap upper bounds cannot beat the best so far. Same value as
+    the plain max; adherence was quadratic in sentences x full ratio (H5:
+    ~11 s per call on a 2,000-word plan)."""
+    best = 0.0
+    for other in others:
+        matcher = difflib.SequenceMatcher(None, unit, other)
+        if matcher.real_quick_ratio() <= best or matcher.quick_ratio() <= best:
+            continue
+        best = max(best, matcher.ratio())
+    return best
+
+
 def adherence(p: dict, original: str, candidate: str, genre: str = "unknown", channel: str | None = None,
               register: str | None = None) -> dict:
     """How the candidate followed the plan: kept sentences that changed, and
     findings introduced (the candidate's findings whose id was absent from
     the source), reported per kept sentence when they can be placed."""
     out_units = _units(candidate)
+    out_set = set(out_units)
     changed = []
     if p["scope"] not in {"document"}:
         source = sentences(original)
@@ -252,7 +267,7 @@ def adherence(p: dict, original: str, candidate: str, genre: str = "unknown", ch
             if r["op"] != "keep" or r.get("note") or r["kind"] == "code":
                 continue
             unit = normalize_surface(source[r["index"]].text).lower()
-            best = max((difflib.SequenceMatcher(None, unit, u).ratio() for u in out_units), default=0.0)
+            best = 1.0 if unit in out_set else _best_ratio(unit, out_units)
             if best < KEEP_SIMILARITY:
                 changed.append({"index": r["index"], "preview": r["preview"], "similarity": round(best, 3)})
     before = {f["id"] for f in patterns_mod.detect(original, genre, channel, register)["findings"]}
