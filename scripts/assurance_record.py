@@ -105,7 +105,9 @@ def main(argv: list[str] | None = None) -> int:
     for spec in args.entry:
         name, code, command, source = spec.split("|", 3)
         raw = Path(source).read_bytes()
-        clean = sanitize(raw.decode("utf-8"), rules)
+        # LF before hashing: .gitattributes checks JSON out with LF on every
+        # OS, so the published hash must be over the bytes a checkout holds.
+        clean = sanitize(raw.decode("utf-8").replace("\r\n", "\n"), rules)
         (out_dir / name).write_text(clean, encoding="utf-8", newline="\n")
         entries[name] = {"file": name, "command": sanitize(command, rules), "exit_code": int(code),
                          "raw_sha256": hashlib.sha256(raw).hexdigest(),

@@ -2,3 +2,5 @@
 *.jsonl text eol=lf
 *.json text eol=lf
 *.yml text eol=lf
+# Recorded assurance outputs are hashed in their MANIFEST.json.
+evals/assurance/runs/** text eol=lf

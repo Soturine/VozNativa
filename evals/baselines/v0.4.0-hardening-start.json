@@ -1,0 +1,175 @@
+{
+  "kind": "voznativa.baseline",
+  "label": "v0.4.0-hardening-start",
+  "recorded_at": "2026-11-05T14:27:30+00:00",
+  "version": "0.4.0.dev0",
+  "commit": "31bfab77486b66e33e3ef4d9f421ab36ccba162d",
+  "dirty": false,
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "validator": {
+    "ok": true,
+    "output": "VozNativa package v0.4.0.dev0 is valid"
+  },
+  "unit_tests": {
+    "ok": true,
+    "summary": "Ran 281 tests in 30.630s",
+    "result": "OK"
+  },
+  "semantic_suites": {
+    "cases.jsonl": {
+      "passed": 59,
+      "status_passed": 59,
+      "cases": 59,
+      "failure_kinds": {},
+      "role": "dev",
+      "first_run": null,
+      "failures": {}
+    },
+    "holdout-relations.jsonl": {
+      "passed": 12,
+      "status_passed": 12,
+      "cases": 12,
+      "failure_kinds": {},
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 11,
+        "cases": 12
+      },
+      "failures": {}
+    },
+    "holdout-v030.jsonl": {
+      "passed": 24,
+      "status_passed": 24,
+      "cases": 24,
+      "failure_kinds": {},
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-20",
+        "passed": 15,
+        "cases": 24,
+        "code": "4d899e6 (before any v0.3.0 semantic change)"
+      },
+      "failures": {}
+    },
+    "holdout-v040.jsonl": {
+      "passed": 32,
+      "status_passed": 32,
+      "cases": 32,
+      "failure_kinds": {},
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-21",
+        "code": "7641878 (v0.4.0.dev0)",
+        "passed": 32,
+        "cases": 32,
+        "same_cases_on_v0.3.0": "32/32 on 0ba7bc2",
+        "reading": "no discrimination: the deterministic gate changed little between v0.3.0 and v0.4.0, and cases written by the gate's developer tend to probe what it already catches. This is not evidence of robustness; only an independent holdout can show that."
+      },
+      "failures": {}
+    },
+    "holdout.jsonl": {
+      "passed": 23,
+      "status_passed": 24,
+      "cases": 24,
+      "failure_kinds": {
+        "classification_divergence": 1
+      },
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 19,
+        "cases": 24
+      },
+      "failures": {
+        "ho-007": "classification_divergence"
+      }
+    },
+    "holdout2.jsonl": {
+      "passed": 16,
+      "status_passed": 16,
+      "cases": 16,
+      "failure_kinds": {},
+      "role": "developer_holdout",
+      "first_run": {
+        "date": "2026-10-19",
+        "passed": 16,
+        "cases": 16
+      },
+      "failures": {}
+    },
+    "relations.jsonl": {
+      "passed": 32,
+      "status_passed": 32,
+      "cases": 32,
+      "failure_kinds": {},
+      "role": "dev",
+      "first_run": null,
+      "failures": {}
+    }
+  },
+  "router": {
+    "passed": 15,
+    "cases": 16
+  },
+  "integration_runs": {
+    "20261019T060846Z-claude-sonnet-5-5-ptbr-v1-prefix.json": {
+      "summary": {
+        "needs_judgment": 1,
+        "no_change": 7
+      },
+      "code": null,
+      "model": "claude-sonnet-5-5"
+    },
+    "20261019T061506Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json": {
+      "summary": {
+        "accepted": 3,
+        "needs_review": 2,
+        "returned_original": 1
+      },
+      "code": {
+        "commit": "1df5f5e2400207318ed8d8118a5149307cb7b4f0",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    },
+    "20261019T061635Z-claude-sonnet-5-5-ptbr-v1.json": {
+      "summary": {
+        "accepted": 1,
+        "needs_review": 1,
+        "no_change": 6
+      },
+      "code": {
+        "commit": "e6a470255ed8150067a258209cb2ce8f1d30fc40",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    },
+    "20261020T060212Z-claude-sonnet-5-5-ptbr-ai-drafts-v1.json": {
+      "summary": {
+        "accepted": 2,
+        "needs_review": 3,
+        "returned_original": 1
+      },
+      "code": {
+        "commit": "9de9f816ea8bc932806e47e29bc4fdafe25dea75",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    },
+    "20261020T060331Z-claude-sonnet-5-5-ptbr-v1.json": {
+      "summary": {
+        "accepted": 1,
+        "no_change": 7
+      },
+      "code": {
+        "commit": "264e232b94786589fc48290a27d5d5eac658eeda",
+        "dirty": false
+      },
+      "model": "claude-sonnet-5-5"
+    }
+  }
+}

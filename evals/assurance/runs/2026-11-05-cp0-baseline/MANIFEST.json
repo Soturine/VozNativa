@@ -8,7 +8,7 @@
       "command": "assertiva audit . --execute --python <venv>/python --output json",
       "exit_code": 0,
       "raw_sha256": "ac9440fae745b3bb2acbcc5daa8ffc2b988f500f017b24ef4ef82ecce85d1768",
-      "published_sha256": "af6e40ccc21c3f6d1f3b119c3bc68787e87cc689eda9eb87b41280a67cf9cbda",
+      "published_sha256": "551a174a7e21dfe7005ee6d29f8c9b522e06ac8b4054ac0d3726d96451994c63",
       "sanitized": true
     },
     {
@@ -16,7 +16,7 @@
       "command": "assertiva audit . --python <venv>/python --output json",
       "exit_code": 0,
       "raw_sha256": "5f4d147a1fa732121383fd337ffdf0482b15adc6cb8454d7573ec64a7ba3085d",
-      "published_sha256": "459c4b215c765542000a14df774820bdafb1cdab52f022972d90c36f282ad406",
+      "published_sha256": "346e5b77687fc30391befc06f2d6342c96b35c4a8ce3ab44b35c7a6a175cf898",
       "sanitized": true
     },
     {
@@ -24,38 +24,38 @@
       "command": "derivanta-engine evaluate --input evals/assurance/evaluation-request.json --framework ../Derivanta --repository . --format json",
       "exit_code": 0,
       "raw_sha256": "ab08eba350d70ad592c4979edd27a1c1a39ec132a2efd432538228e96d225406",
-      "published_sha256": "ab08eba350d70ad592c4979edd27a1c1a39ec132a2efd432538228e96d225406",
-      "sanitized": false
+      "published_sha256": "6f65c1f61458df4b984e13167b96f860e157543ee70f87640153661f10b2c2ac",
+      "sanitized": true
     },
     {
       "file": "engine-inspect.json",
       "command": "derivanta-engine inspect . --maintainability --format json",
       "exit_code": 0,
       "raw_sha256": "f520f3bf0614bb1cace0ea39d8acacd5293d311d1fe166f45387aebf2906d9c8",
-      "published_sha256": "f520f3bf0614bb1cace0ea39d8acacd5293d311d1fe166f45387aebf2906d9c8",
-      "sanitized": false
+      "published_sha256": "8fa874f53431dceb9dcbe09b22656f5335a2a1ba393b5904ffc50e1ee846dcde",
+      "sanitized": true
     },
     {
       "file": "eval-holdout.jsonl.json",
       "command": "python -m voznativa eval evals/semantic/holdout.jsonl",
       "exit_code": 1,
       "raw_sha256": "c8f13f10679e24f20248f1b3974c0e3fba765cba50b49124e322b6f81698ce71",
-      "published_sha256": "c8f13f10679e24f20248f1b3974c0e3fba765cba50b49124e322b6f81698ce71",
-      "sanitized": false
+      "published_sha256": "b8e642608a300aadc337c5411743f7e93194161115e29fa241821a0a3bb2e502",
+      "sanitized": true
     },
     {
       "file": "unittest.txt",
       "command": "python -m unittest discover -s evals -p test_*.py",
       "exit_code": 0,
       "raw_sha256": "f864fff9f753a09b30fd7a9b14d9d5ec8526eb5f0459c182750362d24d90cf7e",
-      "published_sha256": "f864fff9f753a09b30fd7a9b14d9d5ec8526eb5f0459c182750362d24d90cf7e",
-      "sanitized": false
+      "published_sha256": "52073798d7e075a2f12abf01d392c37a53f3b3441f1ea5bde3e5ce77ea9db46d",
+      "sanitized": true
     }
   ],
-  "recorded_at": "2026-11-05T14:26:41+00:00",
-  "revision": "4044cfc99db91a0a5f7a704f407c2e698d753a34",
+  "recorded_at": "2026-11-05T14:28:14+00:00",
+  "revision": "31bfab77486b66e33e3ef4d9f421ab36ccba162d",
   "dirty_paths": [
-    "evals/assurance/",
+    "evals/baselines/v0.4.0-hardening-start.json",
     "scripts/assurance_record.py"
   ],
   "environment": {
