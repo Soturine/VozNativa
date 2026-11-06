@@ -100,11 +100,15 @@ class DynamicStringsReachTheComparisons(LexiconFile):
             self.assertEqual(temporal.parse_epoch(spec, TODAY), {"spec": "current", "from": 2024, "to": 2026})
 
     def test_an_ambiguous_form_that_is_also_a_chat_cue_does_not_corroborate_itself(self):
-        # line 235: `x != hit.group(0)` -> `is not`. Both sides are regex groups: equal, never the same object.
+        # line 235: `x != hit.group(0)` -> `is not`. Both sides are regex groups. When a pattern
+        # matches the WHOLE string, CPython returns the input object itself from group(0), so
+        # "blz" alone cannot tell `is` from `==` (the first version of this test used it and the
+        # mutant survived: dev1 CP1). A match inside a longer text is a new object on each side.
         text = LEXICON_YAML.replace("forms: [xis]", "forms: [blz]").replace(
             "ambiguity: {ambiguous: false}", "ambiguity: {ambiguous: true, other_senses: [o], detection: form}")
         with tempfile.TemporaryDirectory() as tmp:
             path = self.write(tmp, text)
+            self.assertEqual([h["sense"] for h in temporal.observe("ok, blz.", path)], ["ambiguous"])
             self.assertEqual([h["sense"] for h in temporal.observe("blz", path)], ["ambiguous"])
             self.assertEqual([h["sense"] for h in temporal.observe("blz vc", path)], ["slang"])
 

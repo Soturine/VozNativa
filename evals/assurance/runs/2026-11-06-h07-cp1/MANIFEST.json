@@ -1,0 +1,44 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-06-h07-cp1",
+  "entries": [
+    {
+      "file": "identity-mutants-run2-suite.json",
+      "command": "python identity_mutants.py <archive of bc6f4fd> out.json <run-2 suite> (no bytecode)",
+      "exit_code": 0,
+      "raw_sha256": "f1c3f55412a8bf8bdc98eac205ace32ec9c31e7825ed65a471728dc7340658e8",
+      "published_sha256": "f1c3f55412a8bf8bdc98eac205ace32ec9c31e7825ed65a471728dc7340658e8",
+      "sanitized": false
+    },
+    {
+      "file": "identity-mutants-with-h07.json",
+      "command": "python identity_mutants.py <archive of bc6f4fd + h07 oracle fix> out.json <run-2 suite>,evals.test_hardening_h07 (no bytecode)",
+      "exit_code": 0,
+      "raw_sha256": "430c08c72e9a0f085f337c4bc08092157c5630937cd478dc853c85aa2e38e8de",
+      "published_sha256": "430c08c72e9a0f085f337c4bc08092157c5630937cd478dc853c85aa2e38e8de",
+      "sanitized": false
+    },
+    {
+      "file": "identity_mutants.py",
+      "command": "harness source",
+      "exit_code": 0,
+      "raw_sha256": "83aaf9b9a6776c169bed40efcef2c63c180ad325b8ed753265a4db1a2cbd79c7",
+      "published_sha256": "83aaf9b9a6776c169bed40efcef2c63c180ad325b8ed753265a4db1a2cbd79c7",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-06T20:23:59+00:00",
+  "revision": "bc6f4fd92162bb4e9d91ae6d8b5c6a1b69cd363b",
+  "dirty_paths": [
+    "evals/test_hardening_h07.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "cpython": "3.12.10"
+  },
+  "notes": []
+}

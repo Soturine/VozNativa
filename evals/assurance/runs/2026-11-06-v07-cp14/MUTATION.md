@@ -30,3 +30,8 @@ Resumo dos 44: 22 equivalentes com argumento (12 dependentes do CPython), 10 dep
 ## Outros módulos
 
 Não houve mutação de `router.py`, `processing.py`, `morph.py`, `diagnose.py`, `document.py` e `engine.rewrite_document` nesta rodada (custo: cada módulo tem centenas de mutantes e a suíte relevante leva segundos por mutante). Estado: NOT_RUN, com prioridade para `document.py` e `compare._moved_signal_issues` na próxima rodada.
+
+## Errata (v0.7.0.dev1, CP1)
+
+A classe "Identidade em vez de igualdade" acima está errada para 5 dos 12 mutantes. As linhas 91, 109, 235, 262 e 303 comparam valores vindos de YAML, regex ou argumento, iguais ao literal sem serem o mesmo objeto. Eram lacunas de teste, e agora estão mortas por `evals/test_hardening_h07.py`. A lista também omitia a linha 188. Retriagem um a um, com mutantes aplicados à mão e sem bytecode: `evals/assurance/runs/2026-11-06-h07-cp1/IDENTITY_TRIAGE.md`. O texto original fica acima, sem edição, como registro do que foi afirmado.
+

@@ -1,0 +1,121 @@
+{
+ "suite": [
+  "evals.test_temporal",
+  "evals.test_community_and_stuffing",
+  "evals.test_mutation_gaps_v06",
+  "evals.test_slang_v07",
+  "evals.test_known_gaps_v06",
+  "evals.test_mutation_gaps_v07"
+ ],
+ "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+ "mutants": [
+  {
+   "row": 71,
+   "col": 37,
+   "mutation": "!= -> is not",
+   "line": "if lexicon.get(\"schema_version\") is not SCHEMA_VERSION:",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 91,
+   "col": 36,
+   "mutation": "== -> is",
+   "line": "if amb.get(\"detection\") is \"context\" and not entry.get(\"detect\"):",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 109,
+   "col": 46,
+   "mutation": "!= -> is not",
+   "line": "if entry[\"deprecation\"].get(\"status\") is not \"active\" and not entry[\"deprecation\"].get(\"reason\"):",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 149,
+   "col": 49,
+   "mutation": "!= -> is not",
+   "line": "return {**{k: v for k, v in raw.items() if k is not \"entries\"}, \"entries\": entries,",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 188,
+   "col": 47,
+   "mutation": "== -> is",
+   "line": "return end + 1 < len(plain) and plain[end] is \"-\" and plain[end + 1].isalpha()",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 226,
+   "col": 17,
+   "mutation": "== -> is",
+   "line": "if sense is \"slang\":",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 229,
+   "col": 67,
+   "mutation": "== -> is",
+   "line": "historic = infer_time_of_text(text or \"\")[\"value\"] is \"pre_reform_orthography\"",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 235,
+   "col": 48,
+   "mutation": "!= -> is not",
+   "line": "own = [x for x in informal if x is not hit.group(0)]",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 243,
+   "col": 44,
+   "mutation": "!= -> is not",
+   "line": "found = [f for f in found if f[\"sense\"] is not \"other_sense\"]",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 249,
+   "col": 64,
+   "mutation": "== -> is",
+   "line": "return [f for f in observe(text, path, genre) if f[\"sense\"] is \"slang\"]",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 262,
+   "col": 12,
+   "mutation": "== -> is",
+   "line": "if spec is \"current\":",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  },
+  {
+   "row": 303,
+   "col": 38,
+   "mutation": "!= -> is not",
+   "line": "if entry[\"deprecation\"][\"status\"] is not \"active\":",
+   "outcome": "SURVIVED",
+   "killed_by": [],
+   "tail": "OK"
+  }
+ ]
+}
