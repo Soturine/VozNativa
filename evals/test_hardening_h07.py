@@ -184,7 +184,6 @@ class CountContract(LexiconFile):
 class PredicateLoss(unittest.TestCase):
     """H07-006/007: the README pair kept values and negation and lost the action."""
 
-    @unittest.expectedFailure      # CP3
     def test_action_replaced_by_a_light_verb_is_flagged(self):
         r = compare("O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
                     "O relatório trimestral vai até sexta-feira, 14/11/2025.")
@@ -196,11 +195,74 @@ class PredicateLoss(unittest.TestCase):
         self.assertEqual(r["status"], "no_deterministic_issues")
 
 
+class PredicateGuardBoundaries(unittest.TestCase):
+    """H07-007..010: what the predicate check must not do, and where it must reach."""
+
+    def codes(self, original, candidate):
+        return {i["code"]: i["severity"] for i in compare(original, candidate)["issues"]}
+
+    def test_agent_patient_inversion_still_fails(self):            # H07-008
+        r = compare("A Ana demitiu o Bruno.", "O Bruno demitiu a Ana.")
+        self.assertEqual(r["status"], "fail")
+        self.assertIn("role_reversed", [i["code"] for i in r["issues"]])
+
+    def test_passive_with_agent_and_nominalization_keep_the_action(self):   # H07-007
+        for original, candidate in (
+                ("A Ana enviou o relatório ontem.", "O relatório foi enviado pela Ana ontem."),
+                ("A empresa pagará a multa em março.", "O pagamento da multa será feito pela empresa em março."),
+                ("O auditor revisará as contas em maio.", "Em maio, o auditor fará a revisão das contas.")):
+            codes = self.codes(original, candidate)
+            self.assertNotIn("predicate_missing", codes, (original, candidate))
+            self.assertNotIn("predicate_replaced", codes, (original, candidate))
+
+    def test_another_content_verb_is_information_not_a_block(self):       # H07-007
+        codes = self.codes("O cliente assinou o contrato em 3 de março.", "O cliente recebeu o contrato em 3 de março.")
+        self.assertEqual(codes.get("predicate_replaced"), "info")
+
+    def test_literary_ellipsis_is_never_a_confirmed_error(self):          # H07-009
+        self.assertEqual(self.codes("Ela comprou pão e ele comprou leite.", "Ela comprou pão; ele, leite."), {})
+        self.assertEqual(self.codes("A noite chegou, e com ela chegou o cansaço.", "A noite chegou e, com ela, o cansaço."),
+                         {})
+        # A verbless poetic line loses the verb: at most a review, never a fail from this rule.
+        r = compare("O vento soprava forte sobre a noite escura.", "Vento forte sobre a noite escura.")
+        self.assertNotEqual(r["status"], "fail")
+        self.assertTrue(all(i["severity"] != "critical" for i in r["issues"] if i["code"].startswith("predicate")))
+
+    def test_light_verbs_and_prepositions_are_not_anchors(self):
+        from voznativa.compare import _event_anchors
+        self.assertEqual(_event_anchors("A Ana tem prazo para o contrato durante a semana."), {})
+        self.assertEqual(_event_anchors("Vou para casa depois do trabalho."), {})
+
+    def test_a_long_document_does_not_hide_a_lost_action_in_a_later_segment(self):   # H07-010
+        from voznativa import engine
+        from voznativa.document import Limits
+        from voznativa.router import route
+        intro = ("É importante destacar que o lote {i} saiu do armazém na segunda-feira e chegou ao cliente "
+                 "sem atraso. A equipe conferiu as {n} caixas e não encontrou avarias.")
+        action = "A equipe enviará o relatório final ao cliente até sexta-feira, 14/11/2025."
+        doc = "\n\n".join([intro.format(i=1, n=4), intro.format(i=2, n=5), action]) + "\n"
+
+        class Provider:
+            id = "fn-stub"
+
+            def generate(self, prompt, n=1):
+                import re
+                body = re.search(r"<<<TEXTO#(\w+)\n(.*)\nTEXTO#\1>>>", prompt, re.S).group(2)
+                body = body.replace("É importante destacar que o", "O").replace(
+                    action, "O relatório final fica para sexta-feira, 14/11/2025.")
+                return [f"<final>{body}</final>"] * n
+        result = engine.rewrite_document(doc, route(doc, genre="corporate"), Provider(),
+                                         limits=Limits(segment_words=40), force=True)
+        if action not in result["text"]:     # the unit was kept: then someone must be told
+            self.assertEqual(result["outcome"], "needs_review", result["outcome"])
+            self.assertIn("predicate_missing", str(result["global_report"]) + str(result["units"]))
+        self.assertNotIn(result["outcome"], {"accepted", "needs_judgment"})
+
+
 class FutureForms(unittest.TestCase):
     """Found by the frozen predicate sample before any rule: `tense_changed`
     read "vai depositar" and "depositará" as different tenses."""
 
-    @unittest.expectedFailure      # CP3
     def test_periphrastic_and_synthetic_future_are_the_same_time(self):
         r = compare("O banco vai depositar o valor na conta até o dia 10.",
                     "O banco depositará o valor na conta até o dia 10.")

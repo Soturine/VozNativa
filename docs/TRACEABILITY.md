@@ -72,6 +72,7 @@ A checked item in `ROADMAP.md` must correspond to a real file, test, or document
 | Contenção e splits por várias chaves | `voznativa/corpus/processing.py` | implemented (v0.7.0): `evals/test_containment.py` |
 | TEI/XML seguro e licença por documento | `voznativa/corpus/tei.py`, `policy.py` | implemented (v0.7.0): `evals/test_corpus_tei.py` |
 | Morfologia verbal e sinal `tense_changed` | `voznativa/morph.py`, `compare._tense_issues` | implemented, rules only (v0.7.0): `evals/test_morph.py`; medição contra UD em `evals/linguistics/runs/` |
+| Ação ou compromisso perdido (`predicate_missing`, `predicate_replaced`) | `compare._predicate_issues`, `compare._event_anchors` | implemented, rules only, experimental (v0.7.0.dev1): `evals/test_hardening_h07.py`; amostra não independente `evals/predicates/` (16/20 riscos, 1/18 falso alarme) |
 | Diagnóstico do original e modos editoriais | `voznativa/diagnose.py`, `voznativa diagnose`, `rewrite --mode` | partial (v0.7.0): `evals/test_diagnose.py`; narrador/personagens não |
 | Integridade de caracteres e proveniência | `voznativa/integrity.py`, `voznativa integrity` | implemented (v0.7.0): `evals/test_integrity.py`; não trata marca d'água estatística |
 | Benchmark de detectores (H0/H1/A0/A1) | `evals/external_detection/`, `scripts/detector_bench.py` | partial: contrato testado; live NOT_RUN |

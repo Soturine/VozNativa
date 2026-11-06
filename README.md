@@ -21,12 +21,13 @@ Um texto com duas fórmulas vazias e uma restrição de orçamento ([`examples/q
 
 > É importante destacar que o relatório trimestral será enviado até sexta-feira, 14/11/2025. Vale ressaltar que o orçamento não pode ultrapassar R$ 12.000,00.
 
-Duas candidatas de reescrita, checadas pelo gate (saídas reais desta versão):
+Três candidatas de reescrita, checadas pelo gate (saídas reais desta versão):
 
 | Candidata | `voznativa compare` | Por quê |
 |---|---|---|
-| "O relatório trimestral vai até sexta-feira, 14/11/2025. O orçamento **não** pode passar de R$ 12.000,00." | `no_deterministic_issues` (exit 3) | valores e negação preservados; a equivalência continua `unverified` até um juiz ou uma pessoa confirmar |
-| "O relatório trimestral vai até sexta-feira, 14/11/2025. O orçamento pode passar de R$ 12.000,00." | `fail` (exit 1), `negation_changed` crítico | a negação sumiu |
+| "O relatório trimestral será **encaminhado** até sexta-feira, 14/11/2025. O orçamento **não** pode passar de R$ 12.000,00." | `no_deterministic_issues` (exit 3) | valores, negação e ação mantidos. Isso **não** certifica a equivalência: o relatório diz `semantic_equivalence: unverified` e registra a troca de verbo (`predicate_replaced`, informativo) para um juiz ou uma pessoa confirmar |
+| "O relatório trimestral será encaminhado até sexta-feira, 14/11/2025. O orçamento pode passar de R$ 12.000,00." | `fail` (exit 1), `negation_changed` crítico | a negação sumiu |
+| "O relatório trimestral **vai até** sexta-feira, 14/11/2025. O orçamento não pode passar de R$ 12.000,00." | `review_required` (exit 2), `predicate_missing` | valores e negação ficaram, mas a ação de enviar sumiu: sobrou só um verbo leve. É um sinal de risco para revisão, não uma prova de erro |
 
 Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tentativas, o engine devolve o **original** com `returned_original`.
 
@@ -106,8 +107,9 @@ Para desenvolver, use `python -m pip install -e .`. O wheel inclui `references/`
 Todos os comandos abaixo rodam localmente, a partir da raiz do repositório.
 
 ```bash
-voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-boa.txt    # exit 3: limpo, falta juiz
+voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-boa.txt    # exit 3: nada achado, falta juiz
 voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-ruim.txt   # exit 1: negação removida
+voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-perde-acao.txt  # exit 2: ação sumiu
 voznativa plan examples/quickstart/original.txt      # decisão "edit": cortar as duas fórmulas
 voznativa plan examples/quickstart/email.txt         # decisão "no_change": o e-mail já está bom
 voznativa diagnose examples/quickstart/erros.txt     # "o o" repetido; terça-feira não é 13/11/2026

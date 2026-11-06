@@ -38,3 +38,15 @@ Limite conhecido: ~2,5–3% dos não-verbos recebem análise verbal única. Para
 
 - `compare` ganha `tense_changed`; o impacto ponta a ponta na reescrita **não** foi medido com modelo (NOT_RUN); não se alega melhora do Rewrite Engine por causa da anotação.
 - Backlog: concordância, regência, colocação pronominal, correferência, papéis além de entidades nomeadas, analisador opcional com fallback (ver `docs/V07_LINGUISTICS.md`).
+
+## Adendo (v0.7.0.dev1, CP3): âncoras de predicado
+
+- **Decisão.** O `compare` ganha `predicate_missing` (`major`) e `predicate_replaced` (`info`) sobre as mesmas análises por regras. Para saber *se* há um verbo, basta que as análises concordem num único radical; o tempo pode ser ambíguo ("cancelaram"). Isso não muda o item 3: o sinal `tense_changed` continua exigindo análise única dos dois lados.
+- **Ficam de fora das âncoras:** terminações fracas aceitas só pelo contexto ("durante" → "durantar"), verbos leves e modais, palavras funcionais e radicais com menos de 4 letras.
+- **Item 5 estendido.** Futuro perifrástico e sintético da mesma referência ("vai depositar" ≈ "depositará"; "ia depositar" ≈ "depositaria") deixam de ser "mudança de tempo". Forma não finita não é evidência de tempo.
+- **Alternativas não adotadas:**
+  - parser de dependências: dependência nova, sem benchmark de necessidade;
+  - NLI ou juiz LLM: não determinístico, e já existe como `--judge-cmd`;
+  - lista de pares de verbos: decoraria exemplos.
+- **Medição:** só numa amostra do mesmo autor (`evals/predicates/README.md`). A regra é experimental até haver holdout independente (B-L6).
+

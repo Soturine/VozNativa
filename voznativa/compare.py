@@ -41,6 +41,8 @@ LIMITATIONS = [
     "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
     "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
     "Entity detection relies on capitalization and misses lower-case names.",
+    "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps "
+    "only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
     "No deterministic result proves semantic equivalence; only identity does.",
 ]
 
@@ -71,6 +73,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _crossing_issues(src, out, alignment)
     issues += _order_issues(src, out, alignment)
     issues += _tense_issues(src, out, alignment)
+    issues += _predicate_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -451,6 +454,21 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
     return issues
 
 
+# "vai depositar" and "depositará" name the same time; "ia depositar" and "depositaria" too
+# (v0.7.0.dev1, VN07-DISC-041). Aspect-bearing constructions (progressive, compound
+# perfect) keep their own label.
+_SAME_TIME = {"periphrastic_future@pres_ind": "fut_pres", "periphrastic_future@pret_imp": "fut_pret"}
+_NON_FINITE = {"inf", "ger", "part"}
+
+
+def _time_reference(label: str) -> str | None:
+    """A comparable time label, or None when the form carries no tense of its
+    own (an infinitive, gerund or participle left over by the analysis)."""
+    if label.split("@")[0] in _NON_FINITE:
+        return None
+    return _SAME_TIME.get(label, label)
+
+
 def _tense_issues(src, out, alignment) -> list[dict]:
     """Tense, mood or periphrasis of the same verb changed between aligned
     sentences ("contratou" -> "contratará", "terminou" -> "está terminando").
@@ -466,7 +484,8 @@ def _tense_issues(src, out, alignment) -> list[dict]:
         after = tense_profile(out.entries[j].sentence.text)
         for lemma in sorted(set(before) & set(after)):
             a, b = before[lemma], after[lemma]
-            if len(a) == 1 and len(b) == 1 and a != b:
+            if len(a) == 1 and len(b) == 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \
+                    and None not in (_time_reference(next(iter(a))), _time_reference(next(iter(b)))):
                 def name(label):
                     base = label.split("@")[0]
                     return TENSES[base][0] if base in TENSES else label
@@ -475,6 +494,90 @@ def _tense_issues(src, out, alignment) -> list[dict]:
                                      lemma=lemma, before=sorted(a), after=sorted(b),
                                      source_sentence=src.entries[i].sentence.text,
                                      analyzer="voznativa.morph-rules@1"))
+    return issues
+
+
+# Verbs that carry no event of their own here: copulas, auxiliaries, support verbs
+# ("fazer a revisão") and modals (modality has its own signal). A source action that
+# survives only as one of these ("será enviado" -> "vai até") has lost its predicate.
+LIGHT_VERBS = frozenset("ser estar ir ter haver ficar fazer dar vir poder dever precisar querer conseguir".split())
+PREDICATE_MIN_STEM = 4
+
+
+def _event_anchors(text: str) -> dict[str, set]:
+    """Content-verb anchors of a sentence: stem -> lemmas. Only confident
+    analyses (voznativa.morph): the main verb of an auxiliary construction, or
+    a token whose analyses agree on one tense and one stem. Light verbs,
+    stopwords ("para" read as "parar") and short stems are left out: the check
+    abstains instead of guessing."""
+    from .morph import WEAK_ENDINGS, constructions, verbs
+    anchors: dict[str, set] = {}
+    covered = set()
+
+    def add(lemmas):
+        content = {lemma for lemma in lemmas if lemma not in LIGHT_VERBS}
+        stems = {lemma[:-2] for lemma in content}
+        if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content == set(lemmas):
+            anchors.setdefault(fold(next(iter(stems))), set()).update(content)
+
+    for c in constructions(text):
+        add(c["main_lemmas"])
+        covered |= {c["start"], c["end"]}
+    for v in verbs(text):
+        # Tense ambiguity ("cancelaram": perfect or pluperfect) says nothing about whether
+        # the token is this verb; one shared stem is what `add` requires.
+        if v.start in covered or v.end in covered or fold(v.form) in _STOP_FOLDED:
+            continue
+        # A weak ending ("-o", "-e", "-a") accepted only from context reads "durante" as
+        # "durantar" and "prazo" as "prazar": not an anchor.
+        if all(a["source"] == "regular" and a["ending"] in WEAK_ENDINGS for a in v.analyses):
+            continue
+        add(v.lemmas)
+    return anchors
+
+
+def _predicate_issues(src, out, alignment) -> list[dict]:
+    """The source sentence's action has no counterpart in its aligned candidate
+    sentence (v0.7.0.dev1, H07-006). Preserved when the verb's stem is still
+    there in any form ("enviado" -> "envio", "foi enviado pela") or the same
+    lemma is. Otherwise:
+
+    * the candidate has only light verbs or none ("vai até", "fica para",
+      "é em março"): ``predicate_missing`` (major: a person decides);
+    * the candidate has another content verb ("enviado" -> "encaminhado",
+      "assinou" -> "recebeu"): ``predicate_replaced`` (info). A synonym and a
+      different event look the same to rules; the judge decides.
+
+    Never critical, and never evidence of equivalence when absent."""
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        source_text = src.entries[i].sentence.text
+        before = _event_anchors(source_text)
+        if not before:
+            continue
+        # The aligned sentence and its neighbours: a rewrite may split or merge sentences.
+        near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k < len(out.entries)]
+        near_words = {fold(w) for text in near for w in words(text)}
+        after = _event_anchors(out.entries[j].sentence.text)
+        after_lemmas = {lemma for text in near for lemmas in _event_anchors(text).values() for lemma in lemmas}
+        for stem_, lemmas in sorted(before.items()):
+            if any(w.startswith(stem_) for w in near_words) or lemmas & after_lemmas:
+                continue
+            lemma = sorted(lemmas)[0]
+            common = {"lemma": lemma, "source_sentence": source_text,
+                      "candidate_sentence": out.entries[j].sentence.text, "analyzer": "voznativa.morph-rules@1"}
+            if after:
+                issues.append(_issue("predicate_replaced", "info",
+                                     f"verb '{lemma}' became {sorted(l for ls in after.values() for l in ls)}: "
+                                     "same action or another event? needs judgment",
+                                     candidate_verbs=sorted(l for ls in after.values() for l in ls), **common))
+            else:
+                issues.append(_issue("predicate_missing", "major",
+                                     f"the action '{lemma}' has no counterpart in the candidate sentence "
+                                     "(only a light verb or none): an action or commitment may be lost",
+                                     **common))
     return issues
 
 

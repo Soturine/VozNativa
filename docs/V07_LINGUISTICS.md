@@ -42,6 +42,7 @@ Responde aos adendos "Linguistic Intelligence & Morphosyntactic Assurance" (CP9L
 | B-L3 | concordância e regência como diagnóstico (nunca correção automática fora de PROOFREAD autorizado) | precisão medida em texto humano dos 7 corpora; variação legítima não marcada | CP9D modos |
 | B-L4 | correferência pronominal limitada | só quando há um único antecedente compatível; senão revisão | B-L1 |
 | B-L5 | pares de reescrita humanos para medir o sinal `tense_changed` | ≥ 100 pares rotulados por pessoa independente | pessoas |
+| B-L6 | holdout independente de ações e compromissos perdidos (`predicate_missing`) e um recurso lexical para separar sinônimo de evento diferente (`predicate_replaced`) | pares escritos por outra pessoa antes de ver a regra; licença do recurso verificada | pessoas, recurso |
 | B-D2 | modelo de narrativa (narrador, pessoa narrativa, personagens) | personagens consistentes entre segmentos do long-form | B-L4 |
 
 ## CP9D — consciência de erro e modos editoriais

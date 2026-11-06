@@ -78,11 +78,19 @@ class Quickstart(unittest.TestCase):
     def test_first_use_commands(self):
         o, boa, ruim = (str(QS / n) for n in ("original.txt", "candidata-boa.txt", "candidata-ruim.txt"))
         code, out = cli("compare", o, boa)
-        self.assertEqual((code, json.loads(out)["status"]), (3, "no_deterministic_issues"))
+        report = json.loads(out)
+        self.assertEqual((code, report["status"], report["semantic_equivalence"]),
+                         (3, "no_deterministic_issues", "unverified"))
         code, out = cli("compare", o, ruim)
         report = json.loads(out)
         self.assertEqual((code, report["status"]), (1, "fail"))
         self.assertIn("negation_changed", {i["code"] for i in report["issues"] if i["severity"] == "critical"})
+        # v0.7.0.dev1 (H07-006): the README's former "good" candidate kept values and negation
+        # but lost the action ("será enviado" -> "vai até"); it is now a separate example.
+        code, out = cli("compare", o, str(QS / "candidata-perde-acao.txt"))
+        report = json.loads(out)
+        self.assertEqual((code, report["status"]), (2, "review_required"))
+        self.assertIn("predicate_missing", {i["code"] for i in report["issues"] if i["severity"] == "major"})
         self.assertEqual(json.loads(cli("plan", o)[1])["decision"], "edit")
         self.assertEqual(json.loads(cli("plan", str(QS / "email.txt"))[1])["decision"], "no_change")
         diag = json.loads(cli("diagnose", str(QS / "erros.txt"))[1])
