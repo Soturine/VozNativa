@@ -1,0 +1,46 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-06-v07-cp0",
+  "entries": [
+    {
+      "file": "assertiva-static.json",
+      "command": "assertiva audit . --python <venv>/python --output json (bf8e1a4)",
+      "exit_code": 0,
+      "raw_sha256": "30e65c73e229e808a9332563b16d17c30662cc5eaf7c57ecde557467513a2a47",
+      "published_sha256": "58dbc0d9a2d9bee9b8b986787dfd0211fbceb00c65448ae6043471d547a585ae",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (bf8e1a4)",
+      "exit_code": 0,
+      "raw_sha256": "f50b2f6bd7e5c8347d646420b9d1bb95df9949d51fe6f3b03111f321f398aeca",
+      "published_sha256": "f50b2f6bd7e5c8347d646420b9d1bb95df9949d51fe6f3b03111f321f398aeca",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py312.json",
+      "command": "python scripts/qualify.py --out <tmp> (bf8e1a4, local scope)",
+      "exit_code": 3,
+      "raw_sha256": "c8ff58a76dd96129795128a6501cc2da274dc869fcd4c2f985b3b00e8399fc87",
+      "published_sha256": "c8ff58a76dd96129795128a6501cc2da274dc869fcd4c2f985b3b00e8399fc87",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-06T13:19:06+00:00",
+  "revision": "bf8e1a4c4bf501b5c096ca1feb3eb41db26a3543",
+  "dirty_paths": [
+    "docs/AS_IS_v0.7.0.md",
+    "docs/PLAN_v0.7.0.md"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "assertiva": "0.10.1@2618d95",
+    "derivanta-engine": "0.1.0@17fa564"
+  },
+  "notes": []
+}

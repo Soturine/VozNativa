@@ -107,6 +107,18 @@ Estados terminais e o texto entregue: só `accepted`, `needs_judgment` e `needs_
 | benchmark conta `provider_error` como invariantes ok | leitura do scorer e da execução oficial | defeito de avaliação (H2) |
 | baseline lê unittest pela última linha do stderr | leitura | defeito de evidência (H1) |
 
+## Política de generalização e anti-overfitting (v0.7.0)
+
+Regra central: **uma correção localizada não vira alegação de melhoria geral sem transferência para casos nunca usados para desenvolvê-la e sem controles negativos relevantes.**
+
+1. **Corpus é evidência, não regra.** Nenhum código pode depender do nome de uma fonte, autor, editora ou edição (`if "Gutenberg"`, `if author == "Machado"`). Teste obrigatório: trocar a fonte/autor do caso mantém a decisão.
+2. **Casos de desenvolvimento ≠ casos de aceitação.** O caso que revelou um defeito (ex.: G1 no Machado) entra como regressão; a alegação de melhoria exige casos novos escritos antes da execução e de outro gênero/época/estrutura, mais um controle negativo (o comportamento antigo correto continua correto).
+3. **Suítes congeladas não são alvo.** Benchmarks e holdouts v1–v4 não são editados, reordenados nem reanotados; um oráculo errado vira suíte nova com justificativa.
+4. **Métricas separadas.** Nenhum percentual único soma eixos incomparáveis; pior grupo e tamanho de amostra aparecem ao lado da média.
+5. **Abstenção é resultado.** Sem evidência suficiente, `unknown` com proteções conservadoras; nunca um palpite confiante.
+6. **Controles de falso positivo.** Todo detector novo ou ampliado tem casos que **não** devem disparar (ex.: "de boa qualidade" para G3; WhatsApp real para G1; artigos do mesmo tema para G2).
+7. **Escopo da alegação.** Um resultado vale para os gêneros, épocas e variedades medidos; combinações não observadas ficam declaradas como não cobertas.
+
 ## ADRs
 
 Nenhuma decisão desta rodada justificou ADR até aqui. O contrato de Regional Evidence Pack (CP5) é decisão material e terá registro próprio.

@@ -1,0 +1,768 @@
+{
+  "candidate_qualification": null,
+  "change_set": null,
+  "ci_runs": [],
+  "claim_boundary": {
+    "limitations": [
+      "unittest: static inventory is bounded source analysis, not native collection",
+      "tests were not executed; --execute collects native evidence by running project code in an isolated copy",
+      "credential-like environment variables were withheld from executed project code: CLAUDE_CODE_CHILD_SESSION, CLAUDE_CODE_MESSAGING_TOKEN, CLAUDE_CODE_SESSION_ATTENDED, CLAUDE_CODE_SESSION_ID, SESSIONNAME"
+    ],
+    "not_evidenced": [
+      "no tests were executed; test outcomes are UNKNOWN",
+      "whether declared CI checks actually ran, on which revision, and whether they gate merges",
+      "coverage",
+      "mutation / negative-control strength",
+      "build, package and installed-artifact behavior",
+      "startup, health and deployment behavior"
+    ],
+    "observed": [
+      "static oracle signals (E3 heuristics, not execution)",
+      "7 declared verification checks (configuration, not run evidence)"
+    ]
+  },
+  "declared_checks": [],
+  "delivery": {
+    "artifact_lineage": [],
+    "matrix": {
+      "ci": {
+        "os": [
+          "ubuntu-latest",
+          "windows-latest"
+        ],
+        "python": [
+          "3.11",
+          "3.12",
+          "3.13"
+        ]
+      },
+      "declared": {
+        "python": {
+          "source": "pyproject.toml requires-python >=3.11",
+          "values": [
+            "3.11"
+          ]
+        }
+      }
+    }
+  },
+  "environment": {
+    "interpreter": "<TMP>\\claude\\86f139bbe18dfdfb\\a03661e1-7c25-49fe-bc23-16acbb9dcdce\\scratchpad\\venv-assertiva\\Scripts\\python.exe",
+    "isolation": "STATIC_ONLY",
+    "isolation_limits": [],
+    "requirements": [
+      {
+        "distributions": [
+          "PyYAML"
+        ],
+        "ecosystem": "python",
+        "files": [],
+        "interpreter": {
+          "executable": "<TMP>\\claude\\86f139bbe18dfdfb\\a03661e1-7c25-49fe-bc23-16acbb9dcdce\\scratchpad\\venv-assertiva\\Scripts\\python.exe",
+          "version": "3.12.10"
+        },
+        "requires_python": ">=3.11"
+      }
+    ],
+    "services": [],
+    "steps": [
+      {
+        "action": "use the given interpreter",
+        "detail": "",
+        "divergences": [],
+        "downloads": [],
+        "duration_s": null,
+        "ecosystem": "python",
+        "reason": "every declared distribution is installed",
+        "runs_third_party_code": false,
+        "status": "NOT_NEEDED",
+        "step_id": "python-env"
+      }
+    ],
+    "tools": {},
+    "workspace": null
+  },
+  "evidence_delta": null,
+  "execution_budget": {
+    "decisions": [
+      {
+        "decision": "NOT_RUN",
+        "reason": "not executed by this call: test outcomes, coverage and artifact behavior stay UNKNOWN; audit --execute measures them in a disposable copy",
+        "stage": "tests"
+      },
+      {
+        "decision": "NOT_RUN",
+        "reason": "not executed by this call: test outcomes, coverage and artifact behavior stay UNKNOWN; audit --execute measures them in a disposable copy",
+        "stage": "artifact"
+      }
+    ],
+    "depth": 0,
+    "level": "static",
+    "max_depth": 2
+  },
+  "execution_manifest": {
+    "code": {
+      "files": 394,
+      "local_changes": false,
+      "note": null,
+      "tree_digest": "567aebb3c85ce7cef98139f49d74831ddc469bc7b4b40972c0a59a33d4b3c302",
+      "vcs_revision": "bf8e1a4c4bf501b5c096ca1feb3eb41db26a3543"
+    },
+    "comparison": [],
+    "ended_at": "2026-11-06T13:17:59.176+00:00",
+    "engine": {
+      "assertiva_version": "0.10.1",
+      "platform": "Windows-11",
+      "runtime_version": "3.12.10"
+    },
+    "environment": {
+      "passed_through": [],
+      "withheld": [
+        "CLAUDE_CODE_CHILD_SESSION",
+        "CLAUDE_CODE_MESSAGING_TOKEN",
+        "CLAUDE_CODE_SESSION_ATTENDED",
+        "CLAUDE_CODE_SESSION_ID",
+        "SESSIONNAME"
+      ]
+    },
+    "read": [],
+    "runs": [],
+    "started_at": "2026-11-06T13:17:55.799+00:00"
+  },
+  "findings": [
+    {
+      "code": "UNCLASSIFIED_VERIFICATION",
+      "evidence": {
+        "checks": [
+          "gha:.github/workflows/ci.yml:test:4",
+          "gha:.github/workflows/ci.yml:test:6",
+          "gha:.github/workflows/ci.yml:test:7",
+          "gha:.github/workflows/ci.yml:package:5",
+          "gha:.github/workflows/ci.yml:package:6"
+        ]
+      },
+      "id": "UNCLASSIFIED_VERIFICATION",
+      "origin": "engine",
+      "priority": "info",
+      "recommendation": null,
+      "severity": "info",
+      "summary": "Some checks could not be classified; they are preserved as UNKNOWN rather than guessed."
+    }
+  ],
+  "generated_at": "2026-11-06T13:17:59+00:00",
+  "history": null,
+  "project": {
+    "digest": "567aebb3c85ce7cef98139f49d74831ddc469bc7b4b40972c0a59a33d4b3c302",
+    "dirty": false,
+    "name": "VozNativa",
+    "revision": "bf8e1a4c4bf501b5c096ca1feb3eb41db26a3543",
+    "root": "<PROJECT>",
+    "technologies": {
+      "language": {
+        "basis": "SOURCE",
+        "evidence": "132/132",
+        "id": "python",
+        "name": "Python"
+      },
+      "omitted": 0,
+      "stack": [],
+      "technologies": []
+    },
+    "version": null
+  },
+  "provenance": {
+    "adapters": [
+      "unittest"
+    ],
+    "assertiva_version": "0.10.1",
+    "read_only_scope": {
+      "measured": "every entry of the project tree, including ignored files and caches, fingerprinted by content before and after (links by their target, never followed)",
+      "not_measured": [
+        "files outside the project tree (home directory, temporary directories, Assertiva's own state)",
+        "targets of links that leave the project",
+        "network effects and external services"
+      ]
+    },
+    "read_only_verified": true,
+    "runtime": {
+      "dirty": null,
+      "install": "installed-package",
+      "revision": null,
+      "version": "0.10.1"
+    },
+    "trace": "<HOME>\\.assertiva\\traces\\VozNativa-44b67062b802e0c7\\audit-20261106T131755798095Z.jsonl"
+  },
+  "recommendations": [
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "finding_id": "UNCLASSIFIED_VERIFICATION",
+      "recommendation": "Declare what the unclassified checks verify, or add an adapter; until then they stay UNKNOWN.",
+      "status": "PROPOSED"
+    }
+  ],
+  "remaining_unknowns": [
+    "no tests were executed; test outcomes are UNKNOWN",
+    "whether declared CI checks actually ran, on which revision, and whether they gate merges",
+    "coverage",
+    "mutation / negative-control strength",
+    "build, package and installed-artifact behavior",
+    "startup, health and deployment behavior"
+  ],
+  "report_path": "<HOME>\\.assertiva\\reports\\VozNativa-44b67062b802e0c7\\audit.html",
+  "report_version": "1",
+  "review_candidates": [],
+  "run_id": "cf72d62baa2940ca",
+  "states": {
+    "applied": null,
+    "baseline": null,
+    "candidate": null,
+    "current": {
+      "artifacts": [],
+      "coverage": [],
+      "label": "current",
+      "limitations": [],
+      "metrics": {
+        "broad_error_expectations": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "error_status_only_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "expected_error_contracts": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 39
+        },
+        "negative_path_tests": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 39
+        },
+        "negative_paths_with_state_after_rejection": {
+          "direction": "HIGHER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "negative_paths_without_contract_detail": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 31
+        },
+        "weak_oracle_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        }
+      },
+      "mutation": [],
+      "negative_controls": [],
+      "negative_paths": {},
+      "observed_in": "static-analysis",
+      "runs": []
+    }
+  },
+  "status": "FINDINGS",
+  "test_effectiveness": {
+    "affected_tests": {},
+    "candidates": [],
+    "dimensions": {
+      "behavioral_surfaces": {
+        "EXCEPTION": 39,
+        "PERSISTENCE": 4,
+        "RESPONSE_BODY": 4,
+        "RETURN": 416
+      },
+      "determinism": {
+        "FIXED_WAIT": 0,
+        "RETRY": 0,
+        "SLEEP": 0,
+        "UNAWAITED_ASYNC": 0
+      },
+      "distinct_contribution": {
+        "distinct_oracle_signatures": 450,
+        "redundancy_candidates": 0,
+        "tests_in_redundancy_candidates": 0
+      },
+      "double_fidelity": {
+        "most_replaced": [],
+        "tests_with_doubles": 0
+      },
+      "fidelity": {
+        "boundaries_crossed": {
+          "FILESYSTEM": 40,
+          "NETWORK": 2,
+          "PROCESS": 1
+        },
+        "boundaries_simulated": {},
+        "declared_levels": {
+          "CONTRACT": 7,
+          "INTEGRATION": 10,
+          "UNDECLARED": 443
+        },
+        "ladder": {
+          "boundaries": {
+            "FILESYSTEM": {
+              "REAL": 40
+            },
+            "NETWORK": {
+              "REAL": 2
+            },
+            "PROCESS": {
+              "REAL": 1
+            }
+          },
+          "note": "read from test code: a rung says how the boundary is exercised, not that the run reached it (a browser test that was not executed proves nothing); REAL for a device means an emulator or a device",
+          "rungs": [
+            "DOUBLE",
+            "INTERCEPTED",
+            "SIMULATOR",
+            "IN_PROCESS",
+            "DISPOSABLE_REAL",
+            "REAL"
+          ]
+        }
+      },
+      "maintainability": {},
+      "mutation_sensitivity": {
+        "available": false,
+        "reason": "no mutation report names the tests that killed each mutant"
+      },
+      "negative_and_boundary_paths": {
+        "broad": 0,
+        "error_expectations": 39
+      },
+      "oracle_strength": {
+        "note": "no explicit oracle can still be a valid contract (must not raise, a guard double): read the test",
+        "oracle_basis": {
+          "both": 0,
+          "characterization": 0,
+          "characterization_tests": [],
+          "contract": 0,
+          "note": "characterization pins today's behavior, bugs included, and fails on any change; a contract states what must hold. Literal expected values are undetermined: read where the value comes from (a requirement, a calculation, or the code's own output)",
+          "signals": {},
+          "undetermined": 460
+        },
+        "oracles": {
+          "EXISTENCE": 1,
+          "SPECIFIC_ERROR": 39,
+          "VALUE": 447
+        },
+        "without_explicit_oracle": 0
+      }
+    },
+    "languages": {
+      "python": {
+        "limitations": [
+          "Python tests are read from their syntax tree: helpers in other modules, fixtures and plugins are not followed"
+        ],
+        "tests": 460
+      }
+    },
+    "note": "candidates are leads with their basis; none is a verdict, and no score combines them"
+  },
+  "test_selection": null,
+  "verification_surface": [
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:4",
+      "command": "python scripts/validate_package.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "python scripts/validate_package.py"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:5",
+      "command": "python -m unittest discover -s evals -p \"test_*.py\" -v",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "TEST",
+      "limitations": [],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [
+          {
+            "command": "python -m unittest discover -s evals -p \"test_*.py\" -v",
+            "directory": "",
+            "kind": "TEST",
+            "piped": false,
+            "runner_args": [
+              "discover",
+              "-s",
+              "evals",
+              "-p",
+              "test_*.py",
+              "-v"
+            ],
+            "status_ignored": false,
+            "tool": "unittest"
+          }
+        ],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [
+          "discover",
+          "-s",
+          "evals",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "unittest"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:6",
+      "command": "voznativa eval evals/semantic/cases.jsonl",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Semantic eval suite (dev set must pass completely)",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "voznativa eval evals/semantic/cases.jsonl"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:7",
+      "command": "python scripts/pty_review_check.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": "runner.os == 'Linux'",
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "CONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Interactive human review through a real pseudo-terminal",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "python scripts/pty_review_check.py"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:4",
+      "command": "python -m build --sdist --outdir dist .",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "PACKAGE",
+      "limitations": [],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [
+          {
+            "command": "python -m build --sdist --outdir dist .",
+            "directory": "",
+            "kind": "PACKAGE",
+            "piped": false,
+            "runner_args": [
+              "--sdist",
+              "--outdir",
+              "dist",
+              "."
+            ],
+            "status_ignored": false,
+            "tool": "build"
+          }
+        ],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [
+          "--sdist",
+          "--outdir",
+          "dist",
+          "."
+        ],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "build"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:5",
+      "command": "mkdir sdist && tar xzf dist/*.tar.gz -C sdist\npython -m pip wheel --no-deps --wheel-dir dist sdist/*/",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Build the wheel from the sdist",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "tar xzf dist/*.tar.gz -C sdist"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:6",
+      "command": "python -m venv \"$RUNNER_TEMP/venv\"\nif [ -x \"$RUNNER_TEMP/venv/bin/python\" ]; then PY=\"$RUNNER_TEMP/venv/bin/python\"; else PY=\"$RUNNER_TEMP/venv/Scripts/python\"; fi\n\"$PY\" -m pip install dist/*.whl\ncp scripts/smoke_installed.py \"$RUNNER_TEMP/smoke.py\"\ncd \"$RUNNER_TEMP\" && \"$PY\" -I smoke.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Install the wheel in a clean venv and smoke-test outside the checkout",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "if [ -x $RUNNER_TEMP/venv/bin/python ]"
+    }
+  ],
+  "workflow": "audit"
+}

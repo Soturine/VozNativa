@@ -1,0 +1,257 @@
+{
+  "kind": "voznativa.qualification",
+  "schema_version": 1,
+  "recorded_at": "2026-11-06T13:16:59+00:00",
+  "version": "0.6.0.dev0",
+  "revision": "bf8e1a4c4bf501b5c096ca1feb3eb41db26a3543",
+  "dirty": false,
+  "scope": "local",
+  "environment": {
+    "python": "3.12.10",
+    "implementation": "CPython",
+    "platform": "Windows-11",
+    "executable_is_venv": false
+  },
+  "verdict": "INCOMPLETE",
+  "exit_code": 3,
+  "counts": {
+    "PASS": 9,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 4,
+    "SKIPPED": 0,
+    "INCONCLUSIVE": 0,
+    "WAIVED_BY_OWNER": 0
+  },
+  "gates": [
+    {
+      "id": "validator",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "package layout, data, docs commands",
+      "exit_code": 0,
+      "output": "VozNativa package v0.6.0.dev0 is valid",
+      "seconds": 0.89
+    },
+    {
+      "id": "unittest",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "python -m unittest discovery of evals/test_*.py",
+      "exit_code": 0,
+      "seconds": 31.06,
+      "counts": {
+        "ran": 460,
+        "passed": 457,
+        "failed": 0,
+        "errors": 0,
+        "collection_errors": 0,
+        "skipped": 0,
+        "expected_failures": 3,
+        "unexpected_successes": 0
+      },
+      "failed": [],
+      "errors": [],
+      "collection_errors": [],
+      "skipped": [],
+      "unexpected_successes": []
+    },
+    {
+      "id": "semantic:dev",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "dev semantic suite passes completely",
+      "cases": 77,
+      "passed": 77,
+      "failures": [],
+      "seconds": 0.17
+    },
+    {
+      "id": "semantic:holdouts:safety",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "no missed detection; holdouts frozen and intact",
+      "problems": [],
+      "suites": {
+        "holdout-relations.jsonl": "12/12",
+        "holdout-v030.jsonl": "24/24",
+        "holdout-v040.jsonl": "32/32",
+        "holdout.jsonl": "24/24",
+        "holdout2.jsonl": "16/16"
+      },
+      "seconds": 0.45
+    },
+    {
+      "id": "semantic:holdouts:strict",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "exact status and codes; known divergences listed",
+      "new_failures": [],
+      "known_failures_still_failing": [],
+      "known_failures_now_passing": [],
+      "note": "strict = status and issue codes as written; known items are frozen cases whose recorded first run already diverged (see evals/qualification/expectations.json)",
+      "seconds": 0.41
+    },
+    {
+      "id": "decision:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "engine decision suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "dc-021",
+        "dc-029"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "28/30",
+      "failures": {
+        "dc-021": "wrong_scope",
+        "dc-029": "unnecessary_change"
+      },
+      "seconds": 0.25
+    },
+    {
+      "id": "router:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "genre router suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "rt-014"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "15/16",
+      "seconds": 0.06
+    },
+    {
+      "id": "cli:exit-codes",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "CLI exit codes are the documented gate interface",
+      "cases": [
+        {
+          "case": "compare identical -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "compare negation removed -> 1 fail",
+          "expected": 1,
+          "exit_code": 1,
+          "passed": true
+        },
+        {
+          "case": "compare added claim -> 2 review",
+          "expected": 2,
+          "exit_code": 2,
+          "passed": true
+        },
+        {
+          "case": "compare clean rewrite -> 3 needs judgment",
+          "expected": 3,
+          "exit_code": 3,
+          "passed": true
+        },
+        {
+          "case": "unknown flag -> 64 usage, never a gate status",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "missing file -> 64",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "plan runs without a model -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "--help -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        }
+      ],
+      "seconds": 1.14
+    },
+    {
+      "id": "package:sdist-wheel-smoke",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "sdist -> wheel -> clean venv -> smoke (CI package job)",
+      "wheel": "voznativa-0.6.0.dev0-py3-none-any.whl",
+      "steps": [
+        {
+          "step": "sdist",
+          "exit_code": 0,
+          "seconds": 4.11
+        },
+        {
+          "step": "wheel from sdist",
+          "exit_code": 0,
+          "seconds": 5.09
+        },
+        {
+          "step": "venv",
+          "exit_code": 0
+        },
+        {
+          "step": "install wheel (+ declared deps)",
+          "exit_code": 0,
+          "seconds": 1.47
+        },
+        {
+          "step": "smoke outside the checkout",
+          "exit_code": 0,
+          "seconds": 3.61
+        }
+      ],
+      "seconds": 19.22
+    },
+    {
+      "id": "review:pty",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "local",
+      "description": "interactive signed review through a real pseudo-terminal",
+      "reason": "needs a POSIX pseudo-terminal; runs on Linux/macOS",
+      "seconds": 0.0
+    },
+    {
+      "id": "ci:github-actions",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "holdout:independent",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "review:blind-human",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    }
+  ]
+}
