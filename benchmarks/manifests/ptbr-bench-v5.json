@@ -1,0 +1,31 @@
+{
+  "benchmark": "ptbr-bench-v5",
+  "frozen_at": "2026-11-06",
+  "status": "frozen before any run; deterministic arm runnable; model and human arms NOT_RUN",
+  "cases_file": "benchmarks/cases/ptbr-bench-v5.jsonl",
+  "cases_sha256": "ab3f8125772e36ae143d874d364dcf0079add54ab6d09ebff081dcf0e171bbda",
+  "cases": 36,
+  "author": "VozNativa developer's agent (not independent). Cases written after the v0.7.0 CP5-CP9D rules; synthetic own text, no corpus text",
+  "class": "out-of-distribution conformance of deterministic decisions across genre, epoch, variety, length and task; not a quality benchmark",
+  "axes": [
+    "genre",
+    "epoch",
+    "variety",
+    "length",
+    "task"
+  ],
+  "metrics": "separate per check family: routing, protections, decision (false edit on natural text), semantic gate (preservation), slang sense, variety, long-form, diagnosis; each with a Wilson 95% interval and per-axis groups with their n; no single combined score",
+  "arms": {
+    "D-voznativa-v070-deterministic": {
+      "kind": "deterministic",
+      "runner": "scripts/bench_v5.py"
+    }
+  },
+  "not_run_arms": {
+    "model": "no budget approved for paid model calls",
+    "human": "no reviewers recruited",
+    "independent_holdout": "no external author"
+  },
+  "freeze_rule": "cases file not edited after this commit; a wrong expectation is reported as a case error and fixed only in a later suite",
+  "bias_disclosure": "same agent wrote rules, cases and runner; passing shows conformance to the specification, not reader quality; small n per group"
+}
