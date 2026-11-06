@@ -13,7 +13,7 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-07 G3 | `HeldOutSample` (2 amostras congeladas), controle negativo do padrão v0.6, `FalseFriendNeedsCorroboration` | `ConsumersCountTheSlangSenseOnly` (engine, perfil, guard de introdução) | mutação: CP14 | `crossgenre-2026-11-06-cp6b.json` | — | PASS |
 | RF-08 contrato long-form | `Contract` (sem perda, JSON ida e volta, adulteração, protegido não substituível, verso, dependências/carry) | — | CRLF ida e volta | — | — | PASS |
 | RF-09 G4 | `SegmentedRewrite` (12 cenários), `CommandSplitting` | `CommandLine`: `python -m voznativa rewrite --long-form on` com provedor de comando | — | — | modelo externo: NOT_RUN | PASS (stubs); live NOT_RUN |
-| RF-10 guards | | | | | | pendente |
+| RF-10 guards | `CrossParagraph` (3 falsos verdes + detecções antigas + 3 controles) | `DocumentGuards` (gíria introduzida em unidade → revisão) | `Metamorphic` (CRLF, NFD, NBSP, quebra, tab, espaço duplo) + controle negativo | `ptbr-bench-v4` 22/22 | — | PASS |
 | RF-11 bench v5 | | | | | | pendente |
 | RF-12 detectores | | | | | live: LIVE_NOT_RUN | pendente |
 | RF-13 Unicode/proveniência | | | | | | pendente |

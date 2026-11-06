@@ -17,9 +17,9 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP4 | Contenção e splits (G2) | concluído | `b19e92a` | G2 fechado (xfail → teste normal); `evals/test_containment.py` 11 testes; 184 vínculos reais, 0 entre fontes; 52 pares vazavam no split do CP3; reexecução sem vazamento; suíte PASS |
 | CP5 | Router v3 (G1) | concluído | `f7c10f1` | G1 fechado; Context Contract v3 (14 dimensões, `protections`); `evals/test_router_v3.py` + 14 oráculos congelados (14/14 na 1ª execução); suítes congeladas sem mudança; corpora: 0 `whatsapp` errado |
 | CP6 | Gíria/contexto (G3) | concluído | `2e88a46` | G3 fechado; amostras congeladas `cases-v07` 18/18 (1ª: 17/18 por contagem de ids) e `cases-v07b` 6/12 → 12/12; `evals/test_slang_v07.py`; gíria em fontes formais → 0; mutantes de `temporal.py`: reexecução no CP14 (módulo mudou) |
-| CP7 | Contrato long-form | concluído | (este commit, com CP8) | `voznativa/document.py` (plano v1: unidades sem perda, núcleo/bordas, protegidos, inventário, carry, dependências, limites, validação fail-closed); testes `Contract` (7) |
-| CP8 | Rewrite por segmentos (G4) | concluído | (este commit, com CP7) | `engine.rewrite_document` + CLI `rewrite --long-form`; E2E com stub determinístico, NO_CHANGE, falha, malicioso/injeção, timeout, limites, orçamento + retomada, estrutura, falha global com reversão, documento grande, CLI com provedor de comando real; G4 fechado; chamadas com modelo externo: NOT_RUN (sem autorização de custo) |
-| CP9 | Guards globais | pendente | | |
+| CP7 | Contrato long-form | concluído | `60f14b4` (com CP8) | `voznativa/document.py` (plano v1: unidades sem perda, núcleo/bordas, protegidos, inventário, carry, dependências, limites, validação fail-closed); testes `Contract` (7) |
+| CP8 | Rewrite por segmentos (G4) | concluído | `60f14b4` (com CP7) | `engine.rewrite_document` + CLI `rewrite --long-form`; E2E com stub determinístico, NO_CHANGE, falha, malicioso/injeção, timeout, limites, orçamento + retomada, estrutura, falha global com reversão, documento grande, CLI com provedor de comando real; G4 fechado; chamadas com modelo externo: NOT_RUN (sem autorização de custo) |
+| CP9 | Guards globais | concluído | (este commit) | 3 falsos verdes do `compare` corrigidos (negação deslocada, parágrafo dependente movido, frase curta nova); 6 variações metamórficas estáveis; guards do documento; `evals/test_global_guards.py`; suítes congeladas inalteradas; `ptbr-bench-v4` 22/22 (rodada limpa após o commit) |
 | CP10 | ptbr-bench-v5 OOD | pendente | | |
 | CP11 | Detectores externos | pendente | | |
 | CP12 | Unicode/proveniência/browser | pendente | | |
@@ -43,4 +43,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP9.
+CP9L.

@@ -69,6 +69,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _signal_issues(src, out, alignment)
     issues += _causal_direction_issues(src, out, alignment)
     issues += _crossing_issues(src, out, alignment)
+    issues += _order_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -403,6 +404,57 @@ def _signal_issues(src, out, alignment) -> list[dict]:
             label=label, before=before.get(label, 0), after=after.get(label, 0),
             location=located,
             examples=_marker_examples(src if delta < 0 else out, label)))
+    issues += _moved_signal_issues(src, out, alignment, before, after)
+    return issues
+
+
+def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
+    """A marker removed from one aligned sentence and added to another keeps
+    the document's total unchanged ("A não contratou... O contrato prevê"):
+    v0.7.0 CP9 found it passing as no_deterministic_issues."""
+    issues = []
+    rules = signals.severity_rules()
+    for label in sorted(set(before) & set(after)):
+        if before[label] != after[label]:
+            continue        # a net change is reported above
+        category = label.split(".")[0]
+        if category in rules["informational"] or label in rules["informational"]:
+            continue
+        lost, gained = [], []
+        for i, j, sim in alignment:
+            if j is None or sim < ALIGN_MIN_SIMILARITY:
+                continue
+            delta = _bucket(out.entries[j].signal_counts()).get(label, 0) - \
+                _bucket(src.entries[i].signal_counts()).get(label, 0)
+            (lost if delta < 0 else gained if delta > 0 else []).append((i, j))
+        if lost and gained:
+            critical = category in rules["critical_when_localized"]
+            issues.append(_issue(f"{category}_moved", "critical" if critical else "major",
+                                 f"{label} marker moved between sentences (same total, different claims)",
+                                 label=label, removed_from=src.entries[lost[0][0]].sentence.text,
+                                 added_to=out.entries[gained[0][1]].sentence.text))
+    return issues
+
+
+def _order_issues(src, out, alignment) -> list[dict]:
+    """A sentence that leans on the previous one ("Por isso...", "Ele...")
+    now sits elsewhere: its antecedent changed (v0.7.0 CP9)."""
+    from .longform import _BACK_OPENINGS
+    image = {i: j for i, j, sim in alignment if j is not None and sim >= ALIGN_MIN_SIMILARITY}
+    issues = []
+    for i, j in sorted(image.items()):
+        if i == 0 or (i - 1) not in image:
+            continue
+        opening = fold(src.entries[i].sentence.text.strip().lstrip("—–-\"“'«( \t"))[:60]
+        if not _BACK_OPENINGS.match(opening):
+            continue
+        antecedent = image[i - 1]
+        between = [k for k, v in image.items() if k not in (i, i - 1) and antecedent < v < j]
+        if antecedent >= j or between:
+            issues.append(_issue("dependent_sentence_moved", "major",
+                                 "a sentence that refers back to the previous one no longer follows it: "
+                                 "what it refers to may have changed",
+                                 sentence=src.entries[i].sentence.text))
     return issues
 
 
@@ -562,6 +614,13 @@ def _coverage_issues(src, out) -> list[dict]:
                                  "check for added claims",
                                  sentence=entry.sentence.text, novelty=round(novelty, 3),
                                  new_words=sorted(new)))
+            continue
+        if len(stems) >= 2 and not stems & src_stems:
+            # v0.7.0 CP9: a short sentence made only of new content ("Ele assinou o termo.")
+            # stayed under both thresholds above.
+            issues.append(_issue("possible_addition", "major",
+                                 "candidate sentence has no content word of the source; check for an added claim",
+                                 sentence=entry.sentence.text, novelty=1.0, new_words=sorted(new)))
             continue
         clause = _novel_clause(entry, src_stems)
         if clause:

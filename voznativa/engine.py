@@ -470,6 +470,31 @@ class _BudgetedProvider:
         return attr
 
 
+def _document_guards(original: str, final: str, context: dict, profile: dict | None, report: dict | None) -> dict:
+    """Whole-document checks after reassembly (v0.7.0 CP9). Each issue says
+    whether it blocks (critical) or is a signal for a person (major/info);
+    none of them is a verdict of equivalence."""
+    from . import temporal
+    from .regional import activate, introduced_forms
+    introduced = []
+    if final != original:
+        introduced += [{"kind": "slang", **a} for a in
+                       temporal.introduced_terms(original, final, temporal.activate(context, original))]
+        introduced += [{"kind": "regional", **a} for a in
+                       introduced_forms(original, final, activate(context, original, profile))]
+    effects = []
+    for issue in (report or {}).get("issues", []):
+        effects.append({"code": issue["code"], "severity": issue["severity"],
+                        "effect": "block" if issue["severity"] == "critical" else "signal"})
+    drift = None
+    if final != original and len(final.split()) >= 240:
+        d = drift_mod.inspect(final, profile=profile)
+        drift = {"windows": d["window_count"], "drift": d["drift"], "max_distance": d["max_distance"],
+                 "note": "between-window style distance; threshold uncalibrated, a signal only"}
+    return {"introduced": introduced, "global_issues": effects, "voice_drift": drift,
+            "equivalence": "unverified (deterministic checks only; a judge or a person decides)"}
+
+
 OUTCOME_RANK = {"no_change": 0, "accepted": 1, "needs_judgment": 2, "needs_review": 3, "returned_original": 4,
                 "provider_error": 4}
 
@@ -573,8 +598,11 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                if u["action"] == "rewrite") and outcome in {"accepted", "needs_judgment"}:
             outcome = "needs_review"      # partly rewritten: someone should see which parts were kept
         final = candidate_doc
+    guards = _document_guards(text, final, context, profile, report)
+    if guards["introduced"] and final != text and OUTCOME_RANK[outcome] < OUTCOME_RANK["needs_review"]:
+        outcome = "needs_review"
     public_units = [{k: v for k, v in u.items() if not k.startswith("_")} for u in units]
-    return dict(base, outcome=outcome, text=final, output_sha256=sha256(final),
+    return dict(base, outcome=outcome, text=final, output_sha256=sha256(final), guards=guards,
                 units=public_units, resume_state=units, reverted_units=reverted,
                 global_report=({"status": report["status"], "summary": report.get("summary"),
                                 "issues": report["issues"][:20]} if report else None),
