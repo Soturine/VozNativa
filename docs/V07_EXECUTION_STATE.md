@@ -21,8 +21,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP8 | Rewrite por segmentos (G4) | concluído | `60f14b4` (com CP7) | `engine.rewrite_document` + CLI `rewrite --long-form`; E2E com stub determinístico, NO_CHANGE, falha, malicioso/injeção, timeout, limites, orçamento + retomada, estrutura, falha global com reversão, documento grande, CLI com provedor de comando real; G4 fechado; chamadas com modelo externo: NOT_RUN (sem autorização de custo) |
 | CP9 | Guards globais | concluído | `2a21c7e` | 3 falsos verdes do `compare` corrigidos (negação deslocada, parágrafo dependente movido, frase curta nova); 6 variações metamórficas estáveis; guards do documento; `evals/test_global_guards.py`; suítes congeladas inalteradas; `ptbr-bench-v4` 22/22 (rodada limpa após o commit) |
 | CP9L | Camada linguística (adendo 1) | concluído | `d51e110` | `voznativa/morph.py` + sinal `tense_changed`; ADR-0002; medição contra ouro UD em 4 treebanks; `evals/test_morph.py`; inventário e backlog em `docs/V07_LINGUISTICS.md`; `ptbr-bench-v4` 22/22 em `2a21c7e` (evidência deste commit) |
-| CP9D | Erros do original e modos editoriais (adendo 2) | concluído | (este commit) | `voznativa/diagnose.py`, CLI `diagnose` e `rewrite --mode`; `evals/test_diagnose.py` (12); FP em texto humano medido; variante do gatilho de subjuntivo medida e rejeitada como padrão |
-| CP10 | ptbr-bench-v5 OOD | pendente | | |
+| CP9D | Erros do original e modos editoriais (adendo 2) | concluído | `1469b8b` + `d2eb53e` | `voznativa/diagnose.py`, CLI `diagnose` e `rewrite --mode`; `evals/test_diagnose.py` (12); FP em texto humano medido; variante do gatilho de subjuntivo medida e rejeitada como padrão |
+| CP10 | ptbr-bench-v5 OOD | concluído | `36dd20c` (congelamento), `e634a3b` (runner), este commit | 1ª execução oficial 34/36 em `e634a3b` (roteamento 14/16); correções gerais; rodada pós-correção registrada a seguir; `docs/V07_OOD_BENCHMARK.md` |
 | CP11 | Detectores externos | pendente | | |
 | CP12 | Unicode/proveniência/browser | pendente | | |
 | CP13 | Avaliação humana e evidência | pendente | | |
@@ -47,4 +47,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP10.
+CP11.

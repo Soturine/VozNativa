@@ -44,7 +44,7 @@
     "email": {
       "regex": [
         "(?mi)^(?:ol[aá]|oi|prezad[oa]s?|bom dia|boa tarde|boa noite)[ ,!]",
-        "(?mi)^(?:atenciosamente|abra[cç]os|att|obrigad[oa]|cordialmente)[,.!]?\\s*$",
+        "(?mi)^(?:atenciosamente|(?:um )?abra[cç]os?|att|obrigad[oa]|cordialmente)[,.!]?\\s*$",
         "\\b(?:em anexo|segue anexo|fico [aà] disposi[cç][aã]o)\\b"
       ],
       "weight": 1.3

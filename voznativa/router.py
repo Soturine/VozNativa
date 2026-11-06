@@ -72,6 +72,7 @@ _HISTORIC = re.compile(
     r"\b(?:elle|ella|elles|ellas|aquelle|aquella|aquelles|aquellas|d'?elle|n'?elle|ahi|anno|annos|sabbado|"
     r"cousa|cousas|hontem|emfim|comtudo|quasi|pae|mãi|paes|egreja|theatro|thesouro|"
     r"pharmacia|photographia|orthographia|commercio|commodo|effeito|apparecer|apparece|"
+    r"janella|janellas|sahir|sahiu|sahiram|sahia|cavallo|cavallos|"
     r"succedeu|succede|occasião|occasiao|difficil|differente|annunciar|annuncio|direcção|direccao|"
     r"assumpto|prompto|escripto|escriptor)\b", re.I)
 

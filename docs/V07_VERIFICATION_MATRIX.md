@@ -14,7 +14,7 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-08 contrato long-form | `Contract` (sem perda, JSON ida e volta, adulteração, protegido não substituível, verso, dependências/carry) | — | CRLF ida e volta | — | — | PASS |
 | RF-09 G4 | `SegmentedRewrite` (12 cenários), `CommandSplitting` | `CommandLine`: `python -m voznativa rewrite --long-form on` com provedor de comando | — | — | modelo externo: NOT_RUN | PASS (stubs); live NOT_RUN |
 | RF-10 guards | `CrossParagraph` (3 falsos verdes + detecções antigas + 3 controles) | `DocumentGuards` (gíria introduzida em unidade → revisão) | `Metamorphic` (CRLF, NFD, NBSP, quebra, tab, espaço duplo) + controle negativo | `ptbr-bench-v4` 22/22 | — | PASS |
-| RF-11 bench v5 | | | | | | pendente |
+| RF-11 bench v5 | — | runner recusa hash divergente | invariâncias via suítes CP5/CP9 | `ptbr-bench-v5` 1ª: 34/36 (`e634a3b`); pós-correção 36/36 | modelo/humano: NOT_RUN | PASS (determinístico); braços NOT_RUN |
 | RF-12 detectores | | | | | live: LIVE_NOT_RUN | pendente |
 | RF-13 Unicode/proveniência | | | | | | pendente |
 | RF-18 linguística | `AddendumExamples`, `UDMapping`, `NotEverythingIsAVerb`, `NoInventedAgent` | `TenseAsASemanticSignal` (3 sinais + 4 controles) | suítes semânticas congeladas inalteradas | `morph-2026-11-06.json` (ouro UD, 4 treebanks) | pares humanos: NOT_RUN | PASS (regras); impacto E2E com modelo NOT_RUN |
