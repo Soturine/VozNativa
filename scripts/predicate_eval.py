@@ -63,7 +63,8 @@ def main(argv=None) -> int:
     print(f"risk flagged {result['risk_flagged']}/{result['n_risk']}; "
           f"clean false alarms {result['clean_false_alarms']}/{result['n_clean']}")
     if args.out:
-        Path(args.out).write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        Path(args.out).write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n", encoding="utf-8",
+                                  newline="\n")
     return 0
 
 

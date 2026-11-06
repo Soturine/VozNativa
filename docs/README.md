@@ -43,6 +43,7 @@ Porta de entrada: [`../README.md`](../README.md). Procedimento do agente: [`../S
 | [../CHANGELOG.md](../CHANGELOG.md) | mudanças por versão |
 | [AS_IS_v0.7.0.md](AS_IS_v0.7.0.md), [AS_IS_v0.6.0.md](AS_IS_v0.6.0.md) | inventários de início/fim de rodada |
 | [PLAN_v0.7.0.md](PLAN_v0.7.0.md) | requisitos, riscos e integração dos adendos |
+| [PLAN_v0.7.0.dev1.md](PLAN_v0.7.0.dev1.md) | estabilização 0.7.0.dev1: achados, requisitos H07, baseline |
 | [V07_EXECUTION_STATE.md](V07_EXECUTION_STATE.md) | checkpoints, commits e retomada de sessão |
 | [V07_DISCOVERY_REGISTER.md](V07_DISCOVERY_REGISTER.md) | descobertas, decisões e correções |
 | [V08_STANDARDS_VISION.md](V08_STANDARDS_VISION.md) | linha futura: normas, editais e rubricas versionados |

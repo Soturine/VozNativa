@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased (0.7.0.dev1)
+
+Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Plan and findings: `docs/PLAN_v0.7.0.dev1.md`; state: `docs/V07_EXECUTION_STATE.md` (section v0.7.0.dev1).
+
+### Fixed
+- `compare` false green: an action or commitment replaced by a light verb ("será enviado" -> "vai até") kept values and negation and passed as `no_deterministic_issues`. New `predicate_missing` (major, review) and `predicate_replaced` (info) from rule-based verb anchors; experimental, measured only on a non-independent sample (`evals/predicates/`).
+- `tense_changed` read periphrastic and synthetic future ("vai depositar" / "depositará") as different tenses.
+- Slang lexicon validation: attestation `count`/`words` must be integers >= 0, years integers with `from <= to`, `last_verified_at` an ISO date, `schema_version` an int. A string count used to crash with `TypeError`.
+- README: the first-use example lost the action and was presented as the good candidate; the claim that the gates "prove" preservation is gone. The quickstart now shows a kept action, a removed negation and a lost action.
+
+### Assurance
+- Mutation triage of `temporal.py`: 5 of the 12 `==` -> `is` survivors called CPython-equivalent were test gaps (YAML, regex and CLI values are equal but not identical); now killed. Errata in the v0.7 `MUTATION.md`.
+- Validator refuses a Markdown table row split across lines (two register rows were corrupted by a heredoc).
+
 ## Unreleased (0.7.0.dev0)
 
 Development version, **not a release and not qualified externally** (no PyPI, no tag). Round state: `docs/V07_EXECUTION_STATE.md`; qualification: `docs/V07_RELEASE_QUALIFICATION.md`.

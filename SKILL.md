@@ -50,6 +50,8 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 | 2 | `human_review_claimed` | Há um julgamento humano sem assinatura válida. Trate como revisão pendente. |
 | 3 | `no_deterministic_issues` | Os gates não acharam problema, o que não prova equivalência. Faça a etapa 6. |
 
+`predicate_missing` (major) indica que a ação ou o compromisso da frase original sumiu e restou só um verbo leve ("será enviado" → "vai até"): devolva a ação em vez de argumentar. `predicate_replaced` (info) não reprova, mas na etapa 6 confira se o verbo novo é a mesma ação.
+
 6. **Juiz.** Rode `$VN judge-prompt texto.txt candidata.txt`, responda o JSON pedido com honestidade em `juizo.json` (`"kind": "llm"`, `"judge_id"` com o seu modelo, e os dois hashes do bloco BINDING) e rode `$VN compare texto.txt candidata.txt --judgment juizo.json`. Como juiz LLM você só aprova resultados limpos; `fail` e `review_required` continuam como estão.
    **Nunca escreva um julgamento `"kind": "human"`.** Um arquivo assim, sem assinatura, vira `human_review_claimed` e não aprova nada. Para resolver uma revisão, peça ao usuário que rode no terminal dele `$VN review texto.txt candidata.txt --reviewer <nome> --out revisao.json` e depois use `--judgment revisao.json`. Uma revisão assinada com a chave local prova integridade, não identidade nem independência: não a apresente como avaliação independente.
 7. **Entrega.** O texto primeiro. Depois, uma linha com o status final e, se houver, os itens pendentes. Relatório completo só quando pedido.

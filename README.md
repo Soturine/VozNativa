@@ -2,7 +2,7 @@
 
 **Reescrita de texto em português brasileiro que preserva o que o texto diz e verifica isso antes de entregar.**
 
-VozNativa ajusta um texto à voz do autor, ao canal e ao público, e prova com gates determinísticos que números, datas, negações, condições, compromissos e nomes continuam lá. Quando não consegue garantir, diz isso e devolve o original. Funciona como **Agent Skill** (Claude Code, Codex, Gemini CLI e outros hosts que leem `SKILL.md`) e como **pacote Python com CLI**.
+VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com gates determinísticos os invariantes que sabe verificar: números, datas, negações, condições, modalidade, nomes, e sinais de ação ou compromisso perdidos. Os gates não provam que o sentido foi mantido. Quando acham um problema, a candidata é reprovada ou vai para revisão; quando não acham nenhum, o resultado continua `unverified` até um juiz ou uma pessoa confirmar. Se nada passa, o engine devolve o original. Funciona como **Agent Skill** (Claude Code, Codex, Gemini CLI e outros hosts que leem `SKILL.md`) e como **pacote Python com CLI**.
 
 > Pergunta que guia o projeto: *como esta pessoa escreveria este conteúdo, neste canal, para este público, sem perder fatos, intenção ou registro?*
 
@@ -187,7 +187,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 ## Segurança e limites
 
-- **Preservação semântica é verificada, não garantida.** Os gates são determinísticos e conservadores; não detectam pronomes trocados nem todo antônimo. Sem juiz, o melhor estado é `unverified`.
+- **Preservação semântica é verificada, não garantida.** Os gates são determinísticos e conservadores. Não detectam pronomes trocados nem todo antônimo. Ação perdida só aparece quando o verbo some e sobra um verbo leve (`predicate_missing`). Troca por outro verbo pleno ("assinou" → "recebeu") é só informativa (`predicate_replaced`), porque regras não separam sinônimo de outro evento. Sem juiz, o melhor estado é `unverified`.
 - **Juiz LLM não é revisão humana.** Só uma revisão assinada (`voznativa review`, terminal interativo) resolve `review_required`; assinatura com a chave local prova integridade, não identidade nem independência.
 - **Providers externos recebem o texto.** O VozNativa não envia nada a terceiros sem `--cmd`/`--emulate`; os relatórios guardam hashes, não o texto.
 - **Detectores de IA.** O projeto não promete indetectabilidade nem atribui autoria humana; o benchmark de detectores mede, não otimiza.
@@ -203,6 +203,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/V07_OOD_BENCHMARK.md`](docs/V07_OOD_BENCHMARK.md) |
 | Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/V07_CORPUS_INTEGRATION.md`](docs/V07_CORPUS_INTEGRATION.md) |
+| Amostra de ações e compromissos perdidos (congelada antes da regra, mesmo autor) | 16/20 riscos sinalizados (eram 7), 1/18 falso alarme (eram 4); regressão, não holdout | [`evals/predicates/README.md`](evals/predicates/README.md) |
 | Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) |
 
 Casos, regras e runners foram escritos pelo mesmo agente de desenvolvimento: os números mostram conformidade com a especificação, não qualidade percebida por leitores.
