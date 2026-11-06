@@ -1,0 +1,98 @@
+{
+  "kind": "voznativa.diagnose_eval_run",
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "split": "evaluation",
+  "unit": "window of <= 150 words",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "units": 600,
+      "words": 45493,
+      "per_1000_words": {
+        "unresolved_ambiguity": 0.418,
+        "formal_error": 0.066
+      },
+      "by_type": {
+        "unresolved_ambiguity:tense_switch": 19,
+        "formal_error:repeated_word": 3
+      }
+    },
+    "b2w-reviews01": {
+      "units": 600,
+      "words": 14603,
+      "per_1000_words": {
+        "unresolved_ambiguity": 1.917,
+        "possible_contextual_error": 0.685,
+        "formal_error": 0.137
+      },
+      "by_type": {
+        "unresolved_ambiguity:tense_switch": 28,
+        "possible_contextual_error:repeated_sentence": 10,
+        "formal_error:repeated_word": 2
+      }
+    },
+    "machado-de-assis-corpus": {
+      "units": 119,
+      "words": 536720,
+      "per_1000_words": {
+        "legitimate_choice": 0.015,
+        "literary_license": 0.086
+      },
+      "by_type": {
+        "literary_license:repeated_sentence": 24,
+        "literary_license:repetition": 22,
+        "legitimate_choice:historical_spelling": 8
+      }
+    },
+    "ud-portuguese-gsd": {
+      "units": 600,
+      "words": 13009,
+      "per_1000_words": {
+        "formal_error": 0.231
+      },
+      "by_type": {
+        "formal_error:repeated_word": 3
+      }
+    },
+    "ud-portuguese-petrogold": {
+      "units": 600,
+      "words": 80591,
+      "per_1000_words": {
+        "unresolved_ambiguity": 0.36,
+        "internal_contradiction": 0.025,
+        "possible_contextual_error": 0.037,
+        "formal_error": 0.012
+      },
+      "by_type": {
+        "unresolved_ambiguity:tense_switch": 29,
+        "possible_contextual_error:repeated_sentence": 3,
+        "internal_contradiction:acronym_redefined": 2,
+        "formal_error:repeated_word": 1
+      }
+    },
+    "ud-portuguese-pud": {
+      "units": 202,
+      "words": 10457,
+      "per_1000_words": {
+        "formal_error": 0.096,
+        "unresolved_ambiguity": 0.287
+      },
+      "by_type": {
+        "unresolved_ambiguity:tense_switch": 3,
+        "formal_error:repeated_word": 1
+      }
+    },
+    "ud-portuguese-dantestocks": {
+      "units": 600,
+      "words": 9288,
+      "per_1000_words": {
+        "unresolved_ambiguity": 0.323,
+        "possible_contextual_error": 0.108
+      },
+      "by_type": {
+        "unresolved_ambiguity:tense_switch": 3,
+        "possible_contextual_error:repeated_word": 1
+      }
+    }
+  }
+}

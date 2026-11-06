@@ -3,6 +3,7 @@
   "schema_version": 1,
   "date": "2026-11-06",
   "analyzer": "voznativa.morph-rules@1",
+  "prefer_indicative": false,
   "split": "UD test files (rules are hand-written, not trained)",
   "sources": {
     "ud-portuguese-bosque": {

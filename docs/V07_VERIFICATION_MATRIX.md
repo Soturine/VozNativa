@@ -18,4 +18,5 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-12 detectores | | | | | live: LIVE_NOT_RUN | pendente |
 | RF-13 Unicode/proveniência | | | | | | pendente |
 | RF-18 linguística | `AddendumExamples`, `UDMapping`, `NotEverythingIsAVerb`, `NoInventedAgent` | `TenseAsASemanticSignal` (3 sinais + 4 controles) | suítes semânticas congeladas inalteradas | `morph-2026-11-06.json` (ouro UD, 4 treebanks) | pares humanos: NOT_RUN | PASS (regras); impacto E2E com modelo NOT_RUN |
+| RF-19 documento/erros | `ErrorClasses`, `Grounding`, `Modes` | CLI `diagnose` e `rewrite --mode` | — | `diagnose-2026-11-06.json` (FP em texto humano) | — | PASS (base); narrador/personagens NOT_IMPLEMENTED |
 | RF-14 humano | | | | | NOT_RUN | — |

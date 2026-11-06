@@ -231,7 +231,7 @@ class VerbToken:
                 "tenses": sorted(self.tenses), "analyses": self.analyses}
 
 
-def verbs(text: str) -> list[VerbToken]:
+def verbs(text: str, prefer_indicative: bool = False) -> list[VerbToken]:
     """Tokens that may be verbs, with every analysis kept. Weak endings
     ("-o", "-a", "-ado"...) count only in a verbal context (after a subject
     pronoun, "não", a clitic or an auxiliary) and never right after a determiner."""
@@ -260,14 +260,27 @@ def verbs(text: str) -> list[VerbToken]:
             if not (subject_before or object_after):
                 continue
             strong = analyses
+        tenses = {a["tense"] for a in strong}
+        if prefer_indicative and "pres_sub" in tenses and "pres_ind" in tenses:
+            # The present subjunctive needs a trigger ("que", "talvez", "embora"...) earlier in the
+            # clause; without one, the indicative reading stays. Off by default: measured on UD
+            # (morph-2026-11-06-trigger.json) it raises unique analyses by 5-11 points but lowers
+            # their accuracy by 0.5-3.4 and nearly doubles verb readings of non-verbs.
+            clause = text[max(0, start - 60):start]
+            clause = re.split(r"[.!?;:]", clause)[-1]
+            if not _SUBJUNCTIVE_TRIGGER.search(clause):
+                strong = [a for a in strong if a["tense"] != "pres_sub"]
         out.append(VerbToken(word, start, end, strong))
     return out
 
 
-def constructions(text: str) -> list[dict]:
+_SUBJUNCTIVE_TRIGGER = re.compile(r"\b(?:que|talvez|embora|caso|tomara|oxalá|quiçá|conquanto|contanto)\b", re.I)
+
+
+def constructions(text: str, prefer_indicative: bool = False) -> list[dict]:
     """Periphrases: auxiliary + non-finite form, with the aspect or time
     reference they encode. Only adjacent pairs (or with one clitic/"não" between)."""
-    vs = verbs(text)
+    vs = verbs(text, prefer_indicative)
     out = []
     for a, b in zip(vs, vs[1:]):
         gap = text[a.end:b.start]
@@ -294,12 +307,12 @@ def constructions(text: str) -> list[dict]:
     return out
 
 
-def tense_profile(text: str) -> dict[str, set]:
+def tense_profile(text: str, prefer_indicative: bool = False) -> dict[str, set]:
     """Main-verb lemma -> the set of unambiguous tense/construction labels in
     ``text``. Auxiliaries fold into their construction ("tinha terminado" ->
     terminar: compound_perfect@pret_imp)."""
     profile: dict[str, set] = {}
-    cons = constructions(text)
+    cons = constructions(text, prefer_indicative)
     covered = set()
     for c in cons:
         for lemma in c["main_lemmas"]:
@@ -308,7 +321,7 @@ def tense_profile(text: str) -> dict[str, set]:
                      else f"{c['construction']}@{'/'.join(c['auxiliary_tenses'])}")
             profile.setdefault(lemma, set()).add(label)
         covered |= {c["start"], c["end"]}
-    for v in verbs(text):
+    for v in verbs(text, prefer_indicative):
         if v.start in covered or v.end in covered or not v.unique:
             continue
         if any(a["source"] == "irregular" and a["lemma"] in AUX_PROGRESSIVE | AUX_FUTURE | AUX_COMPOUND

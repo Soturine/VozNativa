@@ -294,6 +294,12 @@ def cmd_rewrite(args):
     from .project import scan
     context = _route(args)
     profile, explicit = _voice_inputs(args)
+    if args.mode:
+        moded = _mode_result(_read(args.text), context, args.mode, [_read(f) for f in args.fact or []])
+        if moded is not None:
+            _emit(None, moded["text"]) if args.text_only else _emit(moded)
+            return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2,
+                    "returned_original": 1}[moded["outcome"]]
     provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
                          args.provider_env, args.provider_env_allow)
     judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env,
@@ -324,6 +330,37 @@ def cmd_rewrite(args):
             "provider_error": 1}[
         result["outcome"]]
 
+
+
+def cmd_diagnose(args):
+    from .diagnose import diagnose, mode_policy
+    text = _read(args.text)
+    report = diagnose(text, _route(args), [_read(f) for f in args.fact or []])
+    report["mode"] = mode_policy(args.mode)
+    _emit(report)
+
+
+def _mode_result(text: str, context: dict, mode: str, facts: list[str]) -> dict | None:
+    """PRESERVE/REVIEW never change the text; PROOFREAD applies only
+    authorised formal fixes, checked by compare. Other modes: None."""
+    from .compare import compare
+    from .diagnose import diagnose, mode_policy, proofread
+    if mode not in ("PRESERVE", "REVIEW", "PROOFREAD"):
+        return None
+    diagnosis = diagnose(text, context, facts)
+    base = {"kind": "voznativa.rewrite_result", "mode": mode_policy(mode), "diagnosis": diagnosis,
+            "provider": None, "attempts": []}
+    if mode != "PROOFREAD":
+        return dict(base, outcome="no_change", text=text, reason=f"mode {mode} never changes the text")
+    fixed = proofread(text, diagnosis, mode)
+    if not fixed["applied"]:
+        return dict(base, outcome="no_change", text=text, reason="no authorised formal fix")
+    report = compare(text, fixed["text"])
+    if report["status"] == "fail":
+        return dict(base, outcome="returned_original", text=text, report=report,
+                    reason="a formal fix failed the semantic gate; nothing applied")
+    return dict(base, outcome="needs_judgment" if report["status"] != "review_required" else "needs_review",
+                text=fixed["text"], applied=fixed["applied"], report=report)
 
 
 def cmd_plan(args):
@@ -445,6 +482,14 @@ def build_parser() -> argparse.ArgumentParser:
     _contract_args(p)
     _protect_args(p)
     p.set_defaults(func=cmd_plan)
+
+    p = sub.add_parser("diagnose", help="typed diagnostics of the source: errors, contradictions, legitimate "
+                                        "choices, ambiguities (no model call, nothing changed)")
+    p.add_argument("text")
+    p.add_argument("--mode", choices=["PRESERVE", "REVIEW", "PROOFREAD", "POLISH", "ADAPT", "CREATE"],
+                   help="report what this editorial mode would authorise")
+    _contract_args(p)
+    p.set_defaults(func=cmd_diagnose)
 
     p = sub.add_parser("patterns", help="editorial pattern findings (genre-aware; not an authorship score)")
     p.add_argument("text")
@@ -574,6 +619,9 @@ def build_parser() -> argparse.ArgumentParser:
                                 "--segment-words); protected blocks never reach the model")
             p.add_argument("--segment-words", type=int, default=600, help="target words per unit (long form)")
             p.add_argument("--max-calls", type=int, default=800, help="provider call budget for a long document")
+            p.add_argument("--mode", choices=["PRESERVE", "REVIEW", "PROOFREAD", "POLISH", "ADAPT"],
+                           help="editorial mode: PRESERVE/REVIEW never change the text and call no model; "
+                                "PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite")
             p.add_argument("--rewrite-verse", action="store_true",
                            help="allow verse blocks to be rewritten (otherwise they are protected)")
             p.set_defaults(func=cmd_rewrite)

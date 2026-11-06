@@ -31,7 +31,7 @@ Responde aos adendos "Linguistic Intelligence & Morphosyntactic Assurance" (CP9L
 | Validação contra fontes autorizadas | IMPLEMENTED (create) | `project.ground`, juiz de fundamentação |
 | Contradição interna do documento | PARTIAL | `planner` (dia da semana × data); CP9D |
 | Narrador, ponto de vista, personagens | NOT_IMPLEMENTED | backlog B-D2 |
-| Erros do original classificados por tipo | PARTIAL (CP9D) | ver `docs/V07_DISCOVERY_REGISTER.md` / CP9D |
+| Erros do original classificados por tipo | IMPLEMENTED (base) | `diagnose.py`, `voznativa diagnose`, `rewrite --mode` |
 
 ## Backlog com critério de aceite
 
@@ -43,3 +43,13 @@ Responde aos adendos "Linguistic Intelligence & Morphosyntactic Assurance" (CP9L
 | B-L4 | correferência pronominal limitada | só quando há um único antecedente compatível; senão revisão | B-L1 |
 | B-L5 | pares de reescrita humanos para medir o sinal `tense_changed` | ≥ 100 pares rotulados por pessoa independente | pessoas |
 | B-D2 | modelo de narrativa (narrador, pessoa narrativa, personagens) | personagens consistentes entre segmentos do long-form | B-L4 |
+
+## CP9D — consciência de erro e modos editoriais
+
+`voznativa/diagnose.py` (`voznativa diagnose`, `voznativa rewrite --mode`): 8 classes tipadas (as 7 do adendo + `no_evidence`), cada diagnóstico com tipo, severidade, confiança, impacto, offsets e ação (`auto_fix` só para erro formal de alta confiança; `suggest`; `preserve`). Modos: PRESERVE/REVIEW nunca alteram e não chamam modelo; PROOFREAD aplica só correções formais e passa pelo `compare`; POLISH/ADAPT seguem o Rewrite Engine; CREATE = tarefa `create`. Fatos, enredo, causalidade, intenção e compromissos nunca são automáticos.
+
+Detectores implementados: palavra repetida (com reduplicações legítimas, nomes, símbolos, ênfase informal e licença literária separados), dia da semana × data, sigla redefinida, frase repetida, grafia pré-reforma (escolha legítima), troca pretérito → presente na narração (ambiguidade, nunca erro), valores contra fontes autorizadas (divergência × ausência de evidência; ficção não é checada).
+
+Falsos positivos em texto humano publicado (`scripts/diagnose_eval.py`, `evals/linguistics/runs/diagnose-2026-11-06.json`, split de avaliação, até 600 janelas por fonte): `formal_error` 0,01–0,23 por mil palavras depois de corrigir três classes de falso positivo vistas nos próprios dados (nomes reduplicados, "se se"/"-nos nos", título seguido de parágrafo com a mesma palavra) e mais duas (interjeições, símbolos de fórmulas). Os erros restantes lidos são erros reais ("para para", "entre entre", "com com"). Os números finais não são independentes: as regras foram ajustadas lendo essas unidades. `tense_switch` (ambiguidade, informação) aparece 0,3–1,9 por mil; é deliberadamente baixa confiança.
+
+Não implementado (backlog): narrador e personagens (B-D2), contradição numérica entre seções, citações e referências inexistentes, políticas por gênero além da literária/verso.

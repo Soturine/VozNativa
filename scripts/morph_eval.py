@@ -66,11 +66,11 @@ def agrees(label: str, gold: dict) -> bool:
     return not ("Tense" in mine and gold.get("Tense") and mine["Tense"] != gold["Tense"])
 
 
-def evaluate(path: Path) -> dict:
+def evaluate(path: Path, prefer_indicative: bool = False) -> dict:
     c = Counter()
     confusion = Counter()
     for text, words in sentences(path):
-        analysed = {(v.start, v.end): v for v in verbs(text)}
+        analysed = {(v.start, v.end): v for v in verbs(text, prefer_indicative)}
         position = 0
         for form, upos, feats in words:
             at = text.find(form, position)
@@ -108,15 +108,16 @@ def evaluate(path: Path) -> dict:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", default=date.today().isoformat())
+    parser.add_argument("--prefer-indicative", action="store_true", help="measure the subjunctive-trigger rule")
     args = parser.parse_args(argv)
     report = {"kind": "voznativa.morph_eval_run", "schema_version": 1, "date": args.date,
-              "analyzer": "voznativa.morph-rules@1", "split": "UD test files (rules are hand-written, not trained)",
+              "analyzer": "voznativa.morph-rules@1", "prefer_indicative": args.prefer_indicative, "split": "UD test files (rules are hand-written, not trained)",
               "sources": {}}
     for sid, name in SOURCES.items():
         entry = get_source(sid)
         require(entry, "PROCESS_LOCAL")
         require(entry, "EXPORT_STATISTICS")
-        report["sources"][sid] = evaluate(cache_dir(sid) / name)
+        report["sources"][sid] = evaluate(cache_dir(sid) / name, args.prefer_indicative)
         r = report["sources"][sid]
         print(f"{sid:28s} verbs {r['gold_verbs_with_features']:5d} coverage {r['coverage']['rate']} unique "
               f"{r['unique_among_covered']['rate']} acc {r['accuracy_of_unique']['rate']} "

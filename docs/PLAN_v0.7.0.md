@@ -37,6 +37,8 @@ Branch: `dev/v0.7.0` (a partir de `bf8e1a4`). Estado vivo em `docs/V07_EXECUTION
 
 | RF-20 | Adendo "Versioned Standards, Document Intelligence & Evaluation Framework" (recebido 2026-11-06, durante o CP4): **linha de evolução futura**. Na v0.7 só descoberta e documentos (visão, auditoria de reuso, arquitetura, inventário inicial de fontes normativas, ADR, matriz, plano de testes, backlog, integração com o Rewrite Engine, riscos de licença e integridade acadêmica, validação independente); adaptações de contrato só se caírem naturalmente no CP5 (Context Contract v3) ou no CP9D | CP14S (docs) |
 
+| RF-21 | Adendo "README, Developer Experience & Documentation UX" (recebido 2026-11-06, durante o CP9D): auditoria do README; README de produto e engenharia (hero, demonstração real, funcionalidades com estado, Mermaid do fluxo real, quickstart verificado Windows/Linux sem credenciais, CLI, skill, limitações, benchmarks, índice de docs); comandos e links do README testados automaticamente | CP15 |
+
 ### Integração do adendo 3 (Standards)
 
 Regra: nada deste adendo é marcado `[x]` na v0.7 a menos que exista código e teste. Os pontos de contato com o trabalho já planejado: o Context Contract v3 (CP5) deve aceitar um bloco opcional de **perfil de documento** sem semântica no núcleo; o diagnóstico tipado do CP9D é o embrião de "critério com evidência e localização"; o Corpus Registry (fonte, versão, hash, verificação datada, direitos) é o padrão a reutilizar para um futuro Standards Registry, em vez de criar outro mecanismo.
