@@ -229,3 +229,25 @@ Comportamento determinístico do pack piloto testado (`evals/test_regional.py`, 
 ### Desempenho (mesma máquina, `evals/perf/v0.4.0-dev-h5-*.json`)
 
 `compare` em 8.018 palavras 10,4 s → 0,96 s; entrada de vírgulas 9,7 s → 0,10 s; loop de reescrita sem modelo em 2.020 palavras 48,6 s → 1,1 s. Saída idêntica comprovada por testes diferenciais.
+
+## v0.6.0.dev0 (2026-11-05)
+
+Tudo abaixo é E2: medição automática sobre corpora com proveniência. Nada foi validado por humanos, e nenhum modelo foi chamado nesta versão.
+
+| Medição | Resultado | Fonte |
+|---|---|---|
+| Marcadores PT-PT em Bosque CF × CP | precisão 1,0; 0 falsos positivos em 4.207 frases PT-BR; recall de 12% por frase e 41–44% por documento | `evals/corpus/CALIBRATION_v0.6.md` |
+| Mudança desnecessária em texto humano publicado | `edit` em 0,2% (Bosque) e 0,18–0,31% (B2W) | idem |
+| `dc-029` | continua INCONCLUSIVE: o divisor muda no máximo 1 documento em ~21 mil | idem |
+| Atestação de gírias | 4/30 em E2 (avaliações de 2018); 0 no jornalismo de 1994–95; nenhuma depois de 2018 | `evals/corpus/SLANG_SENSE_CHECK.md` |
+| Conferência de sentido (agente) | separadas: show de bola 5/5, kkk 26/26, top 17/18; "de boa" sem medida separada | idem |
+| Segmentação de textos longos (Machado de Assis) | 0 cortes não relatados sobre dependência visível em todos os subconjuntos, a 900 e a 400 palavras | `evals/corpus/LONGFORM_v0.6.md` |
+| Controle literário | `edit` em 0,25% (Gutenberg) e 0% (Wikisource) com gênero `literary`; com `unknown`, 12–55% | idem |
+| `ptbr-bench-v4` (determinístico) | 21/22; falha conhecida `bv4-sl-03` | `benchmarks/runs/ptbr-bench-v4-20261105T185925Z.json` |
+
+**Não medido nesta versão:**
+- reescrita com modelo;
+- preferência humana;
+- reescrita ponta a ponta por segmentos;
+- adequação das gírias para leitores;
+- interação entre comunidade, região e canal.

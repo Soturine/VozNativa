@@ -45,6 +45,11 @@ class SkillMatchesCli(unittest.TestCase):
             name = line.split()[0]
             self.assertIn(name, commands, f"README documents unknown command: {name}")
             known = {opt for a in commands[name]._actions for opt in a.option_strings}
+            # Nested commands (`corpus evaluate ...`): the flags of the named subcommand count too.
+            for action in commands[name]._actions:
+                choices = getattr(action, "choices", None)
+                if isinstance(choices, dict) and len(line.split()) > 1 and line.split()[1] in choices:
+                    known |= {opt for a in choices[line.split()[1]]._actions for opt in a.option_strings}
             # Flags inside a quoted value ('["claude", "-p", "--tools", ""]') belong to the model CLI.
             for flag in re.findall(r"(?<![\w-])(--[a-z][\w-]*)", re.sub(r"'[^']*'", "", line)):
                 self.assertIn(flag, known, f"README documents unknown flag {flag} for {name}")

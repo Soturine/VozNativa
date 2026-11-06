@@ -41,9 +41,13 @@ patterns + ptbr + ledger ─▶ plan (o que mudar, por quê, quanto) ──┴�
 
 **Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento vinculado ao sha256 dos dois textos, e um juiz LLM não resolve um `review_required`. Só uma revisão humana **assinada** (`voznativa review`, que exige terminal interativo) resolve; um JSON com `"kind": "human"` sem assinatura válida fica como `human_review_claimed`. O relatório separa o que a assinatura mostra: **integridade** (aqueles bytes foram assinados), **posse da chave** (a chave HMAC padrão em `~/.voznativa/` é um segredo da máquina: o desenvolvedor ou um agente rodando como o mesmo usuário também assina; com `--ssh-key` a chave privada é do revisor), **identidade declarada** (nome digitado, nunca comprovado) e **independência** (no máximo declarada no registro `evals/reviewers/`; revisão HMAC nunca conta como independente). Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
 
-## Estado (0.5.0.dev0, em desenvolvimento)
+## Estado (0.6.0.dev0, em desenvolvimento)
 
-Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa e rodada de revisão humana cega. O CI (GitHub Actions) voltou a rodar em 2026-11-05: run #123 verde em `40e19e4` (8/8 jobs); desde a v0.6.0 ele só roda por disparo manual no fechamento de cada rodada, e a evidência vale só para a revisão testada (`evals/qualification/external.json`). Plano e situação da v0.5.0 (inclui o hardening da v0.4.0): `docs/PLAN_v0.5.0.md`; anteriores: `docs/PLAN_v0.4.0.md`, `docs/PLAN_v0.3.0.md`. Qualificação local: `python scripts/qualify.py`.
+Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa e rodada de revisão humana cega.
+
+O CI (GitHub Actions) roda só por disparo manual (`workflow_dispatch`) no fechamento de cada rodada, e a evidência vale só para a revisão testada (`evals/qualification/external.json`). O último verde é o run #123, em `40e19e4`.
+
+O que a v0.6 trouxe e o que ficou aberto: `docs/AS_IS_v0.6.0.md` e `CHANGELOG.md`. Plano da v0.5.0: `docs/PLAN_v0.5.0.md`. Qualificação local: `python scripts/qualify.py`.
 
 | Componente | Estado |
 |---|---|
@@ -56,11 +60,13 @@ Versão de desenvolvimento, **não qualificada**. Os critérios externos herdado
 | Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
 | Voice Profile v2 + Voice Contract | implementado; distância ao perfil medida no engine; limiares sem calibração com amostras reais |
 | Rewrite Engine + providers | implementado: NO_CHANGE sem chamar o modelo quando não há achado, reescrita dirigida aos achados, nova tentativa após recusa do juiz, retries de provider; executado com claude-sonnet-5-5 (`docs/EVALUATION.md`, `examples/`) |
-| Benchmark | `ptbr-bench-v1` e `-v2` executados (v2 reanalisado em eixos: tarefa, segurança, falha de sistema); `ptbr-bench-v3` congelado, **NOT_RUN**; Emulate não executado (falta chave) |
+| Benchmark | `ptbr-bench-v1` e `-v2` executados (v2 reanalisado em eixos: tarefa, segurança, falha de sistema); `ptbr-bench-v3` congelado, **NOT_RUN**; `ptbr-bench-v4` (v0.6, conformidade determinística) congelado antes de rodar: **21/22** (falha conhecida `bv4-sl-03`), braços com modelo **NOT_RUN**; Emulate não executado (falta chave) |
 | Revisão humana cega | instrumento pronto (`blind-*`); **nenhum resultado humano** |
 | Regional Evidence Packs | implementado (v0.5.0): contrato versionado, abstenção por padrão, voz do autor vence; **um** pack piloto (`br-norte-lex-mandioca`, ALiB, confiança baixa, sem revisão humana). Fora dele, força efetiva 0 |
-| Gíria temporal, community packs | **não calibrados**: força efetiva 0 |
-| Corpus | piloto só de metadados do Corpus Carolina; nenhum texto ingerido |
+| Gíria temporal (v0.6) | léxico v2 com 30 entradas; 4 atestadas em E2 (avaliações de produto de 2018), nenhuma depois de 2018. As gírias do autor são mantidas; gíria nova **nunca** é acrescentada (força efetiva 0, com razão por entrada); a gíria introduzida e o stuffing são acusados na revisão |
+| Community packs (v0.6) | taxonomia v2 (terminologia, jargão, empréstimo, gíria, meme, hábito); 4 packs `draft` E0: preservam termos e retiram achados de anglicismo só quando a comunidade é pedida; **nunca** acrescentam termos |
+| Corpus Registry (v0.6) | 33 fontes com status provado por verificação registrada; 3 integradas à avaliação (UD Bosque, prefixo da B2W, prefixo do corpus Machado de Assis); política de dados por operação; CLI `voznativa corpus` |
+| Textos longos e literatura (v0.6) | mapa de dependências e segmentação sem perda, que relata todo corte forçado; verso não é reescrito sem pedido explícito; prosa literária só recebe edição local. **A reescrita ponta a ponta por segmentos ainda não existe** (PARTIAL; o engine não usa a segmentação) |
 | Adapters/LoRA | não implementados |
 
 Números e limitações: `docs/EVALUATION.md`. Rastreabilidade: `docs/TRACEABILITY.md`.
@@ -114,6 +120,12 @@ voznativa blind-summary tarefas.json respostas.json   # uma resposta válida por
 voznativa ground doc.md --repo .                   # todo valor/caminho/comando tem fonte?
 voznativa judge-prompt pedido.txt doc.md --fact notas.md        # juiz de fundamentação (modo create)
 voznativa ground doc.md --request pedido.txt --fact notas.md --judgment juizo.json
+voznativa contract texto.txt --epoch current --community tech --slang-strength 0.5   # época, comunidade, gíria (com razões)
+voznativa corpus list                              # fontes registradas, status e licença
+voznativa corpus permissions b2w-reviews01         # decisão da política de dados por operação
+voznativa corpus prepare ud-portuguese-bosque      # download limitado para o cache local (fora do repositório)
+voznativa corpus evaluate ud-portuguese-bosque --genre journalistic   # medições agregadas
+voznativa corpus validate | report | info <id> | sample <id>          # exit 77 quando a política recusa
 voznativa eval evals/semantic/cases.jsonl
 voznativa benchmark benchmarks/cases/ptbr-v1.jsonl benchmarks/outputs --manifest m.json
 ```
@@ -127,6 +139,8 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1: ele troca acen
 ## Regionalidade e voz
 
 "Sotaque escrito" é um atalho coloquial: sotaque é fonético. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso e formas de tratamento. Regionalidade é **distribuição, não decoração**: um pedido "mineiro informal" não autoriza inserir `uai` em toda frase. Regionalidade só entra por um Regional Evidence Pack (`docs/REGIONAL_EVIDENCE.md`) e por uma região que a pessoa pede (`--region`); o sistema nunca deduz a região do texto ou do autor. Sem pack que cubra a região, o gênero e o referente, a força é 0 e o relatório diz por quê. A forma que o autor usa vence a do pack; uma troca que pode mudar o referente (macaxeira → mandioca no Norte) pede revisão; uma forma regional que ninguém pediu é sinalizada.
+
+Gíria e comunidade seguem a mesma regra. Gíria tem época: uma forma só pode ser oferecida com atestação datada num corpus registrado que cubra a época pedida (`--epoch`), e nenhuma entrada cumpre isso hoje. Comunidade é contexto de prática, nunca identidade: `--community tech` preserva "deploy" onde o autor escreveu, mas não o põe onde ele não escreveu. Precedência: invariantes > instrução explícita > voz do autor > gênero, canal e público > evidência regional, temporal e de comunidade > regras editoriais genéricas.
 
 O Voice Profile observa ritmo, pontuação, abreviações, contrações, termos de comunidade e aberturas, com confiança limitada pelo número de amostras. Ele não guarda o texto nem palavras de tópico e não infere identidade.
 

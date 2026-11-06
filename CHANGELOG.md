@@ -1,6 +1,77 @@
 # Changelog
 
-## Unreleased (0.5.0.dev0)
+## Unreleased (0.6.0.dev0)
+
+Development version, **not a release and not qualified**. Inventory and gaps: `docs/AS_IS_v0.6.0.md`. Original VozNativa material is now MIT (`LICENSE`, `docs/LICENSING.md`). CI runs only by manual dispatch.
+
+### Added
+- **Corpus platform** (`voznativa/corpus/`):
+  - **Registry** of 33 sources. Each status is a claim backed by a recorded verification: CATALOGUED, SOURCE_VERIFIED, ACCESS_VERIFIED, CONNECTOR_READY, LOCALLY_VALIDATED, EVALUATION_INTEGRATED.
+  - **Data policy** that decides each of 12 operations from the identified licence, personal data and documented permissions, and fails closed.
+  - **Bounded connectors:** host allowlist, Range prefixes, sha256, a cache outside the repo, and a decompression-bomb and path guard.
+  - **Provenance:** a hash of the original and of the normalized text, MinHash near-duplicates and splits that never cut a group or a duplicate cluster, plus a leakage check.
+  - **CLI:** `voznativa corpus list|info|permissions|validate|sample|prepare|evaluate|report`. Exit 77 when the policy refuses.
+- **Sources read end to end:**
+  - UD Portuguese-Bosque;
+  - an 8 MB prefix of B2W-Reviews01;
+  - a 6 MB prefix of a CC0 Machado de Assis corpus.
+
+  All three are EVALUATION_INTEGRATED. Only aggregate counts are committed.
+- **Calibration against human text** (`evals/corpus/CALIBRATION_v0.6.md`):
+  - PT-PT markers: 0 false positives in 4,207 Brazilian sentences; recall 12% per sentence and 41–44% per document;
+  - edit rate on published human text: 0.2–0.3%;
+  - `dc-029` stays INCONCLUSIVE, and no threshold was changed.
+- **Temporal slang** (`voznativa/temporal.py`, lexicon v2, `scripts/slang_attest.py`):
+  - 30 entries, attested in dated corpora;
+  - 4 reach E2 (2018 reviews), and none is attested after 2018;
+  - epoch parsing and epoch notes;
+  - generation is off;
+  - an agent sense check, not a human one, is in `evals/corpus/SLANG_SENSE_CHECK.md`.
+- **Community packs v2** (`voznativa/community.py`): a taxonomy and behaviours; 4 draft packs that preserve terms and never add them.
+- **Shared stuffing guard** (`voznativa/stuffing.py`), reused by the regional guard.
+- **Integration with explicit precedence:**
+  - router `--epoch`;
+  - Voice Contract temporal and community decisions;
+  - planner sections and prompt lines;
+  - engine review codes `slang_introduced`, `slang_stuffing`, `author_slang_removed` and `community_term_introduced`;
+  - profile habits `slang.*`;
+  - community context withdraws anglicism findings on preserved terms.
+- **Long texts** (`voznativa/longform.py`):
+  - a dependency map and lossless segmentation that reports every forced cut;
+  - a literary policy: no rewrite of verse without an explicit request, and local edits only for literary prose.
+
+  Evaluation on Machado de Assis is in `evals/corpus/LONGFORM_v0.6.md`. The engine does not yet rewrite by segments.
+- **`ptbr-bench-v4`:** 22 cases frozen before any run. The deterministic arm scores 21/22. The model arms are NOT_RUN, and `ptbr-bench-v3` is unchanged and NOT_RUN.
+- **Known gaps as expected-failure tests** (`evals/test_known_gaps_v06.py`):
+  - router misreads wrapped literary dialogue;
+  - chapter-in-novel containment is not detected;
+  - the "de boa" recall limit.
+
+### Fixed (each with a test)
+- **Windows provider timeout:** orphaned grandchildren survived. A Job Object is now created before the process starts, which fixes the flaky CI #122.
+- **CI evidence** is bound to the exact SHA, and is NOT_RUN on a dirty tree or without a green run of HEAD.
+- **Literary text:**
+  - Pre-1943 Brazilian spelling and characters' forms of address made 55% (Gutenberg) and 16% (Wikisource) of Machado's literary segments plan an edit.
+  - In the literary genre, the PT-PT variant is now a note that never decides or gets acted on, and mixed forms of address are not a finding.
+  - The note-only part was found by `ptbr-bench-v4`, in case `bv4-lt-03`.
+- **Installed packages refused the corpus registry,** because evidence files exist only in the repository. This broke the installed smoke from `9f65145` to `43c2df8`, and the package gate was not run at those checkpoints.
+- **`corpus_verify --only` overwrote the full verification record** of the same day. It was restored from git. No corpus run can replace another run's file now.
+- **Long-text classifier:**
+  - the case-insensitive heading regex;
+  - paragraph openings that were always empty;
+  - hard-wrapped prose read as verse;
+  - "--" dialogue that was missed.
+- `corpus info <unknown>` raised KeyError; it is now exit 64.
+
+### Assurance (CP12)
+- **Derivanta Engine** 0.1.0@17fa564: 98 INFO findings, all complexity or duplication candidates. One was acted on: the evidence ladder now has one owner.
+- **Cosmic Ray** at `f5f2d30`, before the CP12 tests:
+  - `stuffing.py`: 32 of 72 mutants survived;
+  - `temporal.py`: 264 of 701 survived, most of them equivalent annotation mutants.
+
+  Targeted tests were added; before/after numbers are in `evals/assurance/runs/2026-11-05-v06-cp12/`.
+
+## 0.5.0.dev0 (development; continued as 0.6.0.dev0, never released)
 
 Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.5.0.md`. Builds on the hardened v0.4.0 (`v0.4.0-dev` at `8a530f8`). The external criteria inherited from v0.3.0 (independent holdout, blind human review, CI) are still open.
 

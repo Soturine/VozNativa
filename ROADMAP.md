@@ -175,12 +175,22 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [ ] `ptbr-bench-v3` executado (congelado; NOT_RUN)
 - [ ] triagem de escopo para textos normativos ou de segurança crítica (ADAPT do `humanizar`)
 
-## v0.6 — Temporal Slang & Communities
-- [ ] léxico temporal real
-- [ ] aging/deprecation
-- [ ] community packs validados: tech, gaming, academia, engenharia, jurídico, corporativo etc.
-- [ ] slang stuffing guard
-- [ ] interação comunidade x região x canal
+## v0.6 — Universal Corpus, Temporal Language & Community Intelligence (em desenvolvimento, `0.6.0.dev0`)
+- [x] Corpus Registry, política de dados, conectores limitados, proveniência e divisões sem vazamento; CLI `voznativa corpus`
+- [x] calibração em texto humano (Bosque, B2W); `dc-029` continua INCONCLUSIVE
+- [x] léxico temporal v2 com atestação datada (E2 só para 4 formas, até 2018); aging/deprecation no contrato
+- [ ] atestação posterior a 2018 (Carolina com licença por documento) — sem ela, nenhuma gíria pode ser gerada
+- [x] community packs v2 com taxonomia (4 `draft`, E0); [ ] packs validados com fonte (E2+)
+- [x] slang stuffing guard (compartilhado com o regional)
+- [x] integração no Router, Contract, Planner, Engine (revisão), Profile e CLI, com precedência explícita
+- [x] textos longos: mapa de dependências, segmentação, política literária e de verso; [ ] reescrita ponta a ponta por segmentos (PARTIAL)
+- [x] `ptbr-bench-v4` congelado e com braço determinístico; [ ] braços com modelo e revisão humana (NOT_RUN)
+- Backlog com teste reproduzível (`evals/test_known_gaps_v06.py`):
+  - **P1 G1:** o roteador lê como `whatsapp` a literatura com quebra de linha fixa e diálogo com "--" (259 de 804 segmentos). Corrigir pede desfazer as quebras antes da inferência e reavaliar a suíte congelada do roteador.
+  - **P2 G2:** um capítulo contido no romance inteiro não forma cluster com ele. É preciso uma medida de contenção antes de chamar de independentes as divisões que misturam edições.
+  - **P3 G3:** a forma "de boa" seguida de palavra não é detectada. Uma correção pede amostra separada nova.
+  - **P2 G4:** o engine não reescreve documento longo por segmentos.
+- [ ] interação comunidade x região x canal medida com dados
 
 ## Pesquisa/decisões pendentes
 - [x] licença do repositório: MIT para o material original (v0.6.0; `LICENSE`, `docs/LICENSING.md`)

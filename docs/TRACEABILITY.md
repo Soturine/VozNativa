@@ -55,6 +55,14 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Package/CLI | `pyproject.toml`, `setup.py`, `MANIFEST.in`, `voznativa/cli.py`, `scripts/voznativa_cli.py` | implemented: the wheel bundles references/ and assets/; verified sdist -> wheel -> clean venv outside the checkout locally (Linux containers, Windows); the CI packaging job ran green on `40e19e4` (run #123) |
 | Agent packaging | `.claude-plugin/`, `agents/openai.yaml`, README install table | implemented; validated by `scripts/validate_package.py` |
 | Licensing | `LICENSE`, `docs/LICENSING.md`, wheel metadata (`License-Expression: MIT`) | implemented (v0.6.0): MIT for original material; third-party corpora, models and skills keep their own terms; checked by the installed-wheel smoke |
+| Corpus Registry, data policy, connectors, provenance (v0.6) | `voznativa/corpus/` (`registry`, `policy`, `connectors`, `prepare`, `processing`, `runs`, `evaluate`, `cli`), `voznativa/data/corpora/*.yml`, `evals/test_corpus_*.py`, `evals/corpus/runs/` | implemented: 33 sources, statuses backed by recorded verification; 3 EVALUATION_INTEGRATED; policy fails closed; CLI exit 77 on refusal |
+| Calibration against human text (v0.6) | `scripts/corpus_calibrate.py`, `evals/corpus/CALIBRATION_v0.6.md` | measured (E2, tool): PT-PT precision 1.0 (0/4,207 FP), unnecessary-edit rate 0.2–0.3%; `dc-029` INCONCLUSIVE |
+| Temporal slang (v0.6) | `voznativa/temporal.py`, `voznativa/data/slang/`, `references/slang/schema.yml`, `scripts/slang_attest.py`, `evals/test_temporal.py` | partial: 30 entries, 4 at E2 (2018), none after 2018; keep/notes/guard implemented; generation off by evidence |
+| Community packs (v0.6) | `voznativa/community.py`, `voznativa/data/community_packs/`, `references/communities/README.md`, `evals/test_community_and_stuffing.py` | partial: taxonomy and behaviours implemented; 4 draft E0 packs; never add terms |
+| Stuffing guard (v0.6) | `voznativa/stuffing.py` (used by `region.py`, engine review) | implemented; thresholds E0 (unchanged since v0.4) |
+| Long texts and literary policy (v0.6) | `voznativa/longform.py`, `scripts/corpus_longform.py`, `evals/corpus/LONGFORM_v0.6.md`, `evals/test_longform.py` | partial: dependency map, lossless segmentation, verse/literary policy in the planner; segmented end-to-end rewrite NOT implemented |
+| v0.6 conformance suite | `benchmarks/cases/ptbr-bench-v4.jsonl`, `benchmarks/manifests/ptbr-bench-v4.json`, `scripts/bench_v4.py`, `benchmarks/runs/ptbr-bench-v4-*.json` | frozen before running; deterministic 21/22; model and human arms NOT_RUN |
+| Known gaps (v0.6) | `evals/test_known_gaps_v06.py`, `ROADMAP.md` | recorded as expected-failure tests (G1–G3); G4 in ROADMAP |
 | Detector-evasion promise | prohibited | enforced by design (no detector in any gate) |
 | Identity inference | prohibited | enforced by `profile.validate` and the Voice Contract `do_not` list |
 
