@@ -19,7 +19,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP6 | Gíria/contexto (G3) | concluído | `2e88a46` | G3 fechado; amostras congeladas `cases-v07` 18/18 (1ª: 17/18 por contagem de ids) e `cases-v07b` 6/12 → 12/12; `evals/test_slang_v07.py`; gíria em fontes formais → 0; mutantes de `temporal.py`: reexecução no CP14 (módulo mudou) |
 | CP7 | Contrato long-form | concluído | `60f14b4` (com CP8) | `voznativa/document.py` (plano v1: unidades sem perda, núcleo/bordas, protegidos, inventário, carry, dependências, limites, validação fail-closed); testes `Contract` (7) |
 | CP8 | Rewrite por segmentos (G4) | concluído | `60f14b4` (com CP7) | `engine.rewrite_document` + CLI `rewrite --long-form`; E2E com stub determinístico, NO_CHANGE, falha, malicioso/injeção, timeout, limites, orçamento + retomada, estrutura, falha global com reversão, documento grande, CLI com provedor de comando real; G4 fechado; chamadas com modelo externo: NOT_RUN (sem autorização de custo) |
-| CP9 | Guards globais | concluído | (este commit) | 3 falsos verdes do `compare` corrigidos (negação deslocada, parágrafo dependente movido, frase curta nova); 6 variações metamórficas estáveis; guards do documento; `evals/test_global_guards.py`; suítes congeladas inalteradas; `ptbr-bench-v4` 22/22 (rodada limpa após o commit) |
+| CP9 | Guards globais | concluído | `2a21c7e` | 3 falsos verdes do `compare` corrigidos (negação deslocada, parágrafo dependente movido, frase curta nova); 6 variações metamórficas estáveis; guards do documento; `evals/test_global_guards.py`; suítes congeladas inalteradas; `ptbr-bench-v4` 22/22 (rodada limpa após o commit) |
+| CP9L | Camada linguística (adendo 1) | concluído | (este commit) | `voznativa/morph.py` + sinal `tense_changed`; ADR-0002; medição contra ouro UD em 4 treebanks; `evals/test_morph.py`; inventário e backlog em `docs/V07_LINGUISTICS.md`; `ptbr-bench-v4` 22/22 em `2a21c7e` (evidência deste commit) |
 | CP10 | ptbr-bench-v5 OOD | pendente | | |
 | CP11 | Detectores externos | pendente | | |
 | CP12 | Unicode/proveniência/browser | pendente | | |
@@ -43,4 +44,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP9L.
+CP9D.

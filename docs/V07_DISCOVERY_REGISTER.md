@@ -29,4 +29,6 @@ Cada item: origem, evidência reproduzível, severidade, decisão (correção ob
 | VN07-DISC-022 | sondagem CP9 | `compare`: negação removida de uma frase e adicionada a outra (total igual) dava `no_deterministic_issues` | P0 | correção obrigatória | **corrigido**: `*_moved` (crítico para categorias críticas quando localizadas) |
 | VN07-DISC-023 | sondagem CP9 | parágrafo que retoma o anterior ("Por isso") movido para outro antecedente passava sem aviso | P1 | correção obrigatória | **corrigido**: `dependent_sentence_moved` (major) |
 | VN07-DISC-024 | sondagem CP9 | frase nova curta (2 radicais, ex. "Ele assinou o termo.") ficava abaixo dos dois limiares de adição | P1 | correção obrigatória | **corrigido**: frase sem nenhum radical da fonte → `possible_addition` |
-| VN07-DISC-025 | sondagem CP9 | mudança de tempo verbal (contratou → contratará) não é detectada | P1 | correção | CP9L (adendo linguístico) |
+| VN07-DISC-025 | sondagem CP9 | mudança de tempo verbal (contratou → contratará) não é detectada | P1 | correção | **corrigido no CP9L** como sinal `tense_changed` (major) |
+| VN07-DISC-026 | medição CP9L | 34% dos tokens VERB/AUX dos treebanks UD-PT (sobretudo GSD) não têm traços morfológicos: qualquer avaliação de morfologia contra UD precisa filtrar e reportar por treebank | — | registro | `scripts/morph_eval.py` filtra |
+| VN07-DISC-027 | teste CP9L | primeira versão do sinal tratava passiva → ativa como mudança de tempo | P2 | correção | **corrigido**: passiva comparada pelo tempo do auxiliar |

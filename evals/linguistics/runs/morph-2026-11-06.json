@@ -1,0 +1,289 @@
+{
+  "kind": "voznativa.morph_eval_run",
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "analyzer": "voznativa.morph-rules@1",
+  "split": "UD test files (rules are hand-written, not trained)",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "gold_verbs_with_features": 2346,
+      "coverage": {
+        "k": 1650,
+        "n": 2346,
+        "rate": 0.7033,
+        "wilson95": [
+          0.685,
+          0.721
+        ]
+      },
+      "unique_among_covered": {
+        "k": 1132,
+        "n": 1650,
+        "rate": 0.6861,
+        "wilson95": [
+          0.663,
+          0.708
+        ]
+      },
+      "accuracy_of_unique": {
+        "k": 1082,
+        "n": 1132,
+        "rate": 0.9558,
+        "wilson95": [
+          0.942,
+          0.966
+        ]
+      },
+      "false_verbs_per_1000_non_verbs": 64.86,
+      "false_unique_verbs_per_1000_non_verbs": 31.42,
+      "unaligned_words": 8371,
+      "top_errors": [
+        {
+          "label": "pret_perf",
+          "gold": "Fin|Ind|Pres",
+          "n": 18
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Part|None|None",
+          "n": 9
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Inf|None|None",
+          "n": 8
+        },
+        {
+          "label": "pret_imp",
+          "gold": "Fin|Ind|Pres",
+          "n": 7
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Fin|Ind|Past",
+          "n": 3
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Fin|Ind|Pres",
+          "n": 2
+        },
+        {
+          "label": "fut_pret",
+          "gold": "Fin|Ind|Imp",
+          "n": 1
+        },
+        {
+          "label": "pret_imp",
+          "gold": "Fin|Sub|Pres",
+          "n": 1
+        }
+      ]
+    },
+    "ud-portuguese-gsd": {
+      "gold_verbs_with_features": 340,
+      "coverage": {
+        "k": 252,
+        "n": 340,
+        "rate": 0.7412,
+        "wilson95": [
+          0.692,
+          0.785
+        ]
+      },
+      "unique_among_covered": {
+        "k": 168,
+        "n": 252,
+        "rate": 0.6667,
+        "wilson95": [
+          0.606,
+          0.722
+        ]
+      },
+      "accuracy_of_unique": {
+        "k": 159,
+        "n": 168,
+        "rate": 0.9464,
+        "wilson95": [
+          0.901,
+          0.972
+        ]
+      },
+      "false_verbs_per_1000_non_verbs": 61.14,
+      "false_unique_verbs_per_1000_non_verbs": 30.07,
+      "unaligned_words": 9825,
+      "top_errors": [
+        {
+          "label": "pres_ind",
+          "gold": "Part|None|None",
+          "n": 4
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Inf|None|None",
+          "n": 2
+        },
+        {
+          "label": "imp_sub",
+          "gold": "Fin|Sub|Pres",
+          "n": 1
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Fin|Ind|Past",
+          "n": 1
+        },
+        {
+          "label": "fut_pret",
+          "gold": "Fin|Ind|Imp",
+          "n": 1
+        }
+      ]
+    },
+    "ud-portuguese-petrogold": {
+      "gold_verbs_with_features": 2348,
+      "coverage": {
+        "k": 1518,
+        "n": 2348,
+        "rate": 0.6465,
+        "wilson95": [
+          0.627,
+          0.666
+        ]
+      },
+      "unique_among_covered": {
+        "k": 1000,
+        "n": 1518,
+        "rate": 0.6588,
+        "wilson95": [
+          0.635,
+          0.682
+        ]
+      },
+      "accuracy_of_unique": {
+        "k": 974,
+        "n": 1000,
+        "rate": 0.974,
+        "wilson95": [
+          0.962,
+          0.982
+        ]
+      },
+      "false_verbs_per_1000_non_verbs": 47.15,
+      "false_unique_verbs_per_1000_non_verbs": 24.25,
+      "unaligned_words": 9897,
+      "top_errors": [
+        {
+          "label": "pret_perf",
+          "gold": "Fin|Ind|Pres",
+          "n": 8
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Inf|None|None",
+          "n": 7
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Part|None|None",
+          "n": 5
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Fin|Ind|Pres",
+          "n": 2
+        },
+        {
+          "label": "pret_imp",
+          "gold": "Fin|Ind|Pres",
+          "n": 2
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Ger|None|None",
+          "n": 1
+        },
+        {
+          "label": "imp_sub",
+          "gold": "Fin|Sub|Pres",
+          "n": 1
+        }
+      ]
+    },
+    "ud-portuguese-dantestocks": {
+      "gold_verbs_with_features": 906,
+      "coverage": {
+        "k": 612,
+        "n": 906,
+        "rate": 0.6755,
+        "wilson95": [
+          0.644,
+          0.705
+        ]
+      },
+      "unique_among_covered": {
+        "k": 389,
+        "n": 612,
+        "rate": 0.6356,
+        "wilson95": [
+          0.597,
+          0.673
+        ]
+      },
+      "accuracy_of_unique": {
+        "k": 363,
+        "n": 389,
+        "rate": 0.9332,
+        "wilson95": [
+          0.904,
+          0.954
+        ]
+      },
+      "false_verbs_per_1000_non_verbs": 46.41,
+      "false_unique_verbs_per_1000_non_verbs": 24.47,
+      "unaligned_words": 1098,
+      "top_errors": [
+        {
+          "label": "pret_perf",
+          "gold": "Fin|Ind|Pres",
+          "n": 6
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Ger|None|None",
+          "n": 3
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Part|None|None",
+          "n": 3
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Fin|Imp|None",
+          "n": 2
+        },
+        {
+          "label": "fut_sub",
+          "gold": "Inf|None|None",
+          "n": 2
+        },
+        {
+          "label": "pret_imp",
+          "gold": "Fin|Ind|Pres",
+          "n": 2
+        },
+        {
+          "label": "pres_ind",
+          "gold": "Fin|Ind|Past",
+          "n": 1
+        },
+        {
+          "label": "fut_pret",
+          "gold": "Fin|Ind|Imp",
+          "n": 1
+        }
+      ]
+    }
+  }
+}

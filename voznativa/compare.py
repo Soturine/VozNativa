@@ -70,6 +70,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _causal_direction_issues(src, out, alignment)
     issues += _crossing_issues(src, out, alignment)
     issues += _order_issues(src, out, alignment)
+    issues += _tense_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -433,6 +434,33 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
                                  f"{label} marker moved between sentences (same total, different claims)",
                                  label=label, removed_from=src.entries[lost[0][0]].sentence.text,
                                  added_to=out.entries[gained[0][1]].sentence.text))
+    return issues
+
+
+def _tense_issues(src, out, alignment) -> list[dict]:
+    """Tense, mood or periphrasis of the same verb changed between aligned
+    sentences ("contratou" -> "contratará", "terminou" -> "está terminando").
+    A review signal from rule-based morphology (voznativa.morph, measured in
+    evals/linguistics/runs/): only when both sides are unambiguous; never
+    critical, never a proof of equivalence when absent (v0.7.0 CP9L)."""
+    from .morph import TENSES, tense_profile
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        before = tense_profile(src.entries[i].sentence.text)
+        after = tense_profile(out.entries[j].sentence.text)
+        for lemma in sorted(set(before) & set(after)):
+            a, b = before[lemma], after[lemma]
+            if len(a) == 1 and len(b) == 1 and a != b:
+                def name(label):
+                    base = label.split("@")[0]
+                    return TENSES[base][0] if base in TENSES else label
+                issues.append(_issue("tense_changed", "major",
+                                     f"verb '{lemma}': {name(next(iter(a)))} -> {name(next(iter(b)))}",
+                                     lemma=lemma, before=sorted(a), after=sorted(b),
+                                     source_sentence=src.entries[i].sentence.text,
+                                     analyzer="voznativa.morph-rules@1"))
     return issues
 
 
