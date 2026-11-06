@@ -74,6 +74,20 @@ class Verdict(unittest.TestCase):
         self.assertNotEqual(external["ci"]["status"], "PASS", "CI status is derived per revision, never stored")
 
 
+class PackageGateTools(unittest.TestCase):
+    def test_missing_pip_or_build_is_blocked_not_a_project_failure(self):
+        # v0.7.0: `uv venv` makes venvs without pip; the wheel step then failed and read as FAIL.
+        real = qualify.importlib.util.find_spec
+        for absent in ("pip", "build"):
+            qualify.importlib.util.find_spec = lambda name, _a=absent: None if name == _a else real(name)
+            try:
+                result = qualify.gate_package(None)
+            finally:
+                qualify.importlib.util.find_spec = real
+            self.assertEqual(result["status"], "BLOCKED", absent)
+            self.assertIn(absent, result["reason"])
+
+
 class CiEvidenceBindsToARevision(unittest.TestCase):
     """v0.6.0 CP0: CI evidence is PASS only for the revision a green run tested
     (the v0.5.0 records kept a stale BLOCKED while runs were passing)."""

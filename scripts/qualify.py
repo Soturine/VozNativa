@@ -327,9 +327,12 @@ NETWORK_HINTS = ("connection", "network", "temporary failure", "name resolution"
 
 
 def gate_package(args) -> dict:
-    if importlib.util.find_spec("build") is None:
-        return {"status": "BLOCKED", "reason": "the 'build' module is not installed in this interpreter "
-                                               "(pip install build in the venv that runs qualify)"}
+    missing = [m for m in ("build", "pip") if importlib.util.find_spec(m) is None]
+    if missing:
+        # v0.7.0: a venv made without pip (e.g. `uv venv`) failed the wheel step and was
+        # reported as a FAIL of the project; it is a missing tool, like 'build'.
+        return {"status": "BLOCKED", "reason": f"missing in this interpreter: {missing} "
+                                               "(install them in the venv that runs qualify; `uv venv --seed` adds pip)"}
     steps = []
     with tempfile.TemporaryDirectory(prefix="vn-pkg-") as tmp:
         tmp = Path(tmp)
