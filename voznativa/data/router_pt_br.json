@@ -3,7 +3,8 @@
   "evidence": {
     "level": "E0",
     "basis": "Surface cues chosen by the VozNativa authors to route references. They are not a genre classifier; explicit hints always win and low-margin results return 'unknown'.",
-    "calibration": "checked only against evals/router/cases.jsonl"
+    "calibration": "checked only against evals/router/cases.jsonl",
+    "v0.7.0": "CP5 (G1): inference runs on unwrap_for_inference(text); '--'/'–' dialogue openings followed by a capital count as literary (CLI flags are lower-case)"
   },
   "min_score": 2.0,
   "min_margin": 1.0,
@@ -73,6 +74,7 @@
     "literary": {
       "regex": [
         "(?m)^—",
+        "(?m)^\\s*(?:--|–)\\s?[A-ZÀ-Ý]",
         "\\b(?:sil[eê]ncio|chuva|noite|olhos|mem[oó]ria|saudade|cora[cç][aã]o)\\b"
       ],
       "weight": 0.7
@@ -139,5 +141,9 @@
         "email"
       ]
     ]
+  },
+  "min_distinct_cues": {
+    "_note": "v0.7.0 CP5: a genre whose score comes from fewer distinct cue patterns than this is not inferred (one cue family is not corroboration: quoted speech in news, PDF fragments, verse continuation lines)",
+    "whatsapp": 2
   }
 }

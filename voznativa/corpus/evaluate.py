@@ -178,12 +178,16 @@ def slang_eval(units: list[dict]) -> dict:
 def variant_false_positives(units: list[dict]) -> dict:
     """PT-PT markers in units from a Brazilian source (each hit is a false
     positive of the variant detector unless the text quotes PT-PT)."""
-    flagged, markers = 0, Counter()
+    from ..router import infer_time_of_text
+    flagged, after, markers = 0, 0, Counter()
     for u in units:
         found = variant_markers(u["text"])
         flagged += bool(found)
+        # v0.7.0 CP5: pre-reform spelling is dated, not PT-PT (the finding becomes a note).
+        after += bool(found) and infer_time_of_text(u["text"])["value"] != "pre_reform_orthography"
         markers.update(m["text"].lower() for m in found)
-    return {"units": len(units), "flagged": _rate(flagged, len(units)), "markers": dict(markers.most_common(10))}
+    return {"units": len(units), "flagged": _rate(flagged, len(units)),
+            "flagged_after_time_of_text": _rate(after, len(units)), "markers": dict(markers.most_common(10))}
 
 
 def threshold_sweep(rows: list[tuple[int, int, int]]) -> dict:

@@ -32,8 +32,66 @@ def data() -> dict:
     return raw
 
 
+_NOT_PROSE_LINE = re.compile(r"^\s*(?:[-*•]\s|\d{1,3}[.)]\s|>|```|#{1,6}\s|\|)")
+WRAP_MIN_MEDIAN = 45          # characters; chat turns and verse lines are shorter
+
+
+def unwrap_for_inference(text: str) -> tuple[str, dict]:
+    """Join hard-wrapped prose lines (fixed-width editions, e-mail wrapping)
+    for *inference only*; the original text is never changed.
+
+    A paragraph is unwrapped when its non-final lines are long (median >= 45
+    characters) and most line breaks fall mid-sentence (the line does not end
+    a sentence and the next one continues in lower case). Verse (short
+    lines), chat turns (short lines), lists, quotes, tables and code keep
+    their breaks: those breaks carry structure (v0.7.0 CP5, G1)."""
+    out, joined = [], 0
+    text = text.replace("\r\n", "\n").replace("\r", "\n")   # CRLF text routed as unknown (metamorphic test)
+    for par in re.split(r"(\n[ \t]*\n)", text):
+        lines = par.split("\n")
+        body = [ln.rstrip() for ln in lines if ln.strip()]
+        if len(body) < 2 or par.strip().startswith("```") or any(_NOT_PROSE_LINE.match(ln) for ln in body):
+            out.append(par)
+            continue
+        lengths = sorted(len(ln) for ln in body[:-1])
+        median = lengths[len(lengths) // 2]
+        breaks = list(zip(body, body[1:]))
+        mid = sum(1 for a, b in breaks if not a.endswith((".", "!", "?", ":", ";")) and b.lstrip()[:1].islower())
+        if median >= WRAP_MIN_MEDIAN and mid / len(breaks) >= 0.5:
+            out.append(" ".join(ln.strip() for ln in body))
+            joined += len(breaks)
+        else:
+            out.append(par)
+    return "".join(out), {"joined_line_breaks": joined}
+
+
+# Spellings that only exist before the Portuguese/Brazilian orthographic reforms
+# (1911 PT, 1943/1945 BR): evidence of the time of the text, never of PT-PT.
+# Forms shared with current PT-PT ("facto", "acção") are deliberately absent.
+_HISTORIC = re.compile(
+    r"\b(?:elle|ella|elles|ellas|aquelle|aquella|aquelles|aquellas|d'?elle|n'?elle|ahi|anno|annos|sabbado|"
+    r"cousa|cousas|hontem|emfim|comtudo|quasi|pae|mãi|paes|egreja|theatro|thesouro|"
+    r"pharmacia|photographia|orthographia|commercio|commodo|effeito|apparecer|apparece|"
+    r"succedeu|succede|occasião|occasiao|difficil|differente|annunciar|annuncio|direcção|direccao|"
+    r"assumpto|prompto|escripto|escriptor)\b", re.I)
+
+
+def infer_time_of_text(text: str) -> dict:
+    """When the text was written, from spelling only: pre-reform orthography
+    (at least two distinct forms) or unknown. Absence of old spelling says
+    nothing (modern editions of old texts exist), so it is never 'current'."""
+    found = sorted({m.group(0).lower() for m in _HISTORIC.finditer(text)})
+    if len(found) >= 2:
+        return {"value": "pre_reform_orthography", "source": "inferred", "confidence": "medium",
+                "evidence": found[:10], "note": "spelling predates the 1911 (PT) / 1943 (BR) reforms; "
+                                                "current PT-PT markers in such text are not evidence of PT-PT"}
+    return {"value": "unknown", "source": "inferred", "confidence": "low",
+            **({"evidence": found} if found else {})}
+
+
 def infer_genre(text: str) -> dict:
     d = data()
+    text, unwrap = unwrap_for_inference(text)
     scores, evidence = {}, {}
     for genre, patterns in d["_compiled"].items():
         weight = d["genres"][genre]["weight"]
@@ -45,6 +103,10 @@ def infer_genre(text: str) -> dict:
                 scores[genre] = scores.get(genre, 0.0) + weight * min(3, len(found))
         if hits:
             evidence[genre] = hits
+    uncorroborated = {}
+    for genre, needed in (d.get("min_distinct_cues") or {}).items():
+        if genre in scores and len(evidence.get(genre, [])) < needed:
+            uncorroborated[genre] = scores.pop(genre)
     ranked = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)
     if not ranked or ranked[0][1] < d["min_score"]:
         return {"value": "unknown", "source": "inferred", "confidence": "low",
@@ -53,10 +115,11 @@ def infer_genre(text: str) -> dict:
     runner = ranked[1][1] if len(ranked) > 1 else 0.0
     if top_score - runner < d["min_margin"]:
         return {"value": "unknown", "source": "inferred", "confidence": "low", "scores": dict(ranked),
-                "reason": f"ambiguous between {top} and {ranked[1][0]}", "candidates": [top, ranked[1][0]]}
+                "reason": f"ambiguous between {top} and {ranked[1][0]}", "candidates": [top, ranked[1][0]],
+                "normalization": unwrap}
     confidence = "high" if top_score - runner >= 3 else "medium"
     return {"value": top, "source": "inferred", "confidence": confidence, "scores": dict(ranked),
-            "evidence": evidence.get(top, [])}
+            "evidence": evidence.get(top, []), "normalization": unwrap}
 
 
 def _source(path: str, kind: str, channel: str | None = None) -> dict:
@@ -123,9 +186,18 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         "has_code": bool(re.search(r"```|`[^`\n]+`", text)),
         "has_markdown": bool(re.search(r"(?m)^#{1,6} |^\s*[-*] |\*\*[^*]+\*\*", text)),
     }
+    time_info = infer_time_of_text(text)
+    structure_info = infer_structure(text)
+    protections = conservative_protections(genre_info, time_info, structure_info)
+    dims = dimensions(task=task, genre_info=genre_info, channel=channel, register_info=register_info,
+                      time_info=time_info, epoch_info=epoch_info, text=text, region=region,
+                      region_strength=region_strength, community=community, structure_info=structure_info,
+                      audience=audience, samples=samples, flags=flags)
     return {
-        "schema_version": 1,
+        "schema_version": CONTRACT_SCHEMA_VERSION,
         "kind": "voznativa.context_contract",
+        "dimensions": dims,
+        "protections": protections,
         "task": task,
         "genre": genre_info,
         "channel": {"value": channel or genre_info["value"], "source": "explicit" if channel else "genre"},
@@ -148,6 +220,97 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         },
         "warnings": warnings,
         "words": len(text.split()),
+    }
+
+
+CONTRACT_SCHEMA_VERSION = 3
+# v1 fields (task, genre, channel, register, targets, flags, constraints, sources,
+# policy) keep their meaning; v3 adds ``dimensions`` and ``protections``.
+DIMENSIONS = ("genre", "channel", "register", "time_of_text", "time_of_target", "language_variant",
+              "region_of_text", "target_region", "community", "structure", "audience", "task", "restrictions",
+              "author_voice")
+
+
+def _dim(value, source: str, confidence: str, evidence=None, **extra) -> dict:
+    out = {"value": value, "source": source, "confidence": confidence}
+    if evidence:
+        out["evidence"] = evidence
+    out.update(extra)
+    return out
+
+
+def infer_structure(text: str) -> dict:
+    """Dominant structure from the long-form block kinds (paragraph-level)."""
+    from .longform import blocks
+    kinds: dict[str, int] = {}
+    for b in blocks(text):
+        if b.kind not in ("separator",):
+            kinds[b.kind] = kinds.get(b.kind, 0) + b.words
+    total = sum(kinds.values())
+    if not total:
+        return _dim("unknown", "inferred", "low")
+    top, words = max(kinds.items(), key=lambda kv: kv[1])
+    value = top if words / total >= 0.6 else "mixed"
+    return _dim(value, "inferred", "medium" if value != "mixed" else "low",
+                {k: round(v / total, 3) for k, v in sorted(kinds.items())})
+
+
+def infer_language_variant(text: str, time_info: dict) -> dict:
+    """PT-PT only on exclusive current markers and no pre-reform spelling;
+    PT-BR is never inferred from absence (abstention)."""
+    from .ptbr import variant_markers
+    markers = variant_markers(text)
+    exclusive = sorted({m["text"].lower() for m in markers if m.get("confidence") == "exclusive"})
+    if time_info["value"] == "pre_reform_orthography":
+        return _dim("unknown", "inferred", "low", exclusive[:5] or None,
+                    reason="pre-reform spelling overlaps current PT-PT forms")
+    if len(exclusive) >= 2:
+        return _dim("pt-PT", "inferred", "medium", exclusive[:5])
+    return _dim("unknown", "inferred", "low", exclusive[:5] or None,
+                reason="no exclusive marker set; PT-BR is not inferred from absence")
+
+
+def conservative_protections(genre_info: dict, time_info: dict, structure_info: dict) -> dict:
+    """Abstention keeps protections (RN-05): an unknown genre with literary or
+    historical evidence gets the literary limits without claiming the genre;
+    verse and dialogue structure keep their line breaks whatever the genre."""
+    reasons = []
+    if genre_info["value"] == "unknown":
+        scores = genre_info.get("scores") or {}
+        if scores.get("literary", 0) > 0 or "literary" in (genre_info.get("candidates") or []):
+            reasons.append("literary cues present although the genre is undecided")
+        if time_info["value"] == "pre_reform_orthography":
+            reasons.append("pre-reform spelling: a historical text")
+    structure = structure_info["value"]
+    return {"conservative": bool(reasons), "reasons": reasons,
+            "preserve_line_breaks": structure in ("verse", "dialogue", "list", "code"),
+            "historical_spelling_is_not_an_error": time_info["value"] == "pre_reform_orthography"}
+
+
+def dimensions(*, task, genre_info, channel, register_info, time_info, epoch_info, text, region, region_strength,
+               community, structure_info, audience, samples, flags) -> dict:
+    explicit = "explicit"
+    return {
+        "genre": genre_info if genre_info.get("source") == explicit else
+        _dim(genre_info["value"], "inferred", genre_info.get("confidence", "low"), genre_info.get("evidence"),
+             **({"candidates": genre_info["candidates"]} if genre_info.get("candidates") else {})),
+        "channel": _dim(channel, explicit, explicit) if channel else _dim("unknown", "unknown", "low"),
+        "register": _dim(register_info["value"] or "unknown", register_info["source"],
+                         explicit if register_info["source"] == explicit else "low"),
+        "time_of_text": time_info,
+        "time_of_target": _dim(epoch_info, explicit, explicit) if epoch_info else _dim("unknown", "unknown", "low"),
+        "language_variant": infer_language_variant(text, time_info),
+        "region_of_text": _dim("unknown", "not_inferred", "low",
+                               reason="region is never inferred from the text (policy infer_identity: false)"),
+        "target_region": _dim({"code": region.lower(), "strength": region_strength}, explicit, explicit)
+        if region else _dim("unknown", "unknown", "low"),
+        "community": _dim(community, explicit, explicit) if community else _dim("unknown", "unknown", "low"),
+        "structure": structure_info,
+        "audience": _dim(audience, explicit, explicit) if audience else _dim("unknown", "unknown", "low"),
+        "task": _dim(task, explicit, explicit),
+        "restrictions": _dim(sorted(k for k in ("has_code", "has_markdown") if flags.get(k)), "inferred", "high"),
+        "author_voice": _dim("voice_samples", explicit, explicit, [s["path"] for s in samples]) if samples
+        else _dim("unknown", "unknown", "low"),
     }
 
 

@@ -14,8 +14,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP1 | Harness e integridade de CI | concluído | `9eea718` | `evals/test_ci_evidence.py` 20 testes (1 skip POSIX no Windows); gates validator, unittest, decision, router, cli, workflow-triggers PASS via `scripts/checkpoint.py`; consulta live real: HEAD NOT_RUN, run #123 confere com o registro |
 | CP2 | Ingestão v2 (TEI) e governança | concluído | `9cbaf0f` | `evals/test_corpus_tei.py` 17 testes (XXE/bomba recusados, licença por documento fail-closed, CoNLL-U com documento, cache dentro de repo recusado); suíte unittest PASS |
 | CP3 | Expansão de corpora | concluído | `4d4587c` | 3 → 7 fontes EVALUATION_INTEGRATED (GSD, PetroGold, PUD, DANTEStocks); integridade sem vazamento; `scripts/corpus_crossgenre.py`; `evals/test_corpus_v07.py`; suíte PASS. Ver `docs/V07_CORPUS_INTEGRATION.md` |
-| CP4 | Contenção e splits (G2) | concluído | (este commit) | G2 fechado (xfail → teste normal); `evals/test_containment.py` 11 testes; 184 vínculos reais, 0 entre fontes; 52 pares vazavam no split do CP3; reexecução sem vazamento; suíte PASS |
-| CP5 | Router v3 (G1) | pendente | | |
+| CP4 | Contenção e splits (G2) | concluído | `b19e92a` | G2 fechado (xfail → teste normal); `evals/test_containment.py` 11 testes; 184 vínculos reais, 0 entre fontes; 52 pares vazavam no split do CP3; reexecução sem vazamento; suíte PASS |
+| CP5 | Router v3 (G1) | concluído | (este commit) | G1 fechado; Context Contract v3 (14 dimensões, `protections`); `evals/test_router_v3.py` + 14 oráculos congelados (14/14 na 1ª execução); suítes congeladas sem mudança; corpora: 0 `whatsapp` errado |
 | CP6 | Gíria/contexto (G3) | pendente | | |
 | CP7 | Contrato long-form | pendente | | |
 | CP8 | Rewrite por segmentos (G4) | pendente | | |
@@ -43,4 +43,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP5.
+CP6.

@@ -44,8 +44,9 @@ noticia boa, ou eu me engano muito com as cousas deste mundo."""
 
 
 class KnownGaps(unittest.TestCase):
-    @unittest.expectedFailure
     def test_g1_wrapped_literary_dialogue_is_not_whatsapp(self):
+        # Closed in v0.7.0 CP5 (inference-only unwrapping, '--' dialogue cue); the
+        # full oracle (genre AND protections) is in evals/test_router_v3.py.
         self.assertNotEqual(infer_genre(WRAPPED_DIALOGUE)["value"], "whatsapp")
 
     def test_g2_a_contained_chapter_clusters_with_its_novel(self):

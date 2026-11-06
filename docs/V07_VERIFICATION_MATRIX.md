@@ -9,7 +9,7 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-03 TEI | `TeiReader` (DOCTYPE/ENTITY, malformado, raiz errada, tamanho, sem texto) | conector com `.xml.gz`; `PerDocumentLicences`; `ManifestAndCache` | negativo: sem a recusa prévia o XXE vira `malformed` (o teste exige `unsafe_xml`) | — | — | PASS (Windows 3.12) |
 | RF-04 corpora | `TextRights` (inclui precedência DENIED), `CrossGenreEvaluators` | prepare + integrity + crossgenre reais em 7 fontes | — | `evals/corpus/runs/crossgenre-2026-11-06.json` | — | PASS (3 → 7 integradas) |
 | RF-05 G2 | `Containment` (direcional; capítulo; trecho entre fontes; edição modernizada; mesmo tema ≠ duplicata; citação comum; frase curta), `MultiKeySplits` | integridade real em 7 fontes | controle negativo: `with_containment=False` reproduz o gap | `integrity-2026-11-06-cp4.json` | — | PASS |
-| RF-06 G1 | `test_known_gaps_v06` G1 (xfail) | | | | | aberto |
+| RF-06 G1 | `G1EndToEnd` (gênero + proteções + planner local), `AbstentionKeepsProtections` (com controle), `ChatNeedsCorroboration`, `HistoricSpellingIsNotPtPt` | 14 oráculos congelados `cases-v07` (literatura, poesia, 3 chats, oral, manual, relatório, e-mail, fórum, Markdown, flags de CLI) | CRLF, NBSP, nomes de fonte trocados | `crossgenre-2026-11-06-cp5b.json` | — | PASS |
 | RF-07 G3 | `test_known_gaps_v06` G3 (xfail) | | | | | aberto |
 | RF-08 contrato long-form | | | | | | pendente |
 | RF-09 G4 | | | | | | aberto |

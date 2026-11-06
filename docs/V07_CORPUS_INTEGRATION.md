@@ -68,3 +68,19 @@ Gêneros aceitáveis fixados no script **antes** da execução. Unidade: janela 
 Nenhum vínculo amostrado foi falso agrupamento (tema parecido sem texto comum não forma vínculo: teste `test_same_topic_different_text_is_not_a_duplicate`).
 
 **Vazamento retroativo:** com o procedimento do CP3/v0.6 (sem contenção), **52 pares contidos atravessavam calibração/avaliação** (40 em Machado, 12 retweets). Nenhum limiar foi ajustado com esses números, mas a independência entre splits afirmada para Machado era falsa. As rodadas antigas ficam intactas como histórico; as novas são `integrity-2026-11-06-cp4.json` (147 vínculos aplicados após duplicatas; vazamento 0 em grupo, grupo extra, cluster e hashes) e `crossgenre-2026-11-06-cp4.json`. Mudança visível: Machado em avaliação passa de 147 para 119 unidades, e as marcas PT-PT sobem de 15,7% para 20,2% (mesma causa: grafia pré-1943).
+
+## CP5 — roteador v3 nos corpora
+
+Rodadas novas (as anteriores ficam): `crossgenre-2026-11-06-cp5.json` (desembrulho de linhas + pista `--`) e `-cp5b.json` (+ corroboração de chat por duas famílias de pista + PT-PT após datação da grafia). Split `evaluation`:
+
+| Fonte | `whatsapp` errado: CP4 → cp5 → cp5b | Abstenção cp5b | PT-PT bruto → após `time_of_text` |
+|---|---|---|---|
+| Bosque | 9 → 9 → **0** | 99,1% | n/a |
+| Machado | 3 → 1 → **0** | 27,7% | 20,2% → **14,3%** |
+| PetroGold | 10 → 10 → **0** | 79,7% | 0,07% |
+| B2W | 0 | 96,4% (era 94,1%) | 0% |
+| DANTEStocks | 0 | 84,1% (era 82,8%) | 0% |
+
+**Independência:** a corroboração foi desenhada depois de ler as unidades erradas de Bosque, PetroGold e Machado (dos dois splits). Os números cp5b desses corpora mostram que a regra faz o que se pretendia, mas **não** são evidência independente de melhoria. A evidência independente são os 14 oráculos de `evals/router/cases-v07.jsonl` (escritos e com hash antes da primeira execução; 14/14 na primeira) e a suíte antiga do roteador (15/16, sem mudança).
+
+**Custo observado:** tweets e avaliações perdem parte dos rótulos confiantes (abstenção maior). B2W continua com 16 avaliações lidas como `corporate` ("entrega", "prazo"): aberto (VN07-DISC-018).

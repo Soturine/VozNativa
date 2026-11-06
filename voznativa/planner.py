@@ -180,7 +180,8 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
     # request; literary prose found to need work is edited locally only.
     # A requested destination (a target) is the user's explicit request.
     from .longform import literary_policy
-    literary = literary_policy(text, genre, explicit=bool(explicit) or bool(must_change))
+    literary = literary_policy(text, genre, explicit=bool(explicit) or bool(must_change),
+                               conservative=bool((context.get("protections") or {}).get("conservative")))
     if literary["policy"] == "verse" and literary["max_scope"] is None and decision == "edit":
         scope, decision = "none", "no_change"
         for r in rows:

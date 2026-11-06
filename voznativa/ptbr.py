@@ -129,6 +129,11 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
     # never counts toward an edit (ptbr-bench-v4 bv4-lt-03: three weak notes in
     # a 25-word dialogue still reached the weak threshold).
     literary = genre == "literary"
+    # v0.7.0 CP5 (VN07-DISC-011): pre-reform Brazilian spelling ("acção",
+    # "facto" next to "elle", "anno") is the time of the text, not PT-PT.
+    from .router import infer_time_of_text
+    historic = infer_time_of_text(text)["value"] == "pre_reform_orthography"
+    literary = literary or historic
     for m in markers:
         exclusive = m["confidence"] == "exclusive" and not literary
         out.append(_finding("pt_pt_variant", "variante PT-PT", "strong" if exclusive else "weak", m["text"],

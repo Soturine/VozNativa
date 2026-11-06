@@ -114,7 +114,8 @@ def _is_verse(lines: list[str]) -> bool:
 def blocks(text: str) -> list[Block]:
     """Paragraphs (blank-line separated; a fenced code block is one paragraph)."""
     out, i = [], 0
-    pattern = re.compile(r"```.*?(?:```|\Z)|(?:(?!\n[ \t]*\n).)+", re.S)
+    # \r?\n: CRLF text was a single block (v0.7.0 CP5 metamorphic test); offsets are unchanged.
+    pattern = re.compile(r"```.*?(?:```|\Z)|(?:(?!\r?\n[ \t]*\r?\n).)+", re.S)
     for m in pattern.finditer(text):
         chunk = m.group(0)
         if not chunk.strip():
@@ -257,10 +258,12 @@ def verse_share(text: str) -> float:
     return round(sum(b.words for b in bs if b.kind == "verse") / total, 3)
 
 
-def literary_policy(text: str, genre: str, explicit: bool = False) -> dict:
+def literary_policy(text: str, genre: str, explicit: bool = False, conservative: bool = False) -> dict:
     """How far a rewrite may go. Verse (>= 50% of the words) is not
     rewritten without an explicit request; literary prose gets local edits
-    only. Other genres are unconstrained by this policy."""
+    only. ``conservative`` (v0.7.0, Context Contract v3): the genre is unknown
+    but the router saw literary or historical evidence, so the literary
+    limits apply without claiming the genre. Other genres are unconstrained."""
     share = verse_share(text)
     if share >= 0.5:
         return {"policy": "verse", "verse_share": share, "max_scope": None if not explicit else "local",
@@ -270,4 +273,8 @@ def literary_policy(text: str, genre: str, explicit: bool = False) -> dict:
         return {"policy": "literary_prose", "verse_share": share, "max_scope": "local",
                 "reason": "literary prose: repetition, long periods and marked order may be the author's "
                           "choice; edits stay local (no paragraph or document rewrite)"}
+    if conservative and genre == "unknown":
+        return {"policy": "conservative_unknown", "verse_share": share, "max_scope": "local",
+                "reason": "genre unknown, with literary or historical evidence: edits stay local until the "
+                          "genre is known (abstention keeps the protections)"}
     return {"policy": "default", "verse_share": share, "max_scope": "document", "reason": None}
