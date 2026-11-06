@@ -59,6 +59,12 @@ class Decision:
                 "conditions": self.conditions, "evidence": self.evidence}
 
 
+class GuardRefused(PermissionError):
+    """A data guard outside the licence decision refused (e.g. personal data
+    shown without the explicit flag). The CLI maps it, like PolicyDenied, to
+    exit 77; an unreadable file stays a usage error (64)."""
+
+
 class PolicyDenied(PermissionError):
     def __init__(self, decision: Decision, source_id: str):
         super().__init__(f"{source_id}: {decision.operation} is {decision.state}: {'; '.join(decision.reasons)}")

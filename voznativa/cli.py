@@ -362,6 +362,7 @@ def _signing_args(p):
 
 
 EXIT_USAGE = 64
+EXIT_NOPERM = 77   # sysexits EX_NOPERM: the data policy refused the operation
 
 
 class _Parser(argparse.ArgumentParser):
@@ -515,6 +516,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--date", help="ISO date of the samples")
     p.set_defaults(func=cmd_profile)
 
+    from .corpus.cli import register as register_corpus
+    register_corpus(sub)
+
     p = sub.add_parser("contract", help="resolve the Voice Contract (VOICE_STACK precedence)")
     p.add_argument("text", nargs="?", default="-")
     p.add_argument("--context", help="Context Contract JSON instead of routing the text")
@@ -564,8 +568,13 @@ def main(argv: list[str] | None = None) -> int:
             stream.reconfigure(encoding="utf-8")
     parser = build_parser()
     args = parser.parse_args(argv)
+    from .corpus.policy import GuardRefused, PolicyDenied
     try:
         code = args.func(args)
+    except (PolicyDenied, GuardRefused) as error:
+        # The data policy (or a personal-data guard) refused: not a usage error.
+        sys.stderr.write(f"voznativa: {error}\n")
+        return EXIT_NOPERM
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as error:
         sys.stderr.write(f"voznativa: {error}\n")
         return 64

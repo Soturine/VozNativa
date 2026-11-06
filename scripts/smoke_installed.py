@@ -28,6 +28,10 @@ def run(*args: str) -> dict | str:
         return out
 
 
+def _exit_code(*args: str) -> int:
+    return subprocess.run([sys.executable, "-m", "voznativa", *args], capture_output=True).returncode
+
+
 def _registry_ok() -> bool:
     from voznativa.corpus.registry import load_registry
     return len(load_registry()) >= 25
@@ -78,6 +82,13 @@ def main() -> int:
                 "license-metadata": _license_ok(),
                 # v0.6.0: the corpus registry ships as package data and validates.
                 "corpus-registry": _registry_ok(),
+                # v0.6.0: corpus CLI, slang lexicon and community packs from the wheel, outside the checkout.
+                "corpus-list": len(run("corpus", "list")["sources"]) >= 30,
+                "corpus-validate": run("corpus", "validate")["valid"] is True,
+                "corpus-unknown-source-exit-64": _exit_code("corpus", "info", "nope") == 64,
+                "corpus-catalogued-refused-exit-77": _exit_code("corpus", "sample", "obras") == 77,
+                "epoch-and-community": run("contract", "t.txt", "--epoch", "current", "--community", "tech",
+                                           "--slang-strength", "0.5")["slang_strength"]["effective"] == 0.0,
             }
         finally:
             os.chdir(start)  # Windows cannot delete the current directory

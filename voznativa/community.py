@@ -36,7 +36,7 @@ PACKS_DIR = Path(__file__).resolve().parent / "data" / "community_packs"
 CATEGORIES = ("terminology", "jargon", "borrowing", "slang", "meme", "discourse_habit")
 BEHAVIOURS = ("preserve", "avoid_outside", "never_add")
 STATUSES = ("draft", "experimental", "calibrated")
-EVIDENCE = ("E0", "E1", "E2", "E3", "E4")
+from .temporal import EVIDENCE, GENERATION_MIN_EVIDENCE  # one owner for the ladder (CP12, Engine duplication)
 REQUIRED = ("schema_version", "kind", "id", "name", "status", "context_of_practice", "evidence", "period", "items",
             "generation")
 ITEM_REQUIRED = ("term", "forms", "category", "behaviour", "legitimate_in", "false_positive", "evidence")
@@ -58,11 +58,12 @@ def validate_pack(pack: dict) -> list[str]:
     level = (pack["evidence"] or {}).get("level")
     if level not in EVIDENCE:
         problems.append(f"{pid}: evidence.level must be one of {EVIDENCE}")
-    if pack["status"] != "draft" and level in ("E0", "E1"):
+    weak = level not in EVIDENCE or EVIDENCE.index(level) < EVIDENCE.index(GENERATION_MIN_EVIDENCE)
+    if pack["status"] != "draft" and weak:
         problems.append(f"{pid}: a {pack['status']} pack needs evidence E2 or higher")
     if pack["status"] != "draft" and not (pack["evidence"] or {}).get("sources"):
         problems.append(f"{pid}: a non-draft pack needs evidence.sources")
-    if (pack["generation"] or {}).get("allowed") and (pack["status"] == "draft" or level in ("E0", "E1")):
+    if (pack["generation"] or {}).get("allowed") and (pack["status"] == "draft" or weak):
         problems.append(f"{pid}: generation needs a non-draft pack with evidence E2 or higher")
     seen = set()
     for item in pack["items"] or []:
