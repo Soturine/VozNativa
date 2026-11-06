@@ -60,6 +60,13 @@ class Measurement:
     usage: dict = field(default_factory=dict)
     sections: list = field(default_factory=list)
 
+    def __post_init__(self):
+        # A mock or a replay must never be read as a live measurement.
+        if self.kind not in KINDS:
+            raise ValueError(f"kind must be one of {KINDS}")
+        if self.evidence_status not in EVIDENCE:
+            raise ValueError(f"evidence_status must be one of {EVIDENCE}")
+
     def as_dict(self) -> dict:
         return asdict(self)
 

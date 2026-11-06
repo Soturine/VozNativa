@@ -509,15 +509,16 @@ def build_parser() -> argparse.ArgumentParser:
                                          "homoglyph); not a watermark detector. Exit 2 when something is suspicious")
     p.add_argument("text")
     p.add_argument("--clean", action="store_true", help="remove only the classes named by --policy")
-    p.add_argument("--policy", action="append",
-                   choices=["tags", "bidi_unbalanced", "zero_width_outside_emoji", "controls", "soft_hyphen"])
+    from .integrity import CLEAN_POLICIES
+    p.add_argument("--policy", action="append", choices=list(CLEAN_POLICIES))
     p.add_argument("--text-only", action="store_true")
     p.set_defaults(func=cmd_integrity)
 
     p = sub.add_parser("diagnose", help="typed diagnostics of the source: errors, contradictions, legitimate "
                                         "choices, ambiguities (no model call, nothing changed)")
     p.add_argument("text")
-    p.add_argument("--mode", choices=["PRESERVE", "REVIEW", "PROOFREAD", "POLISH", "ADAPT", "CREATE"],
+    from .diagnose import MODES
+    p.add_argument("--mode", choices=list(MODES),
                    help="report what this editorial mode would authorise")
     _contract_args(p)
     p.set_defaults(func=cmd_diagnose)
@@ -650,7 +651,7 @@ def build_parser() -> argparse.ArgumentParser:
                                 "--segment-words); protected blocks never reach the model")
             p.add_argument("--segment-words", type=int, default=600, help="target words per unit (long form)")
             p.add_argument("--max-calls", type=int, default=800, help="provider call budget for a long document")
-            p.add_argument("--mode", choices=["PRESERVE", "REVIEW", "PROOFREAD", "POLISH", "ADAPT"],
+            p.add_argument("--mode", choices=[m for m in MODES if m != "CREATE"],
                            help="editorial mode: PRESERVE/REVIEW never change the text and call no model; "
                                 "PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite")
             p.add_argument("--rewrite-verse", action="store_true",

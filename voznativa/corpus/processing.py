@@ -287,10 +287,6 @@ def containment_links(records: list, threshold: float = CONTAINMENT_THRESHOLD,
 
 # --- stable splits and leakage --------------------------------------------------------
 
-def split_unit(record: ProvenanceRecord) -> str:
-    """Group and duplicate cluster together: the unit the split may not cut."""
-    return record.cluster or record.group
-
 
 def assign_splits(records: list[ProvenanceRecord], fractions: dict[str, float], salt: str = "voznativa-v0.6") -> dict:
     """Deterministic split by hashing each unit; units are formed by merging

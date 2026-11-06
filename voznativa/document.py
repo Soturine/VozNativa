@@ -33,7 +33,6 @@ from . import longform
 SCHEMA_VERSION = 1
 KIND = "voznativa.document_plan"
 ALWAYS_PROTECTED = ("code", "table", "separator", "quote")
-REWRITABLE = ("prose", "dialogue", "list", "heading", "verse")
 
 
 class PlanLimitExceeded(ValueError):

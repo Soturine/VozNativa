@@ -69,6 +69,13 @@ class Contracts(unittest.TestCase):
         m = CopyleaksAdapter(token="t", transport=lambda *a: (200, payload)).measure("x", LONG, "pt")
         self.assertIsNone(m.ai_label, "docs do not say whether summary is a probability; no label invented")
 
+    def test_measurement_kind_and_state_are_closed_sets(self):
+        from external_detection.adapters import Measurement
+        with self.assertRaises(ValueError):
+            Measurement("x", "simulated-live", "i", "PASS", "MEASURED", "s")
+        with self.assertRaises(ValueError):
+            Measurement("x", "mock", "i", "PASS", "PASS", "s")
+
     def test_unverified_contracts_do_not_pretend(self):
         self.assertEqual(OriginalityAdapter().measure("x", LONG).evidence_status, "UNSUPPORTED")
         m = GPTZeroAdapter(key="k", transport=lambda *a: (200, {"anything": 1})).measure("x", LONG)
