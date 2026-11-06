@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT))
 
 from voznativa.corpus.connectors import LocalFilesConnector, cache_dir  # noqa: E402
 from voznativa.corpus.policy import require  # noqa: E402
-from voznativa.corpus.processing import assign_splits, cluster, leakage, provenance  # noqa: E402
+from voznativa.corpus.processing import assign_splits, cluster, leakage, manifest_row, provenance  # noqa: E402
 from voznativa.corpus.registry import get_source  # noqa: E402
 from voznativa.corpus.runs import run_file  # noqa: E402
 
@@ -65,7 +65,8 @@ def main(argv: list[str] | None = None) -> int:
                           "asset_sha256": {a["name"]: a.get("sha256") for a in entries[sid]["connector"]["assets"]}}
     manifests = {}
     for sid in args.sources:
-        rows = [dict(r.as_manifest(), split=splits[f"{r.source}:{r.record_id}"]) for r in records if r.source == sid]
+        rows = [dict(manifest_row(entries[sid], r), split=splits[f"{r.source}:{r.record_id}"])
+                for r in records if r.source == sid]
         path = cache_dir(sid) / f"manifest-{args.date}.jsonl"
         path.write_text("\n".join(json.dumps(x, ensure_ascii=False) for x in rows) + "\n", encoding="utf-8")
         manifests[sid] = {"records": len(rows), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),

@@ -237,23 +237,54 @@ def iter_lines(stream, limits: ReadLimits, errors: list[dict]):
 # --- Readers by format ----------------------------------------------------------------
 
 def read_conllu(lines, errors):
-    """One record per sentence: ``# sent_id``, ``# text`` and token count."""
-    meta, tokens = {}, 0
+    """One record per sentence: ``# sent_id``, ``# text``, the other comment
+    fields and the token count. ``# newdoc id`` and ``# newpar id`` hold
+    until the next declaration, so every sentence carries ``doc_id`` and
+    ``par_id`` (v0.7.0: grouping by document no longer depends on the shape of
+    ``sent_id``; the last sentence keeps its metadata too)."""
+    meta, tokens, doc, par = {}, 0, None, None
+
+    def record(fallback_id):
+        extra = {k: v for k, v in meta.items() if k not in {"text", "sent_id", "newdoc id", "newpar id", "newdoc",
+                                                            "newpar"}}
+        return meta.get("sent_id", fallback_id), meta["text"], {"tokens": tokens, "doc_id": doc, "par_id": par,
+                                                                 **extra}
+
     for number, line in lines:
         if not line.strip():
             if meta.get("text") is not None:
-                yield meta.get("sent_id", f"line-{number}"), meta["text"], {"tokens": tokens, **{
-                    k: v for k, v in meta.items() if k not in {"text", "sent_id"}}}
+                yield record(f"line-{number}")
             meta, tokens = {}, 0
         elif line.startswith("#"):
             key, _, value = line[1:].partition("=")
-            meta[key.strip()] = value.strip()
+            key, value = key.strip(), value.strip()
+            if key in {"newdoc id", "newdoc"}:
+                doc, par = value or f"doc@{number}", None
+            elif key in {"newpar id", "newpar"}:
+                par = value or f"par@{number}"
+            meta[key] = value
         elif line.count("\t") >= 9:
             tokens += 1 if line.split("\t", 1)[0].isdigit() else 0
         else:
             errors.append({"line": number, "error": "CoNLL-U token line without 10 columns"})
     if meta.get("text") is not None:
-        yield meta.get("sent_id", "last"), meta["text"], {"tokens": tokens}
+        yield record("last")
+
+
+def to_conllu_text(records) -> str:
+    """Explainable reverse view: the sentence-level CoNLL-U comments a record
+    set came from (``newdoc``/``newpar`` boundaries, ``sent_id``, ``text``).
+    Tokens are not reconstructed: the reader keeps only their count."""
+    out, doc, par = [], None, None
+    for rid, text, meta in records:
+        if meta.get("doc_id") != doc and meta.get("doc_id") is not None:
+            doc = meta["doc_id"]
+            out.append(f"# newdoc id = {doc}")
+        if meta.get("par_id") != par and meta.get("par_id") is not None:
+            par = meta["par_id"]
+            out.append(f"# newpar id = {par}")
+        out += [f"# sent_id = {rid}", f"# text = {text}", ""]
+    return "\n".join(out)
 
 
 def read_delimited(lines, errors, delimiter: str, text_field: str, id_field: str | None):
@@ -320,7 +351,7 @@ def read_txt(lines, errors):
         yield f"p-{start}", "\n".join(buffer), {"first_line": start}
 
 
-FORMATS = ("txt", "csv", "tsv", "jsonl", "json", "conllu")
+FORMATS = ("txt", "csv", "tsv", "jsonl", "json", "conllu", "tei", "xml")
 
 
 # --- Connectors -------------------------------------------------------------------------
@@ -385,8 +416,12 @@ class LocalFilesConnector:
                 raise AccessError("unsupported", f"format {fmt!r}")
             path = confined(self.root, asset["name"])
             with open_text(path, self.limits, asset.get("member")) as stream:
-                lines = iter_lines(stream, self.limits, self.errors)
-                rows = self._rows(fmt, lines)
+                if fmt in {"tei", "xml"}:
+                    from .tei import read_tei   # late import: tei imports this module
+                    rows = read_tei(stream, self.errors, self.limits.max_decompressed_bytes)
+                else:
+                    lines = iter_lines(stream, self.limits, self.errors)
+                    rows = self._rows(fmt, lines)
                 for record_id, text, meta in rows:
                     yield CorpusRecord(self.entry["id"], asset["name"], str(record_id), text, meta)
                     count += 1
@@ -423,7 +458,21 @@ def cache_dir(source_id: str) -> Path:
     """Local copies live outside any repository: $VOZNATIVA_CORPUS_CACHE or
     ~/.voznativa/corpora/<id>. Never committed, removable with purge()."""
     base = Path(os.environ.get("VOZNATIVA_CORPUS_CACHE") or Path.home() / ".voznativa" / "corpora")
+    repo = git_worktree_of(base)
+    if repo is not None:
+        # v0.7.0 CP2: third-party text must not be one `git add -A` away from a commit.
+        raise AccessError("cache_in_repository", f"corpus cache {base} is inside the git work tree {repo}; "
+                                                 "point VOZNATIVA_CORPUS_CACHE outside any repository")
     return base / source_id
+
+
+def git_worktree_of(path: Path) -> Path | None:
+    """The nearest enclosing directory holding ``.git``, if any."""
+    current = Path(path).absolute()
+    for candidate in (current, *current.parents):
+        if (candidate / ".git").exists():
+            return candidate
+    return None
 
 
 def download(entry: dict, asset: dict, root: Path | None = None, purpose: str = "noncommercial_research") -> dict:

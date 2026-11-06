@@ -21,6 +21,7 @@ Inputs that change a decision:
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
 OPERATIONS = ("DISCOVER", "READ_METADATA", "QUERY", "DOWNLOAD", "PROCESS_LOCAL", "DERIVE_FEATURES",
@@ -38,8 +39,35 @@ CC = {  # licence family -> (attribution, share_alike, non_commercial, no_deriva
     "CC-BY-NC-SA-4.0": (True, True, True, False),
     "CC-BY-ND-4.0": (True, False, False, True),
     "CC-BY-NC-ND-4.0": (True, False, True, True),
+    # 3.0 ports (v0.7.0: UD Portuguese-PUD is CC BY-SA 3.0)
+    "CC-BY-3.0": (True, False, False, False),
+    "CC-BY-SA-3.0": (True, True, False, False),
+    "CC-BY-NC-3.0": (True, False, True, False),
+    "CC-BY-NC-SA-3.0": (True, True, True, False),
+    "CC-BY-ND-3.0": (True, False, False, True),
+    "CC-BY-NC-ND-3.0": (True, False, True, True),
 }
-SHARE_ALIKE_COMPATIBLE = {"CC-BY-SA-4.0": {"CC-BY-SA-4.0"}, "CC-BY-NC-SA-4.0": {"CC-BY-NC-SA-4.0"}}
+# BY-SA 3.0 adaptations may be shared under BY-SA 4.0 (CC's one-way compatibility); never the reverse.
+SHARE_ALIKE_COMPATIBLE = {"CC-BY-SA-4.0": {"CC-BY-SA-4.0"}, "CC-BY-NC-SA-4.0": {"CC-BY-NC-SA-4.0"},
+                          "CC-BY-SA-3.0": {"CC-BY-SA-3.0", "CC-BY-SA-4.0"},
+                          "CC-BY-NC-SA-3.0": {"CC-BY-NC-SA-3.0", "CC-BY-NC-SA-4.0"}}
+_CC_URL = re.compile(r"creativecommons\.org/licen[cs]es/(by(?:-nc)?(?:-sa|-nd)?)/(\d\.\d)", re.I)
+_CC0_URL = re.compile(r"creativecommons\.org/publicdomain/zero/1\.0", re.I)
+
+
+def license_from_url(target: str | None) -> str:
+    """A per-document licence pointer (TEI ``licence@target``) as a policy code.
+    Only Creative Commons URLs are recognised; anything else is ``unknown``,
+    never a guess."""
+    if not target:
+        return "unknown"
+    if _CC0_URL.search(target):
+        return "CC0-1.0"
+    m = _CC_URL.search(target)
+    if not m:
+        return "unknown"
+    code = f"CC-{m.group(1).upper()}-{m.group(2)}"
+    return code if code in CC else "unknown"
 
 
 @dataclass

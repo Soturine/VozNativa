@@ -55,6 +55,38 @@ class ProvenanceRecord:
         return out
 
 
+MANIFEST_OPERATIONS = ("EXPORT_STATISTICS", "EXPORT_SAMPLES", "REDISTRIBUTE", "SEND_TO_EXTERNAL_MODEL", "TRAIN_MODEL")
+
+
+def document_license(meta: dict) -> str | None:
+    """A per-document licence code carried by the reader (TEI ``licence``,
+    a ``license`` column), or None when the record has none of its own."""
+    lic = (meta or {}).get("licence") or (meta or {}).get("license")
+    if isinstance(lic, dict):
+        return lic.get("code")
+    return lic if isinstance(lic, str) and lic else None
+
+
+def manifest_row(entry: dict, record: "ProvenanceRecord") -> dict:
+    """Manifest row with the document identity, its own licence and the
+    policy state of each sensitive operation for that record (v0.7.0 CP2).
+    A record of a per-document source without a licence of its own is
+    decided as ``unknown`` and never inherits the corpus card."""
+    from .policy import decide
+    row = record.as_manifest()
+    meta = record.meta or {}
+    for key in ("doc_id", "par_id", "idno"):
+        if meta.get(key):
+            row[key] = meta[key]
+    per_document = bool(entry.get("license", {}).get("per_document")) or entry.get("license", {}).get("code") == \
+        "per_document"
+    lic = document_license(meta) or ("unknown" if per_document else None)
+    if lic:
+        row["document_license"] = lic
+    row["policy"] = {op: decide(entry, op, document_license=lic).state for op in MANIFEST_OPERATIONS}
+    return row
+
+
 def group_key(entry: dict, record) -> str:
     """The unit that must never be split: from ``processing.group_by`` (a meta
     field or ``sent_id_prefix``); the record itself when nothing is declared."""
