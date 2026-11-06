@@ -79,6 +79,8 @@ def _kind(text: str) -> str:
         return "code"
     if lines and all(_SEPARATOR.match(ln) for ln in lines):
         return "separator"
+    if len(lines) >= 2 and all(ln.strip().startswith("|") for ln in lines):
+        return "table"      # v0.7.0 CP7: Markdown tables are structure, never prose
     if _QUOTE.match(first):
         return "quote"
     if _LIST.match(first):

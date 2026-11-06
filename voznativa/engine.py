@@ -102,7 +102,7 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
                  feedback: list[str] | None = None, facts: list[str] | None = None,
                  inline_references: bool = False, root: Path | None = None,
                  protect: list[str] | tuple = (), findings: dict | None = None, project=None,
-                 targets: list[dict] | None = None, plan: dict | None = None) -> str:
+                 targets: list[dict] | None = None, plan: dict | None = None, document: dict | None = None) -> str:
     create = context["task"] == "create"
     led = ledger_mod.build("\n\n".join(facts) if create and facts else text, protect).as_dict()
     sections = [
@@ -126,6 +126,11 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
         block = _ptbr_block(text, context["genre"]["value"])
         if block:
             sections.append(block)
+    if document and not create:
+        carry = ", ".join(document.get("carry") or []) or "nenhum"
+        sections.append(f"DOCUMENTO: este TEXTO é o trecho {document['unit']} de {document['units']} de um documento "
+                        "maior. Reescreva só este trecho, mantendo a estrutura de blocos (parágrafos, listas, "
+                        f"falas). Nomes e termos já introduzidos antes, que devem ficar idênticos: {carry}.")
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
@@ -303,7 +308,8 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             explicit: dict | None = None, attempts: int = 3, candidates: int = 1,
             judge_provider: Provider | None = None, facts: list[str] | None = None,
             project=None, budget_words: int = 6000, inline_references: bool = True,
-            protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2) -> dict:
+            protect: list[str] | tuple = (), force: bool = False, judge_votes: int = 2,
+            document: dict | None = None) -> dict:
     voice_contract = contract_mod.resolve(context, profile, explicit, text)
     genre = context["genre"]["value"]
     channel = explicit_channel(context)
@@ -338,7 +344,7 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
         else:
             prompt = build_prompt(text, context, voice_contract, selection, feedback, facts, inline_references,
                                   protect=protect, findings=before, project=project, targets=targets,
-                                  plan=the_plan)
+                                  plan=the_plan, document=document)
             raws = provider.generate(prompt, candidates)
         reports, best = [], None
         for raw in raws:
@@ -431,6 +437,149 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
                        reason="the judge rejected the best candidate", quality=quality(text))
     return _result(outcome, candidate, report, history, provider, voice_contract, selection,
                    quality=quality(candidate), decision=decision)
+
+
+# --- long documents (v0.7.0 CP8, G4) ----------------------------------------------------
+
+class _BudgetedProvider:
+    """Counts calls across the whole document and refuses past the budget
+    (the refusal is a ProviderError, so the unit keeps its original text)."""
+
+    def __init__(self, inner: Provider, budget: int):
+        self.inner, self.budget, self.calls = inner, budget, 0
+        self.id = getattr(inner, "id", type(inner).__name__)
+        self.warnings = getattr(inner, "warnings", None)
+
+    def _spend(self):
+        if self.calls >= self.budget:
+            raise ProviderError(f"document call budget of {self.budget} exhausted")
+        self.calls += 1
+
+    def generate(self, prompt: str, n: int = 1):
+        self._spend()
+        return self.inner.generate(prompt, n)
+
+    def __getattr__(self, name):
+        # System-level providers (humanize) and their style hooks pass through, still counted.
+        attr = getattr(self.inner, name)
+        if name == "humanize":
+            def counted(text):
+                self._spend()
+                return attr(text)
+            return counted
+        return attr
+
+
+OUTCOME_RANK = {"no_change": 0, "accepted": 1, "needs_judgment": 2, "needs_review": 3, "returned_original": 4,
+                "provider_error": 4}
+
+
+def rewrite_document(text: str, context: dict, provider: Provider, profile: dict | None = None,
+                     limits=None, explicit: dict | None = None, resume: list[dict] | None = None,
+                     verse_explicit: bool = False, **kwargs) -> dict:
+    """Rewrite a long document unit by unit, then validate it as a whole.
+
+    1. ``document.build_plan``: lossless units, protected blocks never sent,
+       carry of names/terms, dependencies, limits (fail closed).
+    2. Each rewritable unit goes through ``rewrite`` (planner NO_CHANGE
+       without a model call, local gates, retries) with the document's
+       context and its carry; a unit that fails keeps its original text.
+    3. A rewritten unit must keep its block structure (a list stays a list).
+    4. Global validation: ``compare`` of the whole original against the whole
+       candidate. On a failure, changed units are reverted one at a time
+       (largest first) until the document passes; if nothing passes, the
+       original is returned. An unsafe partial edit is never returned.
+    5. ``resume``: the ``units`` of an earlier result; units whose source
+       sha256 matches and whose outcome was kept are reused without a call."""
+    import time
+    from .document import (Limits, PlanLimitExceeded, build_plan, reassemble, sha256, structure_of,
+                           unit_text)
+    limits = limits or Limits()
+    started = time.monotonic()
+    base = {"kind": "voznativa.document_rewrite_result", "schema_version": 1, "input_sha256": sha256(text),
+            "provider": getattr(provider, "id", type(provider).__name__)}
+    try:
+        plan = build_plan(text, context, limits, verse_explicit=verse_explicit)
+    except PlanLimitExceeded as error:
+        return dict(base, outcome="returned_original", text=text, reason=f"document limits: {error}",
+                    output_sha256=sha256(text), units=[], plan=None)
+    budget = _BudgetedProvider(provider, limits.max_provider_calls)
+    user_protect = tuple(kwargs.pop("protect", ()))
+    previous = {(u.get("index"), u.get("source_sha256")): u for u in (resume or [])}
+    replacements, units = {}, []
+    for unit in plan["units"]:
+        record = {"index": unit["index"], "action": unit["action"], "kinds": unit["kinds"], "words": unit["words"],
+                  "source_sha256": unit["sha256"]}
+        if unit["action"] == "protect":
+            units.append(dict(record, outcome="protected"))
+            continue
+        if time.monotonic() - started >= limits.timeout_s:
+            units.append(dict(record, outcome="not_run", reason="document timeout"))
+            continue
+        source = unit_text(text, unit)
+        prior = previous.get((unit["index"], unit["sha256"]))
+        if prior and prior.get("outcome") in {"accepted", "needs_judgment", "needs_review", "no_change"} \
+                and prior.get("candidate_sha256"):
+            candidate = prior.get("_candidate")
+            if candidate is not None and sha256(candidate) == prior["candidate_sha256"]:
+                if prior["outcome"] != "no_change":
+                    replacements[unit["index"]] = candidate
+                units.append(dict(prior, resumed=True))
+                continue
+        document_info = {"unit": unit["index"] + 1, "units": len(plan["units"]), "carry": unit["carry"]}
+        result = rewrite(source, context, budget, profile, explicit=explicit, attempts=limits.attempts_per_unit,
+                         protect=user_protect + tuple(unit["carry"]), document=document_info,
+                         **kwargs)
+        outcome, candidate = result["outcome"], result["text"]
+        rec = dict(record, outcome=outcome, attempts=len(result.get("attempts", [])),
+                   **({"reason": result["reason"]} if result.get("reason") else {}))
+        if outcome in {"accepted", "needs_judgment", "needs_review"} and candidate != source:
+            if structure_of(candidate) != structure_of(source):
+                rec.update(outcome="returned_original", reason="the rewrite changed the unit's block structure "
+                           f"{structure_of(source)} -> {structure_of(candidate)}")
+            else:
+                replacements[unit["index"]] = candidate
+                rec.update(candidate_sha256=sha256(candidate), _candidate=candidate)
+        elif outcome == "no_change":
+            rec.update(candidate_sha256=unit["sha256"], _candidate=source)
+        units.append(rec)
+
+    # Global validation with controlled correction.
+    reverted = []
+    candidate_doc = reassemble(text, plan, replacements)
+    report = compare(text, candidate_doc) if replacements else None
+    order = sorted(replacements, key=lambda i: -len(replacements[i]))
+    while report is not None and report["status"] == "fail" and order:
+        drop = order.pop(0)
+        reverted.append(drop)
+        replacements.pop(drop)
+        candidate_doc = reassemble(text, plan, replacements)
+        report = compare(text, candidate_doc) if replacements else None
+    for rec in units:
+        if rec["index"] in reverted:
+            rec.update(outcome="returned_original", reason="reverted by the global validation")
+    kept = [u for u in units if u["index"] in replacements]
+    if not replacements:
+        tried = [u for u in units if u["action"] == "rewrite"]
+        all_no_change = tried and all(u["outcome"] == "no_change" for u in tried)
+        outcome = "no_change" if all_no_change or not tried else "returned_original"
+        final = text
+    else:
+        worst = max((OUTCOME_RANK.get(u["outcome"], 3) for u in kept), default=0)
+        outcome = next(k for k, v in OUTCOME_RANK.items() if v == worst and k != "provider_error")
+        if report and report["status"] in {"review_required"} and OUTCOME_RANK[outcome] < OUTCOME_RANK["needs_review"]:
+            outcome = "needs_review"
+        if any(u["outcome"] in {"returned_original", "provider_error", "not_run"} for u in units
+               if u["action"] == "rewrite") and outcome in {"accepted", "needs_judgment"}:
+            outcome = "needs_review"      # partly rewritten: someone should see which parts were kept
+        final = candidate_doc
+    public_units = [{k: v for k, v in u.items() if not k.startswith("_")} for u in units]
+    return dict(base, outcome=outcome, text=final, output_sha256=sha256(final),
+                units=public_units, resume_state=units, reverted_units=reverted,
+                global_report=({"status": report["status"], "summary": report.get("summary"),
+                                "issues": report["issues"][:20]} if report else None),
+                plan={k: plan[k] for k in ("sha256", "words", "limits", "forced_cuts", "policy")},
+                provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
 
 
 _TRAILING_COMMA = re.compile(r",(\s*[}\]])")

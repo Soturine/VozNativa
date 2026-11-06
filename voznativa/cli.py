@@ -300,11 +300,22 @@ def cmd_rewrite(args):
                       args.provider_env_allow) if args.judge_cmd else None
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
-    result = rewrite(_read(args.text), context, provider, profile, explicit=explicit, attempts=args.attempts,
-                     candidates=args.candidates, judge_provider=judge,
-                     facts=[_read(f) for f in args.fact or []], project=scan(args.repo) if args.repo else None,
-                     budget_words=args.budget, protect=_protected(args), force=args.force,
-                     judge_votes=args.judge_votes)
+    text = _read(args.text)
+    common = dict(candidates=args.candidates, judge_provider=judge, facts=[_read(f) for f in args.fact or []],
+                  project=scan(args.repo) if args.repo else None, budget_words=args.budget,
+                  protect=_protected(args), force=args.force, judge_votes=args.judge_votes)
+    long_form = context["task"] != "create" and (
+        args.long_form == "on" or (args.long_form == "auto" and len(text.split()) > 1.5 * args.segment_words))
+    if long_form:
+        from .document import Limits
+        from .engine import rewrite_document
+        limits = Limits(segment_words=args.segment_words, attempts_per_unit=args.attempts,
+                        max_provider_calls=args.max_calls)
+        result = rewrite_document(text, context, provider, profile, limits=limits, explicit=explicit,
+                                  verse_explicit=args.rewrite_verse, **common)
+        result.pop("resume_state", None)    # holds candidate texts; the report keeps hashes only
+    else:
+        result = rewrite(text, context, provider, profile, explicit=explicit, attempts=args.attempts, **common)
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -558,6 +569,13 @@ def build_parser() -> argparse.ArgumentParser:
                            help="independent judge calls that must all say equivalent (default 2)")
             p.add_argument("--force", action="store_true",
                            help="call the model even when the text has no editorial findings")
+            p.add_argument("--long-form", choices=["auto", "on", "off"], default="auto",
+                           help="rewrite unit by unit with a global validation (auto: texts longer than 1.5x "
+                                "--segment-words); protected blocks never reach the model")
+            p.add_argument("--segment-words", type=int, default=600, help="target words per unit (long form)")
+            p.add_argument("--max-calls", type=int, default=800, help="provider call budget for a long document")
+            p.add_argument("--rewrite-verse", action="store_true",
+                           help="allow verse blocks to be rewritten (otherwise they are protected)")
             p.set_defaults(func=cmd_rewrite)
     return parser
 

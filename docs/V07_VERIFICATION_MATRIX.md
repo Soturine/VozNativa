@@ -11,8 +11,8 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-05 G2 | `Containment` (direcional; capítulo; trecho entre fontes; edição modernizada; mesmo tema ≠ duplicata; citação comum; frase curta), `MultiKeySplits` | integridade real em 7 fontes | controle negativo: `with_containment=False` reproduz o gap | `integrity-2026-11-06-cp4.json` | — | PASS |
 | RF-06 G1 | `G1EndToEnd` (gênero + proteções + planner local), `AbstentionKeepsProtections` (com controle), `ChatNeedsCorroboration`, `HistoricSpellingIsNotPtPt` | 14 oráculos congelados `cases-v07` (literatura, poesia, 3 chats, oral, manual, relatório, e-mail, fórum, Markdown, flags de CLI) | CRLF, NBSP, nomes de fonte trocados | `crossgenre-2026-11-06-cp5b.json` | — | PASS |
 | RF-07 G3 | `HeldOutSample` (2 amostras congeladas), controle negativo do padrão v0.6, `FalseFriendNeedsCorroboration` | `ConsumersCountTheSlangSenseOnly` (engine, perfil, guard de introdução) | mutação: CP14 | `crossgenre-2026-11-06-cp6b.json` | — | PASS |
-| RF-08 contrato long-form | | | | | | pendente |
-| RF-09 G4 | | | | | | aberto |
+| RF-08 contrato long-form | `Contract` (sem perda, JSON ida e volta, adulteração, protegido não substituível, verso, dependências/carry) | — | CRLF ida e volta | — | — | PASS |
+| RF-09 G4 | `SegmentedRewrite` (12 cenários), `CommandSplitting` | `CommandLine`: `python -m voznativa rewrite --long-form on` com provedor de comando | — | — | modelo externo: NOT_RUN | PASS (stubs); live NOT_RUN |
 | RF-10 guards | | | | | | pendente |
 | RF-11 bench v5 | | | | | | pendente |
 | RF-12 detectores | | | | | live: LIVE_NOT_RUN | pendente |

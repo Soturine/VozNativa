@@ -84,6 +84,22 @@ def agent_cli_warnings(argv: list[str]) -> list[str]:
             f"can still read and write files by absolute path and use the network. Use e.g. `{example}`."]
 
 
+def split_command(command: str, windows: bool | None = None) -> list[str]:
+    """Shell-like split. On Windows ``shlex`` in non-POSIX mode keeps the
+    quotes inside the tokens, so ``"C:\\Program Files\\x.exe" a`` named a
+    program with quotes in its path (v0.7.0 CP8, VN07-DISC-020); surrounding
+    quotes are removed and backslashes kept."""
+    windows = os.name == "nt" if windows is None else windows
+    if not windows:
+        return shlex.split(command, posix=True)
+    out = []
+    for token in shlex.split(command, posix=False):
+        if len(token) >= 2 and token[0] == token[-1] and token[0] in "\"'":
+            token = token[1:-1]
+        out.append(token)
+    return out
+
+
 @dataclass
 class StaticProvider:
     """Returns pre-written candidates in order; used by tests and benchmarks."""
@@ -247,7 +263,7 @@ class CommandProvider:
             if not isinstance(argv, list) or not all(isinstance(a, str) for a in argv):
                 raise ValueError("--cmd JSON must be an array of strings")
             return cls(argv, timeout, **options)
-        return cls(shlex.split(command, posix=os.name != "nt"), timeout, **options)
+        return cls(split_command(command), timeout, **options)
 
     def _environment(self) -> dict | None:
         if self.env == "inherit":
