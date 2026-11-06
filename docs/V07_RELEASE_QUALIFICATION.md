@@ -22,6 +22,40 @@ O workflow `.github/workflows/ci.yml` (só `workflow_dispatch`) roda, em Linux e
 
 Nenhuma avaliação humana foi simulada por persona automatizada.
 
-## Resultados por plataforma
+## Resultados por plataforma (qualificação local)
 
-Preenchido no CP15/CP16.
+Revisão `37e8d6e` (código idêntico ao que vai para a `main`; commits posteriores mudam só arquivos de evidência e documentação de estado), árvore limpa em todas as execuções, `scripts/qualify.py --scope release`. Registros: `evals/assurance/runs/2026-11-06-v07-cp15/`.
+
+| Plataforma | Python | unittest | validator, semântica, holdouts, decisão, roteador, CLI, gatilhos de workflow | pacote (sdist → wheel → venv limpo → smoke fora do checkout) | `review:pty` | Veredito |
+|---|---|---|---|---|---|---|
+| WSL Ubuntu 24.04 | 3.11.16 | 635/635 PASS | PASS | PASS | PASS | INCOMPLETE (externos) |
+| WSL Ubuntu 24.04 | 3.12.14 | 635/635 PASS | PASS | PASS | PASS | INCOMPLETE (externos) |
+| WSL Ubuntu 24.04 | 3.13.15 | 635/635 PASS | PASS | PASS | PASS | INCOMPLETE (externos) |
+| Windows 11 | 3.12.10 | 634 PASS, 1 skip (teste de pipeline POSIX) | PASS | PASS | NOT_RUN (POSIX) | INCOMPLETE |
+| Windows | 3.11.18 | 634 PASS, 1 skip | PASS | PASS | NOT_RUN (POSIX) | INCOMPLETE |
+
+Nenhum `expectedFailure` restante: G1–G4 viraram testes de regressão. Primeira rodada no WSL (`cc0a00b`) marcou o gate de pacote como FAIL porque o venv do `uv` não tinha pip; o gate passou a classificar isso como BLOCKED (VN07-DISC-036) e a rodada foi repetida com pip.
+
+Gate `ci:github-actions` antes do merge: NOT_RUN no Windows (a consulta ao vivo não achou run nessa revisão, como esperado) e INCONCLUSIVE no WSL (sem `gh` instalado lá: consulta indisponível nunca vira PASS).
+
+## Benchmarks e medições
+
+| Instrumento | Resultado |
+|---|---|
+| `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22; o caso que passou a passar originou o G3: não independente) |
+| `ptbr-bench-v5` (congelado antes do runner) | 1ª execução 34/36; após duas correções de recall 36/36 (não independente para esses 2 casos) |
+| Semântica dev + 5 holdouts | 77/77; holdouts sem detecção perdida, modo estrito sem divergência nova |
+| Roteador nos 7 corpora | precisão das decisões emitidas 93,8% (Wilson 91,8–95,4), cobertura útil 8,8%, erradas 0,58% |
+| Morfologia contra ouro UD (4 treebanks) | 93–97% de acerto nas análises únicas; 64–69% das análises cobertas são únicas |
+
+## Veredito por dimensão
+
+| Dimensão | Estado | Base |
+|---|---|---|
+| IMPLEMENTATION | PASS para o escopo marcado `[x]` no `ROADMAP.md`; PARTIAL onde marcado `[~]` | testes por requisito em `docs/V07_VERIFICATION_MATRIX.md` |
+| LOCAL_QUALIFICATION | PASS (gates locais) em Windows 3.11/3.12 e Linux 3.11/3.12/3.13; INCOMPLETE como veredito por causa dos gates externos | tabela acima |
+| REMOTE_CI | registrado no fechamento (CP16) | `scripts/ci_evidence.py` |
+| INDEPENDENT_HOLDOUT | NOT_RUN | precisa de outra pessoa |
+| BLIND_HUMAN_REVIEW | NOT_RUN | registro de revisores vazio |
+| EXTERNAL_DETECTOR_BENCH | LIVE_NOT_RUN | sem chaves, sem textos humanos consentidos |
+| RELEASE_READINESS | não pronto para release estável | 0.7.0.dev0; sem tag, sem PyPI |

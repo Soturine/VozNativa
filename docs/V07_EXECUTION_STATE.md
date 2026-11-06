@@ -25,10 +25,10 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP10 | ptbr-bench-v5 OOD | concluído | `36dd20c` (congelamento), `e634a3b` (runner), `f5cacd6`/`0233670` | 1ª execução oficial 34/36 em `e634a3b` (roteamento 14/16); correções gerais; rodada pós-correção registrada a seguir; `docs/V07_OOD_BENCHMARK.md` |
 | CP11 | Detectores externos | concluído (infra) | `5c2377a` | adapters Copyleaks (contrato verificado), GPTZero (parcial), Originality (UNSUPPORTED), mock/replay rotulados; protocolo H0/H1/A0/A1; 9 testes; live **LIVE_NOT_RUN** |
 | CP12 | Unicode/proveniência/browser | concluído | `a5570a2` | `voznativa/integrity.py`, `voznativa integrity`, `provenance` no `rewrite`; 8 testes; navegador UNSUPPORTED (sem alvo autorizado); Art. 50 registrado |
-| CP13 | Avaliação humana e evidência | pendente | | |
+| CP13 | Avaliação humana e evidência | concluído (estado honesto) | `7d2382b` | instrumento cego testado; rodada humana, holdout independente e detectores live NOT_RUN; `docs/V07_RELEASE_QUALIFICATION.md` diz o que a CI valida |
 | CP14S | Linha futura de Standards (adendo 3, só docs) | concluído | (este commit) | `docs/V08_STANDARDS_VISION.md`, ADR-0003 (proposto); nada implementado |
-| CP14 | Dogfood e mutação | em andamento | `3fb4163` (correções do Engine), este commit (registros) | Engine: 5 achados corrigidos → ABSENT; Assertiva `--execute` PASS 660; AXF-VN-01 corrigido upstream (Assertiva PR #8 `3415828`); feedback Engine PR #3 `7e8e9ee`; 2 runs de Actions da Assertiva disparados e cancelados (incidente); mutação de `temporal.py` (875 mutantes) em execução |
-| CP15 | Pacote, docs, compatibilidade | pendente | | |
+| CP14 | Dogfood e mutação | concluído | `3fb4163`, `a4426e4`, `7d2382b`, este commit | Engine: 5 corrigidos → ABSENT; Assertiva `--execute` PASS; AXF-VN-01 corrigido upstream (Assertiva PR #8 `3415828`); Engine PR #3 `7e8e9ee`; mutação de `temporal.py`: 613 → 633 mortos de 875, 44 executáveis triados (`evals/assurance/runs/2026-11-06-v07-cp14/MUTATION.md`); incidente: 2 runs de Actions da Assertiva disparados e cancelados |
+| CP15 | Pacote, docs, compatibilidade | concluído | `7d2382b`, `cc0a00b`, `37e8d6e`, este commit | README novo testado; versão 0.7.0.dev0; qualificação local de `37e8d6e` PASS (gates locais) em Windows 3.11/3.12 e WSL 3.11/3.12/3.13; pacote PASS fora do checkout; auditoria da abstenção do roteador |
 | CP16 | Merge na main + CI manual | pendente | | |
 
 ## Bloqueios conhecidos
@@ -48,4 +48,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP13.
+CP16: fast-forward da `main`, um `workflow_dispatch`, registro do run.

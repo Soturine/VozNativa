@@ -1,0 +1,56 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-06-v07-cp15",
+  "entries": [
+    {
+      "file": "qualify-win-py311.json",
+      "command": "python scripts/qualify.py --scope release (37e8d6e, Windows, CPython 3.11.18)",
+      "exit_code": 3,
+      "raw_sha256": "a5963256d091cd062e58475014fec90c8a5135a7a238bf6484d759117ec4fa92",
+      "published_sha256": "a5963256d091cd062e58475014fec90c8a5135a7a238bf6484d759117ec4fa92",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py312.json",
+      "command": "python scripts/qualify.py --scope release (37e8d6e, Windows 11, CPython 3.12.10)",
+      "exit_code": 3,
+      "raw_sha256": "af5497b49648b9dda3ddcbbb736465ab3e1e7e644ff69b19c3dbf451ec22cc19",
+      "published_sha256": "af5497b49648b9dda3ddcbbb736465ab3e1e7e644ff69b19c3dbf451ec22cc19",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-wsl-py311.json",
+      "command": "python scripts/qualify.py --scope release (37e8d6e, WSL Ubuntu 24.04, CPython 3.11.16)",
+      "exit_code": 3,
+      "raw_sha256": "58eb817cb00942f6326439a11503bb253309f6a0152cbaa6d0145ddc26101efa",
+      "published_sha256": "58eb817cb00942f6326439a11503bb253309f6a0152cbaa6d0145ddc26101efa",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-wsl-py312.json",
+      "command": "python scripts/qualify.py --scope release (37e8d6e, WSL Ubuntu 24.04, CPython 3.12.14)",
+      "exit_code": 3,
+      "raw_sha256": "167fb6db7757c3becbc287ca15c7272d4f4deb0487efa8c9959487656cc56174",
+      "published_sha256": "167fb6db7757c3becbc287ca15c7272d4f4deb0487efa8c9959487656cc56174",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-wsl-py313.json",
+      "command": "python scripts/qualify.py --scope release (37e8d6e, WSL Ubuntu 24.04, CPython 3.13.15)",
+      "exit_code": 3,
+      "raw_sha256": "2ef6ae2cd907451eebb75bd41ce083b901c287f8ce7fc41a76ab6f456c0e9bd4",
+      "published_sha256": "2ef6ae2cd907451eebb75bd41ce083b901c287f8ce7fc41a76ab6f456c0e9bd4",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-06T17:12:09+00:00",
+  "revision": "37e8d6ebb6925e07e1e33bbfd23092ed66e1faff",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {},
+  "notes": []
+}

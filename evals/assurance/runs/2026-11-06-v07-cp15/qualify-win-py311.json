@@ -1,0 +1,320 @@
+{
+  "kind": "voznativa.qualification",
+  "schema_version": 1,
+  "recorded_at": "2026-11-06T17:11:42+00:00",
+  "version": "0.7.0.dev0",
+  "revision": "37e8d6ebb6925e07e1e33bbfd23092ed66e1faff",
+  "dirty": false,
+  "scope": "release",
+  "environment": {
+    "python": "3.11.18",
+    "implementation": "CPython",
+    "platform": "Windows-10",
+    "executable_is_venv": true
+  },
+  "verdict": "INCOMPLETE",
+  "exit_code": 3,
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 4,
+    "SKIPPED": 0,
+    "INCONCLUSIVE": 0,
+    "WAIVED_BY_OWNER": 0
+  },
+  "gates": [
+    {
+      "id": "validator",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "package layout, data, docs commands",
+      "exit_code": 0,
+      "output": "VozNativa package v0.7.0.dev0 is valid",
+      "seconds": 3.47
+    },
+    {
+      "id": "unittest",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "python -m unittest discovery of evals/test_*.py",
+      "exit_code": 0,
+      "seconds": 70.42,
+      "counts": {
+        "ran": 635,
+        "passed": 634,
+        "failed": 0,
+        "errors": 0,
+        "collection_errors": 0,
+        "skipped": 1,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "failed": [],
+      "errors": [],
+      "collection_errors": [],
+      "skipped": [
+        {
+          "id": "test_ci_evidence.CheckpointHarness.test_pipeline_with_tail_hides_the_failure",
+          "reason": "POSIX shell pipeline semantics"
+        }
+      ],
+      "unexpected_successes": []
+    },
+    {
+      "id": "semantic:dev",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "dev semantic suite passes completely",
+      "cases": 77,
+      "passed": 77,
+      "failures": [],
+      "seconds": 0.33
+    },
+    {
+      "id": "semantic:holdouts:safety",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "no missed detection; holdouts frozen and intact",
+      "problems": [],
+      "suites": {
+        "holdout-relations.jsonl": "12/12",
+        "holdout-v030.jsonl": "24/24",
+        "holdout-v040.jsonl": "32/32",
+        "holdout.jsonl": "24/24",
+        "holdout2.jsonl": "16/16"
+      },
+      "seconds": 0.81
+    },
+    {
+      "id": "semantic:holdouts:strict",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "exact status and codes; known divergences listed",
+      "new_failures": [],
+      "known_failures_still_failing": [],
+      "known_failures_now_passing": [],
+      "note": "strict = status and issue codes as written; known items are frozen cases whose recorded first run already diverged (see evals/qualification/expectations.json)",
+      "seconds": 0.88
+    },
+    {
+      "id": "decision:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "engine decision suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "dc-021",
+        "dc-029"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "28/30",
+      "failures": {
+        "dc-021": "wrong_scope",
+        "dc-029": "unnecessary_change"
+      },
+      "seconds": 0.53
+    },
+    {
+      "id": "router:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "genre router suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "rt-014"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "15/16",
+      "seconds": 0.12
+    },
+    {
+      "id": "cli:exit-codes",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "CLI exit codes are the documented gate interface",
+      "cases": [
+        {
+          "case": "compare identical -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "compare negation removed -> 1 fail",
+          "expected": 1,
+          "exit_code": 1,
+          "passed": true
+        },
+        {
+          "case": "compare added claim -> 2 review",
+          "expected": 2,
+          "exit_code": 2,
+          "passed": true
+        },
+        {
+          "case": "compare clean rewrite -> 3 needs judgment",
+          "expected": 3,
+          "exit_code": 3,
+          "passed": true
+        },
+        {
+          "case": "unknown flag -> 64 usage, never a gate status",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "missing file -> 64",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "plan runs without a model -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "--help -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        }
+      ],
+      "seconds": 1.81
+    },
+    {
+      "id": "package:sdist-wheel-smoke",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "sdist -> wheel -> clean venv -> smoke (CI package job)",
+      "wheel": "voznativa-0.7.0.dev0-py3-none-any.whl",
+      "steps": [
+        {
+          "step": "sdist",
+          "exit_code": 0,
+          "seconds": 4.11
+        },
+        {
+          "step": "wheel from sdist",
+          "exit_code": 0,
+          "seconds": 4.62
+        },
+        {
+          "step": "venv",
+          "exit_code": 0
+        },
+        {
+          "step": "install wheel (+ declared deps)",
+          "exit_code": 0,
+          "seconds": 2.11
+        },
+        {
+          "step": "smoke outside the checkout",
+          "exit_code": 0,
+          "seconds": 10.47
+        }
+      ],
+      "seconds": 33.94
+    },
+    {
+      "id": "review:pty",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "local",
+      "description": "interactive signed review through a real pseudo-terminal",
+      "reason": "needs a POSIX pseudo-terminal; runs on Linux/macOS",
+      "seconds": 0.0
+    },
+    {
+      "id": "ci:workflow-triggers",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "every workflow is workflow_dispatch only (no automatic Actions minutes)",
+      "workflows": {
+        "ci.yml": [
+          "workflow_dispatch"
+        ]
+      },
+      "seconds": 0.05
+    },
+    {
+      "id": "ci:github-actions",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "release",
+      "description": "declared CI matrix ran green on this exact revision",
+      "reason": "no live CI run on this revision or a code-equivalent one",
+      "tried": [
+        {
+          "sha": "37e8d6ebb692",
+          "equivalent": true,
+          "relation": "same",
+          "live_runs": 0
+        },
+        {
+          "sha": "40e19e49993f",
+          "equivalent": false,
+          "relation": "code_changed",
+          "changed_code_paths": [
+            ".claude-plugin/plugin.json",
+            ".github/workflows/ci.yml",
+            "CHANGELOG.md",
+            "LICENSE",
+            "MANIFEST.in",
+            "README.md",
+            "ROADMAP.md",
+            "SKILL.md",
+            "benchmarks/cases/ptbr-bench-v4.jsonl",
+            "benchmarks/cases/ptbr-bench-v5.jsonl",
+            "benchmarks/manifests/ptbr-bench-v4.json",
+            "benchmarks/manifests/ptbr-bench-v5.json",
+            "benchmarks/runs/ptbr-bench-v4-20261105T185659Z.json",
+            "benchmarks/runs/ptbr-bench-v4-20261105T185925Z.json",
+            "benchmarks/runs/ptbr-bench-v4-20261106T021515Z.json",
+            "benchmarks/runs/ptbr-bench-v4-20261106T141830Z.json",
+            "benchmarks/runs/ptbr-bench-v5-20261106T150151Z.json",
+            "benchmarks/runs/ptbr-bench-v5-20261106T150411Z.json",
+            "docs/AS_IS_v0.6.0.md",
+            "docs/AS_IS_v0.7.0.md"
+          ],
+          "reason": "217 non-evidence path(s) changed after the run"
+        }
+      ],
+      "source": "live GitHub Actions query (gh api); record is an index only",
+      "seconds": 0.89
+    },
+    {
+      "id": "holdout:independent",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "release",
+      "description": "semantic holdout written by someone other than the developer",
+      "reason": "needs a semantic holdout written by someone other than the developer (evals/semantic/INDEPENDENT_HOLDOUT.md)",
+      "source": "evals/qualification/external.json",
+      "seconds": 0.0
+    },
+    {
+      "id": "review:blind-human",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "release",
+      "description": "blind pairwise review by real reviewers",
+      "reason": "instrument ready (voznativa blind-*); evals/reviewers/registry.json has no reviewer",
+      "source": "evals/qualification/external.json",
+      "seconds": 0.0
+    }
+  ]
+}
