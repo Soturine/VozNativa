@@ -1,0 +1,60 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-v06-cp14",
+  "entries": [
+    {
+      "file": "qualify-linux-py3.11.json",
+      "command": "qualify --scope release (WSL Ubuntu 24.04, uv venv 3.11) on git archive of 1515486",
+      "exit_code": 3,
+      "raw_sha256": "e7ab6279d5b08fc5fa05e8d81af206811b82ffceb7d22805dd653e846f610383",
+      "published_sha256": "e7ab6279d5b08fc5fa05e8d81af206811b82ffceb7d22805dd653e846f610383",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.12.json",
+      "command": "qualify --scope release (WSL Ubuntu 24.04, uv venv 3.12) on git archive of 1515486",
+      "exit_code": 3,
+      "raw_sha256": "c925e1f09b0581729ea167b70bd7a1c1b77cdeb0f6b1b64ba58a069889739995",
+      "published_sha256": "c925e1f09b0581729ea167b70bd7a1c1b77cdeb0f6b1b64ba58a069889739995",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py3.13.json",
+      "command": "qualify --scope release (WSL Ubuntu 24.04, uv venv 3.13) on git archive of 1515486",
+      "exit_code": 3,
+      "raw_sha256": "3383b8fc8b755798a277898bfdca003bf35fe7c820ca42d92c3dd950dd37545a",
+      "published_sha256": "3383b8fc8b755798a277898bfdca003bf35fe7c820ca42d92c3dd950dd37545a",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py311.json",
+      "command": "python scripts/qualify.py --scope release (Windows, CPython 3.11.18) at 1515486",
+      "exit_code": 3,
+      "raw_sha256": "acb05216abc79d93cabe8e1bcc40443806c427d8d53fd517b3a30ab1e645c939",
+      "published_sha256": "acb05216abc79d93cabe8e1bcc40443806c427d8d53fd517b3a30ab1e645c939",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py312.json",
+      "command": "python scripts/qualify.py --scope release (Windows, CPython 3.12.10) at 1515486",
+      "exit_code": 3,
+      "raw_sha256": "42372859864b872525fea4d47647147de136636e78a5abe6f5a1db45302888e1",
+      "published_sha256": "42372859864b872525fea4d47647147de136636e78a5abe6f5a1db45302888e1",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-06T02:16:58+00:00",
+  "revision": "15154864651107e0ef4b9128030c825987204231",
+  "dirty_paths": [
+    "benchmarks/runs/ptbr-bench-v4-20261106T021515Z.json"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {},
+  "notes": [
+    "Linux revision fcf6ff3 is the throwaway commit the script makes over the archive of 1515486. Reproducibility at 1515486: calibration, integrity and longform runs reproduced exactly except their seconds fields; ptbr-bench-v4 21/22 again (benchmarks/runs/ptbr-bench-v4-20261106T021515Z.json)."
+  ]
+}
