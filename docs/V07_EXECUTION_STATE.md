@@ -24,9 +24,10 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP9D | Erros do original e modos editoriais (adendo 2) | concluído | `1469b8b` + `d2eb53e` | `voznativa/diagnose.py`, CLI `diagnose` e `rewrite --mode`; `evals/test_diagnose.py` (12); FP em texto humano medido; variante do gatilho de subjuntivo medida e rejeitada como padrão |
 | CP10 | ptbr-bench-v5 OOD | concluído | `36dd20c` (congelamento), `e634a3b` (runner), `f5cacd6`/`0233670` | 1ª execução oficial 34/36 em `e634a3b` (roteamento 14/16); correções gerais; rodada pós-correção registrada a seguir; `docs/V07_OOD_BENCHMARK.md` |
 | CP11 | Detectores externos | concluído (infra) | `5c2377a` | adapters Copyleaks (contrato verificado), GPTZero (parcial), Originality (UNSUPPORTED), mock/replay rotulados; protocolo H0/H1/A0/A1; 9 testes; live **LIVE_NOT_RUN** |
-| CP12 | Unicode/proveniência/browser | concluído | (este commit) | `voznativa/integrity.py`, `voznativa integrity`, `provenance` no `rewrite`; 8 testes; navegador UNSUPPORTED (sem alvo autorizado); Art. 50 registrado |
+| CP12 | Unicode/proveniência/browser | concluído | `a5570a2` | `voznativa/integrity.py`, `voznativa integrity`, `provenance` no `rewrite`; 8 testes; navegador UNSUPPORTED (sem alvo autorizado); Art. 50 registrado |
 | CP13 | Avaliação humana e evidência | pendente | | |
-| CP14 | Dogfood e mutação | contínuo | | |
+| CP14S | Linha futura de Standards (adendo 3, só docs) | concluído | (este commit) | `docs/V08_STANDARDS_VISION.md`, ADR-0003 (proposto); nada implementado |
+| CP14 | Dogfood e mutação | em andamento | `3fb4163` (correções do Engine), este commit (registros) | Engine: 5 achados corrigidos → ABSENT; Assertiva `--execute` PASS 660; AXF-VN-01 corrigido upstream (Assertiva PR #8 `3415828`); feedback Engine PR #3 `7e8e9ee`; 2 runs de Actions da Assertiva disparados e cancelados (incidente); mutação de `temporal.py` (875 mutantes) em execução |
 | CP15 | Pacote, docs, compatibilidade | pendente | | |
 | CP16 | Merge na main + CI manual | pendente | | |
 
