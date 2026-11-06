@@ -60,3 +60,15 @@ Ver `references/corpora/` e `docs/LICENSING.md`. Fatos que mudaram decisões:
 ## v0.6.0 (2026-11-05)
 
 Corpus tooling, dated slang, community lexicons and public-domain literature: `docs/COMPETITIVE_ANALYSIS_v0.6.md`.
+
+## v0.7.0 (consulta: 2026-11-06)
+
+| Fonte | O que foi verificado | Uso |
+|---|---|---|
+| GitHub API e README/LICENSE de UD_Portuguese-GSD (`c91edee`), -PetroGold (`5814c7f`), -PUD (`0fdcc05`), -DANTEStocks (`4268e8e`), -CINTIL (`dc2cb3a`) | licenças CC BY-SA 4.0, CC BY-SA 4.0, CC BY-SA 3.0, CC BY 4.0, CC BY-NC-ND 4.0; o README do GSD diz que a licença cobre as anotações, não o conteúdo | CP3 (4 fontes integradas; CINTIL só catálogo); `text_rights: unclear` |
+| huggingface.co/spacy/pt_core_news_sm | v3.7.0, CC BY-SA 4.0, treinado em UD Bosque v2.8 + WikiNER | ADR-0002: não embutido no pacote MIT |
+| stanfordnlp.github.io/stanza/available_models.html | página não declara licença dos modelos nem lista português | ADR-0002: não verificado, não adotado |
+| docs.copyleaks.com (writer-detector check; idiomas) | endpoint, auth, campos, `pt` suportado; significado de `summary` não declarado | CP11 adapter (contrato verificado) |
+| docs.gptzero.me/api-reference | `POST /v2/predict/text`, `modelVersion`; auth e campos de resposta não estavam na página | CP11 adapter parcial |
+| docs.originality.ai | endpoint e campos não confirmados na página lida | CP11 `UNSUPPORTED` |
+| ai-act-service-desk.ec.europa.eu, Art. 50 | §2 marcação legível por máquina; §4 divulgação com exceção de controle editorial; data de aplicação não na página | CP12 nota de divulgação na proveniência |

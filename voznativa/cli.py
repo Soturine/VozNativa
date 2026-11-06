@@ -322,6 +322,12 @@ def cmd_rewrite(args):
         result.pop("resume_state", None)    # holds candidate texts; the report keeps hashes only
     else:
         result = rewrite(text, context, provider, profile, explicit=explicit, attempts=args.attempts, **common)
+    from . import __version__
+    from .integrity import provenance_record
+    called = bool(result.get("attempts")) or bool(result.get("provider_calls"))
+    result["provenance"] = provenance_record(text, result["text"], tool_version=__version__, operation="rewrite",
+                                             provider=result.get("provider") if called else None,
+                                             outcome=result.get("outcome"))
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -330,6 +336,22 @@ def cmd_rewrite(args):
             "provider_error": 1}[
         result["outcome"]]
 
+
+
+def cmd_integrity(args):
+    from .integrity import audit, clean
+    text = _read(args.text)
+    if args.clean:
+        result = clean(text, tuple(args.policy) if args.policy else
+                       ("tags", "bidi_unbalanced", "zero_width_outside_emoji", "controls"))
+        if args.text_only:
+            _emit(None, result["text"])
+            return 0
+        _emit(result)
+        return 0
+    report = audit(text)
+    _emit(report)
+    return 2 if report["suspicious"] else 0
 
 
 def cmd_diagnose(args):
@@ -482,6 +504,15 @@ def build_parser() -> argparse.ArgumentParser:
     _contract_args(p)
     _protect_args(p)
     p.set_defaults(func=cmd_plan)
+
+    p = sub.add_parser("integrity", help="character-level integrity audit (invisible, bidi, tag, control, "
+                                         "homoglyph); not a watermark detector. Exit 2 when something is suspicious")
+    p.add_argument("text")
+    p.add_argument("--clean", action="store_true", help="remove only the classes named by --policy")
+    p.add_argument("--policy", action="append",
+                   choices=["tags", "bidi_unbalanced", "zero_width_outside_emoji", "controls", "soft_hyphen"])
+    p.add_argument("--text-only", action="store_true")
+    p.set_defaults(func=cmd_integrity)
 
     p = sub.add_parser("diagnose", help="typed diagnostics of the source: errors, contradictions, legitimate "
                                         "choices, ambiguities (no model call, nothing changed)")

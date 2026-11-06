@@ -23,8 +23,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP9L | Camada linguística (adendo 1) | concluído | `d51e110` | `voznativa/morph.py` + sinal `tense_changed`; ADR-0002; medição contra ouro UD em 4 treebanks; `evals/test_morph.py`; inventário e backlog em `docs/V07_LINGUISTICS.md`; `ptbr-bench-v4` 22/22 em `2a21c7e` (evidência deste commit) |
 | CP9D | Erros do original e modos editoriais (adendo 2) | concluído | `1469b8b` + `d2eb53e` | `voznativa/diagnose.py`, CLI `diagnose` e `rewrite --mode`; `evals/test_diagnose.py` (12); FP em texto humano medido; variante do gatilho de subjuntivo medida e rejeitada como padrão |
 | CP10 | ptbr-bench-v5 OOD | concluído | `36dd20c` (congelamento), `e634a3b` (runner), `f5cacd6`/`0233670` | 1ª execução oficial 34/36 em `e634a3b` (roteamento 14/16); correções gerais; rodada pós-correção registrada a seguir; `docs/V07_OOD_BENCHMARK.md` |
-| CP11 | Detectores externos | concluído (infra) | (este commit) | adapters Copyleaks (contrato verificado), GPTZero (parcial), Originality (UNSUPPORTED), mock/replay rotulados; protocolo H0/H1/A0/A1; 9 testes; live **LIVE_NOT_RUN** |
-| CP12 | Unicode/proveniência/browser | pendente | | |
+| CP11 | Detectores externos | concluído (infra) | `5c2377a` | adapters Copyleaks (contrato verificado), GPTZero (parcial), Originality (UNSUPPORTED), mock/replay rotulados; protocolo H0/H1/A0/A1; 9 testes; live **LIVE_NOT_RUN** |
+| CP12 | Unicode/proveniência/browser | concluído | (este commit) | `voznativa/integrity.py`, `voznativa integrity`, `provenance` no `rewrite`; 8 testes; navegador UNSUPPORTED (sem alvo autorizado); Art. 50 registrado |
 | CP13 | Avaliação humana e evidência | pendente | | |
 | CP14 | Dogfood e mutação | contínuo | | |
 | CP15 | Pacote, docs, compatibilidade | pendente | | |
@@ -47,4 +47,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP12.
+CP13.
