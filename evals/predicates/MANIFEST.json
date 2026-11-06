@@ -1,0 +1,10 @@
+{
+ "kind": "voznativa.frozen_sample",
+ "file": "evals/predicates/cases-h07.jsonl",
+ "sha256": "b08827c53b3a75be8e35819da127e03228d90248f64b03fb9657d16f3893069e",
+ "frozen_at": "2026-11-06",
+ "frozen_before": "the predicate rule of v0.7.0.dev1 CP3 (no rule code existed when this hash was taken)",
+ "author": "the same agent that writes the rule",
+ "independent": false,
+ "use": "development set: sensitivity and false alarm measured before and after; never reported as a holdout"
+}

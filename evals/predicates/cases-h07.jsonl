@@ -1,0 +1,38 @@
+{"id": "pr-01", "expect": "risk", "kind": "action_to_light_verb", "original": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.", "candidate": "O relatório trimestral vai até sexta-feira, 14/11/2025."}
+{"id": "pr-02", "expect": "risk", "kind": "action_to_light_verb", "original": "A equipe vai publicar a nova versão na segunda-feira.", "candidate": "A nova versão fica para segunda-feira."}
+{"id": "pr-03", "expect": "risk", "kind": "action_to_light_verb", "original": "O fornecedor deve instalar os equipamentos até 30 de junho.", "candidate": "Os equipamentos estão para 30 de junho."}
+{"id": "pr-04", "expect": "risk", "kind": "action_to_light_verb", "original": "A prefeitura reformará a escola municipal em 2026.", "candidate": "A escola municipal é para 2026."}
+{"id": "pr-05", "expect": "risk", "kind": "action_to_light_verb", "original": "O síndico convocou uma assembleia para quinta-feira.", "candidate": "Há uma assembleia na quinta-feira."}
+{"id": "pr-06", "expect": "risk", "kind": "action_to_light_verb", "original": "Os técnicos corrigiram a falha no servidor ontem.", "candidate": "A falha no servidor foi ontem."}
+{"id": "pr-07", "expect": "risk", "kind": "action_to_light_verb", "original": "O banco vai depositar o valor na conta até o dia 10.", "candidate": "O valor fica na conta até o dia 10."}
+{"id": "pr-08", "expect": "risk", "kind": "action_to_light_verb", "original": "A professora corrigirá as provas durante o fim de semana.", "candidate": "As provas ficam para o fim de semana."}
+{"id": "pr-09", "expect": "risk", "kind": "content_verb_replaced", "original": "O cliente assinou o contrato em 3 de março.", "candidate": "O cliente recebeu o contrato em 3 de março."}
+{"id": "pr-10", "expect": "risk", "kind": "content_verb_replaced", "original": "A diretoria aprovou o orçamento de 2026.", "candidate": "A diretoria avaliou o orçamento de 2026."}
+{"id": "pr-11", "expect": "risk", "kind": "modality_and_action", "original": "A Ana precisa entregar o contrato até amanhã.", "candidate": "A Ana tem prazo para o contrato até amanhã."}
+{"id": "pr-12", "expect": "risk", "kind": "action_to_light_verb", "original": "O hospital contratará 40 enfermeiros em janeiro.", "candidate": "O hospital terá 40 enfermeiros em janeiro."}
+{"id": "pr-13", "expect": "risk", "kind": "action_to_light_verb", "original": "A empresa pagará a multa de R$ 5.000,00 em março.", "candidate": "A multa de R$ 5.000,00 é em março."}
+{"id": "pr-14", "expect": "risk", "kind": "action_to_light_verb", "original": "O auditor revisará as contas da filial em maio.", "candidate": "As contas da filial são de maio."}
+{"id": "pr-15", "expect": "risk", "kind": "action_to_light_verb", "original": "Eles cancelaram a reunião de amanhã.", "candidate": "A reunião de amanhã ficou para depois."}
+{"id": "pr-16", "expect": "risk", "kind": "content_verb_replaced", "original": "A Marina enviou o currículo para a vaga de analista.", "candidate": "A Marina viu a vaga de analista."}
+{"id": "pr-17", "expect": "risk", "kind": "recipient_omitted", "original": "O gerente entregará os relatórios ao diretor na sexta.", "candidate": "O gerente entregará os relatórios na sexta."}
+{"id": "pr-18", "expect": "risk", "kind": "condition_removed", "original": "Se chover, o jogo será adiado.", "candidate": "O jogo será adiado."}
+{"id": "pr-19", "expect": "risk", "kind": "quantifier_changed", "original": "Todos os funcionários devem fazer o treinamento.", "candidate": "Alguns funcionários devem fazer o treinamento."}
+{"id": "pr-20", "expect": "risk", "kind": "attribution_removed", "original": "Segundo o ministério, a vacina será distribuída em abril.", "candidate": "A vacina será distribuída em abril."}
+{"id": "pc-01", "expect": "clean", "kind": "verb_synonym", "original": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.", "candidate": "O relatório trimestral será encaminhado até sexta-feira, 14/11/2025."}
+{"id": "pc-02", "expect": "clean", "kind": "active_to_passive", "original": "A Ana enviou o relatório ontem.", "candidate": "O relatório foi enviado pela Ana ontem."}
+{"id": "pc-03", "expect": "clean", "kind": "active_to_passive", "original": "A equipe vai publicar a nova versão na segunda-feira.", "candidate": "A nova versão será publicada pela equipe na segunda-feira."}
+{"id": "pc-04", "expect": "clean", "kind": "active_to_passive", "original": "O fornecedor deve instalar os equipamentos até 30 de junho.", "candidate": "Os equipamentos devem ser instalados pelo fornecedor até 30 de junho."}
+{"id": "pc-05", "expect": "clean", "kind": "nominalization", "original": "A prefeitura reformará a escola municipal em 2026.", "candidate": "A reforma da escola municipal será feita pela prefeitura em 2026."}
+{"id": "pc-06", "expect": "clean", "kind": "verb_synonym", "original": "O síndico convocou uma assembleia para quinta-feira.", "candidate": "O síndico chamou uma assembleia para quinta-feira."}
+{"id": "pc-07", "expect": "clean", "kind": "verb_synonym", "original": "Os técnicos corrigiram a falha no servidor ontem.", "candidate": "Ontem, os técnicos consertaram a falha no servidor."}
+{"id": "pc-08", "expect": "clean", "kind": "periphrasis_to_synthetic", "original": "O banco vai depositar o valor na conta até o dia 10.", "candidate": "O banco depositará o valor na conta até o dia 10."}
+{"id": "pc-09", "expect": "clean", "kind": "synthetic_to_periphrasis", "original": "A professora corrigirá as provas durante o fim de semana.", "candidate": "A professora vai corrigir as provas no fim de semana."}
+{"id": "pc-10", "expect": "clean", "kind": "ellipsis", "original": "Ela comprou pão e ele comprou leite.", "candidate": "Ela comprou pão; ele, leite."}
+{"id": "pc-11", "expect": "clean", "kind": "reordering", "original": "O hospital contratará 40 enfermeiros em janeiro.", "candidate": "Em janeiro, o hospital vai contratar 40 enfermeiros."}
+{"id": "pc-12", "expect": "clean", "kind": "literary_punctuation", "original": "O vento soprava forte e as janelas batiam.", "candidate": "O vento soprava forte; as janelas batiam."}
+{"id": "pc-13", "expect": "clean", "kind": "nominalization", "original": "A empresa pagará a multa de R$ 5.000,00 em março.", "candidate": "O pagamento da multa de R$ 5.000,00 será feito pela empresa em março."}
+{"id": "pc-14", "expect": "clean", "kind": "active_to_passive", "original": "Eles cancelaram a reunião de amanhã.", "candidate": "A reunião de amanhã foi cancelada por eles."}
+{"id": "pc-15", "expect": "clean", "kind": "nominalization", "original": "O auditor revisará as contas da filial em maio.", "candidate": "Em maio, o auditor fará a revisão das contas da filial."}
+{"id": "pc-16", "expect": "clean", "kind": "verb_synonym", "original": "A Marina enviou o currículo para a vaga de analista.", "candidate": "A Marina mandou o currículo para a vaga de analista."}
+{"id": "pc-17", "expect": "clean", "kind": "ellipsis", "original": "A noite chegou, e com ela chegou o cansaço.", "candidate": "A noite chegou e, com ela, o cansaço."}
+{"id": "pc-18", "expect": "clean", "kind": "literary_inversion", "original": "Caía a chuva sobre o telhado antigo.", "candidate": "A chuva caía sobre o velho telhado."}

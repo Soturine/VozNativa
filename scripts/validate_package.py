@@ -177,6 +177,10 @@ def check_text_files(errors: list[str]) -> None:
             for number, line in enumerate(text.split("\n"), 1):
                 if CONTROL_CHARS.search(line.rstrip("\r")):
                     errors.append(f"{rel(path)}:{number}: control character inside the line")
+                # v0.7.0.dev1 (H07-016): a heredoc that expanded "\n" split a register row in two.
+                if path.suffix == ".md" and line.startswith("|") and not line.rstrip().endswith("|"):
+                    errors.append(f"{rel(path)}:{number}: Markdown table row does not end with '|' "
+                                  "(a row split across lines?)")
 
 
 def validate() -> list[str]:

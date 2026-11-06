@@ -1,0 +1,342 @@
+{
+ "kind": "voznativa.predicate_eval",
+ "cases_sha256": "b08827c53b3a75be8e35819da127e03228d90248f64b03fb9657d16f3893069e",
+ "n_risk": 20,
+ "n_clean": 18,
+ "risk_flagged": 7,
+ "clean_false_alarms": 4,
+ "independent": false,
+ "rows": [
+  {
+   "id": "pr-01",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-02",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-03",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "fail",
+   "codes": [
+    "modality_changed:critical",
+    "possible_omission:major",
+    "quantifier_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-04",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-05",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "review_required",
+   "codes": [
+    "possible_omission:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-06",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-07",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-08",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-09",
+   "expect": "risk",
+   "kind": "content_verb_replaced",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-10",
+   "expect": "risk",
+   "kind": "content_verb_replaced",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "polarity_changed:info"
+   ],
+   "correct": false
+  },
+  {
+   "id": "pr-11",
+   "expect": "risk",
+   "kind": "modality_and_action",
+   "status": "fail",
+   "codes": [
+    "modality_changed:critical"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-12",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-13",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-14",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-15",
+   "expect": "risk",
+   "kind": "action_to_light_verb",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-16",
+   "expect": "risk",
+   "kind": "content_verb_replaced",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-17",
+   "expect": "risk",
+   "kind": "recipient_omitted",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "id": "pr-18",
+   "expect": "risk",
+   "kind": "condition_removed",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-19",
+   "expect": "risk",
+   "kind": "quantifier_changed",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pr-20",
+   "expect": "risk",
+   "kind": "attribution_removed",
+   "status": "review_required",
+   "codes": [
+    "attribution_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "id": "pc-01",
+   "expect": "clean",
+   "kind": "verb_synonym",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-02",
+   "expect": "clean",
+   "kind": "active_to_passive",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-03",
+   "expect": "clean",
+   "kind": "active_to_passive",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "id": "pc-04",
+   "expect": "clean",
+   "kind": "active_to_passive",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-05",
+   "expect": "clean",
+   "kind": "nominalization",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-06",
+   "expect": "clean",
+   "kind": "verb_synonym",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-07",
+   "expect": "clean",
+   "kind": "verb_synonym",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-08",
+   "expect": "clean",
+   "kind": "periphrasis_to_synthetic",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "id": "pc-09",
+   "expect": "clean",
+   "kind": "synthetic_to_periphrasis",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major",
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "id": "pc-10",
+   "expect": "clean",
+   "kind": "ellipsis",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-11",
+   "expect": "clean",
+   "kind": "reordering",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "id": "pc-12",
+   "expect": "clean",
+   "kind": "literary_punctuation",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-13",
+   "expect": "clean",
+   "kind": "nominalization",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-14",
+   "expect": "clean",
+   "kind": "active_to_passive",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-15",
+   "expect": "clean",
+   "kind": "nominalization",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-16",
+   "expect": "clean",
+   "kind": "verb_synonym",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-17",
+   "expect": "clean",
+   "kind": "ellipsis",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "id": "pc-18",
+   "expect": "clean",
+   "kind": "literary_inversion",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  }
+ ]
+}

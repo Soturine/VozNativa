@@ -49,3 +49,11 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 ## Próximo passo
 
 Rodada v0.7.0 fechada como 0.7.0.dev0 (sem tag, sem PyPI). Abertos: braços com modelo, revisão humana cega, holdout independente, detectores live, backlogs B-L*, B-D2, B-R1, B-R2, linha de normas (V08).
+
+## v0.7.0.dev1 (estabilização)
+
+Plano: `docs/PLAN_v0.7.0.dev1.md`. Branch `dev/v0.7.0-hardening`, criada de `main` = `e7506f5`. Retomada: `git fetch --prune; git log --oneline origin/dev/v0.7.0-hardening -20`; o Git vence este arquivo.
+
+| CP | Título | Estado | Commit | Verificação |
+|---|---|---|---|---|
+| CP0 | Inventário, baseline, reproduções | concluído | (este commit) | baseline `qualify --scope release` em `e7506f5`, Windows 3.12.10: 635 testes (634 PASS + 1 skip POSIX), gates locais PASS, exit 3 INCOMPLETE (externos; `ci:github-actions` NOT_RUN porque a árvore ficou suja durante a execução); 8 achados reproduzidos (H07-F1..F8); `evals/test_hardening_h07.py` (4 xfail); amostra de predicados congelada (sha256 `b08827c5…`), linha de base 7/20 riscos, 4/18 falsos alarmes |
