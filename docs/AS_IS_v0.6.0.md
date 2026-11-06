@@ -45,3 +45,34 @@ Estados: IMPLEMENTED (código + testes executados), PARTIAL (código com lacuna 
 3. O schema de gíria não tem consumidor; packs de comunidade não têm evidência nem guard.
 4. Textos longos e literatura sem tratamento próprio.
 5. Licença ausente.
+
+## Estado ao fim da v0.6.0.dev0 (2026-11-05)
+
+Cada lacuna e o que foi feito, com a evidência:
+
+1. **Registro de corpora: resolvido.** Corpus Registry com 33 fontes e política de dados com 12 operações; CLI `voznativa corpus`. Evidência: `voznativa/corpus/`, `evals/test_corpus_*.py`.
+2. **Corpus processado de ponta a ponta: resolvido para 3 fontes.** Bosque, prefixo da B2W e prefixo do corpus Machado de Assis. As medições estão em `evals/corpus/CALIBRATION_v0.6.md` e `LONGFORM_v0.6.md` (E2, ferramenta).
+3. **Gíria e comunidade:**
+   - o léxico v2 tem consumidor e atestação datada;
+   - os packs v2 têm taxonomia e um guard de stuffing compartilhado.
+
+   **Parcial:** nenhuma gíria tem atestação posterior a 2018, e os packs são `draft` E0. Portanto nada é gerado; só se preserva e se acusa o que foi introduzido.
+4. **Textos longos e literatura: parcial.**
+   - Feitos: segmentação, mapa de dependências e política de verso e de prosa literária.
+   - Corrigido: o falso positivo PT-PT em ortografia histórica.
+   - **NOT_RUN:** reescrita ponta a ponta por segmentos.
+5. **Licença: resolvido** (MIT).
+
+Gaps abertos, com teste reproduzível em `evals/test_known_gaps_v06.py`:
+- **G1 (P1):** o roteador em literatura com quebra de linha fixa;
+- **G2 (P2):** contenção de capítulo dentro do romance;
+- **G3 (P3):** recall de "de boa".
+
+E no `ROADMAP.md`:
+- **G4 (P2):** reescrita por segmentos;
+- os 33 mutantes não triados de `temporal.py`;
+- `dc-029` INCONCLUSIVE.
+
+**Sem evidência:**
+- braços com modelo (`ptbr-bench-v3` e `-v4`: NOT_RUN);
+- qualquer avaliação humana (NOT_RUN).
