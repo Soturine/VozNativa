@@ -391,17 +391,27 @@ def gate_pty(args) -> dict:
 
 
 def classify_ci(entry: dict, revision: str) -> dict:
-    """PASS only for a recorded successful run of this exact revision; any
-    other revision is NOT_RUN (a nearby green run proves nothing about it)."""
+    """Offline view of the local record. Since v0.7.0 a record is an index,
+    never proof: a recorded green run of this exact revision is INCONCLUSIVE
+    until a live query confirms it (scripts/ci_evidence.py); any other
+    revision is NOT_RUN (a nearby green run proves nothing about it)."""
     for run in entry.get("runs", []):
         if run.get("conclusion") == "success" and revision and run.get("head_sha", "").startswith(revision[:12]) \
                 and revision.startswith(run.get("head_sha", "")[:12]):
-            return {"status": "PASS", "run": run}
+            return {"status": "INCONCLUSIVE", "run": run,
+                    "reason": "recorded only; PASS needs the live GitHub Actions query (scripts/ci_evidence.py)"}
     last = next((r for r in reversed(entry.get("runs", [])) if r.get("conclusion") == "success"), None)
     return {"status": entry.get("status", "NOT_RUN") if entry.get("status") != "PASS" else "NOT_RUN",
             "reason": "no recorded CI run for this revision" + (f"; last green run #{last['run']} was on "
                                                                  f"{last['head_sha'][:12]}" if last else ""),
             "policy": entry.get("policy")}
+
+
+def _ci_evidence():
+    spec = importlib.util.spec_from_file_location("ci_evidence", ROOT / "scripts" / "ci_evidence.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def gate_ci(args) -> dict:
@@ -410,7 +420,36 @@ def gate_ci(args) -> dict:
     dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
     if dirty:
         return {"status": "NOT_RUN", "reason": "working tree has changes: no CI run can prove it"}
-    return dict(classify_ci(entry, revision), source=EXTERNAL.relative_to(ROOT).as_posix())
+    ci = _ci_evidence()
+    slug = ci.repo_slug()
+    fetch = ci.gh_fetch(slug) if slug and not getattr(args, "offline", False) else None
+    result = ci.verify(revision, [r.get("head_sha", "") for r in entry.get("runs", [])], ci.real_git, fetch)
+    if result["status"] == "INCONCLUSIVE" and fetch is None:
+        result["offline_record"] = classify_ci(entry, revision)
+    return dict(result, source="live GitHub Actions query (gh api); record is an index only")
+
+
+def workflow_triggers(text: str) -> list[str]:
+    """Trigger names of one workflow. PyYAML reads the bare key ``on`` as True."""
+    import yaml
+    doc = yaml.safe_load(text) or {}
+    on = doc.get("on", doc.get(True))
+    if isinstance(on, str):
+        return [on]
+    if isinstance(on, list):
+        return [str(x) for x in on]
+    return sorted(str(k) for k in (on or {}))
+
+
+def gate_workflow_triggers(args) -> dict:
+    """Maintainer cost policy: every workflow runs only by workflow_dispatch."""
+    files = sorted((ROOT / ".github" / "workflows").glob("*.y*ml"))
+    if not files:
+        return {"status": "INCONCLUSIVE", "reason": "no workflow file found"}
+    found = {f.name: workflow_triggers(f.read_text(encoding="utf-8")) for f in files}
+    bad = {name: t for name, t in found.items() if t != ["workflow_dispatch"]}
+    return {"status": "FAIL" if bad else "PASS", "workflows": found,
+            **({"reason": f"automatic triggers present: {bad}"} if bad else {})}
 
 
 def gate_external(key: str) -> Callable:
@@ -433,6 +472,8 @@ GATES = [
     Gate("cli:exit-codes", gate_cli, description="CLI exit codes are the documented gate interface"),
     Gate("package:sdist-wheel-smoke", gate_package, description="sdist -> wheel -> clean venv -> smoke (CI package job)"),
     Gate("review:pty", gate_pty, description="interactive signed review through a real pseudo-terminal"),
+    Gate("ci:workflow-triggers", gate_workflow_triggers,
+         description="every workflow is workflow_dispatch only (no automatic Actions minutes)"),
     Gate("ci:github-actions", gate_ci, scope="release", description="declared CI matrix ran green on this exact revision"),
     Gate("holdout:independent", gate_external("independent_holdout"), scope="release",
          description="semantic holdout written by someone other than the developer"),
@@ -458,6 +499,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--scope", choices=("local", "release"), default="local")
     parser.add_argument("--only", help="comma-separated gate ids")
     parser.add_argument("--out", help="write the JSON report here (UTF-8)")
+    parser.add_argument("--offline", action="store_true",
+                        help="never query GitHub; ci:github-actions is then INCONCLUSIVE at best")
     parser.add_argument("--unittest-child", help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
     if args.unittest_child:

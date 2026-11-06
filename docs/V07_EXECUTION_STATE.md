@@ -10,8 +10,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 | CP | Título | Estado | Commit | Verificação |
 |---|---|---|---|---|
-| CP0 | Baseline, plano, riscos | concluído | (este commit) | `qualify.py` local em `bf8e1a4`: 460 testes (457 PASS + 3 xfail), gates PASS, veredito INCOMPLETE (pty/CI/humanos); Engine 97 candidatos INFO; Assertiva 1 INFO (`evals/assurance/runs/2026-11-06-v07-cp0/`) |
-| CP1 | Harness e integridade de CI | pendente | | |
+| CP0 | Baseline, plano, riscos | concluído | `a59ad68` | `qualify.py` local em `bf8e1a4`: 460 testes (457 PASS + 3 xfail), gates PASS, veredito INCOMPLETE (pty/CI/humanos); Engine 97 candidatos INFO; Assertiva 1 INFO (`evals/assurance/runs/2026-11-06-v07-cp0/`) |
+| CP1 | Harness e integridade de CI | concluído | (este commit) | `evals/test_ci_evidence.py` 20 testes (1 skip POSIX no Windows); gates validator, unittest, decision, router, cli, workflow-triggers PASS via `scripts/checkpoint.py`; consulta live real: HEAD NOT_RUN, run #123 confere com o registro |
 | CP2 | Ingestão v2 (TEI) e governança | pendente | | |
 | CP3 | Expansão de corpora | pendente | | |
 | CP4 | Contenção e splits (G2) | pendente | | |
@@ -36,4 +36,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP1.
+CP2.

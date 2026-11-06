@@ -2,7 +2,7 @@
   "_doc": "Evidence that cannot be produced locally. Only the maintainer changes a status to WAIVED_BY_OWNER, with reason and date.",
   "ci": {
     "status": "NOT_RUN",
-    "policy": "Since v0.6.0 the workflow runs only by workflow_dispatch, at the close of a round. The ci:github-actions gate is PASS only when a recorded successful run's head SHA equals the revision being qualified; otherwise NOT_RUN.",
+    "policy": "Since v0.6.0 the workflow runs only by workflow_dispatch, at the close of a round. Since v0.7.0 (CP1, scripts/ci_evidence.py) this record is an index, never proof: ci:github-actions is PASS only when a live read-only GitHub Actions query finds a completed successful run of .github/workflows/ci.yml, with every job of the declared matrix successful, on HEAD or on an ancestor from which only evidence paths changed. Query unavailable = INCONCLUSIVE; any code change after the run = NOT_RUN.",
     "runs": [
       {
         "run": 123,

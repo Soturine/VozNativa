@@ -4,8 +4,8 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 
 | Req. | Unitário / negativo | Contrato / integração / E2E | Metamórfico / mutação | Benchmark | Humano / externo | Estado |
 |---|---|---|---|---|---|---|
-| RF-01 harness | | | | | | pendente |
-| RF-02 CI | | | | | CI live: NOT_RUN | pendente |
+| RF-01 harness | `CheckpointHarness` (1º estágio falho derruba; timeout; programa ausente; push rejeitado) | push verificado contra bare repo real | — | — | — | PASS (Windows 3.12) |
+| RF-02 CI | `LiveCiEvidence` (adulteração, SHA errado, matriz incompleta, cancelled/neutral, query fora, branch divergente, commit só de evidência) | `WorkflowTriggerAudit`; consulta live real | — | — | CI live do HEAD: NOT_RUN | PASS (contrato); CI: NOT_RUN |
 | RF-03 TEI | | | | | | pendente |
 | RF-04 corpora | | | | | | pendente |
 | RF-05 G2 | `test_known_gaps_v06` G2 (xfail) | | | | | aberto |

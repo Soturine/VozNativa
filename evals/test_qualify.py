@@ -81,9 +81,10 @@ class CiEvidenceBindsToARevision(unittest.TestCase):
         {"run": 122, "head_sha": "40e19e49993f865119c2d7efb43ec130b3b2b574", "conclusion": "failure"},
         {"run": 123, "head_sha": "40e19e49993f865119c2d7efb43ec130b3b2b574", "conclusion": "success"}]}
 
-    def test_green_run_of_this_revision_is_pass(self):
+    def test_recorded_green_run_of_this_revision_is_not_pass_without_live_check(self):
+        # v0.7.0 CP1 (VN07-DISC-001): the record is an index; PASS needs the live query.
         r = qualify.classify_ci(self.ENTRY, "40e19e49993f865119c2d7efb43ec130b3b2b574")
-        self.assertEqual((r["status"], r["run"]["run"]), ("PASS", 123))
+        self.assertEqual((r["status"], r["run"]["run"]), ("INCONCLUSIVE", 123))
 
     def test_another_revision_is_not_run_even_after_a_green_run(self):
         r = qualify.classify_ci(self.ENTRY, "3c5d2849cb3b0000000000000000000000000000")
