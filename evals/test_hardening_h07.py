@@ -123,17 +123,62 @@ class CountContract(LexiconFile):
         raw["entries"][0]["period"]["attestations"] = [dict(base, **attestation)]
         return temporal.validate_lexicon(raw)
 
-    @unittest.expectedFailure      # CP2
     def test_negative_count_is_refused_with_a_reason(self):
-        self.assertTrue(any("count" in p and "negative" in p for p in self.problems(count=-1)))
+        self.assertIn("x1: attestation count must not be negative (-1)", self.problems(count=-1))
 
-    @unittest.expectedFailure      # CP2
     def test_boolean_float_and_string_counts_are_refused(self):
-        for bad in (True, 2.0, "3"):
-            self.assertTrue(any("count" in p for p in self.problems(count=bad)), bad)
+        # A string "3" used to raise TypeError at `count > 0` before any message.
+        for bad in (True, False, 2.0, "3"):
+            problems = self.problems(count=bad)
+            self.assertTrue(any(p.startswith("x1: attestation count must be an integer") for p in problems),
+                            (bad, problems))
+
+    def test_missing_count_is_reported_once_by_the_presence_check(self):
+        problems = self.problems(count=None)
+        self.assertIn("x1: an attestation needs source, from, to, count, words and run", problems)
+        self.assertFalse(any("must be an integer" in p for p in problems), problems)
+
+    def test_words_years_and_verification_date(self):
+        self.assertIn("x1: attestation words must not be negative (-5)", self.problems(words=-5))
+        self.assertIn("x1: attestation from 2026 is after to 2025", self.problems(**{"from": 2026, "to": 2025}))
+        self.assertTrue(any("from must be an integer year" in p for p in self.problems(**{"from": "2025"})))
+        raw = yaml.safe_load(LEXICON_YAML)
+        raw["entries"][0]["period"]["last_verified_at"] = "ontem"
+        self.assertIn("x1: period.last_verified_at must be an ISO date, not 'ontem'",
+                      temporal.validate_lexicon(raw))
+        raw["entries"][0]["period"]["last_verified_at"] = date(2026, 10, 1)    # unquoted YAML date
+        self.assertEqual(temporal.validate_lexicon(raw), [])
+
+    def test_valid_boundaries_are_accepted(self):
+        self.assertEqual(self.problems(count=1, words=0, **{"from": 2025, "to": 2025}), [])
+
+    def test_schema_version_must_be_an_integer(self):
+        for bad in (2.0, "2", True):
+            raw = dict(yaml.safe_load(LEXICON_YAML), schema_version=bad)
+            self.assertIn("schema_version must be 2", temporal.validate_lexicon(raw), bad)
 
     def test_zero_count_is_valid_but_attests_nothing(self):
         self.assertTrue(any("needs at least one attestation with count > 0" in p for p in self.problems(count=0)))
+        self.assertFalse(any("count" in p and "integer" in p for p in self.problems(count=0)))
+
+    def test_zero_count_is_not_an_attestation_for_consumers(self):
+        # H07-004: "searched and found nothing" must not open an epoch or license generation.
+        text = LEXICON_YAML.replace("evidence: {level: E2, sources: [s], notes: []}",
+                                    "evidence: {level: E0, sources: [], notes: []}").replace(
+            "generation: {allowed: true}", "generation: {allowed: false}").replace("count: 3", "count: 0")
+        epoch = {"from": 2025, "to": 2026}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self.write(tmp, text)
+            entry = temporal.load_lexicon(path)["entries"][0]
+            self.assertEqual(temporal.attested_in(entry, epoch), [])
+            status = temporal.entry_status(entry, epoch, "whatsapp", "casual", TODAY)
+            self.assertIn("no attestation in 2025-2026", status["reasons"])
+            notes = temporal.epoch_notes([{"id": "x1", "text": "xis"}], dict(epoch, spec="2025-2026"), path)
+            self.assertEqual(notes[0]["attested"], [])
+
+    def test_the_shipped_lexicon_and_its_attestations_satisfy_the_contract(self):
+        temporal._load.cache_clear()
+        self.assertGreater(len(temporal.load_lexicon()["entries"]), 0)
 
 
 class PredicateLoss(unittest.TestCase):

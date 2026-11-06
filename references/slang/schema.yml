@@ -51,14 +51,16 @@ entries:
           to: 2018
           genre: null
           split: calibration
-          words: 0
-          count: 0
+          words: 0              # integer >= 0 (not bool, float or string)
+          count: 0              # integer >= 0; 0 = searched, none found: attests nothing
+                                # `from`/`to` are integer years with from <= to; validate_lexicon
+                                # refuses anything else instead of converting it (v0.7.0.dev1)
           per_million_words: 0.0
           sense_checked: false
           run: evals/corpus/runs/slang-attestation-YYYY-MM-DD.json
       observed_from: null
       observed_until: null
-      last_verified_at: null
+      last_verified_at: null    # ISO date (YYYY-MM-DD) or null; null = never verified, so stale
     evidence: {level: E0, sources: [], notes: []}
     generation: {allowed: false}
     false_positives: []

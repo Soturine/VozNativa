@@ -66,10 +66,47 @@ def _merge(defaults: dict, entry: dict) -> dict:
     return out
 
 
+def _is_int(value) -> bool:
+    """An integer that YAML wrote as one: not a bool (``True == 1``), a float or a numeric string."""
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _attestation_problems(eid, a: dict) -> list[str]:
+    """The attestation contract (v0.7.0.dev1, H07-003..005). The producer
+    (scripts/slang_attest.py) writes ``count = len(findall)``; nothing here
+    converts a wrong type, so a hand edit or another producer fails loudly."""
+    out = []
+    for key in ("count", "words"):
+        value = a.get(key)
+        if value is None:
+            continue                      # reported by the presence check
+        if not _is_int(value):
+            out.append(f"{eid}: attestation {key} must be an integer, not {type(value).__name__} {value!r}")
+        elif value < 0:
+            out.append(f"{eid}: attestation {key} must not be negative ({value})")
+    start, end = a.get("from"), a.get("to")
+    for key, value in (("from", start), ("to", end)):
+        if value is not None and not _is_int(value):
+            out.append(f"{eid}: attestation {key} must be an integer year, not {value!r}")
+    if _is_int(start) and _is_int(end) and start > end:
+        out.append(f"{eid}: attestation from {start} is after to {end}")
+    return out
+
+
+def _verification_problem(eid, verified) -> str | None:
+    if verified is None or isinstance(verified, date):
+        return None
+    try:
+        date.fromisoformat(str(verified))
+    except ValueError:
+        return f"{eid}: period.last_verified_at must be an ISO date, not {verified!r}"
+    return None
+
+
 def validate_lexicon(lexicon: dict) -> list[str]:
     problems = []
-    if lexicon.get("schema_version") != SCHEMA_VERSION:
-        problems.append(f"schema_version must be {SCHEMA_VERSION}")
+    if not _is_int(lexicon.get("schema_version")) or lexicon.get("schema_version") != SCHEMA_VERSION:
+        problems.append(f"schema_version must be {SCHEMA_VERSION}")     # an int: 2.0 and True are refused
     if lexicon.get("kind") != "voznativa.slang_lexicon":
         problems.append("kind must be voznativa.slang_lexicon")
     seen = set()
@@ -96,10 +133,15 @@ def validate_lexicon(lexicon: dict) -> list[str]:
         level = entry["evidence"].get("level")
         if level not in EVIDENCE:
             problems.append(f"{eid}: evidence.level must be one of {EVIDENCE}")
-        attested = [a for a in entry["period"]["attestations"] if a.get("count", 0) > 0]
         for a in entry["period"]["attestations"]:
             if not all(a.get(k) is not None for k in ("source", "from", "to", "count", "words", "run")):
                 problems.append(f"{eid}: an attestation needs source, from, to, count, words and run")
+            problems += _attestation_problems(eid, a)
+        # Only well-typed positive counts attest; a zero is "looked and found nothing".
+        attested = [a for a in entry["period"]["attestations"] if _is_int(a.get("count")) and a["count"] > 0]
+        verification = _verification_problem(eid, entry["period"].get("last_verified_at"))
+        if verification:
+            problems.append(verification)
         if level != "E0" and not attested:
             problems.append(f"{eid}: evidence {level} needs at least one attestation with count > 0")
         if entry["generation"].get("allowed") and EVIDENCE.index(level) < EVIDENCE.index(GENERATION_MIN_EVIDENCE):
