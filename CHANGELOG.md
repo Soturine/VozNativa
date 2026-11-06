@@ -1,6 +1,35 @@
 # Changelog
 
-## Unreleased (0.6.0.dev0)
+## Unreleased (0.7.0.dev0)
+
+Development version, **not a release and not qualified externally** (no PyPI, no tag). Round state: `docs/V07_EXECUTION_STATE.md`; qualification: `docs/V07_RELEASE_QUALIFICATION.md`.
+
+### Fixed (known gaps of 0.6)
+- **G1** router: hard-wrapped literature with `--` dialogue was routed as WhatsApp. Inference runs on an unwrapped copy, `--` dialogue is a literary cue, chat needs two cue families; `unknown` with literary or historical evidence keeps the literary limits (`router.py`, `evals/test_router_v3.py`, 14 frozen oracles).
+- **G2** dedup: a chapter inside its novel did not cluster. Directional containment over an inverted shingle index (`processing.containment_links`, `evals/test_containment.py`); 52 contained pairs crossed the earlier calibration/evaluation split.
+- **G3** slang: "de boa" followed by a word was missed. Sense per occurrence by the class of the next word; old senses in pre-reform text and ambiguous forms without informal evidence are not counted (`temporal.observe`, `evals/test_slang_v07.py`).
+- **G4** engine: no segmented rewrite. `engine.rewrite_document` and `rewrite --long-form` (`evals/test_document_rewrite.py`).
+- `compare` false greens: a negation moved between sentences, a dependent paragraph moved, a short added sentence, a dropped negation in a rephrased sentence (`evals/test_global_guards.py`).
+- CRLF text routed as `unknown` and seen as one paragraph; `--cmd` with a quoted Windows path failed; pre-reform Brazilian spelling read as PT-PT; "propina" alone read as PT-PT.
+
+### Added
+- Context Contract v3 (14 dimensions with value, source, confidence; `protections`).
+- Document contract (`voznativa/document.py`): lossless units, protected blocks, inventory, carry, dependencies, limits.
+- Verb morphology with abstention (`voznativa/morph.py`) and the `tense_changed` review signal; ADR-0002.
+- Original-error awareness and editorial modes (`voznativa/diagnose.py`, `voznativa diagnose`, `rewrite --mode`).
+- Character integrity audit and provenance record (`voznativa/integrity.py`, `voznativa integrity`, `provenance` in every rewrite result).
+- Corpus: safe TEI/XML reader, per-document licences, `text_rights: unclear`, CC 3.0 licences, CoNLL-U documents; four UD treebanks integrated (GSD, PetroGold, PUD, DANTEStocks): 3 -> 7 sources in evaluation; cross-genre evaluator.
+- `ptbr-bench-v5` (out-of-distribution conformance, frozen before its first run).
+- External detector benchmark tooling (`evals/external_detection/`): adapters and the H0/H1/A0/A1 protocol; live runs NOT_RUN.
+- Assurance: `scripts/checkpoint.py` (exit codes kept, push verified on the remote), `scripts/ci_evidence.py` (CI evidence verified live by SHA), gate `ci:workflow-triggers`.
+- README rewritten as product and engineering entry point, checked by `evals/test_readme.py`; `examples/quickstart/`.
+
+### Not done
+- Model arms of the benchmarks, human reviews, independent holdout, live detector runs: NOT_RUN.
+- Pronoun/coreference, agreement and government checks, narrative model: backlog (`docs/V07_LINGUISTICS.md`).
+- Standards/rubrics line: vision and ADR only (`docs/V08_STANDARDS_VISION.md`).
+
+## 0.6.0.dev0
 
 Development version, **not a release and not qualified**. Inventory and gaps: `docs/AS_IS_v0.6.0.md`. Original VozNativa material is now MIT (`LICENSE`, `docs/LICENSING.md`). CI runs only by manual dispatch.
 

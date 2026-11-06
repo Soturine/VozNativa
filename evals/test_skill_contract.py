@@ -41,8 +41,13 @@ class SkillMatchesCli(unittest.TestCase):
         commands = subparsers()
         lines = re.findall(r"^voznativa ([^#\n]+)", readme, re.M)
         self.assertGreater(len(lines), 8)
+        from voznativa.cli import build_parser
+        global_flags = {opt for a in build_parser()._actions for opt in a.option_strings}
         for line in lines:
             name = line.split()[0]
+            if name.startswith("-"):     # a global flag such as `voznativa --version` (v0.7.0 README)
+                self.assertIn(name, global_flags, f"README documents unknown global flag: {name}")
+                continue
             self.assertIn(name, commands, f"README documents unknown command: {name}")
             known = {opt for a in commands[name]._actions for opt in a.option_strings}
             # Nested commands (`corpus evaluate ...`): the flags of the named subcommand count too.

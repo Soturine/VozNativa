@@ -145,7 +145,9 @@ def provenance_record(original: str, final: str, *, tool_version: str, operation
     """What touched the text, without the text: hashes, the tool, the provider
     and model when one was called, the declared origin of the input and
     whether a person reviewed the result. Meant for disclosure, never to hide it."""
-    ai_assisted = provider not in (None, "", "none")
+    # A candidate handed in as a file ("static") may have been written by a person or
+    # by a model elsewhere: VozNativa cannot tell, so it does not claim either.
+    ai_assisted = None if provider == "static" else provider not in (None, "", "none")
     return {
         "kind": "voznativa.provenance", "schema_version": SCHEMA_VERSION,
         "recorded_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -155,6 +157,7 @@ def provenance_record(original: str, final: str, *, tool_version: str, operation
         "declared_origin": declared_origin, "human_review": human_review,
         "disclosure_note": ("text edited with an AI model through VozNativa; disclose it where the law or the venue "
                             "asks (e.g. EU AI Act Art. 50 §4 for public-interest publications without human "
-                            "editorial control)") if ai_assisted and original != final else None,
+                            "editorial control)") if ai_assisted and original != final else
+        ("the candidate was supplied as a file; its origin is unknown to VozNativa" if ai_assisted is None else None),
         "retains_text": False,
     }

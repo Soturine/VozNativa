@@ -1,161 +1,238 @@
 # VozNativa
 
-> Motor de voz escrita para português brasileiro: reescrita contextual, preservação semântica verificável, voz do autor por canal e regionalidade só com evidência.
+**Reescrita de texto em português brasileiro que preserva o que o texto diz e verifica isso antes de entregar.**
 
-VozNativa não tenta responder "como um humano escreve?". A pergunta é:
+VozNativa ajusta um texto à voz do autor, ao canal e ao público, e prova com gates determinísticos que números, datas, negações, condições, compromissos e nomes continuam lá. Quando não consegue garantir, diz isso e devolve o original. Funciona como **Agent Skill** (Claude Code, Codex, Gemini CLI e outros hosts que leem `SKILL.md`) e como **pacote Python com CLI**.
 
-> **Como esta pessoa escreveria este conteúdo, neste canal, para este público, sem perder fatos, intenção ou registro?**
+> Pergunta que guia o projeto: *como esta pessoa escreveria este conteúdo, neste canal, para este público, sem perder fatos, intenção ou registro?*
 
-É uma Agent Skill (Claude Code, Codex, Gemini CLI e outros hosts compatíveis com `SKILL.md`) e um pacote Python com CLI que verifica cada reescrita antes de ela ser entregue.
+| Para quem | Para quê |
+|---|---|
+| quem escreve em PT-BR com ajuda de modelos | tirar fórmulas ("É importante destacar que…") sem mudar o sentido |
+| quem integra LLMs em produtos e agentes | um gate que reprova reescritas que alteram valores, negação, modalidade ou condições |
+| quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
+| quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-## Princípios
+**Estado:** `0.7.0.dev0`, em desenvolvimento, não publicado no PyPI e sem release estável. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
-1. **Significado antes de estilo.**
-2. **Voz antes de "humanidade".**
-3. **Contexto antes de regra.**
-4. **Regionalidade sem caricatura.**
-5. **Observação linguística não vira inferência de identidade.**
-6. **Código para o determinístico.**
-7. **LLM para semântica, pragmática, tom e reescrita.**
-8. **Sem promessa de evasão de detectores.**
-9. **Progressive disclosure.**
-10. **Mudanças precisam de regressão/evidência.**
+## Em 30 segundos
+
+Um texto com duas fórmulas vazias e uma restrição de orçamento ([`examples/quickstart/original.txt`](examples/quickstart/original.txt)):
+
+> É importante destacar que o relatório trimestral será enviado até sexta-feira, 14/11/2025. Vale ressaltar que o orçamento não pode ultrapassar R$ 12.000,00.
+
+Duas candidatas de reescrita, checadas pelo gate (saídas reais desta versão):
+
+| Candidata | `voznativa compare` | Por quê |
+|---|---|---|
+| "O relatório trimestral vai até sexta-feira, 14/11/2025. O orçamento **não** pode passar de R$ 12.000,00." | `no_deterministic_issues` (exit 3) | valores e negação preservados; a equivalência continua `unverified` até um juiz ou uma pessoa confirmar |
+| "O relatório trimestral vai até sexta-feira, 14/11/2025. O orçamento pode passar de R$ 12.000,00." | `fail` (exit 1), `negation_changed` crítico | a negação sumiu |
+
+Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tentativas, o engine devolve o **original** com `returned_original`.
+
+## Funcionalidades
+
+| Grupo | O que faz | Estado |
+|---|---|---|
+| **Semantic Ledger e `compare`** | inventário de valores (números por extenso, datas, horas, dinheiro, versões, caminhos), negação, modalidade, quantificadores, condições, causalidade, atribuição, papéis agente/paciente; mudanças dentro de uma frase e entre frases e parágrafos (negação deslocada, frase que retoma a anterior movida, frase curta acrescentada) | IMPLEMENTED; pronomes e correferência: NOT_IMPLEMENTED |
+| **Context Router (contrato v3)** | 14 dimensões (gênero, canal, registro, época do texto, variedade, estrutura, público…) com valor, fonte e confiança; abstém-se (`unknown`) em vez de chutar e mantém proteções conservadoras | IMPLEMENTED |
+| **Planner e Rewrite Engine** | decide por frase o que manter, cortar ou reescrever; não chama o modelo quando não há o que mudar (`NO_CHANGE`); valida, tenta de novo, devolve o original se nada for seguro | IMPLEMENTED |
+| **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento | IMPLEMENTED (provedores reais: só testado com stub) |
+| **Pattern Library e camada PT-BR** | 27 padrões editoriais por gênero e posição; PT-PT × PT-BR (falsos amigos não trocados às cegas; grafia anterior à reforma ortográfica não é PT-PT) | IMPLEMENTED; limiares calibrados só em parte |
+| **Análise verbal** | tempo, modo, pessoa e perífrases por regras, com abstenção; sinaliza mudança de tempo verbal na reescrita | IMPLEMENTED (93–97% de acerto nas análises únicas, medido contra Universal Dependencies) |
+| **Diagnóstico do original** | `diagnose`: erro formal, contradição interna, escolha legítima, licença literária, ambiguidade; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED (base) |
+| **Voice Profile e Voice Contract** | hábitos do autor por canal, sem guardar texto | IMPLEMENTED; limiares sem calibração com amostras reais |
+| **Gíria, comunidade, região** | mantém a gíria do autor e o sentido pelo contexto ("de boa qualidade" não é gíria); nunca acrescenta gíria, termo de comunidade ou regionalismo sem evidência | IMPLEMENTED; packs regionais e de comunidade em estado piloto/E0 |
+| **Corpus Registry** | 38 fontes; 7 integradas à avaliação (notícia, blog, acadêmico, tweets, avaliações, literatura do séc. XIX, traduções); política de dados por operação | IMPLEMENTED |
+| **Integridade e proveniência** | `integrity`: caracteres invisíveis, bidi, tags, homóglifos; cada `rewrite` devolve um registro de proveniência sem o texto | IMPLEMENTED; não detecta nem remove marca d'água estatística |
+| **Benchmarks e assurance** | suítes congeladas, `ptbr-bench-v5` fora de distribuição, qualificação local, evidência de CI vinculada ao SHA | IMPLEMENTED; braços com modelo e revisão humana: NOT_RUN |
+| **Benchmark de detectores de IA** | adapters e protocolo H0/H1/A0/A1 para *medir* detectores, nunca para contorná-los | infraestrutura IMPLEMENTED; execução real: NOT_RUN |
 
 ## Como funciona
 
-```text
-texto ─▶ route ─▶ Context Contract (gênero, canal, registro, fontes de fato x amostras de voz)
-            │
-            ├─▶ refs ─────▶ referências selecionadas sob orçamento de palavras
-            ├─▶ profile ──▶ Voice Profile v2 (estatísticas, sem texto bruto)
-            └─▶ contract ─▶ Voice Contract (precedência de references/VOICE_STACK.md)
-                              │
-patterns + ptbr + ledger ─▶ plan (o que mudar, por quê, quanto) ──┴─▶ rewrite-prompt / rewrite ─▶ candidata
-                                                               │
-                          compare / ground ◀───────────────────┘
-                               │
-             identical · fail · review_required · no_deterministic_issues
-                               │
-                      juiz LLM ou humano (judge-prompt, --judgment)
+```mermaid
+flowchart TD
+  IN[Texto + pedido] --> R[Context Router<br/>contrato v3]
+  R --> L[Semantic Ledger<br/>valores e marcadores]
+  R --> P[Patterns + camada PT-BR<br/>+ diagnóstico]
+  VP[Voice Profile] --> VC[Voice Contract]
+  R --> VC
+  L --> PL[Planner]
+  P --> PL
+  PL -->|nada a mudar| NC[NO_CHANGE<br/>sem chamar modelo]
+  PL -->|editar ou transformar| E[Rewrite Engine]
+  VC --> E
+  D[Plano de documento<br/>unidades e proteções] --> E
+  E <-->|prompt / candidata| PR[Provider<br/>comando, agente, Emulate]
+  E --> G[Gates: compare + guards<br/>por unidade e no documento]
+  G -->|fail| RET[tenta de novo<br/>ou devolve o original]
+  G -->|limpo| J[Juiz LLM ou revisão humana assinada]
+  J --> OUT[Resultado + relatório + proveniência]
+  CR[(Corpus Registry)] -.calibra e avalia.-> P
 ```
 
-**Política conservadora:** só a identidade é aceita automaticamente. Passar nos gates determinísticos dá `no_deterministic_issues` com `semantic_equivalence: "unverified"`; equivalência só é registrada com um julgamento vinculado ao sha256 dos dois textos, e um juiz LLM não resolve um `review_required`. Só uma revisão humana **assinada** (`voznativa review`, que exige terminal interativo) resolve; um JSON com `"kind": "human"` sem assinatura válida fica como `human_review_claimed`. O relatório separa o que a assinatura mostra: **integridade** (aqueles bytes foram assinados), **posse da chave** (a chave HMAC padrão em `~/.voznativa/` é um segredo da máquina: o desenvolvedor ou um agente rodando como o mesmo usuário também assina; com `--ssh-key` a chave privada é do revisor), **identidade declarada** (nome digitado, nunca comprovado) e **independência** (no máximo declarada no registro `evals/reviewers/`; revisão HMAC nunca conta como independente). Ninguém sobrescreve um `fail`. Se nenhuma candidata for segura, o engine devolve o original.
+Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que não pode mudar; padrões e diagnóstico dizem o que soa como fórmula ou erro; o **Planner** decide se há algo a fazer; o **Engine** chama o provider só quando precisa, valida cada candidata com o `compare` e os guards (por unidade e, em documentos longos, no documento inteiro) e devolve o original quando nada passa. Passar nos gates **não** prova equivalência: o melhor resultado sem juiz é `needs_judgment`.
 
-## Estado (0.6.0.dev0, em desenvolvimento)
+## Instalação
 
-Versão de desenvolvimento, **não qualificada**. Os critérios externos herdados da v0.3.0 continuam abertos: holdout escrito por outra pessoa e rodada de revisão humana cega.
+Requer Python 3.11+ (testado em 3.11, 3.12 e 3.13 no Windows e no Linux). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
-O CI (GitHub Actions) roda só por disparo manual (`workflow_dispatch`) no fechamento de cada rodada, e a evidência vale só para a revisão testada (`evals/qualification/external.json`). O último verde é o run #123, em `40e19e4`.
+**Windows (PowerShell)**
 
-O que a v0.6 trouxe e o que ficou aberto: `docs/AS_IS_v0.6.0.md` e `CHANGELOG.md`. Plano da v0.5.0: `docs/PLAN_v0.5.0.md`. Qualificação local: `python scripts/qualify.py`.
+```powershell
+git clone https://github.com/Soturine/VozNativa.git
+cd VozNativa
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install .
+voznativa --version
+```
 
-| Componente | Estado |
-|---|---|
-| Semantic Ledger + `compare` | implementado: valores PT-BR normalizados (números por extenso, durações, "2 da tarde", verbos multiplicadores, dia da semana sem preposição), negação, modalidade, quantificadores, condições, antes/depois, causalidade (também entre frases vizinhas), troca de papéis entre entidades nomeadas (ativa/passiva) e entre substantivos comuns, inversão de ordem temporal, antônimos do léxico, atribuição, orações inventadas, termos protegidos, troca regional que muda o referente; análise sobre cópia canônica (NFC, espaços). Não detecta pronomes nem trocas entre frases |
-| Juiz LLM/humano | contrato implementado; votos concordantes (padrão 2); revisão humana assinada; nenhum modelo embarcado |
-| Detector de padrões (`patterns`) | biblioteca v2: 27 padrões decididos por gênero, canal, posição, função e frequência, cada um com casos positivos e falsos positivos; descritivo, não é detector de autoria |
-| Camada PT-BR | marcas de PT-PT (falsos amigos não são trocados às cegas), estrangeirismos por domínio, tratamento, oralidade x registro |
-| Planejador (`plan`) | decide por frase manter, trocar o trecho, cortar a fórmula ou reescrever; lista o que preservar; mede edições fora do plano |
-| Context Router + Reference Selector | implementado; gênero `unknown` quando a evidência é fraca |
-| Repositório como fonte de fatos (`project`, `ground`) | implementado: rejeita caminho, subcomando e flag inventados |
-| Voice Profile v2 + Voice Contract | implementado; distância ao perfil medida no engine; limiares sem calibração com amostras reais |
-| Rewrite Engine + providers | implementado: NO_CHANGE sem chamar o modelo quando não há achado, reescrita dirigida aos achados, nova tentativa após recusa do juiz, retries de provider; executado com claude-sonnet-5-5 (`docs/EVALUATION.md`, `examples/`) |
-| Benchmark | `ptbr-bench-v1` e `-v2` executados (v2 reanalisado em eixos: tarefa, segurança, falha de sistema); `ptbr-bench-v3` congelado, **NOT_RUN**; `ptbr-bench-v4` (v0.6, conformidade determinística) congelado antes de rodar: **21/22** (falha conhecida `bv4-sl-03`), braços com modelo **NOT_RUN**; Emulate não executado (falta chave) |
-| Revisão humana cega | instrumento pronto (`blind-*`); **nenhum resultado humano** |
-| Regional Evidence Packs | implementado (v0.5.0): contrato versionado, abstenção por padrão, voz do autor vence; **um** pack piloto (`br-norte-lex-mandioca`, ALiB, confiança baixa, sem revisão humana). Fora dele, força efetiva 0 |
-| Gíria temporal (v0.6) | léxico v2 com 30 entradas; 4 atestadas em E2 (avaliações de produto de 2018), nenhuma depois de 2018. As gírias do autor são mantidas; gíria nova **nunca** é acrescentada (força efetiva 0, com razão por entrada); a gíria introduzida e o stuffing são acusados na revisão |
-| Community packs (v0.6) | taxonomia v2 (terminologia, jargão, empréstimo, gíria, meme, hábito); 4 packs `draft` E0: preservam termos e retiram achados de anglicismo só quando a comunidade é pedida; **nunca** acrescentam termos |
-| Corpus Registry (v0.6) | 33 fontes com status provado por verificação registrada; 3 integradas à avaliação (UD Bosque, prefixo da B2W, prefixo do corpus Machado de Assis); política de dados por operação; CLI `voznativa corpus` |
-| Textos longos e literatura (v0.6) | mapa de dependências e segmentação sem perda, que relata todo corte forçado; verso não é reescrito sem pedido explícito; prosa literária só recebe edição local. **A reescrita ponta a ponta por segmentos ainda não existe** (PARTIAL; o engine não usa a segmentação) |
-| Adapters/LoRA | não implementados |
-
-Números e limitações: `docs/EVALUATION.md`. Rastreabilidade: `docs/TRACEABILITY.md`.
-
-## Instalar
-
-Requer Python 3.11+. O núcleo semântico (`compare`, `ledger`, `judge-prompt`, `ground`) usa só a biblioteca padrão; roteamento, contrato e perfil usam PyYAML.
+**Linux / macOS**
 
 ```bash
-pip install -e .            # instala a CLI `voznativa` e o PyYAML
-# ou, sem instalar: python scripts/voznativa_cli.py <comando>
+git clone https://github.com/Soturine/VozNativa.git
+cd VozNativa
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install .
+voznativa --version
 ```
 
-O wheel inclui `references/` e `assets/` (em `voznativa/_bundled`), então todos os comandos funcionam sem checkout. `VOZNATIVA_HOME` só serve para apontar para outro checkout, por exemplo com referências editadas.
+Para desenvolver, use `python -m pip install -e .`. O wheel inclui `references/` e os dados, então os comandos funcionam fora do checkout.
 
-Como skill:
+## Primeiro uso (sem modelo, sem chave)
+
+Todos os comandos abaixo rodam localmente, a partir da raiz do repositório.
+
+```bash
+voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-boa.txt    # exit 3: limpo, falta juiz
+voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-ruim.txt   # exit 1: negação removida
+voznativa plan examples/quickstart/original.txt      # decisão "edit": cortar as duas fórmulas
+voznativa plan examples/quickstart/email.txt         # decisão "no_change": o e-mail já está bom
+voznativa diagnose examples/quickstart/erros.txt     # "o o" repetido; terça-feira não é 13/11/2026
+voznativa rewrite examples/quickstart/erros.txt --mode PROOFREAD --text-only
+voznativa route examples/quickstart/email.txt        # contrato de contexto (gênero, estrutura, proteções)
+```
+
+O `PROOFREAD` só aplica correções formais de alta confiança e passa o resultado pelo `compare`; a data inconsistente fica como sugestão, porque mudar um fato exige autorização.
+
+## Com um provider
+
+O `rewrite` chama um comando que lê o prompt no stdin e escreve a resposta no stdout. Para ver o ciclo inteiro sem credencial, o repositório traz um **stub determinístico** (não é um modelo: só remove duas fórmulas). O provider roda num diretório temporário vazio, então passe o caminho absoluto.
+
+```powershell
+voznativa rewrite examples\quickstart\original.txt --cmd "python $PWD\examples\quickstart\stub_provider.py"
+voznativa rewrite examples\quickstart\documento-longo.md --long-form on --segment-words 80 --cmd "python $PWD\examples\quickstart\stub_provider.py"
+```
+
+```bash
+voznativa rewrite examples/quickstart/original.txt --cmd "python $PWD/examples/quickstart/stub_provider.py"
+voznativa rewrite examples/quickstart/documento-longo.md --long-form on --segment-words 80 --cmd "python $PWD/examples/quickstart/stub_provider.py"
+```
+
+Resultado real do documento longo: 8 unidades, 6 reescritas, bloco de código e tabela protegidos (nunca enviados), validação global sem problemas, desfecho `needs_judgment`, 6 chamadas ao provider. Caminho com espaços: use a forma JSON, `--cmd '["python", "C:/caminho com espaço/stub_provider.py"]'`.
+
+Com um agente de verdade (consome a sua conta e envia o texto ao provedor do modelo):
+
+```bash
+voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd '["claude", "-p", "--tools", ""]' \
+  --provider-env minimal --provider-env-allow ANTHROPIC_API_KEY
+```
+
+Desligue as ferramentas do agente (`--tools ""`): o diretório temporário **não é sandbox**. Desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change`, `returned_original`, `provider_error`.
+
+## Como Agent Skill
 
 | Host | Instalação |
 |---|---|
-| Claude Code | plugin pela marketplace deste repositório (`.claude-plugin/`), ou copie a pasta para `~/.claude/skills/voznativa` |
-| Codex | coloque a pasta em `.agents/skills/voznativa` (repositório) ou `~/.agents/skills/voznativa` |
+| Claude Code | plugin pela marketplace deste repositório (`.claude-plugin/`) ou copie a pasta para `~/.claude/skills/voznativa` |
+| Codex | `.agents/skills/voznativa` no repositório ou `~/.agents/skills/voznativa` |
 | Gemini CLI | `gemini skills install <url-do-repositório> --consent` ou copie para `.gemini/skills/voznativa` |
-| Outros | qualquer host que leia `SKILL.md`; os comandos usam `python <skill>/scripts/voznativa_cli.py` |
+| Outros | qualquer host que leia `SKILL.md` |
 
-O diretório instalado deve se chamar `voznativa` (a spec exige que o nome bata com o `name` do `SKILL.md`).
+A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue (rota → plano → prompt → candidata → gate → juiz) está em [`SKILL.md`](SKILL.md).
 
-## Usar a CLI
+## CLI
 
-```bash
-voznativa compare original.txt candidata.txt      # gate: exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz
-voznativa ledger texto.txt                         # inventário de valores e marcadores
-voznativa route texto.txt --channel email          # Context Contract
-voznativa refs texto.txt --budget 4000             # referências a carregar
-voznativa profile a1.txt a2.txt --channel whatsapp > perfil.json
-voznativa contract texto.txt --profile perfil.json --compact
-voznativa rewrite-prompt texto.txt --profile perfil.json   # prompt para o agente responder
-voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]'   # loop completo; ferramentas do agente desligadas
-voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd '["claude", "-p", "--tools", ""]' \
-  --protect "Projeto Aurora" --judge-votes 2 --provider-env minimal --provider-env-allow ANTHROPIC_API_KEY
-voznativa rewrite email.txt --channel whatsapp --cmd ...   # destino explícito: o engine não devolve NO_CHANGE sem tentar
-voznativa patterns texto.txt --genre corporate     # achados editoriais; decide edit ou no_change_candidate
-voznativa plan texto.txt --genre corporate         # plano de reescrita por frase, sem chamar modelo
-voznativa regional packs                           # Regional Evidence Packs disponíveis
-voznativa regional check texto.txt --region norte  # o que a região pedida permite, ou por que o sistema se abstém
-voznativa judge-prompt original.txt candidata.txt  # prompt do juiz semântico
-voznativa review original.txt candidata.txt --reviewer ana --out revisao.json   # revisão humana assinada (só em terminal; nome declarado)
-voznativa review original.txt candidata.txt --reviewer ana --ssh-key ~/.ssh/revisao --principal ana@exemplo.org --out revisao.json
-voznativa blind-tasks benchmarks/runs/<execução>.json --out tarefas.json   # pares cegos para revisão humana
-voznativa blind-review tarefas.json --reviewer ana --out respostas.json
-voznativa blind-summary tarefas.json respostas.json   # uma resposta válida por tarefa e chave; lista participantes
-voznativa ground doc.md --repo .                   # todo valor/caminho/comando tem fonte?
-voznativa judge-prompt pedido.txt doc.md --fact notas.md        # juiz de fundamentação (modo create)
-voznativa ground doc.md --request pedido.txt --fact notas.md --judgment juizo.json
-voznativa contract texto.txt --epoch current --community tech --slang-strength 0.5   # época, comunidade, gíria (com razões)
-voznativa corpus list                              # fontes registradas, status e licença
-voznativa corpus permissions b2w-reviews01         # decisão da política de dados por operação
-voznativa corpus prepare ud-portuguese-bosque      # download limitado para o cache local (fora do repositório)
-voznativa corpus evaluate ud-portuguese-bosque --genre journalistic   # medições agregadas
-voznativa corpus validate | report | info <id> | sample <id>          # exit 77 quando a política recusa
-voznativa eval evals/semantic/cases.jsonl
-voznativa benchmark benchmarks/cases/ptbr-v1.jsonl benchmarks/outputs --manifest m.json
-```
+`voznativa --help` lista os 27 subcomandos. Os mais usados:
 
-`rewrite` termina com um destes desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change`, `returned_original` (nenhuma candidata segura) ou `provider_error` (o comando do modelo falhou depois dos retries; exit 1). `decision.no_change_reason` distingue os NO_CHANGE: `no_editorial_findings` (sem achado e sem destino pedido; o modelo não é chamado, `--force` chama mesmo assim), `model_found_nothing_to_change` e `model_claims_target_met`. Se o pedido muda o destino (canal ou gênero diferente do texto, registro, público, perfil de voz) e o modelo responde NO_CHANGE, o engine pede de novo e, persistindo, devolve `needs_review`.
+| Comando | Para quê |
+|---|---|
+| `compare ORIGINAL CANDIDATA` | gate semântico; exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz |
+| `plan TEXTO` | o que mudar, por quê e quanto, sem modelo |
+| `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd` |
+| `diagnose TEXTO` | erros, contradições e escolhas legítimas do original |
+| `route TEXTO` | contrato de contexto |
+| `profile AMOSTRAS…` / `contract TEXTO` | perfil de voz e contrato de voz |
+| `integrity TEXTO` | auditoria de caracteres; exit 2 quando há algo suspeito |
+| `corpus list \| permissions \| prepare \| evaluate` | Corpus Registry e política de dados |
+| `review` / `blind-*` | revisão humana assinada e revisão cega pareada |
 
-**Isolamento do provider.** `--cmd` roda cada chamada num diretório temporário vazio. Isso **não é sandbox**: o processo roda com o seu usuário, lê e escreve qualquer caminho absoluto, acessa a rede e recebe o ambiente (com `--provider-env inherit`, o padrão, todas as credenciais). Para um CLI de agente, desligue as ferramentas (`claude -p --tools ""`, `codex exec --sandbox read-only`, `gemini --sandbox`); o engine avisa quando não estão desligadas. Isolamento de verdade exige contêiner ou sandbox do sistema. O texto do usuário é tratado como material não confiável: cada bloco do prompt fecha com uma marca que carrega o hash do conteúdo, e candidatas que acrescentam marcas do protocolo (`<final>`, veredito) falham.
+No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acentos por `?`).
 
-No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1: ele troca acentos por `?` antes de o texto chegar ao programa. Os scripts de `scripts/*.py` da versão 0.1.0 continuam funcionando com os mesmos argumentos.
+## Casos de uso
 
-## Regionalidade e voz
+| Situação | Como o VozNativa trata |
+|---|---|
+| e-mail ou mensagem que já está boa | `NO_CHANGE` sem chamar o modelo |
+| rascunho corporativo cheio de fórmulas | corta a fórmula, mantém valores e compromissos |
+| e-mail que deve virar WhatsApp | destino explícito: o modelo não pode responder `NO_CHANGE` sem atender ao destino |
+| texto técnico, jurídico ou acadêmico | termos do domínio preservados; modalidade e condições checadas |
+| romance, conto ou texto antigo | edição só local; grafia antiga não é erro nem PT-PT; verso não é reescrito sem pedido |
+| documento com código e tabelas | blocos protegidos nunca chegam ao modelo |
+| chat informal | gíria do autor mantida; gíria nova nunca acrescentada |
 
-"Sotaque escrito" é um atalho coloquial: sotaque é fonético. Na escrita, VozNativa trabalha com léxico, morfossintaxe, pragmática, discurso e formas de tratamento. Regionalidade é **distribuição, não decoração**: um pedido "mineiro informal" não autoriza inserir `uai` em toda frase. Regionalidade só entra por um Regional Evidence Pack (`docs/REGIONAL_EVIDENCE.md`) e por uma região que a pessoa pede (`--region`); o sistema nunca deduz a região do texto ou do autor. Sem pack que cubra a região, o gênero e o referente, a força é 0 e o relatório diz por quê. A forma que o autor usa vence a do pack; uma troca que pode mudar o referente (macaxeira → mandioca no Norte) pede revisão; uma forma regional que ninguém pediu é sinalizada.
+## Segurança e limites
 
-Gíria e comunidade seguem a mesma regra. Gíria tem época: uma forma só pode ser oferecida com atestação datada num corpus registrado que cubra a época pedida (`--epoch`), e nenhuma entrada cumpre isso hoje. Comunidade é contexto de prática, nunca identidade: `--community tech` preserva "deploy" onde o autor escreveu, mas não o põe onde ele não escreveu. Precedência: invariantes > instrução explícita > voz do autor > gênero, canal e público > evidência regional, temporal e de comunidade > regras editoriais genéricas.
+- **Preservação semântica é verificada, não garantida.** Os gates são determinísticos e conservadores; não detectam pronomes trocados nem todo antônimo. Sem juiz, o melhor estado é `unverified`.
+- **Juiz LLM não é revisão humana.** Só uma revisão assinada (`voznativa review`, terminal interativo) resolve `review_required`; assinatura com a chave local prova integridade, não identidade nem independência.
+- **Providers externos recebem o texto.** O VozNativa não envia nada a terceiros sem `--cmd`/`--emulate`; os relatórios guardam hashes, não o texto.
+- **Detectores de IA.** O projeto não promete indetectabilidade nem atribui autoria humana; o benchmark de detectores mede, não otimiza.
+- **Marca d'água estatística.** `integrity` trata caracteres; não detecta, não remove e não certifica ausência de marca d'água.
+- **Corpora** são evidência, não regra: a política por operação impede exportar ou enviar a modelos textos cujos direitos não estão claros.
 
-O Voice Profile observa ritmo, pontuação, abreviações, contrações, termos de comunidade e aberturas, com confiança limitada pelo número de amostras. Ele não guarda o texto nem palavras de tópico e não infere identidade.
+## Evidência e testes
+
+| Instrumento | Resultado nesta versão | Onde |
+|---|---|---|
+| Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
+| `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
+| `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/V07_OOD_BENCHMARK.md`](docs/V07_OOD_BENCHMARK.md) |
+| Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/V07_CORPUS_INTEGRATION.md`](docs/V07_CORPUS_INTEGRATION.md) |
+| Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) |
+
+Casos, regras e runners foram escritos pelo mesmo agente de desenvolvimento: os números mostram conformidade com a especificação, não qualidade percebida por leitores.
+
+## Roadmap
+
+O que a v0.7 entregou e o que ficou aberto: [`ROADMAP.md`](ROADMAP.md) e [`docs/V07_EXECUTION_STATE.md`](docs/V07_EXECUTION_STATE.md). Próximas linhas: revisão humana real, braços com modelo, correferência, normas e rubricas versionadas ([`docs/V08_STANDARDS_VISION.md`](docs/V08_STANDARDS_VISION.md)).
+
+## Perguntas frequentes
+
+**O `rewrite` devolveu o texto igual. Quebrou?** Não necessariamente: `no_change` (nada a mudar) e `returned_original` (nenhuma candidata segura) são desfechos honestos. Leia `reason`. Use `--force` para chamar o modelo mesmo sem achados.
+
+**`provider_error` com "No such file"?** O provider roda num diretório temporário vazio; use caminho absoluto no `--cmd`.
+
+**Acentos viraram `?`.** Pipe do PowerShell 5.1; passe o arquivo como argumento.
+
+**Por que `needs_judgment` e não `accepted`?** Gates determinísticos não provam equivalência. Rode com `--judge-cmd` ou peça uma revisão humana assinada.
+
+## Documentação
+
+Índice completo: [`docs/README.md`](docs/README.md). Pontos de entrada: [`SKILL.md`](SKILL.md) (procedimento do agente), [`docs/ARCHITECTURE_AND_RESEARCH.md`](docs/ARCHITECTURE_AND_RESEARCH.md), [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md), [`docs/EVALUATION.md`](docs/EVALUATION.md), [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Desenvolvimento
 
 ```bash
-python scripts/qualify.py                 # todos os gates locais; exit 0 PASS, 1 FAIL, 3 incompleto
-python scripts/validate_package.py
+python -m pip install -e . build
+python scripts/qualify.py            # todos os gates locais; exit 0 PASS, 1 FAIL, 3 incompleto
 python -m unittest discover -s evals -p "test_*.py"
 ```
 
-Toda correção de comportamento entra com um caso de regressão. Casos novos de eval vão para `evals/semantic/cases.jsonl`; os holdouts são congelados e não são editados depois de rodar.
+Toda correção de comportamento entra com teste de regressão e, quando há detector novo, controle de falso positivo. Suítes e benchmarks congelados não são editados; um oráculo errado vira suíte nova. A CI do GitHub roda só por disparo manual, no fechamento de cada rodada. Regras de engenharia: [`docs/ENGINEERING_PROFILE.md`](docs/ENGINEERING_PROFILE.md).
 
-## Pesquisa e licenças
+## Licença
 
-Projetos e corpora estudados, com versões e decisões: `docs/RESEARCH_LOG.md`. Licenças de terceiros: `docs/LICENSING.md`.
-
-**Licença:** MIT (`LICENSE`) para o código, a documentação, os exemplos e os dados originais do VozNativa. Corpora, modelos, skills de terceiros e dados derivados deles mantêm suas próprias licenças e termos (`docs/LICENSING.md`).
+MIT ([`LICENSE`](LICENSE)) para o código, a documentação, os exemplos e os dados originais do VozNativa. Corpora, modelos e dados derivados de terceiros mantêm suas licenças ([`docs/LICENSING.md`](docs/LICENSING.md)); nenhum texto de corpus é distribuído neste repositório. Projetos e fontes estudados: [`docs/RESEARCH_LOG.md`](docs/RESEARCH_LOG.md).

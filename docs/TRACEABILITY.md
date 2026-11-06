@@ -67,3 +67,12 @@ This document prevents design ideas from disappearing into README prose. Status 
 | Identity inference | prohibited | enforced by `profile.validate` and the Voice Contract `do_not` list |
 
 A checked item in `ROADMAP.md` must correspond to a real file, test, or documented invariant. A planned item must not be described as production-ready.
+| Context Contract v3 (14 dimensões, proteções na abstenção) | `voznativa/router.py` | implemented (v0.7.0): `evals/test_router_v3.py`, 14 oráculos congelados |
+| Contrato de documento e reescrita por unidades | `voznativa/document.py`, `engine.rewrite_document`, `rewrite --long-form` | implemented (v0.7.0): `evals/test_document_rewrite.py`; provider real NOT_RUN |
+| Contenção e splits por várias chaves | `voznativa/corpus/processing.py` | implemented (v0.7.0): `evals/test_containment.py` |
+| TEI/XML seguro e licença por documento | `voznativa/corpus/tei.py`, `policy.py` | implemented (v0.7.0): `evals/test_corpus_tei.py` |
+| Morfologia verbal e sinal `tense_changed` | `voznativa/morph.py`, `compare._tense_issues` | implemented, rules only (v0.7.0): `evals/test_morph.py`; medição contra UD em `evals/linguistics/runs/` |
+| Diagnóstico do original e modos editoriais | `voznativa/diagnose.py`, `voznativa diagnose`, `rewrite --mode` | partial (v0.7.0): `evals/test_diagnose.py`; narrador/personagens não |
+| Integridade de caracteres e proveniência | `voznativa/integrity.py`, `voznativa integrity` | implemented (v0.7.0): `evals/test_integrity.py`; não trata marca d'água estatística |
+| Benchmark de detectores (H0/H1/A0/A1) | `evals/external_detection/`, `scripts/detector_bench.py` | partial: contrato testado; live NOT_RUN |
+| Evidência de CI por SHA ao vivo | `scripts/ci_evidence.py`, gate `ci:github-actions` | implemented (v0.7.0): `evals/test_ci_evidence.py` |

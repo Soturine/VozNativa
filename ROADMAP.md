@@ -183,9 +183,9 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [x] community packs v2 com taxonomia (4 `draft`, E0); [ ] packs validados com fonte (E2+)
 - [x] slang stuffing guard (compartilhado com o regional)
 - [x] integração no Router, Contract, Planner, Engine (revisão), Profile e CLI, com precedência explícita
-- [x] textos longos: mapa de dependências, segmentação, política literária e de verso; [ ] reescrita ponta a ponta por segmentos (PARTIAL)
+- [x] textos longos: mapa de dependências, segmentação, política literária e de verso; [x] reescrita ponta a ponta por segmentos (v0.7.0, G4)
 - [x] `ptbr-bench-v4` congelado e com braço determinístico; [ ] braços com modelo e revisão humana (NOT_RUN)
-- Backlog com teste reproduzível (`evals/test_known_gaps_v06.py`):
+- Backlog com teste reproduzível (`evals/test_known_gaps_v06.py`); os quatro foram fechados na v0.7.0:
   - **P1 G1:** o roteador lê como `whatsapp` a literatura com quebra de linha fixa e diálogo com "--" (259 de 804 segmentos). Corrigir pede desfazer as quebras antes da inferência e reavaliar a suíte congelada do roteador.
   - **P2 G2:** um capítulo contido no romance inteiro não forma cluster com ele. É preciso uma medida de contenção antes de chamar de independentes as divisões que misturam edições.
   - **P3 G3:** a forma "de boa" seguida de palavra não é detectada. Uma correção pede amostra separada nova.
@@ -199,7 +199,29 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [x] execução real do benchmark skill-only (B0–B3, B5) com manifesto e juízes; B4 (Emulate) bloqueado
 - [ ] calibração dos limiares do `compare` e do drift com reescritas reais
 
-## v0.7 — Rewrite Engine Contract
+## v0.7.0 — Generalização, documento inteiro e evidência (em desenvolvimento, `0.7.0.dev0`)
+
+Plano: `docs/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/V07_EXECUTION_STATE.md`. Matriz requisito -> teste: `docs/V07_VERIFICATION_MATRIX.md`.
+
+- [x] G1: roteador estrutural, contrato v3 e proteções na abstenção (`router.py`; `evals/test_router_v3.py`)
+- [x] G2: contenção direcional em dedup e splits por várias chaves (`corpus/processing.py`; `evals/test_containment.py`)
+- [x] G3: gíria por sentido de ocorrência (`temporal.py`; `evals/test_slang_v07.py`)
+- [x] G4: reescrita por unidades com validação global (`document.py`, `engine.rewrite_document`; `evals/test_document_rewrite.py`)
+- [x] guards entre frases e parágrafos; estabilidade metamórfica (`compare.py`; `evals/test_global_guards.py`)
+- [x] TEI seguro, licença por documento, direitos do texto separados da licença de anotação (`corpus/tei.py`, `policy.py`; `evals/test_corpus_tei.py`, `evals/test_corpus_v07.py`)
+- [x] 7 corpora integrados à avaliação (eram 3) e avaliação cruzada (`scripts/corpus_crossgenre.py`)
+- [~] análise linguística: verbos com abstenção (`morph.py`; `evals/test_morph.py`); concordância, regência, correferência: não
+- [~] diagnóstico do original e modos editoriais (`diagnose.py`; `evals/test_diagnose.py`); narrador e personagens: não
+- [x] integridade de caracteres e proveniência (`integrity.py`; `evals/test_integrity.py`)
+- [x] `ptbr-bench-v5` congelado antes de rodar, braço determinístico (`scripts/bench_v5.py`)
+- [~] benchmark de detectores: infraestrutura e protocolo (`evals/test_external_detection.py`); execução real NOT_RUN
+- [x] harness de checkpoint e evidência de CI ao vivo (`scripts/checkpoint.py`, `scripts/ci_evidence.py`; `evals/test_ci_evidence.py`)
+- [x] README verificado por teste (`evals/test_readme.py`)
+- [ ] braços com modelo, revisão humana cega, holdout independente (dependem de orçamento e de pessoas)
+- [ ] automação de navegador (sem alvo autorizado: UNSUPPORTED)
+- [ ] normas, editais e rubricas versionados (visão: `docs/V08_STANDARDS_VISION.md`)
+
+## v0.7 — Rewrite Engine Contract (contrato original, entregue nas v0.3–v0.6)
 - [x] contrato agnóstico de modelo
 - [x] provider adapter interface (command, static, emulate)
 - [x] Context Router executável

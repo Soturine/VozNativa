@@ -74,6 +74,8 @@ class Provenance(unittest.TestCase):
         self.assertTrue(rec["ai_assisted"])
         self.assertTrue(rec["disclosure_note"])
         self.assertFalse(rec["retains_text"])
+        supplied = integrity.provenance_record("a", "b", tool_version="x", operation="rewrite", provider="static")
+        self.assertIsNone(supplied["ai_assisted"], "a candidate file's origin is unknown, not 'AI'")
         unchanged = integrity.provenance_record("a", "a", tool_version="x", operation="rewrite", provider=None)
         self.assertFalse(unchanged["ai_assisted"])
         self.assertIsNone(unchanged["disclosure_note"])

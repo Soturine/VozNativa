@@ -3,7 +3,7 @@ name: voznativa
 description: Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal. Use para humanizar ou naturalizar texto em PT-BR, tirar cara de IA sem alterar o sentido, adaptar a um canal (WhatsApp, e-mail, documentação, LinkedIn, acadêmico, jurídico) ou à voz de amostras do autor, escrever a partir de notas ou de um repositório, e verificar se uma reescrita mudou o significado.
 license: MIT
 metadata:
-  version: "0.6.0.dev0"
+  version: "0.7.0.dev0"
   language: pt-BR
 ---
 
@@ -60,6 +60,13 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 - **create:** `$VN route pedido.txt --task create --fact notas.md [--repo .]`, depois `$VN rewrite-prompt ...` com as mesmas flags. Antes de entregar, rode `$VN ground candidata.txt --request pedido.txt --fact notas.md [--repo .]`: todo número, data, caminho, comando ou identificador precisa ter fonte. Depois o juiz de fundamentação: `$VN judge-prompt pedido.txt candidata.txt --fact notas.md [--repo .]`, responda o JSON (cada afirmação `supported` cita o trecho literal da fonte) e rode `$VN ground ... --judgment juizo.json`. Afirmação sem fonte não é aprovada, mesmo que não tenha número. Se faltar dado, escreva `[DADO NECESSÁRIO: ...]` (o gate pede revisão até alguém preencher).
 - **profile:** só com amostras que o usuário escreveu e autorizou. Mostre `maturity` e os hábitos com confiança; não descreva a pessoa.
 - **compare:** `$VN compare original.txt candidata.txt` e explique cada item.
+
+## Documentos longos, diagnóstico e integridade (v0.7)
+
+- **Documento longo:** `$VN rewrite doc.md --long-form on --cmd ...` reescreve por unidades. Código, tabelas, citações e verso (sem pedido) nunca vão ao modelo; nomes e siglas já introduzidos são passados a cada unidade; o documento inteiro é validado no fim e unidades que o quebram são revertidas. Sem `--cmd` disponível, siga o plano de `$VN plan` por seção e rode `$VN compare` no documento inteiro.
+- **Erros do original:** `$VN diagnose texto.txt` separa erro formal, contradição interna, escolha legítima (grafia antiga), licença literária e ambiguidade. Não corrija fato, enredo, causalidade ou compromisso sem pedido; apresente como sugestão. `--mode PROOFREAD` aplica só correções formais de alta confiança; `PRESERVE` e `REVIEW` não alteram nada.
+- **Integridade:** `$VN integrity texto.txt` aponta caracteres invisíveis, controles bidi, caracteres de tag e homóglifos (exit 2 quando há algo suspeito). Não é detector de marca d'água nem de IA; não prometa que um texto "não tem marca d'água".
+- **Proveniência:** o `rewrite` devolve um bloco `provenance` (hashes, provider, `ai_assisted`). Não o omita nem o descreva como prova de autoria humana.
 
 ## Repositório como contexto
 
