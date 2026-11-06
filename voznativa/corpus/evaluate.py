@@ -120,6 +120,72 @@ def pattern_eval(docs: dict[str, dict], genre: str, channel: str | None = None) 
             "threshold": threshold_sweep(rows)}
 
 
+def windows(records, max_words: int = 150, joiner: str = "\n\n") -> list[dict]:
+    """Consecutive records of one group joined up to ``max_words``: the unit a
+    user would paste (a few paragraphs, a tweet, a news item), not a whole book."""
+    out, by_group = [], defaultdict(list)
+    for r in records:
+        by_group[r.group].append(r)
+    for group, recs in by_group.items():
+        buf, words = [], 0
+        for r in recs:
+            w = len(r.text.split())
+            if buf and words + w > max_words:
+                out.append({"group": group, "text": joiner.join(buf), "words": words})
+                buf, words = [], 0
+            buf.append(r.text)
+            words += w
+        if buf:
+            out.append({"group": group, "text": joiner.join(buf), "words": words})
+    return out
+
+
+def router_eval(units: list[dict], acceptable: set[str]) -> dict:
+    """Genre inference on human text of known provenance. ``acceptable``:
+    the genres a careful reader could assign to the source (plus unknown).
+    Confident answers outside it are the failure that matters: a wrong genre
+    applies the wrong protections (G1)."""
+    from ..router import infer_genre
+    values, wrong = Counter(), Counter()
+    for u in units:
+        g = infer_genre(u["text"])["value"]
+        values[g] += 1
+        if g != "unknown" and g not in acceptable:
+            wrong[g] += 1
+    n = len(units)
+    return {"units": n, "acceptable": sorted(acceptable), "distribution": dict(values.most_common()),
+            "abstention": _rate(values["unknown"], n),
+            "acceptable_confident": _rate(sum(v for g, v in values.items() if g in acceptable and g != "unknown"), n),
+            "confident_wrong": _rate(sum(wrong.values()), n), "confident_wrong_by_genre": dict(wrong.most_common())}
+
+
+def slang_eval(units: list[dict]) -> dict:
+    """Lexicon forms observed in human text. In formal sources every hit is a
+    candidate false positive; in informal sources a hit may be real use. The
+    numbers say how often; reading them is a separate, human step."""
+    from ..temporal import observe
+    forms, units_with, words = Counter(), 0, 0
+    for u in units:
+        hits = observe(u["text"])
+        words += u["words"]
+        units_with += bool(hits)
+        forms.update(h["id"] for h in hits)
+    return {"units": len(units), "words": words, "units_with_slang": _rate(units_with, len(units)),
+            "hits_per_1000_words": round(1000 * sum(forms.values()) / max(1, words), 3),
+            "by_form": dict(forms.most_common(15))}
+
+
+def variant_false_positives(units: list[dict]) -> dict:
+    """PT-PT markers in units from a Brazilian source (each hit is a false
+    positive of the variant detector unless the text quotes PT-PT)."""
+    flagged, markers = 0, Counter()
+    for u in units:
+        found = variant_markers(u["text"])
+        flagged += bool(found)
+        markers.update(m["text"].lower() for m in found)
+    return {"units": len(units), "flagged": _rate(flagged, len(units)), "markers": dict(markers.most_common(10))}
+
+
 def threshold_sweep(rows: list[tuple[int, int, int]]) -> dict:
     """Edit rate under max(2, ceil(words/k)) weak findings (or any strong one)."""
     out = {}

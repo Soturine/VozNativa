@@ -1,0 +1,98 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-petrogold
+name: UD Portuguese-PetroGold
+maintainer: Universal Dependencies (E. de Souza, C. Freitas; PUC-Rio)
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-PetroGold
+  official_kind: data_host
+identity_terms:
+- PetroGold
+modality: written
+genres:
+- acadêmico
+- técnico
+regions:
+- BR
+period:
+  from: null
+  to: null
+  note: publication dates of the texts are not given by the treebank
+license:
+  code: CC-BY-SA-4.0
+  per_document: false
+  evidence: LICENSE.txt and README.md at 5814c7f (read 2026-11-06); texts from the Petrolês corpus made public by
+    Petrobras (README)
+access:
+  type: open_download
+  note: CoNLL-U files in the GitHub repository
+relations: []
+status: EVALUATION_INTEGRATED
+evidence_role: 'Brazilian academic texts of the oil & gas domain processed in full (theses, dissertations): academic/technical
+  register with terminology; manually revised lemmas and features'
+notes:
+- pinned to commit 5814c7f92b88b64ccb9ba2d8ef33c64535dc881f (2026-11-06)
+privacy:
+  personal_data: false
+  note: academic prose
+connector:
+  id: local-files
+  reader:
+    format: conllu
+  assets:
+  - name: pt_petrogold-ud-train.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-PetroGold/5814c7f92b88b64ccb9ba2d8ef33c64535dc881f/pt_petrogold-ud-train.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: f0c81edf8273a79d82f9efdb00cf6e5a3efce4effc1fc00cabef09ca9e13fb4e
+  - name: pt_petrogold-ud-dev.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-PetroGold/5814c7f92b88b64ccb9ba2d8ef33c64535dc881f/pt_petrogold-ud-dev.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 36ec2018101073a2e36a350ad3711ec1c6d464b5d3b9244da22c183f62a04f7b
+  - name: pt_petrogold-ud-test.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-PetroGold/5814c7f92b88b64ccb9ba2d8ef33c64535dc881f/pt_petrogold-ud-test.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 069a43e29462ac24f876c43affcd12b519e2aa650b934f8591d67dae8a993f5d
+processing:
+  group_by: doc_id
+  note: '19 documents (newdoc id): splits are by document'
+verification:
+  source:
+    date: '2026-11-06'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-PetroGold
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-PetroGold
+    identity_terms_found:
+    - PetroGold
+  access:
+    date: '2026-11-06'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_petrogold-ud-train.conllu
+      bytes_read: 65536
+      declared_size: 12797986
+      truncated: true
+  connector:
+    date: '2026-11-06'
+    connector: local-files
+    records_read: 8946
+    read_errors: 0
+    result: read
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-06.json
+- evals/corpus/runs/integrity-2026-11-06.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

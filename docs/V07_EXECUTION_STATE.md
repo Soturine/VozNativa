@@ -12,8 +12,8 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 |---|---|---|---|---|
 | CP0 | Baseline, plano, riscos | concluído | `a59ad68` | `qualify.py` local em `bf8e1a4`: 460 testes (457 PASS + 3 xfail), gates PASS, veredito INCOMPLETE (pty/CI/humanos); Engine 97 candidatos INFO; Assertiva 1 INFO (`evals/assurance/runs/2026-11-06-v07-cp0/`) |
 | CP1 | Harness e integridade de CI | concluído | `9eea718` | `evals/test_ci_evidence.py` 20 testes (1 skip POSIX no Windows); gates validator, unittest, decision, router, cli, workflow-triggers PASS via `scripts/checkpoint.py`; consulta live real: HEAD NOT_RUN, run #123 confere com o registro |
-| CP2 | Ingestão v2 (TEI) e governança | concluído | (este commit) | `evals/test_corpus_tei.py` 17 testes (XXE/bomba recusados, licença por documento fail-closed, CoNLL-U com documento, cache dentro de repo recusado); suíte unittest PASS |
-| CP3 | Expansão de corpora | pendente | | |
+| CP2 | Ingestão v2 (TEI) e governança | concluído | `9cbaf0f` | `evals/test_corpus_tei.py` 17 testes (XXE/bomba recusados, licença por documento fail-closed, CoNLL-U com documento, cache dentro de repo recusado); suíte unittest PASS |
+| CP3 | Expansão de corpora | concluído | (este commit) | 3 → 7 fontes EVALUATION_INTEGRATED (GSD, PetroGold, PUD, DANTEStocks); integridade sem vazamento; `scripts/corpus_crossgenre.py`; `evals/test_corpus_v07.py`; suíte PASS. Ver `docs/V07_CORPUS_INTEGRATION.md` |
 | CP4 | Contenção e splits (G2) | pendente | | |
 | CP5 | Router v3 (G1) | pendente | | |
 | CP6 | Gíria/contexto (G3) | pendente | | |
@@ -34,6 +34,11 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 - Detectores de IA live: sem chave/autorização de upload nesta sessão (LIVE_NOT_RUN até haver).
 - Gutenberg e ALiB falharam TLS na v0.6 (não desativar verificação).
 
+## Adendos recebidos durante o CP3
+
+- Linguistic Intelligence & Morphosyntactic Assurance → CP9L (`docs/PLAN_v0.7.0.md`, RF-18).
+- Document Understanding & Editorial Intelligence → CP7/CP9/CP9L/CP9D (RF-19).
+
 ## Próximo passo
 
-CP3.
+CP4.

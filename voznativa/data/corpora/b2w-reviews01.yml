@@ -80,7 +80,10 @@ processing:
 processing_runs:
 - evals/corpus/runs/prepare-2026-11-05.json
 - evals/corpus/runs/integrity-2026-11-05.json
+- evals/corpus/runs/integrity-2026-11-06.json
 evaluations:
 - voznativa/corpus/evaluate.py
 - scripts/corpus_calibrate.py
 - evals/corpus/runs/calibration-2026-11-05.json
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

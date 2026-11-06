@@ -31,6 +31,32 @@ Branch: `dev/v0.7.0` (a partir de `bf8e1a4`). Estado vivo em `docs/V07_EXECUTION
 | RF-15 | Dogfood Assertiva/Engine/Framework com achados triados e upstream | CP14 |
 | RF-16 | Pacote, docs e compatibilidade | CP15 |
 | RF-17 | Merge na `main` + 1 CI manual + qualificação | CP16 |
+| RF-18 | Adendo "Linguistic Intelligence & Morphosyntactic Assurance" (recebido 2026-11-06, durante o CP3): inventário AS-IS das capacidades linguísticas; ADR de analisadores (stdlib/UD/Stanza/spaCy); contrato de análise linguística só se não duplicar `ledger`/`spans`/`compare`; tempo/aspecto/modo verbal e papéis agente/paciente como **sinais** do Semantic Guard (nunca prova de equivalência); avaliação contra rótulos UD dos treebanks integrados no CP3; impacto ponta a ponta medido antes de qualquer alegação; backlog explícito do que não couber | CP9L |
+
+| RF-19 | Adendo "Document Understanding, Contextual Reasoning & Editorial Intelligence" (recebido 2026-11-06, durante o CP3): Document Context Model, consciência de erro no original, políticas editoriais por gênero, modos editoriais, grounding diferenciado | CP7, CP9, CP9L, CP9D |
+
+### Integração do adendo 2 (Document Understanding)
+
+Princípio adotado: **o original é evidência da intenção do autor, não prova de que esteja correto.** Mapeamento para não duplicar núcleo:
+
+| Pedido do adendo | Onde entra | Reaproveita |
+|---|---|---|
+| Document Context Model (estrutura, entidades, eventos, citações, ambiguidades com offsets) | CP7: o contrato de documento completo **é** esse modelo, em representações complementares (blocos, inventário de fatos/entidades, dependências), não um grafo universal | `longform.dependency_map`, `ledger`, `spans` |
+| Papéis, tempo/aspecto/modalidade, fonte de afirmação | CP9L | `compare` (papéis, atribuição, modalidade já parciais) |
+| Consciência de erro (7 classes: formal, contextual, contradição interna, fonte autorizada, escolha legítima, licença literária, ambiguidade) | CP9D (novo): diagnóstico tipado com severidade/confiança/impacto; correção automática só linguística de alta confiança **e** autorizada pelo modo; o resto vira sugestão | `planner` (warnings de inconsistência da fonte já existem: dia da semana × data), `ptbr`, `literary_policy` |
+| Políticas por gênero (narrativa, poema, científico, técnico, jurídico, mensagem) | CP9D, ativadas pelo Context Contract v3 (CP5) com evidência, nunca palavra-chave isolada | `literary_policy`, `router` |
+| Modos PRESERVE/PROOFREAD/POLISH/ADAPT/REVIEW/CREATE | CP9D como campo do contrato existente (`task` + transformações autorizadas), sem API paralela: REVIEW≈`audit`/`plan`, CREATE=`create`, ADAPT=destino pedido (`transformation_targets`) | `router.TASKS`, `planner` |
+| Grounding (contradição comprovada × interna × sem evidência × conflito × opinião × ficção) | CP9D, estendendo `project.ground`; ausência de evidência nunca vira falsidade | `project.ground`, juiz de fundamentação |
+| Contexto global no long-form | CP8 | CP7 |
+| Detectores externos | CP11 (já planejado; nunca recompensa do engine) | — |
+
+O que não couber com validação vira backlog explícito com critério de aceite (`docs/V07_DISCOVERY_REGISTER.md`), sem documentação de capacidade fingindo implementação.
+
+### Integração do adendo 1
+
+- **Onde:** CP9L, depois do CP9 (guards globais), porque estende o Semantic Ledger/`compare` existentes e usa os treebanks UD do CP3 como rótulos. Nenhum corretor gramatical paralelo.
+- **Pré-requisito já no CP3:** o leitor CoNLL-U guarda hoje só a contagem de tokens; a avaliação morfológica precisa de `FORM/LEMMA/UPOS/FEATS/HEAD/DEPREL` por token, lidos sob a mesma política de licença.
+- **Limite:** dependências pesadas (Stanza, spaCy) só como extra opcional isolado, com fallback e medição; o v0.3 já rejeitou spaCy por ganho de 1/167 (`evals/experiments/`), o que vira baseline da comparação.
 
 | ID | Regra de negócio |
 |---|---|

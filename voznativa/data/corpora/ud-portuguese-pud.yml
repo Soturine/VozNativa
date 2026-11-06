@@ -1,0 +1,86 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-pud
+name: UD Portuguese-PUD
+maintainer: Universal Dependencies (CoNLL 2017 shared task; Google; DFKI)
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-PUD
+  official_kind: data_host
+identity_terms:
+- PUD
+modality: written
+genres:
+- jornalístico
+- enciclopédico
+regions:
+- unknown
+period:
+  from: null
+  to: null
+  note: publication dates of the texts are not given by the treebank
+license:
+  code: CC-BY-SA-3.0
+  per_document: false
+  text_rights: unclear
+  text_rights_note: professional translations (DFKI) of news and Wikipedia sentences; rights in the news originals
+    are not stated
+  evidence: LICENSE.txt and README.md at 0fdcc05 (read 2026-11-06)
+access:
+  type: open_download
+  note: CoNLL-U files in the GitHub repository
+relations: []
+status: EVALUATION_INTEGRATED
+evidence_role: '1000 translated sentences (750 from English): translationese control; never evidence of how Brazilians
+  write; variety not stated'
+notes:
+- pinned to commit 0fdcc057bcc72a71b260ef58755778551508c77a (2026-11-06)
+privacy:
+  personal_data: false
+  note: news and encyclopedia sentences
+connector:
+  id: local-files
+  reader:
+    format: conllu
+  assets:
+  - name: pt_pud-ud-test.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-PUD/0fdcc057bcc72a71b260ef58755778551508c77a/pt_pud-ud-test.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: e2bd4012a3d0e17dc7ba5d699dd17e05f57986901bb24df07bd0a271cf23178c
+processing:
+  group_by: doc_id
+  note: 397 documents (newdoc id); a few sentences per document
+verification:
+  source:
+    date: '2026-11-06'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-PUD
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-PUD
+    identity_terms_found:
+    - PUD
+  access:
+    date: '2026-11-06'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_pud-ud-test.conllu
+      bytes_read: 65536
+      declared_size: 1595522
+      truncated: true
+  connector:
+    date: '2026-11-06'
+    connector: local-files
+    records_read: 1000
+    read_errors: 0
+    result: read
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-06.json
+- evals/corpus/runs/integrity-2026-11-06.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

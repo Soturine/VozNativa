@@ -7,7 +7,7 @@ Requisito → teste → resultado → evidência. Status: PASS só quando o test
 | RF-01 harness | `CheckpointHarness` (1º estágio falho derruba; timeout; programa ausente; push rejeitado) | push verificado contra bare repo real | — | — | — | PASS (Windows 3.12) |
 | RF-02 CI | `LiveCiEvidence` (adulteração, SHA errado, matriz incompleta, cancelled/neutral, query fora, branch divergente, commit só de evidência) | `WorkflowTriggerAudit`; consulta live real | — | — | CI live do HEAD: NOT_RUN | PASS (contrato); CI: NOT_RUN |
 | RF-03 TEI | `TeiReader` (DOCTYPE/ENTITY, malformado, raiz errada, tamanho, sem texto) | conector com `.xml.gz`; `PerDocumentLicences`; `ManifestAndCache` | negativo: sem a recusa prévia o XXE vira `malformed` (o teste exige `unsafe_xml`) | — | — | PASS (Windows 3.12) |
-| RF-04 corpora | | | | | | pendente |
+| RF-04 corpora | `TextRights` (inclui precedência DENIED), `CrossGenreEvaluators` | prepare + integrity + crossgenre reais em 7 fontes | — | `evals/corpus/runs/crossgenre-2026-11-06.json` | — | PASS (3 → 7 integradas) |
 | RF-05 G2 | `test_known_gaps_v06` G2 (xfail) | | | | | aberto |
 | RF-06 G1 | `test_known_gaps_v06` G1 (xfail) | | | | | aberto |
 | RF-07 G3 | `test_known_gaps_v06` G3 (xfail) | | | | | aberto |

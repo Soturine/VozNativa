@@ -1,0 +1,101 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-gsd
+name: UD Portuguese-GSD
+maintainer: Universal Dependencies (A. Rademaker et al.)
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-GSD
+  official_kind: data_host
+identity_terms:
+- GSD
+modality: written
+genres:
+- blog
+- jornalístico
+regions:
+- BR
+period:
+  from: null
+  to: null
+  note: publication dates of the texts are not given by the treebank
+license:
+  code: CC-BY-SA-4.0
+  per_document: false
+  text_rights: unclear
+  text_rights_note: 'README v2.5: Google''s permission covers the UD annotations, not the underlying web content,
+    of which Google claims no ownership'
+  evidence: LICENSE.txt and README.md at c91edee (read 2026-11-06)
+access:
+  type: open_download
+  note: CoNLL-U files in the GitHub repository
+relations: []
+status: EVALUATION_INTEGRATED
+evidence_role: 'Brazilian blog and news sentences (Google UDT v2.0): an independent written PT-BR control outside
+  Folha/Bosque; gold UPOS/FEATS for morphological evaluation'
+notes:
+- pinned to commit c91edee46c9d096c684dda4848637dff5f4299e9 (2026-11-06)
+privacy:
+  personal_data: possible
+  note: web sentences may name people
+connector:
+  id: local-files
+  reader:
+    format: conllu
+  assets:
+  - name: pt_gsd-ud-train.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-GSD/c91edee46c9d096c684dda4848637dff5f4299e9/pt_gsd-ud-train.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: c28bdc7ff8ddf03cba586062be0b041308da36bd82c321b437564d2b6c8664bb
+  - name: pt_gsd-ud-dev.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-GSD/c91edee46c9d096c684dda4848637dff5f4299e9/pt_gsd-ud-dev.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6
+  - name: pt_gsd-ud-test.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-GSD/c91edee46c9d096c684dda4848637dff5f4299e9/pt_gsd-ud-test.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31
+processing:
+  group_by: doc_id
+  note: 'the files declare no document boundary: every sentence is its own unit; document-level leakage between
+    splits cannot be excluded'
+verification:
+  source:
+    date: '2026-11-06'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-GSD
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-GSD
+    identity_terms_found:
+    - GSD
+  access:
+    date: '2026-11-06'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_gsd-ud-train.conllu
+      bytes_read: 65536
+      declared_size: 13521544
+      truncated: true
+  connector:
+    date: '2026-11-06'
+    connector: local-files
+    records_read: 12020
+    read_errors: 0
+    result: read
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-06.json
+- evals/corpus/runs/integrity-2026-11-06.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

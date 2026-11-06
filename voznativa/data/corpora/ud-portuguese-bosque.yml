@@ -20,6 +20,9 @@ period:
 license:
   code: CC-BY-SA-4.0
   per_document: false
+  text_rights: unclear
+  text_rights_note: news sentences from Folha de S.Paulo (CETENFolha) and Publico; the licence covers the annotation,
+    not the newspapers' rights in the text (v0.7.0 CP3)
   evidence: LICENSE.txt in the repository (read 2026-11-05)
 access:
   type: open_download
@@ -94,7 +97,10 @@ processing:
 processing_runs:
 - evals/corpus/runs/prepare-2026-11-05.json
 - evals/corpus/runs/integrity-2026-11-05.json
+- evals/corpus/runs/integrity-2026-11-06.json
 evaluations:
 - voznativa/corpus/evaluate.py
 - scripts/corpus_calibrate.py
 - evals/corpus/runs/calibration-2026-11-05.json
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

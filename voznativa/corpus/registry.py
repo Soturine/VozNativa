@@ -74,6 +74,10 @@ def validate_source(entry: dict, known_connectors: frozenset | None = None, root
     lic = entry["license"]
     if not isinstance(lic, dict) or "code" not in lic or "per_document" not in lic or "evidence" not in lic:
         problems.append("license needs code, per_document and evidence")
+    elif lic.get("text_rights", "covered") not in ("covered", "unclear"):
+        problems.append("license.text_rights must be covered or unclear")
+    elif lic.get("text_rights") == "unclear" and not lic.get("text_rights_note"):
+        problems.append("license.text_rights unclear needs text_rights_note")
     access = entry["access"]
     if not isinstance(access, dict) or access.get("type") not in ACCESS_TYPES:
         problems.append(f"access.type must be one of {ACCESS_TYPES}")

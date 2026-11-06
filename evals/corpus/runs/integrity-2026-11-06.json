@@ -1,0 +1,186 @@
+{
+  "kind": "voznativa.corpus_integrity_run",
+  "date": "2026-11-06",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "records": 9357,
+      "groups": 1961,
+      "read_errors": 0,
+      "split_records": {
+        "calibration": 4808,
+        "evaluation": 4549
+      },
+      "split_groups": {
+        "calibration": 998,
+        "evaluation": 963
+      },
+      "asset_sha256": {
+        "pt_bosque-ud-train.conllu": "b56d7124af821e2968302c38298904ec67af342304a33ae8a9dc4fa57df89648",
+        "pt_bosque-ud-dev.conllu": "f8a67abae12fbab85a3995204a6459d1958c11065062d4ea5349d6b914e78f81",
+        "pt_bosque-ud-test.conllu": "9a824650b7a02cf411f6e09b39e8fb423c85e1a5fb3a55b87e7f4c0c2ea5b3bb"
+      }
+    },
+    "b2w-reviews01": {
+      "records": 21700,
+      "groups": 19883,
+      "read_errors": 1,
+      "split_records": {
+        "calibration": 10518,
+        "evaluation": 11182
+      },
+      "split_groups": {
+        "calibration": 9663,
+        "evaluation": 10220
+      },
+      "asset_sha256": {
+        "B2W-Reviews01.prefix.csv": "ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3"
+      }
+    },
+    "machado-de-assis-corpus": {
+      "records": 309,
+      "groups": 309,
+      "read_errors": 1,
+      "split_records": {
+        "calibration": 162,
+        "evaluation": 147
+      },
+      "split_groups": {
+        "calibration": 162,
+        "evaluation": 147
+      },
+      "asset_sha256": {
+        "machado_corpus.prefix.jsonl": "79ff4bd1f9ff603d65089e467d559fbe9eda3eaa4c8012e954d7d7c279155bd6"
+      }
+    },
+    "ud-portuguese-gsd": {
+      "records": 12020,
+      "groups": 12020,
+      "read_errors": 0,
+      "split_records": {
+        "calibration": 6039,
+        "evaluation": 5981
+      },
+      "split_groups": {
+        "calibration": 6039,
+        "evaluation": 5981
+      },
+      "asset_sha256": {
+        "pt_gsd-ud-train.conllu": "c28bdc7ff8ddf03cba586062be0b041308da36bd82c321b437564d2b6c8664bb",
+        "pt_gsd-ud-dev.conllu": "0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6",
+        "pt_gsd-ud-test.conllu": "0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31"
+      }
+    },
+    "ud-portuguese-petrogold": {
+      "records": 8946,
+      "groups": 19,
+      "read_errors": 0,
+      "split_records": {
+        "evaluation": 8725,
+        "calibration": 221
+      },
+      "split_groups": {
+        "evaluation": 18,
+        "calibration": 1
+      },
+      "asset_sha256": {
+        "pt_petrogold-ud-train.conllu": "f0c81edf8273a79d82f9efdb00cf6e5a3efce4effc1fc00cabef09ca9e13fb4e",
+        "pt_petrogold-ud-dev.conllu": "36ec2018101073a2e36a350ad3711ec1c6d464b5d3b9244da22c183f62a04f7b",
+        "pt_petrogold-ud-test.conllu": "069a43e29462ac24f876c43affcd12b519e2aa650b934f8591d67dae8a993f5d"
+      }
+    },
+    "ud-portuguese-pud": {
+      "records": 1000,
+      "groups": 397,
+      "read_errors": 0,
+      "split_records": {
+        "calibration": 470,
+        "evaluation": 530
+      },
+      "split_groups": {
+        "calibration": 195,
+        "evaluation": 202
+      },
+      "asset_sha256": {
+        "pt_pud-ud-test.conllu": "e2bd4012a3d0e17dc7ba5d699dd17e05f57986901bb24df07bd0a271cf23178c"
+      }
+    },
+    "ud-portuguese-dantestocks": {
+      "records": 4042,
+      "groups": 4042,
+      "read_errors": 0,
+      "split_records": {
+        "evaluation": 1976,
+        "calibration": 2066
+      },
+      "split_groups": {
+        "evaluation": 1976,
+        "calibration": 2066
+      },
+      "asset_sha256": {
+        "pt_dantestocks-ud-train.conllu": "43a4791e6502d3b1bcdefc36c6ad5a133c0d4569dd20d34c0a9bf4913d38f07d",
+        "pt_dantestocks-ud-dev.conllu": "729bafef6f73d21b3c6115fee354d2a978e553cd2253ba4b6cb93bfee3aebfbc",
+        "pt_dantestocks-ud-test.conllu": "a65801c762707d9fefcd83f5a431c8a974bcc178612ba00d965946a9713432aa"
+      }
+    }
+  },
+  "deduplication": {
+    "records": 57374,
+    "exact_duplicates": 917,
+    "near_duplicate_links": 244,
+    "clusters": 56213,
+    "cross_source_clusters": 2
+  },
+  "split": {
+    "fractions": {
+      "calibration": 0.5,
+      "evaluation": 0.5
+    },
+    "unit": "group merged with duplicate cluster",
+    "salt": "voznativa-v0.6"
+  },
+  "leakage": {
+    "group": 0,
+    "cluster": 0,
+    "original": 0,
+    "normalized": 0,
+    "contaminated": false
+  },
+  "manifests": {
+    "ud-portuguese-bosque": {
+      "records": 9357,
+      "sha256": "9ccb4f39fe7a982c6bffd77f82a3509dcc3c57207b56fc27106b87433c8ada36",
+      "location": "local cache (not committed)"
+    },
+    "b2w-reviews01": {
+      "records": 21700,
+      "sha256": "7868a98418887bf83b123663a1409ee6b22aab96e47e05ac8d01b283131f55bf",
+      "location": "local cache (not committed)"
+    },
+    "machado-de-assis-corpus": {
+      "records": 309,
+      "sha256": "7ddb3d712daf884f4132715f5357464f1cd1b905f7882c49f462b1aa9a8883ee",
+      "location": "local cache (not committed)"
+    },
+    "ud-portuguese-gsd": {
+      "records": 12020,
+      "sha256": "d74a382f5affa5933ffe39ae918cb7da099aa5a35978eda1bda5bc60bc0447aa",
+      "location": "local cache (not committed)"
+    },
+    "ud-portuguese-petrogold": {
+      "records": 8946,
+      "sha256": "e9a8588cb0532d823a09072abcdf196795a43f95436a4c9918e95fdabaf6f727",
+      "location": "local cache (not committed)"
+    },
+    "ud-portuguese-pud": {
+      "records": 1000,
+      "sha256": "ee86c23c1e00e52cb860a9c851057885003b08a491fd31315dce38debff93b74",
+      "location": "local cache (not committed)"
+    },
+    "ud-portuguese-dantestocks": {
+      "records": 4042,
+      "sha256": "c9b24a2d380bc86815eaca6011c7f8c04949a4c804b36a86dccb05b523365349",
+      "location": "local cache (not committed)"
+    }
+  },
+  "seconds": 39.2
+}

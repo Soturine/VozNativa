@@ -1,0 +1,141 @@
+{
+  "kind": "voznativa.corpus_verification_run",
+  "date": "2026-11-06",
+  "results": [
+    {
+      "id": "ud-portuguese-cintil",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-06",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-CINTIL",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-CINTIL",
+        "identity_terms_found": [
+          "CINTIL"
+        ]
+      },
+      "access": {
+        "date": "2026-11-06",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_cintil-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 21829348,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "ud-portuguese-dantestocks",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-06",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-DANTEStocks",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-DANTEStocks",
+        "identity_terms_found": [
+          "DANTEStocks"
+        ]
+      },
+      "access": {
+        "date": "2026-11-06",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_dantestocks-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 3607632,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "ud-portuguese-gsd",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-06",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-GSD",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-GSD",
+        "identity_terms_found": [
+          "GSD"
+        ]
+      },
+      "access": {
+        "date": "2026-11-06",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_gsd-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 13521544,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "ud-portuguese-petrogold",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-06",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-PetroGold",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-PetroGold",
+        "identity_terms_found": [
+          "PetroGold"
+        ]
+      },
+      "access": {
+        "date": "2026-11-06",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_petrogold-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 12797986,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "ud-portuguese-pud",
+      "status_before": "CATALOGUED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-06",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-PUD",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-PUD",
+        "identity_terms_found": [
+          "PUD"
+        ]
+      },
+      "access": {
+        "date": "2026-11-06",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_pud-ud-test.conllu",
+          "bytes_read": 65536,
+          "declared_size": 1595522,
+          "truncated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-dantestocks
+name: UD Portuguese-DANTEStocks
+maintainer: Universal Dependencies (A. Di Felippo et al.; C4AI/USP)
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-DANTEStocks
+  official_kind: data_host
+identity_terms:
+- DANTEStocks
+modality: written
+genres:
+- rede social
+- mercado financeiro
+regions:
+- BR
+period:
+  from: null
+  to: null
+  note: publication dates of the texts are not given by the treebank
+license:
+  code: CC-BY-4.0
+  per_document: false
+  text_rights: unclear
+  text_rights_note: 'tweets: the authors'' content on X/Twitter; the treebank licence covers the annotation work'
+  evidence: LICENSE.txt and README.md at 4268e8e (read 2026-11-06)
+access:
+  type: open_download
+  note: CoNLL-U files in the GitHub repository
+relations: []
+status: EVALUATION_INTEGRATED
+evidence_role: '4,042 unnormalised Brazilian tweets on the stock market (one tweet per sentence unit): informal
+  social-media writing, the first real chat-like text in the registry'
+notes:
+- pinned to commit 4268e8e1b2c95708136e34f38b8e8af96de86dd2 (2026-11-06)
+privacy:
+  personal_data: possible
+  note: tweets may contain user names and handles
+connector:
+  id: local-files
+  reader:
+    format: conllu
+  assets:
+  - name: pt_dantestocks-ud-train.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-DANTEStocks/4268e8e1b2c95708136e34f38b8e8af96de86dd2/pt_dantestocks-ud-train.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 43a4791e6502d3b1bcdefc36c6ad5a133c0d4569dd20d34c0a9bf4913d38f07d
+  - name: pt_dantestocks-ud-dev.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-DANTEStocks/4268e8e1b2c95708136e34f38b8e8af96de86dd2/pt_dantestocks-ud-dev.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: 729bafef6f73d21b3c6115fee354d2a978e553cd2253ba4b6cb93bfee3aebfbc
+  - name: pt_dantestocks-ud-test.conllu
+    format: conllu
+    max_bytes: 20000000
+    url: https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-DANTEStocks/4268e8e1b2c95708136e34f38b8e8af96de86dd2/pt_dantestocks-ud-test.conllu
+    hosts:
+    - raw.githubusercontent.com
+    sha256: a65801c762707d9fefcd83f5a431c8a974bcc178612ba00d965946a9713432aa
+processing:
+  group_by: record
+  note: one tweet per unit; tweet authors are not given, so author-level leakage between splits cannot be excluded
+verification:
+  source:
+    date: '2026-11-06'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-DANTEStocks
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-DANTEStocks
+    identity_terms_found:
+    - DANTEStocks
+  access:
+    date: '2026-11-06'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_dantestocks-ud-train.conllu
+      bytes_read: 65536
+      declared_size: 3607632
+      truncated: true
+  connector:
+    date: '2026-11-06'
+    connector: local-files
+    records_read: 4042
+    read_errors: 0
+    result: read
+processing_runs:
+- evals/corpus/runs/prepare-2026-11-06.json
+- evals/corpus/runs/integrity-2026-11-06.json
+evaluations:
+- voznativa/corpus/evaluate.py
+- scripts/corpus_crossgenre.py
+- evals/corpus/runs/crossgenre-2026-11-06.json

@@ -31,6 +31,7 @@ STATES = ("ALLOWED", "DENIED", "REQUIRES_PERMISSION", "UNKNOWN")
 PURPOSES = ("noncommercial_research", "commercial")
 DATA_OPERATIONS = frozenset(OPERATIONS[3:])          # need the data, not only the catalogue
 PUBLICATION = frozenset({"EXPORT_SAMPLES", "REDISTRIBUTE", "PUBLISH_DERIVATIVES"})
+TEXT_DISCLOSURE = PUBLICATION | {"SEND_TO_EXTERNAL_MODEL", "TRAIN_MODEL"}
 CC = {  # licence family -> (attribution, share_alike, non_commercial, no_derivatives)
     "CC0-1.0": (False, False, False, False),
     "CC-BY-4.0": (True, False, False, False),
@@ -188,7 +189,16 @@ def decide(entry: dict, operation: str, purpose: str = "noncommercial_research",
     else:
         decision = _license_decision(code, operation, purpose, destination)
     decision.evidence = evidence + decision.evidence
-    personal = ((entry.get("privacy") or {}).get("personal_data", "unknown"))
+    if decision.allowed and entry["license"].get("text_rights") == "unclear" and operation in TEXT_DISCLOSURE:
+        # v0.7.0 CP3 (VN07-DISC-009): the licence covers the annotation layer; the
+        # underlying texts (news, tweets, web pages) belong to others. Local use and
+        # aggregate statistics stay possible; disclosing the text is not presumed.
+        # Only an ALLOWED is lowered: a licence DENIED or REQUIRES_PERMISSION stands.
+        decision = Decision(operation, "UNKNOWN",
+                            ["the licence covers the annotations, not the rights to the underlying texts "
+                             f"({entry['license'].get('text_rights_note', 'see the registry entry')})"],
+                            decision.conditions, decision.evidence)
+    personal =((entry.get("privacy") or {}).get("personal_data", "unknown"))
     if decision.allowed and operation in {"EXPORT_SAMPLES", "SEND_TO_EXTERNAL_MODEL", "REDISTRIBUTE"} \
             and personal in {True, "possible", "unknown"}:
         decision = Decision(operation, "REQUIRES_PERMISSION",

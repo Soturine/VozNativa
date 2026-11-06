@@ -1,0 +1,50 @@
+schema_version: 1
+kind: voznativa.corpus_source
+id: ud-portuguese-cintil
+name: UD Portuguese-CINTIL
+maintainer: Universal Dependencies (NLX, Universidade de Lisboa)
+urls:
+  official: https://github.com/UniversalDependencies/UD_Portuguese-CINTIL
+  official_kind: data_host
+identity_terms:
+- CINTIL
+modality: written
+genres:
+- jornalístico
+- ficção
+- não ficção
+regions:
+- PT
+period:
+  from: null
+  to: null
+license:
+  code: CC-BY-NC-ND-4.0
+  per_document: false
+  evidence: LICENSE.txt at dc2cb3a (read 2026-11-06)
+access:
+  type: open_download
+relations: []
+status: ACCESS_VERIFIED
+evidence_role: 'European Portuguese (PT-PT) control; no-derivatives licence: catalogue only'
+notes:
+- 'not integrated: PT-PT and ND; Bosque CP already gives a PT-PT contrast'
+verification:
+  source:
+    date: '2026-11-06'
+    url: https://github.com/UniversalDependencies/UD_Portuguese-CINTIL
+    method: GET official page; identity terms
+    result: verified
+    http_status: 200
+    final_url: https://github.com/UniversalDependencies/UD_Portuguese-CINTIL
+    identity_terms_found:
+    - CINTIL
+  access:
+    date: '2026-11-06'
+    method: GitHub API + raw file read
+    result: data_read
+    detail:
+      file: pt_cintil-ud-train.conllu
+      bytes_read: 65536
+      declared_size: 21829348
+      truncated: true
