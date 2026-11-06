@@ -29,7 +29,7 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 | CP14S | Linha futura de Standards (adendo 3, só docs) | concluído | (este commit) | `docs/V08_STANDARDS_VISION.md`, ADR-0003 (proposto); nada implementado |
 | CP14 | Dogfood e mutação | concluído | `3fb4163`, `a4426e4`, `7d2382b`, este commit | Engine: 5 corrigidos → ABSENT; Assertiva `--execute` PASS; AXF-VN-01 corrigido upstream (Assertiva PR #8 `3415828`); Engine PR #3 `7e8e9ee`; mutação de `temporal.py`: 613 → 633 mortos de 875, 44 executáveis triados (`evals/assurance/runs/2026-11-06-v07-cp14/MUTATION.md`); incidente: 2 runs de Actions da Assertiva disparados e cancelados |
 | CP15 | Pacote, docs, compatibilidade | concluído | `7d2382b`, `cc0a00b`, `37e8d6e`, este commit | README novo testado; versão 0.7.0.dev0; qualificação local de `37e8d6e` PASS (gates locais) em Windows 3.11/3.12 e WSL 3.11/3.12/3.13; pacote PASS fora do checkout; auditoria da abstenção do roteador |
-| CP16 | Merge na main + CI manual | pendente | | |
+| CP16 | Merge na main + CI manual | concluído | `9f44010` (main), este commit (evidência) | fast-forward `bf8e1a4` → `9f44010` sem Action automática; run #124 (42260943492) `workflow_dispatch` success 8/8, verificado ao vivo; VN07-DISC-003 resolvido: Actions executou normalmente (sem bloqueio de cobrança) |
 
 ## Bloqueios conhecidos
 
@@ -48,4 +48,4 @@ Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log
 
 ## Próximo passo
 
-CP16: fast-forward da `main`, um `workflow_dispatch`, registro do run.
+Rodada v0.7.0 fechada como 0.7.0.dev0 (sem tag, sem PyPI). Abertos: braços com modelo, revisão humana cega, holdout independente, detectores live, backlogs B-L*, B-D2, B-R1, B-R2, linha de normas (V08).

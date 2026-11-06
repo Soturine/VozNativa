@@ -14,6 +14,17 @@
         "jobs_passed": "8/8",
         "started": "2026-11-05T15:48:37Z",
         "evidence": "gh run view 42058735003 (GitHub Actions)"
+      },
+      {
+        "run": 124,
+        "id": 42260943492,
+        "head_sha": "9f44010dc06bbfe9e7960fc7508da5058de95dd1",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "started": "2026-11-06T17:21:49Z",
+        "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same (v0.7.0 CP16)"
       }
     ],
     "history": [
@@ -34,6 +45,12 @@
         "head_sha": "40e19e4",
         "state": "FAIL (flaky)",
         "evidence": "windows-latest/3.11 test_timeout_stops_the_whole_process_tree; the same SHA passed in #123; failure class fixed in v0.6.0 CP0 (Job Object)"
+      },
+      {
+        "period": "2026-11-06",
+        "runs": "#124",
+        "state": "EXECUTED",
+        "evidence": "single manual dispatch after the fast-forward of main to 9f44010; no Actions run between 2026-11-05 and this dispatch"
       }
     ]
   },

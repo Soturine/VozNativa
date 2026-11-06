@@ -54,8 +54,12 @@ Gate `ci:github-actions` antes do merge: NOT_RUN no Windows (a consulta ao vivo 
 |---|---|---|
 | IMPLEMENTATION | PASS para o escopo marcado `[x]` no `ROADMAP.md`; PARTIAL onde marcado `[~]` | testes por requisito em `docs/V07_VERIFICATION_MATRIX.md` |
 | LOCAL_QUALIFICATION | PASS (gates locais) em Windows 3.11/3.12 e Linux 3.11/3.12/3.13; INCOMPLETE como veredito por causa dos gates externos | tabela acima |
-| REMOTE_CI | registrado no fechamento (CP16) | `scripts/ci_evidence.py` |
+| REMOTE_CI | **PASS** em `9f44010`: run #124 (id 42260943492), `workflow_dispatch`, 8/8 jobs (Ubuntu e Windows × 3.11/3.12/3.13 + pacote nos dois), verificado ao vivo por `scripts/ci_evidence.py` | https://github.com/Soturine/VozNativa/actions/runs/42260943492 |
 | INDEPENDENT_HOLDOUT | NOT_RUN | precisa de outra pessoa |
 | BLIND_HUMAN_REVIEW | NOT_RUN | registro de revisores vazio |
 | EXTERNAL_DETECTOR_BENCH | LIVE_NOT_RUN | sem chaves, sem textos humanos consentidos |
 | RELEASE_READINESS | não pronto para release estável | 0.7.0.dev0; sem tag, sem PyPI |
+
+## CI remota (CP16)
+
+`main` avançou por fast-forward de `bf8e1a4` para `9f44010` (26 commits) sem disparar nenhuma Action. Um único `gh workflow run ci.yml --ref main` gerou o run #124: concluído com sucesso, 8/8 jobs, no SHA exato. Commits posteriores a `9f44010` mudam só arquivos de evidência (`evals/qualification/external.json`, `evals/assurance/runs/`, este arquivo e `docs/V07_EXECUTION_STATE.md`); o gate verifica isso por `git diff` e mantém PASS por equivalência só-evidência. Custo: um run de 8 jobs; nenhum outro run desta rodada no VozNativa. No repositório da Assertiva, dois runs foram disparados por engano por um push na PR #8 e cancelados (VN07-DISC-034).
