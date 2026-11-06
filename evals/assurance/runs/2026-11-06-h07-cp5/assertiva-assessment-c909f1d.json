@@ -1,0 +1,61 @@
+{
+  "run_id": "4e9ef681af3d48ae",
+  "lang": "pt-BR",
+  "summary": "Em c909f1d a suíte unittest roda verde numa cópia isolada (755 invocações, exit 0), mede 90,0% de linhas e 81,1% de ramos, e o wheel constrói, instala e importa. Verde aqui prova que as asserções escritas passam; não prova equivalência semântica das reescritas nem que os testes detectam defeitos. A força de detecção vem de mutação que eu executei fora do engine com Cosmic Ray 8.7.0 e -B, não de execução do engine. Em temporal.py, 638 de 875 mutantes morreram no mesmo conjunto da v0.7 (eram 633), e 5 sobreviventes de identidade viraram lacunas cobertas. A regra nova de predicados em compare.py foi mutada só em parte (132 de 271 mutantes selecionados, interrompida por decisão do mantenedor), e os sobreviventes revelaram lacunas reais de teste, cobertas em seguida. Na amostra de document.py, 52 de 120 mutantes sobreviveram e ficaram triados por classe, sem correção nesta rodada. Os testes contra o wheel continuam sem executar.",
+  "dispositions": [
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "Os 5 passos do workflow não classificados são declarados e só rodam por workflow_dispatch. O que eles executam (validator, unittest, suíte semântica, pacote) também roda localmente por scripts/qualify.py. A execução deles na CI se prova pelo run verificado por SHA, não por esta auditoria.",
+      "evidence": [".github/workflows/ci.yml (on: workflow_dispatch apenas)", "scripts/qualify.py gate ci:workflow-triggers"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "identity-triage-was-wrong",
+      "title": "Triagem anterior chamou de equivalentes 5 mutantes que eram lacunas",
+      "claim": "Cinco mutantes == -> is de temporal.py comparam valores vindos de YAML, regex ou argumento de linha de comando. Eles são iguais ao literal sem ser o mesmo objeto, e nenhum teste os exercitava.",
+      "why": "Uma triagem por suposição de internamento esconde lacunas reais no denominador da mutação.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/assurance/runs/2026-11-06-h07-cp1/IDENTITY_TRIAGE.md", "Cosmic Ray A (-B): mesmas 875 chaves, 633 -> 638 mortos, exatamente esses 5"],
+      "recommendation": "Mantido: oráculos com strings dinâmicas em evals/test_hardening_h07.py."
+    },
+    {
+      "id": "predicate-rule-test-gaps",
+      "title": "A regra nova de predicados tinha ramos sem oráculo",
+      "claim": "Mutantes da janela de frases vizinhas, do recorte do radical, do continue -> break nos laços de âncoras e da frase depois de uma não alinhada sobreviveram à suíte do CP3.",
+      "why": "Uma regressão nesses ramos tiraria o sinal de ação perdida (ou criaria falso alarme em reescrita dividida) sem nenhum teste falhar.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["Cosmic Ray C parcial: 132/271 executados, 50 sobreviventes", "replay dos sobreviventes contra os testes novos de PredicateGuardBoundaries"],
+      "recommendation": "Testes acrescentados no CP5. Rodar a mutação completa da regra na próxima rodada."
+    },
+    {
+      "id": "wheel-tests-not-run",
+      "title": "A suíte não roda contra o wheel instalado",
+      "claim": "O artefato constrói, instala e importa, mas os testes rodam contra a árvore de código. O smoke do VozNativa (scripts/smoke_installed.py) roda fora do checkout e cobre só uma amostra do CLI.",
+      "why": "Um dado faltando no wheel e usado por um caminho fora do smoke passaria verde.",
+      "priority": "low",
+      "basis": "OBSERVED",
+      "evidence": ["audit.json states.current.artifacts[0].checks: tests NOT_RUN", "scripts/smoke_installed.py"],
+      "recommendation": "Upstream AXF-VN-04 (Assertiva PR #8). No VozNativa, o gate package:sdist-wheel-smoke continua sendo a evidência."
+    },
+    {
+      "id": "document-sample-survivors",
+      "title": "Amostra de document.py: 52 de 120 mutantes sobrevivem",
+      "claim": "Os sobreviventes se concentram em limites padrão (Limits), fronteiras do corte de segmentos, aparas de espaço do núcleo, validação do plano (schema_version, sha256) e anotações.",
+      "why": "O corte de segmentos e a validação do plano são parte do contrato do long-form; uma mudança de fronteira passaria verde.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["Cosmic Ray D: amostra semeada 120/454, 68 mortos, 52 sobreviventes"],
+      "recommendation": "Backlog v0.8: oráculos de fronteira para o corte de segmentos e para recusa de plano adulterado por campo."
+    }
+  ],
+  "unknowns": [
+    "Se a CI vai rodar nesta revisão: ela só roda por workflow_dispatch depois do merge na main.",
+    "A força de detecção do resto de compare.py, de router.py, de morph.py e de diagnose.py: sem mutação nesta rodada.",
+    "O comportamento com provedores de modelo reais: só stub determinístico."
+  ]
+}

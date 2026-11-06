@@ -1,0 +1,2179 @@
+{
+ "run": "C compare.py of c909f1d, rows 76 and 429-583 selected (271 of 2004), stopped by the maintainer after 132",
+ "mutants_in_session": 271,
+ "outcomes": {
+  "NOT_EXECUTED": 139,
+  "KILLED": 82,
+  "SURVIVED": 50
+ },
+ "mutants": [
+  {
+   "row": 435,
+   "col": 17,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 20,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Add",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Sub",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mul",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) * set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Div",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_FloorDiv",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) // set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mod",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) % set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Pow",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) ** set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_RShift",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) >> set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_LShift",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) << set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitOr",
+   "occurrence": 10,
+   "outcome": "SURVIVED",
+   "mutant": "for label in sorted(set(before) | set(after)):"
+  },
+  {
+   "row": 435,
+   "col": 36,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitXor",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "for label in sorted(set(before) ^ set(after)):"
+  },
+  {
+   "row": 436,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 41,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Eq",
+   "occurrence": 1,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "occurrence": 1,
+   "outcome": "SURVIVED",
+   "mutant": "if before[label] < after[label]:"
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_LtE",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if before[label] <= after[label]:"
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "occurrence": 1,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_GtE",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if before[label] >= after[label]:"
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if before[label] is after[label]:"
+  },
+  {
+   "row": 436,
+   "col": 25,
+   "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+   "occurrence": 1,
+   "outcome": "SURVIVED",
+   "mutant": "if before[label] is not after[label]:"
+  },
+  {
+   "row": 437,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 12,
+   "outcome": "SURVIVED",
+   "mutant": "break        # a net change is reported above"
+  },
+  {
+   "row": 438,
+   "col": 36,
+   "operator": "core/NumberReplacer",
+   "occurrence": 104,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 438,
+   "col": 36,
+   "operator": "core/NumberReplacer",
+   "occurrence": 105,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 439,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 42,
+   "outcome": "KILLED",
+   "mutant": "if not category in rules[\"informational\"] or label in rules[\"informational\"]:"
+  },
+  {
+   "row": 439,
+   "col": 46,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 9,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 440,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 13,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 442,
+   "col": 25,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 21,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 15,
+   "operator": "core/AddNot",
+   "occurrence": 43,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 17,
+   "operator": "core/ReplaceComparisonOperator_Is_IsNot",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 25,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_Eq",
+   "occurrence": 7,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "occurrence": 7,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim != ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 7,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 7,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim > ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_GtE",
+   "occurrence": 7,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim >= ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_Is",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 443,
+   "col": 32,
+   "operator": "core/ReplaceComparisonOperator_Lt_IsNot",
+   "occurrence": 3,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim is not ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 444,
+   "col": 16,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 14,
+   "outcome": "SURVIVED",
+   "mutant": "break"
+  },
+  {
+   "row": 445,
+   "col": 71,
+   "operator": "core/NumberReplacer",
+   "occurrence": 106,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 71,
+   "operator": "core/NumberReplacer",
+   "occurrence": 107,
+   "outcome": "SURVIVED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, -1) - \\"
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_Add",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mul",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_Div",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_FloorDiv",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mod",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, 0) % \\"
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_Pow",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_RShift",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, 0) >> \\"
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_LShift",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, 0) << \\"
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitOr",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitAnd",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, 0) & \\"
+  },
+  {
+   "row": 445,
+   "col": 74,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitXor",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "delta = _bucket(out.entries[j].signal_counts()).get(label, 0) ^ \\"
+  },
+  {
+   "row": 446,
+   "col": 67,
+   "operator": "core/NumberReplacer",
+   "occurrence": 108,
+   "outcome": "KILLED",
+   "mutant": "_bucket(src.entries[i].signal_counts()).get(label, 1)"
+  },
+  {
+   "row": 446,
+   "col": 67,
+   "operator": "core/NumberReplacer",
+   "occurrence": 109,
+   "outcome": "SURVIVED",
+   "mutant": "_bucket(src.entries[i].signal_counts()).get(label, -1)"
+  },
+  {
+   "row": 447,
+   "col": 21,
+   "operator": "core/AddNot",
+   "occurrence": 44,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Lt_Eq",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 8,
+   "outcome": "KILLED",
+   "mutant": "(lost if delta > 0 else gained if delta > 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Lt_GtE",
+   "occurrence": 8,
+   "outcome": "KILLED",
+   "mutant": "(lost if delta >= 0 else gained if delta > 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 29,
+   "operator": "core/NumberReplacer",
+   "occurrence": 110,
+   "outcome": "SURVIVED",
+   "mutant": "(lost if delta < 1 else gained if delta > 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 29,
+   "operator": "core/NumberReplacer",
+   "occurrence": 111,
+   "outcome": "KILLED",
+   "mutant": "(lost if delta < -1 else gained if delta > 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 46,
+   "operator": "core/AddNot",
+   "occurrence": 45,
+   "outcome": "SURVIVED",
+   "mutant": "(lost if delta < 0 else gained if not delta > 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 52,
+   "operator": "core/ReplaceComparisonOperator_Gt_Eq",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 52,
+   "operator": "core/ReplaceComparisonOperator_Gt_NotEq",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 52,
+   "operator": "core/ReplaceComparisonOperator_Gt_Lt",
+   "occurrence": 8,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 447,
+   "col": 52,
+   "operator": "core/ReplaceComparisonOperator_Gt_LtE",
+   "occurrence": 8,
+   "outcome": "SURVIVED",
+   "mutant": "(lost if delta < 0 else gained if delta <= 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 52,
+   "operator": "core/ReplaceComparisonOperator_Gt_GtE",
+   "occurrence": 8,
+   "outcome": "SURVIVED",
+   "mutant": "(lost if delta < 0 else gained if delta >= 0 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 54,
+   "operator": "core/NumberReplacer",
+   "occurrence": 112,
+   "outcome": "KILLED",
+   "mutant": "(lost if delta < 0 else gained if delta > 1 else []).append((i, j))"
+  },
+  {
+   "row": 447,
+   "col": 54,
+   "operator": "core/NumberReplacer",
+   "occurrence": 113,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 448,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 46,
+   "outcome": "KILLED",
+   "mutant": "if not lost and gained:"
+  },
+  {
+   "row": 448,
+   "col": 16,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 14,
+   "outcome": "SURVIVED",
+   "mutant": "if lost or gained:"
+  },
+  {
+   "row": 450,
+   "col": 68,
+   "operator": "core/AddNot",
+   "occurrence": 47,
+   "outcome": "KILLED",
+   "mutant": "issues.append(_issue(f\"{category}_moved\", \"critical\" if not critical else \"major\","
+  },
+  {
+   "row": 452,
+   "col": 76,
+   "operator": "core/NumberReplacer",
+   "occurrence": 114,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 452,
+   "col": 76,
+   "operator": "core/NumberReplacer",
+   "occurrence": 115,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 452,
+   "col": 79,
+   "operator": "core/NumberReplacer",
+   "occurrence": 116,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 452,
+   "col": 79,
+   "operator": "core/NumberReplacer",
+   "occurrence": 117,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 453,
+   "col": 61,
+   "operator": "core/NumberReplacer",
+   "occurrence": 118,
+   "outcome": "KILLED",
+   "mutant": "added_to=out.entries[gained[ 1][1]].sentence.text))"
+  },
+  {
+   "row": 453,
+   "col": 61,
+   "operator": "core/NumberReplacer",
+   "occurrence": 119,
+   "outcome": "SURVIVED",
+   "mutant": "added_to=out.entries[gained[ -1][1]].sentence.text))"
+  },
+  {
+   "row": 453,
+   "col": 64,
+   "operator": "core/NumberReplacer",
+   "occurrence": 120,
+   "outcome": "KILLED",
+   "mutant": "added_to=out.entries[gained[0][ 2]].sentence.text))"
+  },
+  {
+   "row": 453,
+   "col": 64,
+   "operator": "core/NumberReplacer",
+   "occurrence": 121,
+   "outcome": "SURVIVED",
+   "mutant": "added_to=out.entries[gained[0][ 0]].sentence.text))"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Add",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str + None:"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Sub",
+   "occurrence": 5,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "occurrence": 5,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Div",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str / None:"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str // None:"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "occurrence": 5,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Pow",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str ** None:"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_RShift",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str >> None:"
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_LShift",
+   "occurrence": 5,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+   "occurrence": 5,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 464,
+   "col": 39,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitXor",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "def _time_reference(label: str) -> str ^ None:"
+  },
+  {
+   "row": 467,
+   "col": 7,
+   "operator": "core/AddNot",
+   "occurrence": 48,
+   "outcome": "KILLED",
+   "mutant": "if not label.split(\"@\")[0] in _NON_FINITE:"
+  },
+  {
+   "row": 467,
+   "col": 24,
+   "operator": "core/NumberReplacer",
+   "occurrence": 122,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 467,
+   "col": 24,
+   "operator": "core/NumberReplacer",
+   "occurrence": 123,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 480,
+   "col": 21,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 22,
+   "outcome": "KILLED",
+   "mutant": "for i, j, sim in []:"
+  },
+  {
+   "row": 481,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 49,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 481,
+   "col": 13,
+   "operator": "core/ReplaceComparisonOperator_Is_IsNot",
+   "occurrence": 3,
+   "outcome": "KILLED",
+   "mutant": "if j is not None or sim < ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 21,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 11,
+   "outcome": "SURVIVED",
+   "mutant": "if j is None and sim < ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Eq",
+   "occurrence": 9,
+   "outcome": "SURVIVED",
+   "mutant": "if j is None or sim == ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "occurrence": 9,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 9,
+   "outcome": "SURVIVED",
+   "mutant": "if j is None or sim <= ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 9,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim > ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_GtE",
+   "occurrence": 9,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim >= ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Is",
+   "occurrence": 4,
+   "outcome": "SURVIVED",
+   "mutant": "if j is None or sim is ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 481,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_IsNot",
+   "occurrence": 4,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim is not ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 482,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 15,
+   "outcome": "SURVIVED",
+   "mutant": "break"
+  },
+  {
+   "row": 485,
+   "col": 21,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 23,
+   "outcome": "KILLED",
+   "mutant": "for lemma in []:"
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Add",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "for lemma in sorted(set(before) + set(after)):"
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Sub",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mul",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Div",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_FloorDiv",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mod",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Pow",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "for lemma in sorted(set(before) ** set(after)):"
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_RShift",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "for lemma in sorted(set(before) >> set(after)):"
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_LShift",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "for lemma in sorted(set(before) << set(after)):"
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitOr",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 485,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitXor",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "for lemma in sorted(set(before) ^ set(after)):"
+  },
+  {
+   "row": 487,
+   "col": 15,
+   "operator": "core/AddNot",
+   "occurrence": 50,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 22,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_Lt",
+   "occurrence": 22,
+   "outcome": "KILLED",
+   "mutant": "if len(a) < 1 and len(b) == 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 22,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 22,
+   "outcome": "KILLED",
+   "mutant": "if len(a) > 1 and len(b) == 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 22,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 124,
+   "outcome": "KILLED",
+   "mutant": "if len(a) == 2 and len(b) == 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 125,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 27,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 15,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 23,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Eq_Lt",
+   "occurrence": 23,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 23,
+   "outcome": "SURVIVED",
+   "mutant": "if len(a) == 1 and len(b) <= 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 23,
+   "outcome": "KILLED",
+   "mutant": "if len(a) == 1 and len(b) > 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 23,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 41,
+   "operator": "core/NumberReplacer",
+   "occurrence": 126,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 41,
+   "operator": "core/NumberReplacer",
+   "occurrence": 127,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 43,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 16,
+   "outcome": "KILLED",
+   "mutant": "if len(a) == 1 and len(b) == 1 or _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Eq",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_LtE",
+   "occurrence": 2,
+   "outcome": "KILLED",
+   "mutant": "if len(a) == 1 and len(b) == 1 and _time_reference(next(iter(a))) <= _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_GtE",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "occurrence": 2,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 487,
+   "col": 78,
+   "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+   "occurrence": 2,
+   "outcome": "SURVIVED",
+   "mutant": "if len(a) == 1 and len(b) == 1 and _time_reference(next(iter(a))) is not _time_reference(next(iter(b))) \\"
+  },
+  {
+   "row": 488,
+   "col": 20,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 17,
+   "outcome": "KILLED",
+   "mutant": "or None not in (_time_reference(next(iter(a))), _time_reference(next(iter(b)))):"
+  },
+  {
+   "row": 490,
+   "col": 44,
+   "operator": "core/NumberReplacer",
+   "occurrence": 128,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 490,
+   "col": 44,
+   "operator": "core/NumberReplacer",
+   "occurrence": 129,
+   "outcome": "SURVIVED",
+   "mutant": "base = label.split(\"@\")[ -1]"
+  },
+  {
+   "row": 491,
+   "col": 40,
+   "operator": "core/NumberReplacer",
+   "occurrence": 130,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 491,
+   "col": 40,
+   "operator": "core/NumberReplacer",
+   "occurrence": 131,
+   "outcome": "SURVIVED",
+   "mutant": "return TENSES[base][ -1] if base in TENSES else label"
+  },
+  {
+   "row": 491,
+   "col": 46,
+   "operator": "core/AddNot",
+   "occurrence": 51,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 504,
+   "col": 21,
+   "operator": "core/NumberReplacer",
+   "occurrence": 132,
+   "outcome": "KILLED",
+   "mutant": "PREDICATE_MIN_STEM = 5"
+  },
+  {
+   "row": 504,
+   "col": 21,
+   "operator": "core/NumberReplacer",
+   "occurrence": 133,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 519,
+   "col": 24,
+   "operator": "core/ReplaceUnaryOperator_USub_UAdd",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 519,
+   "col": 24,
+   "operator": "core/ReplaceUnaryOperator_USub_Invert",
+   "occurrence": 0,
+   "outcome": "KILLED",
+   "mutant": "stems = {lemma[:~2] for lemma in content}"
+  },
+  {
+   "row": 519,
+   "col": 24,
+   "operator": "core/ReplaceUnaryOperator_USub_Not",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 519,
+   "col": 24,
+   "operator": "core/ReplaceUnaryOperator_Delete_USub",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 519,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 134,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 519,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 135,
+   "outcome": "SURVIVED",
+   "mutant": "stems = {lemma[:- 1] for lemma in content}"
+  },
+  {
+   "row": 520,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 52,
+   "outcome": "KILLED",
+   "mutant": "if not len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 24,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_Lt",
+   "occurrence": 24,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 24,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 24,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 24,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 136,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 137,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 0 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 27,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 18,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 or len(next(iter(stems))) >= PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_Eq",
+   "occurrence": 1,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_NotEq",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) != PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_Lt",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) < PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_LtE",
+   "occurrence": 1,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) <= PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_Gt",
+   "occurrence": 1,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_Is",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 54,
+   "operator": "core/ReplaceComparisonOperator_GtE_IsNot",
+   "occurrence": 0,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) is not PREDICATE_MIN_STEM and content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 76,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 19,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM or content == set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 25,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content != set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_Lt",
+   "occurrence": 25,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 25,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 25,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 25,
+   "outcome": "SURVIVED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content >= set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "occurrence": 19,
+   "outcome": "KILLED",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content is set(lemmas):"
+  },
+  {
+   "row": 520,
+   "col": 88,
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "occurrence": 19,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 523,
+   "col": 13,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 24,
+   "outcome": "KILLED",
+   "mutant": "for c in []:"
+  },
+  {
+   "row": 526,
+   "col": 13,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 25,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 529,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 53,
+   "outcome": "KILLED",
+   "mutant": "if not v.start in covered or v.end in covered or fold(v.form) in _STOP_FOLDED:"
+  },
+  {
+   "row": 529,
+   "col": 30,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 529,
+   "col": 50,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 13,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 530,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 16,
+   "outcome": "SURVIVED",
+   "mutant": "break"
+  },
+  {
+   "row": 533,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 54,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 26,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_Lt",
+   "occurrence": 26,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 26,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 26,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 26,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "occurrence": 20,
+   "outcome": "SURVIVED",
+   "mutant": "if all(a[\"source\"] is \"regular\" and a[\"ending\"] in WEAK_ENDINGS for a in v.analyses):"
+  },
+  {
+   "row": 533,
+   "col": 27,
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "occurrence": 20,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 533,
+   "col": 40,
+   "operator": "core/ReplaceAndWithOr",
+   "occurrence": 20,
+   "outcome": "KILLED",
+   "mutant": "if all(a[\"source\"] == \"regular\" or a[\"ending\"] in WEAK_ENDINGS for a in v.analyses):"
+  },
+  {
+   "row": 534,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 17,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 553,
+   "col": 21,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 26,
+   "outcome": "KILLED",
+   "mutant": "for i, j, sim in []:"
+  },
+  {
+   "row": 554,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 55,
+   "outcome": "KILLED",
+   "mutant": "if not j is None or sim < ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 554,
+   "col": 13,
+   "operator": "core/ReplaceComparisonOperator_Is_IsNot",
+   "occurrence": 4,
+   "outcome": "KILLED",
+   "mutant": "if j is not None or sim < ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 554,
+   "col": 21,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 14,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Eq",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "occurrence": 10,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim != ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_GtE",
+   "occurrence": 10,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_Is",
+   "occurrence": 5,
+   "outcome": "SURVIVED",
+   "mutant": "if j is None or sim is ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 554,
+   "col": 28,
+   "operator": "core/ReplaceComparisonOperator_Lt_IsNot",
+   "occurrence": 5,
+   "outcome": "KILLED",
+   "mutant": "if j is None or sim is not ALIGN_MIN_SIMILARITY:"
+  },
+  {
+   "row": 555,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 18,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 558,
+   "col": 11,
+   "operator": "core/ReplaceUnaryOperator_Delete_Not",
+   "occurrence": 9,
+   "outcome": "KILLED",
+   "mutant": "if  before:"
+  },
+  {
+   "row": 558,
+   "col": 11,
+   "operator": "core/AddNot",
+   "occurrence": 56,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 559,
+   "col": 12,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 19,
+   "outcome": "SURVIVED",
+   "mutant": "break"
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_Add",
+   "occurrence": 3,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j + 1, j, j + 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mul",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_Div",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_FloorDiv",
+   "occurrence": 3,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j // 1, j, j + 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mod",
+   "occurrence": 3,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j % 1, j, j + 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_Pow",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_RShift",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_LShift",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitOr",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitAnd",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 57,
+   "operator": "core/ReplaceBinaryOperator_Sub_BitXor",
+   "occurrence": 3,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 59,
+   "operator": "core/NumberReplacer",
+   "occurrence": 138,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 59,
+   "operator": "core/NumberReplacer",
+   "occurrence": 139,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 0, j, j + 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_Sub",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_Mul",
+   "occurrence": 6,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j * 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_Div",
+   "occurrence": 6,
+   "outcome": "KILLED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j / 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_FloorDiv",
+   "occurrence": 6,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j // 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_Mod",
+   "occurrence": 6,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j % 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_Pow",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_RShift",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_LShift",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_BitOr",
+   "occurrence": 6,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j | 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_BitAnd",
+   "occurrence": 6,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j & 1) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_Add_BitXor",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 69,
+   "operator": "core/NumberReplacer",
+   "occurrence": 140,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 2) if 0 <= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 69,
+   "operator": "core/NumberReplacer",
+   "occurrence": 141,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 75,
+   "operator": "core/NumberReplacer",
+   "occurrence": 142,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 75,
+   "operator": "core/NumberReplacer",
+   "occurrence": 143,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_Eq",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_NotEq",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_Lt",
+   "occurrence": 0,
+   "outcome": "KILLED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 < k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_Gt",
+   "occurrence": 0,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 > k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_GtE",
+   "occurrence": 0,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 >= k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_Is",
+   "occurrence": 0,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 77,
+   "operator": "core/ReplaceComparisonOperator_LtE_IsNot",
+   "occurrence": 0,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 is not k < len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_Eq",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k == len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "occurrence": 11,
+   "outcome": "SURVIVED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k != len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 11,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_GtE",
+   "occurrence": 11,
+   "outcome": "KILLED",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k >= len(out.entries)]"
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_Is",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 561,
+   "col": 82,
+   "operator": "core/ReplaceComparisonOperator_Lt_IsNot",
+   "occurrence": 6,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 565,
+   "col": 29,
+   "operator": "core/ZeroIterationForLoop",
+   "occurrence": 27,
+   "outcome": "KILLED",
+   "mutant": "for stem_, lemmas in []:"
+  },
+  {
+   "row": 566,
+   "col": 15,
+   "operator": "core/AddNot",
+   "occurrence": 57,
+   "outcome": "KILLED",
+   "mutant": "if not any(w.startswith(stem_) for w in near_words) or lemmas & after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 60,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 15,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) and lemmas & after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Add",
+   "occurrence": 12,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) or lemmas + after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Sub",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mul",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Div",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_FloorDiv",
+   "occurrence": 12,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) or lemmas // after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Mod",
+   "occurrence": 12,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) or lemmas % after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_Pow",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_RShift",
+   "occurrence": 12,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) or lemmas >> after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_LShift",
+   "occurrence": 12,
+   "outcome": "KILLED",
+   "mutant": "if any(w.startswith(stem_) for w in near_words) or lemmas << after_lemmas:"
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitOr",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 566,
+   "col": 70,
+   "operator": "core/ReplaceBinaryOperator_BitAnd_BitXor",
+   "occurrence": 12,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 567,
+   "col": 16,
+   "operator": "core/ReplaceContinueWithBreak",
+   "occurrence": 20,
+   "outcome": "SURVIVED",
+   "mutant": "break"
+  },
+  {
+   "row": 568,
+   "col": 35,
+   "operator": "core/NumberReplacer",
+   "occurrence": 144,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 568,
+   "col": 35,
+   "operator": "core/NumberReplacer",
+   "occurrence": 145,
+   "outcome": "NOT_EXECUTED",
+   "mutant": null
+  },
+  {
+   "row": 571,
+   "col": 15,
+   "operator": "core/AddNot",
+   "occurrence": 58,
+   "outcome": "KILLED",
+   "mutant": "if not after:"
+  }
+ ]
+}

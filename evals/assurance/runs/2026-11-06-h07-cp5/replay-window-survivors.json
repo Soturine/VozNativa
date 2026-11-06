@@ -1,0 +1,105 @@
+{
+ "suite": [
+  "evals.test_hardening_h07"
+ ],
+ "results": [
+  {
+   "job_id": "ff4e979ae4724ef197b592965c5d53af",
+   "row": 561,
+   "operator": "core/NumberReplacer",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 0, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "6812a616c0cd447d9fa1577ef8e7076a",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_Add",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j + 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "f276ae786a63416f88d0bca601c719f8",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_Gt",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 > k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "d22f2edc0add4d009f1193cbbeeb45f8",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_IsNot",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 is not k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "89dd4b75487e4bf78e744ce494ea0b32",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k != len(out.entries)]",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "958953095652429597d475c5d867e379",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_BitOr",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j | 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "d6aa0e667ad34555bf89aa2b99398569",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_Mul",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j * 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "1ccb6a5fc26a4e819877ddb4eabce784",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_BitAnd",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j & 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "2f731af113624498977726594de359f9",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_FloorDiv",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j // 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "7a0a59af1f7f4a73aad887bc138e290b",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_Mod",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j % 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "6ed1a8c868cc4f77911cfa6858ee1c67",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_GtE",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 >= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "7d2478ddc3cc4326b8094f50ce6e18f5",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_FloorDiv",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j // 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "1363eb7b377e46869adacb6f1e7028b6",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mod",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j % 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "1a151f4885fc480286d1aee54cb19f1f",
+   "row": 561,
+   "operator": "core/NumberReplacer",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 2) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  }
+ ]
+}

@@ -44,3 +44,23 @@ Saída de ferramenta é hipótese. Classificação: `CONFIRMED`, `FALSE_POSITIVE
 | Assertiva | #8 (`docs/voznativa-v05-dogfood-intake-20261105`, agora `3415828`) | aberta; **AXF-VN-01 corrigido** com testes; AXF-VN-02/03/04/05 abertos; intake atualizada |
 | Derivanta Engine | #3 (`docs/voznativa-v05-dogfood-intake-20261105`, agora `7e8e9ee`) | aberta; feedback v0.7 (reteste ABSENT funcionou; DEF-VN-06 paradigmas; DEF-VN-05 persiste); nada corrigido no Engine |
 | Derivanta Framework | — | nenhum item generalizável para a Constituição nesta rodada (a política anti-overfitting ficou no perfil derivado do projeto) |
+
+## v0.7.0.dev1 (CP5)
+
+Registro completo em `evals/assurance/runs/2026-11-06-h07-cp5/MUTATION.md`. Todas as execuções foram feitas num clone limpo de `c909f1d`, fora da árvore de trabalho.
+
+| Ferramenta | Modo efetivamente executado | Resultado |
+|---|---|---|
+| Derivanta Engine 0.1.0 (`7e8e9ee`, depois `acd6ca3`) | `inspect --maintainability` em `e7506f5` e `c909f1d`; `compare` | COMPARABLE, 136 PERSISTING, 3 NEW (INFO). 2 NEW eram defeito do Engine (DEF-VN-07), **corrigido** na PR #3 com teste; o reteste dá exatamente 2 ABSENT. 1 `HIGH_COMPLEXITY` em `compare._predicate_issues` é risco aceito |
+| Assertiva 0.10.1 | `audit --execute` (cópia isolada) e `audit --assessment` (avaliação do agente validada pela ferramenta) | unittest exit 0, 755 invocações; cobertura 90,0% de linhas e 81,1% de ramos; wheel build, instalação e import PASS, testes contra o wheel NOT_RUN (AXF-VN-04); mutação pelo engine não executada; `improve` não usado |
+| Cosmic Ray 8.7.0 (pelo agente, não pela Assertiva) | rodadas A, B, C (parcial) e D com `-B` | A: 633 → 638 no mesmo conjunto da v0.7; sobreviventes da regra nova: 17 de 20 visados mortos por testes do CP5, 3 equivalentes |
+
+| ID | Origem | Achado | Classificação | Decisão |
+|---|---|---|---|---|
+| VN07-DF-012 | Engine `UNREFERENCED_DEFINITION` | classes `TestCase` herdadas de uma base local tratadas como não referenciadas | defeito do Engine, reproduzido | corrigido upstream (Engine PR #3 `acd6ca3`); push sem Actions (o workflow só roda em push na `main`) |
+| VN07-DF-013 | Engine `HIGH_COMPLEXITY` | `compare._predicate_issues` com 21 caminhos | verdadeiro (motivo de refatoração) | risco aceito: a função acabou de ser mutada como está; refatorar com a mutação completa na próxima rodada |
+| VN07-DF-014 | Assertiva `UNCLASSIFIED_VERIFICATION` | 5 passos da CI não classificados | CONTEXTUAL | a CI roda só por `workflow_dispatch`; a prova é o run verificado por SHA |
+| VN07-DF-015 | Cosmic Ray C (não sinalizado por nenhuma ferramenta estática) | ramos da regra de predicado sem oráculo (janela de vizinhas, radical, laços, frase sem verbo) | lacuna de teste, confirmada por mutante | 8 testes no CP5; replay: 17 mortos de 20 |
+| VN07-DF-016 | `tools/verify.py` do Engine | gate FAIL num venv sem o extra `mcp` | ambiente | `pip install "mcp>=2.3,<3"` no venv do repositório; sugestão de BLOCKED registrada no feedback |
+| VN07-DF-017 | Assertiva PR #8 | gatilhos `push` e `pull_request` | política de CI | **BLOCKED_BY_CI_POLICY**: nada enviado à branch; comentário permitido (evento `issue_comment` não configurado), não usado |
+

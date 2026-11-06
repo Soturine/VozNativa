@@ -1,0 +1,161 @@
+{
+ "suite": [
+  "evals.test_hardening_h07",
+  "evals.test_global_guards",
+  "evals.test_semantic_layer",
+  "evals.test_signals_equivalence",
+  "evals.test_relations",
+  "evals.test_short_sentences",
+  "evals.test_p0_regressions",
+  "evals.test_morph"
+ ],
+ "results": [
+  {
+   "job_id": "8d581ca887ca4f8eab8d94c69a877ea9",
+   "row": 519,
+   "operator": "core/NumberReplacer",
+   "mutant": "stems = {lemma[:- 1] for lemma in content}",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "b1082ed527a649409f8e6cdd8cf1a1b6",
+   "row": 520,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "mutant": "if len(stems) == 1 and len(next(iter(stems))) >= PREDICATE_MIN_STEM and content >= set(lemmas):",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "bd30fe1bd7ed4e4594079191b1a3c861",
+   "row": 530,
+   "operator": "core/ReplaceContinueWithBreak",
+   "mutant": "break",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "b8b77ae1ecf448de83fb3fc3dd7fa2ce",
+   "row": 533,
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "mutant": "if all(a[\"source\"] is \"regular\" and a[\"ending\"] in WEAK_ENDINGS for a in v.analyses):",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "dba4464e20614cd087a1073ad7932658",
+   "row": 554,
+   "operator": "core/ReplaceComparisonOperator_Lt_Is",
+   "mutant": "if j is None or sim is ALIGN_MIN_SIMILARITY:",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "84cf3a0186094cec8ed3ad42c572a7f9",
+   "row": 559,
+   "operator": "core/ReplaceContinueWithBreak",
+   "mutant": "break",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "ff4e979ae4724ef197b592965c5d53af",
+   "row": 561,
+   "operator": "core/NumberReplacer",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 0, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "6812a616c0cd447d9fa1577ef8e7076a",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_Add",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j + 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "f276ae786a63416f88d0bca601c719f8",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_Gt",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 > k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "d22f2edc0add4d009f1193cbbeeb45f8",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_IsNot",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 is not k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "89dd4b75487e4bf78e744ce494ea0b32",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_Lt_NotEq",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k != len(out.entries)]",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "958953095652429597d475c5d867e379",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_BitOr",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j | 1) if 0 <= k < len(out.entries)]",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "d6aa0e667ad34555bf89aa2b99398569",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_Mul",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j * 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "1ccb6a5fc26a4e819877ddb4eabce784",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_BitAnd",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j & 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "2f731af113624498977726594de359f9",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_FloorDiv",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j // 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "7a0a59af1f7f4a73aad887bc138e290b",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_Mod",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j % 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "6ed1a8c868cc4f77911cfa6858ee1c67",
+   "row": 561,
+   "operator": "core/ReplaceComparisonOperator_LtE_GtE",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 >= k < len(out.entries)]",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "7d2478ddc3cc4326b8094f50ce6e18f5",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Add_FloorDiv",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j // 1) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "1363eb7b377e46869adacb6f1e7028b6",
+   "row": 561,
+   "operator": "core/ReplaceBinaryOperator_Sub_Mod",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j % 1, j, j + 1) if 0 <= k < len(out.entries)]",
+   "outcome": "SURVIVED"
+  },
+  {
+   "job_id": "1a151f4885fc480286d1aee54cb19f1f",
+   "row": 561,
+   "operator": "core/NumberReplacer",
+   "mutant": "near = [out.entries[k].sentence.text for k in (j - 1, j, j + 2) if 0 <= k < len(out.entries)]",
+   "outcome": "KILLED"
+  },
+  {
+   "job_id": "c1133b0eb41b479cb76a52d64ce77fd3",
+   "row": 567,
+   "operator": "core/ReplaceContinueWithBreak",
+   "mutant": "break",
+   "outcome": "KILLED"
+  }
+ ]
+}

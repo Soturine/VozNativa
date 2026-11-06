@@ -60,4 +60,62 @@ Plano: `docs/PLAN_v0.7.0.dev1.md`. Branch `dev/v0.7.0-hardening`, criada de `mai
 | CP1 | Retriagem dos mutantes de identidade | concluído | `80f3da3` | 12 mutantes aplicados à mão em `git archive` de `bc6f4fd` sem bytecode: suíte da rodada 2 → 12 sobrevivem; + `test_hardening_h07` → 5 mortos (91, 109, 235, 262, 303), 7 equivalentes argumentados; produção sem mudança; 2 achados de método (bytecode velho, `group(0)` de casamento total) |
 | CP2 | Contrato das atestações do léxico | concluído | `e371fb4` | `temporal.validate_lexicon`: `count`/`words` inteiros >= 0 (bool, float e string recusados), anos inteiros com `from <= to`, `last_verified_at` ISO, `schema_version` inteiro; zero válido e sem atestar nada em `attested_in`/`entry_status`/`epoch_notes`; `CountContract` 9 testes; suítes de gíria 79 testes PASS; contrato em `references/slang/schema.yml` |
 | CP3 | Predicados, eventos e compromissos | concluído (regra experimental) | `abad76b` | `compare._predicate_issues`/`_event_anchors` sobre `voznativa.morph`; amostra congelada não independente: antes 7/20 riscos e 4/18 FA, 1ª versão 14/20 e 1/18, versão final 16/20 e 1/18 (`evals/predicates/README.md`); `tense_changed` sem falso alarme de futuro; H07-007..010 em `test_hardening_h07.py` (oráculo do documento longo falha com a regra desligada); semântica dev/holdouts, decisão e roteador PASS; `ptbr-bench-v4` 22/22 e `-v5` 36/36 na árvore de trabalho; README e quickstart com três candidatas (boa, negação removida, ação perdida) |
-| CP4 | README, SKILL, exemplos, alegações | concluído | (este commit) | abertura do README sem "prova"; limites com a regra de predicado; SKILL orienta `predicate_missing`/`predicate_replaced`; CHANGELOG `Unreleased (0.7.0.dev1)`; índice de docs; linha da amostra de predicados na tabela de evidência; `evals/test_readme.py` + `test_skill_contract` PASS (14); quickstart executado pela suíte; versão continua 0.7.0.dev0 até o CP6 |
+| CP4 | README, SKILL, exemplos, alegações | concluído | `c909f1d` | abertura do README sem "prova"; limites com a regra de predicado; SKILL orienta `predicate_missing`/`predicate_replaced`; CHANGELOG `Unreleased (0.7.0.dev1)`; índice de docs; linha da amostra de predicados na tabela de evidência; `evals/test_readme.py` + `test_skill_contract` PASS (14); quickstart executado pela suíte; versão continua 0.7.0.dev0 até o CP6 |
+| CP5 | Mutação e dogfood (agent-led) | concluído (mutação de `compare` parcial, por decisão do mantenedor) | (este commit) | Cosmic Ray com `-B`, todas as rodadas em cópias limpas. A (módulo da v0.7): 633 → 638 de 875 no mesmo conjunto, sem morte falsa por bytecode. B (`temporal.py` atual): 674/922. C (`compare.py`, faixa da regra): 132/271 executados, interrompida. D (`document.py`, amostra de 120): 68 mortos. 8 testes novos matam 17 dos 20 sobreviventes visados da regra; 3 equivalentes. Engine: DEF-VN-07 corrigido upstream (PR #3 `acd6ca3`), reteste com 2 ABSENT. Assertiva `--execute` PASS (755 invocações) e `--assessment` anexado. `evals/assurance/runs/2026-11-06-h07-cp5/MUTATION.md` |
+
+## Handoff para a próxima sessão (outra máquina)
+
+Escrito no fim do CP5, em 2026-11-06. A memória local do Claude **não** vai junto: tudo o que importa está aqui, no `docs/PLAN_v0.7.0.dev1.md`, no `docs/V07_DISCOVERY_REGISTER.md` (VN07-DISC-037..050) e em `evals/assurance/runs/2026-11-06-h07-cp*/`.
+
+### Onde está
+
+- Branch `dev/v0.7.0-hardening`. O último commit é o deste CP5; confira com `git fetch --prune` e `git log --oneline origin/dev/v0.7.0-hardening -8`.
+- `main` = `dev/v0.7.0` = `e7506f5`, intocadas desde o início desta rodada.
+- CI: o último run verde é o #124, em `9f44010`. Nenhum run nesta rodada.
+- Versão ainda `0.7.0.dev0` no código. O CHANGELOG já tem a seção `Unreleased (0.7.0.dev1)`.
+
+### Regras desta rodada (valem também na outra máquina)
+
+- **Commits:** sem `Co-authored-by` nem trailer de IA. Identidade só local ao repositório (`git config --local`, autor Rafael Souza). Sem force push, sem `reset --hard`, sem tag, sem release, sem PyPI.
+- **Commit só depois de exit 0 do gate.** No Windows, o `review:pty` (POSIX) fica de fora do gate local e é coberto no WSL no CP6:
+  `python scripts/qualify.py --scope local --only validator,unittest,semantic:dev,semantic:holdouts:safety,semantic:holdouts:strict,decision:regression,router:regression,cli:exit-codes,ci:workflow-triggers --out <scratch>/q.json && git commit ... && python scripts/checkpoint.py push dev/v0.7.0-hardening --out <scratch>/push.json`
+  Encadeie com `&&`, nunca com `;`, e nunca julgue por pipe (`| tail`).
+- **GitHub Actions:** o workflow do VozNativa é só `workflow_dispatch`. Exatamente **um** dispatch, na `main`, no CP7.
+- **Upstream:**
+  - Assertiva PR #8: os gatilhos `push` e `pull_request` disparam Actions. **Não faça push** (BLOCKED_BY_CI_POLICY).
+  - Derivanta Engine PR #3: só `push` na `main` dispara, então a branch da PR pode receber push.
+  - Framework: tem `pull_request`, então não faça push.
+- **Edição de arquivos:** não use heredoc com barra invertida (já gravou `\x08` e quebrou linhas de tabela duas vezes). Para regex e escapes, use a ferramenta de edição ou um script em arquivo. O validator agora recusa linha de tabela Markdown partida e caracteres de controle.
+- **Mutação:** sempre `python -B` (ou `PYTHONDONTWRITEBYTECODE=1`) numa cópia `git archive`, nunca na árvore.
+- **Assertiva `--execute`:** rode num clone limpo, nunca na árvore em edição (READ-ONLY VIOLATION).
+
+### O que falta
+
+1. **CP6: versão e qualificação.**
+   - Troque para `0.7.0.dev1` em `voznativa/__init__.py`, `SKILL.md` (`version:`), `.claude-plugin/plugin.json`, README (linha **Estado**), cabeçalho da v0.7 no `ROADMAP.md` e `docs/README.md` (linha da qualificação). Conferido por `evals/test_readme.py::test_version_matches`.
+   - Rode e registre, com a árvore limpa: `scripts/bench_v4.py` (esperado 22/22), `scripts/bench_v5.py` (36/36) e `scripts/predicate_eval.py --out evals/predicates/runs/predicates-<data>-dev1.json` (esperado 16/20 riscos e 1/18 falso alarme).
+   - Rode `scripts/qualify.py --scope release` no Windows com 3.11 e 3.12 e no WSL com 3.11, 3.12 e 3.13. No WSL use `export PATH=$HOME/.local/bin:$PATH` e `uv venv --seed`; sem `--seed` o gate de pacote fica BLOCKED por falta de pip. Esperado: gates locais PASS e exit 3 INCOMPLETE apenas pelos gates externos (CI antes do merge, holdout, revisão humana).
+   - Registre em `evals/assurance/runs/<data>-h07-cp6/` com `scripts/assurance_record.py` e preencha a seção dev1 em `docs/V07_RELEASE_QUALIFICATION.md`.
+2. **CP7: integração e CI.**
+   - `git fetch --prune`. Confira que `origin/main` ainda é `e7506f5` e ancestral da branch.
+   - Fast-forward da `main` para o último commit de código: `git checkout main && git merge --ff-only dev/v0.7.0-hardening && git push origin main`. Confira com `git ls-remote`.
+   - Um único `gh workflow run ci.yml --ref main`. Espere terminar e confira run, SHA, evento `workflow_dispatch` e 8/8 jobs com `scripts/ci_evidence.py`.
+   - Registre em `evals/qualification/external.json` e nesta seção, num commit só de evidência (`EVIDENCE_PATHS` de `scripts/ci_evidence.py`, sem alargar). Envie para a `main` e para a branch.
+   - Se a CI falhar: não repita. Reproduza localmente e peça aprovação antes de outro run.
+3. **Relatório final ao mantenedor:** commits por CP, achados, mutação antes e depois, Windows e WSL, CI, upstream, adiados e prontidão (não pronto para stable).
+
+### Gaps e riscos conhecidos (não esconder no relatório)
+
+- A regra de predicado é **experimental**. A amostra (`evals/predicates/`) é do mesmo autor e não é independente. `predicate_replaced` só informa, e "assinou" → "recebeu" passa como `no_deterministic_issues`. Destinatário omitido (`pr-17`) e radical curto (`pr-13`) não são detectados.
+- A mutação de `compare.py` foi parcial (139 dos 271 selecionados ficaram NOT_RUN). `_moved_signal_issues` e a amostra de `document.py` têm lacunas registradas (B-M1..M3 no plano). `router`, `morph` e `diagnose` não foram mutados.
+- Testes contra o wheel: NOT_RUN pela Assertiva (AXF-VN-04). O smoke do VozNativa fora do checkout é a evidência.
+- Holdout independente, revisão humana cega, provider real e detectores live continuam **NOT_RUN**.
+- `condition.temporal` em "durante" → "no" é risco aceito (VN07-DISC-042).
+
+### Ferramentas fora do repositório (recriar na outra máquina, se precisar)
+
+- **Cosmic Ray 8.7.0:** num venv próprio com o projeto instalado (`pip install cosmic-ray==8.7.0 pyyaml`). Os harnesses estão versionados em `evals/assurance/runs/2026-11-06-h07-cp1/identity_mutants.py` e em `evals/assurance/runs/2026-11-06-h07-cp5/{cr_select.py,replay_survivors.py}`.
+- **Assertiva 0.10.1:** wheel da tag `v0.10.1` num venv próprio.
+- **Derivanta Engine:** `.venv` do clone com `pip install -e ".[dev]"` (inclui `mcp`). O gate é `python tools/verify.py`.
+- **Cache de corpora:** `VOZNATIVA_CORPUS_CACHE` fora do repositório; recrie com `python scripts/corpus_prepare.py <ids>`. Só é necessário para as avaliações de corpora, não para os gates.
+

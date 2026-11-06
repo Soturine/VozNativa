@@ -1,0 +1,142 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-06-h07-cp5",
+  "entries": [
+    {
+      "file": "assertiva-assessed-c909f1d.json",
+      "command": "assertiva audit . --assessment assessment-c909f1d.json --output json",
+      "exit_code": 0,
+      "raw_sha256": "9a193c2ed75d8c89ca918c461d8fb67320f13ca3ab10f14f0006880bbe487d22",
+      "published_sha256": "8dd6f5da812b2e373d5a871d9927309292bfa77de1476bd87cef48185e82cf07",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-assessment-c909f1d.json",
+      "command": "agent assessment attached with assertiva audit . --assessment",
+      "exit_code": 0,
+      "raw_sha256": "5fb4fcf0cbdfa5d5b66340b6ab3a2342d02978570a0eac8114e87b91c63d26d7",
+      "published_sha256": "5fb4fcf0cbdfa5d5b66340b6ab3a2342d02978570a0eac8114e87b91c63d26d7",
+      "sanitized": false
+    },
+    {
+      "file": "assertiva-execute-c909f1d.json",
+      "command": "assertiva audit . --python <venv>/python --execute --timeout-s 1500 --output json (clean clone c909f1d)",
+      "exit_code": 0,
+      "raw_sha256": "5d1ab56e7f989c6675d9ed579c450715b69d10129b6df9de1eceee0cd18da338",
+      "published_sha256": "4c05c749af0d05fef0e164e3e554e5bdf5fe57a63d27538ad08cc8ecdd50b0c0",
+      "sanitized": true
+    },
+    {
+      "file": "cosmic-ray-A-temporal-v07module.json",
+      "command": "cosmic-ray init+exec, temporal.py of 80f3da3, test-command python -B -m unittest <run-2 suite> evals.test_hardening_h07",
+      "exit_code": 0,
+      "raw_sha256": "258c87cb3a5e6db06ef81e254f1cc7d0695e4cef23e0fbec6b66718cc5969cac",
+      "published_sha256": "258c87cb3a5e6db06ef81e254f1cc7d0695e4cef23e0fbec6b66718cc5969cac",
+      "sanitized": false
+    },
+    {
+      "file": "cosmic-ray-B-temporal-c909f1d.json",
+      "command": "cosmic-ray init+exec, temporal.py of c909f1d, same suite, -B",
+      "exit_code": 0,
+      "raw_sha256": "7ca65633378f7cadffea8ca0571177e0d8a87715bd14c40c3927a22d4bb71dca",
+      "published_sha256": "7ca65633378f7cadffea8ca0571177e0d8a87715bd14c40c3927a22d4bb71dca",
+      "sanitized": false
+    },
+    {
+      "file": "cosmic-ray-C-compare-partial.json",
+      "command": "cosmic-ray exec stopped by the maintainer after 132 of 271 selected mutants (rows 76, 429-583)",
+      "exit_code": 1,
+      "raw_sha256": "3637a3863e0df6a5fc0e4360509c0802faa708843da70d688dd2e2fb1855ae51",
+      "published_sha256": "3637a3863e0df6a5fc0e4360509c0802faa708843da70d688dd2e2fb1855ae51",
+      "sanitized": false
+    },
+    {
+      "file": "cosmic-ray-D-document-sample.json",
+      "command": "cosmic-ray exec, document.py seeded sample 120 of 454",
+      "exit_code": 0,
+      "raw_sha256": "96bac50e2b284f8bc81899fe63285f42d8cf287828e73375fcbd3fd8bc2c5379",
+      "published_sha256": "96bac50e2b284f8bc81899fe63285f42d8cf287828e73375fcbd3fd8bc2c5379",
+      "sanitized": false
+    },
+    {
+      "file": "cr_select.py",
+      "command": "selection harness source",
+      "exit_code": 0,
+      "raw_sha256": "d6341ce9b67ff45f285e7e2078feb98b3a679278b340b4fc47309ebb1af73189",
+      "published_sha256": "d6341ce9b67ff45f285e7e2078feb98b3a679278b340b4fc47309ebb1af73189",
+      "sanitized": false
+    },
+    {
+      "file": "engine-compare-e7506f5-vs-c909f1d.json",
+      "command": "derivanta-engine compare",
+      "exit_code": 0,
+      "raw_sha256": "3718cbf3502d35edb20c6c19059c4486cb11241271e42f68e25a452c51da16f9",
+      "published_sha256": "a3b810e9d07fbb3753640e12e4499cde35476dd3bf1b16231322f3a169f22981",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare-fix-retest.json",
+      "command": "derivanta-engine compare c909f1d (Engine 7e8e9ee) vs c909f1d (Engine with DEF-VN-07 fix)",
+      "exit_code": 0,
+      "raw_sha256": "a6c536bb88431a9fe439456eb179294cffd71dcc98757e8aa60a05165ededa46",
+      "published_sha256": "7b59505b572a1560fb02b2fa2777732dd5bfc2727b95ae906c5bb271180ac271",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect-c909f1d.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (clean clone, c909f1d)",
+      "exit_code": 0,
+      "raw_sha256": "43c10c5e8e6ee5ce2486b078bdad48ef5f8226ca2ef1c33fb3a6bde8f45f44f3",
+      "published_sha256": "fe75eb1d3563c6c11fd0d2807fd7f341a0ed3621aa3dc41a76e97fd20e00b1fa",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect-e7506f5.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (clean clone, e7506f5)",
+      "exit_code": 0,
+      "raw_sha256": "32637fc8f8b148c1c2d3c180def19a1e3417b9f7caa45e6ea28e92d3110b70b3",
+      "published_sha256": "b1a34c8d5eeb4baf330ea57b654541db0dbf32ebb65d5d8458353b592db2aa19",
+      "sanitized": true
+    },
+    {
+      "file": "replay-predicate-survivors.json",
+      "command": "replay_survivors.py c.sqlite rows 500-583 against CP5 tests (first pass)",
+      "exit_code": 0,
+      "raw_sha256": "e16a5b3920d3ee2ceeb5c59b706509b8050bc0885c8aa7a46a8bc8a63a3a9816",
+      "published_sha256": "e16a5b3920d3ee2ceeb5c59b706509b8050bc0885c8aa7a46a8bc8a63a3a9816",
+      "sanitized": false
+    },
+    {
+      "file": "replay-window-survivors.json",
+      "command": "replay_survivors.py c.sqlite row 561 against final CP5 tests",
+      "exit_code": 0,
+      "raw_sha256": "a42293352aa4fc68a14414a40ba747186555728f32cc24981f9a8f00d504d520",
+      "published_sha256": "a42293352aa4fc68a14414a40ba747186555728f32cc24981f9a8f00d504d520",
+      "sanitized": false
+    },
+    {
+      "file": "replay_survivors.py",
+      "command": "harness source",
+      "exit_code": 0,
+      "raw_sha256": "398792a04ff2cff9a930477c1580817c6a10f1de742f0bc39eeeec357e79bbb2",
+      "published_sha256": "398792a04ff2cff9a930477c1580817c6a10f1de742f0bc39eeeec357e79bbb2",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-06T21:07:05+00:00",
+  "revision": "c909f1dbd883454052ca7b329a7c42e4a73a5b71",
+  "dirty_paths": [
+    "evals/test_hardening_h07.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "cosmic-ray": "8.7.0",
+    "derivanta-engine": "0.1.0+acd6ca3",
+    "assertiva": "0.10.1"
+  },
+  "notes": []
+}

@@ -91,3 +91,8 @@ Rodada corretiva sobre a v0.7.0.dev0. Não é a v0.8 e não reabre a v0.7: fecha
 - Relações semânticas de verbo (sinônimo × evento diferente: "assinou" × "recebeu") com recurso lexical licenciado e medido.
 - Destinatário e papéis temáticos além de agente/paciente (`pr-17`).
 - Mutação completa de `router`, `morph`, `diagnose`.
+- **B-M1:** oráculos para `count == 1` dentro da época e para o ramo de valor ausente em `_attestation_problems`.
+- **B-M2:** mutação completa de `compare.py` (a rodada C foi parcial). Oráculos para `_moved_signal_issues` (dois rótulos, ganho em frase não alinhada) e para o filtro de alinhamento de `_tense_issues`.
+- **B-M3:** oráculos de fronteira em `document.py`: corte de segmentos (`segment_words`, recuo para corte seguro), aparas do núcleo, limite de 80 valores, recusa de plano adulterado campo a campo, padrões de `Limits`.
+- **Refatorar `compare._predicate_issues`** (21 caminhos) depois da mutação completa, para não invalidar a evidência atual.
+

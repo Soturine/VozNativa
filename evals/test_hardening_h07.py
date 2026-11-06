@@ -228,6 +228,58 @@ class PredicateGuardBoundaries(unittest.TestCase):
         self.assertNotEqual(r["status"], "fail")
         self.assertTrue(all(i["severity"] != "critical" for i in r["issues"] if i["code"].startswith("predicate")))
 
+    # dev1 CP5: written for survivors of the Cosmic Ray run on compare.py (lines of c909f1d).
+    def test_nominalization_with_another_vowel_keeps_the_action(self):
+        # line 519 `lemma[:-2]` -> `[:-1]`: the stem "envia" would miss "envio".
+        codes = self.codes("A equipe enviará o relatório na sexta.", "O envio do relatório pela equipe será na sexta.")
+        self.assertNotIn("predicate_missing", codes)
+
+    def test_every_anchor_of_a_sentence_is_checked(self):
+        # lines 530 and 567 `continue` -> `break`: a construction before a second verb, and a
+        # preserved first anchor before a lost second one.
+        r = compare("O relatório foi enviado e o cliente assinou o recibo.",
+                    "O relatório foi enviado e o cliente ficou com o recibo.")
+        self.assertIn("assinar", [i.get("lemma") for i in r["issues"] if i["code"].startswith("predicate")])
+        r = compare("A Ana assinou e enviou o contrato ontem.", "A Ana assinou o contrato ontem.")
+        self.assertIn("enviar", [i.get("lemma") for i in r["issues"] if i["code"].startswith("predicate")])
+
+    def test_a_sentence_after_one_without_verbs_is_still_checked(self):
+        # line 559 `if not before: continue` -> `break`: an aligned sentence with no anchor comes first.
+        r = compare("Relatório trimestral da filial sul. O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+                    "Relatório trimestral da filial sul. O relatório trimestral vai até sexta-feira, 14/11/2025.")
+        self.assertIn("predicate_missing", [i["code"] for i in r["issues"]])
+
+    def test_weakly_similar_sentences_are_not_compared(self):
+        # line 554 `sim < ALIGN_MIN_SIMILARITY`: a pair below the alignment threshold is not judged.
+        r = compare("O gerente aprovou o orçamento anual da filial.", "O gerente viajou.")
+        self.assertFalse([i for i in r["issues"] if i["code"].startswith("predicate")], r["issues"])
+
+    def test_the_verb_may_move_to_a_neighbouring_sentence(self):
+        # line 561 (the j-1 / j+1 window): a split rewrite keeps the action in the next or previous
+        # sentence. The aligned sentence must be the one WITHOUT the verb for the window to matter.
+        source = "O relatório trimestral será enviado por e-mail até sexta-feira, 14/11/2025."
+        for candidate in ("O relatório trimestral por e-mail vai até sexta-feira, 14/11/2025. Isso será enviado.",
+                          "Isso será enviado. O relatório trimestral por e-mail vai até sexta-feira, 14/11/2025."):
+            from voznativa import ledger
+            from voznativa.compare import _align
+            aligned = _align(ledger.build(source), ledger.build(candidate))[0][1]
+            self.assertNotIn("enviado", ledger.build(candidate).entries[aligned].sentence.text, candidate)
+            self.assertNotIn("predicate_missing", self.codes(source, candidate), candidate)
+
+    def test_the_window_works_away_from_the_first_sentence(self):
+        # line 561 survivors that only differ when the aligned sentence is not the first one
+        # (`j | 1` for odd j, `0 >= k`, `j % 1` for j = 2).
+        intro = ["A filial sul fechou o balanço de outubro.", "O estoque central recebeu novas caixas."]
+        action = "O relatório trimestral será enviado por e-mail até sexta-feira, 14/11/2025."
+        split = ["O relatório trimestral por e-mail vai até sexta-feira, 14/11/2025.", "Isso será enviado."]
+        cases = (
+            (" ".join(intro[:1] + [action]), " ".join(intro[:1] + split)),                # aligned j = 1, verb in j + 1
+            (" ".join(intro + [action]), " ".join([intro[0], intro[1], split[1], split[0]])),  # aligned j = 3, verb in j - 1
+            (" ".join(intro[:1] + [action]), " ".join([intro[0], split[1], split[0]])),    # aligned j = 2, verb in j - 1
+        )
+        for source, candidate in cases:
+            self.assertNotIn("predicate_missing", self.codes(source, candidate), candidate)
+
     def test_light_verbs_and_prepositions_are_not_anchors(self):
         from voznativa.compare import _event_anchors
         self.assertEqual(_event_anchors("A Ana tem prazo para o contrato durante a semana."), {})
