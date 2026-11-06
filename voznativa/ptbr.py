@@ -83,6 +83,15 @@ def variant_markers(text: str) -> list[dict]:
                           "pt_br": m["br"], "confidence": m.get("confidence", "exclusive"),
                           **({"meaning_sensitive": m["meaning_sensitive"]} if m.get("meaning_sensitive") else {}),
                           **({"note": m["note"]} if m.get("note") else {})})
+    # v0.7.0 CP6 (VN07-DISC-012): a "likely" marker that is also a Brazilian word
+    # with another meaning ("propina" = suborno) is no evidence of PT-PT on its
+    # own; it counts only next to a different PT-PT marker.
+    def weak_alone(f):
+        return f["confidence"] == "likely" and f.get("meaning_sensitive")
+    others = {f["text"].lower() for f in found if not weak_alone(f)}
+    for f in found:
+        if weak_alone(f) and not others - {f["text"].lower()}:
+            f["uncorroborated"] = True      # kept as a note; never evidence of PT-PT by itself
     return sorted(found, key=lambda f: f["start"])
 
 
@@ -141,7 +150,7 @@ def findings(text: str, genre: str = "unknown", channel: str | None = None, regi
                             f"PT-BR: {m['pt_br']}" + (f" (atenção: {m['meaning_sensitive']}; confira o sentido)"
                                                       if m.get("meaning_sensitive") else ""),
                             **({"meaning_sensitive": True} if m.get("meaning_sensitive") else {}),
-                            **({"note_only": True} if literary else {})))
+                            **({"note_only": True} if literary or m.get("uncorroborated") else {})))
 
     terms = foreign_terms(text, genre if not channel else _channel_genre(channel, genre))
     distinct = {t["text"].lower() for t in terms["out_of_domain"]}

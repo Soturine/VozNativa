@@ -59,8 +59,9 @@ class KnownGaps(unittest.TestCase):
         cluster(recs)
         self.assertEqual(recs[0].cluster, recs[1].cluster)
 
-    @unittest.expectedFailure
     def test_g3_de_boa_followed_by_a_word(self):
+        # Closed in v0.7.0 CP6 (sense by the class of the next word); held-out sample in
+        # evals/slang/cases-v07.jsonl, tests in evals/test_slang_v07.py.
         self.assertEqual([f["id"] for f in temporal.observe("O jogo roda tudo de boa no telão novo.")], ["de-boa"])
 
 

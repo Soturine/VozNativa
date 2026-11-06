@@ -154,16 +154,99 @@ def load_lexicon(path: Path | None = None) -> dict:
     return _load(str(path or LEXICON))
 
 
-def observe(text: str, path: Path | None = None) -> list[dict]:
-    """Lexicon forms in the text, with offsets (accent-sensitive)."""
+# Closed classes that may follow an adverbial slang phrase ("tá de boa aqui",
+# "de boa no telão", "de boa, pode mandar"). A content word after it ("de boa
+# qualidade", "de boa fé") means the adjective sense. Function words only: an
+# open list of nouns would never be complete (v0.7.0 CP6, G3).
+FUNCTION_WORDS = frozenset("""
+a o as os ao aos à às no na nos nas num numa nuns numas do da dos das de em por pra pro pras pros para com sem até
+e mas ou nem que se quando porque pq então entao aí ai ali aqui lá la cá ca já ja agora hoje ontem amanhã amanha
+demais mesmo msm sim não nao nunca sempre só so também tambem tbm tb assim bem mais muito mt mto tão tao
+né ne viu sabe tá ta tô to é eh
+eu tu ele ela nós nos vocês voces você voce vc vcs a gente meu minha teu tua seu sua mano véi vei kkk
+""".split())   # not "cara": a noun too ("de boa cara"); after a comma the vocative is punctuation anyway
+# "de boa ou má fé": a coordinated evaluative adjective keeps the adjective sense.
+_COORDINATED_ADJECTIVES = frozenset("má ma mau ruim péssima pessima ótima otima excelente boa bela linda feia".split())
+_NEXT_WORD = re.compile(r"\s*([^\W\d_]+)", re.U)
+_INFORMAL_CUES = re.compile(r"\b(?:vc|vcs|pq|tbm|tb|nn|blz|vlw|msg|hj|kk+|rs|né|tá|tô|pra)\b|[?!]{2,}", re.I)
+
+
+def _followed_by_content_word(plain: str, end: int) -> bool:
+    m = _NEXT_WORD.match(plain, end)
+    if not m or plain[end:m.start(1)].strip(" \t"):   # punctuation or line end before the next word
+        return False
+    word = m.group(1).lower()
+    if word in {"e", "ou"}:
+        after = _NEXT_WORD.match(plain, m.end())
+        if after and not plain[m.end():after.start(1)].strip(" \t") and after.group(1).lower() in _COORDINATED_ADJECTIVES:
+            return True
+    return word not in FUNCTION_WORDS
+
+
+def _hyphen_compound(plain: str, end: int) -> bool:
+    """'boa-fé', 'pô-lo' (pôr + clitic): the form is part of another word."""
+    return end + 1 < len(plain) and plain[end] == "-" and plain[end + 1].isalpha()
+
+
+def _informal_evidence(plain: str, hits: list[tuple[dict, re.Match]]) -> list[str]:
+    """Independent evidence that the text is informal: an unambiguous lexicon
+    form, or chat cues. One ambiguous form never corroborates another."""
+    out = [h.group(0) for e, h in hits if not e["ambiguity"].get("ambiguous")]
+    out += [m.group(0) for m in _INFORMAL_CUES.finditer(plain)]
+    return out
+
+
+def observe(text: str, path: Path | None = None, genre: str | None = None) -> list[dict]:
+    """Lexicon forms in the text, with offsets (accent-sensitive), each with
+    the sense the context supports (v0.7.0 CP6):
+
+    * ``slang``: unambiguous form, or an ambiguous one corroborated by the
+      context (a function word after "de boa"; other informal evidence in the
+      text for "mano", "irado"; an informal genre);
+    * ``ambiguous``: an ambiguous form with nothing in the text to decide it;
+    * ``other_sense``: the context selects the other sense ("de boa qualidade");
+      such occurrences are dropped, as the v0.6 context patterns did;
+    * ``other_sense_likely``: the text predates the slang (pre-reform spelling).
+
+    Counting slang (density, the author's slang) uses ``slang`` only; the
+    stuffing guard for introduced forms stays conservative and sees all."""
     plain = _norm(text or "")
+    raw = [(entry, hit) for entry, rx in load_lexicon(path)["_rx"] for hit in rx.finditer(plain)]
+    historic = None
+    informal = None
     found = []
-    for entry, rx in load_lexicon(path)["_rx"]:
-        for hit in rx.finditer(plain):
-            found.append({"id": entry["id"], "term": entry["term"], "text": text[hit.start():hit.end()],
-                          "start": hit.start(), "end": hit.end(), "type": entry["type"],
-                          "ambiguous": bool(entry["ambiguity"].get("ambiguous"))})
+    for entry, hit in raw:
+        ambiguous = bool(entry["ambiguity"].get("ambiguous"))
+        sense, reason = "slang", None
+        follow = (entry.get("context") or {}).get("followed_by")
+        if _hyphen_compound(plain, hit.end()):
+            sense, reason = "other_sense", "part of a hyphenated word or a verb with a clitic"
+        elif follow == "function_word_or_end" and _followed_by_content_word(plain, hit.end()):
+            sense, reason = "other_sense", "followed by a content word (adjective sense)"
+        if sense == "slang":
+            if historic is None:
+                from .router import infer_time_of_text
+                historic = infer_time_of_text(text or "")["value"] == "pre_reform_orthography"
+            if historic:
+                sense, reason = "other_sense_likely", "the text uses pre-reform spelling; the slang sense is later"
+            elif ambiguous and entry["ambiguity"].get("detection") == "form":
+                if informal is None:
+                    informal = _informal_evidence(plain, raw) if genre not in ("whatsapp", "social") else ["genre"]
+                own = [x for x in informal if x != hit.group(0)]
+                if not own:
+                    sense, reason = "ambiguous", "ambiguous form with no other informal evidence in the text"
+        found.append({"id": entry["id"], "term": entry["term"], "text": text[hit.start():hit.end()],
+                      "start": hit.start(), "end": hit.end(), "type": entry["type"], "ambiguous": ambiguous,
+                      "sense": sense, **({"sense_reason": reason} if reason else {})})
+    # The context selected the other sense ("de boa qualidade"): not a lexicon
+    # occurrence at all, as with the v0.6 context patterns.
+    found = [f for f in found if f["sense"] != "other_sense"]
     return sorted(found, key=lambda f: (f["start"], f["id"]))
+
+
+def observe_slang(text: str, path: Path | None = None, genre: str | None = None) -> list[dict]:
+    """Only the occurrences whose context supports the slang sense."""
+    return [f for f in observe(text, path, genre) if f["sense"] == "slang"]
 
 
 # --- epochs --------------------------------------------------------------------------------

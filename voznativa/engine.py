@@ -219,7 +219,10 @@ def _temporal_and_community_issues(original: str, candidate: str, context: dict)
         issues.append({"code": "slang_introduced", "severity": "major",
                        "message": "slang added without evidence for this request: "
                                   + ", ".join(f"{a['form']} ({a['id']})" for a in added)})
-    before, after = temporal.observe(original), temporal.observe(candidate)
+    # Density and the author's slang count the slang sense only (v0.7.0 CP6):
+    # "mano" = irmão in a novel is neither stuffing nor slang the author lost.
+    genre = (context.get("genre") or {}).get("value")
+    before, after = temporal.observe_slang(original, genre=genre), temporal.observe_slang(candidate, genre=genre)
     stuffed = stuffing.compare("slang", [h["text"] for h in before], [h["text"] for h in after],
                                len(original.split()), len(candidate.split()))
     if stuffed["stuffed"]:

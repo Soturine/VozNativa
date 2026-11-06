@@ -122,10 +122,10 @@ def build(samples: list[dict]) -> dict:
     # Slang the author writes (temporal lexicon, closed list, counts only): the
     # author's forms are kept whatever their attestation; nothing is inferred
     # about the author's age or generation from them.
-    from .temporal import observe
+    from .temporal import observe_slang
     slang, support_slang = Counter(), Counter()
     for t in texts:
-        hits = observe(t)
+        hits = observe_slang(t)   # v0.7.0: "mano" = irmão is not a slang habit
         slang.update(h["id"] for h in hits)
         support_slang.update({h["id"] for h in hits})
     for sid in sorted(slang):

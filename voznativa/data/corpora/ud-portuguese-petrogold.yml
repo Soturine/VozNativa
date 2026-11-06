@@ -100,3 +100,5 @@ evaluations:
 - evals/corpus/runs/crossgenre-2026-11-06-cp4.json
 - evals/corpus/runs/crossgenre-2026-11-06-cp5.json
 - evals/corpus/runs/crossgenre-2026-11-06-cp5b.json
+- evals/corpus/runs/crossgenre-2026-11-06-cp6.json
+- evals/corpus/runs/crossgenre-2026-11-06-cp6b.json

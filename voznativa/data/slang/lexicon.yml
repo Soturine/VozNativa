@@ -54,6 +54,7 @@ entries:
   term: da hora
   forms: ['da hora', 'dahora']
   detect: '\b(?:muito |mó |que |é |eh |tá |ta )?da hora\b(?!\s+(?:marcada|certa|do|da|de|em))'
+  context: {followed_by: function_word_or_end}   # v0.7.0 CP6: "além da hora usual"
   type: slang
   meanings: ['ótimo, legal']
   ambiguity: {ambiguous: true, other_senses: ['"da hora marcada", "da hora do almoço"'], detection: context}
@@ -95,9 +96,12 @@ entries:
   term: de boa
   forms: ['de boa', 'na boa']
   # Agent sense checks (2026-11-05, evals/corpus/SLANG_SENSE_CHECK.md): "de boa" + noun
-  # ("de boa qualidade") dominates; the slang use is not followed by a word. This pattern was
-  # revised after reading evaluation-split matches: it has no held-out precision.
-  detect: '\b(?:de|na) boa(?!\s*[a-záàâãéêíóôõúüç])'
+  # ("de boa qualidade") dominates. v0.6 refused any following word and lost "de boa no
+  # telão" (G3). v0.7.0 CP6: the adjective sense is a content word after "boa"; a function
+  # word, punctuation or the end keep the slang sense (temporal.FUNCTION_WORDS). Held-out
+  # sample written before the change: evals/slang/cases-v07.jsonl.
+  detect: '\b(?:de|na) boa\b'
+  context: {followed_by: function_word_or_end}
   type: slang
   meanings: ['tranquilo, sem problema']
   ambiguity: {ambiguous: true, other_senses: ['"de boa qualidade", "de boa fé"'], detection: context}
@@ -105,6 +109,7 @@ entries:
   term: suave
   forms: ['suave']
   detect: '\b(?:na|de|tá|ta|tudo|fica)\s+suave\b'
+  context: {followed_by: function_word_or_end}   # v0.7.0 CP6: "de suave declive"
   type: slang
   meanings: ['tranquilo']
   ambiguity: {ambiguous: true, other_senses: ['macio, leve ("sabor suave")'], detection: context}

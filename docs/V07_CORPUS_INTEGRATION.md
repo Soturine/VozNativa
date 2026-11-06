@@ -84,3 +84,18 @@ Rodadas novas (as anteriores ficam): `crossgenre-2026-11-06-cp5.json` (desembrul
 **Independência:** a corroboração foi desenhada depois de ler as unidades erradas de Bosque, PetroGold e Machado (dos dois splits). Os números cp5b desses corpora mostram que a regra faz o que se pretendia, mas **não** são evidência independente de melhoria. A evidência independente são os 14 oráculos de `evals/router/cases-v07.jsonl` (escritos e com hash antes da primeira execução; 14/14 na primeira) e a suíte antiga do roteador (15/16, sem mudança).
 
 **Custo observado:** tweets e avaliações perdem parte dos rótulos confiantes (abstenção maior). B2W continua com 16 avaliações lidas como `corporate` ("entrega", "prazo"): aberto (VN07-DISC-018).
+
+## CP6 — gíria por sentido de ocorrência (G3)
+
+`temporal.observe` marca o sentido de cada ocorrência (`slang`, `ambiguous`, `other_sense_likely`; o `other_sense` decidido pelo contexto é descartado como antes). Gíria por mil palavras (calibração / avaliação):
+
+| Fonte | cp5b | cp6 | cp6b (final) |
+|---|---|---|---|
+| Bosque | 0,011 / 0 | 0 / 0,011 | **0 / 0** |
+| Machado | 0,217 / 0,050 | 0,025 / 0,009 | **0,009 / 0,002** |
+| GSD | 0,126 / 0,062 | 0,031 / 0 | 0,031 / 0 (o restante é "Você é massa!", uso real) |
+| PetroGold | 0 / 0,015 | 0 / 0,015 | **0 / 0** |
+| B2W | 0,109 / 0,332 | igual | igual (sem perda de recall) |
+| DANTEStocks | 0,800 / 0,342 | 0,758 / 0,342 | igual (o `véi` restante virou `ambiguous`) |
+
+`cp6` → `cp6b`: erros residuais lidos localmente (hífen em "de boa-fé" e "pô-lo"; "cara" indevidamente na lista de palavras funcionais; "de boa ou má fé"; "além da hora usual"; "de suave declive") viraram regras gerais. Como as classes de erro foram vistas nos dados, a segunda amostra `evals/slang/cases-v07b.jsonl` (frases novas, com hash antes da correção: 6/12 antes, 12/12 depois) mede transferência, não descoberta cega.

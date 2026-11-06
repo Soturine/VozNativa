@@ -19,7 +19,13 @@ import math
 from collections import Counter, defaultdict
 
 from ..patterns import detect
-from ..ptbr import variant_markers
+from ..ptbr import variant_markers as _all_variant_markers
+
+
+def variant_markers(text: str) -> list[dict]:
+    """Markers that are evidence of PT-PT (v0.7.0: an uncorroborated false
+    friend such as "propina" alone is a note, not a detection)."""
+    return [m for m in _all_variant_markers(text) if not m.get("uncorroborated")]
 
 WEAK_DIVISORS = (75, 100, 150, 200, 300)
 LENGTH_BINS = ((0, 50), (50, 150), (150, 300), (300, 10 ** 9))   # dc-029 has 209 words
@@ -164,15 +170,18 @@ def slang_eval(units: list[dict]) -> dict:
     candidate false positive; in informal sources a hit may be real use. The
     numbers say how often; reading them is a separate, human step."""
     from ..temporal import observe
-    forms, units_with, words = Counter(), 0, 0
+    forms, senses, units_with, words = Counter(), Counter(), 0, 0
     for u in units:
         hits = observe(u["text"])
+        slang = [h for h in hits if h["sense"] == "slang"]
         words += u["words"]
-        units_with += bool(hits)
-        forms.update(h["id"] for h in hits)
+        units_with += bool(slang)
+        forms.update(h["id"] for h in slang)
+        senses.update(f'{h["id"]}:{h["sense"]}' for h in hits if h["sense"] != "slang")
     return {"units": len(units), "words": words, "units_with_slang": _rate(units_with, len(units)),
             "hits_per_1000_words": round(1000 * sum(forms.values()) / max(1, words), 3),
-            "by_form": dict(forms.most_common(15))}
+            "by_form": dict(forms.most_common(15)),
+            "not_counted_by_sense": dict(senses.most_common(15))}
 
 
 def variant_false_positives(units: list[dict]) -> dict:
