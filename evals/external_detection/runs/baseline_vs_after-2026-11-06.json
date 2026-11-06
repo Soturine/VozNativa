@@ -1,0 +1,36 @@
+{
+  "kind": "voznativa.external_detection_run",
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "manifest_sha256": "4512b81522d2e3ba06fc40e127e5d4bff1bc79cbb0d4255a86e81fb31ac40a70",
+  "items": 0,
+  "allow_upload": false,
+  "adapters": [
+    {
+      "name": "copyleaks-writer-detector",
+      "contract": "verified",
+      "source_url": "https://docs.copyleaks.com/reference/actions/writer-detector/check",
+      "last_verified": "2026-11-06"
+    },
+    {
+      "name": "gptzero-predict-text",
+      "contract": "partial",
+      "source_url": "https://docs.gptzero.me/api-reference/",
+      "last_verified": "2026-11-06"
+    },
+    {
+      "name": "originality-ai",
+      "contract": "unverified",
+      "source_url": "https://docs.originality.ai/",
+      "last_verified": "2026-11-06"
+    }
+  ],
+  "status": "LIVE_NOT_RUN",
+  "measurements": [],
+  "summary": {
+    "kind": "voznativa.external_detection_summary",
+    "schema_version": 1,
+    "detectors": {},
+    "interpretation": "vendor classifications of texts of known origin; not evidence of authorship; a lower AI label after revision is not a goal and is never fed back to the engine"
+  }
+}

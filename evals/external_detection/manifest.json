@@ -1,0 +1,6 @@
+{
+  "kind": "voznativa.external_detection_manifest",
+  "schema_version": 1,
+  "note": "No item yet. H0 needs human texts with verifiable or consented authorship and upload permission; A0 needs texts from a known model with recorded version and parameters. None exists in this repository; adding them is a human decision (consent, licence, privacy).",
+  "items": []
+}
