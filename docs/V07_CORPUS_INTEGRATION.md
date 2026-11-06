@@ -51,3 +51,20 @@ Gêneros aceitáveis fixados no script **antes** da execução. Unidade: janela 
 - **Seleção estratificada de B2W e Machado** (os prefixos de ~8 MB e ~6 MB enviesam por ordem): adiado (VN07-DISC-014). Os registros de manifesto antigos seriam preservados como baseline; o custo é baixar os arquivos inteiros e redefinir as unidades. Critério de aceite: amostra por produto/categoria (B2W) e por obra (Machado), mesma política, novo manifesto, comparação com o prefixo.
 - **Carolina** (TEI, licença por documento): o leitor TEI existe (CP2), mas o download do recorte não foi feito nesta rodada. Status permanece ACCESS_VERIFIED.
 - **Fala transcrita (C-ORAL, NURC, SP2010, CORAA)**, **ALiB**, **PHPB**, **Tycho Brahe**: sem mudança de acesso verificada nesta rodada; ficam no catálogo, sem simular ingestão. CORAA sobrepõe ALIP, C-ORAL, NURC e SP2010 (relações já no Registry).
+
+## CP4 — contenção (G2) e reexecução
+
+`processing.containment_links` (contenção direcional por índice invertido de shingles; shingles em mais de 20 textos descartados; mínimo de 20 shingles próprios; esboço bottom-k de 64; confirmação exata ≥ 0,8) e `ortho_key` (grafia histórica só na chave de dedup) entram em `cluster`. Medição nas 7 fontes (9,6 s para a contenção):
+
+| Vínculos | Fonte | O que são (amostra lida localmente, texto não versionado) |
+|---|---|---|
+| 98 | Machado | poemas avulsos contidos em *Poesias Completas*; capítulos contidos no romance (*A Mão e a Luva*) |
+| 52 | DANTEStocks | retweets (`RT @...`) do mesmo texto |
+| 20 | PetroGold | a mesma definição copiada entre teses diferentes |
+| 13 | B2W | a mesma avaliação repetida em linhas vizinhas |
+| 1 | GSD | — |
+| **0** | entre fontes diferentes | — |
+
+Nenhum vínculo amostrado foi falso agrupamento (tema parecido sem texto comum não forma vínculo: teste `test_same_topic_different_text_is_not_a_duplicate`).
+
+**Vazamento retroativo:** com o procedimento do CP3/v0.6 (sem contenção), **52 pares contidos atravessavam calibração/avaliação** (40 em Machado, 12 retweets). Nenhum limiar foi ajustado com esses números, mas a independência entre splits afirmada para Machado era falsa. As rodadas antigas ficam intactas como histórico; as novas são `integrity-2026-11-06-cp4.json` (147 vínculos aplicados após duplicatas; vazamento 0 em grupo, grupo extra, cluster e hashes) e `crossgenre-2026-11-06-cp4.json`. Mudança visível: Machado em avaliação passa de 147 para 119 unidades, e as marcas PT-PT sobem de 15,7% para 20,2% (mesma causa: grafia pré-1943).

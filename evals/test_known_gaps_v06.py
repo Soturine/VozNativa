@@ -48,8 +48,8 @@ class KnownGaps(unittest.TestCase):
     def test_g1_wrapped_literary_dialogue_is_not_whatsapp(self):
         self.assertNotEqual(infer_genre(WRAPPED_DIALOGUE)["value"], "whatsapp")
 
-    @unittest.expectedFailure
     def test_g2_a_contained_chapter_clusters_with_its_novel(self):
+        # Closed in v0.7.0 CP4 (directional containment); kept as a regression test.
         chapter = " ".join(f"Frase {i} do capítulo sobre a casa velha e o quintal de muitos anos." for i in range(40))
         novel = " ".join(f"Outra parte {i} do romance, com outros fatos e outras pessoas na cidade."
                          for i in range(400)) + " " + chapter

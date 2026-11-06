@@ -18,3 +18,4 @@ Cada item: origem, evidência reproduzível, severidade, decisão (correção ob
 | VN07-DISC-012 | `corpus_crossgenre` em DANTEStocks | "propina" marcado como PT-PT em contexto brasileiro (suborno) | P3 | melhoria de baixo risco | CP6 |
 | VN07-DISC-013 | integridade CP3 | o PUD tinha `group_by: sent_id_prefix`, que não casa seus ids (1.000 grupos para 397 documentos) | P2 | correção obrigatória | **corrigido** antes da 1ª rodada: `group_by: doc_id` |
 | VN07-DISC-014 | plano CP3 | B2W e Machado seguem como prefixos (viés de ordem) | P2 | adiado com critério | `docs/V07_CORPUS_INTEGRATION.md` |
+| VN07-DISC-015 | medição CP4 | splits da v0.6/CP3 tinham 52 pares contidos atravessando calibração/avaliação (40 em Machado: poemas em *Poesias Completas*, capítulos no romance; 12 retweets) | P1 | correção obrigatória | **corrigido** (G2); rodadas antigas preservadas; novas rodadas `-cp4` |
