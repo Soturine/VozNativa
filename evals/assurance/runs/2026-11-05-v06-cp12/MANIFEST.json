@@ -1,0 +1,75 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-05-v06-cp12",
+  "entries": [
+    {
+      "file": "assertiva-execute.json",
+      "command": "assertiva audit . --python <venv>/python --execute --timeout-s 900 --output json (4035104)",
+      "exit_code": 0,
+      "raw_sha256": "c41997f212cc2b4677e78f47c1ebdcb67d4e27e3cf9116f47fd4982dd3653e32",
+      "published_sha256": "8c85f27b14d0edffee0e157a9497dc42864a7dade69e6add98a678f6f781393c",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-static.json",
+      "command": "assertiva audit . --python <venv>/python --output json",
+      "exit_code": 0,
+      "raw_sha256": "1918a901fdef6caf2960f95a507685521d9dcd1945c8a618dd66619d0003a96c",
+      "published_sha256": "ba01e70b9aa2df78ca398a0dee9722036b0c0d67f7d322a02cc9063ae1a6c244",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare.json",
+      "command": "derivanta-engine compare before after --format json",
+      "exit_code": 0,
+      "raw_sha256": "c7e0576169cab1e939844fb4ae25ded8f757940cdcaeaccc9c6cc678bfbd26e5",
+      "published_sha256": "c7e0576169cab1e939844fb4ae25ded8f757940cdcaeaccc9c6cc678bfbd26e5",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect-after.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (after ladder fix)",
+      "exit_code": 0,
+      "raw_sha256": "b1db0c2569a1911d310e60066ffe3ba44e2ce24163f8b241dbc5d8c531729419",
+      "published_sha256": "b1db0c2569a1911d310e60066ffe3ba44e2ce24163f8b241dbc5d8c531729419",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect-before.json",
+      "command": "derivanta-engine inspect . --maintainability --format json (f5f2d30 + local)",
+      "exit_code": 0,
+      "raw_sha256": "1ceb4460b42950f457517157e979a17a95681a80c6d8eb9f01d300400e64db93",
+      "published_sha256": "1ceb4460b42950f457517157e979a17a95681a80c6d8eb9f01d300400e64db93",
+      "sanitized": false
+    },
+    {
+      "file": "mutation-summary.json",
+      "command": "cosmic-ray init/exec on voznativa/stuffing.py and voznativa/temporal.py, before and after targeted tests",
+      "exit_code": 0,
+      "raw_sha256": "ce2e6156d8dab130441b9363413208283d6eef6664a6809b8a68f88d4b316a69",
+      "published_sha256": "022cdb556d3ddba50e1747a12569da6b27e7ce4813bef17061ef980666f61b38",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-06T02:11:44+00:00",
+  "revision": "4035104815b97843a4bdf1326d051196c3a559b4",
+  "dirty_paths": [
+    "evals/assurance/runs/2026-11-05-v06-cp12/",
+    "evals/test_corpus_registry.py",
+    "evals/test_eval_provenance.py",
+    "evals/test_mutation_gaps_v06.py"
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@17fa564",
+    "assertiva": "0.10.1@2618d95",
+    "cosmic-ray": "installed-in-venv"
+  },
+  "notes": [
+    "Assertiva FALSE_GREEN_CANDIDATE confirmed and fixed in two tests; see MUTATION.md"
+  ]
+}

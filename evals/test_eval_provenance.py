@@ -48,12 +48,20 @@ class Provenance(unittest.TestCase):
             manifest = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(sha256_lf(ROOT / manifest["cases_file"]), manifest["cases_sha256"], path.name)
 
+    @staticmethod
+    def _claim_problems(entry: dict) -> list[str]:
+        if not entry.get("independent"):
+            return []
+        return [f for f in INDEPENDENT_FIELDS if not entry.get(f)] + ([] if entry.get("frozen") else ["frozen"])
+
     def test_independent_claims_need_the_protocol_fields(self):
         for name, entry in MANIFEST["suites"].items():
-            if entry.get("independent"):
-                missing = [f for f in INDEPENDENT_FIELDS if not entry.get(f)]
-                self.assertEqual(missing, [], f"{name} claims independence without {missing}")
-                self.assertTrue(entry.get("frozen"), name)
+            self.assertEqual(self._claim_problems(entry), [], name)
+        # Planted claim: the rule must catch it (no real suite claims independence today, so
+        # the loop above alone asserted nothing; Assertiva FALSE_GREEN_CANDIDATE, CP12).
+        self.assertEqual(self._claim_problems({"independent": True, "author": "x"}),
+                         ["sha256", "written_without_reading_engine", "first_run", "frozen"])
+        self.assertEqual(self._claim_problems({"independent": False}), [])
 
     def test_current_suites_are_not_reported_as_independent(self):
         for name in MANIFEST["suites"]:

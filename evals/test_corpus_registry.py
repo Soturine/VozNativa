@@ -40,9 +40,9 @@ class ShippedRegistry(unittest.TestCase):
             self.assertEqual(registry.validate_source(e), [], e["id"])
 
     def test_citation_only_sources_never_claim_verification(self):
-        for e in registry.load_registry():
-            if e["urls"]["official_kind"] in {"citation", "containing_corpus"}:
-                self.assertEqual(e["status"], "CATALOGUED", e["id"])
+        cited = [e for e in registry.load_registry() if e["urls"]["official_kind"] in {"citation", "containing_corpus"}]
+        self.assertGreaterEqual(len(cited), 1)          # not vacuous (Assertiva FALSE_GREEN_CANDIDATE, CP12)
+        self.assertEqual({e["id"]: e["status"] for e in cited}, {e["id"]: "CATALOGUED" for e in cited})
 
     def test_coraa_and_the_projects_it_contains_are_one_dependency_group(self):
         groups = registry.independent_groups()

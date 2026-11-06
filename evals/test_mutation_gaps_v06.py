@@ -135,5 +135,73 @@ class TemporalBranches(unittest.TestCase):
                          [{"id": "kkk", "form": "kkk", "type": "chat_form"}])
 
 
+def _entry(**extra):
+    return {"id": "x", "term": "xis", "forms": ["xis"], "type": "slang", "meanings": ["m"],
+            "ambiguity": {"ambiguous": False}, **extra}
+
+
+def _att(count):
+    return {"period": {"attestations": [{"source": "s", "from": 2025, "to": 2026, "count": count, "words": 9,
+                                         "run": "r"}], "last_verified_at": "2026-10-01"}}
+
+
+class LexiconValidationSecondRound(unittest.TestCase):
+    """Second round, after the after-run still showed survivors in validate_lexicon, _load and entry_status."""
+
+    def problems(self, entries, **top):
+        doc = {"schema_version": 2, "kind": "voznativa.slang_lexicon", "entries": entries,
+               "defaults": {"register": {"min": "very_casual", "max": "casual"}}, **top}
+        return " | ".join(temporal.validate_lexicon(doc))
+
+    def test_header_and_required_fields(self):
+        for version in (1, 3):
+            self.assertIn("schema_version must be 2", self.problems([], schema_version=version))
+        for kind in ("voznativa.other", "zzz"):
+            self.assertIn("kind must be", self.problems([], kind=kind))
+        self.assertEqual(self.problems([]), "")
+        no_term = _entry()
+        no_term.pop("term")
+        self.assertIn("x: missing term", self.problems([no_term]))
+        self.assertNotIn("missing meanings", self.problems([_entry(meanings=[])]))   # an empty list is present
+        self.assertIn("register min/max", self.problems([_entry(register={"min": "nope", "max": "casual"})]))
+
+    def test_evidence_needs_a_positive_count_and_reasons(self):
+        self.assertEqual(self.problems([dict(_entry(evidence={"level": "E2"}), **_att(1))]), "")
+        self.assertIn("needs at least one attestation", self.problems([dict(_entry(evidence={"level": "E2"}),
+                                                                             **_att(0))]))
+        no_count = dict(_entry(evidence={"level": "E2"}), **_att(1))
+        no_count["period"]["attestations"][0].pop("count")
+        self.assertIn("needs at least one attestation", self.problems([no_count]))
+        self.assertEqual(self.problems([dict(_entry(evidence={"level": "E3"}, generation={"allowed": True}),
+                                             **_att(4))]), "")
+        self.assertIn("context detection needs", self.problems([_entry(ambiguity={
+            "ambiguous": True, "other_senses": ["y"], "detection": "context"})]))
+        self.assertEqual(self.problems([_entry(ambiguity={"ambiguous": True, "other_senses": ["y"],
+                                                          "detection": "form"})]), "")
+
+    def test_load_errors_and_kept_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "lexicon.yml"
+            bad.write_text(yaml.safe_dump({"schema_version": 1, "kind": "voznativa.slang_lexicon", "entries": []}),
+                           encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, r"invalid slang lexicon .*schema_version must be 2"):
+                temporal.load_lexicon(bad)
+        temporal._load.cache_clear()
+        lex = temporal.load_lexicon()
+        for key in ("kind", "defaults", "version", "status", "locale"):
+            self.assertIn(key, lex)
+
+    def test_entry_status_edges(self):
+        epoch = temporal.parse_epoch("current", TODAY)
+        base = temporal._merge({"register": {"min": "very_casual", "max": "neutral"}, "generation": {}},
+                               dict(_entry(evidence={"level": "E3"}, generation={"allowed": True}),
+                                    **_att(5)))
+        self.assertEqual(temporal.entry_status(base, epoch, "social", "casual", TODAY)["reasons"], [])
+        self.assertEqual(temporal.entry_status(base, epoch, "social", "professional-natural", TODAY)["reasons"], [])
+        self.assertTrue(temporal.entry_status(base, epoch, "social", "academic", TODAY)["reasons"])
+        dated = dict(base, deprecation={"status": "dated", "reason": "r"})
+        self.assertIn("deprecation status dated", temporal.entry_status(dated, epoch, "social", None, TODAY)["reasons"])
+
+
 if __name__ == "__main__":
     unittest.main()

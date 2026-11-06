@@ -1,0 +1,85 @@
+{
+  "stuffing_before": {
+    "jobs": 72,
+    "killed": 40,
+    "survived": 32,
+    "survived_on_signature_lines": 0,
+    "survived_elsewhere": 32,
+    "elsewhere_by_function": {
+      "measure": 14,
+      "level": 9,
+      "compare": 5,
+      "None": 4
+    }
+  },
+  "stuffing_after": {
+    "jobs": 72,
+    "killed": 67,
+    "survived": 5,
+    "survived_on_signature_lines": 0,
+    "survived_elsewhere": 5,
+    "elsewhere_by_function": {
+      "compare": 3,
+      "level": 2
+    }
+  },
+  "temporal_before": {
+    "jobs": 701,
+    "killed": 437,
+    "survived": 264,
+    "survived_on_signature_lines": 165,
+    "survived_elsewhere": 99,
+    "elsewhere_by_function": {
+      "validate_lexicon": 27,
+      "activate": 25,
+      "_load": 14,
+      "entry_status": 8,
+      "parse_epoch": 5,
+      "epoch_notes": 5,
+      "None": 5,
+      "attested_in": 5,
+      "_stale": 2,
+      "_pattern": 1,
+      "_with_attestations": 1,
+      "introduced_terms": 1
+    }
+  },
+  "temporal_after_round1": {
+    "jobs": 701,
+    "killed": 465,
+    "survived": 236,
+    "survived_on_signature_lines": 165,
+    "survived_elsewhere": 71,
+    "elsewhere_by_function": {
+      "validate_lexicon": 27,
+      "_load": 14,
+      "entry_status": 8,
+      "epoch_notes": 5,
+      "attested_in": 5,
+      "None": 4,
+      "parse_epoch": 3,
+      "activate": 3,
+      "_pattern": 1,
+      "_with_attestations": 1
+    }
+  },
+  "temporal_after_round2": {
+    "jobs": 701,
+    "killed": 503,
+    "survived": 198,
+    "survived_on_signature_lines": 165,
+    "survived_elsewhere": 33,
+    "elsewhere_by_function": {
+      "validate_lexicon": 8,
+      "attested_in": 5,
+      "epoch_notes": 5,
+      "None": 4,
+      "parse_epoch": 3,
+      "activate": 3,
+      "entry_status": 2,
+      "_load": 1,
+      "_pattern": 1,
+      "_with_attestations": 1
+    }
+  }
+}
