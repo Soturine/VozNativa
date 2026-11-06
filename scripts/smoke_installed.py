@@ -37,6 +37,19 @@ def _registry_ok() -> bool:
     return len(load_registry()) >= 25
 
 
+def _long_form_ok() -> bool:
+    from voznativa.document import build_plan, reassemble
+    doc = "# T\n\nUm parágrafo.\n\n```\ncodigo\n```\n\n| a | b |\n|---|---|\n"
+    plan = build_plan(doc)
+    return reassemble(doc, plan) == doc and {"code", "table"} <= {k for u in plan["units"]
+                                                                  if u["action"] == "protect" for k in u["kinds"]}
+
+
+def _morph_ok() -> bool:
+    from voznativa.morph import tense_profile
+    return tense_profile("Ana terminará o trabalho.") == {"terminar": {"fut_pres"}}
+
+
 def _license_ok() -> bool:
     from importlib import metadata
     dist = metadata.distribution("voznativa")
@@ -89,6 +102,17 @@ def main() -> int:
                 "corpus-catalogued-refused-exit-77": _exit_code("corpus", "sample", "obras") == 77,
                 "epoch-and-community": run("contract", "t.txt", "--epoch", "current", "--community", "tech",
                                            "--slang-strength", "0.5")["slang_strength"]["effective"] == 0.0,
+                # v0.7.0: contract v3, the new commands and the long-form path from the wheel.
+                "version-0.7": voznativa.__version__.startswith("0.7."),
+                "route-v3": run("route", "t.txt")["schema_version"] == 3,
+                "diagnose": run("diagnose", "t.txt")["kind"] == "voznativa.diagnosis",
+                "mode-review": run("rewrite", "t.txt", "--mode", "REVIEW")["outcome"] == "no_change",
+                "integrity-clean-exit-0": _exit_code("integrity", "t.txt") == 0,
+                "long-form-plan": _long_form_ok(),
+                "provenance": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["provenance"]["kind"]
+                == "voznativa.provenance",
+                "corpus-registry-v07": len(run("corpus", "list")["sources"]) >= 38,
+                "morph": _morph_ok(),
             }
         finally:
             os.chdir(start)  # Windows cannot delete the current directory

@@ -1,0 +1,969 @@
+{
+  "kind": "voznativa.router_audit_run",
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "split": "evaluation",
+  "unit": "window of <= 150 words",
+  "note": "abstention keeps conservative protections; not an error",
+  "sources": {
+    "ud-portuguese-bosque": {
+      "acceptable": [
+        "journalistic"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 28,
+          "abstention": {
+            "k": 28,
+            "n": 28,
+            "rate": 1.0,
+            "wilson95": [
+              0.879,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 28,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.121
+            ]
+          }
+        },
+        "20-49": {
+          "units": 278,
+          "abstention": {
+            "k": 278,
+            "n": 278,
+            "rate": 1.0,
+            "wilson95": [
+              0.986,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 278,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.014
+            ]
+          }
+        },
+        "50-99": {
+          "units": 453,
+          "abstention": {
+            "k": 447,
+            "n": 453,
+            "rate": 0.9868,
+            "wilson95": [
+              0.971,
+              0.994
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 2,
+            "n": 6,
+            "rate": 0.3333,
+            "wilson95": [
+              0.097,
+              0.7
+            ]
+          },
+          "useful_coverage": {
+            "k": 2,
+            "n": 453,
+            "rate": 0.0044,
+            "wilson95": [
+              0.001,
+              0.016
+            ]
+          }
+        },
+        "100+": {
+          "units": 353,
+          "abstention": {
+            "k": 349,
+            "n": 353,
+            "rate": 0.9887,
+            "wilson95": [
+              0.971,
+              0.996
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 2,
+            "n": 4,
+            "rate": 0.5,
+            "wilson95": [
+              0.15,
+              0.85
+            ]
+          },
+          "useful_coverage": {
+            "k": 2,
+            "n": 353,
+            "rate": 0.0057,
+            "wilson95": [
+              0.002,
+              0.02
+            ]
+          }
+        }
+      },
+      "units": 1112,
+      "abstention": {
+        "k": 1102,
+        "n": 1112,
+        "rate": 0.991,
+        "wilson95": [
+          0.984,
+          0.995
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 4,
+        "n": 10,
+        "rate": 0.4,
+        "wilson95": [
+          0.168,
+          0.687
+        ]
+      },
+      "useful_coverage": {
+        "k": 4,
+        "n": 1112,
+        "rate": 0.0036,
+        "wilson95": [
+          0.001,
+          0.009
+        ]
+      },
+      "wrong": {
+        "k": 6,
+        "n": 1112,
+        "rate": 0.0054,
+        "wilson95": [
+          0.002,
+          0.012
+        ]
+      }
+    },
+    "b2w-reviews01": {
+      "acceptable": [
+        "social",
+        "whatsapp"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 902,
+          "abstention": {
+            "k": 879,
+            "n": 902,
+            "rate": 0.9745,
+            "wilson95": [
+              0.962,
+              0.983
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 20,
+            "n": 23,
+            "rate": 0.8696,
+            "wilson95": [
+              0.679,
+              0.955
+            ]
+          },
+          "useful_coverage": {
+            "k": 20,
+            "n": 902,
+            "rate": 0.0222,
+            "wilson95": [
+              0.014,
+              0.034
+            ]
+          }
+        },
+        "20-49": {
+          "units": 460,
+          "abstention": {
+            "k": 441,
+            "n": 460,
+            "rate": 0.9587,
+            "wilson95": [
+              0.936,
+              0.973
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 13,
+            "n": 19,
+            "rate": 0.6842,
+            "wilson95": [
+              0.46,
+              0.846
+            ]
+          },
+          "useful_coverage": {
+            "k": 13,
+            "n": 460,
+            "rate": 0.0283,
+            "wilson95": [
+              0.017,
+              0.048
+            ]
+          }
+        },
+        "50-99": {
+          "units": 110,
+          "abstention": {
+            "k": 104,
+            "n": 110,
+            "rate": 0.9455,
+            "wilson95": [
+              0.886,
+              0.975
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 3,
+            "n": 6,
+            "rate": 0.5,
+            "wilson95": [
+              0.188,
+              0.812
+            ]
+          },
+          "useful_coverage": {
+            "k": 3,
+            "n": 110,
+            "rate": 0.0273,
+            "wilson95": [
+              0.009,
+              0.077
+            ]
+          }
+        },
+        "100+": {
+          "units": 28,
+          "abstention": {
+            "k": 22,
+            "n": 28,
+            "rate": 0.7857,
+            "wilson95": [
+              0.605,
+              0.898
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 1,
+            "n": 6,
+            "rate": 0.1667,
+            "wilson95": [
+              0.03,
+              0.564
+            ]
+          },
+          "useful_coverage": {
+            "k": 1,
+            "n": 28,
+            "rate": 0.0357,
+            "wilson95": [
+              0.006,
+              0.177
+            ]
+          }
+        }
+      },
+      "units": 1500,
+      "abstention": {
+        "k": 1446,
+        "n": 1500,
+        "rate": 0.964,
+        "wilson95": [
+          0.953,
+          0.972
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 37,
+        "n": 54,
+        "rate": 0.6852,
+        "wilson95": [
+          0.553,
+          0.793
+        ]
+      },
+      "useful_coverage": {
+        "k": 37,
+        "n": 1500,
+        "rate": 0.0247,
+        "wilson95": [
+          0.018,
+          0.034
+        ]
+      },
+      "wrong": {
+        "k": 17,
+        "n": 1500,
+        "rate": 0.0113,
+        "wilson95": [
+          0.007,
+          0.018
+        ]
+      }
+    },
+    "machado-de-assis-corpus": {
+      "acceptable": [
+        "literary"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 1,
+          "abstention": {
+            "k": 1,
+            "n": 1,
+            "rate": 1.0,
+            "wilson95": [
+              0.207,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 1,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.793
+            ]
+          }
+        },
+        "20-49": {
+          "units": 3,
+          "abstention": {
+            "k": 3,
+            "n": 3,
+            "rate": 1.0,
+            "wilson95": [
+              0.438,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 3,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.562
+            ]
+          }
+        },
+        "50-99": {
+          "units": 5,
+          "abstention": {
+            "k": 5,
+            "n": 5,
+            "rate": 1.0,
+            "wilson95": [
+              0.566,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 5,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.434
+            ]
+          }
+        },
+        "100+": {
+          "units": 110,
+          "abstention": {
+            "k": 24,
+            "n": 110,
+            "rate": 0.2182,
+            "wilson95": [
+              0.151,
+              0.304
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 86,
+            "n": 86,
+            "rate": 1.0,
+            "wilson95": [
+              0.957,
+              1.0
+            ]
+          },
+          "useful_coverage": {
+            "k": 86,
+            "n": 110,
+            "rate": 0.7818,
+            "wilson95": [
+              0.696,
+              0.849
+            ]
+          }
+        }
+      },
+      "units": 119,
+      "abstention": {
+        "k": 33,
+        "n": 119,
+        "rate": 0.2773,
+        "wilson95": [
+          0.205,
+          0.364
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 86,
+        "n": 86,
+        "rate": 1.0,
+        "wilson95": [
+          0.957,
+          1.0
+        ]
+      },
+      "useful_coverage": {
+        "k": 86,
+        "n": 119,
+        "rate": 0.7227,
+        "wilson95": [
+          0.636,
+          0.795
+        ]
+      },
+      "wrong": {
+        "k": 0,
+        "n": 119,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.031
+        ]
+      }
+    },
+    "ud-portuguese-gsd": {
+      "acceptable": [
+        "journalistic",
+        "social"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 739,
+          "abstention": {
+            "k": 739,
+            "n": 739,
+            "rate": 1.0,
+            "wilson95": [
+              0.995,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 739,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.005
+            ]
+          }
+        },
+        "20-49": {
+          "units": 727,
+          "abstention": {
+            "k": 721,
+            "n": 727,
+            "rate": 0.9917,
+            "wilson95": [
+              0.982,
+              0.996
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 6,
+            "n": 6,
+            "rate": 1.0,
+            "wilson95": [
+              0.61,
+              1.0
+            ]
+          },
+          "useful_coverage": {
+            "k": 6,
+            "n": 727,
+            "rate": 0.0083,
+            "wilson95": [
+              0.004,
+              0.018
+            ]
+          }
+        },
+        "50-99": {
+          "units": 34,
+          "abstention": {
+            "k": 34,
+            "n": 34,
+            "rate": 1.0,
+            "wilson95": [
+              0.898,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 34,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.102
+            ]
+          }
+        }
+      },
+      "units": 1500,
+      "abstention": {
+        "k": 1494,
+        "n": 1500,
+        "rate": 0.996,
+        "wilson95": [
+          0.991,
+          0.998
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 6,
+        "n": 6,
+        "rate": 1.0,
+        "wilson95": [
+          0.61,
+          1.0
+        ]
+      },
+      "useful_coverage": {
+        "k": 6,
+        "n": 1500,
+        "rate": 0.004,
+        "wilson95": [
+          0.002,
+          0.009
+        ]
+      },
+      "wrong": {
+        "k": 0,
+        "n": 1500,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.003
+        ]
+      }
+    },
+    "ud-portuguese-petrogold": {
+      "acceptable": [
+        "academic",
+        "technical"
+      ],
+      "bins": {
+        "20-49": {
+          "units": 7,
+          "abstention": {
+            "k": 7,
+            "n": 7,
+            "rate": 1.0,
+            "wilson95": [
+              0.646,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 7,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.354
+            ]
+          }
+        },
+        "50-99": {
+          "units": 34,
+          "abstention": {
+            "k": 30,
+            "n": 34,
+            "rate": 0.8824,
+            "wilson95": [
+              0.734,
+              0.953
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 4,
+            "n": 4,
+            "rate": 1.0,
+            "wilson95": [
+              0.51,
+              1.0
+            ]
+          },
+          "useful_coverage": {
+            "k": 4,
+            "n": 34,
+            "rate": 0.1176,
+            "wilson95": [
+              0.047,
+              0.266
+            ]
+          }
+        },
+        "100+": {
+          "units": 1450,
+          "abstention": {
+            "k": 1151,
+            "n": 1450,
+            "rate": 0.7938,
+            "wilson95": [
+              0.772,
+              0.814
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 280,
+            "n": 299,
+            "rate": 0.9365,
+            "wilson95": [
+              0.903,
+              0.959
+            ]
+          },
+          "useful_coverage": {
+            "k": 280,
+            "n": 1450,
+            "rate": 0.1931,
+            "wilson95": [
+              0.174,
+              0.214
+            ]
+          }
+        }
+      },
+      "units": 1491,
+      "abstention": {
+        "k": 1188,
+        "n": 1491,
+        "rate": 0.7968,
+        "wilson95": [
+          0.776,
+          0.816
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 284,
+        "n": 303,
+        "rate": 0.9373,
+        "wilson95": [
+          0.904,
+          0.959
+        ]
+      },
+      "useful_coverage": {
+        "k": 284,
+        "n": 1491,
+        "rate": 0.1905,
+        "wilson95": [
+          0.171,
+          0.211
+        ]
+      },
+      "wrong": {
+        "k": 19,
+        "n": 1491,
+        "rate": 0.0127,
+        "wilson95": [
+          0.008,
+          0.02
+        ]
+      }
+    },
+    "ud-portuguese-pud": {
+      "acceptable": [
+        "journalistic"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 31,
+          "abstention": {
+            "k": 31,
+            "n": 31,
+            "rate": 1.0,
+            "wilson95": [
+              0.89,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 31,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.11
+            ]
+          }
+        },
+        "20-49": {
+          "units": 77,
+          "abstention": {
+            "k": 77,
+            "n": 77,
+            "rate": 1.0,
+            "wilson95": [
+              0.952,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 77,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.048
+            ]
+          }
+        },
+        "50-99": {
+          "units": 75,
+          "abstention": {
+            "k": 75,
+            "n": 75,
+            "rate": 1.0,
+            "wilson95": [
+              0.951,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 75,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.049
+            ]
+          }
+        },
+        "100+": {
+          "units": 19,
+          "abstention": {
+            "k": 19,
+            "n": 19,
+            "rate": 1.0,
+            "wilson95": [
+              0.832,
+              1.0
+            ]
+          },
+          "precision_of_emitted": null,
+          "useful_coverage": {
+            "k": 0,
+            "n": 19,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.168
+            ]
+          }
+        }
+      },
+      "units": 202,
+      "abstention": {
+        "k": 202,
+        "n": 202,
+        "rate": 1.0,
+        "wilson95": [
+          0.981,
+          1.0
+        ]
+      },
+      "precision_of_emitted": null,
+      "useful_coverage": {
+        "k": 0,
+        "n": 202,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.019
+        ]
+      },
+      "wrong": {
+        "k": 0,
+        "n": 202,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.019
+        ]
+      }
+    },
+    "ud-portuguese-dantestocks": {
+      "acceptable": [
+        "social",
+        "whatsapp"
+      ],
+      "bins": {
+        "0-19": {
+          "units": 1086,
+          "abstention": {
+            "k": 928,
+            "n": 1086,
+            "rate": 0.8545,
+            "wilson95": [
+              0.832,
+              0.874
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 158,
+            "n": 158,
+            "rate": 1.0,
+            "wilson95": [
+              0.976,
+              1.0
+            ]
+          },
+          "useful_coverage": {
+            "k": 158,
+            "n": 1086,
+            "rate": 0.1455,
+            "wilson95": [
+              0.126,
+              0.168
+            ]
+          }
+        },
+        "20-49": {
+          "units": 414,
+          "abstention": {
+            "k": 334,
+            "n": 414,
+            "rate": 0.8068,
+            "wilson95": [
+              0.766,
+              0.842
+            ]
+          },
+          "precision_of_emitted": {
+            "k": 79,
+            "n": 80,
+            "rate": 0.9875,
+            "wilson95": [
+              0.933,
+              0.998
+            ]
+          },
+          "useful_coverage": {
+            "k": 79,
+            "n": 414,
+            "rate": 0.1908,
+            "wilson95": [
+              0.156,
+              0.231
+            ]
+          }
+        }
+      },
+      "units": 1500,
+      "abstention": {
+        "k": 1262,
+        "n": 1500,
+        "rate": 0.8413,
+        "wilson95": [
+          0.822,
+          0.859
+        ]
+      },
+      "precision_of_emitted": {
+        "k": 237,
+        "n": 238,
+        "rate": 0.9958,
+        "wilson95": [
+          0.977,
+          0.999
+        ]
+      },
+      "useful_coverage": {
+        "k": 237,
+        "n": 1500,
+        "rate": 0.158,
+        "wilson95": [
+          0.14,
+          0.177
+        ]
+      },
+      "wrong": {
+        "k": 1,
+        "n": 1500,
+        "rate": 0.0007,
+        "wilson95": [
+          0.0,
+          0.004
+        ]
+      }
+    }
+  },
+  "all": {
+    "units": 7424,
+    "emitted": 697,
+    "precision_of_emitted": {
+      "k": 654,
+      "n": 697,
+      "rate": 0.9383,
+      "wilson95": [
+        0.918,
+        0.954
+      ]
+    },
+    "useful_coverage": {
+      "k": 654,
+      "n": 7424,
+      "rate": 0.0881,
+      "wilson95": [
+        0.082,
+        0.095
+      ]
+    },
+    "wrong": {
+      "k": 43,
+      "n": 7424,
+      "rate": 0.0058,
+      "wilson95": [
+        0.004,
+        0.008
+      ]
+    }
+  }
+}

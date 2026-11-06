@@ -26,6 +26,10 @@ As duas falhas da 1ª execução:
 
 Nenhuma das duas falhas era perigosa: o roteador se absteve (`unknown`) em vez de errar.
 
+## Regressão resolvida × desempenho em dados novos
+
+O 36/36 pós-correção **não** é prova de generalização: as duas falhas da 1ª execução foram lidas e corrigidas, então esses dois casos deixaram de ser dados novos. O que conta como medida em dados não vistos é a **1ª execução (34/36)**, e mesmo ela é de casos escritos pelo mesmo agente que escreveu as regras. Desempenho em dados genuinamente novos (autores e fontes não usados para desenhar nada) continua sem medida independente: holdout de outra pessoa NOT_RUN.
+
 ## Experimentos fora de distribuição com dados reais
 
 | Experimento | Estado | Evidência |
@@ -33,6 +37,7 @@ Nenhuma das duas falhas era perigosa: o roteador se absteve (`unknown`) em vez d
 | Cross-corpus (7 fontes independentes, 6 domínios) | executado | `evals/corpus/runs/crossgenre-2026-11-06*.json` (`docs/V07_CORPUS_INTEGRATION.md`) |
 | Transferência entre gêneros da morfologia verbal (notícia, blog, acadêmico, tweets) | executado | `evals/linguistics/runs/morph-2026-11-06.json` |
 | Falsos positivos de diagnóstico em texto humano por fonte | executado | `evals/linguistics/runs/diagnose-2026-11-06.json` |
+| Auditoria da abstenção do roteador (precisão das emitidas, cobertura útil, por fonte e tamanho) | executado | `evals/corpus/runs/router-audit-2026-11-06.json` |
 | Invariância de formatação (CRLF, NFD, NBSP, quebras, tab, espaço duplo) | executado | `evals/test_global_guards.py`, `evals/test_router_v3.py` |
 | Leave-one-author-out | NOT_RUN | só Machado tem autor declarado; os outros corpora não informam autoria |
 | Leave-one-period-out | NOT_RUN | uma única fonte histórica (Machado); sem amostra para separar períodos |

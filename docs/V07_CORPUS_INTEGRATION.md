@@ -99,3 +99,24 @@ Rodadas novas (as anteriores ficam): `crossgenre-2026-11-06-cp5.json` (desembrul
 | DANTEStocks | 0,800 / 0,342 | 0,758 / 0,342 | igual (o `véi` restante virou `ambiguous`) |
 
 `cp6` → `cp6b`: erros residuais lidos localmente (hífen em "de boa-fé" e "pô-lo"; "cara" indevidamente na lista de palavras funcionais; "de boa ou má fé"; "além da hora usual"; "de suave declive") viraram regras gerais. Como as classes de erro foram vistas nos dados, a segunda amostra `evals/slang/cases-v07b.jsonl` (frases novas, com hash antes da correção: 6/12 antes, 12/12 depois) mede transferência, não descoberta cega.
+
+## Revisão pré-merge — auditoria da abstenção do roteador
+
+`scripts/router_audit.py` → `evals/corpus/runs/router-audit-2026-11-06.json` (split de avaliação, mesmas unidades do `corpus_crossgenre`, nenhum limiar alterado). Abstenção não é contada como erro: ela mantém as proteções conservadoras.
+
+| Fonte | Unidades | Abstenção | Precisão das decisões emitidas | Cobertura útil | Erradas |
+|---|---|---|---|---|---|
+| Machado | 119 | 27,7% | 100% (n=86) | 72,3% | 0 |
+| DANTEStocks | 1.500 | 84,1% | 99,6% (n=238) | 15,8% | 1 |
+| PetroGold | 1.491 | 79,7% | 93,7% (n=303) | 19,1% | 19 |
+| B2W | 1.500 | 96,4% | 68,5% (n=54) | 2,5% | 17 |
+| Bosque | 1.112 | 99,1% | 40% (n=10) | 0,4% | 6 |
+| GSD | 1.500 | 99,6% | 100% (n=6) | 0,4% | 0 |
+| PUD | 202 | 100% | — | 0% | 0 |
+| **Total** | 7.424 | — | **93,8%** (Wilson 91,8–95,4) | 8,8% | 43 (0,58%) |
+
+**Leitura.** Quando decide, o roteador acerta 94% das vezes. A abstenção alta está em notícia (Bosque, GSD, PUD) e não diminui com unidades maiores (Bosque 100+ palavras: 98,9%), então não é efeito de texto curto: o perfil jornalístico só tem pistas de verbos de atribuição. No Bosque, as poucas decisões emitidas acertam 40%: reduzir a abstenção ali trocaria `unknown` (protegido) por erros. Em avaliações de produto (B2W), 17 erradas são `corporate` ("entrega", "prazo"; VN07-DISC-018).
+
+**Decisão.** Nenhuma mudança nesta rodada: uma regra nova para notícia teria de ser desenhada e avaliada nas mesmas fontes de notícia disponíveis, e o resultado não seria independente. Backlog **B-R1**: pistas de gênero jornalístico (linha de data, atribuição em discurso indireto, estrutura de lide), desenhadas sobre um corpus de notícia separado (ex.: recorte jornalístico do Carolina com licença por documento) e avaliadas em Bosque/GSD/PUD como teste, com meta de precisão das emitidas ≥ 90% antes de qualquer ganho de cobertura. **B-R2**: separar avaliação de produto de texto corporativo.
+
+**Limites dos splits.** GSD e DANTEStocks não declaram documento nem autor: o split é por sentença/tweet, e vazamento de contexto de documento ou de autor entre calibração e avaliação não pode ser excluído. Esses números valem como medida dentro das fontes, não como generalização para autores novos.
