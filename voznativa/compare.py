@@ -357,6 +357,20 @@ def _align(src, out) -> list[tuple[int, int | None, float]]:
                     sim = 1.0
             if sim > best_sim:
                 best, best_sim = j, sim
+        # v0.7.0: a rewrite that rephrases a sentence but keeps its hard protected
+        # values (money, dates, versions...) is still that sentence. Without this, a
+        # negation dropped from "Vale ressaltar que o orçamento não pode ultrapassar
+        # R$ 12.000,00" -> "O orçamento pode passar de R$ 12.000,00" was not localized
+        # and came out as review_required instead of fail.
+        if best_sim < ALIGN_MIN_SIMILARITY:
+            mine = {s.key for s in entry.spans if s.type in HARD_TYPES}
+            if mine:
+                sharing = [j for j, cand in enumerate(out.entries)
+                           if mine & {s.key for s in cand.spans if s.type in HARD_TYPES}]
+                owners = [k for k, other in enumerate(src.entries)
+                          if mine & {s.key for s in other.spans if s.type in HARD_TYPES}]
+                if len(sharing) == 1 and owners == [i]:      # unambiguous: one sentence on each side
+                    best, best_sim = sharing[0], ALIGN_MIN_SIMILARITY
         pairs.append((i, best, round(best_sim, 3)))
     return pairs
 

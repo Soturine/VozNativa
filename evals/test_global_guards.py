@@ -46,6 +46,17 @@ class CrossParagraph(unittest.TestCase):
         self.assertIn("possible_addition", found)
         self.assertNotEqual(status, "no_deterministic_issues")
 
+    def test_rephrased_sentence_keeps_its_value_and_its_negation_is_localized(self):
+        # Found while writing the README demo (VN07-DISC-035): the rephrasing lowered
+        # lexical similarity, the negation was not localized and only asked for review.
+        src = ("É importante destacar que o relatório será enviado até sexta-feira, 14/11/2025. "
+               "Vale ressaltar que o orçamento não pode ultrapassar R$ 12.000,00.")
+        bad = "O relatório vai até sexta-feira, 14/11/2025. O orçamento pode passar de R$ 12.000,00."
+        good = "O relatório vai até sexta-feira, 14/11/2025. O orçamento não pode passar de R$ 12.000,00."
+        self.assertEqual(codes(src, bad)[0], "fail")
+        self.assertIn("negation_changed", codes(src, bad)[1])
+        self.assertNotEqual(codes(src, good)[0], "fail")
+
     def test_known_detections_still_fire(self):
         self.assertEqual(codes(SRC, P1 + "O contrato não prevê multa.\n\n" + P3)[0], "fail")       # condition
         self.assertEqual(codes(SRC, P1 + P2 + P3.replace("30/06", "30/07"))[0], "fail")             # far value
