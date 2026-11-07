@@ -33,6 +33,11 @@ FAKE_MODEL = textwrap.dedent('''
 
 class HarnessCheck(unittest.TestCase):
     def test_runner_end_to_end_with_a_fake_model(self):
+        import voznativa
+        if Path(voznativa.__file__).resolve().parents[1] != ROOT:
+            # v0.8 (GAP-06): the harness refuses an engine that is not this checkout's (its own
+            # guard against benchmarking the wrong code); against an installed wheel that is the point.
+            self.skipTest("bench_v3 pins the engine to this checkout; voznativa comes from elsewhere")
         from scripts import bench_v3
         runs = ROOT / "benchmarks" / "runs"
         before = set(runs.iterdir())

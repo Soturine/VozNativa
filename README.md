@@ -104,7 +104,14 @@ Para desenvolver, use `python -m pip install -e .`. O wheel inclui `references/`
 
 ## Primeiro uso (sem modelo, sem chave)
 
-Todos os comandos abaixo rodam localmente, a partir da raiz do repositório.
+Dois comandos funcionam de qualquer pasta, sem arquivo nenhum:
+
+```bash
+voznativa doctor    # confere Python, dependências e dados do pacote; não usa rede nem lê textos
+voznativa demo      # o quickstart abaixo, com textos embutidos; não chama modelo nem grava arquivo
+```
+
+Os comandos abaixo rodam localmente, a partir da raiz do repositório.
 
 ```bash
 voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-boa.txt    # exit 3: nada achado, falta juiz
@@ -157,10 +164,11 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 27 subcomandos. Os mais usados:
+`voznativa --help` lista os 29 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
+| `doctor` / `demo` | conferir a instalação; ver compare, plan e diagnose funcionando sem modelo |
 | `compare ORIGINAL CANDIDATA` | gate semântico; exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz |
 | `plan TEXTO` | o que mudar, por quê e quanto, sem modelo |
 | `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd` |

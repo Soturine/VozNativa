@@ -22,7 +22,8 @@ from voznativa.providers import StaticProvider  # noqa: E402
 from voznativa.router import route  # noqa: E402
 
 AIPIM = "Amanhã tem aipim frito no almoço, bora?"
-PACK = yaml.safe_load((ROOT / "voznativa" / "data" / "regional_packs" / "br-norte-lex-mandioca.yml")
+# Through the imported package, so the same test runs against a checkout and an installed wheel (v0.8, GAP-06).
+PACK = yaml.safe_load((Path(regional.__file__).parent / "data" / "regional_packs" / "br-norte-lex-mandioca.yml")
                       .read_text(encoding="utf-8"))
 
 

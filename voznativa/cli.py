@@ -279,7 +279,8 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
     if candidates_files:
         return StaticProvider([_read(f) for f in candidates_files])
     if not spec:
-        raise ValueError("--cmd, --emulate or --candidate is required")
+        raise ValueError("--cmd, --emulate or --candidate is required (rewrite needs a provider; to see the cycle "
+                         "without a model, run `voznativa demo` or use the stub in examples/quickstart)")
     if spec == "emulate":
         import os
         key = os.environ.get("EMULATE_API_KEY")
@@ -448,6 +449,15 @@ def build_parser() -> argparse.ArgumentParser:
     parser = _Parser(prog="voznativa", description="VozNativa PT-BR voice engine")
     parser.add_argument("--version", action="version", version=f"voznativa {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
+
+    p = sub.add_parser("doctor", help="check the installation (no network, reads no text); exit 1 when "
+                                      "something will not work")
+    p.add_argument("--json", action="store_true", help="JSON report instead of text")
+    p.set_defaults(func=cmd_doctor)
+    p = sub.add_parser("demo", help="offline tour of compare, plan and diagnose on bundled texts (no model, "
+                                    "no key, no file written)")
+    p.add_argument("--json", action="store_true", help="JSON result instead of text")
+    p.set_defaults(func=cmd_demo)
 
     p = sub.add_parser("ledger", help="build the Semantic Ledger of a text")
     p.add_argument("text", help="file path or - for stdin")
@@ -674,9 +684,40 @@ def main(argv: list[str] | None = None) -> int:
         sys.stderr.write(f"voznativa: {error}\n")
         return EXIT_NOPERM
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as error:
-        sys.stderr.write(f"voznativa: {error}\n")
+        sys.stderr.write(f"voznativa: {_explain(error)}\n")
         return 64
     return code or 0
+
+
+def _explain(error: Exception) -> str:
+    """Expected input problems in plain words, with what to do (v0.8 CP3). The
+    exit code stays 64; anything else keeps the original message."""
+    if isinstance(error, FileNotFoundError) and error.filename:
+        return (f"arquivo não encontrado: {error.filename} (diretório atual: {Path.cwd()}). "
+                "Confira o caminho; caminhos com espaço vão entre aspas.")
+    if isinstance(error, IsADirectoryError) or (isinstance(error, PermissionError) and error.filename
+                                                and Path(str(error.filename)).is_dir()):
+        return f"{error.filename} é uma pasta; passe o caminho de um arquivo de texto."
+    if isinstance(error, PermissionError) and error.filename:
+        return f"sem permissão para ler {error.filename}."
+    if isinstance(error, UnicodeDecodeError):
+        return ("o arquivo não está em UTF-8 (byte inválido na posição "
+                f"{error.start}). Salve-o como UTF-8 e tente de novo.")
+    return str(error)
+
+
+def cmd_doctor(args):
+    from .onboarding import doctor, render_doctor
+    report = doctor()
+    _emit(report) if args.json else _emit(None, render_doctor(report))
+    return 1 if report["status"] == "FAIL" else 0
+
+
+def cmd_demo(args):
+    from .onboarding import demo, render_demo
+    result = demo()
+    _emit(result) if args.json else _emit(None, render_demo(result))
+    return 0
 
 
 if __name__ == "__main__":

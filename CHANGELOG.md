@@ -15,6 +15,16 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 ### Fixed (determinism)
 - The order of `morph.analyse_word` results depended on `PYTHONHASHSEED`; ties between endings of equal length are now ordered. Contents and every `compare` report are unchanged.
 
+### Added
+- `voznativa doctor`: installation check (Python, PyYAML, references, package data, temp dir, whether known provider variables are set, never their values); no network, reads no text; exit 1 only when something will not work.
+- `voznativa demo`: the quickstart offline on bundled texts (identical to `examples/quickstart/`, kept so by a test); no model, no key, no file written; `--json` for the structured result.
+
+### Changed
+- Expected input errors now say what to do, in Portuguese, with the same exit code 64: file not found (with the working directory), not UTF-8 (with the byte position), a directory instead of a file. `rewrite` without a provider points to `voznativa demo`.
+
+### Assurance
+- The package gate (`qualify` `package:sdist-wheel-smoke`, also the CI package job) now runs the **whole unittest suite against the installed wheel** (V08-GAP-06): the tracked tree without `voznativa/` and the packaging files, so fixtures exist but the code can only come from the wheel; the import origin is checked first. Local run: 748 tests, 746 PASS, 2 skips with stated reasons. `test_regional` reads its pack through the imported package; the `bench_v3` end-to-end test skips when the engine is not this checkout's (its own guard).
+
 ### Known
 - False red on long documents (V08-GAP-13): appending one sentence to a 16.5k-word document gives `fail` (`modality_moved`, `negation_moved`). Open, scheduled with the `compare` work.
 

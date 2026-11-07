@@ -372,9 +372,46 @@ def gate_package(args) -> dict:
         shutil.copy2(ROOT / "scripts" / "smoke_installed.py", smoke)
         proc = run([str(vpy), "-I", str(smoke)], cwd=tmp)
         steps.append({"step": "smoke outside the checkout", "exit_code": proc["exit_code"], "seconds": proc["seconds"]})
-        status = "PASS" if proc["exit_code"] == 0 else "FAIL"
-        return {"status": status, "wheel": wheel.name, "steps": steps,
-                **({} if status == "PASS" else {"output": _tail(proc["stdout"] + proc["stderr"], 20)})}
+        if proc["exit_code"] != 0:
+            return {"status": "FAIL", "wheel": wheel.name, "steps": steps,
+                    "output": _tail(proc["stdout"] + proc["stderr"], 20)}
+        suite = _suite_against_wheel(src, tmp / "suite", vpy, tmp / "venv")
+        steps.append(suite)
+        status = "PASS" if suite["status"] == "PASS" else "FAIL"
+        return {"status": status, "wheel": wheel.name, "steps": steps}
+
+
+def _suite_against_wheel(src: Path, suite: Path, vpy: Path, venv: Path) -> dict:
+    """The unittest suite run against the installed wheel (v0.8, V08-GAP-06).
+
+    The tracked tree is copied without ``voznativa/`` and the packaging files,
+    so every fixture is there but the code can only come from the wheel. The
+    import origin is checked before the run: a suite that silently imported a
+    checkout would be a false green. ``-E -s`` ignores PYTHON* variables and
+    the user site (``-I`` would also drop the working directory, where the
+    test package lives)."""
+    shutil.copytree(src, suite, ignore=shutil.ignore_patterns("voznativa", "setup.py", "pyproject.toml"))
+    flags = ["-E", "-s", "-B"]
+    origin = run([str(vpy), *flags, "-c", "import voznativa; print(voznativa.__file__)"], cwd=suite)
+    where = Path(origin["stdout"].strip() or ".").resolve()
+    record = {"step": "unittest suite against the installed wheel", "origin": where.name,
+              "origin_in_venv": venv.resolve() in where.parents}
+    if origin["exit_code"] != 0 or not record["origin_in_venv"]:
+        return dict(record, status="FAIL", reason="voznativa was not imported from the wheel's venv")
+    out = suite / "unittest-wheel.json"
+    # The suite copy's own qualify.py, run by the venv's interpreter: same discovery and
+    # classification as the unittest gate (an empty or partial run is never PASS).
+    proc = run([str(vpy), *flags, str(suite / "scripts" / "qualify.py"), "--unittest-child", str(out)], cwd=suite)
+    if not out.exists():
+        return dict(record, status="FAIL", reason="the test process crashed before reporting",
+                    exit_code=proc["exit_code"], output=_tail(proc["stdout"] + proc["stderr"], 30))
+    data = json.loads(out.read_text(encoding="utf-8"))
+    return dict(record, status=classify_unittest(data), exit_code=proc["exit_code"], seconds=proc["seconds"],
+                counts={"ran": data["ran"], "passed": len(data["passed"]), "failed": len(data["failed"]),
+                        "errors": len(data["errors"]), "collection_errors": len(data["collection_errors"]),
+                        "skipped": len(data["skipped"])},
+                skipped=data["skipped"], failed=data["failed"], errors=data["errors"],
+                collection_errors=data["collection_errors"])
 
 
 def _package_failure(steps: list, proc: dict) -> dict:
@@ -473,7 +510,7 @@ GATES = [
     Gate("decision:regression", gate_decisions, description="engine decision suite; no new failure"),
     Gate("router:regression", gate_router, description="genre router suite; no new failure"),
     Gate("cli:exit-codes", gate_cli, description="CLI exit codes are the documented gate interface"),
-    Gate("package:sdist-wheel-smoke", gate_package, description="sdist -> wheel -> clean venv -> smoke (CI package job)"),
+    Gate("package:sdist-wheel-smoke", gate_package, description="sdist -> wheel -> clean venv -> smoke -> full suite against the wheel (CI package job)"),
     Gate("review:pty", gate_pty, description="interactive signed review through a real pseudo-terminal"),
     Gate("ci:workflow-triggers", gate_workflow_triggers,
          description="every workflow is workflow_dispatch only (no automatic Actions minutes)"),

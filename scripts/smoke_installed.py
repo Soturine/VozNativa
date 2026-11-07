@@ -108,6 +108,11 @@ def main() -> int:
                 "diagnose": run("diagnose", "t.txt")["kind"] == "voznativa.diagnosis",
                 "mode-review": run("rewrite", "t.txt", "--mode", "REVIEW")["outcome"] == "no_change",
                 "integrity-clean-exit-0": _exit_code("integrity", "t.txt") == 0,
+                # v0.8.0 CP3: first use from the wheel, without a model or a key.
+                "doctor": run("doctor", "--json")["status"] in {"OK", "WARN"},
+                "demo": [c["status"] for c in run("demo", "--json")["comparisons"]]
+                        == ["no_deterministic_issues", "fail", "review_required"],
+                "missing-file-exit-64": _exit_code("compare", "nao-existe.txt", "t.txt") == 64,
                 "long-form-plan": _long_form_ok(),
                 "provenance": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["provenance"]["kind"]
                 == "voznativa.provenance",
