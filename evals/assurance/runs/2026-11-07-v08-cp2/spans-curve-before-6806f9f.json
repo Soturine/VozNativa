@@ -1,0 +1,49 @@
+{
+  "kind": "voznativa.perf_spans_curve",
+  "schema_version": 1,
+  "python": "3.12.6",
+  "platform": "Windows-10",
+  "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+  "rows": [
+    {
+      "words": 2500,
+      "chars": 18050,
+      "spans": 344,
+      "seconds": 0.17,
+      "peak_mib": 0.5,
+      "sha256": "c6ed582a7161f01198bd836eed93cf1bdf38445683d3cb8b1ef90d2075a7b88f"
+    },
+    {
+      "words": 5001,
+      "chars": 35832,
+      "spans": 728,
+      "seconds": 0.451,
+      "peak_mib": 0.8,
+      "sha256": "bf8c6bfb4a37ab44e91b919846be0cbd2fad613229650814ba583630220c80b5"
+    },
+    {
+      "words": 10000,
+      "chars": 70726,
+      "spans": 1518,
+      "seconds": 1.215,
+      "peak_mib": 1.7,
+      "sha256": "fe0715d29a17df1f51a1f8d645ef11121568fe0b1114e7b1610dcae0e6c07f51"
+    },
+    {
+      "words": 20000,
+      "chars": 137862,
+      "spans": 2453,
+      "seconds": 2.868,
+      "peak_mib": 3.6,
+      "sha256": "79311bc7b6d4641cca73ca44ad59c0fcb0ed08e91dbcdeb5097172905ec93285"
+    },
+    {
+      "words": 40000,
+      "chars": 277653,
+      "spans": 7121,
+      "seconds": 18.618,
+      "peak_mib": 7.8,
+      "sha256": "cc6448c0a52c463f939a3c1e753266bb5e3c44f61b8fb8eb4e02e818a87fcfcc"
+    }
+  ]
+}

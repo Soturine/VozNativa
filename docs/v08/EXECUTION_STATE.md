@@ -14,6 +14,8 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 | CP1 | Integridade: autorização do chamador, `resume` sem autoridade | concluído | (este commit) | GAP-01 e GAP-09 corrigidos. `evals/test_v08_integrity.py` (14 testes): em `2ced479` 7 falham ou dão erro por método, 4 controles passam, 1 passa sem provar. 7 mutantes à mão, todos mortos, depois de um controle sem mutação (`scripts/experiments/v08_cp1_mutants.py`, `evals/assurance/runs/2026-11-07-v08-cp1/MUTANTS.md`). Mudança de API anotada no CHANGELOG |
 
+| CP2 | Desempenho de spans e morfologia | concluído | (este commit) | `spans.extract` 40 mil palavras 18,6 s → 1,6 s, 80 mil 30,1 s → 3,0 s, saída idêntica; `build_plan` 40 mil 9,1 s → 0,73 s; ordem de `morph` estável. Aberto e medido: `compare` quadrático (GAP-12) e falso vermelho em documento longo (GAP-13), ambos para o CP7. [`PERFORMANCE.md`](PERFORMANCE.md) |
+
 ## Regras desta rodada
 
 - **Commits:** sem `Co-authored-by` nem trailer de IA; identidade local (`git config --local`): Rafael Souza, noreply Soturine. Sem force push, sem `reset --hard`. Tag e release só no CP18, nas condições do plano. Sem PyPI.
@@ -29,4 +31,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP2: perfil e curva de `spans.extract`, correção com saída idêntica (GAP-02).
+CP3: DX I — `doctor`, `demo`, mensagens de erro, paridade wheel × checkout (GAP-06).

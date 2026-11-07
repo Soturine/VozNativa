@@ -1,0 +1,42 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-v08-cp2",
+  "entries": [
+    {
+      "file": "spans-curve-after.json",
+      "command": "python -B scripts/experiments/v08_spans_perf.py curve --sizes 2500,...,200000",
+      "exit_code": 0,
+      "raw_sha256": "03631cf6d080afd8f3c547453b7436f95bb2f8debb3723a13787f3371388556d",
+      "published_sha256": "a80d671377c7409a4438c59748033093b6d82c9f5e0363604141f18f60619bbe",
+      "sanitized": true
+    },
+    {
+      "file": "spans-curve-before-6806f9f.json",
+      "command": "python -B scripts/experiments/v08_spans_perf.py curve --sizes 2500,5000,10000,20000,40000",
+      "exit_code": 0,
+      "raw_sha256": "87e06def9282ac75cd644e05a62934a459b66f0a64e955c5a3b3822d665ba7a8",
+      "published_sha256": "72244ea859c841b4c0b0e85ed91a4b4c0b51b233fdd160475ad6021de9e1938a",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-07T19:45:09+00:00",
+  "revision": "6806f9f9ed8ec93d2622d212d0a5b1cea817c62b",
+  "dirty_paths": [
+    "evals/test_v08_spans_perf.py",
+    "scripts/experiments/v08_spans_perf.py",
+    "voznativa/morph.py",
+    "voznativa/spans.py"
+  ],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "cpython": "3.12.6"
+  },
+  "notes": [
+    "spans.extract output byte-identical before/after on 3036 texts (4 curve sizes, 33 adversarial, 3000 random; 82487 spans, every field) and on the 40k and 80k digests (80k: 6bae2473..., old 30.1 s, new 3.0 s)",
+    "compare() reports equal old vs new on 257 pairs (every evals/**/*.jsonl pair + 2 long docs) under PYTHONHASHSEED 1 and 2; morph.analyse_word order was hash-seed dependent on old code, contents identical"
+  ]
+}
