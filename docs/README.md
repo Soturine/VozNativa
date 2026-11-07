@@ -33,7 +33,7 @@ Porta de entrada: [`../README.md`](../README.md). Procedimento do agente: [`../S
 | [V07_EXTERNAL_BENCHMARK.md](V07_EXTERNAL_BENCHMARK.md) | protocolo H0/H1/A0/A1 para detectores de IA |
 | [V07_VERIFICATION_MATRIX.md](V07_VERIFICATION_MATRIX.md) | requisito → teste → resultado |
 | [V07_DOGFOOD.md](V07_DOGFOOD.md) | Assertiva, Derivanta Engine/Framework: achados e upstream |
-| [V07_RELEASE_QUALIFICATION.md](V07_RELEASE_QUALIFICATION.md) | qualificação da v0.7.0.dev0 |
+| [V07_RELEASE_QUALIFICATION.md](V07_RELEASE_QUALIFICATION.md) | qualificação da v0.7.0.dev0 e da v0.7.0.dev1 |
 
 ## Estado e planos
 

@@ -199,7 +199,7 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [x] execução real do benchmark skill-only (B0–B3, B5) com manifesto e juízes; B4 (Emulate) bloqueado
 - [ ] calibração dos limiares do `compare` e do drift com reescritas reais
 
-## v0.7.0 — Generalização, documento inteiro e evidência (em desenvolvimento, `0.7.0.dev0`)
+## v0.7.0 — Generalização, documento inteiro e evidência (em desenvolvimento, `0.7.0.dev1`; estabilização em `docs/PLAN_v0.7.0.dev1.md`)
 
 Plano: `docs/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/V07_EXECUTION_STATE.md`. Matriz requisito -> teste: `docs/V07_VERIFICATION_MATRIX.md`.
 
