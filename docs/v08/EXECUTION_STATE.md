@@ -22,6 +22,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP7a | GAP-13: falso vermelho em documento longo | concluído | (este commit) | causa: desempate do alinhamento entre frases que diferem só por "não"; reproduzido em documento bem formado e em 9 parágrafos; corrigido por posição, sem tocar nos guards; 0/309 relatórios das suítes mudaram; v4 22/22, v5 36/36, predicados 17/20 |
 | CP7b | GAP-12: custo do `compare` e limite de tempo da validação global | concluído | (este commit) | 30 mil palavras 24,7 s → 8,5 s, 41 mil 12,4 s, saída idêntica (0/309); `timeout_s` cobre a validação global e devolve o original; resíduo `contains_word` documentado |
 | CP7 | Long-form e arquitetura | concluído | (este commit) | `test_v08_longform`: reescrita limpa com gêmeas não é mais revertida (em `c353058` revertia [1, 4]); documento misto com todos os blocos. [`ARCHITECTURE.md`](ARCHITECTURE.md) com os três modos e Agent-Led Runtime; lacuna V08-GAP-16 (autoavaliação do agente sem rótulo próprio) para o CP12 |
+| CP8 | Eixos de qualidade e curva do Router | concluído | (este commit) | `voznativa/axes.py` (proxies rotulados); auditoria do Router reproduzida igual à v0.7; curva de limiares: ponto atual no joelho, limiar não muda, falta de pistas em notícia/blog. [`EVAL_MATRIX.md`](EVAL_MATRIX.md). Corpora rematerializados no scratchpad (só datas de verificação mudaram no registro) |
 
 ## Regras desta rodada
 
@@ -38,4 +39,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP8: avaliadores por eixo (naturalidade como proxy rotulado, voz, gênero, região, mudança desnecessária) e curva cobertura × precisão do Router (GAP-05), estratificada, sem reduzir abstenção sem conjunto separado.
+CP9: apresentar ao mantenedor as opções de execução real (provider, Agent Skill com agente real, juiz) com estimativa de consumo e aguardar autorização; preparar cenários, instrumentos e limites; sem autorização, tudo que precisa de modelo fica NOT_RUN.
