@@ -14,6 +14,7 @@ Verdict policy (conservative by design):
 from __future__ import annotations
 
 import re
+from bisect import bisect_left
 from collections import Counter
 
 from . import ledger as ledger_mod
@@ -178,13 +179,68 @@ def _mutual_swaps(a_src: dict, a_out: dict) -> list[tuple[str, str]]:
     return swaps
 
 
+_WORD_RUN = re.compile(r"\w+")
+# Characters whose IGNORECASE matching is not plain lower(): the non-ASCII members of
+# CPython's re._casefix._EXTRA_CASES (ſ, ı, µ, Greek and Cyrillic variants, ligatures...)
+# and İ, whose lower() is two characters. With any of them in the name or the text the
+# word index could miss a match, so the full scan is used. ASCII i and s are in that
+# table only through ı/İ and ſ, which are listed here.
+_SPECIAL_CASE = re.compile(
+    "[µİıſͅΐΰβεθικμπρς"
+    "σφϐϑϕϖϰϱϵвдостъѣ"
+    "ᲀᲁᲂᲃᲄᲅᲆᲇᲈṡẛιΐΰꙋ"
+    "ﬅﬆ]")
+
+
+def _whole_word_matches(text: str, name: str) -> list[tuple[int, int]]:
+    """``(start, end)`` of every ``(?<!\\w)name(?!\\w)`` match, case-insensitive:
+    the same list as ``re.finditer`` over the whole text (v0.8, V08-GAP-12).
+    Candidates come from an index of the text's words (the name's first word
+    must be a whole word there) and each one is confirmed by the same pattern
+    at that position, so nothing is guessed; names or texts the index cannot
+    handle exactly fall back to the full scan."""
+    pattern = re.compile(r"(?<!\w)" + re.escape(name) + r"(?!\w)", re.IGNORECASE)
+    first = _WORD_RUN.match(name)
+    index = _word_index(text)
+    if first is None or first.start() != 0 or _SPECIAL_CASE.search(name) or index is None:
+        return [m.span() for m in pattern.finditer(text)]
+    out = []
+    for pos in index.get(first.group(0).lower(), ()):
+        m = pattern.match(text, pos)
+        if m:
+            out.append(m.span())
+    return out
+
+
+_INDEX_CACHE: dict[int, tuple[str, dict | None]] = {}
+
+
+def _word_index(text: str) -> dict[str, list[int]] | None:
+    """Start of every word run, by lowercased word (one entry per text, reused
+    while ``compare`` looks up many names in the same text). ``None`` when the
+    text has a character whose case-insensitive matching the index cannot
+    reproduce; callers then scan."""
+    cached = _INDEX_CACHE.get(id(text))
+    if cached is not None and cached[0] is text:
+        return cached[1]
+    index: dict[str, list[int]] | None = None
+    if not _SPECIAL_CASE.search(text):
+        index = {}
+        for m in _WORD_RUN.finditer(text):
+            index.setdefault(m.group(0).lower(), []).append(m.start())
+    if len(_INDEX_CACHE) > 8:
+        _INDEX_CACHE.clear()
+    _INDEX_CACHE[id(text)] = (text, index)
+    return index
+
+
 def _entity_anchors(led, entity_texts: dict[str, str]) -> dict[str, set]:
     """Anchors of each source entity wherever it occurs (by whole word), so a
     name moved to sentence start, where extraction skips it, is still found."""
     table: dict[str, set] = {}
     for key, text in entity_texts.items():
-        for m in re.finditer(r"(?<!\w)" + re.escape(text) + r"(?!\w)", led.text, re.IGNORECASE):
-            table.setdefault(key, set()).update(spans_mod._anchors(led.text, m.start(), m.end()))
+        for start, end in _whole_word_matches(led.text, text):
+            table.setdefault(key, set()).update(spans_mod._anchors(led.text, start, end))
     return table
 
 
@@ -235,8 +291,7 @@ def _role_triples(text: str, names: list[str]) -> set[tuple[str, str, str]]:
     Passive: "A XP foi adquirida pelo Itaú" -> (itaú, adqui, xp).
     Active: "O Itaú adquiriu a XP" -> (itaú, adqui, xp). Coordinated or
     longer stretches are skipped rather than guessed."""
-    hits = sorted((m.start(), m.end(), name.casefold()) for name in names
-                  for m in re.finditer(r"(?<!\w)" + re.escape(name) + r"(?!\w)", text, re.IGNORECASE))
+    hits = sorted((start, end, name.casefold()) for name in names for start, end in _whole_word_matches(text, name))
     triples = set()
     for (s1, e1, a), (s2, e2, b) in zip(hits, hits[1:]):
         between = text[e1:s2]
@@ -353,7 +408,112 @@ def _align(src, out) -> list[tuple[int, int | None, float]]:
     critical). A higher similarity always wins; only ties are decided
     differently. Preferring an identical surface text instead was tried and
     rejected: an unchanged copy elsewhere then took the alignment and hid a
-    negation removed from the other copy (test_v08_alignment)."""
+    negation removed from the other copy (test_v08_alignment).
+
+    Indexed (v0.8, V08-GAP-12): a similarity is above zero only when the
+    stem sets (or, for short sentences, the token sets) intersect, so only
+    those candidates are scored, in ascending order like the full scan; the
+    hard-value fallback looks values up instead of rescanning both texts.
+    ``_align_reference`` keeps the full scan; a test checks they agree."""
+    pairs = []
+    n_src, n_out = len(src.entries), len(out.entries)
+    scale = (n_out - 1) / (n_src - 1) if n_src > 1 else 0.0
+    stem_index: dict[str, list[int]] = {}
+    token_index: dict[str, list[int]] = {}
+    out_stems, out_tokens = [], []
+    for j, cand in enumerate(out.entries):
+        stems_j, tokens_j = set(cand.stems), set(cand.tokens)
+        out_stems.append(stems_j)
+        out_tokens.append(tokens_j)
+        for s in stems_j:
+            stem_index.setdefault(s, []).append(j)
+        for t in tokens_j:
+            token_index.setdefault(t, []).append(j)
+    out_hard = [{s.key for s in cand.spans if s.type in HARD_TYPES} for cand in out.entries]
+    src_hard = [{s.key for s in entry.spans if s.type in HARD_TYPES} for entry in src.entries]
+    hard_out_index: dict[str, set[int]] = {}
+    hard_src_index: dict[str, set[int]] = {}
+    for j, keys in enumerate(out_hard):
+        for k in keys:
+            hard_out_index.setdefault(k, set()).add(j)
+    for k_, keys in enumerate(src_hard):
+        for k in keys:
+            hard_src_index.setdefault(k, set()).add(k_)
+    # Exact-match buckets: Jaccard never exceeds 1.0, so when some candidate has the
+    # same stem set (or, for a short pair, the same token set) the best similarity is
+    # 1.0 and only those candidates can win; the nearest one does, as in the full scan.
+    same_stems: dict[frozenset, list[int]] = {}
+    same_tokens: dict[frozenset, list[int]] = {}          # every candidate
+    same_tokens_short: dict[frozenset, list[int]] = {}    # candidates with fewer than 2 stems
+    for j in range(n_out):                                # ascending: every bucket is sorted
+        if out_stems[j]:
+            same_stems.setdefault(frozenset(out_stems[j]), []).append(j)
+        if out_tokens[j]:
+            same_tokens.setdefault(frozenset(out_tokens[j]), []).append(j)
+            if len(out.entries[j].stems) < 2:
+                same_tokens_short.setdefault(frozenset(out_tokens[j]), []).append(j)
+
+    def nearest(bucket: list[int], expected: float) -> int | None:
+        """Lowest index among those nearest to ``expected`` in a sorted bucket."""
+        if not bucket:
+            return None
+        k = bisect_left(bucket, expected)
+        options = [bucket[x] for x in (k - 1, k) if 0 <= x < len(bucket)]
+        return min(options, key=lambda j: (abs(j - expected), j))
+
+    for i, entry in enumerate(src.entries):
+        a = set(entry.stems)
+        tokens_i = set(entry.tokens)
+        best, best_sim, best_key = None, 0.0, None
+        expected = i * scale
+        perfect = []
+        if a:
+            perfect.append(nearest(same_stems.get(frozenset(a), []), expected))
+        if tokens_i:
+            buckets = same_tokens if len(a) < 2 else same_tokens_short
+            perfect.append(nearest(buckets.get(frozenset(tokens_i), []), expected))
+        if not tokens_i and n_src == n_out and i < n_out and not out_tokens[i] \
+                and (len(a) < 2 or len(out.entries[i].stems) < 2):
+            perfect.append(i)
+        perfect = [j for j in perfect if j is not None]
+        if perfect:
+            j = min(perfect, key=lambda j: (abs(j - expected), j))     # ties: the lowest index
+            pairs.append((i, j, 1.0))
+            continue
+        candidates = {j for s in a for j in stem_index.get(s, ())}
+        short_source = len(a) < 2
+        for t in tokens_i:
+            for j in token_index.get(t, ()):
+                if short_source or len(out.entries[j].stems) < 2:
+                    candidates.add(j)
+        if not tokens_i and n_src == n_out and i < n_out and not out_tokens[i] \
+                and (short_source or len(out.entries[i].stems) < 2):
+            candidates.add(i)
+        for j in sorted(candidates):
+            cand = out.entries[j]
+            sim = _jaccard(a, out_stems[j])
+            if len(a) < 2 or len(cand.stems) < 2:
+                sim = max(sim, _jaccard(tokens_i, out_tokens[j]))
+                if not tokens_i and not out_tokens[j] and i == j and n_src == n_out:
+                    sim = 1.0
+            if sim <= 0.0:
+                continue
+            key = (sim, -abs(j - expected))
+            if best_key is None or key > best_key:
+                best, best_sim, best_key = j, sim, key
+        if best_sim < ALIGN_MIN_SIMILARITY:
+            mine = src_hard[i]
+            if mine:
+                sharing = sorted({j for k in mine for j in hard_out_index.get(k, ())})
+                owners = sorted({k_ for k in mine for k_ in hard_src_index.get(k, ())})
+                if len(sharing) == 1 and owners == [i]:      # unambiguous: one sentence on each side
+                    best, best_sim = sharing[0], ALIGN_MIN_SIMILARITY
+        pairs.append((i, best, round(best_sim, 3)))
+    return pairs
+
+
+def _align_reference(src, out) -> list[tuple[int, int | None, float]]:
+    """The full O(n*m) scan that ``_align`` must agree with (kept for tests)."""
     pairs = []
     n_out = len(out.entries)
     scale = (n_out - 1) / (len(src.entries) - 1) if len(src.entries) > 1 else 0.0

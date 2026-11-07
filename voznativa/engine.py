@@ -589,12 +589,31 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
             rec.update(candidate_sha256=unit["sha256"], _candidate=source)
         units.append(rec)
 
-    # Global validation with controlled correction.
+    # Global validation with controlled correction. The document's time limit also
+    # covers this stage (v0.8, V08-GAP-12): each revert runs compare on the whole
+    # document again, so a large failing document could run far past timeout_s.
+    # Out of time, the original is returned: never a partly validated document.
+    def out_of_time() -> bool:
+        return time.monotonic() - started >= limits.timeout_s
+
+    def timed_out(stage: str) -> dict:
+        public = [{k: v for k, v in u.items() if not k.startswith("_")} for u in units]
+        return dict(base, outcome="returned_original", text=text, output_sha256=sha256(text),
+                    reason=f"document time limit ({limits.timeout_s}s) reached during the global validation "
+                           f"({stage}); the original is returned",
+                    units=public, resume_state=units, reverted_units=[], global_report=None,
+                    plan={k: plan[k] for k in ("sha256", "words", "limits", "forced_cuts", "policy")},
+                    provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
+
     reverted = []
+    if replacements and out_of_time():
+        return timed_out("before the first check")
     candidate_doc = reassemble(text, plan, replacements, verse_explicit=verse_explicit)
     report = compare(text, candidate_doc) if replacements else None
     order = sorted(replacements, key=lambda i: -len(replacements[i]))
     while report is not None and report["status"] == "fail" and order:
+        if out_of_time():
+            return timed_out(f"after reverting {len(reverted)} unit(s)")
         drop = order.pop(0)
         reverted.append(drop)
         replacements.pop(drop)
