@@ -1,0 +1,28 @@
+{"id": "ed-01", "expect": "risk", "kind": "recipient_dropped", "original": "A coordenadora entregou o cronograma aos fornecedores na segunda.", "candidate": "A coordenadora entregou o cronograma na segunda."}
+{"id": "ed-02", "expect": "risk", "kind": "recipient_dropped", "original": "O banco devolveu o valor ao cliente em três dias.", "candidate": "O banco devolveu o valor em três dias."}
+{"id": "ed-03", "expect": "risk", "kind": "recipient_dropped", "original": "Vou mandar a planilha para a diretoria amanhã.", "candidate": "Vou mandar a planilha amanhã."}
+{"id": "ed-04", "expect": "risk", "kind": "recipient_dropped", "original": "A prefeitura repassou a verba às escolas do bairro.", "candidate": "A prefeitura repassou a verba."}
+{"id": "ed-05", "expect": "risk", "kind": "recipient_changed", "original": "O síndico comunicou a obra aos moradores.", "candidate": "O síndico comunicou a obra à administradora."}
+{"id": "ed-06", "expect": "risk", "kind": "agent_recipient_swap", "original": "A gerente enviou o orçamento ao cliente.", "candidate": "O cliente enviou o orçamento à gerente."}
+{"id": "ed-07", "expect": "risk", "kind": "agent_recipient_swap", "original": "Paula pagou o aluguel ao proprietário.", "candidate": "O proprietário pagou o aluguel a Paula."}
+{"id": "ed-08", "expect": "risk", "kind": "converse_verb", "original": "A empresa comprou o terreno em março.", "candidate": "A empresa vendeu o terreno em março."}
+{"id": "ed-09", "expect": "risk", "kind": "converse_verb", "original": "O comitê aprovou o projeto na quinta.", "candidate": "O comitê reprovou o projeto na quinta."}
+{"id": "ed-10", "expect": "risk", "kind": "converse_verb", "original": "O fornecedor aceitou as condições do contrato.", "candidate": "O fornecedor recusou as condições do contrato."}
+{"id": "ed-11", "expect": "risk", "kind": "converse_verb", "original": "A loja abriu às 9h no feriado.", "candidate": "A loja fechou às 9h no feriado."}
+{"id": "ed-12", "expect": "risk", "kind": "converse_verb", "original": "A diretora assinou o acordo ontem.", "candidate": "A diretora recebeu o acordo ontem."}
+{"id": "ed-13", "expect": "risk", "kind": "converse_verb", "original": "O time ganhou a final por 2 a 1.", "candidate": "O time perdeu a final por 2 a 1."}
+{"id": "ed-14", "expect": "risk", "kind": "converse_verb", "original": "A obra começou em janeiro.", "candidate": "A obra terminou em janeiro."}
+{"id": "ed-15", "expect": "risk", "kind": "converse_verb", "original": "A empresa contratou dois analistas.", "candidate": "A empresa demitiu dois analistas."}
+{"id": "ed-16", "expect": "clean", "kind": "synonym_verb", "original": "A empresa comprou o terreno em março.", "candidate": "A empresa adquiriu o terreno em março."}
+{"id": "ed-17", "expect": "clean", "kind": "synonym_verb", "original": "A obra começou em janeiro.", "candidate": "A obra iniciou em janeiro."}
+{"id": "ed-18", "expect": "clean", "kind": "synonym_verb", "original": "O time encerrou a reunião às 17h.", "candidate": "O time terminou a reunião às 17h."}
+{"id": "ed-19", "expect": "clean", "kind": "recipient_moved", "original": "A coordenadora entregou o cronograma aos fornecedores na segunda.", "candidate": "Na segunda, a coordenadora entregou aos fornecedores o cronograma."}
+{"id": "ed-20", "expect": "clean", "kind": "recipient_kept_passive", "original": "O banco devolveu o valor ao cliente.", "candidate": "O valor foi devolvido ao cliente pelo banco."}
+{"id": "ed-21", "expect": "clean", "kind": "purpose_not_recipient", "original": "A equipe trabalhou até tarde para entregar o relatório.", "candidate": "A equipe trabalhou até tarde e entregou o relatório."}
+{"id": "ed-22", "expect": "clean", "kind": "time_not_recipient", "original": "Enviei o arquivo às 14h.", "candidate": "O arquivo foi enviado às 14h."}
+{"id": "ed-23", "expect": "clean", "kind": "passive_equivalent", "original": "A gerente enviou o orçamento ao cliente.", "candidate": "O orçamento foi enviado ao cliente pela gerente."}
+{"id": "ed-24", "expect": "clean", "kind": "recipient_synonym_pronoun", "original": "Mandei o contrato para a Ana e ela assinou.", "candidate": "Mandei o contrato para a Ana, que assinou."}
+{"id": "ed-25", "expect": "clean", "kind": "formula_cut", "original": "É importante destacar que o banco devolveu o valor ao cliente.", "candidate": "O banco devolveu o valor ao cliente."}
+{"id": "ed-26", "expect": "clean", "kind": "direction_word_not_recipient", "original": "O caminhão voltou ao depósito à noite.", "candidate": "O caminhão retornou ao depósito à noite."}
+{"id": "ed-27", "expect": "clean", "kind": "converse_with_roles_swapped", "original": "A empresa comprou o terreno da prefeitura.", "candidate": "A prefeitura vendeu o terreno para a empresa."}
+{"id": "ed-28", "expect": "clean", "kind": "negated_antonym_equivalent", "original": "O comitê aprovou o projeto.", "candidate": "O comitê deu aprovação ao projeto."}

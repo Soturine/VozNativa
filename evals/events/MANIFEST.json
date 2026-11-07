@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "policy": "Event, role and recipient pairs for v0.8 CP6 (V08-GAP-04). Both files were written and hashed before any CP6 rule code existed. Same author as the engine: not independent.",
+ "suites": {
+  "cases-v08-dev.jsonl": {
+   "role": "dev",
+   "author": "VozNativa developer's agent (same session that writes the CP6 rule)",
+   "independent": false,
+   "frozen": true,
+   "sha256": "efbcadcf118d8166a6724f78bdd2e52486be1abb9f9f41ae0bb8f9566dd7e24a",
+   "frozen_before": "any CP6 code",
+   "use": "development: the rule may be tuned on it"
+  },
+  "holdout-v08.jsonl": {
+   "role": "prospective_holdout",
+   "author": "VozNativa developer's agent (same session)",
+   "independent": false,
+   "frozen": true,
+   "sha256": "68a09b8c466616a63dbce6ba50f0124b8ac906284753709fa3193df64259f625",
+   "frozen_before": "any CP6 code",
+   "use": "run once after the rule is final; never tuned on; not independent"
+  }
+ }
+}

@@ -1,0 +1,24 @@
+{"id": "eh-01", "expect": "risk", "kind": "recipient_dropped", "original": "O laboratório encaminhou os resultados à paciente na terça.", "candidate": "O laboratório encaminhou os resultados na terça."}
+{"id": "eh-02", "expect": "risk", "kind": "recipient_dropped", "original": "A escola informou a mudança de horário aos pais.", "candidate": "A escola informou a mudança de horário."}
+{"id": "eh-03", "expect": "risk", "kind": "recipient_dropped", "original": "Transferi R$ 500,00 para o meu irmão ontem.", "candidate": "Transferi R$ 500,00 ontem."}
+{"id": "eh-04", "expect": "risk", "kind": "recipient_changed", "original": "O auditor apresentou o parecer ao conselho fiscal.", "candidate": "O auditor apresentou o parecer à diretoria."}
+{"id": "eh-05", "expect": "risk", "kind": "agent_recipient_swap", "original": "O professor emprestou o livro ao aluno.", "candidate": "O aluno emprestou o livro ao professor."}
+{"id": "eh-06", "expect": "risk", "kind": "agent_recipient_swap", "original": "Carla devolveu a chave ao porteiro.", "candidate": "O porteiro devolveu a chave a Carla."}
+{"id": "eh-07", "expect": "risk", "kind": "converse_verb", "original": "A cooperativa exportou toda a safra de café.", "candidate": "A cooperativa importou toda a safra de café."}
+{"id": "eh-08", "expect": "risk", "kind": "converse_verb", "original": "O servidor ligou às 22h.", "candidate": "O servidor desligou às 22h."}
+{"id": "eh-09", "expect": "risk", "kind": "converse_verb", "original": "O preço do frete subiu em outubro.", "candidate": "O preço do frete caiu em outubro."}
+{"id": "eh-10", "expect": "risk", "kind": "converse_verb", "original": "O juiz deferiu o pedido da defesa.", "candidate": "O juiz indeferiu o pedido da defesa."}
+{"id": "eh-11", "expect": "risk", "kind": "converse_verb", "original": "A equipe incluiu o item no orçamento.", "candidate": "A equipe excluiu o item do orçamento."}
+{"id": "eh-12", "expect": "risk", "kind": "converse_verb", "original": "O banco emprestou o dinheiro à empresa.", "candidate": "O banco tomou o dinheiro da empresa."}
+{"id": "eh-13", "expect": "clean", "kind": "synonym_verb", "original": "A cooperativa exportou toda a safra de café.", "candidate": "A cooperativa vendeu para fora toda a safra de café."}
+{"id": "eh-14", "expect": "clean", "kind": "synonym_verb", "original": "O juiz deferiu o pedido da defesa.", "candidate": "O juiz acolheu o pedido da defesa."}
+{"id": "eh-15", "expect": "clean", "kind": "synonym_verb", "original": "O preço do frete subiu em outubro.", "candidate": "O preço do frete aumentou em outubro."}
+{"id": "eh-16", "expect": "clean", "kind": "recipient_moved", "original": "O laboratório encaminhou os resultados à paciente na terça.", "candidate": "Na terça, o laboratório encaminhou à paciente os resultados."}
+{"id": "eh-17", "expect": "clean", "kind": "recipient_kept_passive", "original": "A escola informou a mudança de horário aos pais.", "candidate": "Os pais foram informados pela escola da mudança de horário."}
+{"id": "eh-18", "expect": "clean", "kind": "purpose_not_recipient", "original": "Liguei para confirmar o horário da consulta.", "candidate": "Liguei e confirmei o horário da consulta."}
+{"id": "eh-19", "expect": "clean", "kind": "place_not_recipient", "original": "Fomos ao mercado depois da aula.", "candidate": "Depois da aula, fomos ao mercado."}
+{"id": "eh-20", "expect": "clean", "kind": "passive_equivalent", "original": "Carla devolveu a chave ao porteiro.", "candidate": "A chave foi devolvida ao porteiro por Carla."}
+{"id": "eh-21", "expect": "clean", "kind": "formula_cut", "original": "Vale ressaltar que o auditor apresentou o parecer ao conselho fiscal.", "candidate": "O auditor apresentou o parecer ao conselho fiscal."}
+{"id": "eh-22", "expect": "clean", "kind": "converse_with_roles_swapped", "original": "O banco emprestou o dinheiro à empresa.", "candidate": "A empresa tomou o dinheiro emprestado do banco."}
+{"id": "eh-23", "expect": "clean", "kind": "manner_not_recipient", "original": "Ele respondeu à mensagem rapidamente.", "candidate": "Ele respondeu rapidamente à mensagem."}
+{"id": "eh-24", "expect": "clean", "kind": "time_not_recipient", "original": "O técnico chega à 1h da tarde.", "candidate": "O técnico chega às 13h."}

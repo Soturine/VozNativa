@@ -1,0 +1,10 @@
+{
+  "kind": "voznativa.eval_dataset",
+  "schema_version": 1,
+  "id": "events-v08",
+  "description": "Event, role and recipient pairs (V08-GAP-04), frozen before any CP6 code. The development set may be tuned on; the prospective holdout is run once when the rule is final. Same author as the engine: neither is independent.",
+  "sources": [
+    {"path": "evals/events/cases-v08-dev.jsonl", "adapter": "risk_sample", "split": "development"},
+    {"path": "evals/events/holdout-v08.jsonl", "adapter": "risk_sample", "split": "prospective_holdout"}
+  ]
+}

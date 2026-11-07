@@ -26,6 +26,7 @@ from voznativa.evaluation import leakage  # noqa: E402
 GROUPS = {
     "evals/semantic/*.jsonl": "semantic",
     "evals/predicates/*.jsonl": "predicates",
+    "evals/events/*.jsonl": "events",
     "evals/decision/*.jsonl": "decision",
     "evals/router/*.jsonl": "router",
     "evals/slang/*.jsonl": "slang",
