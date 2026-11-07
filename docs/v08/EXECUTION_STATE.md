@@ -16,6 +16,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 | CP2 | Desempenho de spans e morfologia | concluído | (este commit) | `spans.extract` 40 mil palavras 18,6 s → 1,6 s, 80 mil 30,1 s → 3,0 s, saída idêntica; `build_plan` 40 mil 9,1 s → 0,73 s; ordem de `morph` estável. Aberto e medido: `compare` quadrático (GAP-12) e falso vermelho em documento longo (GAP-13), ambos para o CP7. [`PERFORMANCE.md`](PERFORMANCE.md) |
 | CP3 | DX I: doctor, demo, erros, suíte contra o wheel | concluído | (este commit) | `voznativa doctor` e `voznativa demo` (29 subcomandos); erros de arquivo/encoding/pasta em PT-BR com exit 64; gate de pacote roda a suíte inteira contra o wheel (748, 746 PASS, 2 skips com motivo; origem do import conferida). `evals/test_v08_dx.py` 13 testes |
+| CP4 | Evaluation Core | concluído | (este commit) | `voznativa evaluate` sobre 9 suítes existentes, lidas no lugar: development 109 casos (sensibilidade 61/61, falso alarme 0/17), frozen_regression 176 (85/89, 1/33; decisão exata 28/30); nada independente. `evals/test_v08_evaluation.py` 18 testes. Registro em `evals/v08/runs/`. [`EVAL_PROTOCOL.md`](EVAL_PROTOCOL.md) |
 
 ## Regras desta rodada
 
@@ -32,4 +33,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP4: Evaluation Core — schema de caso e run, eixos, evidência, relatório (reusar `evals.py`/`benchmark.py`).
+CP5: splits, contenção entre conjuntos (GAP-08), congelados byte-idênticos, braços B0–B6 numa API comum.

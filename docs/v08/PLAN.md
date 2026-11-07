@@ -53,6 +53,19 @@ Pré-condições, todas conferidas e registradas antes de qualquer escrita remot
 
 Passos: tag anotada `v0.8.0.dev0` no commit qualificado; sdist e wheel construídos a partir de `git archive` dessa revisão; smoke de instalação fora do checkout; `SHA256SUMS`; release com `--prerelease --latest=false` e notas em inglês; conferência pela API (tag → commit, `prerelease: true`, ativos e checksums baixados e recalculados); registro em `CHANGELOG.md` e no estado, num commit só de evidência. Se houver bloqueio de segurança, empacotamento ou qualificação: registrar e não publicar.
 
+### Adendo "Agent-Led Runtime" (2026-11-07)
+
+O VozNativa tem três modos: **determinístico/offline** (sem modelo), **assistido por modelo** (provider autorizado sob os contratos e guards) e **conduzido por agente** (o agente hospedeiro interpreta, investiga, planeja, executa ferramentas, critica e decide, com evidência e abstenção). O adendo não cria CP novo nem um segundo orquestrador; entra nos existentes:
+
+| Requisito | CP |
+|---|---|
+| Seção "Agent-Led Runtime & Skill Validation" na arquitetura e na matriz de requisitos; fronteiras entre resultado determinístico, inferência de modelo, julgamento do agente e decisão humana como tipos distintos | CP7 (arquitetura), CP12 |
+| Auditoria do fluxo real: `SKILL.md`, `rewrite-prompt`, `compare`, `judge-prompt`, `rewrite`, `diagnose`, `ground`, contratos de provider; a Skill como interface de primeira classe; propostas do agente além dos detectores, aplicadas só com evidência e validação | CP12 |
+| Matriz E2E por modo (CLI offline; Rewrite Engine com provider real; Skill operada por agente real; juiz, revisão e correção de candidata rejeitada; documento longo e ambiguidade; `NO_CHANGE` legítimo; falha de provider, credencial ausente, orçamento, abstenção), com modelo, versão, host, comandos, revisão e resultados registrados | CP9 |
+| Comparação entre modos nos mesmos casos (preservação, naturalidade, falso positivo, latência, custo, qualidade da decisão) | CP9 |
+
+Execução com provider real ou agente real consome créditos da conta do mantenedor e envia os textos de teste ao provedor: **precisa de autorização explícita** antes do CP9. Sem ela, a capacidade fica documentada e testada com stubs rotulados, e a validação real fica `NOT_RUN`. Revisões feitas por este agente são **agent assessment**, nunca avaliação humana ou independente; uma chamada de LLM com ferramentas desligadas não é orquestração agent-led completa.
+
 ## Decisões de escopo tomadas no CP0
 
 - **GAP-09 entra no CP1** junto com o GAP-01: mesma classe (dado serializado concedendo autoridade), achado durante a reprodução.
