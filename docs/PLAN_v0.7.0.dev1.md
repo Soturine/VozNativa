@@ -48,6 +48,10 @@ Rodada corretiva sobre a v0.7.0.dev0. Não é a v0.8 e não reabre a v0.7: fecha
 | H07-014 | Mudança de código depois da CI invalida o PASS; commit só de evidência mantém a equivalência. | Testes existentes de `ci_evidence` e um novo para um arquivo de código em `docs/`. | `evals/test_ci_evidence.py` | CP6 |
 | H07-015 | Futuro perifrástico e sintético da mesma referência temporal não são "mudança de tempo". | `FutureForms` | `FutureForms` | CP3 |
 | H07-016 | O registro de descobertas sem caracteres de controle nem linhas partidas. | Varredura no validator. | `scripts/validate_package.py` ou teste | CP0 |
+| H07-017 | Um plano de documento serializado não concede permissão: editar `action`, `kinds`, `blocks` ou offsets (mesmo com hash recalculado) não desprotege código, tabela, separador ou citação. | `validate_plan` aponta o problema e `reassemble` recusa; planos válidos (JSON, CRLF, verso autorizado) seguem iguais. | `PlanIsDataNotAuthority` | CP5B |
+| H07-018 | Depois de uma CI verde, só registros não executáveis mantêm a equivalência de código. | Harness `.py`, `conftest.py`, `pyproject.toml` ou código movido para `evals/assurance/runs/` invalidam o PASS. | `EvidencePathsAreRecordsOnly` (com git real) | CP5B |
+| H07-019 | A CI que qualifica é manual e completa por identidade. | Evento ≠ `workflow_dispatch`, job ausente, duplicado ou trocado → INCONCLUSIVE. | `ManualRunAndExactMatrix` | CP5B |
+| H07-020 | Documento vazio ou só com espaços não quebra a reescrita longa. | Volta intacto com `no_change`. | `test_whitespace_only_document_is_returned_unchanged` | CP5B |
 
 ## Hipóteses e decisões de escopo
 
@@ -73,6 +77,7 @@ Rodada corretiva sobre a v0.7.0.dev0. Não é a v0.8 e não reabre a v0.7: fecha
 | CP3 | Âncoras de predicado e equivalência de futuro | idem, mais suítes semânticas congeladas sem regressão |
 | CP4 | README, SKILL, exemplos e alegações | idem, mais `test_readme` |
 | CP5 | Mutação: `temporal.py` completo, amostra dirigida em `compare` (regra nova e `_moved_signal_issues`) e `document.py`; dogfood Engine/Assertiva | idem |
+| CP5B | Auditoria de fechamento: integridade do plano (H07-017), allowlist de evidência (H07-018), evento e matriz da CI (H07-019), rodada C completa (271), oráculos de `document.py`, dogfood agent-led | idem, mais v4 22/22 e v5 36/36 |
 | CP6 | `0.7.0.dev1`, qualificação Windows 3.11/3.12 e WSL 3.11–3.13 | `qualify --scope release` (INCOMPLETE só por gates externos) |
 | CP7 | Fast-forward da `main`, dispatch único, registro | run verificado ao vivo |
 
@@ -93,6 +98,7 @@ Rodada corretiva sobre a v0.7.0.dev0. Não é a v0.8 e não reabre a v0.7: fecha
 - Mutação completa de `router`, `morph`, `diagnose`.
 - **B-M1:** oráculos para `count == 1` dentro da época e para o ramo de valor ausente em `_attestation_problems`.
 - **B-M2:** mutação completa de `compare.py` (a rodada C foi parcial). Oráculos para `_moved_signal_issues` (dois rótulos, ganho em frase não alinhada) e para o filtro de alinhamento de `_tense_issues`.
-- **B-M3:** oráculos de fronteira em `document.py`: corte de segmentos (`segment_words`, recuo para corte seguro), aparas do núcleo, limite de 80 valores, recusa de plano adulterado campo a campo, padrões de `Limits`.
+- **B-M3:** oráculos de fronteira em `document.py`. **Feito no CP5B:** corte de segmentos, recuo, corte forçado, aparas do núcleo, recusa campo a campo, `structure_of` (`evals/test_document_plan_oracles.py`; replay da amostra D: 25 de 52 sobreviventes mortos só por esse arquivo). **Falta:** padrões de `Limits` (linhas 44/46/49), `frozen` (42), limite de 80 valores (134), `carry` com token que é nome e sigla (126). Baixo risco: padrões e dicas ao modelo, não guardas.
+- **B-M4:** `spans.extract` quadrático (VN07-DISC-056): ~90 s em 193 mil palavras. Índice de intervalos, com teste de equivalência da saída antes de otimizar.
 - **Refatorar `compare._predicate_issues`** (21 caminhos) depois da mutação completa, para não invalidar a evidência atual.
 

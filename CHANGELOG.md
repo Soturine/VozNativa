@@ -9,8 +9,12 @@ Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Pla
 - `tense_changed` read periphrastic and synthetic future ("vai depositar" / "depositará") as different tenses.
 - Slang lexicon validation: attestation `count`/`words` must be integers >= 0, years integers with `from <= to`, `last_verified_at` an ISO date, `schema_version` an int. A string count used to crash with `TypeError`.
 - README: the first-use example lost the action and was presented as the good candidate; the claim that the gates "prove" preservation is gone. The quickstart now shows a kept action, a removed negation and a lost action.
+- Document plans (`document.validate_plan` / `reassemble`): a serialised plan whose unit `action` was flipped from `protect` to `rewrite` (or whose `kinds`, `blocks` or core offsets were edited, even with recomputed hashes) let `reassemble` replace a code block, table, separator or quotation. Protection is now derived again from the text and the policy; unit indices, block coverage, kinds and core offsets must match; replacements for unknown units or non-text replacements are refused. `rewrite_document` builds its own plan, so this affected the public plan API, not the CLI flow.
+- A whitespace-only document crashed `build_plan`/`rewrite_document` with `AssertionError`; it is now returned unchanged (`no_change`).
 
 ### Assurance
+- CI evidence (`scripts/ci_evidence.py`): after a green run, only non-executable records (`.json`, `.jsonl`, `.md`, `.txt`) under `evals/assurance/runs/` keep code equivalence; a harness `.py`, `conftest.py` or `pyproject.toml` there now invalidates it. The diff runs with `--no-renames`, so code moved into an evidence folder still shows the path it left. A qualifying run must be `workflow_dispatch` and carry exactly the jobs the workflow declares, matched by name (a duplicate can no longer hide a missing combination).
+- Boundary oracles for `document.py` (segment cut, back-off, forced cut, core trimming, field-by-field refusal); replay of the 52 sampled survivors of CP5 round D.
 - Mutation triage of `temporal.py`: 5 of the 12 `==` -> `is` survivors called CPython-equivalent were test gaps (YAML, regex and CLI values are equal but not identical); now killed. Errata in the v0.7 `MUTATION.md`.
 - Validator refuses a Markdown table row split across lines (two register rows were corrupted by a heredoc).
 

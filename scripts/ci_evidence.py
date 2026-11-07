@@ -43,6 +43,13 @@ WORKFLOW = ".github/workflows/ci.yml"
 # Paths a commit may change after a CI run without changing what the run tested.
 EVIDENCE_PATHS = ("evals/qualification/external.json", "evals/assurance/runs/", "docs/V07_EXECUTION_STATE.md",
                   "docs/V07_RELEASE_QUALIFICATION.md")
+# Under a directory prefix only non-executable records count as evidence
+# (v0.7.0.dev1, H07-NEW-02): a harness such as replay_survivors.py, a
+# conftest.py or a pyproject.toml placed in a run folder is code, so changing it
+# after the run must invalidate the run, not ride on it.
+EVIDENCE_SUFFIXES = (".json", ".jsonl", ".md", ".txt")
+# Events a qualifying run may come from (maintainer policy: manual dispatch only).
+ALLOWED_EVENTS = ("workflow_dispatch",)
 NOT_PASS_CONCLUSIONS = {"cancelled": "INCONCLUSIVE", "neutral": "INCONCLUSIVE", "skipped": "INCONCLUSIVE",
                         "stale": "INCONCLUSIVE", "action_required": "INCONCLUSIVE", "failure": "FAIL",
                         "timed_out": "FAIL", "startup_failure": "FAIL"}
@@ -85,7 +92,11 @@ def gh_fetch(slug: str) -> Fetch:
 
 
 def is_evidence_path(path: str) -> bool:
-    return any(path == p or (p.endswith("/") and path.startswith(p)) for p in EVIDENCE_PATHS)
+    if path in EVIDENCE_PATHS:
+        return True
+    name = path.rsplit("/", 1)[-1]
+    return (any(p.endswith("/") and path.startswith(p) for p in EVIDENCE_PATHS)
+            and name.lower().endswith(EVIDENCE_SUFFIXES) and ".." not in path.split("/"))
 
 
 def code_equivalence(run_sha: str, head: str, git: Git = real_git) -> dict:
@@ -98,7 +109,9 @@ def code_equivalence(run_sha: str, head: str, git: Git = real_git) -> dict:
     if code != 0:
         return {"equivalent": False, "relation": "not_ancestor",
                 "reason": f"{run_sha[:12]} is not an ancestor of {head[:12]} (divergent branch or unknown commit)"}
-    code, names = git(["diff", "--name-only", run_sha, head])
+    # --no-renames: a move lists both the old and the new path, so moving code
+    # into an evidence folder still shows the code path that disappeared.
+    code, names = git(["diff", "--name-only", run_sha, head, "--no-renames"])
     if code != 0:
         return {"equivalent": False, "relation": "diff_failed", "reason": "git diff failed"}
     changed = [p for p in names.splitlines() if p.strip()]
@@ -109,22 +122,53 @@ def code_equivalence(run_sha: str, head: str, git: Git = real_git) -> dict:
     return {"equivalent": True, "relation": "evidence_only", "changed_evidence_paths": changed}
 
 
-def expected_jobs(workflow_text: str) -> int:
-    """Jobs the workflow declares: the product of each job's matrix axes
-    (``include``/``exclude`` are not used by this repository and are refused)."""
+def expected_job_names(workflow_text: str) -> list[str]:
+    """Names GitHub gives the jobs the workflow declares: ``<job id>`` or
+    ``<job id> (<value>, <value>)`` with the matrix values in axis order (the
+    format of run #124). A job with its own ``name:`` or an ``include``/
+    ``exclude`` matrix is refused: this check would have to guess its names."""
     doc = yaml.safe_load(workflow_text) or {}
-    total = 0
-    for name, job in (doc.get("jobs") or {}).items():
-        matrix = ((job or {}).get("strategy") or {}).get("matrix") or {}
+    names = []
+    for job_id, job in (doc.get("jobs") or {}).items():
+        job = job or {}
+        if "name" in job:
+            raise ValueError(f"job {job_id}: a custom job name is not supported by this check")
+        matrix = (job.get("strategy") or {}).get("matrix") or {}
         if any(k in matrix for k in ("include", "exclude")):
-            raise ValueError(f"job {name}: include/exclude matrices are not supported by this check")
+            raise ValueError(f"job {job_id}: include/exclude matrices are not supported by this check")
         axes = [v for v in matrix.values() if isinstance(v, list)]
-        total += len(list(itertools.product(*axes))) if axes else 1
-    return total
+        if not axes:
+            names.append(str(job_id))
+            continue
+        names.extend(f"{job_id} ({', '.join(str(v) for v in combo)})" for combo in itertools.product(*axes))
+    return names
 
 
-def judge_run(run: dict, jobs: list[dict], expected: int, run_sha: str, workflow: str = WORKFLOW) -> dict:
-    """Classify one live run. Pure."""
+def expected_jobs(workflow_text: str) -> int:
+    """How many jobs the workflow declares (the product of each job's matrix axes)."""
+    return len(expected_job_names(workflow_text))
+
+
+def workflow_events(workflow_text: str) -> list[str]:
+    """Trigger names of the workflow. PyYAML reads the bare key ``on`` as True."""
+    doc = yaml.safe_load(workflow_text) or {}
+    on = doc.get("on", doc.get(True))
+    if isinstance(on, str):
+        return [on]
+    if isinstance(on, list):
+        return [str(x) for x in on]
+    return sorted(str(k) for k in (on or {}))
+
+
+def judge_run(run: dict, jobs: list[dict], expected: int, run_sha: str, workflow: str = WORKFLOW,
+              expected_names: list[str] | None = None, declared_events: list[str] | None = None) -> dict:
+    """Classify one live run. Pure.
+
+    ``expected_names``: job names the workflow at ``run_sha`` declares; when
+    given, the run must have exactly these jobs (no missing, extra or
+    duplicated name hiding a missing combination). ``declared_events``: the
+    workflow's triggers at ``run_sha``; the run's event must be one of them
+    and allowed by policy (``ALLOWED_EVENTS``)."""
     base = {"run_id": run.get("id"), "run_number": run.get("run_number"), "url": run.get("html_url"),
             "event": run.get("event"), "head_sha": run.get("head_sha"), "conclusion": run.get("conclusion"),
             "jobs": f"{sum(j.get('conclusion') == 'success' for j in jobs)}/{expected}"}
@@ -133,6 +177,11 @@ def judge_run(run: dict, jobs: list[dict], expected: int, run_sha: str, workflow
                                                 f"recorded {run_sha[:12]}: the record misattributes it")
     if run.get("path") and run.get("path") != workflow:
         return dict(base, status="INCONCLUSIVE", reason=f"run of {run.get('path')}, not {workflow}")
+    event = run.get("event")
+    if event not in ALLOWED_EVENTS or (declared_events is not None and event not in declared_events):
+        return dict(base, status="INCONCLUSIVE",
+                    reason=f"run event {event!r}; a qualifying run must be one of {list(ALLOWED_EVENTS)} "
+                           f"declared by the workflow ({declared_events})")
     if run.get("status") != "completed":
         return dict(base, status="INCONCLUSIVE", reason=f"run status is {run.get('status')}")
     conclusion = run.get("conclusion")
@@ -144,6 +193,14 @@ def judge_run(run: dict, jobs: list[dict], expected: int, run_sha: str, workflow
         return dict(base, status="FAIL", reason=f"jobs not successful: {bad}")
     if len(jobs) < expected:
         return dict(base, status="INCONCLUSIVE", reason=f"{len(jobs)} job(s) ran; the workflow declares {expected}")
+    if expected_names is not None:
+        ran = sorted(str(j.get("name")) for j in jobs)
+        if ran != sorted(expected_names):
+            missing = sorted(set(expected_names) - set(ran))
+            extra = sorted({n for n in ran if ran.count(n) > expected_names.count(n)})
+            return dict(base, status="INCONCLUSIVE",
+                        reason=f"job matrix differs from the workflow: missing {missing}, unexpected or "
+                               f"duplicated {extra}")
     return dict(base, status="PASS")
 
 
@@ -167,14 +224,18 @@ def verify(head: str, candidate_shas: list[str], git: Git, fetch: Fetch | None) 
         code, wf_text = git(["show", f"{sha}:{WORKFLOW}"])
         if code != 0:
             return {"status": "INCONCLUSIVE", "reason": f"{WORKFLOW} not readable at {sha[:12]}"}
-        expected = expected_jobs(wf_text)
+        try:
+            names = expected_job_names(wf_text)
+        except ValueError as error:
+            return {"status": "INCONCLUSIVE", "reason": f"job matrix of {WORKFLOW} at {sha[:12]}: {error}"}
+        events = workflow_events(wf_text)
         runs = [r for r in listing.get("workflow_runs") or [] if r.get("path", WORKFLOW) == WORKFLOW]
         for run in sorted(runs, key=lambda r: r.get("run_number") or 0, reverse=True):
             try:
                 jobs = fetch(f"actions/runs/{run['id']}/jobs?per_page=100").get("jobs") or []
             except Unavailable as error:
                 return {"status": "INCONCLUSIVE", "reason": f"live jobs query failed: {error}"}
-            verdict = judge_run(run, jobs, expected, sha)
+            verdict = judge_run(run, jobs, len(names), sha, expected_names=names, declared_events=events)
             if verdict["status"] == "PASS":
                 return dict(verdict, equivalence=eq, verified="live")
             failures.append(verdict)

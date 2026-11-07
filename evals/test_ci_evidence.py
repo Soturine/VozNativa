@@ -65,8 +65,14 @@ def fake_git(argv):
     return 1, ""
 
 
-def jobs(n=8, conclusion="success"):
-    return [{"name": f"job{i}", "conclusion": conclusion} for i in range(n)]
+JOB_NAMES = ["test (ubuntu-latest, 3.11)", "test (ubuntu-latest, 3.12)", "test (ubuntu-latest, 3.13)",
+             "test (windows-latest, 3.11)", "test (windows-latest, 3.12)", "test (windows-latest, 3.13)",
+             "package (ubuntu-latest)", "package (windows-latest)"]
+
+
+def jobs(n=8, conclusion="success", names=None):
+    """The first ``n`` jobs of WORKFLOW, named as GitHub names them (run #124)."""
+    return [{"name": name, "conclusion": conclusion} for name in (names or JOB_NAMES)[:n]]
 
 
 def fake_fetch(runs, job_list=None, down=False):
