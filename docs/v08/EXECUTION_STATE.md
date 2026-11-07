@@ -18,6 +18,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP3 | DX I: doctor, demo, erros, suíte contra o wheel | concluído | (este commit) | `voznativa doctor` e `voznativa demo` (29 subcomandos); erros de arquivo/encoding/pasta em PT-BR com exit 64; gate de pacote roda a suíte inteira contra o wheel (748, 746 PASS, 2 skips com motivo; origem do import conferida). `evals/test_v08_dx.py` 13 testes |
 | CP4 | Evaluation Core | concluído | (este commit) | `voznativa evaluate` sobre 9 suítes existentes, lidas no lugar: development 109 casos (sensibilidade 61/61, falso alarme 0/17), frozen_regression 176 (85/89, 1/33; decisão exata 28/30); nada independente. `evals/test_v08_evaluation.py` 18 testes. Registro em `evals/v08/runs/`. [`EVAL_PROTOCOL.md`](EVAL_PROTOCOL.md) |
 | CP5 | Integridade × autenticidade, independência, vazamento, braços | concluído | (este commit) | `--replay` na revisão; `independence_evidence` exigida; links fora da raiz recusados; vazamento: `ho-022` = `rel-agent-001`, 1 caso do v5 repete texto de desenvolvimento; v1–v5 byte-idênticos; braços B0–B6 numa interface (B0/B2 offline, demais NOT_RUN sem provider). Testes: `test_v08_eval_integrity` (14), `test_v08_arms` (8). [`INDEPENDENCE_AND_LEAKAGE.md`](INDEPENDENCE_AND_LEAKAGE.md). **Erratum:** o commit `dee69e2` diz "replay REPRODUCED", mas o run gravado nele (`gate-and-planner-3b91fb6`) veio de árvore suja (a auditoria de vazamento foi gravada antes) e o replay deu `NOT_REPLAYABLE`. O run válido é `gate-and-planner-dee69e2` (árvore limpa), com `replay-dee69e2.json` = REPRODUCED |
+| CP6 | Eventos, papéis e destinatário (GAP-04) | concluído | (este commit) | conjuntos `evals/events/` congelados antes do código (`53d48fc`), linha de base registrada (`ea84db3`); depois: desenvolvimento 14/15 riscos e 2/13 falsos alarmes, holdout (uma execução) 11/12 e 3/12; predicados 17/20 e 1/18; semânticas, decisão, roteador, v4 22/22, v5 36/36 sem mudança; 10 mutantes mortos. [`SEMANTICS.md`](SEMANTICS.md) |
 
 ## Regras desta rodada
 
@@ -34,4 +35,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP6: EventFrame mínimo, destinatário e troca de evento (GAP-04), sem novo bloqueio crítico por sinônimo.
+CP7: GAP-12 (custo do `compare` em documento longo) e GAP-13 (falso vermelho), reproduzidos antes num documento bem formado; depois discurso e long-form, e a seção Agent-Led Runtime na arquitetura.
