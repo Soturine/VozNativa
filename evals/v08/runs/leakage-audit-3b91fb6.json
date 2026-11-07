@@ -1,0 +1,151 @@
+{
+ "kind": "voznativa.leakage_audit",
+ "schema_version": 1,
+ "texts": 471,
+ "files": 27,
+ "links": 12,
+ "same_pair": 4,
+ "by_file_pair": [
+  {
+   "files": [
+    "cases",
+    "relations"
+   ],
+   "links": 8
+  },
+  {
+   "files": [
+    "cases-v07",
+    "ptbr-bench-v5"
+   ],
+   "links": 1
+  },
+  {
+   "files": [
+    "holdout",
+    "relations"
+   ],
+   "links": 2
+  },
+  {
+   "files": [
+    "ptbr-bench-v5",
+    "quickstart"
+   ],
+   "links": 1
+  }
+ ],
+ "pairs": [
+  {
+   "a": "cases:cau-002",
+   "b": "relations:rel-cause-002",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "cases:cau-002",
+   "b": "relations:rel-cause-003",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "cases:cau-003",
+   "b": "relations:rel-cause-002",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "cases:cau-003",
+   "b": "relations:rel-cause-003",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": true
+  },
+  {
+   "a": "cases:cau-004",
+   "b": "relations:rel-cause-001",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": true
+  },
+  {
+   "a": "cases:cau-004",
+   "b": "relations:rel-cause-004",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "cases:fact-015",
+   "b": "relations:rel-ant-001",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": true
+  },
+  {
+   "a": "cases:fact-015",
+   "b": "relations:rel-ant-005",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "holdout:ho-022",
+   "b": "relations:rel-agent-001",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": true
+  },
+  {
+   "a": "holdout:ho-022",
+   "b": "relations:rel-agent-003",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "cases-v07:sl7-16",
+   "b": "ptbr-bench-v5:bv5-sl-4",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  },
+  {
+   "a": "ptbr-bench-v5:bv5-nc-email",
+   "b": "quickstart:email",
+   "kind": "exact",
+   "score": 1.0,
+   "same_pair": false
+  }
+ ],
+ "frozen_benchmarks": [
+  {
+   "manifest": "ptbr-bench-v1.json",
+   "cases": "benchmarks/cases/ptbr-bench-v1.jsonl",
+   "status": "IDENTICAL"
+  },
+  {
+   "manifest": "ptbr-bench-v2.json",
+   "cases": "benchmarks/cases/ptbr-bench-v2.jsonl",
+   "status": "IDENTICAL"
+  },
+  {
+   "manifest": "ptbr-bench-v3.json",
+   "cases": "benchmarks/cases/ptbr-bench-v3.jsonl",
+   "status": "IDENTICAL"
+  },
+  {
+   "manifest": "ptbr-bench-v4.json",
+   "cases": "benchmarks/cases/ptbr-bench-v4.jsonl",
+   "status": "IDENTICAL"
+  },
+  {
+   "manifest": "ptbr-bench-v5.json",
+   "cases": "benchmarks/cases/ptbr-bench-v5.jsonl",
+   "status": "IDENTICAL"
+  }
+ ]
+}
