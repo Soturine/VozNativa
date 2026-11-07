@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.1",
+  "kind": "derivanta-engine/traceability-input",
+  "requirements": [
+    {
+      "id": "H07-017",
+      "statement": "A serialised document plan grants no permission: editing action, kinds, blocks or core offsets does not unprotect code, tables, separators or quotations",
+      "source": "docs/PLAN_v0.7.0.dev1.md#Requisitos (H07-017)",
+      "verified_by": [
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_does_not_unprotect",
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_and_kinds_does_not_unprotect",
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_merging_a_protected_unit_into_a_rewritable_one_with_fresh_hashes",
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_shifting_core_offsets_with_a_recomputed_hash",
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip",
+        "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_protected_unit_of_a_json_plan_cannot_be_replaced"
+      ]
+    },
+    {
+      "id": "H07-018",
+      "statement": "After a green CI run only non-executable records keep code equivalence",
+      "source": "docs/PLAN_v0.7.0.dev1.md#Requisitos (H07-018)",
+      "verified_by": [
+        "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_executable_or_config_files_in_run_folders_are_code",
+        "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_real_git_move_add_remove_into_the_evidence_folder",
+        "evals/test_ci_evidence.py::LiveCiEvidence::test_evidence_only_commit_after_the_run_is_still_pass"
+      ]
+    },
+    {
+      "id": "H07-019",
+      "statement": "A qualifying CI run is workflow_dispatch and carries exactly the declared jobs by name",
+      "source": "docs/PLAN_v0.7.0.dev1.md#Requisitos (H07-019)",
+      "verified_by": [
+        "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_a_push_run_is_not_qualifying_even_if_declared",
+        "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_eight_successful_jobs_with_a_duplicate_are_not_the_matrix",
+        "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_the_real_run124_job_list_passes"
+      ]
+    },
+    {
+      "id": "H07-020",
+      "statement": "An empty or whitespace-only document is returned unchanged by the long-form rewrite",
+      "source": "docs/PLAN_v0.7.0.dev1.md#Requisitos (H07-020)",
+      "verified_by": [
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_whitespace_only_document_is_returned_unchanged"
+      ]
+    }
+  ]
+}

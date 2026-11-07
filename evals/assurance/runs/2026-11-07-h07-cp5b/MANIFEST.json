@@ -1,0 +1,105 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-h07-cp5b",
+  "entries": [
+    {
+      "file": "assertiva-assessed-ecf3dd2.json",
+      "command": "ASSERTIVA_HOME=<home> assertiva audit <clean clone ecf3dd2> --assessment assertiva-assessment-ecf3dd2.json --output json",
+      "exit_code": 0,
+      "raw_sha256": "f76d72e01998c143ee058e8f40f5c34568d1cf50bcf40a0ee44c82d907dde0f9",
+      "published_sha256": "aaf12bbb9c214cc20a7142513deb263c28868dc5a94e573c826712cee7a873c7",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-assessment-ecf3dd2.json",
+      "command": "agent-written assessment (schema of assertiva audit --assessment) for run 6f5ee4fc6a1743b1",
+      "exit_code": 0,
+      "raw_sha256": "2ad8a98df06444ebeacecd8d7c0f30034f781ac5e6d2d394157e560479f0efcf",
+      "published_sha256": "2ad8a98df06444ebeacecd8d7c0f30034f781ac5e6d2d394157e560479f0efcf",
+      "sanitized": false
+    },
+    {
+      "file": "assertiva-execute-ecf3dd2-coverage.json",
+      "command": "assertiva audit <clean clone ecf3dd2> --python <venv: PyYAML + coverage 7.17.2>/python --execute --timeout-s 1500 --output json",
+      "exit_code": 0,
+      "raw_sha256": "e42668616ceb0b3354af10358f54db030bd620a61ddd2bcb37d3da84eaafcad3",
+      "published_sha256": "855b3c4417bf89f5b4b79c36513cc86b28286a8dba6e4222026d248b91302346",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-execute-ecf3dd2.json",
+      "command": "assertiva audit <clean clone ecf3dd2> --python <venv: PyYAML, no coverage>/python --execute --timeout-s 1500 --output json",
+      "exit_code": 0,
+      "raw_sha256": "0ccd833fd63765ad9a284a130d3eea3b4316a12f7e41fe49adbe6d2c9d379198",
+      "published_sha256": "5245d0f3648bd7677c70fcd6bfdd5e5ccd4c14138988eab14d82b49e8d51f992",
+      "sanitized": true
+    },
+    {
+      "file": "cosmic-ray-C-compare-complete.json",
+      "command": "cosmic-ray exec cr-C.toml cr-C.sqlite (git archive d8aa669, compare.py blob acd78af = c909f1d = ecf3dd2; rows 76 and 429-583, 271 of 2004; test-command python -B -m unittest discover -s evals -p test_*.py -f; 6071 s) then export_c.py",
+      "exit_code": 0,
+      "raw_sha256": "475d229903697f6b3dc6d7b0b570b2148de8213e1e1eb4bcc2022eb64a25df5f",
+      "published_sha256": "0578684f4a8ec95ee835cb55186e9cd1065e802c43bd87a9a5662ff175b27939",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare-c909f1d-vs-ecf3dd2.json",
+      "command": "derivanta-engine compare ../2026-11-06-h07-cp5/engine-inspect-c909f1d.json engine-inspect-ecf3dd2.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "37d0669128d72e31828db78a83a4b54d4dd816dd0340a993303e69d63da8d39d",
+      "published_sha256": "37d0669128d72e31828db78a83a4b54d4dd816dd0340a993303e69d63da8d39d",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect-ecf3dd2.json",
+      "command": "derivanta-engine inspect . --maintainability --traceability traceability-h07-cp5b.json --format json (clean clone ecf3dd2, Engine PR #3 head acd6ca3)",
+      "exit_code": 0,
+      "raw_sha256": "b86cfa58515eeb1c9c1438001692762d86ffae4bfd937e8e675932fd3f980237",
+      "published_sha256": "4b73bc804c44c4d5c5313274a13de5f0725ab359d2e7a4e5a500d50ad6aae688",
+      "sanitized": true
+    },
+    {
+      "file": "replay-C-compare-oracles.json",
+      "command": "python -B replay_recorded_survivors.py cosmic-ray-C-compare-complete.json <git archive ecf3dd2 + evals/test_compare_signal_oracles.py> voznativa/compare.py out evals.test_compare_signal_oracles",
+      "exit_code": 0,
+      "raw_sha256": "9243506af6f370940bb3dff836270285a20e4ff2d1ea794b6c1f80c003f389be",
+      "published_sha256": "9243506af6f370940bb3dff836270285a20e4ff2d1ea794b6c1f80c003f389be",
+      "sanitized": false
+    },
+    {
+      "file": "replay-D-document-oracles.json",
+      "command": "python -B replay_recorded_survivors.py ../2026-11-06-h07-cp5/cosmic-ray-D-document-sample.json <git archive d8aa669 + evals/test_document_plan_oracles.py> voznativa/document.py out.json evals.test_document_plan_oracles",
+      "exit_code": 0,
+      "raw_sha256": "9867a0140af56ca607adb2c75d5b40dd875252e8e25399a5170116c76593bbc5",
+      "published_sha256": "9867a0140af56ca607adb2c75d5b40dd875252e8e25399a5170116c76593bbc5",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-07T06:14:33+00:00",
+  "revision": "ecf3dd20639398aa5bbfc85b1fa5b7032579a460",
+  "dirty_paths": [
+    "evals/assurance/runs/2026-11-07-h07-cp5b/MANIFEST.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/assertiva-execute-ecf3dd2-coverage.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/assertiva-execute-ecf3dd2.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/cosmic-ray-C-compare-complete.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/engine-compare-c909f1d-vs-ecf3dd2.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/engine-inspect-ecf3dd2.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/replay-C-compare-oracles.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/replay-D-document-oracles.json",
+    "evals/assurance/runs/2026-11-07-h07-cp5b/traceability-h07-cp5b.json",
+    "evals/test_compare_signal_oracles.py"
+  ],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@acd6ca3",
+    "assertiva": "0.10.1",
+    "cosmic-ray": "8.7.0"
+  },
+  "notes": [
+    "Round C complete: 201 killed, 70 survived; versus the CP5 partial, 0 killed->not killed, 19 survived->killed (CP5 tests). Replay of the 70 survivors against evals/test_compare_signal_oracles.py alone: 44 killed, 26 survived (22 equivalent, 4 backlog). Executed by the agent with Cosmic Ray: AGENT_OBSERVED, not ENGINE_EXECUTED."
+  ]
+}

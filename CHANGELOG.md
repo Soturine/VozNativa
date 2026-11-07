@@ -15,6 +15,7 @@ Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Pla
 ### Assurance
 - CI evidence (`scripts/ci_evidence.py`): after a green run, only non-executable records (`.json`, `.jsonl`, `.md`, `.txt`) under `evals/assurance/runs/` keep code equivalence; a harness `.py`, `conftest.py` or `pyproject.toml` there now invalidates it. The diff runs with `--no-renames`, so code moved into an evidence folder still shows the path it left. A qualifying run must be `workflow_dispatch` and carry exactly the jobs the workflow declares, matched by name (a duplicate can no longer hide a missing combination).
 - Boundary oracles for `document.py` (segment cut, back-off, forced cut, core trimming, field-by-field refusal); replay of the 52 sampled survivors of CP5 round D.
+- Mutation round C of `compare.py` complete (rows 76 and 429-583, 271 of 271: 201 killed, 70 survived; no mutant killed in CP5 survives now). Oracles for the sentence-level checks (`evals/test_compare_signal_oracles.py`): where a moved marker left and landed, the alignment threshold, and the abstentions of the tense and predicate checks; 44 of the 70 survivors killed by that file alone, 22 argued equivalent, 4 in backlog B-M2.
 - Mutation triage of `temporal.py`: 5 of the 12 `==` -> `is` survivors called CPython-equivalent were test gaps (YAML, regex and CLI values are equal but not identical); now killed. Errata in the v0.7 `MUTATION.md`.
 - Validator refuses a Markdown table row split across lines (two register rows were corrupted by a heredoc).
 

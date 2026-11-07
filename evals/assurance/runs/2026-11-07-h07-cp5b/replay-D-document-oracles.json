@@ -1,0 +1,425 @@
+{
+ "record": "cosmic-ray-D-document-sample.json",
+ "module": "voznativa/document.py",
+ "suite": [
+  "evals.test_document_plan_oracles"
+ ],
+ "results": [
+  {
+   "row": 33,
+   "col": 17,
+   "operator": "core/NumberReplacer",
+   "occurrence": 1,
+   "mutant": "SCHEMA_VERSION = 0",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 42,
+   "col": 18,
+   "operator": "core/ReplaceTrueWithFalse",
+   "occurrence": 0,
+   "mutant": "@dataclass(frozen=False)",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 44,
+   "col": 21,
+   "operator": "core/NumberReplacer",
+   "occurrence": 3,
+   "mutant": "max_words: int = 199999",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 46,
+   "col": 25,
+   "operator": "core/NumberReplacer",
+   "occurrence": 6,
+   "mutant": "segment_words: int = 601",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 49,
+   "col": 23,
+   "operator": "core/NumberReplacer",
+   "occurrence": 13,
+   "mutant": "timeout_s: float = 3599.0",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 60,
+   "col": 45,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 0,
+   "mutant": "return kind in ALWAYS_PROTECTED or (kind >= \"verse\" and not verse_explicit)",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 63,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+   "occurrence": 0,
+   "mutant": "def build_plan(text: str, context: dict & None = None, limits: Limits = Limits(), verse_explicit: bool = False,",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 63,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitXor",
+   "occurrence": 0,
+   "mutant": "def build_plan(text: str, context: dict ^ None = None, limits: Limits = Limits(), verse_explicit: bool = False,",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 63,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_BitOr_RShift",
+   "occurrence": 0,
+   "mutant": "def build_plan(text: str, context: dict >> None = None, limits: Limits = Limits(), verse_explicit: bool = False,",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitXor",
+   "occurrence": 1,
+   "mutant": "instruction: str ^ None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Div",
+   "occurrence": 1,
+   "mutant": "instruction: str / None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "occurrence": 1,
+   "mutant": "instruction: str // None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_LShift",
+   "occurrence": 1,
+   "mutant": "instruction: str << None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "occurrence": 1,
+   "mutant": "instruction: str % None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "occurrence": 1,
+   "mutant": "instruction: str * None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 64,
+   "col": 32,
+   "operator": "core/ReplaceBinaryOperator_BitOr_Pow",
+   "occurrence": 1,
+   "mutant": "instruction: str ** None = None) -> dict:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 87,
+   "col": 28,
+   "operator": "core/ReplaceBinaryOperator_Add_BitOr",
+   "occurrence": 0,
+   "mutant": "if current and size | b.words > limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 87,
+   "col": 28,
+   "operator": "core/ReplaceBinaryOperator_Add_Mul",
+   "occurrence": 0,
+   "mutant": "if current and size * b.words > limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 87,
+   "col": 38,
+   "operator": "core/ReplaceComparisonOperator_Gt_NotEq",
+   "occurrence": 1,
+   "mutant": "if current and size + b.words != limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 88,
+   "col": 41,
+   "operator": "core/ReplaceComparisonOperator_Eq_Gt",
+   "occurrence": 1,
+   "mutant": "safe = longform._cut_cost(b) > 0 or b.kind in (\"heading\",)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 89,
+   "col": 15,
+   "operator": "core/ReplaceUnaryOperator_Delete_Not",
+   "occurrence": 1,
+   "mutant": "if  safe:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 90,
+   "col": 64,
+   "operator": "core/NumberReplacer",
+   "occurrence": 18,
+   "mutant": "back = next((k for k in range(len(current) - 1, 1, -1) if longform._cut_cost(current[k]) == 0), None)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 90,
+   "col": 108,
+   "operator": "core/NumberReplacer",
+   "occurrence": 23,
+   "mutant": "back = next((k for k in range(len(current) - 1, 0, -1) if longform._cut_cost(current[k]) == -1), None)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 90,
+   "col": 59,
+   "operator": "core/ReplaceBinaryOperator_Sub_RShift",
+   "occurrence": 0,
+   "mutant": "back = next((k for k in range(len(current) >> 1, 0, -1) if longform._cut_cost(current[k]) == 0), None)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 90,
+   "col": 105,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 2,
+   "mutant": "back = next((k for k in range(len(current) - 1, 0, -1) if longform._cut_cost(current[k]) <= 0), None)",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 96,
+   "col": 26,
+   "operator": "core/ReplaceBinaryOperator_Add_Mul",
+   "occurrence": 1,
+   "mutant": "elif size * b.words > 2 * limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 96,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_Mul_BitAnd",
+   "occurrence": 0,
+   "mutant": "elif size + b.words > 2 & limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 96,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_Mul_Mod",
+   "occurrence": 0,
+   "mutant": "elif size + b.words > 2 % limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 96,
+   "col": 40,
+   "operator": "core/ReplaceBinaryOperator_Mul_Sub",
+   "occurrence": 0,
+   "mutant": "elif size + b.words > 2 - limits.segment_words:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 104,
+   "col": 36,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 3,
+   "mutant": "rewrite_units = sum(u[\"action\"] <= \"rewrite\" for u in units)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 104,
+   "col": 36,
+   "operator": "core/ReplaceComparisonOperator_Eq_NotEq",
+   "occurrence": 3,
+   "mutant": "rewrite_units = sum(u[\"action\"] != \"rewrite\" for u in units)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 116,
+   "col": 23,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 4,
+   "mutant": "start = 0 if n <= 0 else bs[0].start",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 117,
+   "col": 29,
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "occurrence": 5,
+   "mutant": "end = len(text) if n >= len(units) - 1 else units[n + 1][\"blocks\"][0].start",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 122,
+   "col": 14,
+   "operator": "core/AddNot",
+   "occurrence": 10,
+   "mutant": "while not core_end > core_start and text[core_end - 1] in \" \\t\\r\\n\":",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 122,
+   "col": 23,
+   "operator": "core/ReplaceComparisonOperator_Gt_Is",
+   "occurrence": 4,
+   "mutant": "while core_end is core_start and text[core_end - 1] in \" \\t\\r\\n\":",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 122,
+   "col": 23,
+   "operator": "core/ReplaceComparisonOperator_Gt_NotEq",
+   "occurrence": 4,
+   "mutant": "while core_end != core_start and text[core_end - 1] in \" \\t\\r\\n\":",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 123,
+   "col": 24,
+   "operator": "core/NumberReplacer",
+   "occurrence": 46,
+   "mutant": "core_end -= 2",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 126,
+   "col": 65,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitXor",
+   "occurrence": 2,
+   "mutant": "used = set().union(*(set(longform._NAME.findall(b.text)) ^ set(longform._ACRONYM.findall(b.text))",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 128,
+   "col": 98,
+   "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+   "occurrence": 0,
+   "mutant": "deps = sorted({block_unit[i] for b in bs for i, _ in b.depends_on if block_unit.get(i, n) is not n})",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 134,
+   "col": 100,
+   "operator": "core/NumberReplacer",
+   "occurrence": 50,
+   "mutant": "\"values\": sorted({i[\"key\"] for i in inventory if core_start <= i[\"start\"] < core_end})[: 81],",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 134,
+   "col": 86,
+   "operator": "core/ReplaceComparisonOperator_Lt_Gt",
+   "occurrence": 1,
+   "mutant": "\"values\": sorted({i[\"key\"] for i in inventory if core_start <= i[\"start\"] > core_end})[:80],",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 134,
+   "col": 86,
+   "operator": "core/ReplaceComparisonOperator_Lt_LtE",
+   "occurrence": 1,
+   "mutant": "\"values\": sorted({i[\"key\"] for i in inventory if core_start <= i[\"start\"] <= core_end})[:80],",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 143,
+   "col": 40,
+   "operator": "core/ReplaceOrWithAnd",
+   "occurrence": 2,
+   "mutant": "\"context\": ({k: (context.get(k) and {}).get(\"value\") if isinstance(context.get(k), dict) else context.get(k)",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 162,
+   "col": 62,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "occurrence": 2,
+   "mutant": "if plan.get(\"kind\") != KIND or plan.get(\"schema_version\") > SCHEMA_VERSION:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 162,
+   "col": 62,
+   "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+   "occurrence": 2,
+   "mutant": "if plan.get(\"kind\") != KIND or plan.get(\"schema_version\") is not SCHEMA_VERSION:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 164,
+   "col": 26,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "occurrence": 3,
+   "mutant": "if plan.get(\"sha256\") is sha256(text):",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 168,
+   "col": 22,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "occurrence": 4,
+   "mutant": "if u[\"start\"] > position:",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 180,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitXor",
+   "occurrence": 4,
+   "mutant": "def reassemble(text: str, plan: dict, replacements: dict[int, str] ^ None = None) -> str:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 180,
+   "col": 67,
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "occurrence": 4,
+   "mutant": "def reassemble(text: str, plan: dict, replacements: dict[int, str] // None = None) -> str:",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 190,
+   "col": 43,
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "occurrence": 3,
+   "mutant": "if new is not None and u[\"action\"] is \"protect\":",
+   "outcome": "KILLED"
+  },
+  {
+   "row": 190,
+   "col": 43,
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "occurrence": 6,
+   "mutant": "if new is not None and u[\"action\"] <= \"protect\":",
+   "outcome": "SURVIVED"
+  },
+  {
+   "row": 204,
+   "col": 60,
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "occurrence": 7,
+   "mutant": "return [b.kind for b in longform.blocks(text) if b.kind < \"separator\"]",
+   "outcome": "KILLED"
+  }
+ ]
+}

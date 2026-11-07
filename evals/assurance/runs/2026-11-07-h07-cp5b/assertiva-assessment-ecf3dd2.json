@@ -1,0 +1,92 @@
+{
+  "run_id": "6f5ee4fc6a1743b1",
+  "lang": "pt-BR",
+  "summary": "Em ecf3dd2 (CP5B, clone limpo) a suíte unittest roda verde numa cópia isolada: 815 invocações, 814 passaram e 1 foi pulada, exit 0. Ela mede 90,27% de linhas e 81,36% de ramos (contando os testes), e o wheel constrói, instala e importa. Verde prova que as asserções escritas passam; não prova equivalência semântica nem força de detecção. Três hipóteses da auditoria de fechamento foram reproduzidas e corrigidas: um plano de documento editado podia desproteger blocos, arquivos de código numa pasta de evidência contavam como registro (o rename detection do git escondia a movimentação), e um run de push ou com jobs duplicados passava. A força de detecção vem de mutação que eu executei fora do engine (Cosmic Ray 8.7.0, python -B, cópias git archive): AGENT_OBSERVED, não ENGINE_EXECUTED. A rodada C de compare.py terminou: 271 de 271 mutantes selecionados, 201 mortos e 70 sobreviventes. Nenhum mutante morto no CP5 voltou a sobreviver. Os oráculos novos (evals/test_compare_signal_oracles.py) mataram 44 dos 70 no replay; dos 26 restantes, 22 são equivalentes argumentados e 4 vão para o backlog. Na amostra D de document.py, os oráculos novos sozinhos mataram 25 dos 52 sobreviventes; os demais são equivalentes ou backlog B-M3. Os testes contra o wheel continuam sem executar.",
+  "dispositions": [
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "Os 5 passos não classificados pertencem ao workflow, que só roda por workflow_dispatch. O que eles executam (validator, unittest, suíte semântica, pacote) também roda localmente pelo scripts/qualify.py. A execução na CI se prova pelo run manual verificado ao vivo por SHA, evento e nome de cada job (scripts/ci_evidence.py, endurecido neste CP), não por esta auditoria.",
+      "evidence": [".github/workflows/ci.yml (on: workflow_dispatch apenas)", "scripts/qualify.py gate ci:workflow-triggers", "scripts/ci_evidence.py expected_job_names / ALLOWED_EVENTS"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "document-plan-granted-permission",
+      "title": "Um plano de documento serializado podia desproteger código, tabelas, separadores e citações",
+      "claim": "Em d8aa669, validate_plan conferia hashes, mas não derivava ação, tipos, blocos e núcleo do próprio texto. Um plano editado com hashes recalculados passava, e reassemble substituía um bloco protegido.",
+      "why": "A proteção de blocos é contrato do long-form. Um plano é dado de entrada, não autoridade.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/test_hardening_cp5b.py::PlanIsDataNotAuthority (contra d8aa669: falhas e erros reproduzidos)", "docs/V07_DISCOVERY_REGISTER.md VN07-DISC-052"],
+      "recommendation": "Corrigido em ecf3dd2: o plano é revalidado campo a campo contra longform.blocks(text). Só a API pública de plano era afetada; o fluxo do CLI monta o próprio plano."
+    },
+    {
+      "id": "ci-evidence-allowlist-too-wide",
+      "title": "Código numa pasta de evidência contava como registro depois de um run verde",
+      "claim": "is_evidence_path aceitava qualquer arquivo sob as pastas de evidência, e o diff com rename detection mostrava só o destino de uma movimentação de código.",
+      "why": "Um commit posterior ao run de CI podia mudar código executável e manter a equivalência de código.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly (inclui git real com mv/rename)", "VN07-DISC-053"],
+      "recommendation": "Corrigido em ecf3dd2: sufixos .json/.jsonl/.md/.txt, sem '..', e diff com --no-renames."
+    },
+    {
+      "id": "ci-run-event-and-matrix",
+      "title": "Um run de push ou com jobs duplicados qualificava",
+      "claim": "judge_run conferia só a contagem de jobs bem-sucedidos e não o evento. Oito jobs verdes com um duplicado, ou um run de push, passavam.",
+      "why": "A política é um único workflow_dispatch na main com a matriz declarada; a evidência precisa provar exatamente isso.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/test_hardening_cp5b.py::ManualRunAndExactMatrix (lista real do run #124)", "VN07-DISC-054"],
+      "recommendation": "Corrigido em ecf3dd2: evento em ALLOWED_EVENTS e declarado no workflow, e o multiconjunto de nomes igual ao produto da matriz."
+    },
+    {
+      "id": "compare-mutation-round-c",
+      "title": "Rodada C completa: as verificações de frase de compare.py tinham ramos sem oráculo",
+      "claim": "Nenhum teste conferia de que frase saiu e para que frase foi um marcador movido, nenhum alimentava o filtro de alinhamento com um par de baixa similaridade, e as abstenções das verificações de tempo verbal e predicado (perfil ambíguo, radical curto, terminação fraca, borda da janela) não tinham teste.",
+      "why": "Uma regressão nesses ramos apontaria a frase errada, criaria alarme falso ou calaria o sinal, sem nenhum teste falhar.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/assurance/runs/2026-11-07-h07-cp5b/cosmic-ray-C-compare-complete.json (271/271: 201 mortos, 70 sobreviventes)", "evals/assurance/runs/2026-11-07-h07-cp5b/replay-C-compare-oracles.json (44 mortos pelos oráculos novos)"],
+      "recommendation": "Oráculos acrescentados em evals/test_compare_signal_oracles.py. Equivalências e backlog em MUTATION.md (B-M2)."
+    },
+    {
+      "id": "non-finite-construction-time",
+      "title": "Hipótese: construção com auxiliar no infinitivo é tratada como tempo comparável",
+      "claim": "_time_reference('progressive@inf') devolve o rótulo, não None, porque testa a construção e não o tempo do auxiliar. 'Ele está terminando' -> 'Ele precisa estar terminando' gera tense_changed. O sobrevivente da linha 467 ([0] -> [-1]) mudaria isso para abstenção.",
+      "why": "Pode ser alarme falso de revisão (major) quando o tempo vem de um modal não analisado; também pode ser o sinal desejado de mudança de aspecto. É decisão de projeto, não defeito reproduzido.",
+      "priority": "low",
+      "basis": "INFERRED",
+      "evidence": ["morph.tense_profile('Ele precisa estar terminando o relatório.') = {'terminar': {'progressive@inf'}}", "Cosmic Ray C linha 467 SURVIVED"],
+      "recommendation": "Backlog B-M2: decidir a regra e só então escrever o oráculo. Não travado por teste nesta rodada."
+    },
+    {
+      "id": "spans-extract-quadratic",
+      "title": "spans.extract é quadrático em documentos longos",
+      "claim": "build_plan leva cerca de 90 s num documento de 193 mil palavras; o custo está em spans.extract, já em d8aa669. reassemble e validate_plan levam cerca de 0,1 s.",
+      "why": "Não é regressão desta rodada, mas limita o uso do long-form em documentos muito grandes.",
+      "priority": "low",
+      "basis": "OBSERVED",
+      "evidence": ["VN07-DISC-056", "docs/PLAN_v0.7.0.dev1.md B-M4"],
+      "recommendation": "Backlog B-M4."
+    },
+    {
+      "id": "wheel-tests-not-run",
+      "title": "A suíte não roda contra o wheel instalado",
+      "claim": "O artefato constrói, instala e importa, mas os testes rodam contra a árvore de código.",
+      "why": "Um dado faltando no wheel e usado por um caminho fora do smoke passaria verde.",
+      "priority": "low",
+      "basis": "OBSERVED",
+      "evidence": ["audit.json: tests contra o artefato NOT_RUN", "scripts/smoke_installed.py"],
+      "recommendation": "Upstream AXF-VN-04 (Assertiva PR #8). No VozNativa, o gate package:sdist-wheel-smoke continua sendo a evidência."
+    }
+  ],
+  "unknowns": [
+    "Se a CI vai passar nesta revisão: ela só roda por workflow_dispatch depois do merge na main (CP7).",
+    "A força de detecção do resto de compare.py, de router.py, de morph.py e de diagnose.py: sem mutação nesta rodada.",
+    "A mutação completa de document.py: só a amostra D (120 de 454) e o replay dos sobreviventes.",
+    "O comportamento com provedores de modelo reais, detectores ao vivo, holdout independente e revisão humana cega: NOT_RUN."
+  ]
+}
