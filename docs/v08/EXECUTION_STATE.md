@@ -12,6 +12,8 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 |---|---|---|---|---|
 | CP0 | Discovery, AS-IS, baseline | concluído | (este commit) | `qualify --scope release` em `c2708de`, árvore limpa, Windows 10 + CPython 3.12.6: 726 testes (725 + 1 skip POSIX), gates locais PASS, `ci:github-actions` PASS, exit 3 só por `review:pty`, holdout e revisão humana. v4 22/22, v5 36/36, predicados 16/20 e 1/18. GAP-01 e GAP-09 reproduzidos. `evals/assurance/runs/2026-11-07-v08-cp0/` |
 
+| CP1 | Integridade: autorização do chamador, `resume` sem autoridade | concluído | (este commit) | GAP-01 e GAP-09 corrigidos. `evals/test_v08_integrity.py` (14 testes): em `2ced479` 7 falham ou dão erro por método, 4 controles passam, 1 passa sem provar. 7 mutantes à mão, todos mortos, depois de um controle sem mutação (`scripts/experiments/v08_cp1_mutants.py`, `evals/assurance/runs/2026-11-07-v08-cp1/MUTANTS.md`). Mudança de API anotada no CHANGELOG |
+
 ## Regras desta rodada
 
 - **Commits:** sem `Co-authored-by` nem trailer de IA; identidade local (`git config --local`): Rafael Souza, noreply Soturine. Sem force push, sem `reset --hard`. Tag e release só no CP18, nas condições do plano. Sem PyPI.
@@ -27,4 +29,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP1: testes dos contrafactuais de GAP-01 e GAP-09, correção, gate, commit, push.
+CP2: perfil e curva de `spans.extract`, correção com saída idêntica (GAP-02).
