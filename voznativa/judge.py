@@ -17,6 +17,11 @@ from .review import content_hash
 from .text import fence, normalize_surface
 from .review import assess as assess_review
 
+# Who judged, relative to who wrote the candidate (v0.8, V08-GAP-16). An agent judging
+# its own candidate ("same_agent") is a dependent self-assessment: recorded as agent
+# assessment, never accepted as an independent verdict (compare.apply_judgment).
+GENERATOR_RELATIONS = {"same_agent", "different_model", "unknown"}
+
 CLAIM_STATUSES = {"preserved", "formula_removed", "omitted", "changed", "strengthened", "weakened", "reversed"}
 # Statuses compatible with an "equivalent" verdict. formula_removed covers emphasis
 # with no information (the project's own rules ask to cut it); it was added after a
@@ -28,6 +33,7 @@ RESPONSE_SCHEMA = {
     "original_sha256": "copy from BINDING",
     "candidate_sha256": "copy from BINDING",
     "judge_id": "model name/version or reviewer id",
+    "generator_relation": "same_agent (you wrote the candidate) | different_model | unknown",
     "verdict": "equivalent | not_equivalent | uncertain",
     "claims": [{"source": "claim as stated in the ORIGINAL", "status": "|".join(sorted(CLAIM_STATUSES)),
                 "candidate": "matching text in the CANDIDATE or null", "note": "short reason"}],
@@ -89,6 +95,9 @@ def validate(judgment: dict, original: str, candidate: str) -> dict:
         raise ValueError(f"verdict must be one of {sorted(JUDGE_VERDICTS)}")
     if not judgment.get("judge_id"):
         raise ValueError("judge_id is required so the evidence has a source")
+    relation = judgment.get("generator_relation", "unknown")
+    if relation not in GENERATOR_RELATIONS:
+        raise ValueError(f"generator_relation must be one of {sorted(GENERATOR_RELATIONS)}")
     for field, text in (("original_sha256", original), ("candidate_sha256", candidate)):
         if not judgment.get(field):
             raise ValueError(f"judgment is not bound to the texts: missing {field} (see judge-prompt)")
@@ -136,6 +145,7 @@ GROUNDING_SCHEMA = {
     "sources_sha256": "copy from BINDING",
     "candidate_sha256": "copy from BINDING",
     "judge_id": "model name/version or reviewer id",
+    "generator_relation": "same_agent (you wrote the candidate) | different_model | unknown",
     "verdict": "supported | unsupported | uncertain",
     "claims": [{"claim": "assertion made by the CANDIDATE", "status": "|".join(sorted(GROUNDING_STATUSES)),
                 "evidence": "verbatim excerpt of a SOURCE that supports it, or null", "note": "short reason"}],
@@ -200,6 +210,8 @@ def validate_grounding(judgment: dict, sources: list[tuple[str, str]], candidate
         raise ValueError(f"verdict must be one of {sorted(GROUNDING_VERDICTS)}")
     if not judgment.get("judge_id"):
         raise ValueError("judge_id is required so the evidence has a source")
+    if judgment.get("generator_relation", "unknown") not in GENERATOR_RELATIONS:
+        raise ValueError(f"generator_relation must be one of {sorted(GENERATOR_RELATIONS)}")
     for field, expected in (("sources_sha256", sources_hash(sources)), ("candidate_sha256", content_hash(candidate))):
         if judgment.get(field) != expected:
             raise ValueError(f"judgment was made for other texts: {field} does not match")

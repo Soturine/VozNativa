@@ -400,7 +400,8 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             continue
         if not no_change and judge_provider is not None and report["status"] == "no_deterministic_issues":
             sources = authorized_sources(text, facts, project) if context["task"] == "create" else None
-            report = _judge_votes(judge_provider, text, candidate, report, judge_votes, sources)
+            report = _judge_votes(judge_provider, text, candidate, report, judge_votes, sources,
+                                  relation=_generator_relation(provider, judge_provider))
             history[-1]["judge"] = report["status"]
             if report["status"] == "fail" and attempt < attempts:
                 # The judge found a meaning change: retry with what it saw instead of
@@ -716,8 +717,20 @@ def _extract_json(raw: str) -> tuple[dict, list[str]]:
         return data, repairs + ["removed trailing commas"]
 
 
+def _generator_relation(provider, judge_provider) -> str:
+    """``same_agent`` when the judge is the generator itself (the same object,
+    or the same command line); otherwise ``unknown``: two commands can still
+    run the same model, so the engine never claims independence (V08-GAP-16)."""
+    if judge_provider is provider:
+        return "same_agent"
+    gen, judge = getattr(provider, "argv", None), getattr(judge_provider, "argv", None)
+    if gen is not None and list(gen) == list(judge or []):
+        return "same_agent"
+    return "unknown"
+
+
 def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes: int,
-                 sources: list[tuple[str, str]] | None = None) -> dict:
+                 sources: list[tuple[str, str]] | None = None, relation: str = "unknown") -> dict:
     """Independent judge calls; acceptance needs every vote to say equivalent.
 
     A single LLM verdict proved unstable (same model and prompt accepted and
@@ -727,7 +740,7 @@ def _judge_votes(judge_provider, text: str, candidate: str, report: dict, votes:
     unjudged instead of accepted."""
     deterministic, current = report, report
     for _ in range(max(1, votes)):
-        current = _judge(judge_provider, text, candidate, current, sources=sources)
+        current = _judge(judge_provider, text, candidate, current, sources=sources, relation=relation)
         if "judge_error" in current:
             if current["status"] == "fail":
                 return current
@@ -753,7 +766,7 @@ def _judge_feedback(report: dict) -> list[str]:
 
 
 def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2,
-           sources: list[tuple[str, str]] | None = None) -> dict:
+           sources: list[tuple[str, str]] | None = None, relation: str = "unknown") -> dict:
     """Ask the judge; on unparseable JSON, ask once more with the error.
 
     With ``sources`` (create mode) the judge checks the candidate against the
@@ -788,6 +801,7 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
         else:
             answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
         answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
+        answer["generator_relation"] = relation      # the engine knows; the model's own claim is not evidence
         if repairs or attempt > 1:
             answer["parse_repairs"] = repairs + ([f"answered on judge attempt {attempt}"] if attempt > 1 else [])
         try:

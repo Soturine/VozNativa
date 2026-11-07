@@ -1076,6 +1076,10 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
       when its signature verified (``authenticity == "verified"``); otherwise
       the result is ``human_review_claimed`` and nothing is accepted.
     * ``not_equivalent`` from anyone downgrades to ``fail``; ``uncertain`` to review.
+    * An LLM judgment with ``generator_relation == "same_agent"`` (the agent
+      judging its own candidate, v0.8 V08-GAP-16) is a dependent
+      self-assessment: an ``equivalent`` is recorded as ``agent_assessment``
+      and accepts nothing; the report still requires an independent judgment.
     """
     kind = judgment.get("kind")
     verdict = judgment.get("verdict")
@@ -1085,6 +1089,16 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
     merged["evidence"] = {**report["evidence"], "judgments": report["evidence"]["judgments"] + [judgment]}
     status = report["status"]
     if status in {"fail", "identical"}:
+        return merged
+    self_assessed = kind == "llm" and judgment.get("generator_relation") == "same_agent"
+    if self_assessed and verdict == "equivalent":
+        merged["agent_assessment"] = {
+            "verdict": verdict, "judge_id": judgment.get("judge_id"), "generator_relation": "same_agent",
+            "evidence": "AGENT_OBSERVED",
+            "note": "the agent that wrote the candidate judged it: a dependent self-assessment, not an "
+                    "independent judgment; nothing is accepted on it"}
+        merged["safe_to_auto_accept"] = False
+        merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
         return merged
     if verdict == "not_equivalent":
         # Rejections are accepted from any source: they can only make the result safer.
