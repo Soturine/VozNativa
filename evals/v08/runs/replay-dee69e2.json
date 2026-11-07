@@ -1,0 +1,12 @@
+{
+  "kind": "voznativa.eval_run_replay",
+  "status": "REPRODUCED",
+  "reason": "same results digest at the revision",
+  "revision": "dee69e23f8b0d7c8e3dd45f5c1880c6a9d285aa3",
+  "replayed": {
+    "status": "COMPLETE",
+    "results_sha256": "4e8a5a4c892482d8ca4f552d1e0629920cbe289fdd9b36c4c4f2d46bc45c2d7b"
+  },
+  "recorded_results_sha256": "4e8a5a4c892482d8ca4f552d1e0629920cbe289fdd9b36c4c4f2d46bc45c2d7b",
+  "note": "reproducibility on this machine; not a signature, not independence"
+}

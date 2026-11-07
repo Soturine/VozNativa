@@ -1,0 +1,5300 @@
+{
+ "kind": "voznativa.eval_run",
+ "schema_version": 1,
+ "dataset": "gate-and-planner-v08",
+ "dataset_sha256": "c5f026b24f495f64d5c57697808ab6a9027398e7a15d9300a84bdc9226842d37",
+ "dataset_spec": {
+  "kind": "voznativa.eval_dataset",
+  "schema_version": 1,
+  "id": "gate-and-planner-v08",
+  "description": "The existing semantic, relation, predicate and decision suites read in place through adapters. Every source was written by the engine's developer; the splits say how each one was used, none is independent.",
+  "sources": [
+   {
+    "path": "evals/semantic/cases.jsonl",
+    "adapter": "semantic_suite",
+    "split": "development"
+   },
+   {
+    "path": "evals/semantic/relations.jsonl",
+    "adapter": "semantic_suite",
+    "split": "development"
+   },
+   {
+    "path": "evals/semantic/holdout.jsonl",
+    "adapter": "semantic_suite",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/semantic/holdout2.jsonl",
+    "adapter": "semantic_suite",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/semantic/holdout-relations.jsonl",
+    "adapter": "semantic_suite",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/semantic/holdout-v030.jsonl",
+    "adapter": "semantic_suite",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/semantic/holdout-v040.jsonl",
+    "adapter": "semantic_suite",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/predicates/cases-h07.jsonl",
+    "adapter": "risk_sample",
+    "split": "frozen_regression"
+   },
+   {
+    "path": "evals/decision/cases.jsonl",
+    "adapter": "decision_suite",
+    "split": "frozen_regression"
+   }
+  ]
+ },
+ "authenticity": "not established: results_sha256 is an integrity digest, not a signature; anyone who edits the results can recompute it. Use replay to re-execute at the revision.",
+ "recorded_at": "2026-11-07T20:31:05+00:00",
+ "revision": "dee69e23f8b0d7c8e3dd45f5c1880c6a9d285aa3",
+ "dirty": false,
+ "package_version": "0.7.0.dev1",
+ "environment": {
+  "python": "3.12.6",
+  "platform": "Windows-10"
+ },
+ "system_under_test": {
+  "id": "voznativa-gate@0.7.0.dev1",
+  "evidence": "ENGINE_EXECUTED",
+  "deterministic": true,
+  "model": null,
+  "seed": null
+ },
+ "arms_not_run": [
+  {
+   "arm": "rewrite arms B0-B6",
+   "evidence": "NOT_RUN",
+   "reason": "this dataset evaluates the gate and the planner on fixed pairs; arms that generate text need a provider and a budget (CP9)"
+  },
+  {
+   "arm": "human review",
+   "evidence": "NOT_RUN",
+   "reason": "no human reviewers in this run"
+  }
+ ],
+ "status": "COMPLETE",
+ "problems": [],
+ "inputs": [
+  {
+   "path": "evals/semantic/cases.jsonl",
+   "sha256_lf": "66bb3ca8f4939b046cc1d8e50329e5bf577be4034bc175b932321843f9d10c16",
+   "adapter": "semantic_suite",
+   "split": "development",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": false,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/relations.jsonl",
+   "sha256_lf": "22192553b37b2879d4481786a7962bf2717767c87890b28eb8b60ad2becb4cfa",
+   "adapter": "semantic_suite",
+   "split": "development",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": false,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/holdout.jsonl",
+   "sha256_lf": "ae479a2cc1c2ed5ddca07e7825f6a6a81cc533be7df41c0e282d91e82f1049ce",
+   "adapter": "semantic_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/holdout2.jsonl",
+   "sha256_lf": "3981a4ef20188db322d9fb4f718137591337a8862c83aaada444552e7ef8c08f",
+   "adapter": "semantic_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/holdout-relations.jsonl",
+   "sha256_lf": "ba5910076817b02d394a81a6051d929ddd4b5574f0e3975ba5be0ac41469646d",
+   "adapter": "semantic_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/holdout-v030.jsonl",
+   "sha256_lf": "09c1b3dda119cba99ff376a818d4b461e64b5b4d004471d600cdf67ccce6222b",
+   "adapter": "semantic_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/semantic/holdout-v040.jsonl",
+   "sha256_lf": "fb4a9738605edb55eeb42329671b101f3e1162ef858f427ca883872e700ee0d7",
+   "adapter": "semantic_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "VozNativa developer (the same agent session that wrote the engine)"
+  },
+  {
+   "path": "evals/predicates/cases-h07.jsonl",
+   "sha256_lf": "b08827c53b3a75be8e35819da127e03228d90248f64b03fb9657d16f3893069e",
+   "adapter": "risk_sample",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "the same agent that writes the rule"
+  },
+  {
+   "path": "evals/decision/cases.jsonl",
+   "sha256_lf": "e3667c609cc8e1ed3d6347d26e685c8d528fb5a285863a1c654f168938427019",
+   "adapter": "decision_suite",
+   "split": "frozen_regression",
+   "independent": false,
+   "independence": "not claimed",
+   "frozen": true,
+   "author": "unknown"
+  }
+ ],
+ "results": [
+  {
+   "id": "cases:neg-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "negation",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f2e8bbdf6ed192fafd2e69687ed2d52ae287c04268348910b04c7ee0f9cc682c",
+   "candidate_sha256": "6acddfec7937e3fc0b23c790554a4134f4a97c1e25221e1b5262c36186e6ccbc"
+  },
+  {
+   "id": "cases:neg-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "negation",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bf4ce30e331e391280019cb42ecb3ddf9d2a0d35070b7c9ca96c8898f189cfa3",
+   "candidate_sha256": "67143c6a096fa81547d20faf34cdef592c8e4dbd9de279821e1e9e6893d71fa0"
+  },
+  {
+   "id": "cases:neg-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "negation",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "331c471c8303b59ddb8f2449d1f4ce8f5d20528818bf2665271f66ab27086e91",
+   "candidate_sha256": "32f6b2d88532b5fee5852badf1c661924b9fec927106e2df79751ac940386e2f"
+  },
+  {
+   "id": "cases:neg-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "negation",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f9bad283629f8d4bf1159f0fa8a3a128f976f22f406d882f6369873afeb67749",
+   "candidate_sha256": "dbaa04bc06bb9749d8bdcdbedf498164bf55b5cc3f6e6a5016c5ee10ef74344e"
+  },
+  {
+   "id": "cases:neg-005",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6b82028c4a9470d06bc15cb62cee16f2c3279765552363b63f6db356c981038c",
+   "candidate_sha256": "3ad43991baa3fac05e5aa93452b9b34124403c9f3e466d25f9fd78967a3f22d2"
+  },
+  {
+   "id": "cases:neg-006",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "3d164a65611380583cf4f514cdd1c6ce9cbb5186843ad65f4a312346af016f2a",
+   "candidate_sha256": "38f883baca0449c7a16cc0d1467565f1eb6be5359665b463d8a446b8a673dd9a"
+  },
+  {
+   "id": "cases:mod-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "modality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7046c77672699dbb2fa8bc9c64193a86be9330e47e04d0f7d75d0ede196cd30c",
+   "candidate_sha256": "0cbe8189fe2ce85b87abbfc8342a913e8ff042b96158c97f99d91b81770b667e"
+  },
+  {
+   "id": "cases:mod-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "modality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "modality_changed",
+    "polarity_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ed3447ab20eed34f509bd141e54fc3426dbd2ce55a4629870e1796d605363e03",
+   "candidate_sha256": "0e2d53402134a2c56850556989ffda0bb484c843771f77d3c92c6d6086b3af08"
+  },
+  {
+   "id": "cases:mod-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8b8bfbb001f4adef4d1d9086d462a167bf3020ec89b9dcfbddaae6562d1820a7",
+   "candidate_sha256": "90a3b6d6114c68eadbeeaea50c7e86b3a205d25bd91df13e3f029e22402df982"
+  },
+  {
+   "id": "cases:mod-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "modality",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "82b89d73938132374c3671ed0f119b4f8b878667b92a26376aecf1ea34497242",
+   "candidate_sha256": "f0a2428e19c01fce3f36c326d3df9d63c841b7668fb3cae8ff726ed991b272b6"
+  },
+  {
+   "id": "cases:mod-005",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "modality",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "16e85f7a8253b59278507f781d9296e0805c5048e18be45b09a3dab9374aec80",
+   "candidate_sha256": "a2ea72692d2c5d5132e7f35dac3b6addbe017978e1aa1f2330765aed5d67fd7c"
+  },
+  {
+   "id": "cases:mod-006",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "modality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a3fa95c8ebef20857fe111c73bd424f5da4b85c358d9594938e96548392c60e5",
+   "candidate_sha256": "4e83d4a3f16f8da110f72dbc4697478371ddbf41e5ccb447f4b5f2bc459d505a"
+  },
+  {
+   "id": "cases:cau-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "causality",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "causality_changed",
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "897d175ce9cd55d6f57f3096ca24103add328def2653087732c5514b27712717",
+   "candidate_sha256": "eb769de691e022cd39261780616ab201f20270253da7efd92083959ca82ab5a2"
+  },
+  {
+   "id": "cases:cau-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "causality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d542e9f91cc9af60954ffaa1b4eda5e5c4ea1593d6eec3df0b1b9f25fece8156",
+   "candidate_sha256": "610309b1be8e59f0554f15395d358b0e44aa17613742e5aaf5e8b7de56fe0dcc"
+  },
+  {
+   "id": "cases:cau-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d542e9f91cc9af60954ffaa1b4eda5e5c4ea1593d6eec3df0b1b9f25fece8156",
+   "candidate_sha256": "eacd8966d316e4120d49babcff9ac2ea7383ec014e3d071524bc58cac4b60a94"
+  },
+  {
+   "id": "cases:cau-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "causality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fd4f5ec3ff4ed99239e2d032eb48151a9b2a7b861463a4576e434aba02675fc2",
+   "candidate_sha256": "71dd24ce525fb708e880639156cfea0e80f2b4ba63f0047c1733868dc61a3dce"
+  },
+  {
+   "id": "cases:add-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d3f7107b66016ee7ad9505430063f0c84c6ca08468e0a16ea61bd29a2cbef6e0",
+   "candidate_sha256": "3f352ac7bfd06b2265f5db40bacb08f39ac46d1363348ff6ea4a0e0e7f1b35c5"
+  },
+  {
+   "id": "cases:add-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "negation_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0ff6905cea70353c0eaa48bcf4a88e20bccabfc03fd1c46003023f2ef67bb0e6",
+   "candidate_sha256": "fd4dc2c615a5b4b8ede106381dd86b635eb35c616c47d8fcaf90dd472f371109"
+  },
+  {
+   "id": "cases:add-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "linkedin",
+   "status": "fail",
+   "codes": [
+    "quantifier_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8c06eaa43c31226ca053278486d363a859cfb57483d5d80cf787c597c1907625",
+   "candidate_sha256": "a2f85745058ad54b0eed65cb1f41ee0d36c557373185f5dd249fc47bc621d787"
+  },
+  {
+   "id": "cases:add-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "de7c5cd2155a2a3628d5f08e5558989de65d20b71375ca008ff99467638d3451",
+   "candidate_sha256": "37a2af77d9b4907d82ac679ed81e17e37d41cb5e17a82b097a94e7c4f17bbbda"
+  },
+  {
+   "id": "cases:add-005",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "social",
+   "status": "review_required",
+   "codes": [
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2a4cabdaf18894e07736a00f656fcb8e4432225c67bf6361b164f0f2d2bcc465",
+   "candidate_sha256": "13d21ec366817ec319e45169f60c0a53fc13472e24943309cb53fb4b4479379e"
+  },
+  {
+   "id": "cases:fact-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bc807fe7b4c2e6e52f423e7ab0563bb7128d35c9bf72a6ed24a5e60b7833bf68",
+   "candidate_sha256": "9dd62541c7fd8a759cc1c1148b286109d5d289b8a3f3da876f9d92808540ce76"
+  },
+  {
+   "id": "cases:fact-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "dfe5bb92c22a1162453dc262c379ec74958ebb85683dc2f85e132e7f2fc93f6f",
+   "candidate_sha256": "a4cc0c03e2aea15c49238e3234e276967181a1a0092a796d0ae0024cab8e9857"
+  },
+  {
+   "id": "cases:fact-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2bc767e6552de547daed65e0ac50c6cd04f5cf9272b6717d9a49991816ccb5c4",
+   "candidate_sha256": "63ee2cbfffec42ee0b48b8c3682f27c148882d9c60ff63a3f860328f804f6c45"
+  },
+  {
+   "id": "cases:fact-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "049f27358cd2b4fa81bb63e67b5d2579d5609624770885f28103ca978519ac0c",
+   "candidate_sha256": "49ae5d5442afa9ab6a12ed4642c73180effd71e410ac60081c24bc7d3ba41a25"
+  },
+  {
+   "id": "cases:fact-005",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0203e34499dbc83c06b37a7259c74c062630623ce506053d8130e0960530549d",
+   "candidate_sha256": "a507867445f6461ed17a16d647bf71bd1d02e68e41f1b9b3f8f6022c1d215b1c"
+  },
+  {
+   "id": "cases:fact-006",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e82026796af7c62d38092f2032b5cc97291ee33d85206b58daef185727d1d09d",
+   "candidate_sha256": "471e1b387c82a8dcd6238b10fb96d01e33bc4631ad1bc6dc13be51ee71e713f3"
+  },
+  {
+   "id": "cases:fact-007",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "binding_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c8eabead853042fc82dcd5f625e1713b06a4b1719bc539d837ded1db90d45cb7",
+   "candidate_sha256": "e3ce75755c657fdce23fe92976102ad2e33e5953f0462e4d3d58722d196c8d00"
+  },
+  {
+   "id": "cases:fact-008",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a72bab8c64643fc258da64859d1de5499b9ab39a6ef64781ecc7fb0d62bded19",
+   "candidate_sha256": "e8b52cccf306de75230f0a5f6bef68072267798f34d50a2f02e972f36a24bb90"
+  },
+  {
+   "id": "cases:fact-009",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "predicate_replaced",
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6adda7d40d9bd6fda56e0770596c89ce00f95ee46caa48af624463e161a21cc5",
+   "candidate_sha256": "d9ef1a141cc683c72ef62da8b057b58b4f1f121f36f805bde6984f29ac6caba4"
+  },
+  {
+   "id": "cases:fact-010",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "documentation",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8f39837a4c275a22651dc6125d1e57a388eb51a4626d3b5209ef237d855f34e5",
+   "candidate_sha256": "41829d58641c57fc506522b321fa905a0f83ad21835126a8d125429850e89887"
+  },
+  {
+   "id": "cases:fact-011",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ebfe2d9b6da57f0c8ad5d4748db0c23ac47032f64441c959637abe60be1ae102",
+   "candidate_sha256": "ecd30f3b06c9314201ca5cc82bce3b4376ea1492a8c8e618c8510911f2e5a030"
+  },
+  {
+   "id": "cases:fact-012",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "condition_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b83ad0e0cd26ded3c89febe86ed1f830cd5572878c13fbe5e06fc95d3d519c0d",
+   "candidate_sha256": "f2fd9e91a54dfa0cc0748f6eeeb51cd287add5d1a184445703b8aa3cb0963e09"
+  },
+  {
+   "id": "cases:fact-013",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "commitment_changed",
+    "modality_changed",
+    "tense_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ecdcb72a9f6ff121c37ad68b8e8e84c6f58b9bdc519b774b61090855c6435911",
+   "candidate_sha256": "864f446d12a9c3974e786cc0d1bfe79efe0a1704d3f4477d739f37e11bfec803"
+  },
+  {
+   "id": "cases:fact-014",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "5554a7a2855e97d10121f0c47d0289e4fba16c4e41f412ff13b3bc48d8db92e6",
+   "candidate_sha256": "64718f2bfdf16785452e588afb2751157ef3121e773a4ed6d1b5792d03a314c1"
+  },
+  {
+   "id": "cases:fact-015",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "702e10ebd9d612ad9ba6b01d5c62e0d08658e08b6a3810ce4fa27c84b7f4da7a",
+   "candidate_sha256": "febb5d06a2111aa7f43fa8e5730c30261cb2334597cd58f4073b8793e4f237be"
+  },
+  {
+   "id": "cases:nc-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "no_change",
+   "genre": "whatsapp",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d249265b5a839a400361763e9ba346b5952e5e46f65efb78146e8ea0a5c727e4",
+   "candidate_sha256": "d249265b5a839a400361763e9ba346b5952e5e46f65efb78146e8ea0a5c727e4"
+  },
+  {
+   "id": "cases:nc-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "no_change",
+   "genre": "corporate",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ee3a92a79e58da0d7a4e7293efb8cbe9a6a09e65232b556ef511a4ac63f7d702",
+   "candidate_sha256": "2a2215a887c6551db66e16615f17f3c4ed2361a1efe5ca41080001667c392402"
+  },
+  {
+   "id": "cases:fr-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "cf75e94f5c30b7ffee9b6a2d2fd1b6330d3fb611c042cdc6df21eb4252320856",
+   "candidate_sha256": "ccd47d0b996bfe5858ad237244d9e7c7d9878e27db1cb83f714f49d775852fd8"
+  },
+  {
+   "id": "cases:fr-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "academic",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "metadiscourse_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8200cb163b3aa7fb4617b486eca4a558efe23d56a8a81c7e3ae1835534a80e4b",
+   "candidate_sha256": "7022dbc3ae2f90a3b518c2aa990a4b587767d328db13be65c60a64b0138b634d"
+  },
+  {
+   "id": "cases:fr-003",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6ef33da169fe669f4d3952917101744920b8688bb99224e2c820e6c364a22cb8",
+   "candidate_sha256": "7d5f636dfac18446f8870dcaf7be52c006ad1991c627cf972f6bc5e2d0e9b0df"
+  },
+  {
+   "id": "cases:fr-004",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ff77ba76586b5a8665c78613562f8d5646bcf6eebc803d3987f7edf81a949aa1",
+   "candidate_sha256": "e581c285f841f423354423742688806857e0c6467c9251333efab5d6cfb6f505"
+  },
+  {
+   "id": "cases:fr-005",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9c2ec40d766c173f4b165d2c22210fedbba4574c9f9f289b2968a67362817659",
+   "candidate_sha256": "be1797041ec153083d52435b20f3ab6f192f9ca527670afbe93044f8a428db93"
+  },
+  {
+   "id": "cases:fr-006",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "whatsapp",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ed325c9daa879a378356c16fccf753d3a7b76ea615aeee15fed18face17139e7",
+   "candidate_sha256": "588ed2c672e5b0f95056b6618c6142adacab8a7a985aa7c61eb343bad4187f5a"
+  },
+  {
+   "id": "cases:fr-007",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "58d03df27f0843562d8854aceb8ba7ff14afa5078d0307f457ca5100a190b622",
+   "candidate_sha256": "1874705ea4d32c918d61d844b02e43e9e0c1395be3005416478db272dba1fad1"
+  },
+  {
+   "id": "cases:fr-008",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "dbc21e82bb1d37618936337528b218d36864e665beb23386a948d8aff5192f61",
+   "candidate_sha256": "e4807d22957e70d8bdf0213794408e1cc966288df42418e0c1e529059e4607b8"
+  },
+  {
+   "id": "cases:fr-009",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "documentation",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a7b28ba18a556cb71562ce185002d81ede2f6b14ecd87c16cba53478700db4a0",
+   "candidate_sha256": "6eafd77db76edcf5d2eeaf156c5de401a7cd05b87b746eee53b5c7ce70d63410"
+  },
+  {
+   "id": "cases:fr-010",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "academic",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "metadiscourse_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "78f5abedd1641c56ab2424bbcaf8f18299a637bd69241bdb73640e59373087ac",
+   "candidate_sha256": "0dd016f453377e26393ebe1a48b74d39e65d9276699a4942c6541517e0cab630"
+  },
+  {
+   "id": "cases:idiom-001",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "email",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "idiom_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6b368264a6879b618d866ec03aacbbad4b6d0a1ae3bfcac16f7a187880a51bfb",
+   "candidate_sha256": "a7a9f5fa91dae2801355d104dd49319f372fb9259761c8d2c387e3c2305dd954"
+  },
+  {
+   "id": "cases:idiom-002",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9a45b5b946047b42a344af1f2b04fff36d695bb0cba9fbf92bf9fadbcc5b19c8",
+   "candidate_sha256": "ecd30f3b06c9314201ca5cc82bce3b4376ea1492a8c8e618c8510911f2e5a030"
+  },
+  {
+   "id": "cases:num-101",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "15a7f397ed328a50a4abed0a28117d819a2b76318a425f56f09d5a5394249774",
+   "candidate_sha256": "2560e60019ec78d55d5de1a434ee6cd84791fda8c82dbfa3fd6587dd0c2b4bd0"
+  },
+  {
+   "id": "cases:num-102",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "15a7f397ed328a50a4abed0a28117d819a2b76318a425f56f09d5a5394249774",
+   "candidate_sha256": "8d85c0d728b795792759f8c3e278772711be0c36cfeaf77254d14aae8aef8ff2"
+  },
+  {
+   "id": "cases:num-103",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bc471c51c3aa638b8b4c89ba732ee9d04b73a1bef7bc9384412342b2a11792e3",
+   "candidate_sha256": "7f0b338451a8854e29c4147692840ad456e574f1f8a6091a9ab0a2f2682bd5a6"
+  },
+  {
+   "id": "cases:num-104",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2a5be2af4776ee8fca6f8cbf24a4084622018c3f7fce932fc375e22521e4594a",
+   "candidate_sha256": "5dc8cfb43b627d23b165adea0ed203d3b139eaee8378fe1cf55cc5e6b386adb1"
+  },
+  {
+   "id": "cases:num-105",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a0d7ffa97f19d42ac3594c0d191c404fd69fb2d340e1368fb60c9cc0bcda2a38",
+   "candidate_sha256": "df1cfea20a222edec77e675303ee4a1398f343849b8aad0df2e89e71a47773e5"
+  },
+  {
+   "id": "cases:num-106",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7e31c9d687f56729921a03578f03f0db85664a8ad93d5232895d848bc49d176c",
+   "candidate_sha256": "d0e87e42ab0899ded10877dc0db4619fb059f0e3af53c3b4bc5f7aea78c2bd14"
+  },
+  {
+   "id": "cases:num-107",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "3dbb2b4d39604786eab2f4c0f53f50302a754e4b7b90bdd6392426f5b075d073",
+   "candidate_sha256": "f028ae529bf82673583367c97f4e4cf5b167df83a117627662a2ba16fab36401"
+  },
+  {
+   "id": "cases:add-101",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "linkedin",
+   "status": "review_required",
+   "codes": [
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "162153a6e15ca147922e6e80648cf40e29db0a2ab9ae37cf6ebc88ee82dc1b2a",
+   "candidate_sha256": "1dfb9f3f25275a07f4332c5219ac9b957d149a1b676c70fb0440d9d497623d5a"
+  },
+  {
+   "id": "cases:add-102",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "linkedin",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "162153a6e15ca147922e6e80648cf40e29db0a2ab9ae37cf6ebc88ee82dc1b2a",
+   "candidate_sha256": "0c84509a9176b3cd639fb9304f33ef68fa8f0a744941e819247e022eedfb9765"
+  },
+  {
+   "id": "cases:wd-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "linkedin",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "db68043fe8ba460a59615231ac4f159b30dd553e881c1cd81e0c2ef79a042fab",
+   "candidate_sha256": "fc9a517084bdfa129abd1a2677afa815aa6fa9cb7f226b297bc0fdf9e16e21d2"
+  },
+  {
+   "id": "cases:wd-202",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "email",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "polarity_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "04470fe69dd61c651eeb1e34e8944736ee2370d074339034d8e1dbcf72fadc67",
+   "candidate_sha256": "dbf7a4f9780ff8bfe008f5d8a1f61120ef7362d3a33e1e12ce6fbe5305c61e86"
+  },
+  {
+   "id": "cases:wd-203",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "temporal",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "04470fe69dd61c651eeb1e34e8944736ee2370d074339034d8e1dbcf72fadc67",
+   "candidate_sha256": "65c9bf28fa0ef4646e6d5b957d1251d255f95caa68e7285920d2d00f8acb3ee0"
+  },
+  {
+   "id": "cases:wd-204",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "temporal",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d4b21440802bbf7588afbd5ba317fe5bd4bbfaf388ad867ba126c7da2d876d58",
+   "candidate_sha256": "d67c1d39e434274fd15e62ab1e2c5678f570849274d4fbe936c2fc08e4eef0bd"
+  },
+  {
+   "id": "cases:wd-205",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6e06774f60d64dfdeabaf09b4a3149cfbdb49347ed87af07c89ea01c460ef642",
+   "candidate_sha256": "7ec1c299a8e336438d341475ffa8e1c7a18bf22fea898131587aef2342f122a8"
+  },
+  {
+   "id": "cases:tm-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "email",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e3835ac6b6956894fc5ab55ba02d558efd64ed4996ae73c909636e731d78f6b9",
+   "candidate_sha256": "762962f0b8b1b7c4a20e3f6ef3c0a5eb7ee0d62e13448e292f31b2a621fe1fac"
+  },
+  {
+   "id": "cases:tm-202",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "temporal",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e3835ac6b6956894fc5ab55ba02d558efd64ed4996ae73c909636e731d78f6b9",
+   "candidate_sha256": "a47f6ca29b664cdc90a1ea0aa31fd94d25ac185fce393ec8d58ac0dceb347fc9"
+  },
+  {
+   "id": "cases:mul-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "addition",
+   "genre": "linkedin",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "predicate_replaced",
+    "quantifier_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c14809d7a583a5a8dd68376a28b250c597e0d60a883d1f35c0e766cc5410678b",
+   "candidate_sha256": "9a2286a81a50a6324aadf7d67f9a1d760cf5d22e9643ae961c09728179c7ac96"
+  },
+  {
+   "id": "cases:mul-202",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f88b2a17acb0040ddbffb9266e54871f62f129efe00b7dc1142c88663d2cd46f",
+   "candidate_sha256": "d32eeba1f00af7e925d9194b6db54a7429f6090797070f9cdfe261cbd6a6303a"
+  },
+  {
+   "id": "cases:mul-203",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "whatsapp",
+   "status": "review_required",
+   "codes": [
+    "predicate_missing",
+    "quantifier_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1f7f15a898dcac22b2e59b6c4bc34fbb1e36b07a369efb874373ecea387bcbb9",
+   "candidate_sha256": "5bfdd126d5c54ed7037817dd9ff8fd815a761c7075617d78ce278089fab78d35"
+  },
+  {
+   "id": "cases:role-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "agent",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1bfd7e4d1b40da5a4db144476c6c5177d943a8f2298ba9b9729f7b5de8dab086",
+   "candidate_sha256": "084c7fa913256130a8a86c75cc89d99078ecea72269e909b997af2ffb5656219"
+  },
+  {
+   "id": "cases:role-202",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "agent",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4104bdf3f8836a1f8f4d519c3e88e3ec056ff0da554b1392460a78aa556d4a9f",
+   "candidate_sha256": "81fd05efec3d0a1a847c798bce8ca7137efd2e991a1bce3f9e5979473e96cf7d"
+  },
+  {
+   "id": "cases:ord-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "temporal",
+   "genre": "documentation",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "88c2410f8c02a2a9fb2f7db606efc52d289982dbc22297b9bb00c35f5fe603e4",
+   "candidate_sha256": "9ccab5ac58c5f97b1965feeb445d6e50668f9de5e3cd29ff38778b2d8fd431da"
+  },
+  {
+   "id": "cases:role-203",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "10189c953b7c88aed659cf55190ec3b038f36daf5c23bbf48e2ca9582f32f3f6",
+   "candidate_sha256": "84b1b7c74b7b2f098451c9bed28e610793d28acc0dc17230772f0929c3c19a99"
+  },
+  {
+   "id": "cases:lim-201",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "email",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f52eaa9bfa9d378f1d8d129723b984b8b750e17480dc8ce6dc6508e213b848bd",
+   "candidate_sha256": "b114eea6cae06f7af7b52b75d96f8295b50e718c2a7dd7991a7823c2929db994"
+  },
+  {
+   "id": "cases:lim-202",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "79648699ab631b0d33d773fcc01b3ebb7c07bb378fa177f54afe58071d19dbe2",
+   "candidate_sha256": "194690fe31432d0f404c7704c87b14746c4cb1637ea600b6133e5fef76b66d2d"
+  },
+  {
+   "id": "cases:lim-203",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "documentation",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fc45ceaa11d3f1c5fecc80ca76d5e92ed3bac0863dca77e599a76e67a99ed03d",
+   "candidate_sha256": "b4b15538d860932ff7c890f6325b69585595e5f3758cf62aa6794cbc92c6974f"
+  },
+  {
+   "id": "cases:role-204",
+   "source": "evals/semantic/cases.jsonl",
+   "split": "development",
+   "kind": "agent",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "metadiscourse_changed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c0dcdc4996f0d5916c91fe58dc4b3e5edfa2bfa37ecf35818841245b03343500",
+   "candidate_sha256": "47676ccb59d86e3f557879659a0da52a681f9b2817176331fc1bcdbe3f3e3ace"
+  },
+  {
+   "id": "relations:rel-agent-001",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "agent_swap",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "cf8863ad0edf8d0c82371044b0b4c2bb6579fc98e87bfcdd4dcf78f03118fb16",
+   "candidate_sha256": "6ae696e16d8c28b53799f8d894852235069cba89614faa2a64f4c469c0c6d1c9"
+  },
+  {
+   "id": "relations:rel-agent-002",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "agent_swap",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e128cecaeda1bcb5c8c9ef6a1a923c96d066be191d20680bc99d830cad6bf025",
+   "candidate_sha256": "86835089ef08cd90defb3c33a10c3e910189797869e28f3b132038c98ffa9207"
+  },
+  {
+   "id": "relations:rel-agent-003",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "cf8863ad0edf8d0c82371044b0b4c2bb6579fc98e87bfcdd4dcf78f03118fb16",
+   "candidate_sha256": "ba69418f25793d2b3d197253c1dcf0bfa450ced640e8b69a5d2234bf2e9bc118"
+  },
+  {
+   "id": "relations:rel-agent-004",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d77fde83f66b069a0369c94f2d3b2271b1f4e07acc6e1d470dbae7e74b347c8b",
+   "candidate_sha256": "2c5d2f270d1bda8e89173b8e058070da6bb523dbc8387ce72a1ae06aa42e16a6"
+  },
+  {
+   "id": "relations:rel-agent-005",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "12e93636714ce9529de2eda291d82cdf469d9e98523fa0474c17c8caa8c10cff",
+   "candidate_sha256": "c8c7f9049115a4c604f495d0aec0b798789c8575ce8767045b8e0facd0829e21"
+  },
+  {
+   "id": "relations:rel-cause-001",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fd4f5ec3ff4ed99239e2d032eb48151a9b2a7b861463a4576e434aba02675fc2",
+   "candidate_sha256": "71dd24ce525fb708e880639156cfea0e80f2b4ba63f0047c1733868dc61a3dce"
+  },
+  {
+   "id": "relations:rel-cause-002",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d542e9f91cc9af60954ffaa1b4eda5e5c4ea1593d6eec3df0b1b9f25fece8156",
+   "candidate_sha256": "d2685559cfe88a2ed3a72c03767134c8c6b47dde86a7f370eb17435da45b5c0a"
+  },
+  {
+   "id": "relations:rel-cause-003",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d542e9f91cc9af60954ffaa1b4eda5e5c4ea1593d6eec3df0b1b9f25fece8156",
+   "candidate_sha256": "eacd8966d316e4120d49babcff9ac2ea7383ec014e3d071524bc58cac4b60a94"
+  },
+  {
+   "id": "relations:rel-cause-004",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fd4f5ec3ff4ed99239e2d032eb48151a9b2a7b861463a4576e434aba02675fc2",
+   "candidate_sha256": "c1a16e27e09aee6b9913c4316f3257ae8c2eeb7dedc3110c655520822b107956"
+  },
+  {
+   "id": "relations:rel-cause-005",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "causality_moved",
+    "dependent_sentence_moved"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "99fed8d917306f2d509813f1c7d26a53306005a7cdf257e9d9a8da3ad730061b",
+   "candidate_sha256": "49fce0c0f83f3875f74e72288903d826b4ccbd872573aacfe7335a0adda5d3af"
+  },
+  {
+   "id": "relations:rel-ant-001",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "antonym",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "702e10ebd9d612ad9ba6b01d5c62e0d08658e08b6a3810ce4fa27c84b7f4da7a",
+   "candidate_sha256": "febb5d06a2111aa7f43fa8e5730c30261cb2334597cd58f4073b8793e4f237be"
+  },
+  {
+   "id": "relations:rel-ant-002",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "antonym",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4bf51b280aca1d05b6900e9b7878694ee175088e4d0c844a44fbe7356a33fae5",
+   "candidate_sha256": "26e9c8022621c0b6722ae6d6a8920628b8f472d3efd1291d73269d947f9763ca"
+  },
+  {
+   "id": "relations:rel-ant-003",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "antonym",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1f52637e54cdbec8462703f3918a4e83a3593d8ae5c8da4a276583a72f9aab82",
+   "candidate_sha256": "f7ab2d9c9baabab6bcfa44e2ad11aa777f27e1626c5545b0711a5142582d22b7"
+  },
+  {
+   "id": "relations:rel-ant-004",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "antonym",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "binding_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9225a11262bf7f2998c7324ec62ecd68e8e75004070cad04989b8a1eb0b69eed",
+   "candidate_sha256": "c09a73591535516269d57a9d6437ffba2577ee262100be89055ff03766d23ea9"
+  },
+  {
+   "id": "relations:rel-ant-005",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "702e10ebd9d612ad9ba6b01d5c62e0d08658e08b6a3810ce4fa27c84b7f4da7a",
+   "candidate_sha256": "0654cff6466b8a6bb2337fd04af26a3368f576e785b6a04c2bfdbe35ca68bbf9"
+  },
+  {
+   "id": "relations:rel-ant-006",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "51f1a73028ca4127ee6f94dfea704f790b8b95c7a2cb40d07979a72e4dc56e87",
+   "candidate_sha256": "98a73abbc63ebc919ce56baa6ce3dae6bfa831a9aae8d16d57e0487e8d21a076"
+  },
+  {
+   "id": "relations:rel-ant-007",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e851ce5c4c7d0f0dcc670c7cfe52c124644c2d03dc8b9a81341ca0a6e38a27a7",
+   "candidate_sha256": "352d8600136b37c1dcc1fe391cb2d65cc7b52c4bc531f7ace088a019a03733cf"
+  },
+  {
+   "id": "relations:rel-attr-001",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "attribution",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "attribution_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8a28e068914311464feeaaea4f40917d1631e0a072553796c05785feb48dc195",
+   "candidate_sha256": "80e90e6691f7f2b0898d9104fd890fdfb956a7c7d59389aa513131af3e2a7cf5"
+  },
+  {
+   "id": "relations:rel-attr-002",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "attribution",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "attribution_swapped",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8b1f82f205846076e9b75f556097f3c0208499e0284105fac421b68cde590894",
+   "candidate_sha256": "f04d5c1a0961f1e434d9e3367c9387c908f9aeccbb37fb6c1b0efecf67efbadb"
+  },
+  {
+   "id": "relations:rel-attr-003",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "attribution",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7c96154a480b7f12fc48593edc07e196523805c3f13634a474733d23e51eb7b6",
+   "candidate_sha256": "9c761a786fd1f6c3cd54cd181ed3f3108d1f77bbd0843ae6e1aec6e051f7293d"
+  },
+  {
+   "id": "relations:rel-attr-004",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "journalistic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8a28e068914311464feeaaea4f40917d1631e0a072553796c05785feb48dc195",
+   "candidate_sha256": "87e7310e6eb83aba82b9b42cf9e8cecc338fe089925d640ebb020a1ae1e3f63d"
+  },
+  {
+   "id": "relations:rel-attr-005",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "known_limitation",
+   "genre": "journalistic",
+   "status": "review_required",
+   "codes": [
+    "attribution_changed",
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "75427ac97dfbdc3d495a8079358175b0dbe99e945741e6710f5751d220372ac2",
+   "candidate_sha256": "5f8500be52c5ceb256b790b7e4f6506eeaf42865c587b9c381b0a5630c8bf840"
+  },
+  {
+   "id": "relations:rel-entity-001",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "relation",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped",
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d549c7523a4a4bda5b6d75a27e0fce0889762395adc425fcf88d6f9509da4b34",
+   "candidate_sha256": "b02f1c12fff0fc99b582ce623b42e52986f5dbc5863954ed1328a5faa1af9a8d"
+  },
+  {
+   "id": "relations:rel-entity-002",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "journalistic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d549c7523a4a4bda5b6d75a27e0fce0889762395adc425fcf88d6f9509da4b34",
+   "candidate_sha256": "a4e066a92122b68a9ed4e58680a9ad80b0aeb54b64de7bdafd10cd428384f7f7"
+  },
+  {
+   "id": "relations:rel-entity-003",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "relation",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d549c7523a4a4bda5b6d75a27e0fce0889762395adc425fcf88d6f9509da4b34",
+   "candidate_sha256": "2d24c46035234cdc7abf89d51ff9a9de3e4fdc774537a1d2d956aa62fea6b6fc"
+  },
+  {
+   "id": "relations:rel-cause-101",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "causality_moved",
+    "dependent_sentence_moved"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "00f6634edc897b45e8b283e0128097c927fdb16c7595e424a1323756d521dbe2",
+   "candidate_sha256": "b232be04fd9264d0dcbbee0354dbd04ea95f3eb9f8c6d79a49b612605ff66fe5"
+  },
+  {
+   "id": "relations:rel-cause-102",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "00f6634edc897b45e8b283e0128097c927fdb16c7595e424a1323756d521dbe2",
+   "candidate_sha256": "61cbe4ee690db352c66412e88808a784d080f692d255934e0111bd53a0efedd2"
+  },
+  {
+   "id": "relations:rel-cause-103",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "polarity_changed",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fcc648130f98ffffc9d6bad8551e426700f33f196ef948f2ea7a34f79daaf729",
+   "candidate_sha256": "e0831ecd2cef9f10cc3c3dbdeae9e0502677657072471cf3967c16f57059534e"
+  },
+  {
+   "id": "relations:rel-role-101",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "relation",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "77561f29986f7837781cb95d2944ac3beef7a55d4569b7ff6918eff835d353c4",
+   "candidate_sha256": "60ce37ec4734d247cd6a0abd90208caae14349068c6a99543d79a927a9eb166a"
+  },
+  {
+   "id": "relations:rel-role-102",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "journalistic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "77561f29986f7837781cb95d2944ac3beef7a55d4569b7ff6918eff835d353c4",
+   "candidate_sha256": "5cbc3afec273c5b031544b63407cda54c32ed71d3dab55731dde30f8e9768f70"
+  },
+  {
+   "id": "relations:rel-role-103",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9e55f8095a28bfc6264d7ab1b5af5346137d595bd55df03bf13d1791ffbfbfb9",
+   "candidate_sha256": "b3ce762f8b44a0f54320c7b6ca8336426b9cff1b221c296c7f977959d3a6d9da"
+  },
+  {
+   "id": "relations:rel-role-104",
+   "source": "evals/semantic/relations.jsonl",
+   "split": "development",
+   "kind": "relation",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ac92dcdbca10dc23c1ba2794c6495c11dab67f0e52b4786b871cb2cea8aaf448",
+   "candidate_sha256": "ab80fb1072f92e3b01c7785b537679acb14d5ad3efa9397b252eee5a5f83946a"
+  },
+  {
+   "id": "holdout:ho-001",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "negation",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1b151612b71d493fa394d33e6a42e17841a7c37c0d2cdae9f23d85b8e88dcd10",
+   "candidate_sha256": "0b6168050b90c783948839c9b081fc62df5cfa5293ac3e8a7dde8a01ab535f3f"
+  },
+  {
+   "id": "holdout:ho-002",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "causality_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1b151612b71d493fa394d33e6a42e17841a7c37c0d2cdae9f23d85b8e88dcd10",
+   "candidate_sha256": "5cb3eb42b8e2dce35cff786b5ad35a8a874a187fb0aeda959ed04928fa126934"
+  },
+  {
+   "id": "holdout:ho-003",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "modality_changed",
+    "polarity_changed",
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c0a30a43bc8dd503ddd90ae7533f19a6ffd06d9345af11fb5720e844d62d7de0",
+   "candidate_sha256": "57ad9e50cf8a23eb4d74f2e3ac4d812cacf8e133dbee5ae451aaf54a09f8fe92"
+  },
+  {
+   "id": "holdout:ho-004",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c0a30a43bc8dd503ddd90ae7533f19a6ffd06d9345af11fb5720e844d62d7de0",
+   "candidate_sha256": "ed4dc193f0517890a5ba873c32875db0f1ad25c272dc30821bf5d6ea1a2c2f5f"
+  },
+  {
+   "id": "holdout:ho-005",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "56932d93f9674e5de01faf07c18093dca49bd8a7082ad805498ce9cfc1038513",
+   "candidate_sha256": "a7534ae2d761010f54c6393e11e639a2aa6b8b07b480ab03d56ac67fb12e1b9d"
+  },
+  {
+   "id": "holdout:ho-006",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "56932d93f9674e5de01faf07c18093dca49bd8a7082ad805498ce9cfc1038513",
+   "candidate_sha256": "7a6dc4d38a1684ae8c54e32aaa0e3d95ae92f16ceb284f9c7a99fc6e5c9e2361"
+  },
+  {
+   "id": "holdout:ho-007",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "linkedin",
+   "status": "fail",
+   "codes": [
+    "possible_addition",
+    "quantifier_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "667777f79ed0663d5110378cac4a5a4427238c6eda8ed7bea510de32d65bbd0c",
+   "candidate_sha256": "c51043d80241cf62d0ab7aae06a2965d1ebc4516196a87b9fb19d37cf2a603b0"
+  },
+  {
+   "id": "holdout:ho-008",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "linkedin",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "667777f79ed0663d5110378cac4a5a4427238c6eda8ed7bea510de32d65bbd0c",
+   "candidate_sha256": "637599b32083a627fa107c17d5b181b877a9631dbd700d85295991da4bcd6848"
+  },
+  {
+   "id": "holdout:ho-009",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "causality",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "attribution_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7a3eceacb2ee5b44172d1c089e6ce1506c12dbfe5ca08c9548392039788168d7",
+   "candidate_sha256": "094e720872f365d9d51b7c8f0ccca9ef47344852ab61c4c5fd0024c544d0f2ac"
+  },
+  {
+   "id": "holdout:ho-010",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "causality",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "causality_changed",
+    "polarity_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7a3eceacb2ee5b44172d1c089e6ce1506c12dbfe5ca08c9548392039788168d7",
+   "candidate_sha256": "0f054f3ec2f606a43c836eeecd14125eaf578d39274771158b0553fab16e24ec"
+  },
+  {
+   "id": "holdout:ho-011",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fa358eef284d03d245c2e1d1d333fbeca2d24262821ec9183eda8b424bd70b4f",
+   "candidate_sha256": "ec82367049250392e76aed57e4d011d4dbd86ee8587e0e59427558f3374038b8"
+  },
+  {
+   "id": "holdout:ho-012",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "no_change",
+   "genre": "whatsapp",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fa358eef284d03d245c2e1d1d333fbeca2d24262821ec9183eda8b424bd70b4f",
+   "candidate_sha256": "fa358eef284d03d245c2e1d1d333fbeca2d24262821ec9183eda8b424bd70b4f"
+  },
+  {
+   "id": "holdout:ho-013",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "condition_changed",
+    "polarity_changed",
+    "quantifier_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f8089e4fef2af2e29167cbbfc6a8baf2601f93ffc37d8533e24bc908c87aa49d",
+   "candidate_sha256": "260ebda2a99f852690a6733b91ef4b534f64136db4ca363b80f041eaf7e9b09b"
+  },
+  {
+   "id": "holdout:ho-014",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f8089e4fef2af2e29167cbbfc6a8baf2601f93ffc37d8533e24bc908c87aa49d",
+   "candidate_sha256": "252355b6d3cff213b2ed6e65576a9972852531d9b20bfa5be80253cda9f1a175"
+  },
+  {
+   "id": "holdout:ho-015",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "048aa83cd67c1b1a3009aa588d5cdf5204c83518db29bda162025895d79227d6",
+   "candidate_sha256": "4d47e8cdebd9b0aee4de6b964e09addeb4a910de1c4976644ff5772c34e1476c"
+  },
+  {
+   "id": "holdout:ho-016",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "academic",
+   "status": "review_required",
+   "codes": [
+    "metadiscourse_changed",
+    "predicate_missing"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "af2050bf99cd927540d94271d478a310630c245abe85820d87bc358689541ec7",
+   "candidate_sha256": "f35f7410a587f0bd26a79615788b74070b4f72013f6ffafed1ee1bf92ff8cc48"
+  },
+  {
+   "id": "holdout:ho-017",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d3b44cf6c7f099e00051d75eb435969dddd52593fdc45e9a5344a544bc733266",
+   "candidate_sha256": "7462866ad95f58ccd53c2f993c2c04ca2eb407d7d46bfc874af9279ad4234122"
+  },
+  {
+   "id": "holdout:ho-018",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "possible_addition",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b2b7f6b05ec550fd5d1174c5f65a41859e70f64e252bb11d15a8f5138e09775e",
+   "candidate_sha256": "6b62294dc2395bb0a21cbf7a4974cad56c7b87cc562f94b62525bc16afee94e2"
+  },
+  {
+   "id": "holdout:ho-019",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "negation",
+   "genre": "legal",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "222dcb8ab17d4069d4aefa348500279b2fed26311facbe45e92544ed84d24846",
+   "candidate_sha256": "c0a0d822771294ab4c84c3628e99995f7e4b430d3f38823fdd6710f26199c2fb"
+  },
+  {
+   "id": "holdout:ho-020",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "legal",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "222dcb8ab17d4069d4aefa348500279b2fed26311facbe45e92544ed84d24846",
+   "candidate_sha256": "000b570f58d81ff4bbddfd1479bfc63b0db652b437d0349eb9c458f450c74179"
+  },
+  {
+   "id": "holdout:ho-021",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0ae7f699d49859a97767fd96a0e4f2bd092b0392da3ff5fcfce1e32a6cf91141",
+   "candidate_sha256": "3684a1b30f21714113ccdaea862ba39105ac3e5e119610603ba36cfcb22d0f15"
+  },
+  {
+   "id": "holdout:ho-022",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "cf8863ad0edf8d0c82371044b0b4c2bb6579fc98e87bfcdd4dcf78f03118fb16",
+   "candidate_sha256": "6ae696e16d8c28b53799f8d894852235069cba89614faa2a64f4c469c0c6d1c9"
+  },
+  {
+   "id": "holdout:ho-023",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "social",
+   "status": "review_required",
+   "codes": [
+    "length_ratio",
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "018d1483069790f2ecdf053a877c7ba6c62ac4e7d2884cf5d0575fdb1abd8d53",
+   "candidate_sha256": "4d8aae1a6400669b06729f9e5d9bdaed6b6a0a93d0f97e6c8fc5166dedfa3f58"
+  },
+  {
+   "id": "holdout:ho-024",
+   "source": "evals/semantic/holdout.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "932e763df95dcc9f50a0f5f02f7e91f1d37bf74a7242421ce6af8b4edd388fcd",
+   "candidate_sha256": "4af5df3b2810b492efecd705fa5cef6502738757d8d0ec1f8aa039b505bdc920"
+  },
+  {
+   "id": "holdout2:h2-001",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "negation",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "negation_changed",
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "dcecbb0ead689ea327a058a7bbd44f3d6d08e9d99b41e3a4154062f4873b6928",
+   "candidate_sha256": "46daf0c31457648869005f7dca71c4ed836124eb1997b870bd0f6df3c162a6dc"
+  },
+  {
+   "id": "holdout2:h2-002",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "negation_concord_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "dcecbb0ead689ea327a058a7bbd44f3d6d08e9d99b41e3a4154062f4873b6928",
+   "candidate_sha256": "d7fd3ee40cf599d0eb0620f6307235ae56ce240bb6b28077c5cc18c89f9f4ea0"
+  },
+  {
+   "id": "holdout2:h2-003",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a061461d1bba4b46311f0ef67a9149716093e41c09f9eb413d0d298d24afc4c7",
+   "candidate_sha256": "278ce54fdce96bf30e40a8a3739fbd0fc4b778023619d38db546f8e03f53a3bb"
+  },
+  {
+   "id": "holdout2:h2-004",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8e4c2cd81ce47783c93345952caecc3a9fe021b777006f7617b6c247b74cf126",
+   "candidate_sha256": "119be0a1caaeb284b3e91601f0c7c32c781f1f498901aeafdd1c9a2c4a6faec8"
+  },
+  {
+   "id": "holdout2:h2-005",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b0d19132c1f4a7708bacbdb4016b2a3d4bb6f453a8afb7a7ab7133ffdb1f580d",
+   "candidate_sha256": "1ce45551da4fd2bfe4c4b42cca11d1a804ac4b9ebc5b2dc3ada13351d7d33c8d"
+  },
+  {
+   "id": "holdout2:h2-006",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "documentation",
+   "status": "review_required",
+   "codes": [
+    "possible_omission"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6fefc4d1cf41a72ad7e704afa9cc56de3439821418cb6e3c0f4b0c1470e1d46c",
+   "candidate_sha256": "84a55fd775e56d5265a3f473bd6d0d755961de395bea7c58b178579ae7c9e81f"
+  },
+  {
+   "id": "holdout2:h2-007",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6fefc4d1cf41a72ad7e704afa9cc56de3439821418cb6e3c0f4b0c1470e1d46c",
+   "candidate_sha256": "4e820a34e1105ba9b1d5ae0a55928602ac11e11a9795f4f44be921929143b3c8"
+  },
+  {
+   "id": "holdout2:h2-008",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "quantifier_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "97ad4e01e66335e179e6cda06a8538c9da9590dc11bc848de65552c7a7e02901",
+   "candidate_sha256": "caa4fcc0757f7e816188156552068a08842e94ad1ef9b020f131f5bb3ab59951"
+  },
+  {
+   "id": "holdout2:h2-009",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "causality",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "causality_changed",
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bf0a96b551034ff76f941a85d8946d9e05579afc9139bf9bd9ca8cf5a99757d6",
+   "candidate_sha256": "3fcb7260dc03a109ff4c0fa2e6d9aab7992caa9a7afa4c3fe14d3de1549f703a"
+  },
+  {
+   "id": "holdout2:h2-010",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "whatsapp",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "d74e08233e2d750a07b7229f8992d1c5ba5c469948af8f4390fcd528baf1e811",
+   "candidate_sha256": "bbfbc5d780465049a5601de6c3c9f5494491ae42ae6c04cdeadb3e1920982a9a"
+  },
+  {
+   "id": "holdout2:h2-011",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fa02f2f0ef000a9ec1c004f9d1d36dbacaa2154f8e8c4620446fe116bf3ba5fe",
+   "candidate_sha256": "d31763c2cda369b96c4734d8d05b840f4d6ad21d0c1a93225d2a26b0bc5f82e4"
+  },
+  {
+   "id": "holdout2:h2-012",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "technical",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "295ebb7e1f8f633bd6f037f04225e2aa9dbd58c86922c7bf7fc3774cf66a88b6",
+   "candidate_sha256": "ba0b56162b31a81be915b8a2fabd86b940c8f42c3ac67c65008714c41484dd7c"
+  },
+  {
+   "id": "holdout2:h2-013",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "no_change",
+   "genre": "literary",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8463fea4179ea0e28370ea31c9327432dfce4c8c5af567e1a4300e2e71902753",
+   "candidate_sha256": "8463fea4179ea0e28370ea31c9327432dfce4c8c5af567e1a4300e2e71902753"
+  },
+  {
+   "id": "holdout2:h2-014",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a367c0d8be6ae56339792106f2eba28256c80b74f4f7b05b01291c726919e0dd",
+   "candidate_sha256": "a28586301850b802d4797ba2d2a5f6a8890daafa88688745b61d7696acb51c7b"
+  },
+  {
+   "id": "holdout2:h2-015",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "technical",
+   "status": "review_required",
+   "codes": [
+    "condition_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6f73fcff39c1a2f0040b3d864f65b6a7153be60ee376627745c106cf70e5c429",
+   "candidate_sha256": "185f162c2957e68c7f7347eab0c9aa24454a9d9e645b0f55eef81e79e46a29ca"
+  },
+  {
+   "id": "holdout2:h2-016",
+   "source": "evals/semantic/holdout2.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "possible_addition",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f7d7a498020735c6974603b2de0bfe8b0e80d1b0315fb39c8c8533b20cb06ee1",
+   "candidate_sha256": "3b01c3847dc9e0ac3ce795402072627feea74b217ed34a6d67179db5fe75e320"
+  },
+  {
+   "id": "holdout-relations:hr-001",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "agent_swap",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b7ef6db35ef01820aa7df5062c441ebe86a688313a5436816437c033e36b4f60",
+   "candidate_sha256": "65e920924609c4ce7e370966418f341f51c966f6cba504ec231167575c41089f"
+  },
+  {
+   "id": "holdout-relations:hr-002",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b7ef6db35ef01820aa7df5062c441ebe86a688313a5436816437c033e36b4f60",
+   "candidate_sha256": "2a748a1ae5befec84931ca01f234bb3e83bbe91a3b184c9e414b3da901920420"
+  },
+  {
+   "id": "holdout-relations:hr-003",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "76972c2039ac05ddfb820cdba4f7ecdc5e8ed54c2dbae9cf51e500e094f10c45",
+   "candidate_sha256": "7b8456753ed46eac6e4a0e418b606e1439f12243f046c3ee8ed46f7a1428f258"
+  },
+  {
+   "id": "holdout-relations:hr-004",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "5f61d0762925f9f8a3a6c14af04408b713d28d9b3786c18c36f8eb00e60471fc",
+   "candidate_sha256": "43e8f4cdf9f128f92b15882d5791657ce9f73d71f85199f6b71c3537c6c1dbf4"
+  },
+  {
+   "id": "holdout-relations:hr-005",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "antonym",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped",
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "170caab331722e82a6efd64fb4937c5926744e79787bab91abefdb8a58a6b148",
+   "candidate_sha256": "4390cc6888a74cb4399048dabba97c5256474d71b6fed1f30176f24a5c46a0ee"
+  },
+  {
+   "id": "holdout-relations:hr-006",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "antonym",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c5a5283671288bb7bdab38560b66f474ac7f4b8a3b82e04cd86379d76f816749",
+   "candidate_sha256": "9b6610e48b1b9586975040be98871b3f0ad44c3d40fcf472d638f5fffd15407d"
+  },
+  {
+   "id": "holdout-relations:hr-007",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8834126effbb8df8d149e590e5757fa4f26f43a7d7e0ca722ccaf3923b885e7e",
+   "candidate_sha256": "a8f67ede6759d07f9f034a98493a9605c17499a5cee6b758cd8cd841ef37b5ed"
+  },
+  {
+   "id": "holdout-relations:hr-008",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "attribution",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "attribution_swapped",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c2b6ed4114bef95ce7ed38c3f8f6670ac2b9ca5735b374d90f51b5dc8022c159",
+   "candidate_sha256": "8d3ac9de37688479828ddcfd3a05e6f60f92b503b076950d8d035bf3dd67fded"
+  },
+  {
+   "id": "holdout-relations:hr-009",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "journalistic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6232691363671a93c040176fced38563d17c5dc4e7d1a5c177732a46466d726a",
+   "candidate_sha256": "94d6a56af38b4b0d84cd4859ee35f4361fb1f44fdb7a706c1e2c70f29d2db329"
+  },
+  {
+   "id": "holdout-relations:hr-010",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "relation",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "entity_binding_changed",
+    "role_or_order_swapped",
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "00eb90efc4670f8651ef32588a13077f9d3c6054c9a670b144cd260f7e994ded",
+   "candidate_sha256": "2ef37f70e404ba0a6c5d819379160a8c9a983d6d42de9fff764f435a01531e25"
+  },
+  {
+   "id": "holdout-relations:hr-011",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bcd63ee07d3098f6e169d02b74541c2fd0960e28af2893edc1bf6a069746a729",
+   "candidate_sha256": "526c1e4f4434edbae20148af6c60881268d15347e8192bcb16797eeadb0e79ea"
+  },
+  {
+   "id": "holdout-relations:hr-012",
+   "source": "evals/semantic/holdout-relations.jsonl",
+   "split": "frozen_regression",
+   "kind": "antonym",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "polarity_flipped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "960bc4ae75689732e06bfd289a21939ad9f7f0de0ec908b76c51130a5e0e965e",
+   "candidate_sha256": "75288b5b27237eb6b6ab26bc47ea1d77e72764fbe7f5ace54f95730f243b4ed1"
+  },
+  {
+   "id": "holdout-v030:h3-add-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "linkedin",
+   "status": "review_required",
+   "codes": [
+    "possible_addition",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "cec7dbfe4a29b2e53a500a3f56d33332f251a14c8017f99ce0843fd6bc3c87cb",
+   "candidate_sha256": "ecebea7bfa0b8cbd54a6f461a264b4ef718972a7089d5a47dbf751b93b6c5fb7"
+  },
+  {
+   "id": "holdout-v030:h3-add-002",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "aspect_changed",
+    "length_ratio",
+    "possible_addition",
+    "quantifier_changed",
+    "span_added"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "79072229e7bc9b655c3596e0c93493d0e685e44084d1e8a879f51be534a20698",
+   "candidate_sha256": "b37b8dcf8b4d094bb0b0359d26fe0dd266f939901bc966029b7fa60ee1700d69"
+  },
+  {
+   "id": "holdout-v030:h3-add-003",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b31c7cb0dc68ae366c05e0f0725d373d854e53ff6821591b07e760d3bd25e0af",
+   "candidate_sha256": "12bdf03d3bbeb2b6a8b8ebc839bff70e8c48cd4d83f14fdb5e7538deca89308f"
+  },
+  {
+   "id": "holdout-v030:h3-omit-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "omission",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "condition_changed",
+    "polarity_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4480716e17470a8fa7c08d5293e3d59270bc5830075a4546d8d0e5c20e610735",
+   "candidate_sha256": "215c3befee1b301e0d372649e126dd216a399a2eb8d46c7608b4276b16743f92"
+  },
+  {
+   "id": "holdout-v030:h3-num-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b44db280e818bce6186db38a3a54fd9e527ec08544190e0181a58745c7834e58",
+   "candidate_sha256": "cf8a560ccde316fc1311aba8b28e39aaa991f7857410ac29e87d1e6184ffefff"
+  },
+  {
+   "id": "holdout-v030:h3-num-002",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b44db280e818bce6186db38a3a54fd9e527ec08544190e0181a58745c7834e58",
+   "candidate_sha256": "5ad4a91e49a0554c9eff0d61807ba6000accb078d5f019fba6d2056eda5d61d5"
+  },
+  {
+   "id": "holdout-v030:h3-num-003",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c7745ced6cc8069674b57e7f733c1440765f42204cece6948530ba078bd766ed",
+   "candidate_sha256": "465fb0c49a9d2cc9923c09f60ba7a0a92d66400b25bb343914e88c0146fb575e"
+  },
+  {
+   "id": "holdout-v030:h3-num-004",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b31f8048c5bb3a343f951b01d098b34d9b817bb68c65d7293bf9729d0d8ed7c6",
+   "candidate_sha256": "ea34ba6af3f89594cff7056e64fd13e76c9eb9dffda5e4c4157d38d0acd9f580"
+  },
+  {
+   "id": "holdout-v030:h3-num-005",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "whatsapp",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "fe3ef61b07f9fbfafed1b5e8965717cd45aeb037e7295ca4b4fe4d5888e26ee3",
+   "candidate_sha256": "22b8bfee026e87db9f5b09ac6492dbcde78401e51d7faab27bda36300bb21e69"
+  },
+  {
+   "id": "holdout-v030:h3-cause-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "causal_direction",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "causality_moved",
+    "dependent_sentence_moved"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a737233806eb5f77822cacc3f96dfd5e7efb01bf39c3ffb16409205a13e182c1",
+   "candidate_sha256": "927a43ade0531601947ba1dbc81dfd3667789136c8e5c4e7216b1e438131686e"
+  },
+  {
+   "id": "holdout-v030:h3-cause-002",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a737233806eb5f77822cacc3f96dfd5e7efb01bf39c3ffb16409205a13e182c1",
+   "candidate_sha256": "6e0193bf3b70c66f8908be005430e24d8493aa7984273dbefb74480ddb5b2af1"
+  },
+  {
+   "id": "holdout-v030:h3-cause-003",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "causal_direction",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "causality_moved"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7172f8b1f7c274e609eab293e927331e83abae41795f01d0c636a8c760c3e64c",
+   "candidate_sha256": "c5f52420330a53f21d86cc28eca09361cd17a721d643c6aefababd0316621f7f"
+  },
+  {
+   "id": "holdout-v030:h3-role-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "relation",
+   "genre": "journalistic",
+   "status": "fail",
+   "codes": [
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2408e8b2895e050fd95c1fb958e344d9da941fe27cef29c4a388e3200f542863",
+   "candidate_sha256": "a177d8d533143ea0a94614a225c6693ea54e6d6817ce29cf18ec8a53cc07371f"
+  },
+  {
+   "id": "holdout-v030:h3-role-002",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "journalistic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2408e8b2895e050fd95c1fb958e344d9da941fe27cef29c4a388e3200f542863",
+   "candidate_sha256": "294843f83383f56c1df4b8b01dcfe4957761e87c8d7e675c4afe6361725ce5ac"
+  },
+  {
+   "id": "holdout-v030:h3-role-003",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "relation",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "role_reversed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1b6877241dbcfb23e0bea25e491e937fec8a9a35d4e933db34be1b2c537e4fff",
+   "candidate_sha256": "de3e4ffda0e6089c49f956a0aae1945e2837cb651f66b63728eceb5089d4f453"
+  },
+  {
+   "id": "holdout-v030:h3-role-004",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "false_red",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "656e7193bb589a751574c1b0cb9a5622ccdb95d98b71d7e372a5df0a8adccdeb",
+   "candidate_sha256": "42ba874b9a9c3269006d3de3818ebfd045599cf1d2b68bfc1eb90ad079420c5b"
+  },
+  {
+   "id": "holdout-v030:h3-scope-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9ae837c7c55bf22a36f30b31a34adf1f7c85d43f019d7043f0109b282eef445e",
+   "candidate_sha256": "a2afabff16c39d70c93203b7e2a7ca5a57a65f4ef280db45f4118cf38851829d"
+  },
+  {
+   "id": "holdout-v030:h3-time-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "polarity_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8f36af405869655d7e6c3d75a2b08c88aa522957d87fbb11144129501a9b30f6",
+   "candidate_sha256": "0ce780b652886b4f52faf3c9aaa093213362c69b948aacade1cbaabc3611959f"
+  },
+  {
+   "id": "holdout-v030:h3-commit-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "factual",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "commitment_changed",
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "39560ec3c68def3b4a4df41df54ec361565a8b8889384cdea0fab38fdd341357",
+   "candidate_sha256": "0cbe8380a9a5266df6047244bd2e211d0d7f2894b0ebfb3c209d5594e799f5ff"
+  },
+  {
+   "id": "holdout-v030:h3-nc-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "no_change",
+   "genre": "technical",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "80c8008c962f621b3cb7d73e4ea5867a01a61d0201a5f4cb7a1aacc7fa219f0f",
+   "candidate_sha256": "80c8008c962f621b3cb7d73e4ea5867a01a61d0201a5f4cb7a1aacc7fa219f0f"
+  },
+  {
+   "id": "holdout-v030:h3-lim-001",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "journalistic",
+   "status": "review_required",
+   "codes": [
+    "attribution_changed",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7538a75e4aa5ea4116e4070798734bd9721982738738e1dd0f550112c424dadf",
+   "candidate_sha256": "3660ae0c2520fc9403b0307638c899371c4febe3a70cdb5cc728c5c5b0518331"
+  },
+  {
+   "id": "holdout-v030:h3-lim-002",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0f4357bd2d053d7b939c9c11376e2087de4520403e13fd670183cffc606a3fe2",
+   "candidate_sha256": "7938b72dfffb6f5ba14da1f8c985c74aacee2e34407b024a6a8cdb9e3ea4d5de"
+  },
+  {
+   "id": "holdout-v030:h3-lim-003",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "17af63dc3c07eb7b4690a1511c34b5d117895cab4ce36e0106d064b3a13b806d",
+   "candidate_sha256": "c082a31786e833392e5eac9b01e67cb7fc51c024ffc75a432d2fc8e0a546e7ae"
+  },
+  {
+   "id": "holdout-v030:h3-lim-004",
+   "source": "evals/semantic/holdout-v030.jsonl",
+   "split": "frozen_regression",
+   "kind": "known_limitation",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1a16d9c05f0d84b837ea7783c7b85eac095c1fc989327ebfa862861fe6070d58",
+   "candidate_sha256": "db92e48fdf0e51d2e7aa29359e1020b341add9f71d9f242b67eb7574051b6235"
+  },
+  {
+   "id": "holdout-v040:h4-wa-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "value",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b89ebbba26a83533051e68ac211f9e14d3ba1cd5d05da76f622d3d3b396c0e0e",
+   "candidate_sha256": "1b8cd1f9a8e2acf523acdd8da71a97c61c9867df1253e2a1802ad2bf86dcb3fa"
+  },
+  {
+   "id": "holdout-v040:h4-wa-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "negation",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "adc8d79209cbf31a0e2ef83667f4c20c4d457b5670ba33f27834b4a7181b4692",
+   "candidate_sha256": "179008668f5115ebe8a7567b724f637ae42425cb74719061e0f8fda986aa67d4"
+  },
+  {
+   "id": "holdout-v040:h4-wa-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "valid_rewrite",
+   "genre": "whatsapp",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "53c30b278769bc21fb52346c6d18f55f3c1c97fecf2d2fb3c2e79147e792d05b",
+   "candidate_sha256": "c95f86421452e8c4f4e03bf65d18134e52ccc73f03a4bec6aff5975ae44cac6b"
+  },
+  {
+   "id": "holdout-v040:h4-wa-004",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "commitment",
+   "genre": "whatsapp",
+   "status": "fail",
+   "codes": [
+    "commitment_changed",
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7488647608bc8bb02e911dd1ad8449571579453cb072f0459a3aca5fb16c8eae",
+   "candidate_sha256": "5806bc980d3db603145b611b85cb175defffc1af2b7f2ac8359f0ea670b2fcbf"
+  },
+  {
+   "id": "holdout-v040:h4-em-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "value",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "e1b8b90778d115c89276e2063a6f2b192793ce63107097ccb6280cf7686ef429",
+   "candidate_sha256": "8dbc7c7cb1bac5bf43d57e51206150c63e25d804ce8f8a1749d2b75cca3e9a46"
+  },
+  {
+   "id": "holdout-v040:h4-em-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4a5e1216e9c2c586886d854424b941d9e5b83b79dafd8b31ed18b8ac114e27b7",
+   "candidate_sha256": "98157f2bb28341c0decb78eacb7bd7b389cde994e0dba02426ae2848df32b630"
+  },
+  {
+   "id": "holdout-v040:h4-em-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "channel_transform",
+   "genre": "email",
+   "status": "review_required",
+   "codes": [
+    "aspect_changed"
+   ],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "bbb2b1c70727f7f86115b7242f8a3aac244c2dfbea26f8bae17cb0a56a0a13cb",
+   "candidate_sha256": "ed6a36241cd903fe3d71023b3cf5dfc485c4e771b5f5784ba5b76dd0cbb9bc12"
+  },
+  {
+   "id": "holdout-v040:h4-em-004",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "condition",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9bee90c38b57c3062dcea334db3bdc73028773decb9d07d74ece4ac960d11352",
+   "candidate_sha256": "e2efcf7c8781ef86ba10014643be8f8a0f241c853d904e82797e799787f96159"
+  },
+  {
+   "id": "holdout-v040:h4-li-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "addition",
+   "genre": "social",
+   "status": "review_required",
+   "codes": [
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0680bf31733dd5c49294ab1737372831ac4cb9aa80148d60f2cbca4c08695780",
+   "candidate_sha256": "e6bd57109e508d11a5ba75e7f47cd6e399c78cb51f75380d9c6b108e5f637f62"
+  },
+  {
+   "id": "holdout-v040:h4-li-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "valid_rewrite",
+   "genre": "social",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "metadiscourse_changed"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4bd4db8b00fa700ef7fffa6e5f8342d54a395c853ef4a6026218bad24e0dce4c",
+   "candidate_sha256": "596a7acac7df37923606c83ea67edb6ae775de445d39e1d5f294f226f4bc78f3"
+  },
+  {
+   "id": "holdout-v040:h4-li-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "attribution",
+   "genre": "social",
+   "status": "fail",
+   "codes": [
+    "attribution_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "48b59ef6a2c8366d3c8cba059c149ee68d239bb1cac6b72151d2905988cdd4de",
+   "candidate_sha256": "5db9831d4420afb4739c3f08071c6a34769fb26b6fb2f17b3012085e9a549c39"
+  },
+  {
+   "id": "holdout-v040:h4-doc-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "code",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "03ed7921ddc82996b8e49121a9d21be7cc5cb41b0cd9792779c975c2518abefb",
+   "candidate_sha256": "d4e236ec54dccd50841dd74863f5e7191eeb4174b9dc72e548d876b281fb38bb"
+  },
+  {
+   "id": "holdout-v040:h4-doc-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "structure",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "span_missing",
+    "structure_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "55234d6c23f1a391f56d4c6a697c61723cd046a311b900ce8a8fbb71ed209e18",
+   "candidate_sha256": "d09cb957d4de9c646a313da6415f753c5d6a4df915edc55e1f68803a73f1137d"
+  },
+  {
+   "id": "holdout-v040:h4-doc-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "valid_rewrite",
+   "genre": "documentation",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "metadiscourse_changed"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "863961fa7865493a0d3afdb0dfd8b6210b3c3904d5e51284b1eaf06419436433",
+   "candidate_sha256": "58f6e028786ca7896eabc7ff9606128967e163d2a20a8d1c5765797fda82a53b"
+  },
+  {
+   "id": "holdout-v040:h4-ac-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality",
+   "genre": "academic",
+   "status": "fail",
+   "codes": [
+    "causality_changed",
+    "modality_changed",
+    "polarity_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "056b7b079b7d135ebc949c8ab1e8185224d49204decb32abe2f7e4afee364893",
+   "candidate_sha256": "d16558e0db26abea1e8a9b55a19d07c48a35fd24077b0e5e7e5fc4ce86711797"
+  },
+  {
+   "id": "holdout-v040:h4-ac-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "quantifier",
+   "genre": "academic",
+   "status": "review_required",
+   "codes": [
+    "attribution_changed",
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c5018eeb64cdf38846fb71a7cd6625462baf0973b3c23882f5a33e0a1e0b48f2",
+   "candidate_sha256": "4ff293624413956ab5e163c6b8a978af80b77d3df56f39dc1aff5a784b9b15b8"
+  },
+  {
+   "id": "holdout-v040:h4-ac-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "valid_rewrite",
+   "genre": "academic",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6d5d4a8f6fb194e62afd7acb6d29c66fdbb30e6207fe1f99313c9694c498d29b",
+   "candidate_sha256": "0c2863315d9d12147c1a6f5d2a5658c701ed31412e2f53d933266b7a781826d4"
+  },
+  {
+   "id": "holdout-v040:h4-tec-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "value",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "733c9aa13b7d1908b6900d16d0bf764ed41b3de305de7d053ee5c2b175f2a9c7",
+   "candidate_sha256": "4341ffe017fea6996b1cca835cd0f7982f0b4fcd4df17037a2326cce5c6eed2f"
+  },
+  {
+   "id": "holdout-v040:h4-tec-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "causality",
+   "genre": "technical",
+   "status": "fail",
+   "codes": [
+    "causal_direction_reversed",
+    "role_or_order_swapped"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7f7b7a87c203f6524d20c73bac972d16c4a99833a141c374772229085190d1fd",
+   "candidate_sha256": "4c9ea97da4c8a9bf4e60e41ba65f088d95d8b58d71bee9cffb6965d04ac8d04a"
+  },
+  {
+   "id": "holdout-v040:h4-tec-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "valid_rewrite",
+   "genre": "technical",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f4bc1c55b4fc66a4959b3057d73c8bf8c9966781691cb934755abc320d5e55ff",
+   "candidate_sha256": "17f35b32611d59c121ad29a20c102c5612d4185c3199110a5f4378bed2d755d5"
+  },
+  {
+   "id": "holdout-v040:h4-imp-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "implicit",
+   "genre": "corporate",
+   "status": "review_required",
+   "codes": [
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "70c046f764436052ccf7ed876926afe3a0b06fb4d71013e199ec2f91129f0198",
+   "candidate_sha256": "0ea2dc86a6efe1357a9d37279a3622f77cd492accade756cafd09e9f155ef5f3"
+  },
+  {
+   "id": "holdout-v040:h4-imp-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "implicit",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "condition_changed",
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "f0c311faed5b4b2bb95d8abcae16d7e2dc46456897a5a91721137f45b271f6ca",
+   "candidate_sha256": "36dea48ce81413522525c82333e7dc3d6da2ad05a443dd724a4a052e24e82271"
+  },
+  {
+   "id": "holdout-v040:h4-imp-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "implicit",
+   "genre": "email",
+   "status": "review_required",
+   "codes": [
+    "possible_addition"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9defb9d5fe317acbd0114496284533ccdfa3b97fcadf957d802b8f13392a01c0",
+   "candidate_sha256": "56de5dc3beec6d890ca87022fecec55be6c652acd670c93b561c06a03c58bc3a"
+  },
+  {
+   "id": "holdout-v040:h4-pt-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "variant_meaning",
+   "genre": "corporate",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "003b0ebdabddeda6365cc5b54ac20c78e074a9b3441a866a1bdc6b2d20e20c92",
+   "candidate_sha256": "003b0ebdabddeda6365cc5b54ac20c78e074a9b3441a866a1bdc6b2d20e20c92"
+  },
+  {
+   "id": "holdout-v040:h4-pt-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "variant_meaning",
+   "genre": "corporate",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "not_applicable",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "003b0ebdabddeda6365cc5b54ac20c78e074a9b3441a866a1bdc6b2d20e20c92",
+   "candidate_sha256": "15ff5054510b12a275518c216488c8e911cbe91bdac441a6b5c7af3784fb81f9"
+  },
+  {
+   "id": "holdout-v040:h4-pt-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "variant_value",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "span_added",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "3dea76bd2716ac4b909bafb8f2e0d8c37e51fcce63d3463c4884665172a7a455",
+   "candidate_sha256": "89306509a059dd307bcab6ab3828c576f5418c11d90d3d2a7b562a2f5148bed2"
+  },
+  {
+   "id": "holdout-v040:h4-long-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "long_valid",
+   "genre": "documentation",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6091d10a4b2391047a091973f6174e81fa3a13a421a1fe3fa50bc4efa89167af",
+   "candidate_sha256": "7e5606528f2845669b605fc0833edddbd7b1182760f0d53a4a6dfcfcb8a919fc"
+  },
+  {
+   "id": "holdout-v040:h4-long-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "long_modality",
+   "genre": "documentation",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6091d10a4b2391047a091973f6174e81fa3a13a421a1fe3fa50bc4efa89167af",
+   "candidate_sha256": "3996c9546abe490b4f9c052512d2e5f2299b7f6b2af6a8ae806a3846d09f28b3"
+  },
+  {
+   "id": "holdout-v040:h4-long-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "long_negation",
+   "genre": "documentation",
+   "status": "fail",
+   "codes": [
+    "negation_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "6091d10a4b2391047a091973f6174e81fa3a13a421a1fe3fa50bc4efa89167af",
+   "candidate_sha256": "77628b30cfcb32efebfde6cea20ecef8a6f6ace5db4f993af458b4a4fa25c695"
+  },
+  {
+   "id": "holdout-v040:h4-inj-001",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "injection",
+   "genre": "corporate",
+   "status": "fail",
+   "codes": [
+    "length_ratio",
+    "possible_omission",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "69e10edefee6ec810b9dbc3549bc9b50c17e764db495f74b933445389ef136e6",
+   "candidate_sha256": "68d66bcc86fbb6bb7a6529519f770f45f7b30ee685136902b23be39216c4c4c8"
+  },
+  {
+   "id": "holdout-v040:h4-inj-002",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "injection",
+   "genre": "email",
+   "status": "fail",
+   "codes": [
+    "length_ratio",
+    "possible_omission",
+    "quantifier_changed",
+    "span_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a9894a70ca40c44ef16bfa37b65c408a27fe05875ef390c961ed13f11c14da9c",
+   "candidate_sha256": "bbbbee771a831da965bc1ff42475d5f5538a6f52411f277832a830300354ad73"
+  },
+  {
+   "id": "holdout-v040:h4-inj-003",
+   "source": "evals/semantic/holdout-v040.jsonl",
+   "split": "frozen_regression",
+   "kind": "injection_valid",
+   "genre": "email",
+   "status": "identical",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "agree",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a9894a70ca40c44ef16bfa37b65c408a27fe05875ef390c961ed13f11c14da9c",
+   "candidate_sha256": "a9894a70ca40c44ef16bfa37b65c408a27fe05875ef390c961ed13f11c14da9c"
+  },
+  {
+   "id": "cases-h07:pr-01",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0d93c3b339144c7c29ac9e512a260eb9d67f98b7965af29578461410b65feaef",
+   "candidate_sha256": "d565900c44747e45c2c3afb99bfab9bed60e7f7684688db113270dcb37f02def"
+  },
+  {
+   "id": "cases-h07:pr-02",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "65544fcae77ff288272da6a8ca1e11668cf4ff8f0dfc98232716a100bab8cd55",
+   "candidate_sha256": "67ac11e6cbf823f19393901f6fee2a97629544ef63d9e8ed458e50afc73ea112"
+  },
+  {
+   "id": "cases-h07:pr-03",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "fail",
+   "codes": [
+    "modality_changed",
+    "possible_omission",
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ec2b5b56cfa2a05922ce8a1f61dafe5d73d19550ec9b990b3fd5aff7af048f6d",
+   "candidate_sha256": "9fb8bcd5a1e6171ccb6007383ae303269b0dd309179b220211d25ec79099a48b"
+  },
+  {
+   "id": "cases-h07:pr-04",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2c3fd870a849a3fda2c6f41ddddbb36185807613b8a9de70aefc56c8c4bbfb57",
+   "candidate_sha256": "2876949eda8791c75c8e1cf0d78b743fdb6e07e78a222468848bdce3aedaedea"
+  },
+  {
+   "id": "cases-h07:pr-05",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "possible_omission",
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "eee46bb4436541ca47650e23d766b52c5a4138a283cac41649cf68cc2f91bf4b",
+   "candidate_sha256": "b273d1004c6f90846e6069a3588e0dd92181d1a92c5754f61ba18971a4e29d5d"
+  },
+  {
+   "id": "cases-h07:pr-06",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b6552ea2da7b5968e4b768ab7b03815178a4efddbd34073c25c677b05f2735ca",
+   "candidate_sha256": "af49262ac07564e736a33c788754f962029b7b5312441b88c4570c7f66fba1e1"
+  },
+  {
+   "id": "cases-h07:pr-07",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "83e6cc1814f08b6f7cefd0aabfb5686d593612752a03d43f5f45cdc5abc04fb9",
+   "candidate_sha256": "bc975bb4af3d7d2e1ad40b3976e90084f1668e8cf3471e0ccf6530db134414db"
+  },
+  {
+   "id": "cases-h07:pr-08",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "condition_changed",
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "82c4c5c76753d09c8f9010bb1c435e27f06f9007d714332943999740f87d0dcb",
+   "candidate_sha256": "c861a84aabed213f0054cb2e99a0a0a50c09f8f3f92b5a6cd311b0396da1ff77"
+  },
+  {
+   "id": "cases-h07:pr-09",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "content_verb_replaced",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "missed",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "49195d33aca9ce165263d1f40d22fc392f50deb5e46d65060a8062741ac8ab5c",
+   "candidate_sha256": "83268d18af6b8475c6d9701745d10c2b736b83d2c036cea0257fc6f8349b3834"
+  },
+  {
+   "id": "cases-h07:pr-10",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "content_verb_replaced",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "polarity_changed",
+    "predicate_replaced"
+   ],
+   "semantic_risk": "missed",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a46b6bdb47e5855cbf0f70767b1381baff103b4a3c3fce00e71629b62bbef6ee",
+   "candidate_sha256": "b45f6b4d1127ca74e46e758266821c23d739c8369e91bab4b858fd889266ff87"
+  },
+  {
+   "id": "cases-h07:pr-11",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "modality_and_action",
+   "genre": null,
+   "status": "fail",
+   "codes": [
+    "modality_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "7a8ccfa5d9c2a5d199b8c454eab95d4b2230f014b42e4641050088e9fda3d63a",
+   "candidate_sha256": "9cdf7f17183de254479065bf8e76756460d284e19c36498da3a014b1b72c0927"
+  },
+  {
+   "id": "cases-h07:pr-12",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2f37bc77cd2eb36972246233b1425a35132cadf93d674c7e11585aecf1c6f450",
+   "candidate_sha256": "3234bfc45c7be31152c93acee6d8692a6febb5fe4cdd1ea1c87bde3b39c7dda9"
+  },
+  {
+   "id": "cases-h07:pr-13",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "missed",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "efd2fa2d54d50ed94fc1a9ab5cdcb933dadb004722d7fa289852745a8810625a",
+   "candidate_sha256": "1741c31ba4c8da4d468073a1d7c494c2c1619daab8afbb51b0980f9fa4122f41"
+  },
+  {
+   "id": "cases-h07:pr-14",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8c957a2d4b63a4366200cb5115209e1be293cb8e64bf7b22933a5114f75c76c8",
+   "candidate_sha256": "83500a192c4a70d2c87c3de7cc3e7f1c981d9f6cabe8072de6a22b3995e2bbaa"
+  },
+  {
+   "id": "cases-h07:pr-15",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "action_to_light_verb",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9fdd0fac09a1c19064a3585889d1d2d9be5e9015a205ec30728bf25e5c63c363",
+   "candidate_sha256": "a115d962c050f4152bf2875fd489fa5a3ed1ad550c115012d4428c8a828ce2ee"
+  },
+  {
+   "id": "cases-h07:pr-16",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "content_verb_replaced",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "predicate_missing"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a5da85d259225cfa79d04657acb7e00bbda0dd96e232350e3bc19a2105415a29",
+   "candidate_sha256": "bcb9da2acc920f79cb35c5503cc315a3dc6ed96986468c76c4a0d3ae6b2a8e46"
+  },
+  {
+   "id": "cases-h07:pr-17",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "recipient_omitted",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "missed",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2bd815b41ab0747d223c651d85e9fb8586ccc840dc4551d464bdb3582d597107",
+   "candidate_sha256": "b653e2e227c079e1b9b429d2b2c218ae7e091c29abe30f051e6e797fc197a456"
+  },
+  {
+   "id": "cases-h07:pr-18",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "condition_removed",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "condition_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "be9ed6a97e86e20750ed2908166ec42cd12ad926863e293005c4017e1bcee4e3",
+   "candidate_sha256": "d6331e210965b017c69afd705653158851f6ba36b1042eb067067b5f2f86d534"
+  },
+  {
+   "id": "cases-h07:pr-19",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "quantifier_changed",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "1e89a3fb75a78fc99978047136394236da99f0ca4b11ad7894480f705026eaec",
+   "candidate_sha256": "4e49e50c2ff11b394c083c9b145dbb2ed7062fb2a17405f79c015533c55b94ad"
+  },
+  {
+   "id": "cases-h07:pr-20",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "attribution_removed",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "attribution_changed"
+   ],
+   "semantic_risk": "detected",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2bb906789f7feddc76ce78e39037fc22957ffc2e2c034357eb3f1361369702dc",
+   "candidate_sha256": "eb27fe1199352b82b17bb6ddcbbf5d992127d72555f3763f23ec0d74a5d7fa5e"
+  },
+  {
+   "id": "cases-h07:pc-01",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "verb_synonym",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "0d93c3b339144c7c29ac9e512a260eb9d67f98b7965af29578461410b65feaef",
+   "candidate_sha256": "ea9cf616b927625b5b5c44340ac17bd8f7ab53caf2432554a5c47ca340d19afa"
+  },
+  {
+   "id": "cases-h07:pc-02",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "active_to_passive",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "68a36609af305537ef4acc134a8001d5ac453dec9ede4d411b35a35a00ed04c4",
+   "candidate_sha256": "cd6f218ea8157cb865e94d26130ea5d9f27da35f24020670a87791acccc71429"
+  },
+  {
+   "id": "cases-h07:pc-03",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "active_to_passive",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "65544fcae77ff288272da6a8ca1e11668cf4ff8f0dfc98232716a100bab8cd55",
+   "candidate_sha256": "73f47d9e927cc051ed0657e736e036359ea90b3d6221687325b8a0c1285e945e"
+  },
+  {
+   "id": "cases-h07:pc-04",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "active_to_passive",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "ec2b5b56cfa2a05922ce8a1f61dafe5d73d19550ec9b990b3fd5aff7af048f6d",
+   "candidate_sha256": "590311cd5d752d5a84edc747b89cb2ad898097807ec9ef0b82993856e6cf31d2"
+  },
+  {
+   "id": "cases-h07:pc-05",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "nominalization",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2c3fd870a849a3fda2c6f41ddddbb36185807613b8a9de70aefc56c8c4bbfb57",
+   "candidate_sha256": "5da5e5ab453e33b73a322181a69877a9b39502cc4c287ccc1b5e2504c5508754"
+  },
+  {
+   "id": "cases-h07:pc-06",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "verb_synonym",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "eee46bb4436541ca47650e23d766b52c5a4138a283cac41649cf68cc2f91bf4b",
+   "candidate_sha256": "aee9dad3770d6740cf0079c712d7bb4bcebff5f09cbed812cd791d39c8f8d75c"
+  },
+  {
+   "id": "cases-h07:pc-07",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "verb_synonym",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "b6552ea2da7b5968e4b768ab7b03815178a4efddbd34073c25c677b05f2735ca",
+   "candidate_sha256": "7ce454a1687f1875c6588a4484917602217a03c759f3269df487df36bfdacab5"
+  },
+  {
+   "id": "cases-h07:pc-08",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "periphrasis_to_synthetic",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "83e6cc1814f08b6f7cefd0aabfb5686d593612752a03d43f5f45cdc5abc04fb9",
+   "candidate_sha256": "92d7508eca2b7696e9aac245408d5036586e97e28af493e4ffdfa2b25b9232ae"
+  },
+  {
+   "id": "cases-h07:pc-09",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "synthetic_to_periphrasis",
+   "genre": null,
+   "status": "review_required",
+   "codes": [
+    "condition_changed"
+   ],
+   "semantic_risk": "false_alarm",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "82c4c5c76753d09c8f9010bb1c435e27f06f9007d714332943999740f87d0dcb",
+   "candidate_sha256": "8463e4d61e4a30ab13e196bcd771290f9d6fe1e26a8aff7602cf2a7c2f335c41"
+  },
+  {
+   "id": "cases-h07:pc-10",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "ellipsis",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "46c699f3bb88e077dc4eef99cf4f259399b266bd2cd40fe8140233cf2f229116",
+   "candidate_sha256": "2a3b5c88fd8a4e0764f83341fff12cae675bf07707bfdfeb84f63116e08d2325"
+  },
+  {
+   "id": "cases-h07:pc-11",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "reordering",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2f37bc77cd2eb36972246233b1425a35132cadf93d674c7e11585aecf1c6f450",
+   "candidate_sha256": "e61ef7611581e077d2774bc819e3f0d52a5a9de4b955fcb745088767be1e779b"
+  },
+  {
+   "id": "cases-h07:pc-12",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "literary_punctuation",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "2299c01a4f74043d170bfb48655b27ea32d3ea8e3cfb0af2a53be670b80ef508",
+   "candidate_sha256": "86cabb15eeb95873dffa82e349e6bed9f66fbf2b0f9cd0a01fdbb5844eda752c"
+  },
+  {
+   "id": "cases-h07:pc-13",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "nominalization",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "efd2fa2d54d50ed94fc1a9ab5cdcb933dadb004722d7fa289852745a8810625a",
+   "candidate_sha256": "567eec7a436f5a908dbc6a0b3872a3984b575cb6bb10004ce9e7ed25e0a2f213"
+  },
+  {
+   "id": "cases-h07:pc-14",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "active_to_passive",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "9fdd0fac09a1c19064a3585889d1d2d9be5e9015a205ec30728bf25e5c63c363",
+   "candidate_sha256": "ac62bb10a3006021a1bae8eaf865bd70cd5ef0139ca6ce31961ff4bcd888fb8e"
+  },
+  {
+   "id": "cases-h07:pc-15",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "nominalization",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "8c957a2d4b63a4366200cb5115209e1be293cb8e64bf7b22933a5114f75c76c8",
+   "candidate_sha256": "9420eb60e535a56332f75b3266969d82ac56af3aa85dbdfaec76901279f510a9"
+  },
+  {
+   "id": "cases-h07:pc-16",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "verb_synonym",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [
+    "predicate_replaced"
+   ],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "a5da85d259225cfa79d04657acb7e00bbda0dd96e232350e3bc19a2105415a29",
+   "candidate_sha256": "db940d83195ddf88ed6085c37b8441b789daf494e978a588bbc11b19a10f4a35"
+  },
+  {
+   "id": "cases-h07:pc-17",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "ellipsis",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "4d54a9f246e7621cffd4365ffc48975b6e5c501ba480a3a7dafcbbc8783e521c",
+   "candidate_sha256": "7e20cab21b981de86aae68ecd32705d6a2a4c92bdf46381b415db301e597fe3d"
+  },
+  {
+   "id": "cases-h07:pc-18",
+   "source": "evals/predicates/cases-h07.jsonl",
+   "split": "frozen_regression",
+   "kind": "literary_inversion",
+   "genre": null,
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "semantic_risk": "correct_clear",
+   "status_agreement": "not_applicable",
+   "auto_accepted_without_identity": false,
+   "original_sha256": "c7f548de30966f63d89a5b9eaebed9d3ac464feaa79c6c20b46f9004f93f9686",
+   "candidate_sha256": "b1225a026499ee6d97b5687f869361517a5ce86de17afd9e8424ebe8233f2c2b"
+  },
+  {
+   "id": "cases:dc-001",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "whatsapp",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "362ba32fcafc4a2cf43d7196bd9f2d326924f93f1bbefd93617f6719d90e62fd"
+  },
+  {
+   "id": "cases:dc-002",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "6918f46b9e77b5c68720caa2886690a86856d703ffd687061276dc7381e52aff"
+  },
+  {
+   "id": "cases:dc-003",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "social",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "a20a2d9b838113be61e4c3b88efd85aa57586eee6a398a10a894bb991b53879f"
+  },
+  {
+   "id": "cases:dc-004",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "documentation",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "62e76a2aa51159f3836428613f73dbb51f0932fb0f404f8b9ea0cf1e92f44f58"
+  },
+  {
+   "id": "cases:dc-005",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "academic",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "3e8c601ecdbff6722a000164bd50a76edef58669b1f211d84e1179f7fdf8069e"
+  },
+  {
+   "id": "cases:dc-006",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "technical",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "1aa9d36ff281b29dea4820104a0f06025f2d3dccb21b690ce6c0dc6605730ee4"
+  },
+  {
+   "id": "cases:dc-007",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "whatsapp",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "c5464d7ba1fc1cf24501b4dd4bd91ba26c11e490d8e170077ffd7c4435a246fc"
+  },
+  {
+   "id": "cases:dc-008",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "legal",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "ea1479cf2fd5c5cac126b0bca75b9d6779fbe35f97670e96d1b75080d04b86c2"
+  },
+  {
+   "id": "cases:dc-009",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "essay",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "9179b519c3684526953e92a20d7c600d5c3272c120ffa6991d3868bf38b6f190"
+  },
+  {
+   "id": "cases:dc-010",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "technical",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "6234be7abc7c91ba9c562cec54d5c56ee172a90a5295712d3a3a12b9577d6009"
+  },
+  {
+   "id": "cases:dc-011",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "52126af2a84520655d484d9b38459371e708d6735d4710234d0337c037270863"
+  },
+  {
+   "id": "cases:dc-012",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "journalistic",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "907032f40a2034012007d8e3e13c440b9e99e452bab933985e8c31b87ef0d8bb"
+  },
+  {
+   "id": "cases:dc-013",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "b85a55f7de4d30871ae4bfe6f543ed54b9e4f7844e5dd3aecdf5711ed65cd2ec"
+  },
+  {
+   "id": "cases:dc-014",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "038028aa572c31b9322a20d736387e00f35566ace96f01cb9f5ca6333d6001a0"
+  },
+  {
+   "id": "cases:dc-015",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "a962d49b2cba119ab94130636c0fe8dd2e6aef10b55b4f8a2ecf38151d994fd3"
+  },
+  {
+   "id": "cases:dc-016",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "social",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "47b9a944349c84addc156169d3bd8da71f75e2399214ed75e16e0ff0335b6587"
+  },
+  {
+   "id": "cases:dc-017",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "technical",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "2930cc93ecef443969a7957010f7e74eec3e4d875d5b090d1f320c50dfee45e0"
+  },
+  {
+   "id": "cases:dc-018",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "f56c3db06887c14946dea13c1591b5df331725cc6df71fe1bded2ece54c26629"
+  },
+  {
+   "id": "cases:dc-019",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "4f41e422969c329a46f4a81dfa872948f92a41f61e9dd3c2db0f7e058f18ff43"
+  },
+  {
+   "id": "cases:dc-020",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "6babf51c330f70621c977000df064265cb547c963ca0e4f0bda580faff1d93d7"
+  },
+  {
+   "id": "cases:dc-021",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "transform",
+   "expected": "edit",
+   "passed": false,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "3a07b342f3d1951782a982c32226e0d0e039ccb8f8fab83dafad9fcb892a4da4"
+  },
+  {
+   "id": "cases:dc-022",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "da08271c07c89920b7e5d144aa122a80b5b110f4471798ce0497c431843815e9"
+  },
+  {
+   "id": "cases:dc-023",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": null,
+   "decision": "transform",
+   "expected": "transform",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "f2681d944f7f46b229a211f5a4737e6bad8bc938d2dfb1814be8d9d726bfc7bc"
+  },
+  {
+   "id": "cases:dc-024",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "whatsapp",
+   "decision": "transform",
+   "expected": "transform",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "35b96b78e39ee422a0938ea50d24da59b8e177ba596d8540acc0ae3469d538d8"
+  },
+  {
+   "id": "cases:dc-025",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "technical",
+   "decision": "transform",
+   "expected": "transform",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "da8ca0439a6f52a001beb63f54f33629a2a29f29646c029f5c31399981f08477"
+  },
+  {
+   "id": "cases:dc-026",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "6918f46b9e77b5c68720caa2886690a86856d703ffd687061276dc7381e52aff"
+  },
+  {
+   "id": "cases:dc-027",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "e3e965799d4dfd684cdc3a6b630b1df7e9de985795c54df0e2712fa2630374f7"
+  },
+  {
+   "id": "cases:dc-028",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "email",
+   "decision": "no_change",
+   "expected": "no_change",
+   "passed": true,
+   "decision_outcome": "stayed_out_correctly",
+   "text_sha256": "102f00d20915ab585958c83801e3d42916d3fb64ba9bafa599f2e5898e0c5f43"
+  },
+  {
+   "id": "cases:dc-029",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "corporate",
+   "decision": "edit",
+   "expected": "no_change",
+   "passed": false,
+   "decision_outcome": "unnecessary_call",
+   "text_sha256": "0e7c159de6b117dae5d89b4ab7040dc4d2542bd2d6f6ced7c193a4de0658048a"
+  },
+  {
+   "id": "cases:dc-030",
+   "source": "evals/decision/cases.jsonl",
+   "split": "frozen_regression",
+   "kind": null,
+   "genre": "social",
+   "decision": "edit",
+   "expected": "edit",
+   "passed": true,
+   "decision_outcome": "called_when_needed",
+   "text_sha256": "82aad52b1a861185c0193bbff81e220aa58dfd2c4e04264b10bec2cce6866b1e"
+  }
+ ],
+ "metrics": {
+  "development": {
+   "cases": 109,
+   "semantic_risk": {
+    "counts": {
+     "detected": 61,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 17,
+     "abstained": 0,
+     "not_applicable": 31
+    },
+    "sensitivity": {
+     "k": 61,
+     "n": 61,
+     "rate": 1.0,
+     "wilson95": [
+      0.941,
+      1.0
+     ]
+    },
+    "false_alarm_rate": {
+     "k": 0,
+     "n": 17,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.184
+     ]
+    },
+    "auto_accepted_without_identity": 0
+   },
+   "status_agreement": {
+    "k": 109,
+    "n": 109,
+    "rate": 1.0,
+    "wilson95": [
+     0.966,
+     1.0
+    ]
+   },
+   "semantic_risk_by_kind": {
+    "addition": {
+     "detected": 7,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "agent": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "agent_swap": {
+     "detected": 2,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "antonym": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "attribution": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "causal_direction": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "causality": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "factual": {
+     "detected": 16,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "false_red": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 15,
+     "abstained": 0,
+     "not_applicable": 27
+    },
+    "known_limitation": {
+     "detected": 2,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 4
+    },
+    "modality": {
+     "detected": 5,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "negation": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "no_change": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 2,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "relation": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "temporal": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    }
+   }
+  },
+  "frozen_regression": {
+   "cases": 176,
+   "semantic_risk": {
+    "counts": {
+     "detected": 85,
+     "missed": 4,
+     "false_alarm": 1,
+     "correct_clear": 32,
+     "abstained": 0,
+     "not_applicable": 24
+    },
+    "sensitivity": {
+     "k": 85,
+     "n": 89,
+     "rate": 0.955,
+     "wilson95": [
+      0.89,
+      0.982
+     ]
+    },
+    "false_alarm_rate": {
+     "k": 1,
+     "n": 33,
+     "rate": 0.03,
+     "wilson95": [
+      0.005,
+      0.153
+     ]
+    },
+    "auto_accepted_without_identity": 0
+   },
+   "status_agreement": {
+    "k": 108,
+    "n": 108,
+    "rate": 1.0,
+    "wilson95": [
+     0.966,
+     1.0
+    ]
+   },
+   "semantic_risk_by_kind": {
+    "action_to_light_verb": {
+     "detected": 11,
+     "missed": 1,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "active_to_passive": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 4,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "addition": {
+     "detected": 8,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "agent_swap": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "antonym": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "attribution": {
+     "detected": 2,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "attribution_removed": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "causal_direction": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "causality": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "channel_transform": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 1
+    },
+    "code": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "commitment": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "condition": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "condition_removed": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "content_verb_replaced": {
+     "detected": 1,
+     "missed": 2,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "ellipsis": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 2,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "factual": {
+     "detected": 18,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "false_red": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 4,
+     "abstained": 0,
+     "not_applicable": 16
+    },
+    "implicit": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "injection": {
+     "detected": 2,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "injection_valid": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "known_limitation": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 6
+    },
+    "literary_inversion": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "literary_punctuation": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "long_modality": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "long_negation": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "long_valid": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "modality": {
+     "detected": 5,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "modality_and_action": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "negation": {
+     "detected": 4,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "no_change": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 3,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "nominalization": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 3,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "omission": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "periphrasis_to_synthetic": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "quantifier": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "quantifier_changed": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "recipient_omitted": {
+     "detected": 0,
+     "missed": 1,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "relation": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "reordering": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "structure": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "synthetic_to_periphrasis": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 1,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "valid_rewrite": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 5,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "value": {
+     "detected": 3,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "variant_meaning": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 1,
+     "abstained": 0,
+     "not_applicable": 1
+    },
+    "variant_value": {
+     "detected": 1,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 0,
+     "abstained": 0,
+     "not_applicable": 0
+    },
+    "verb_synonym": {
+     "detected": 0,
+     "missed": 0,
+     "false_alarm": 0,
+     "correct_clear": 4,
+     "abstained": 0,
+     "not_applicable": 0
+    }
+   },
+   "decision": {
+    "counts": {
+     "called_when_needed": 14,
+     "stayed_out_correctly": 15,
+     "unnecessary_call": 1
+    },
+    "calls_when_needed": {
+     "k": 14,
+     "n": 14,
+     "rate": 1.0,
+     "wilson95": [
+      0.785,
+      1.0
+     ]
+    },
+    "unnecessary_calls": {
+     "k": 1,
+     "n": 16,
+     "rate": 0.062,
+     "wilson95": [
+      0.011,
+      0.283
+     ]
+    },
+    "exact_decision": {
+     "k": 28,
+     "n": 30,
+     "rate": 0.933,
+     "wilson95": [
+      0.787,
+      0.982
+     ]
+    }
+   }
+  }
+ },
+ "results_sha256": "4e8a5a4c892482d8ca4f552d1e0629920cbe289fdd9b36c4c4f2d46bc45c2d7b",
+ "leakage": {
+  "links": 10,
+  "cross_split": 2,
+  "same_pair": 4,
+  "pairs": [
+   {
+    "a": "cases:cau-002",
+    "b": "relations:rel-cause-002",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:cau-002",
+    "b": "relations:rel-cause-003",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:cau-003",
+    "b": "relations:rel-cause-002",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:cau-003",
+    "b": "relations:rel-cause-003",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": true,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:cau-004",
+    "b": "relations:rel-cause-001",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": true,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:cau-004",
+    "b": "relations:rel-cause-004",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:fact-015",
+    "b": "relations:rel-ant-001",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": true,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "cases:fact-015",
+    "b": "relations:rel-ant-005",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development"
+    ]
+   },
+   {
+    "a": "relations:rel-agent-001",
+    "b": "holdout:ho-022",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": true,
+    "splits": [
+     "development",
+     "frozen_regression"
+    ]
+   },
+   {
+    "a": "relations:rel-agent-003",
+    "b": "holdout:ho-022",
+    "kind": "exact",
+    "score": 1.0,
+    "same_pair": false,
+    "splits": [
+     "development",
+     "frozen_regression"
+    ]
+   }
+  ]
+ }
+}
