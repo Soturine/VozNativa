@@ -292,6 +292,26 @@ def validate_candidate(original: str, candidate: str, context: dict, profile: di
     return report
 
 
+def skill_prompt(text: str, context: dict, profile: dict | None = None, explicit: dict | None = None,
+                 protect: list[str] | tuple = (), facts: list[str] | None = None, budget_words: int = 6000,
+                 inline_references: bool = False, project=None) -> str:
+    """The prompt the Agent Skill hands to the host agent (``voznativa
+    rewrite-prompt``): same findings, targets and plan as ``rewrite``, so the
+    agent acting as the model gets what the engine would send. Moved here from
+    the CLI in v0.8 so the benchmark arm B3 sends exactly this prompt."""
+    from .community import apply_to_report
+    from .router import transformation_targets
+    findings = (apply_to_report(patterns_mod.detect(text, context["genre"]["value"], explicit_channel(context),
+                                                    context["register"]["value"]), context, text)
+                if context["task"] != "create" else None)
+    targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
+    the_plan = planner_mod.plan(text, context, profile, explicit, protect, report=findings) if findings else None
+    return build_prompt(text, context, contract_mod.resolve(context, profile, explicit, text),
+                        select(context, budget_words=budget_words), facts=facts or [],
+                        inline_references=inline_references, protect=protect, findings=findings,
+                        project=project, targets=targets, plan=the_plan)
+
+
 def rewrite(text: str, context: dict, provider: Provider, profile: dict | None = None,
             **kwargs) -> dict:
     """Run the loop; a provider failure (after its own retries) returns the

@@ -72,6 +72,61 @@ def _manifest_entry(path: Path) -> dict:
     return {}
 
 
+def _inside(root: Path, path: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+        return True
+    except (ValueError, OSError):
+        return False
+
+
+INDEPENDENCE_FIELDS = ("prepared_by", "custodian", "frozen_commit", "attestation")
+
+
+def independence_problems(entry: dict, path: Path, root: Path) -> list[str]:
+    """``independent: true`` is a claim, not evidence (v0.8 CP5). An
+    independent holdout needs an ``independence_evidence`` block:
+
+    * ``prepared_by`` and ``custodian``: who wrote and who kept the cases (not
+      the engine's developer; this is declared, the run cannot check people);
+    * ``frozen_commit``: the commit that froze the file; it must exist in this
+      repository and the file there must have the MANIFEST's sha256, so the
+      cases provably existed before any later code;
+    * ``attestation``: a file in the repository with the custody record.
+
+    What can be checked is checked; the rest stays labelled DECLARED in the
+    run record. Passing this does not make a set independent, it only stops
+    a bare flag from being enough."""
+    evidence = entry.get("independence_evidence")
+    if not isinstance(evidence, dict):
+        return [f"{path.name}: independent: true without independence_evidence ({', '.join(INDEPENDENCE_FIELDS)})"]
+    problems = [f"{path.name}: independence_evidence.{k} missing" for k in INDEPENDENCE_FIELDS
+                if not isinstance(evidence.get(k), str) or not evidence.get(k).strip()]
+    if problems:
+        return problems
+    developer = {"voznativa developer", "the engine's developer", "agent", "claude"}
+    if evidence["prepared_by"].strip().lower() in developer:
+        problems.append(f"{path.name}: prepared_by names the engine's developer")
+    attestation = root / evidence["attestation"]
+    if Path(evidence["attestation"]).is_absolute() or not _inside(root, attestation) or not attestation.is_file():
+        problems.append(f"{path.name}: attestation {evidence['attestation']} not found inside the repository")
+    rel = path.resolve().relative_to(root.resolve()).as_posix()
+    frozen = _git_bytes(root, "show", f"{evidence['frozen_commit']}:{rel}")
+    if frozen is None:
+        problems.append(f"{path.name}: frozen_commit {evidence['frozen_commit']} does not contain {rel}")
+    elif hashlib.sha256(frozen.replace(b"\r\n", b"\n")).hexdigest() != entry.get("sha256"):
+        problems.append(f"{path.name}: the file at frozen_commit does not have the MANIFEST sha256")
+    return problems
+
+
+def _git_bytes(root: Path, *args: str) -> bytes | None:
+    try:
+        done = subprocess.run(["git", *args], cwd=root, capture_output=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return done.stdout if done.returncode == 0 else None
+
+
 def validate_dataset(spec: dict, root: Path) -> list[str]:
     """Problems that make the spec unusable (empty = usable)."""
     problems = []
@@ -92,6 +147,10 @@ def validate_dataset(spec: dict, root: Path) -> list[str]:
         if not isinstance(path, str) or Path(path).is_absolute() or ".." in Path(path).parts:
             problems.append(f"{where}: path must be relative to the repository and stay inside it")
             continue
+        # A link (symlink or junction) can point outside the root while its own path looks inside (v0.8 CP5).
+        if not _inside(root, root / path):
+            problems.append(f"{where}: {path} resolves outside the repository (link?)")
+            continue
         if path in seen:
             problems.append(f"{where}: {path} listed twice")
         seen.add(path)
@@ -104,9 +163,12 @@ def validate_dataset(spec: dict, root: Path) -> list[str]:
             problems.append(f"{where}: {path} not found")
             continue
         entry = _manifest_entry(full)
-        if src.get("split") in INDEPENDENT_SPLITS and not entry.get("independent"):
-            problems.append(f"{where}: {path} is not independent per its MANIFEST; it cannot be split "
-                            f"{src.get('split')!r}")
+        if src.get("split") in INDEPENDENT_SPLITS:
+            if not entry.get("independent"):
+                problems.append(f"{where}: {path} is not independent per its MANIFEST; it cannot be split "
+                                f"{src.get('split')!r}")
+            else:
+                problems += [f"{where}: {p}" for p in independence_problems(entry, full, root)]
         if entry.get("frozen") and entry.get("sha256") and sha256_lf(full) != entry["sha256"]:
             problems.append(f"{where}: frozen file {path} changed (sha256 differs from its MANIFEST)")
     return problems
@@ -196,6 +258,54 @@ def _git(root: Path, *args: str) -> str | None:
     return done.stdout.strip() if done.returncode == 0 else None
 
 
+HOLDOUT_SPLITS = {"prospective_holdout", "external_independent_holdout"}
+NEAR_DUPLICATE = 0.8
+
+
+def _norm(text: str) -> str:
+    """Words only, folded: punctuation, case, accents and spacing do not make two copies different."""
+    import re
+    from .text import fold
+    return " ".join(re.findall(r"\w+", fold(text)))
+
+
+def _trigrams(key: str) -> set:
+    words = key.split()
+    return {" ".join(words[i:i + 3]) for i in range(len(words) - 2)}
+
+
+def leakage(entries: list[dict]) -> dict:
+    """Texts shared between different sources (V08-GAP-08). ``entries``:
+    ``{"id", "source", "split", "text"}``, one per source text (original or
+    decision text). Exact = same text after folding case, accents and spaces;
+    near = word-trigram Jaccard >= 0.8 for texts of 6+ words; ``same_pair``
+    when the candidate (``pair``) is the same too, i.e. the very same case. A link that
+    touches a holdout split from another source makes that holdout unusable."""
+    keys = [_norm(e["text"]) for e in entries]
+    grams = [_trigrams(k) if len(k.split()) >= 6 else set() for k in keys]
+    links = []
+    for i in range(len(entries)):
+        for j in range(i + 1, len(entries)):
+            if entries[i]["source"] == entries[j]["source"]:
+                continue
+            if keys[i] == keys[j]:
+                kind, score = "exact", 1.0
+            elif grams[i] and grams[j]:
+                score = len(grams[i] & grams[j]) / len(grams[i] | grams[j])
+                if score < NEAR_DUPLICATE:
+                    continue
+                kind = "near"
+            else:
+                continue
+            same_pair = (kind == "exact" and entries[i].get("pair") is not None
+                         and _norm(entries[i]["pair"]) == _norm(entries[j].get("pair") or ""))
+            links.append({"a": entries[i]["id"], "b": entries[j]["id"], "kind": kind, "score": round(score, 3),
+                          "same_pair": same_pair, "splits": sorted({entries[i]["split"], entries[j]["split"]})})
+    blocking = [l for l in links if set(l["splits"]) & HOLDOUT_SPLITS]
+    return {"links": links, "cross_split": sum(len(l["splits"]) > 1 for l in links),
+            "holdout_contaminated": blocking}
+
+
 def results_digest(results: list[dict]) -> str:
     return _sha(json.dumps(results, ensure_ascii=False, sort_keys=True))
 
@@ -209,6 +319,9 @@ def run(spec: dict, root: Path, recorded_at: str | None = None) -> dict:
     porcelain = _git(root, "status", "--porcelain")
     base = {"kind": RUN_KIND, "schema_version": SCHEMA_VERSION, "dataset": spec.get("id"),
             "dataset_sha256": _sha(json.dumps(spec, ensure_ascii=False, sort_keys=True)),
+            "dataset_spec": spec,      # kept so the run can be replayed at its revision
+            "authenticity": "not established: results_sha256 is an integrity digest, not a signature; anyone "
+                            "who edits the results can recompute it. Use replay to re-execute at the revision.",
             "recorded_at": recorded_at or datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "revision": revision, "dirty": None if porcelain is None else bool(porcelain),
             "package_version": __version__,
@@ -223,12 +336,14 @@ def run(spec: dict, root: Path, recorded_at: str | None = None) -> dict:
     if problems:
         return dict(base, status="INVALID", problems=problems, inputs=[], results=[], metrics={},
                     results_sha256=results_digest([]))
-    inputs, results, errors = [], [], []
+    inputs, results, errors, texts = [], [], [], []
     for src in spec["sources"]:
         path = root / src["path"]
         entry = _manifest_entry(path)
         inputs.append({"path": src["path"], "sha256_lf": sha256_lf(path), "adapter": src["adapter"],
                        "split": src["split"], "independent": bool(entry.get("independent")),
+                       "independence": ("frozen_commit verified; people and custody DECLARED"
+                                        if src["split"] in INDEPENDENT_SPLITS else "not claimed"),
                        "frozen": bool(entry.get("frozen")), "author": entry.get("author", "unknown")})
         try:
             cases = load_cases(src, root)
@@ -236,13 +351,24 @@ def run(spec: dict, root: Path, recorded_at: str | None = None) -> dict:
             errors.append(str(error))
             continue
         for case in cases:
+            texts.append({"id": f"{Path(src['path']).stem}:{case['id']}", "source": src["path"],
+                          "split": src["split"], "text": case.get("original", case.get("text", "")),
+                          "pair": case.get("candidate")})
+        for case in cases:
             row = {"id": f"{Path(src['path']).stem}:{case['id']}", "source": src["path"], "split": src["split"],
                    "kind": case.get("kind"), "genre": case.get("genre")}
             row.update(_decision_result(case) if case["_adapter"] == "decision_suite" else _gate_result(case))
             results.append(row)
-    status = "INCOMPLETE" if errors else "COMPLETE"
-    return dict(base, status=status, problems=errors, inputs=inputs, results=results,
-                metrics=metrics(results), results_sha256=results_digest(results))
+    leaks = leakage(texts)
+    for link in leaks["holdout_contaminated"]:
+        problems.append(f"holdout contaminated: {link['a']} and {link['b']} ({link['kind']}, {link['score']})")
+    status = "INVALID" if problems else "INCOMPLETE" if errors else "COMPLETE"
+    return dict(base, status=status, problems=problems + errors, inputs=inputs, results=results,
+                metrics=metrics(results), results_sha256=results_digest(results),
+                leakage={"links": len(leaks["links"]), "cross_split": leaks["cross_split"],
+                         "same_pair": sum(l["same_pair"] for l in leaks["links"]),
+                         "pairs": [{k: l[k] for k in ("a", "b", "kind", "score", "same_pair", "splits")}
+                                   for l in leaks["links"]]})
 
 
 # --- metrics ---------------------------------------------------------------------------------
@@ -309,6 +435,67 @@ def verify_run(record: dict) -> list[str]:
         if arm.get("evidence") != "NOT_RUN":
             problems.append(f"arm {arm.get('arm')!r} listed as not run with evidence {arm.get('evidence')!r}")
     return problems
+
+
+def replay_run(record: dict, root: Path) -> dict:
+    """Re-execute a recorded run with the code and inputs of its revision
+    (``git archive`` into a temporary directory, run there in a subprocess)
+    and compare the results digest.
+
+    ``REPRODUCED`` is evidence that the recorded results follow from that
+    revision on this machine; it is not a signature, does not say who ran the
+    original and does not make any dataset independent. ``NOT_REPLAYABLE``
+    when the record came from a dirty tree, names no known revision, lacks
+    its dataset spec, or the revision has no evaluation core."""
+    import sys
+    import tarfile
+    import tempfile
+
+    def outcome(status, reason, **extra):
+        return {"kind": "voznativa.eval_run_replay", "status": status, "reason": reason,
+                "revision": record.get("revision"), **extra}
+
+    if record.get("dirty") is not False:
+        return outcome("NOT_REPLAYABLE", "the run came from a dirty or unknown tree: its code is not in any commit")
+    revision, spec = record.get("revision"), record.get("dataset_spec")
+    if not isinstance(spec, dict) or _sha(json.dumps(spec, ensure_ascii=False, sort_keys=True)) != \
+            record.get("dataset_sha256"):
+        return outcome("NOT_REPLAYABLE", "the record has no dataset spec matching dataset_sha256")
+    if not revision or _git_bytes(root, "cat-file", "-e", f"{revision}^{{commit}}") is None:
+        return outcome("NOT_REPLAYABLE", f"revision {revision!r} is not in this repository")
+    archive = _git_bytes(root, "archive", "--format=tar", revision)
+    if archive is None:
+        return outcome("NOT_REPLAYABLE", "git archive failed")
+    with tempfile.TemporaryDirectory(prefix="vn-replay-") as tmp:
+        tree = Path(tmp) / "tree"
+        tree.mkdir()
+        tar_path = Path(tmp) / "rev.tar"
+        tar_path.write_bytes(archive)
+        with tarfile.open(tar_path) as tar:
+            tar.extractall(tree, filter="data")
+        if not (tree / "voznativa" / "evaluation.py").is_file():
+            return outcome("NOT_REPLAYABLE", "the revision has no evaluation core")
+        changed = [i["path"] for i in record.get("inputs", [])
+                   if not (tree / i["path"]).is_file() or sha256_lf(tree / i["path"]) != i.get("sha256_lf")]
+        if changed:
+            return outcome("DIFFERENT", "inputs at the revision differ from the recorded hashes", inputs=changed)
+        (Path(tmp) / "spec.json").write_text(json.dumps(spec, ensure_ascii=False), encoding="utf-8")
+        code = ("import json, sys; from pathlib import Path; sys.path.insert(0, sys.argv[1]); "
+                "from voznativa import evaluation; "
+                "spec = json.loads(Path(sys.argv[2]).read_text(encoding='utf-8')); "
+                "r = evaluation.run(spec, Path(sys.argv[1]), recorded_at='replay'); "
+                "print(json.dumps({'status': r['status'], 'results_sha256': r['results_sha256']}))")
+        done = subprocess.run([sys.executable, "-B", "-E", "-s", "-c", code, str(tree), str(Path(tmp) / "spec.json")],
+                              capture_output=True, timeout=1800)
+        if done.returncode != 0:
+            return outcome("NOT_REPLAYABLE", "the replay process failed",
+                           stderr=done.stderr.decode("utf-8", "replace")[-800:])
+        replayed = json.loads(done.stdout.decode("utf-8").strip().splitlines()[-1])
+    same = replayed["results_sha256"] == record.get("results_sha256")
+    return outcome("REPRODUCED" if same else "DIFFERENT",
+                   "same results digest at the revision" if same else "the revision gives other results",
+                   replayed=replayed, recorded_results_sha256=record.get("results_sha256"),
+                   note="reproducibility on this machine; not a signature, not independence")
 
 
 # --- report -----------------------------------------------------------------------------------

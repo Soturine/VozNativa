@@ -248,29 +248,15 @@ def _voice_inputs(args):
 
 
 def cmd_rewrite_prompt(args):
-    from .contract import resolve
-    from .engine import build_prompt
+    from .engine import skill_prompt
     from .project import scan
-    from .references import select
     context = _route(args)
     profile, explicit = _voice_inputs(args)
-    from .patterns import detect
-    from .router import explicit_channel, transformation_targets
     facts = [_read(f) for f in args.fact or []]
     text = _read(args.text)
-    # Same targeting as `rewrite`, so the skill mode (agent as model) gets the findings too.
-    channel = explicit_channel(context)
-    from .community import apply_to_report
-    findings = apply_to_report(detect(text, context["genre"]["value"], channel, context["register"]["value"]),
-                               context, text) if context["task"] != "create" else None
-    targets = transformation_targets(text, context, profile, explicit) if context["task"] != "create" else None
-    from .planner import plan
-    the_plan = plan(text, context, profile, explicit, _protected(args), report=findings) if findings else None
-    prompt = build_prompt(text, context, resolve(context, profile, explicit, text),
-                          select(context, budget_words=args.budget), facts=facts,
-                          inline_references=args.inline_refs, protect=_protected(args), findings=findings,
-                          project=scan(args.repo) if args.repo else None, targets=targets, plan=the_plan)
-    _emit(None, prompt)
+    _emit(None, skill_prompt(text, context, profile, explicit, protect=_protected(args), facts=facts,
+                             budget_words=args.budget, inline_references=args.inline_refs,
+                             project=scan(args.repo) if args.repo else None))
 
 
 def _provider(spec: str | None, candidates_files: list[str] | None, timeout: float, env: str = "inherit",
@@ -466,7 +452,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--root", default=".", help="repository root the dataset paths are relative to")
     p.add_argument("--out", help="write the run record (JSON) here")
     p.add_argument("--report", help="write the readable report (Markdown) here")
-    p.add_argument("--verify", metavar="RUN", help="check a recorded run instead of running (digest and metrics)")
+    p.add_argument("--verify", metavar="RUN", help="check a recorded run's internal consistency (digest and "
+                                                   "metrics); not authenticity")
+    p.add_argument("--replay", metavar="RUN", help="re-execute a recorded run with the code and inputs of its "
+                                                   "revision; exit 0 REPRODUCED, 1 DIFFERENT, 3 NOT_REPLAYABLE")
     p.set_defaults(func=cmd_evaluate)
 
     p = sub.add_parser("ledger", help="build the Semantic Ledger of a text")
@@ -721,8 +710,14 @@ def cmd_evaluate(args):
     if args.verify:
         problems = evaluation.verify_run(json.loads(_read(args.verify)))
         _emit({"kind": "voznativa.eval_run_verification", "run": args.verify, "consistent": not problems,
-               "problems": problems})
+               "problems": problems,
+               "scope": "internal consistency only (digest and metrics); not authenticity: the digest is not a "
+                        "signature. --replay re-executes the run at its revision."})
         return 0 if not problems else 1
+    if args.replay:
+        result = evaluation.replay_run(json.loads(_read(args.replay)), Path(args.root).resolve())
+        _emit(result)
+        return {"REPRODUCED": 0, "DIFFERENT": 1}.get(result["status"], 3)
     if not args.dataset:
         raise ValueError("evaluate needs a dataset spec (e.g. evals/v08/datasets/gate-and-planner.json) or --verify RUN")
     record = evaluation.run(json.loads(_read(args.dataset)), Path(args.root).resolve())
