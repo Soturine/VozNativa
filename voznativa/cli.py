@@ -459,6 +459,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--json", action="store_true", help="JSON result instead of text")
     p.set_defaults(func=cmd_demo)
 
+    p = sub.add_parser("evaluate", help="evaluation core: a dataset spec with splits, axes, provenance and "
+                                        "integrity (eval runs a single legacy suite); exit 0 COMPLETE, 1 INVALID or "
+                                        "INCOMPLETE")
+    p.add_argument("dataset", nargs="?", help="voznativa.eval_dataset JSON (paths relative to --root)")
+    p.add_argument("--root", default=".", help="repository root the dataset paths are relative to")
+    p.add_argument("--out", help="write the run record (JSON) here")
+    p.add_argument("--report", help="write the readable report (Markdown) here")
+    p.add_argument("--verify", metavar="RUN", help="check a recorded run instead of running (digest and metrics)")
+    p.set_defaults(func=cmd_evaluate)
+
     p = sub.add_parser("ledger", help="build the Semantic Ledger of a text")
     p.add_argument("text", help="file path or - for stdin")
     _protect_args(p)
@@ -704,6 +714,25 @@ def _explain(error: Exception) -> str:
         return ("o arquivo não está em UTF-8 (byte inválido na posição "
                 f"{error.start}). Salve-o como UTF-8 e tente de novo.")
     return str(error)
+
+
+def cmd_evaluate(args):
+    from . import evaluation
+    if args.verify:
+        problems = evaluation.verify_run(json.loads(_read(args.verify)))
+        _emit({"kind": "voznativa.eval_run_verification", "run": args.verify, "consistent": not problems,
+               "problems": problems})
+        return 0 if not problems else 1
+    if not args.dataset:
+        raise ValueError("evaluate needs a dataset spec (e.g. evals/v08/datasets/gate-and-planner.json) or --verify RUN")
+    record = evaluation.run(json.loads(_read(args.dataset)), Path(args.root).resolve())
+    if args.out:
+        Path(args.out).write_text(json.dumps(record, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if args.report:
+        Path(args.report).write_text(evaluation.render(record), encoding="utf-8")
+    _emit({k: record[k] for k in ("kind", "dataset", "status", "problems", "revision", "dirty", "metrics",
+                                  "results_sha256")})
+    return 0 if record["status"] == "COMPLETE" else 1
 
 
 def cmd_doctor(args):

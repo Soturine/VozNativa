@@ -164,7 +164,7 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 29 subcomandos. Os mais usados:
+`voznativa --help` lista os 30 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
@@ -178,6 +178,7 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 | `integrity TEXTO` | auditoria de caracteres; exit 2 quando há algo suspeito |
 | `corpus list \| permissions \| prepare \| evaluate` | Corpus Registry e política de dados |
 | `review` / `blind-*` | revisão humana assinada e revisão cega pareada |
+| `evaluate DATASET` | avaliação com splits, eixos separados, proveniência e verificação do registro ([protocolo](docs/v08/EVAL_PROTOCOL.md)) |
 
 No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acentos por `?`).
 

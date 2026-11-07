@@ -17,6 +17,7 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 
 ### Added
 - `voznativa doctor`: installation check (Python, PyYAML, references, package data, temp dir, whether known provider variables are set, never their values); no network, reads no text; exit 1 only when something will not work.
+- `voznativa evaluate` (Evaluation Core, `voznativa/evaluation.py`): a dataset spec reads the existing suites in place through adapters, each source with an explicit split that must agree with its MANIFEST (a developer-written suite cannot be an independent holdout; a changed frozen file makes the run INVALID). Axes `semantic_risk`, `status_agreement` and `decision` are reported separately and per split, with denominators and Wilson intervals; the run record keeps revision, versions, input hashes, per-case results without the texts and a results digest; `--verify` detects an edited record. Arms that need a model or people are listed as NOT_RUN. Protocol: `docs/v08/EVAL_PROTOCOL.md`.
 - `voznativa demo`: the quickstart offline on bundled texts (identical to `examples/quickstart/`, kept so by a test); no model, no key, no file written; `--json` for the structured result.
 
 ### Changed

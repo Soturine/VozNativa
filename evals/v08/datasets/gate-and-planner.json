@@ -1,0 +1,17 @@
+{
+  "kind": "voznativa.eval_dataset",
+  "schema_version": 1,
+  "id": "gate-and-planner-v08",
+  "description": "The existing semantic, relation, predicate and decision suites read in place through adapters. Every source was written by the engine's developer; the splits say how each one was used, none is independent.",
+  "sources": [
+    {"path": "evals/semantic/cases.jsonl", "adapter": "semantic_suite", "split": "development"},
+    {"path": "evals/semantic/relations.jsonl", "adapter": "semantic_suite", "split": "development"},
+    {"path": "evals/semantic/holdout.jsonl", "adapter": "semantic_suite", "split": "frozen_regression"},
+    {"path": "evals/semantic/holdout2.jsonl", "adapter": "semantic_suite", "split": "frozen_regression"},
+    {"path": "evals/semantic/holdout-relations.jsonl", "adapter": "semantic_suite", "split": "frozen_regression"},
+    {"path": "evals/semantic/holdout-v030.jsonl", "adapter": "semantic_suite", "split": "frozen_regression"},
+    {"path": "evals/semantic/holdout-v040.jsonl", "adapter": "semantic_suite", "split": "frozen_regression"},
+    {"path": "evals/predicates/cases-h07.jsonl", "adapter": "risk_sample", "split": "frozen_regression"},
+    {"path": "evals/decision/cases.jsonl", "adapter": "decision_suite", "split": "frozen_regression"}
+  ]
+}
