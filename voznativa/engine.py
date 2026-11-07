@@ -543,14 +543,14 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
             continue
         source = unit_text(text, unit)
         prior = previous.get((unit["index"], unit["sha256"]))
-        if prior and prior.get("outcome") in {"accepted", "needs_judgment", "needs_review", "no_change"} \
-                and prior.get("candidate_sha256"):
-            candidate = prior.get("_candidate")
-            if candidate is not None and sha256(candidate) == prior["candidate_sha256"]:
-                if prior["outcome"] != "no_change":
-                    replacements[unit["index"]] = candidate
-                units.append(dict(prior, resumed=True))
-                continue
+        reused = _resumed_unit(record, source, prior, context, profile, kwargs,
+                               user_protect + tuple(unit["carry"])) if prior else None
+        if reused is not None:
+            rec, candidate = reused
+            if candidate is not None:
+                replacements[unit["index"]] = candidate
+            units.append(rec)
+            continue
         document_info = {"unit": unit["index"] + 1, "units": len(plan["units"]), "carry": unit["carry"]}
         result = rewrite(source, context, budget, profile, explicit=explicit, attempts=limits.attempts_per_unit,
                          protect=user_protect + tuple(unit["carry"]), document=document_info,
@@ -571,14 +571,14 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
 
     # Global validation with controlled correction.
     reverted = []
-    candidate_doc = reassemble(text, plan, replacements)
+    candidate_doc = reassemble(text, plan, replacements, verse_explicit=verse_explicit)
     report = compare(text, candidate_doc) if replacements else None
     order = sorted(replacements, key=lambda i: -len(replacements[i]))
     while report is not None and report["status"] == "fail" and order:
         drop = order.pop(0)
         reverted.append(drop)
         replacements.pop(drop)
-        candidate_doc = reassemble(text, plan, replacements)
+        candidate_doc = reassemble(text, plan, replacements, verse_explicit=verse_explicit)
         report = compare(text, candidate_doc) if replacements else None
     for rec in units:
         if rec["index"] in reverted:
@@ -608,6 +608,48 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                                 "issues": report["issues"][:20]} if report else None),
                 plan={k: plan[k] for k in ("sha256", "words", "limits", "forced_cuts", "policy")},
                 provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
+
+
+_RESUMABLE = {"accepted", "needs_judgment", "needs_review", "no_change"}
+_GATE_OUTCOME = {"identical": "no_change", "no_deterministic_issues": "needs_judgment",
+                 "review_required": "needs_review", "human_review_claimed": "needs_review"}
+
+
+def _resumed_unit(record: dict, source: str, prior: dict, context: dict, profile: dict | None, kwargs: dict,
+                  protect: tuple) -> tuple[dict, str | None] | None:
+    """Reuse an earlier unit result without a provider call, or ``None`` to
+    rewrite the unit normally.
+
+    An earlier result is data, not authority (v0.8, V08-GAP-09): only its
+    candidate text is reused. The record is rebuilt from the plan (index,
+    action, kinds come from ``record``), the candidate must keep the unit's
+    block structure and pass the unit gates again, and a judge's verdict is
+    not inherited: the outcome is what the gates support, or the earlier
+    claim when that one is more cautious. Returns ``(record, candidate or
+    None when nothing changes)``."""
+    if prior.get("outcome") not in _RESUMABLE or not prior.get("candidate_sha256"):
+        return None
+    from .document import sha256, structure_of
+    candidate = prior.get("_candidate")
+    if not isinstance(candidate, str) or sha256(candidate) != prior["candidate_sha256"]:
+        return None
+    base = dict(record, resumed=True, candidate_sha256=prior["candidate_sha256"], _candidate=candidate)
+    if candidate == source:
+        return dict(base, outcome="no_change"), None
+    if structure_of(candidate) != structure_of(source):
+        return None
+    report = validate_candidate(source, candidate, context, profile, kwargs.get("facts"), kwargs.get("project"),
+                                protect)
+    gate = _GATE_OUTCOME.get(report["status"])
+    if gate is None or gate == "no_change":
+        return None
+    # The more cautious of the two. "accepted" (rank 1) always loses to a gate
+    # outcome (rank >= 2), which is how a judge's verdict is not inherited.
+    outcome = max(gate, prior["outcome"], key=lambda o: OUTCOME_RANK[o])
+    rec = dict(base, outcome=outcome)
+    if prior["outcome"] == "accepted":
+        rec["reason"] = "resumed: the earlier judge verdict is not re-verified, so the unit needs judgment again"
+    return rec, candidate
 
 
 _TRAILING_COMMA = re.compile(r",(\s*[}\]])")

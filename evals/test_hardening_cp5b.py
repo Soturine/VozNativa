@@ -129,11 +129,14 @@ class PlanIsDataNotAuthority(unittest.TestCase):
     def test_verse_explicit_never_unprotects_code_or_quotes(self):
         text = POEM + "\n```\nx = 1\n```\n\n> dito por alguém\n"
         plan = roundtrip(build_plan(text, verse_explicit=True))
-        self.assertEqual(validate_plan(plan, text), [])
+        # v0.8 (V08-GAP-01): the caller grants verse; the plan's field alone no longer does.
+        self.assertEqual(validate_plan(plan, text, verse_explicit=True), [])
         actions = {k: u["action"] for u in plan["units"] for k in u["kinds"]}
         self.assertEqual(actions, {"verse": "rewrite", "code": "protect", "quote": "protect"})
         unit_of(plan, "code")["action"] = "rewrite"
-        self.assert_refused(plan, {unit_of(plan, "code")["index"]: "y = 2"}, text=text)
+        self.assertTrue(validate_plan(plan, text, verse_explicit=True))
+        with self.assertRaises(ValueError):
+            reassemble(text, plan, {unit_of(plan, "code")["index"]: "y = 2"}, verse_explicit=True)
 
     def test_unknown_or_non_text_replacements_are_refused(self):
         plan = build_plan(DOC)

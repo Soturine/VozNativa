@@ -160,30 +160,43 @@ def build_plan(text: str, context: dict | None = None, limits: Limits = Limits()
                    "unit_failure": "keep the unit's original text",
                    "global_failure": "revert changed units until the document passes, else return the original"},
     }
-    problems = validate_plan(plan, text)
+    problems = validate_plan(plan, text, verse_explicit=verse_explicit)
     if problems:   # a bug in the planner, never the user's fault: fail closed
         raise AssertionError(f"inconsistent document plan: {problems}")
     return plan
 
 
-def validate_plan(plan: dict, text: str) -> list[str]:
+def _caller_grant(verse_explicit) -> bool:
+    if not isinstance(verse_explicit, bool):
+        raise TypeError("verse_explicit (the caller's authorisation) must be True or False")
+    return verse_explicit
+
+
+def validate_plan(plan: dict, text: str, verse_explicit: bool = False) -> list[str]:
     """Problems that make a plan unusable for ``text`` (empty = usable).
 
     A serialised plan is data, not authority (v0.7.0.dev1, H07-NEW-01): which
     units may be rewritten is derived again from ``text`` and the protection
     policy, so editing ``action``, ``kinds``, ``blocks`` or the core offsets of
     a plan cannot unprotect a code block, table, separator or quotation.
-    ``verse_explicit`` is the caller's authorisation to rewrite verse (the same
-    one ``build_plan`` takes), so it is checked for consistency, not overruled."""
+
+    ``verse_explicit`` is the **caller's** authorisation to rewrite verse, the
+    same one ``build_plan`` takes (v0.8, V08-GAP-01). The plan's own field only
+    has to agree with it: a plan saying ``verse_explicit: true`` grants nothing
+    when the caller did not grant it, and the expected actions are derived
+    from the caller's value, never from the plan's."""
+    verse_explicit = _caller_grant(verse_explicit)
     problems = []
     if plan.get("kind") != KIND or plan.get("schema_version") != SCHEMA_VERSION:
         problems.append("unsupported plan kind or schema_version")
     if plan.get("sha256") != sha256(text):
         problems.append("the plan was built for another text (sha256 differs)")
-    verse_explicit = plan.get("verse_explicit", False)
-    if not isinstance(verse_explicit, bool):
+    declared = plan.get("verse_explicit", False)
+    if not isinstance(declared, bool):
         problems.append("verse_explicit must be a boolean")
-        verse_explicit = False
+    elif declared != verse_explicit:
+        problems.append(f"the plan declares verse_explicit={declared} but the caller authorised {verse_explicit}; "
+                        "verse authorisation comes from the caller, not from the plan")
     if (plan.get("policy") or {}).get("protected_kinds") != _expected_protected_kinds(verse_explicit):
         problems.append("policy.protected_kinds does not match the protection policy")
     units = plan.get("units", [])
@@ -229,10 +242,13 @@ def validate_plan(plan: dict, text: str) -> list[str]:
     return problems
 
 
-def reassemble(text: str, plan: dict, replacements: dict[int, str] | None = None) -> str:
+def reassemble(text: str, plan: dict, replacements: dict[int, str] | None = None,
+               verse_explicit: bool = False) -> str:
     """The document with unit cores replaced. Protected units cannot be
-    replaced; without replacements the result is byte-identical to ``text``."""
-    problems = validate_plan(plan, text)
+    replaced; without replacements the result is byte-identical to ``text``.
+    ``verse_explicit``: the caller authorises rewriting verse (see
+    ``validate_plan``); a plan cannot grant it to itself."""
+    problems = validate_plan(plan, text, verse_explicit=verse_explicit)
     if problems:
         raise ValueError(f"plan does not match the text: {problems}")
     replacements = replacements or {}

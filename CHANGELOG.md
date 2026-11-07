@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased (0.8.0.dev0)
+
+Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; state: `docs/v08/EXECUTION_STATE.md`; gaps: `docs/v08/GAP_REGISTER.md`.
+
+### Fixed
+- **Document plans could authorise themselves to rewrite verse (V08-GAP-01).** `validate_plan` read `verse_explicit` from the serialised plan, so a plan edited to say `true` (with its policy and unit actions edited to match) passed validation and let `reassemble` replace a poem. The authorisation now comes from the caller: `validate_plan(plan, text, verse_explicit=False)` and `reassemble(text, plan, replacements, verse_explicit=False)`; the plan's field must agree with the caller and grants nothing by itself. A non-boolean grant raises `TypeError`. **API change:** code that reassembles a plan built with `verse_explicit=True` must now pass `verse_explicit=True` to `reassemble`/`validate_plan`. `rewrite_document` and the CLI already pass the caller's flag.
+- **`rewrite_document(resume=...)` trusted earlier records (V08-GAP-09).** A forged record with `outcome: accepted` made the whole document `accepted` with no provider call and no judge; a forged candidate could change a unit's block structure; a record without `action` crashed with `KeyError`. Now only the candidate text is reused: the record is rebuilt from the plan, the candidate must keep the unit's structure and pass the unit gates again, and the outcome is the more cautious of the gates and the earlier claim, so a judge's verdict is not inherited.
+
 ## Unreleased (0.7.0.dev1)
 
 Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Plan and findings: `docs/PLAN_v0.7.0.dev1.md`; state: `docs/V07_EXECUTION_STATE.md` (section v0.7.0.dev1).
