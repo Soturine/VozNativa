@@ -1,0 +1,64 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-h07-cp6",
+  "entries": [
+    {
+      "file": "bench-v4-f1f7446.txt",
+      "command": "python scripts/bench_v4.py (clean tree)",
+      "exit_code": 0,
+      "raw_sha256": "3fd4bfb1c86b717df1d34ce338eaf8598e8fddbee221cf0652eae4cb8dd3cb77",
+      "published_sha256": "87073810bbd865fcb0d7862dc0b6ddad86f3a7745ed235f32ab60dae44193508",
+      "sanitized": true
+    },
+    {
+      "file": "bench-v5-f1f7446.txt",
+      "command": "python scripts/bench_v5.py (clean tree)",
+      "exit_code": 0,
+      "raw_sha256": "05252e9e9c52abd221bb278fb56d69913b55e5b8d027c04b4dfa8eed6fb4c0a7",
+      "published_sha256": "ed71c4aea371229a7e5060bb1a1f57b3852459db51910b9309ec9e867511da57",
+      "sanitized": true
+    },
+    {
+      "file": "predicate-eval-f1f7446.txt",
+      "command": "python scripts/predicate_eval.py --out evals/predicates/runs/predicates-2026-11-07-dev1.json (clean tree)",
+      "exit_code": 0,
+      "raw_sha256": "833049729d82ab5d468a43a0c7b628064f090fb89e47390bfa87ed87964dedbe",
+      "published_sha256": "bf2d609b67769990207e828e4b4f93b10eede77409434074b56ad31cf2868604",
+      "sanitized": true
+    },
+    {
+      "file": "release-windows-py3.11.9-f1f7446.json",
+      "command": "env -u PIP_NO_BUILD_ISOLATION <venv CPython 3.11.9 (NuGet python 3.11.9, SHA512 checked against the catalog) + PyYAML 6.0.3 + build 1.6.1>/python scripts/qualify.py --scope release --out ...",
+      "exit_code": 3,
+      "raw_sha256": "0af477d9dcd1591958d45cbf200e8f3ca4ca07208539f504c00953bb50098c7d",
+      "published_sha256": "0af477d9dcd1591958d45cbf200e8f3ca4ca07208539f504c00953bb50098c7d",
+      "sanitized": false
+    },
+    {
+      "file": "release-windows-py3.12.6-f1f7446.json",
+      "command": "env -u PIP_NO_BUILD_ISOLATION <venv CPython 3.12.6 + PyYAML 6.0.3 + build 1.6.1>/python scripts/qualify.py --scope release --out ...",
+      "exit_code": 3,
+      "raw_sha256": "95a32f603df6c0918fcd0eb709d6f9af874a0f4f4e0d7768ddd523a2f212ccff",
+      "published_sha256": "95a32f603df6c0918fcd0eb709d6f9af874a0f4f4e0d7768ddd523a2f212ccff",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-07T06:24:53+00:00",
+  "revision": "f1f74464119ac74088831ccd6ea0f7a162056500",
+  "dirty_paths": [
+    "benchmarks/runs/ptbr-bench-v4-20261107T061937Z.json",
+    "benchmarks/runs/ptbr-bench-v5-20261107T061937Z.json",
+    "evals/predicates/runs/predicates-2026-11-07-dev1.json"
+  ],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {},
+  "notes": [
+    "Revision f1f7446 (0.7.0.dev1), clean tree in every run; the bench/predicate outputs were held outside the repo while the next command ran. Windows 10, CPython 3.12.6 and 3.11.9: all local gates PASS, unittest 726 (725 + 1 POSIX skip), package sdist->wheel->clean venv->smoke outside the checkout PASS; review:pty NOT_RUN (POSIX); exit 3 INCOMPLETE only for ci:github-actions (no run yet on this revision), holdout:independent and review:blind-human. PIP_NO_BUILD_ISOLATION=0 was set in this user environment and unset for the runs (CI does not set it).",
+    "Linux local qualification BLOCKED: no WSL distribution on this machine and the Docker Desktop Linux engine answered HTTP 500 for the whole session. The only Linux evidence for this revision is the CP7 CI run (ubuntu-latest 3.11/3.12/3.13 and package).",
+    "The portable 3.11.9 stdlib was found partly deleted between its extraction and the run (archive mtimes from 2024 in a Temp folder); it was re-extracted from the same hash-checked package with current mtimes before the run."
+  ]
+}

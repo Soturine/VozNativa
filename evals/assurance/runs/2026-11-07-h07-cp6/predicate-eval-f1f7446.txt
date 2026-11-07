@@ -1,0 +1,39 @@
+ok  pr-01  review_required          predicate_missing:major
+ok  pr-02  review_required          predicate_missing:major
+ok  pr-03  fail                     modality_changed:critical, possible_omission:major, quantifier_changed:major
+ok  pr-04  review_required          predicate_missing:major
+ok  pr-05  review_required          possible_omission:major, predicate_missing:major
+ok  pr-06  review_required          predicate_missing:major
+ok  pr-07  review_required          predicate_missing:major
+ok  pr-08  review_required          condition_changed:major, predicate_missing:major
+MISS pr-09  no_deterministic_issues  predicate_replaced:info
+MISS pr-10  no_deterministic_issues  polarity_changed:info, predicate_replaced:info
+ok  pr-11  fail                     modality_changed:critical
+ok  pr-12  review_required          predicate_missing:major
+MISS pr-13  no_deterministic_issues  
+ok  pr-14  review_required          predicate_missing:major
+ok  pr-15  review_required          predicate_missing:major
+ok  pr-16  review_required          predicate_missing:major
+MISS pr-17  no_deterministic_issues  
+ok  pr-18  review_required          condition_changed:major
+ok  pr-19  review_required          quantifier_changed:major
+ok  pr-20  review_required          attribution_changed:major
+ok  pc-01  no_deterministic_issues  predicate_replaced:info
+ok  pc-02  no_deterministic_issues  
+ok  pc-03  no_deterministic_issues  
+ok  pc-04  no_deterministic_issues  
+ok  pc-05  no_deterministic_issues  
+ok  pc-06  no_deterministic_issues  predicate_replaced:info
+ok  pc-07  no_deterministic_issues  predicate_replaced:info
+ok  pc-08  no_deterministic_issues  
+FA   pc-09  review_required          condition_changed:major
+ok  pc-10  no_deterministic_issues  
+ok  pc-11  no_deterministic_issues  
+ok  pc-12  no_deterministic_issues  
+ok  pc-13  no_deterministic_issues  
+ok  pc-14  no_deterministic_issues  
+ok  pc-15  no_deterministic_issues  
+ok  pc-16  no_deterministic_issues  predicate_replaced:info
+ok  pc-17  no_deterministic_issues  
+ok  pc-18  no_deterministic_issues  
+risk flagged 16/20; clean false alarms 1/18

@@ -1,0 +1,10 @@
+36/36 cases pass (D-voznativa-v070-deterministic); revision f1f74464119a
+  decision       13/13  worst epoch=contemporary 13/13
+  diagnosis      4/4  worst epoch=contemporary 4/4
+  long_form      5/5  worst epoch=contemporary 5/5
+  protections    2/2  worst genre=literature 2/2
+  routing        16/16  worst variety=pt-BR 15/15
+  semantic_gate  9/9  worst epoch=contemporary 9/9
+  slang          4/4  worst task=no_change 4/4
+  variety        4/4  worst epoch=contemporary 3/3
+benchmarks/runs/ptbr-bench-v5-20261107T061937Z.json
