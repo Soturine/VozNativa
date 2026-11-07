@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.verb_relations",
+  "evidence": {
+    "level": "E0 (authored)",
+    "basis": "Written for v0.8 CP6 by the engine's developer from general Portuguese verb classes (transfer verbs with a recipient complement; converse pairs whose roles swap). Not derived from any test sentence; not calibrated against an external lexical resource.",
+    "use": "events.frames and compare: recipient_dropped and event_converted. Converse pairs are never treated as antonyms: 'X comprou de Y' and 'Y vendeu para X' say the same thing."
+  },
+  "transfer_verbs": [
+    "enviar", "mandar", "entregar", "devolver", "repassar", "encaminhar", "remeter", "despachar",
+    "comunicar", "informar", "avisar", "apresentar", "explicar", "mostrar", "contar", "relatar",
+    "pagar", "transferir", "depositar", "emprestar", "doar", "oferecer", "conceder", "ceder",
+    "passar", "dar", "vender", "alugar", "submeter", "destinar"
+  ],
+  "converse_pairs": [
+    [["comprar", "adquirir"], ["vender"]],
+    [["enviar", "mandar", "remeter", "despachar", "encaminhar"], ["receber"]],
+    [["entregar", "dar", "doar", "conceder", "ceder", "pagar"], ["receber"]],
+    [["emprestar"], ["tomar"]],
+    [["ensinar"], ["aprender"]]
+  ]
+}

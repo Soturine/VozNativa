@@ -74,6 +74,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _order_issues(src, out, alignment)
     issues += _tense_issues(src, out, alignment)
     issues += _predicate_issues(src, out, alignment)
+    issues += _event_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -578,6 +579,66 @@ def _predicate_issues(src, out, alignment) -> list[dict]:
                                      f"the action '{lemma}' has no counterpart in the candidate sentence "
                                      "(only a light verb or none): an action or commitment may be lost",
                                      **common))
+    return issues
+
+
+def _same_word(a: str, b: str) -> bool:
+    """Same head word, allowing an inflection ("fornecedor"/"fornecedores")."""
+    if a == b:
+        return True
+    shorter, longer = sorted((a, b), key=len)
+    return len(shorter) >= 5 and longer.startswith(shorter[:-1]) and len(longer) - len(shorter) <= 2
+
+
+def _event_issues(src, out, alignment) -> list[dict]:
+    """Who received what, and whether the event turned into its converse
+    (v0.8 CP6, V08-GAP-04), from ``voznativa.events`` frames:
+
+    * ``recipient_dropped`` / ``recipient_changed`` (major): a transfer verb's
+      recipient ("ao cliente", "para a diretoria") is nowhere in the aligned
+      candidate sentence or its neighbours (moving it, or a passive that keeps
+      it, is fine);
+    * ``agent_recipient_swapped`` (major): the same transfer with giver and
+      receiver exchanged;
+    * ``event_converted`` (major): the verb became its converse (comprou ->
+      vendeu, enviou -> recebeu) with the same subject; a converse with the
+      roles swapped ("A comprou de B" -> "B vendeu para A") is not flagged.
+
+    Major, never critical: frames come from rules and abstain on anything
+    unclear; a person or a judge decides. Absence of these issues proves
+    nothing."""
+    from .events import converse, frames
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        source = src.entries[i].sentence.text
+        near = [out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k < len(out.entries)]
+        near_words = {fold(w) for text in near for w in words(text)}
+        out_frames = [f for text in near for f in frames(text)]
+        for f in frames(source):
+            loc = {"source_sentence": source, "candidate_sentence": out.entries[j].sentence.text}
+            same_verb = [g for g in out_frames if g.stem == f.stem]
+            if f.recipient and f.agent and any(g.agent and g.recipient and _same_word(g.agent, f.recipient)
+                                               and _same_word(g.recipient, f.agent) for g in same_verb):
+                issues.append(_issue("agent_recipient_swapped", "major",
+                                     f"'{f.agent}' gave and '{f.recipient}' received '{f.verb}'; the candidate "
+                                     "swaps giver and receiver", verb=f.verb, location=loc))
+                continue
+            if f.recipient and not any(_same_word(f.recipient, w) for w in near_words):
+                other = next((g.recipient for g in same_verb if g.recipient), None)
+                code, why = (("recipient_changed", f"now '{other}'") if other else
+                             ("recipient_dropped", "it is no longer said who receives it"))
+                issues.append(_issue(code, "major", f"recipient '{f.recipient}' of '{f.verb}' is gone: {why}",
+                                     verb=f.verb, recipient=f.recipient, location=loc))
+            if f.agent and not any(w.startswith(f.stem) for w in near_words):
+                for g in out_frames:
+                    if g.agent and not g.passive and converse(f.stem, g.stem) and _same_word(g.agent, f.agent):
+                        issues.append(_issue("event_converted", "major",
+                                             f"'{f.verb}' became its converse '{g.verb}' with the same subject "
+                                             f"'{f.agent}': the direction of the event changed", verb=f.verb,
+                                             candidate_verb=g.verb, location=loc))
+                        break
     return issues
 
 

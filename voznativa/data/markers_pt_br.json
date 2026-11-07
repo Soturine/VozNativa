@@ -573,7 +573,12 @@
         "aprov*",
         "aceit*",
         "deferid*",
-        "homolog*"
+        "homolog*",
+        "deferiu",
+        "deferir",
+        "deferiram",
+        "defere",
+        "deferem"
       ],
       "reject": [
         "reprov*",
@@ -585,7 +590,12 @@
         "negado",
         "negada",
         "negados",
-        "negadas"
+        "negadas",
+        "indeferiu",
+        "indeferir",
+        "indeferiram",
+        "indefere",
+        "indeferem"
       ],
       "gain": [
         "ganhou",
@@ -745,6 +755,67 @@
         "termin*",
         "encerr*",
         "finaliz*"
+      ],
+      "hire": [
+        "contratou",
+        "contratar",
+        "contrataram",
+        "contrata",
+        "contratam",
+        "contratado",
+        "contratada",
+        "contratados",
+        "contratadas",
+        "contratação",
+        "contratações"
+      ],
+      "fire": [
+        "demitiu",
+        "demitir",
+        "demitiram",
+        "demite",
+        "demitem",
+        "demitido",
+        "demitida",
+        "demitidos",
+        "demitidas",
+        "demissão",
+        "demissões"
+      ],
+      "export": [
+        "export*"
+      ],
+      "import": [
+        "importou",
+        "importar",
+        "importaram",
+        "importamos",
+        "importado",
+        "importada",
+        "importados",
+        "importadas",
+        "importação",
+        "importações"
+      ],
+      "switch_on": [
+        "ligou",
+        "ligar",
+        "ligaram",
+        "ligado",
+        "ligada",
+        "ligados",
+        "ligadas"
+      ],
+      "switch_off": [
+        "desligou",
+        "desligar",
+        "desligaram",
+        "desliga",
+        "desligam",
+        "desligado",
+        "desligada",
+        "desligados",
+        "desligadas"
       ]
     }
   },
@@ -941,6 +1012,18 @@
     [
       "start",
       "end"
+    ],
+    [
+      "hire",
+      "fire"
+    ],
+    [
+      "export",
+      "import"
+    ],
+    [
+      "switch_on",
+      "switch_off"
     ]
   ]
 }
