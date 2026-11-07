@@ -21,6 +21,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP6 | Eventos, papéis e destinatário (GAP-04) | concluído | (este commit) | conjuntos `evals/events/` congelados antes do código (`53d48fc`), linha de base registrada (`ea84db3`); depois: desenvolvimento 14/15 riscos e 2/13 falsos alarmes, holdout (uma execução) 11/12 e 3/12; predicados 17/20 e 1/18; semânticas, decisão, roteador, v4 22/22, v5 36/36 sem mudança; 10 mutantes mortos. [`SEMANTICS.md`](SEMANTICS.md) |
 | CP7a | GAP-13: falso vermelho em documento longo | concluído | (este commit) | causa: desempate do alinhamento entre frases que diferem só por "não"; reproduzido em documento bem formado e em 9 parágrafos; corrigido por posição, sem tocar nos guards; 0/309 relatórios das suítes mudaram; v4 22/22, v5 36/36, predicados 17/20 |
 | CP7b | GAP-12: custo do `compare` e limite de tempo da validação global | concluído | (este commit) | 30 mil palavras 24,7 s → 8,5 s, 41 mil 12,4 s, saída idêntica (0/309); `timeout_s` cobre a validação global e devolve o original; resíduo `contains_word` documentado |
+| CP7 | Long-form e arquitetura | concluído | (este commit) | `test_v08_longform`: reescrita limpa com gêmeas não é mais revertida (em `c353058` revertia [1, 4]); documento misto com todos os blocos. [`ARCHITECTURE.md`](ARCHITECTURE.md) com os três modos e Agent-Led Runtime; lacuna V08-GAP-16 (autoavaliação do agente sem rótulo próprio) para o CP12 |
 
 ## Regras desta rodada
 
@@ -37,4 +38,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP7: GAP-12 (custo do `compare` em documento longo) e GAP-13 (falso vermelho), reproduzidos antes num documento bem formado; depois discurso e long-form, e a seção Agent-Led Runtime na arquitetura.
+CP8: avaliadores por eixo (naturalidade como proxy rotulado, voz, gênero, região, mudança desnecessária) e curva cobertura × precisão do Router (GAP-05), estratificada, sem reduzir abstenção sem conjunto separado.

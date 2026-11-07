@@ -47,5 +47,5 @@ Porta de entrada: [`../README.md`](../README.md). Procedimento do agente: [`../S
 | [V07_EXECUTION_STATE.md](V07_EXECUTION_STATE.md) | checkpoints, commits e retomada de sessão |
 | [V07_DISCOVERY_REGISTER.md](V07_DISCOVERY_REGISTER.md) | descobertas, decisões e correções |
 | [V08_STANDARDS_VISION.md](V08_STANDARDS_VISION.md) | linha futura: normas, editais e rubricas versionados |
-| [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md) | rodada v0.8: checkpoints, commits e retomada; a partir dele, [plano](v08/PLAN.md), [AS-IS](v08/AS_IS.md), [gaps](v08/GAP_REGISTER.md), [pesquisa](v08/RESEARCH_LANDSCAPE.md) e [rastreabilidade](v08/TRACEABILITY.md) |
+| [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md) | rodada v0.8: checkpoints, commits e retomada; a partir dele, [plano](v08/PLAN.md), [AS-IS](v08/AS_IS.md), [gaps](v08/GAP_REGISTER.md), [pesquisa](v08/RESEARCH_LANDSCAPE.md), [rastreabilidade](v08/TRACEABILITY.md), [arquitetura](v08/ARCHITECTURE.md), [semântica de eventos](v08/SEMANTICS.md), [protocolo de avaliação](v08/EVAL_PROTOCOL.md), [independência e vazamento](v08/INDEPENDENCE_AND_LEAKAGE.md) e [desempenho](v08/PERFORMANCE.md) |
 | [RESEARCH_LOG.md](RESEARCH_LOG.md) | fontes externas consultadas, com data |
