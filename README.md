@@ -210,7 +210,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 | Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
-| `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/V07_OOD_BENCHMARK.md`](docs/V07_OOD_BENCHMARK.md) |
+| `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/v08/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/V07_OOD_BENCHMARK.md`](docs/V07_OOD_BENCHMARK.md) |
 | Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/V07_CORPUS_INTEGRATION.md`](docs/V07_CORPUS_INTEGRATION.md) |
 | Amostra de ações e compromissos perdidos (congelada antes da regra, mesmo autor) | 16/20 riscos sinalizados (eram 7), 1/18 falso alarme (eram 4); regressão, não holdout | [`evals/predicates/README.md`](evals/predicates/README.md) |
 | Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) |

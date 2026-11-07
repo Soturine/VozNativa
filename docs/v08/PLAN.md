@@ -66,6 +66,16 @@ O VozNativa tem três modos: **determinístico/offline** (sem modelo), **assisti
 
 Execução com provider real ou agente real consome créditos da conta do mantenedor e envia os textos de teste ao provedor: **precisa de autorização explícita** antes do CP9. Sem ela, a capacidade fica documentada e testada com stubs rotulados, e a validação real fica `NOT_RUN`. Revisões feitas por este agente são **agent assessment**, nunca avaliação humana ou independente; uma chamada de LLM com ferramentas desligadas não é orquestração agent-led completa.
 
+### Adendo "Auditoria e reorganização de `docs/`" (2026-11-07)
+
+Entra no **CP12**, com validação no CP16 e na CI do CP17:
+
+1. Inventário de `docs/` (recursivo), README, SKILL, ROADMAP, CHANGELOG, exemplos e referências no código: caminho, título, finalidade, versão, estado (`CURRENT`, `HISTORICAL`, `DRAFT`, `SUPERSEDED`, `INCOMPLETE`, `CANDIDATE_DUPLICATE`), contradições, links e âncoras quebrados, alegações sem implementação ou sem evidência. Falta de referência não basta para chamar um documento de obsoleto.
+2. Estrutura proposta a partir do inventário (Getting Started, User Guides, Architecture, CLI/API Reference, Evaluation & Benchmarks, Research, Development & Assurance, Releases & History, ADRs), com fonte única por assunto (DESIGN_SPEC, ARCHITECTURE_AND_RESEARCH, ENGINEERING_PROFILE) e a separação implementado / planejado / hipótese / evidência / resultado independente / limitação / histórico. `V08_STANDARDS_VISION.md` atualizado conforme o CP10/CP11 implementarem partes.
+3. Histórico 0.3–0.7 preservado (checkpoints, auditorias, mutação, gaps, CI, ADRs, proveniência); nenhum arquivo usado por script, manifesto, `ci_evidence` ou qualificação movido sem atualizar e testar os consumidores; mapa de caminhos antigos → novos. `docs/v08/` fica no lugar enquanto os CPs estiverem ativos.
+4. `docs/README.md` como página inicial com os dez caminhos pedidos (instalar, doctor/demo, analisar sem modelo, provider, Agent Skill, documento longo, desfechos, integração, segurança e licença, reprodução), comandos executáveis em PowerShell e Bash, e o modo conduzido por agente como capacidade de primeira classe.
+5. Validador atual estendido (sem ferramenta nova): links e âncoras, subcomandos citados, versões e estados, caminhos movidos, tabelas, arquivos inexistentes, caminhos pessoais e segredos. Defeitos plantados em cópias isoladas provam a detecção; auditoria contextual do agente para o que o validador não pega; Assertiva sobre os testes de documentação (CP14) e Derivanta como referência de método.
+
 ## Decisões de escopo tomadas no CP0
 
 - **GAP-09 entra no CP1** junto com o GAP-01: mesma classe (dado serializado concedendo autoridade), achado durante a reprodução.

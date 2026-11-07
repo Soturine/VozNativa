@@ -6,8 +6,11 @@ Como o VozNativa mede o que faz, e o que cada número pode e não pode dizer. Im
 
 ```bash
 voznativa evaluate evals/v08/datasets/gate-and-planner.json --out run.json --report run.md
-voznativa evaluate --verify run.json      # exit 1 se o registro foi editado ou as métricas não batem
+voznativa evaluate --verify run.json      # coerência interna: exit 1 se resumo ou métricas não batem
+voznativa evaluate --replay run.json      # reexecuta na revisão gravada: 0 REPRODUCED, 1 DIFFERENT, 3 NOT_REPLAYABLE
 ```
+
+`--verify` **não** prova autenticidade: `results_sha256` é um resumo de integridade, não uma assinatura, e quem edita os resultados pode recalculá-lo. `--replay` reexecuta com o código e as entradas da revisão: prova reprodutibilidade nesta máquina, não autoria nem independência. Detalhes e o vazamento encontrado: [`INDEPENDENCE_AND_LEAKAGE.md`](INDEPENDENCE_AND_LEAKAGE.md).
 
 Exit 0 só com estado `COMPLETE`. `INVALID` (especificação errada, arquivo congelado alterado, independência inventada) e `INCOMPLETE` (uma fonte ilegível) saem com 1 e nunca viram PASS.
 
@@ -20,11 +23,11 @@ Um `voznativa.eval_dataset` lista fontes: caminho relativo ao repositório (sem 
 | `frozen_regression` | congelado, já usado para corrigir | regressão |
 | `development` | o código foi ajustado até passar | desenvolvimento |
 | `prospective_holdout` | congelado antes da mudança, mesmo autor | holdout do desenvolvedor, não independente |
-| `external_independent_holdout` | preparado ou validado por outra pessoa, com custódia | validação independente; **recusado** se o MANIFEST não disser `independent: true` |
+| `external_independent_holdout` | preparado ou validado por outra pessoa, com custódia | validação independente; **recusado** sem `independent: true` **e** um bloco `independence_evidence` cujo commit de congelamento contenha o arquivo com o hash do MANIFEST |
 | `adversarial` | metamórfico e ataques | robustez |
 | `real_provider_study` | provider real ou pessoas, com autorização | estudo; exige consentimento e orçamento |
 
-Arquivo congelado é comparado com o sha256 do MANIFEST (com LF, para Windows e Linux concordarem); se mudou, o run é `INVALID`.
+Arquivo congelado é comparado com o sha256 do MANIFEST (com LF, para Windows e Linux concordarem); se mudou, o run é `INVALID`. Caminho que sai da raiz por link simbólico ou junção também é `INVALID`. Um texto compartilhado entre um holdout (`prospective_holdout`, `external_independent_holdout`) e outra fonte invalida o run; entre outros splits, a ligação é contada e listada (`leakage`).
 
 ## Eixos
 
@@ -46,6 +49,6 @@ Níveis de evidência: `ENGINE_EXECUTED`, `AGENT_OBSERVED`, `EXTERNAL_VERIFIED`,
 
 ## O que este protocolo ainda não cobre
 
-- Braços que geram texto (B0–B6 do plano): dependem de provider e orçamento; ficam `NOT_RUN` até o CP9.
+- Braços que geram texto: a interface comum existe (`voznativa/arms.py`: B0 original e B2 determinístico rodam offline; B1, B3, B4 e B5 precisam de provider; B6 de ferramenta autorizada). Com stub de teste a evidência é `SYNTHETIC_FIXTURE`; com provider real, só no CP9 e com autorização.
 - Revisão humana cega e holdout independente: dependem de pessoas reais; `NOT_RUN`.
 - Eixos de qualidade editorial, voz, região e estrutura de documento longo: CP7/CP8.
