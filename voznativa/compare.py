@@ -344,10 +344,23 @@ def _regional_referent_issues(original: str, candidate: str) -> list[dict]:
 
 
 def _align(src, out) -> list[tuple[int, int | None, float]]:
+    """Best candidate sentence for each source sentence by content-stem
+    Jaccard. Ties (v0.8, V08-GAP-13) go to the candidate sentence nearest
+    the source sentence's relative position. Before, the first of the tied
+    sentences won: "O orçamento não pode passar..." and "O orçamento pode
+    passar..." have the same stems, so in a long document quoting both, the
+    negated one aligned to the other and its negation looked moved (a false
+    critical). A higher similarity always wins; only ties are decided
+    differently. Preferring an identical surface text instead was tried and
+    rejected: an unchanged copy elsewhere then took the alignment and hid a
+    negation removed from the other copy (test_v08_alignment)."""
     pairs = []
+    n_out = len(out.entries)
+    scale = (n_out - 1) / (len(src.entries) - 1) if len(src.entries) > 1 else 0.0
     for i, entry in enumerate(src.entries):
         a = set(entry.stems)
-        best, best_sim = None, 0.0
+        best, best_sim, best_key = None, 0.0, None
+        expected = i * scale
         for j, cand in enumerate(out.entries):
             sim = _jaccard(a, set(cand.stems))
             if len(a) < 2 or len(cand.stems) < 2:
@@ -359,8 +372,11 @@ def _align(src, out) -> list[tuple[int, int | None, float]]:
                     # Both sentences are made only of markers ("nn posso" -> "posso");
                     # with the same sentence count, position is the best alignment.
                     sim = 1.0
-            if sim > best_sim:
-                best, best_sim = j, sim
+            if sim <= 0.0:
+                continue
+            key = (sim, -abs(j - expected))
+            if best_key is None or key > best_key:
+                best, best_sim, best_key = j, sim, key
         # v0.7.0: a rewrite that rephrases a sentence but keeps its hard protected
         # values (money, dates, versions...) is still that sentence. Without this, a
         # negation dropped from "Vale ressaltar que o orçamento não pode ultrapassar
