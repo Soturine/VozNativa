@@ -1,0 +1,36 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-h07-cp7",
+  "entries": [
+    {
+      "file": "ci-evidence-run125.json",
+      "command": "python scripts/ci_evidence.py (live, read-only) on main f9c1a78 after run #125 completed",
+      "exit_code": 0,
+      "raw_sha256": "483fe56982193afaee3bf2f154b1dcec61d5c21cd53d65497e819812963978d8",
+      "published_sha256": "12c82465096d3d03ecac981cdf1ace85f2015c3ef24c205334d1e7d87e187579",
+      "sanitized": true
+    },
+    {
+      "file": "gh-run-125.json",
+      "command": "gh run view 42347048285 --json number,databaseId,headSha,event,status,conclusion,headBranch,createdAt,updatedAt,url,jobs",
+      "exit_code": 0,
+      "raw_sha256": "27d091db8e6cb7e6955df6ee5018e093ebde17392695d347c0b7f881fb567bcd",
+      "published_sha256": "27d091db8e6cb7e6955df6ee5018e093ebde17392695d347c0b7f881fb567bcd",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-07T06:29:15+00:00",
+  "revision": "f9c1a787aabcec58606095efe54e4e48a9dda6f8",
+  "dirty_paths": [
+    "evals/qualification/external.json"
+  ],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {},
+  "notes": [
+    "main fast-forwarded e7506f5 -> f9c1a78 (git ls-remote confirmed); the push started no Actions run (gh run list: last run was #124). Exactly one gh workflow run ci.yml --ref main -> run #125 (id 42347048285), workflow_dispatch, completed/success, 8/8 jobs whose names equal the declared matrix. No tag, release or PyPI."
+  ]
+}

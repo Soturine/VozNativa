@@ -95,15 +95,17 @@ Revisão `f1f7446` (versão `0.7.0.dev1`), árvore limpa em todas as execuções
 
 ### CI remota (CP7)
 
-Pendente até o merge na `main`: um único `workflow_dispatch`, verificado ao vivo por `scripts/ci_evidence.py`.
+A `main` avançou por fast-forward de `e7506f5` para `f9c1a78`, conferido com `git ls-remote`, e o push não disparou nenhuma Action. Um único `gh workflow run ci.yml --ref main` gerou o run **#125** (id 42347048285): `workflow_dispatch`, concluído com sucesso, **8/8 jobs**. Os nomes dos jobs são exatamente os da matriz declarada: `test` em ubuntu-latest e windows-latest × 3.11/3.12/3.13, mais `package` nos dois sistemas. `scripts/ci_evidence.py` verificou ao vivo e deu PASS, com relação `same`. Commits posteriores mudam só caminhos de `EVIDENCE_PATHS`. Registros: `evals/assurance/runs/2026-11-07-h07-cp7/`. https://github.com/Soturine/VozNativa/actions/runs/42347048285
 
-### Veredito por dimensão (dev1, antes da CI)
+Este run é a única evidência Linux da dev1 (jobs `ubuntu-latest` com 3.11, 3.12 e 3.13, incluindo a revisão por pseudo-terminal e o job de pacote). A qualificação local no Linux ficou BLOCKED.
+
+### Veredito por dimensão (dev1)
 
 | Dimensão | Estado | Base |
 |---|---|---|
 | IMPLEMENTATION | PASS no escopo da dev1 (H07-001..020) | `docs/PLAN_v0.7.0.dev1.md`, testes por requisito |
 | LOCAL_QUALIFICATION | PASS (gates locais) em Windows 3.11/3.12; **Linux local BLOCKED** | tabela acima |
-| REMOTE_CI | pendente (CP7) | — |
+| REMOTE_CI | **PASS** em `f9c1a78`: run #125 (id 42347048285), `workflow_dispatch`, 8/8 jobs por nome, verificado ao vivo | https://github.com/Soturine/VozNativa/actions/runs/42347048285 |
 | INDEPENDENT_HOLDOUT | NOT_RUN | precisa de outra pessoa |
 | BLIND_HUMAN_REVIEW | NOT_RUN | registro de revisores vazio |
 | EXTERNAL_DETECTOR_BENCH | LIVE_NOT_RUN | sem chaves, sem textos humanos consentidos |

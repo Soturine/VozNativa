@@ -25,6 +25,17 @@
         "jobs_passed": "8/8",
         "started": "2026-11-06T17:21:49Z",
         "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same (v0.7.0 CP16)"
+      },
+      {
+        "run": 125,
+        "id": 42347048285,
+        "head_sha": "f9c1a787aabcec58606095efe54e4e48a9dda6f8",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "started": "2026-11-07T06:26:58Z",
+        "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same, 8 jobs matched by name to the declared matrix (v0.7.0.dev1 CP7)"
       }
     ],
     "history": [
@@ -51,6 +62,12 @@
         "runs": "#124",
         "state": "EXECUTED",
         "evidence": "single manual dispatch after the fast-forward of main to 9f44010; no Actions run between 2026-11-05 and this dispatch"
+      },
+      {
+        "period": "2026-11-07",
+        "runs": "#125",
+        "state": "EXECUTED",
+        "evidence": "single manual dispatch after the fast-forward of main from e7506f5 to f9c1a78 (0.7.0.dev1); the push started no run; no Actions run between #124 and this dispatch"
       }
     ]
   },

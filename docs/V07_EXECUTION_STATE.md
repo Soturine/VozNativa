@@ -64,6 +64,7 @@ Plano: `docs/PLAN_v0.7.0.dev1.md`. Branch `dev/v0.7.0-hardening`, criada de `mai
 | CP5 | Mutação e dogfood (agent-led) | concluído (mutação de `compare` parcial, por decisão do mantenedor) | (este commit) | Cosmic Ray com `-B`, todas as rodadas em cópias limpas. A (módulo da v0.7): 633 → 638 de 875 no mesmo conjunto, sem morte falsa por bytecode. B (`temporal.py` atual): 674/922. C (`compare.py`, faixa da regra): 132/271 executados, interrompida. D (`document.py`, amostra de 120): 68 mortos. 8 testes novos matam 17 dos 20 sobreviventes visados da regra; 3 equivalentes. Engine: DEF-VN-07 corrigido upstream (PR #3 `acd6ca3`), reteste com 2 ABSENT. Assertiva `--execute` PASS (755 invocações) e `--assessment` anexado. `evals/assurance/runs/2026-11-06-h07-cp5/MUTATION.md` |
 | CP5B | Auditoria de fechamento (H07-017..020), rodada C completa, oráculos, dogfood | concluído | `ecf3dd2` + (este commit) | 3 hipóteses reproduzidas e corrigidas (DISC-052..054) e 1 quebra extra (DISC-055); em `d8aa669` os testes novos davam 20 falhas e 7 erros. Rodada C: 271/271, 201 mortos, 70 sobreviventes, nenhum morto do CP5 voltou a sobreviver; `test_compare_signal_oracles` mata 44 no replay, 22 equivalentes, 4 em B-M2 (DISC-057, com a hipótese da linha 467). Replay D: `test_document_plan_oracles` mata 25 de 52. Engine `inspect`/`compare` (5 novos, todos INFERRED, nenhum defeito) e rastreabilidade H07-017..020. Assertiva `--execute` em clone limpo: 815 invocações (814 + 1 skip), 90,27% linhas / 81,36% ramos; `--assessment` anexado ao run `6f5ee4fc6a1743b1`. `evals/assurance/runs/2026-11-07-h07-cp5b/MUTATION.md` |
 | CP6 | Versão e qualificação | concluído (Linux local BLOCKED) | `f1f7446` + (este commit) | versão `0.7.0.dev1` nos 6 lugares canônicos. Na árvore limpa de `f1f7446`: v4 22/22, v5 36/36 e predicados 16/20 riscos e 1/18 FA. `qualify --scope release` no Windows 10 com 3.12.6 e 3.11.9: gates locais PASS, unittest 726 (725 + 1 skip POSIX), pacote sdist → wheel → venv limpo → smoke PASS, exit 3 só pelos externos. Linux local BLOCKED: sem WSL, e o Docker responde 500. A evidência Linux fica só com a CI do CP7. `evals/assurance/runs/2026-11-07-h07-cp6/`, `docs/V07_RELEASE_QUALIFICATION.md` (seção dev1) |
+| CP7 | Integração e CI | concluído | `main` = `f9c1a78` + (este commit, só evidência) | `origin/main` era `e7506f5`, ancestral. Fast-forward para `f9c1a78`, conferido por `ls-remote`; o push não disparou Action. Um único dispatch gerou o run #125 (id 42347048285): `workflow_dispatch`, success, 8/8 jobs por nome. `scripts/ci_evidence.py` deu PASS ao vivo (`same`). `evals/qualification/external.json`, `evals/assurance/runs/2026-11-07-h07-cp7/`. Sem tag, release ou PyPI |
 
 ## Handoff para a próxima sessão (outra máquina)
 
@@ -71,10 +72,10 @@ Escrito no fim do CP5, em 2026-11-06. A memória local do Claude **não** vai ju
 
 ### Onde está
 
-- Branch `dev/v0.7.0-hardening`. O último commit é o deste CP5; confira com `git fetch --prune` e `git log --oneline origin/dev/v0.7.0-hardening -8`.
-- `main` = `dev/v0.7.0` = `e7506f5`, intocadas desde o início desta rodada.
-- CI: o último run verde é o #124, em `9f44010`. Nenhum run nesta rodada.
-- Versão ainda `0.7.0.dev0` no código. O CHANGELOG já tem a seção `Unreleased (0.7.0.dev1)`.
+- **Atualizado no fim do CP7 (2026-11-07):** a dev1 foi concluída. `main` = `dev/v0.7.0-hardening`, ambas com o commit de evidência do CP7 sobre `f9c1a78` (código). `dev/v0.7.0` continua em `e7506f5`.
+- CI: run #125 (id 42347048285), em `f9c1a78`, `workflow_dispatch`, 8/8 jobs, verificado ao vivo. Foi o único run desta rodada.
+- Versão `0.7.0.dev1`. Sem tag, release ou PyPI.
+- O texto abaixo ("O que falta") é o handoff do fim do CP5, mantido como registro; os CP5B, CP6 e CP7 estão na tabela acima.
 
 ### Regras desta rodada (valem também na outra máquina)
 
