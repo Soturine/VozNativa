@@ -25,6 +25,7 @@ measure (scripts/morph_eval.py).
 """
 from __future__ import annotations
 
+import functools
 import re
 import unicodedata
 from dataclasses import dataclass, field
@@ -164,13 +165,29 @@ def _build_irregular() -> dict[str, list[dict]]:
 
 
 IRREGULAR_INDEX = _build_irregular()
+# Ties of equal length are ordered by the tuple itself (v0.8): sorting a set by
+# length alone left their order to string hashing, so the order of
+# ``analyse_word`` results changed from one process to the next.
 _ENDINGS = sorted({(e, vowel, code, i) for vowel, table in REGULAR.items() for code, ends in table.items()
-                   for i, e in enumerate(ends)}, key=lambda x: -len(x[0]))
+                   for i, e in enumerate(ends)}, key=lambda x: (-len(x[0]), x))
 
 
 def analyse_word(word: str) -> list[dict]:
     """Every analysis the form allows (irregular table first, then regular
-    endings with a plausible stem). Empty when nothing fits."""
+    endings with a plausible stem). Empty when nothing fits.
+
+    Memoised (v0.8, V08-GAP-02): ``compare`` analyses the same words many
+    times. Each call still returns a new list of new dicts, so a caller that
+    edits one never changes what the next caller gets."""
+    return [dict(a) for a in _analyse_word_cached(word)]
+
+
+@functools.lru_cache(maxsize=1 << 16)
+def _analyse_word_cached(word: str) -> tuple:
+    return tuple(_analyse_word(word))
+
+
+def _analyse_word(word: str) -> list[dict]:
     w = _nfc(word)
     if w in NON_VERBS:
         return []

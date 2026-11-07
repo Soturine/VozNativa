@@ -274,15 +274,53 @@ def _quantity_key(value: str, unit: str) -> str:
     return f"quantity:{value}:{unit}"
 
 
+class _Occupied:
+    """Character ranges already claimed by a span (v0.8, V08-GAP-02).
+
+    Replaces a list scanned in full for every candidate match, which made
+    ``extract`` quadratic (18.6 s for 40k words, 2026-11-07). One byte per
+    character answers the same question: ``overlaps(start, end)`` is True iff
+    some claimed range ``(s, e)`` has ``start < e and end > s``. Claimed ranges
+    may overlap each other (``_numeral_spans`` extends a range over "reais" or
+    a unit after checking it), which an index of disjoint intervals would get
+    wrong; a byte map does not care.
+
+    Two degenerate cases of the old expression are kept exactly, although no
+    caller produces them today (every claim and query is a non-empty match):
+    an empty query ``(p, p)`` overlapped a single range with ``s < p < e``
+    (the byte map cannot tell one range from two adjacent ones, so it is
+    answered by the old scan), and an empty claim ``(p, p)`` overlapped any
+    query with ``start < p < end``."""
+
+    __slots__ = ("_map", "_ranges", "_points")
+
+    def __init__(self, size: int):
+        self._map = bytearray(size)
+        self._ranges: list[tuple[int, int]] = []
+        self._points: list[int] = []
+
+    def overlaps(self, start: int, end: int) -> bool:
+        if start >= end:
+            return any(start < e and end > s for s, e in self._ranges)
+        return 1 in self._map[start:end] or any(start < p < end for p in self._points)
+
+    def add(self, start: int, end: int) -> None:
+        self._ranges.append((start, end))
+        if start < end:
+            self._map[start:end] = b"\x01" * (end - start)
+        else:
+            self._points.append(start)
+
+
 _CURRENCY_AFTER = re.compile(r"\s+(?:de\s+)?(reais|real|d[oó]lares|d[oó]lar|euros|euro)\b", re.I)
 _UNIT_AFTER = re.compile(rf"\s+({_UNIT_ALT})(?![\w/])", re.I)
 
 
-def _numeral_spans(text: str, occupied: list[tuple[int, int]]) -> list[Span]:
+def _numeral_spans(text: str, occupied: _Occupied) -> list[Span]:
     """Number words ("vinte e três", "mil e quinhentos reais", "meia hora")."""
     out = []
     for start, end, value in numerals.find(text):
-        if any(start < e and end > s for s, e in occupied):
+        if occupied.overlaps(start, end):
             continue
         number = numerals.as_text(value)
         rest = text[end:]
@@ -300,7 +338,7 @@ def _numeral_spans(text: str, occupied: list[tuple[int, int]]) -> list[Span]:
             continue  # a bare "meia" is not a number ("meia noite" is handled elsewhere)
         else:
             kind, key = "number", f"number:{number}"
-        occupied.append((start, end))
+        occupied.add(start, end)
         out.append(Span(kind, text[start:end], start, end, key, _anchors(text, start, end)))
     return out
 
@@ -331,22 +369,38 @@ def _date_key(raw: str) -> str:
 
 
 _SENTENCE_START_RE = re.compile(r"(?:^|[.!?…:]\s+|\n\s*(?:[-*+•]\s+|\d+[.)]\s+|#+\s+)?)$")
+# Every character a match of _SENTENCE_START_RE can contain (the ^ branch is empty).
+_SENTENCE_START_CHAR = re.compile(r"[\s\d.!?…:\-*+•#)]")
 
 
-def _entities(text: str, occupied: list[tuple[int, int]]) -> list[Span]:
+def _sentence_start(text: str, start: int) -> bool:
+    """``bool(_SENTENCE_START_RE.search(text[:start]))`` without copying or
+    scanning the whole prefix (v0.8, V08-GAP-02).
+
+    A match ends at ``start`` (or before a final newline there) and consists
+    only of characters in ``_SENTENCE_START_CHAR``, so it cannot begin before
+    the run of such characters that ends at ``start``. Searching from there
+    with ``endpos=start`` keeps the semantics of the slice: ``$`` sees
+    ``start`` as the end of the string and ``^`` still matches only at 0."""
+    low = start
+    while low > 0 and _SENTENCE_START_CHAR.match(text, low - 1):
+        low -= 1
+    return _SENTENCE_START_RE.search(text, low, start) is not None
+
+
+def _entities(text: str, occupied: _Occupied) -> list[Span]:
     """Named-entity candidates: CamelCase/ALLCAPS tokens anywhere, Capitalized
     tokens only when they are not sentence-initial (PT-BR capitalizes proper
     nouns, not common nouns)."""
     out = []
     for m in _ENTITY_RE.finditer(text):
         start, end = m.span()
-        if any(start < e and end > s for s, e in occupied):
+        if occupied.overlaps(start, end):
             continue
         token = m.group(0)
         simple_capitalized = token[0].isupper() and token[1:].islower()
         if simple_capitalized:
-            prefix = text[:start]
-            if _SENTENCE_START_RE.search(prefix) or fold(token) in _FOLDED_STOP:
+            if _sentence_start(text, start) or fold(token) in _FOLDED_STOP:
                 continue
         out.append(Span("entity", token, start, end, _key("entity", token)))
     return out
@@ -375,14 +429,14 @@ def extract(text: str, include_entities: bool = True, protect: list[str] | tuple
     """``protect``: user terms that must survive verbatim (product names,
     internal acronyms, fixed expressions). They are matched first, by whole
     word and case-insensitively, and count as hard spans."""
-    occupied: list[tuple[int, int]] = []
+    occupied = _Occupied(len(text))
     out: list[Span] = []
     for term in sorted({t.strip() for t in protect if t and t.strip()}, key=len, reverse=True):
         for match in re.finditer(r"(?<!\w)" + re.escape(term) + r"(?!\w)", text, re.IGNORECASE):
             start, end = match.span()
-            if any(start < e and end > s for s, e in occupied):
+            if occupied.overlaps(start, end):
                 continue
-            occupied.append((start, end))
+            occupied.add(start, end)
             out.append(Span("protected_term", match.group(0), start, end, "protected_term:" + fold(term),
                             _anchors(text, start, end)))
     for index, (kind, pattern) in enumerate(PATTERNS):
@@ -397,9 +451,9 @@ def extract(text: str, include_entities: bool = True, protect: list[str] | tuple
                 start += len(raw) - len(raw.lstrip())
                 raw = raw_stripped
                 end = start + len(raw)
-            if start == end or any(start < e and end > s for s, e in occupied):
+            if start == end or occupied.overlaps(start, end):
                 continue
-            occupied.append((start, end))
+            occupied.add(start, end)
             out.append(Span(kind, raw, start, end, _key(kind, raw), _anchors(text, start, end)))
     if include_entities:
         out.extend(_entities(text, occupied))
