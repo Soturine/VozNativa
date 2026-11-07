@@ -1,0 +1,1842 @@
+{
+ "kind": "voznativa.router_curve",
+ "schema_version": 1,
+ "split": "evaluation",
+ "current": [
+  2.0,
+  1.0
+ ],
+ "rows": [
+  {
+   "min_score": 1.0,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 1883,
+   "precision": {
+    "k": 1571,
+    "n": 1883,
+    "wilson95": [
+     0.817,
+     0.85
+    ]
+   },
+   "useful_coverage": {
+    "k": 1571,
+    "n": 7424,
+    "wilson95": [
+     0.202,
+     0.221
+    ]
+   },
+   "wrong": 312,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 117,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 90,
+     "wrong": 3,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 57,
+     "wrong": 65,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 623,
+     "wrong": 7,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 87,
+     "wrong": 12,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 670,
+     "wrong": 101,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 7,
+     "wrong": 7,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.0,
+   "min_margin": 1.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 1839,
+   "precision": {
+    "k": 1548,
+    "n": 1839,
+    "wilson95": [
+     0.824,
+     0.858
+    ]
+   },
+   "useful_coverage": {
+    "k": 1548,
+    "n": 7424,
+    "wilson95": [
+     0.199,
+     0.218
+    ]
+   },
+   "wrong": 291,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 110,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 87,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 57,
+     "wrong": 60,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 621,
+     "wrong": 7,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 87,
+     "wrong": 12,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 652,
+     "wrong": 95,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 7,
+     "wrong": 7,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.0,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 712,
+   "precision": {
+    "k": 582,
+    "n": 712,
+    "wilson95": [
+     0.787,
+     0.844
+    ]
+   },
+   "useful_coverage": {
+    "k": 582,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.085
+    ]
+   },
+   "wrong": 130,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 87,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 74,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 23,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 221,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 246,
+     "wrong": 17,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.0,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 610,
+   "precision": {
+    "k": 575,
+    "n": 610,
+    "wilson95": [
+     0.921,
+     0.958
+    ]
+   },
+   "useful_coverage": {
+    "k": 575,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.084
+    ]
+   },
+   "wrong": 35,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 15,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 71,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 220,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 243,
+     "wrong": 14,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.0,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 201,
+   "precision": {
+    "k": 197,
+    "n": 201,
+    "wilson95": [
+     0.95,
+     0.992
+    ]
+   },
+   "useful_coverage": {
+    "k": 197,
+    "n": 7424,
+    "wilson95": [
+     0.023,
+     0.03
+    ]
+   },
+   "wrong": 4,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 7,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 48,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 1,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 65,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 77,
+     "wrong": 3,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.5,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 829,
+   "precision": {
+    "k": 677,
+    "n": 829,
+    "wilson95": [
+     0.789,
+     0.842
+    ]
+   },
+   "useful_coverage": {
+    "k": 677,
+    "n": 7424,
+    "wilson95": [
+     0.085,
+     0.098
+    ]
+   },
+   "wrong": 152,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 91,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 89,
+     "wrong": 3,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 4,
+     "wrong": 27,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 239,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 302,
+     "wrong": 27,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.5,
+   "min_margin": 1.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 791,
+   "precision": {
+    "k": 654,
+    "n": 791,
+    "wilson95": [
+     0.799,
+     0.852
+    ]
+   },
+   "useful_coverage": {
+    "k": 654,
+    "n": 7424,
+    "wilson95": [
+     0.082,
+     0.095
+    ]
+   },
+   "wrong": 137,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 89,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 86,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 4,
+     "wrong": 23,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 237,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 284,
+     "wrong": 21,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.5,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 712,
+   "precision": {
+    "k": 582,
+    "n": 712,
+    "wilson95": [
+     0.787,
+     0.844
+    ]
+   },
+   "useful_coverage": {
+    "k": 582,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.085
+    ]
+   },
+   "wrong": 130,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 87,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 74,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 23,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 221,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 246,
+     "wrong": 17,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.5,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 610,
+   "precision": {
+    "k": 575,
+    "n": 610,
+    "wilson95": [
+     0.921,
+     0.958
+    ]
+   },
+   "useful_coverage": {
+    "k": 575,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.084
+    ]
+   },
+   "wrong": 35,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 15,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 71,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 220,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 243,
+     "wrong": 14,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 1.5,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 201,
+   "precision": {
+    "k": 197,
+    "n": 201,
+    "wilson95": [
+     0.95,
+     0.992
+    ]
+   },
+   "useful_coverage": {
+    "k": 197,
+    "n": 7424,
+    "wilson95": [
+     0.023,
+     0.03
+    ]
+   },
+   "wrong": 4,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 7,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 48,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 1,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 65,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 77,
+     "wrong": 3,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.0,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 727,
+   "precision": {
+    "k": 677,
+    "n": 727,
+    "wilson95": [
+     0.91,
+     0.947
+    ]
+   },
+   "useful_coverage": {
+    "k": 677,
+    "n": 7424,
+    "wilson95": [
+     0.085,
+     0.098
+    ]
+   },
+   "wrong": 50,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 18,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 89,
+     "wrong": 3,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 4,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 239,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 302,
+     "wrong": 22,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.0,
+   "min_margin": 1.0,
+   "current": true,
+   "units": 7424,
+   "emitted": 697,
+   "precision": {
+    "k": 654,
+    "n": 697,
+    "wilson95": [
+     0.918,
+     0.954
+    ]
+   },
+   "useful_coverage": {
+    "k": 654,
+    "n": 7424,
+    "wilson95": [
+     0.082,
+     0.095
+    ]
+   },
+   "wrong": 43,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 37,
+     "wrong": 17,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 86,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 4,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 237,
+     "wrong": 1,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 284,
+     "wrong": 19,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.0,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 618,
+   "precision": {
+    "k": 582,
+    "n": 618,
+    "wilson95": [
+     0.92,
+     0.958
+    ]
+   },
+   "useful_coverage": {
+    "k": 582,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.085
+    ]
+   },
+   "wrong": 36,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 15,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 74,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 221,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 246,
+     "wrong": 15,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.0,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 610,
+   "precision": {
+    "k": 575,
+    "n": 610,
+    "wilson95": [
+     0.921,
+     0.958
+    ]
+   },
+   "useful_coverage": {
+    "k": 575,
+    "n": 7424,
+    "wilson95": [
+     0.072,
+     0.084
+    ]
+   },
+   "wrong": 35,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 32,
+     "wrong": 15,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 71,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 3,
+     "wrong": 6,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 220,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 6,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 243,
+     "wrong": 14,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.0,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 201,
+   "precision": {
+    "k": 197,
+    "n": 201,
+    "wilson95": [
+     0.95,
+     0.992
+    ]
+   },
+   "useful_coverage": {
+    "k": 197,
+    "n": 7424,
+    "wilson95": [
+     0.023,
+     0.03
+    ]
+   },
+   "wrong": 4,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 7,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 48,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 1,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 65,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 77,
+     "wrong": 3,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.5,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 273,
+   "precision": {
+    "k": 259,
+    "n": 273,
+    "wilson95": [
+     0.916,
+     0.969
+    ]
+   },
+   "useful_coverage": {
+    "k": 259,
+    "n": 7424,
+    "wilson95": [
+     0.031,
+     0.039
+    ]
+   },
+   "wrong": 14,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 1,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 75,
+     "wrong": 3,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 75,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 101,
+     "wrong": 8,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.5,
+   "min_margin": 1.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 265,
+   "precision": {
+    "k": 256,
+    "n": 265,
+    "wilson95": [
+     0.937,
+     0.982
+    ]
+   },
+   "useful_coverage": {
+    "k": 256,
+    "n": 7424,
+    "wilson95": [
+     0.031,
+     0.039
+    ]
+   },
+   "wrong": 9,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 75,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 75,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 98,
+     "wrong": 7,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.5,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 255,
+   "precision": {
+    "k": 247,
+    "n": 255,
+    "wilson95": [
+     0.939,
+     0.984
+    ]
+   },
+   "useful_coverage": {
+    "k": 247,
+    "n": 7424,
+    "wilson95": [
+     0.029,
+     0.038
+    ]
+   },
+   "wrong": 8,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 67,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 74,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 98,
+     "wrong": 6,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.5,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 247,
+   "precision": {
+    "k": 240,
+    "n": 247,
+    "wilson95": [
+     0.943,
+     0.986
+    ]
+   },
+   "useful_coverage": {
+    "k": 240,
+    "n": 7424,
+    "wilson95": [
+     0.029,
+     0.037
+    ]
+   },
+   "wrong": 7,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 64,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 73,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 95,
+     "wrong": 5,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 2.5,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 201,
+   "precision": {
+    "k": 197,
+    "n": 201,
+    "wilson95": [
+     0.95,
+     0.992
+    ]
+   },
+   "useful_coverage": {
+    "k": 197,
+    "n": 7424,
+    "wilson95": [
+     0.023,
+     0.03
+    ]
+   },
+   "wrong": 4,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 7,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 48,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 1,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 65,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 77,
+     "wrong": 3,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 3.0,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 264,
+   "precision": {
+    "k": 250,
+    "n": 264,
+    "wilson95": [
+     0.913,
+     0.968
+    ]
+   },
+   "useful_coverage": {
+    "k": 250,
+    "n": 7424,
+    "wilson95": [
+     0.03,
+     0.038
+    ]
+   },
+   "wrong": 14,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 1,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 66,
+     "wrong": 3,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 75,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 101,
+     "wrong": 8,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 3.0,
+   "min_margin": 1.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 256,
+   "precision": {
+    "k": 247,
+    "n": 256,
+    "wilson95": [
+     0.935,
+     0.981
+    ]
+   },
+   "useful_coverage": {
+    "k": 247,
+    "n": 7424,
+    "wilson95": [
+     0.029,
+     0.038
+    ]
+   },
+   "wrong": 9,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 66,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 75,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 98,
+     "wrong": 7,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 3.0,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 247,
+   "precision": {
+    "k": 239,
+    "n": 247,
+    "wilson95": [
+     0.937,
+     0.983
+    ]
+   },
+   "useful_coverage": {
+    "k": 239,
+    "n": 7424,
+    "wilson95": [
+     0.028,
+     0.036
+    ]
+   },
+   "wrong": 8,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 59,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 74,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 98,
+     "wrong": 6,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 3.0,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 242,
+   "precision": {
+    "k": 235,
+    "n": 242,
+    "wilson95": [
+     0.942,
+     0.986
+    ]
+   },
+   "useful_coverage": {
+    "k": 235,
+    "n": 7424,
+    "wilson95": [
+     0.028,
+     0.036
+    ]
+   },
+   "wrong": 7,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 8,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 59,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 2,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 73,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 95,
+     "wrong": 5,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 3.0,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 201,
+   "precision": {
+    "k": 197,
+    "n": 201,
+    "wilson95": [
+     0.95,
+     0.992
+    ]
+   },
+   "useful_coverage": {
+    "k": 197,
+    "n": 7424,
+    "wilson95": [
+     0.023,
+     0.03
+    ]
+   },
+   "wrong": 4,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 7,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 48,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 1,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 65,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 77,
+     "wrong": 3,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 4.0,
+   "min_margin": 0.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 85,
+   "precision": {
+    "k": 83,
+    "n": 85,
+    "wilson95": [
+     0.918,
+     0.994
+    ]
+   },
+   "useful_coverage": {
+    "k": 83,
+    "n": 7424,
+    "wilson95": [
+     0.009,
+     0.014
+    ]
+   },
+   "wrong": 2,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 60,
+     "wrong": 2,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 21,
+     "wrong": 0,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 4.0,
+   "min_margin": 1.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 83,
+   "precision": {
+    "k": 83,
+    "n": 83,
+    "wilson95": [
+     0.956,
+     1.0
+    ]
+   },
+   "useful_coverage": {
+    "k": 83,
+    "n": 7424,
+    "wilson95": [
+     0.009,
+     0.014
+    ]
+   },
+   "wrong": 0,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 60,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 21,
+     "wrong": 0,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 4.0,
+   "min_margin": 1.5,
+   "current": false,
+   "units": 7424,
+   "emitted": 76,
+   "precision": {
+    "k": 76,
+    "n": 76,
+    "wilson95": [
+     0.952,
+     1.0
+    ]
+   },
+   "useful_coverage": {
+    "k": 76,
+    "n": 7424,
+    "wilson95": [
+     0.008,
+     0.013
+    ]
+   },
+   "wrong": 0,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 53,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 21,
+     "wrong": 0,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 4.0,
+   "min_margin": 2.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 76,
+   "precision": {
+    "k": 76,
+    "n": 76,
+    "wilson95": [
+     0.952,
+     1.0
+    ]
+   },
+   "useful_coverage": {
+    "k": 76,
+    "n": 7424,
+    "wilson95": [
+     0.008,
+     0.013
+    ]
+   },
+   "wrong": 0,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 53,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 21,
+     "wrong": 0,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  },
+  {
+   "min_score": 4.0,
+   "min_margin": 3.0,
+   "current": false,
+   "units": 7424,
+   "emitted": 66,
+   "precision": {
+    "k": 66,
+    "n": 66,
+    "wilson95": [
+     0.945,
+     1.0
+    ]
+   },
+   "useful_coverage": {
+    "k": 66,
+    "n": 7424,
+    "wilson95": [
+     0.007,
+     0.011
+    ]
+   },
+   "wrong": 0,
+   "per_source": {
+    "b2w-reviews01": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "machado-de-assis-corpus": {
+     "useful": 44,
+     "wrong": 0,
+     "units": 119
+    },
+    "ud-portuguese-bosque": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1112
+    },
+    "ud-portuguese-dantestocks": {
+     "useful": 1,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-gsd": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 1500
+    },
+    "ud-portuguese-petrogold": {
+     "useful": 20,
+     "wrong": 0,
+     "units": 1491
+    },
+    "ud-portuguese-pud": {
+     "useful": 0,
+     "wrong": 0,
+     "units": 202
+    }
+   }
+  }
+ ],
+ "replay_matches_router": true
+}

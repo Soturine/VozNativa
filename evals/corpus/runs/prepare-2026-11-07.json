@@ -1,0 +1,323 @@
+{
+  "kind": "voznativa.corpus_prepare_run",
+  "date": "2026-11-07",
+  "reports": [
+    {
+      "source": "ud-portuguese-bosque",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_bosque-ud-train.conllu": 7018,
+        "pt_bosque-ud-dev.conllu": 1172,
+        "pt_bosque-ud-test.conllu": 1167
+      },
+      "records_read": 9357,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_bosque-ud-train.conllu",
+          "bytes": 11291250,
+          "sha256": "b56d7124af821e2968302c38298904ec67af342304a33ae8a9dc4fa57df89648",
+          "partial": false,
+          "seconds": 1.02
+        },
+        {
+          "asset": "pt_bosque-ud-dev.conllu",
+          "bytes": 1873903,
+          "sha256": "f8a67abae12fbab85a3995204a6459d1958c11065062d4ea5349d6b914e78f81",
+          "partial": false,
+          "seconds": 0.47
+        },
+        {
+          "asset": "pt_bosque-ud-test.conllu",
+          "bytes": 1819980,
+          "sha256": "9a824650b7a02cf411f6e09b39e8fb423c85e1a5fb3a55b87e7f4c0c2ea5b3bb",
+          "partial": false,
+          "seconds": 0.47
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-bosque licence CC-BY-SA-4.0 (LICENSE.txt in the repository (read 2026-11-05))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "b2w-reviews01",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "B2W-Reviews01.prefix.csv": 21700
+      },
+      "records_read": 21700,
+      "read_errors": 1,
+      "read_error_examples": [
+        {
+          "line": 21702,
+          "error": "CSV: unexpected end of data"
+        }
+      ],
+      "downloads": [
+        {
+          "asset": "B2W-Reviews01.prefix.csv",
+          "bytes": 8000000,
+          "sha256": "ac228ca8451a91f17962fce2c5314136397eed0ad077c6cb77987989d89a34e3",
+          "partial": true,
+          "seconds": 0.45
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-NC-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-NC-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:b2w-reviews01 licence CC-BY-NC-SA-4.0 (Licensing section of README.md (read 2026-11-05))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "machado-de-assis-corpus",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "machado_corpus.prefix.jsonl": 309
+      },
+      "records_read": 309,
+      "read_errors": 1,
+      "read_error_examples": [
+        {
+          "line": 310,
+          "error": "JSON: Unterminated string starting at"
+        }
+      ],
+      "downloads": [
+        {
+          "asset": "machado_corpus.prefix.jsonl",
+          "bytes": 6000000,
+          "sha256": "79ff4bd1f9ff603d65089e467d559fbe9eda3eaa4c8012e954d7d7c279155bd6",
+          "partial": true,
+          "seconds": 12.05
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC0-1.0 permits it"
+          ],
+          "conditions": [],
+          "evidence": [
+            "registry:machado-de-assis-corpus licence CC0-1.0 (dataset card (read 2026-11-05): compilation dedicated CC0; texts in the public domain (author died 1908))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ud-portuguese-gsd",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_gsd-ud-train.conllu": 9616,
+        "pt_gsd-ud-dev.conllu": 1204,
+        "pt_gsd-ud-test.conllu": 1200
+      },
+      "records_read": 12020,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_gsd-ud-train.conllu",
+          "bytes": 13521544,
+          "sha256": "c28bdc7ff8ddf03cba586062be0b041308da36bd82c321b437564d2b6c8664bb",
+          "partial": false,
+          "seconds": 1.11
+        },
+        {
+          "asset": "pt_gsd-ud-dev.conllu",
+          "bytes": 1671373,
+          "sha256": "0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6",
+          "partial": false,
+          "seconds": 0.42
+        },
+        {
+          "asset": "pt_gsd-ud-test.conllu",
+          "bytes": 1658886,
+          "sha256": "0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31",
+          "partial": false,
+          "seconds": 0.41
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-gsd licence CC-BY-SA-4.0 (LICENSE.txt and README.md at c91edee (read 2026-11-06))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ud-portuguese-petrogold",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_petrogold-ud-train.conllu": 7170,
+        "pt_petrogold-ud-dev.conllu": 737,
+        "pt_petrogold-ud-test.conllu": 1039
+      },
+      "records_read": 8946,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_petrogold-ud-train.conllu",
+          "bytes": 12797986,
+          "sha256": "f0c81edf8273a79d82f9efdb00cf6e5a3efce4effc1fc00cabef09ca9e13fb4e",
+          "partial": false,
+          "seconds": 1.16
+        },
+        {
+          "asset": "pt_petrogold-ud-dev.conllu",
+          "bytes": 1423901,
+          "sha256": "36ec2018101073a2e36a350ad3711ec1c6d464b5d3b9244da22c183f62a04f7b",
+          "partial": false,
+          "seconds": 0.48
+        },
+        {
+          "asset": "pt_petrogold-ud-test.conllu",
+          "bytes": 1910811,
+          "sha256": "069a43e29462ac24f876c43affcd12b519e2aa650b934f8591d67dae8a993f5d",
+          "partial": false,
+          "seconds": 0.58
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-SA-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-SA-4.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-petrogold licence CC-BY-SA-4.0 (LICENSE.txt and README.md at 5814c7f (read 2026-11-06); texts from the Petrolês corpus made public by Petrobras (README))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ud-portuguese-pud",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_pud-ud-test.conllu": 1000
+      },
+      "records_read": 1000,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_pud-ud-test.conllu",
+          "bytes": 1595522,
+          "sha256": "e2bd4012a3d0e17dc7ba5d699dd17e05f57986901bb24df07bd0a271cf23178c",
+          "partial": false,
+          "seconds": 0.42
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-SA-3.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-SA-3.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-pud licence CC-BY-SA-3.0 (LICENSE.txt and README.md at 0fdcc05 (read 2026-11-06))"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ud-portuguese-dantestocks",
+      "date": "2026-11-07",
+      "connector": "local-files",
+      "records_by_asset": {
+        "pt_dantestocks-ud-train.conllu": 3040,
+        "pt_dantestocks-ud-dev.conllu": 501,
+        "pt_dantestocks-ud-test.conllu": 501
+      },
+      "records_read": 4042,
+      "read_errors": 0,
+      "read_error_examples": [],
+      "downloads": [
+        {
+          "asset": "pt_dantestocks-ud-train.conllu",
+          "bytes": 3607632,
+          "sha256": "43a4791e6502d3b1bcdefc36c6ad5a133c0d4569dd20d34c0a9bf4913d38f07d",
+          "partial": false,
+          "seconds": 0.5
+        },
+        {
+          "asset": "pt_dantestocks-ud-dev.conllu",
+          "bytes": 591939,
+          "sha256": "729bafef6f73d21b3c6115fee354d2a978e553cd2253ba4b6cb93bfee3aebfbc",
+          "partial": false,
+          "seconds": 0.41
+        },
+        {
+          "asset": "pt_dantestocks-ud-test.conllu",
+          "bytes": 599936,
+          "sha256": "a65801c762707d9fefcd83f5a431c8a974bcc178612ba00d965946a9713432aa",
+          "partial": false,
+          "seconds": 0.34
+        }
+      ],
+      "policy": [
+        {
+          "operation": "DOWNLOAD",
+          "state": "ALLOWED",
+          "reasons": [
+            "CC-BY-4.0 permits it"
+          ],
+          "conditions": [
+            "attribute the source (CC-BY-4.0)"
+          ],
+          "evidence": [
+            "registry:ud-portuguese-dantestocks licence CC-BY-4.0 (LICENSE.txt and README.md at 4268e8e (read 2026-11-06))"
+          ]
+        }
+      ]
+    }
+  ]
+}

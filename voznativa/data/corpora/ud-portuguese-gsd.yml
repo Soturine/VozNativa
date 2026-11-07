@@ -87,7 +87,7 @@ verification:
       declared_size: 13521544
       truncated: true
   connector:
-    date: '2026-11-06'
+    date: '2026-11-07'
     connector: local-files
     records_read: 12020
     read_errors: 0

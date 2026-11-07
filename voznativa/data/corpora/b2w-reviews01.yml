@@ -49,7 +49,7 @@ verification:
       declared_size: 49453175
       truncated: true
   connector:
-    date: '2026-11-05'
+    date: '2026-11-07'
     connector: local-files
     records_read: 21700
     read_errors: 1
