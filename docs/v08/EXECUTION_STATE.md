@@ -1,0 +1,30 @@
+# Estado de execução da v0.8.0 (retomada de sessão)
+
+Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline origin/dev/v0.8.0 -20`). Se divergirem, o Git vence e este arquivo é corrigido.
+
+- Branch: `dev/v0.8.0`, criada de `main` = `c2708de` em 2026-11-07.
+- Plano: [`PLAN.md`](PLAN.md). Gaps: [`GAP_REGISTER.md`](GAP_REGISTER.md). Rastreabilidade: [`TRACEABILITY.md`](TRACEABILITY.md).
+- Política: push da branch por CP com `scripts/checkpoint.py push`; nenhuma Action até o CP17; tag e pre-release só no CP18.
+
+## Checkpoints
+
+| CP | Título | Estado | Commit | Verificação |
+|---|---|---|---|---|
+| CP0 | Discovery, AS-IS, baseline | concluído | (este commit) | `qualify --scope release` em `c2708de`, árvore limpa, Windows 10 + CPython 3.12.6: 726 testes (725 + 1 skip POSIX), gates locais PASS, `ci:github-actions` PASS, exit 3 só por `review:pty`, holdout e revisão humana. v4 22/22, v5 36/36, predicados 16/20 e 1/18. GAP-01 e GAP-09 reproduzidos. `evals/assurance/runs/2026-11-07-v08-cp0/` |
+
+## Regras desta rodada
+
+- **Commits:** sem `Co-authored-by` nem trailer de IA; identidade local (`git config --local`): Rafael Souza, noreply Soturine. Sem force push, sem `reset --hard`. Tag e release só no CP18, nas condições do plano. Sem PyPI.
+- **Gate antes do commit:** `python scripts/qualify.py --scope local --only validator,unittest,semantic:dev,semantic:holdouts:safety,semantic:holdouts:strict,decision:regression,router:regression,cli:exit-codes,ci:workflow-triggers --out <scratch>/q.json`, exit 0, encadeado com `&&`.
+- **Não escrever na árvore durante um gate** (registros de bench vão depois ou para o scratchpad). `scripts/bench_v4.py` não aceita `--help`: ele roda o bench e grava em `benchmarks/runs/`.
+- **Edição de arquivos:** nada de heredoc com barra invertida; usar a ferramenta de edição ou script em arquivo.
+- **Upstream:** Assertiva (push e pull_request disparam Actions) e Framework (pull_request): não fazer push. Engine: só `push` na `main` dispara; a branch da PR #3 pode receber push.
+
+## Bloqueios conhecidos
+
+- Python 3.11 não instalado nesta máquina (GAP-10).
+- Holdout independente, revisão humana cega, provider real e detectores live: NOT_RUN até haver pessoas e autorização de custo.
+
+## Próximo passo
+
+CP1: testes dos contrafactuais de GAP-01 e GAP-09, correção, gate, commit, push.

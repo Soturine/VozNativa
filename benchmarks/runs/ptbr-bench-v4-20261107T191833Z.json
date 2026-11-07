@@ -1,0 +1,465 @@
+{
+  "kind": "voznativa.benchmark_run",
+  "benchmark": "ptbr-bench-v4",
+  "arm": "D-voznativa-v060-deterministic",
+  "recorded_at": "20261107T191833Z",
+  "voznativa_version": "0.7.0.dev1",
+  "revision": "c2708dec3b4063c1f6443300a148e44aa9c4c48c",
+  "dirty": false,
+  "cases_sha256": "614050779ae12a4661b3e1b2e00f56afcb47bb4d372225b93851078a3240f0a9",
+  "model_called": false,
+  "summary": {
+    "cases": 22,
+    "passed": 22,
+    "rate": {
+      "k": 22,
+      "n": 22,
+      "rate": 1.0,
+      "wilson95": [
+        0.851,
+        1.0
+      ]
+    },
+    "by_kind": {
+      "ai_draft": "2/2",
+      "community_control": "1/1",
+      "community_keep": "1/1",
+      "community_no_add": "1/1",
+      "community_unknown": "1/1",
+      "epoch_note": "1/1",
+      "known_risk": "1/1",
+      "literary_prose": "1/1",
+      "longform": "2/2",
+      "natural": "3/3",
+      "other_sense": "1/1",
+      "regression_region": "1/1",
+      "stuffing": "1/1",
+      "temporal_keep": "2/2",
+      "temporal_no_add": "1/1",
+      "verse": "2/2"
+    }
+  },
+  "not_run": {
+    "B0-original": "needs a judge only for preference; not part of the deterministic arm",
+    "B1-one-line": "model call; no budget approved",
+    "B6-voznativa-v060-engine": "model call (rewrite with plan, review and judge); no budget approved",
+    "human": "NOT_RUN; no reviewers recruited"
+  },
+  "rows": [
+    {
+      "id": "bv4-sl-01",
+      "kind": "temporal_keep",
+      "pass": true,
+      "checks": [
+        {
+          "check": "temporal_keep",
+          "expected": [
+            "muito top",
+            "show de bola"
+          ],
+          "observed": [
+            "muito top",
+            "show de bola"
+          ],
+          "pass": true
+        },
+        {
+          "check": "plan_decision_not",
+          "expected": "not transform",
+          "observed": "no_change",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-sl-02",
+      "kind": "temporal_no_add",
+      "pass": true,
+      "checks": [
+        {
+          "check": "slang_effective",
+          "expected": 0.0,
+          "observed": 0.0,
+          "pass": true
+        },
+        {
+          "check": "slang_allowed",
+          "expected": [],
+          "observed": [],
+          "pass": true
+        },
+        {
+          "check": "review:slang_introduced",
+          "expected": "major",
+          "observed": [
+            "major"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-sl-03",
+      "kind": "epoch_note",
+      "pass": true,
+      "checks": [
+        {
+          "check": "epoch_notes",
+          "expected": [
+            "de-boa",
+            "show-de-bola"
+          ],
+          "observed": [
+            "de-boa",
+            "show-de-bola"
+          ],
+          "pass": true
+        },
+        {
+          "check": "slang_effective",
+          "expected": 0.0,
+          "observed": 0.0,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-sl-04",
+      "kind": "temporal_keep",
+      "pass": true,
+      "checks": [
+        {
+          "check": "review:author_slang_removed",
+          "expected": "info",
+          "observed": [
+            "info"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-sl-05",
+      "kind": "stuffing",
+      "pass": true,
+      "checks": [
+        {
+          "check": "review:slang_introduced",
+          "expected": "major",
+          "observed": [
+            "major"
+          ],
+          "pass": true
+        },
+        {
+          "check": "review:slang_stuffing",
+          "expected": "major",
+          "observed": [
+            "major"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-sl-06",
+      "kind": "other_sense",
+      "pass": true,
+      "checks": [
+        {
+          "check": "temporal_keep",
+          "expected": [],
+          "observed": [],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-co-01",
+      "kind": "community_keep",
+      "pass": true,
+      "checks": [
+        {
+          "check": "withdrawn_ids",
+          "expected": [
+            "anglicism_out_of_domain"
+          ],
+          "observed": [
+            "anglicism_out_of_domain"
+          ],
+          "pass": true
+        },
+        {
+          "check": "community_keep",
+          "expected": [
+            "backend",
+            "deploy"
+          ],
+          "observed": [
+            "backend",
+            "deploy"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-co-02",
+      "kind": "community_control",
+      "pass": true,
+      "checks": [
+        {
+          "check": "finding_ids_include",
+          "expected": [
+            "anglicism_out_of_domain"
+          ],
+          "observed": [
+            "anglicism_out_of_domain"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-co-03",
+      "kind": "community_no_add",
+      "pass": true,
+      "checks": [
+        {
+          "check": "review:community_term_introduced",
+          "expected": "major",
+          "observed": [
+            "info",
+            "major"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-co-04",
+      "kind": "community_unknown",
+      "pass": true,
+      "checks": [
+        {
+          "check": "contract_warning_contains",
+          "expected": "unknown community pack",
+          "observed": [
+            "unknown community pack 'astrologia'; known: ['academia', 'corporate', 'gaming', 'tech']"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lf-01",
+      "kind": "longform",
+      "pass": true,
+      "checks": [
+        {
+          "check": "segmentation:unreported",
+          "expected": 0,
+          "observed": 0,
+          "pass": true
+        },
+        {
+          "check": "segmentation:no_cut_before",
+          "expected": [
+            2,
+            4,
+            5,
+            6
+          ],
+          "observed": {
+            "cuts": [
+              1,
+              3
+            ],
+            "violations": []
+          },
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lf-02",
+      "kind": "longform",
+      "pass": true,
+      "checks": [
+        {
+          "check": "segmentation:unreported",
+          "expected": 0,
+          "observed": 0,
+          "pass": true
+        },
+        {
+          "check": "segmentation:lossless",
+          "expected": true,
+          "observed": true,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lt-01",
+      "kind": "verse",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        },
+        {
+          "check": "literary_policy",
+          "expected": "verse",
+          "observed": "verse",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lt-02",
+      "kind": "verse",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        },
+        {
+          "check": "literary_policy",
+          "expected": "verse",
+          "observed": "verse",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lt-03",
+      "kind": "literary_prose",
+      "pass": true,
+      "checks": [
+        {
+          "check": "no_strong_ids",
+          "expected": "none of ['pt_pt_variant']",
+          "observed": [],
+          "pass": true
+        },
+        {
+          "check": "absent_ids",
+          "expected": "none of ['treatment_mixed']",
+          "observed": [
+            "pt_pt_variant"
+          ],
+          "pass": true
+        },
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-lt-04",
+      "kind": "known_risk",
+      "pass": true,
+      "checks": [
+        {
+          "check": "strong_ids_include",
+          "expected": [
+            "pt_pt_variant"
+          ],
+          "observed": [
+            "pt_pt_variant",
+            "treatment_mixed"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-nt-01",
+      "kind": "natural",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-nt-02",
+      "kind": "natural",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-nt-03",
+      "kind": "natural",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "no_change",
+          "observed": "no_change",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-ai-01",
+      "kind": "ai_draft",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "edit",
+          "observed": "edit",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-ai-02",
+      "kind": "ai_draft",
+      "pass": true,
+      "checks": [
+        {
+          "check": "plan_decision",
+          "expected": "edit",
+          "observed": "edit",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "bv4-rg-01",
+      "kind": "regression_region",
+      "pass": true,
+      "checks": [
+        {
+          "check": "regional_status",
+          "expected": "active",
+          "observed": "active",
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

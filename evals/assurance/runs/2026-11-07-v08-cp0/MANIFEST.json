@@ -1,0 +1,32 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-v08-cp0",
+  "entries": [
+    {
+      "file": "release-windows-py3.12.6-c2708de.json",
+      "command": "python scripts/qualify.py --scope release",
+      "exit_code": 3,
+      "raw_sha256": "d2f63ca1b4a61c73ab27538cff1c2181084938103072db5ef658aa432878406e",
+      "published_sha256": "d2f63ca1b4a61c73ab27538cff1c2181084938103072db5ef658aa432878406e",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-07T19:22:00+00:00",
+  "revision": "c2708dec3b4063c1f6443300a148e44aa9c4c48c",
+  "dirty_paths": [
+    "benchmarks/runs/ptbr-bench-v4-20261107T191833Z.json",
+    "benchmarks/runs/ptbr-bench-v5-20261107T191844Z.json",
+    "docs/v08/",
+    "evals/predicates/runs/predicates-2026-11-07-v08-cp0-baseline.json"
+  ],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {},
+  "notes": [
+    "baseline of the v0.8 round on c2708de (clean tree at run time); exit 3 = INCOMPLETE only by review:pty, holdout:independent, review:blind-human",
+    "benches on c2708de: benchmarks/runs/ptbr-bench-v4-20261107T191833Z.json 22/22, benchmarks/runs/ptbr-bench-v5-20261107T191844Z.json 36/36, evals/predicates/runs/predicates-2026-11-07-v08-cp0-baseline.json 16/20 risks, 1/18 false alarms"
+  ]
+}
