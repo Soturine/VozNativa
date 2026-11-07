@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.comparison",
+  "status": "no_deterministic_issues",
+  "semantic_equivalence": "unverified",
+  "safe_to_auto_accept": false,
+  "requires": [
+    "semantic_judgment"
+  ],
+  "issues": [],
+  "summary": {
+    "critical": 0,
+    "major": 0,
+    "info": 0,
+    "protected_in_original": 2,
+    "words_original": 11,
+    "words_candidate": 10
+  },
+  "evidence": {
+    "deterministic": true,
+    "judgments": []
+  },
+  "limitations": [
+    "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
+    "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
+    "Entity detection relies on capitalization and misses lower-case names.",
+    "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
+    "No deterministic result proves semantic equivalence; only identity does."
+  ]
+}

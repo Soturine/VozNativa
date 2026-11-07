@@ -1,0 +1,97 @@
+{
+  "kind": "voznativa.rewrite_result",
+  "mode": {
+    "mode": "PROOFREAD",
+    "task": "rewrite",
+    "rewrite": false,
+    "authorized": [
+      "formal_error"
+    ],
+    "never_automatic": [
+      "facts",
+      "plot",
+      "causality",
+      "intent",
+      "commitments"
+    ]
+  },
+  "diagnosis": {
+    "kind": "voznativa.diagnosis",
+    "schema_version": 1,
+    "diagnostics": [
+      {
+        "class": "internal_contradiction",
+        "type": "weekday_date_mismatch",
+        "severity": "major",
+        "confidence": "high",
+        "start": 0,
+        "end": 68,
+        "text": "O relatório foi enviado para o o cliente na terça-feira, 13/11/2026.",
+        "message": "'terça-feira' does not match 13/11/2026 (that date is a fri); keep it as written and tell the user",
+        "impact": "facts",
+        "action": "suggest"
+      },
+      {
+        "class": "formal_error",
+        "type": "repeated_word",
+        "severity": "minor",
+        "confidence": "high",
+        "start": 29,
+        "end": 32,
+        "text": "o o",
+        "message": "'o' repeated",
+        "impact": "form only",
+        "action": "auto_fix",
+        "fix": "o"
+      }
+    ],
+    "counts": {
+      "formal_error": 1,
+      "internal_contradiction": 1
+    },
+    "grounding": "not_requested",
+    "note": "diagnostics of the source; none is applied automatically except formal fixes in an authorising mode"
+  },
+  "provider": null,
+  "attempts": [],
+  "outcome": "needs_judgment",
+  "text": "O relatório foi enviado para o cliente na terça-feira, 13/11/2026.\n",
+  "applied": [
+    {
+      "type": "repeated_word",
+      "before": "o o",
+      "after": "o",
+      "start": 29
+    }
+  ],
+  "report": {
+    "schema_version": 1,
+    "kind": "voznativa.comparison",
+    "status": "no_deterministic_issues",
+    "semantic_equivalence": "unverified",
+    "safe_to_auto_accept": false,
+    "requires": [
+      "semantic_judgment"
+    ],
+    "issues": [],
+    "summary": {
+      "critical": 0,
+      "major": 0,
+      "info": 0,
+      "protected_in_original": 2,
+      "words_original": 11,
+      "words_candidate": 10
+    },
+    "evidence": {
+      "deterministic": true,
+      "judgments": []
+    },
+    "limitations": [
+      "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
+      "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
+      "Entity detection relies on capitalization and misses lower-case names.",
+      "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
+      "No deterministic result proves semantic equivalence; only identity does."
+    ]
+  }
+}

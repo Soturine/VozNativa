@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.comparison",
+  "status": "no_deterministic_issues",
+  "semantic_equivalence": "unverified",
+  "safe_to_auto_accept": false,
+  "requires": [
+    "independent_judgment",
+    "semantic_judgment"
+  ],
+  "issues": [
+    {
+      "code": "metadiscourse_changed",
+      "severity": "info",
+      "message": "metadiscourse.framing marker removed (2 -> 0)",
+      "label": "metadiscourse.framing",
+      "before": 2,
+      "after": 0,
+      "location": {
+        "source_sentence": "É importante destacar que o relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "candidate_sentence": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "similarity": 1.0
+      },
+      "examples": [
+        "É importante destacar",
+        "Vale ressaltar"
+      ]
+    }
+  ],
+  "summary": {
+    "critical": 0,
+    "major": 0,
+    "info": 1,
+    "protected_in_original": 3,
+    "words_original": 22,
+    "words_candidate": 15
+  },
+  "evidence": {
+    "deterministic": true,
+    "judgments": [
+      {
+        "kind": "llm",
+        "original_sha256": "379eacf1b04843b7ecc89b222fe47c2b7510c668ada998a34aeda000ca29d761",
+        "candidate_sha256": "81ebc4ada804e5ccaaf1666ec1e9e613404e5489ed0c8ffeb7b88442fd442617",
+        "judge_id": "claude-opus-5-5 (Claude Code session acting as VozNativa host agent, 2026-11-07)",
+        "generator_relation": "same_agent",
+        "verdict": "equivalent",
+        "claims": [
+          {
+            "source": "o relatório trimestral será enviado até sexta-feira, 14/11/2025",
+            "status": "preserved",
+            "candidate": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+            "note": "same action, deadline, weekday and date"
+          },
+          {
+            "source": "o orçamento não pode ultrapassar R$ 12.000,00",
+            "status": "preserved",
+            "candidate": "O orçamento não pode ultrapassar R$ 12.000,00.",
+            "note": "same negation, modality and amount"
+          },
+          {
+            "source": "É importante destacar que",
+            "status": "formula_removed",
+            "candidate": null,
+            "note": "emphasis without information"
+          },
+          {
+            "source": "Vale ressaltar que",
+            "status": "formula_removed",
+            "candidate": null,
+            "note": "emphasis without information"
+          }
+        ],
+        "added_claims": [],
+        "rationale": "Only the two empty framing formulas were removed; both propositions are kept verbatim. I wrote the candidate, so this is a self-assessment.",
+        "recorded_at": "2026-11-07T21:55:06+00:00",
+        "formulas_removed": 2
+      }
+    ]
+  },
+  "limitations": [
+    "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
+    "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
+    "Entity detection relies on capitalization and misses lower-case names.",
+    "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
+    "No deterministic result proves semantic equivalence; only identity does."
+  ],
+  "agent_assessment": {
+    "verdict": "equivalent",
+    "judge_id": "claude-opus-5-5 (Claude Code session acting as VozNativa host agent, 2026-11-07)",
+    "generator_relation": "same_agent",
+    "evidence": "AGENT_OBSERVED",
+    "note": "the agent that wrote the candidate judged it: a dependent self-assessment, not an independent judgment; nothing is accepted on it"
+  }
+}

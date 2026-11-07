@@ -1,0 +1,154 @@
+{
+  "schema_version": 3,
+  "kind": "voznativa.context_contract",
+  "dimensions": {
+    "genre": {
+      "value": "email",
+      "source": "inferred",
+      "confidence": "medium",
+      "evidence": [
+        "(?mi)^(?:ol[aá]|oi|prezad[oa]s?|bom dia| x1",
+        "(?mi)^(?:atenciosamente|(?:um )?abra[cç] x1"
+      ]
+    },
+    "channel": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    },
+    "register": {
+      "value": "professional-natural",
+      "source": "genre_default",
+      "confidence": "low"
+    },
+    "time_of_text": {
+      "value": "unknown",
+      "source": "inferred",
+      "confidence": "low"
+    },
+    "time_of_target": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    },
+    "language_variant": {
+      "value": "unknown",
+      "source": "inferred",
+      "confidence": "low",
+      "reason": "no exclusive marker set; PT-BR is not inferred from absence"
+    },
+    "region_of_text": {
+      "value": "unknown",
+      "source": "not_inferred",
+      "confidence": "low",
+      "reason": "region is never inferred from the text (policy infer_identity: false)"
+    },
+    "target_region": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    },
+    "community": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    },
+    "structure": {
+      "value": "prose",
+      "source": "inferred",
+      "confidence": "medium",
+      "evidence": {
+        "prose": 0.895,
+        "verse": 0.105
+      }
+    },
+    "audience": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    },
+    "task": {
+      "value": "rewrite",
+      "source": "explicit",
+      "confidence": "explicit"
+    },
+    "restrictions": {
+      "value": [],
+      "source": "inferred",
+      "confidence": "high"
+    },
+    "author_voice": {
+      "value": "unknown",
+      "source": "unknown",
+      "confidence": "low"
+    }
+  },
+  "protections": {
+    "conservative": false,
+    "reasons": [],
+    "preserve_line_breaks": false,
+    "historical_spelling_is_not_an_error": false
+  },
+  "task": "rewrite",
+  "genre": {
+    "value": "email",
+    "source": "inferred",
+    "confidence": "medium",
+    "scores": {
+      "email": 2.6
+    },
+    "evidence": [
+      "(?mi)^(?:ol[aá]|oi|prezad[oa]s?|bom dia| x1",
+      "(?mi)^(?:atenciosamente|(?:um )?abra[cç] x1"
+    ],
+    "normalization": {
+      "joined_line_breaks": 0
+    }
+  },
+  "channel": {
+    "value": "email",
+    "source": "genre"
+  },
+  "audience": null,
+  "register": {
+    "value": "professional-natural",
+    "source": "genre_default"
+  },
+  "targets": {
+    "region": {
+      "code": null,
+      "strength": 0.0
+    },
+    "community": null,
+    "slang_strength": 0.0,
+    "epoch": null
+  },
+  "flags": {
+    "has_voice_samples": false,
+    "regional_target": false,
+    "community_target": false,
+    "slang_target": false,
+    "epoch_target": false,
+    "spoken": false,
+    "register_explicit": false,
+    "register_conflict": false,
+    "has_code": false,
+    "has_markdown": false
+  },
+  "constraints": {
+    "preserve_markdown_structure": false,
+    "preserve_code_verbatim": false,
+    "invent_facts": false
+  },
+  "sources": {
+    "fact_sources": [],
+    "voice_samples": []
+  },
+  "policy": {
+    "facts_from": "original text and fact_sources only",
+    "voice_from": "voice_samples only; never repository docs unless the user confirms authorship",
+    "infer_identity": false
+  },
+  "warnings": [],
+  "words": 19
+}

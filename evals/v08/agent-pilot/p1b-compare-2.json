@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.comparison",
+  "status": "no_deterministic_issues",
+  "semantic_equivalence": "unverified",
+  "safe_to_auto_accept": false,
+  "requires": [
+    "semantic_judgment"
+  ],
+  "issues": [
+    {
+      "code": "metadiscourse_changed",
+      "severity": "info",
+      "message": "metadiscourse.framing marker removed (2 -> 0)",
+      "label": "metadiscourse.framing",
+      "before": 2,
+      "after": 0,
+      "location": {
+        "source_sentence": "É importante destacar que o relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "candidate_sentence": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "similarity": 1.0
+      },
+      "examples": [
+        "É importante destacar",
+        "Vale ressaltar"
+      ]
+    }
+  ],
+  "summary": {
+    "critical": 0,
+    "major": 0,
+    "info": 1,
+    "protected_in_original": 3,
+    "words_original": 22,
+    "words_candidate": 15
+  },
+  "evidence": {
+    "deterministic": true,
+    "judgments": []
+  },
+  "limitations": [
+    "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
+    "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
+    "Entity detection relies on capitalization and misses lower-case names.",
+    "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
+    "No deterministic result proves semantic equivalence; only identity does."
+  ]
+}

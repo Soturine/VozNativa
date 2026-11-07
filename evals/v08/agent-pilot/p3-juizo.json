@@ -1,0 +1,15 @@
+{
+  "kind": "llm",
+  "original_sha256": "224d63124268b4bf5c7a3876591f1308542c181098c1114f047017a5df4765b4",
+  "candidate_sha256": "6f1858eb759f95afdde541b6ed388a94e8dadea4b48ee9147fb3ad1ebe773f05",
+  "judge_id": "claude-opus-5-5 (Claude Code session acting as VozNativa host agent, 2026-11-07)",
+  "generator_relation": "same_agent",
+  "verdict": "equivalent",
+  "claims": [
+    {"source": "o relatório foi enviado para o o cliente na terça-feira, 13/11/2026", "status": "preserved",
+     "candidate": "O relatório foi enviado para o cliente na terça-feira, 13/11/2026.",
+     "note": "only the repeated article was removed; weekday and date kept as written although they disagree (13/11/2026 is a Friday): reported to the user, not corrected"}
+  ],
+  "added_claims": [],
+  "rationale": "A formal fix only; the factual inconsistency is left for the author. I produced the candidate (via PROOFREAD), so this is a self-assessment."
+}

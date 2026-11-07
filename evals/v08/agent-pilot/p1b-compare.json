@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.comparison",
+  "status": "fail",
+  "semantic_equivalence": "violated",
+  "safe_to_auto_accept": false,
+  "requires": [],
+  "issues": [
+    {
+      "code": "metadiscourse_changed",
+      "severity": "info",
+      "message": "metadiscourse.framing marker removed (2 -> 0)",
+      "label": "metadiscourse.framing",
+      "before": 2,
+      "after": 0,
+      "location": {
+        "source_sentence": "É importante destacar que o relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "candidate_sentence": "O relatório trimestral será enviado até sexta-feira, 14/11/2025.",
+        "similarity": 1.0
+      },
+      "examples": [
+        "É importante destacar",
+        "Vale ressaltar"
+      ]
+    },
+    {
+      "code": "modality_changed",
+      "severity": "critical",
+      "message": "modality.possibility marker removed (1 -> 0)",
+      "label": "modality.possibility",
+      "before": 1,
+      "after": 0,
+      "location": {
+        "source_sentence": "Vale ressaltar que o orçamento não pode ultrapassar R$ 12.000,00.",
+        "candidate_sentence": "O orçamento tem teto de R$ 12.000,00.",
+        "similarity": 0.5
+      },
+      "examples": [
+        "pode"
+      ]
+    },
+    {
+      "code": "negation_changed",
+      "severity": "critical",
+      "message": "negation marker removed (1 -> 0)",
+      "label": "negation",
+      "before": 1,
+      "after": 0,
+      "location": {
+        "source_sentence": "Vale ressaltar que o orçamento não pode ultrapassar R$ 12.000,00.",
+        "candidate_sentence": "O orçamento tem teto de R$ 12.000,00.",
+        "similarity": 0.5
+      },
+      "examples": [
+        "não"
+      ]
+    }
+  ],
+  "summary": {
+    "critical": 2,
+    "major": 0,
+    "info": 1,
+    "protected_in_original": 3,
+    "words_original": 22,
+    "words_candidate": 15
+  },
+  "evidence": {
+    "deterministic": true,
+    "judgments": []
+  },
+  "limitations": [
+    "Marker counts cannot see lexical antonyms (aumentou/diminuiu) or morphological negation (impossível).",
+    "Sentence alignment uses crude stem overlap; heavy restructuring produces review flags, not proof.",
+    "Entity detection relies on capitalization and misses lower-case names.",
+    "Lost actions are found only when the source verb leaves no stem behind and the candidate keeps only light verbs (predicate_missing); a different content verb is reported, not judged (predicate_replaced).",
+    "No deterministic result proves semantic equivalence; only identity does."
+  ]
+}

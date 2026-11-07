@@ -1,0 +1,89 @@
+{
+  "kind": "voznativa.rewrite_plan",
+  "schema_version": 1,
+  "decision": "no_change",
+  "scope": "none",
+  "targets": [],
+  "sentences": [
+    {
+      "index": 0,
+      "paragraph": 0,
+      "kind": "prose",
+      "op": "keep",
+      "priority": null,
+      "reasons": [],
+      "preserve": [
+        "13/11/2026",
+        "terça-feira"
+      ],
+      "depends_on_previous": false,
+      "preview": "O relatório foi enviado para o o cliente na terça-feira, 13/11/2026."
+    }
+  ],
+  "paragraphs": [
+    {
+      "index": 0,
+      "op": "keep"
+    }
+  ],
+  "consistency": {
+    "form_of_address": [],
+    "domain_terms": [],
+    "names": [],
+    "register": null,
+    "variety": "pt-BR"
+  },
+  "warnings": [
+    {
+      "code": "weekday_date_mismatch",
+      "sentence": 0,
+      "text": "terça-feira … 13/11/2026",
+      "stated": "tue",
+      "date_is": "fri",
+      "message": "'terça-feira' does not match 13/11/2026 (that date is a fri); keep it as written and tell the user"
+    }
+  ],
+  "regional": {
+    "status": "abstain",
+    "reasons": [
+      "no region requested: VozNativa never infers a region from the text or the author"
+    ],
+    "effective_strength": 0.0,
+    "features": []
+  },
+  "literary": {
+    "policy": "default",
+    "verse_share": 0.0,
+    "max_scope": "document",
+    "reason": null
+  },
+  "temporal": {
+    "status": "abstain",
+    "keep": [],
+    "allowed": [],
+    "epoch_notes": [],
+    "reasons": [
+      "no slang requested: VozNativa never adds slang on its own"
+    ],
+    "effective_strength": 0.0
+  },
+  "community": {
+    "status": "abstain",
+    "pack": null,
+    "keep": [],
+    "reasons": [
+      "no community requested: VozNativa never infers one from the text or the author"
+    ]
+  },
+  "summary": {
+    "sentences": 1,
+    "keep": 1,
+    "point_edit": 0,
+    "cut_formula": 0,
+    "sentence_rewrite": 0,
+    "paragraph_rewrite": 0,
+    "findings_used": 0,
+    "findings_ignored": 0
+  },
+  "note": "deterministic plan from findings, ledger and request; the detector is an input, not the quality measure"
+}

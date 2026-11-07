@@ -1,0 +1,42 @@
+{
+  "kind": "voznativa.pattern_report",
+  "schema_version": 2,
+  "genre": "unknown",
+  "channel": null,
+  "register": null,
+  "findings": [
+    {
+      "id": "empty_metadiscourse",
+      "family": "metadiscurso vazio",
+      "strength": "strong",
+      "text": "É importante destacar que",
+      "start": 0,
+      "end": 25,
+      "sentence": 0,
+      "suggestion": "remova o marcador e mantenha o conteúdo que ele introduz",
+      "legitimate_when": "em texto acadêmico, para sinalizar ressalva metodológica"
+    },
+    {
+      "id": "empty_metadiscourse",
+      "family": "metadiscurso vazio",
+      "strength": "strong",
+      "text": "Vale ressaltar que",
+      "start": 91,
+      "end": 109,
+      "sentence": 1,
+      "suggestion": "remova o marcador e mantenha o conteúdo que ele introduz",
+      "legitimate_when": "em texto acadêmico, para sinalizar ressalva metodológica"
+    }
+  ],
+  "summary": {
+    "strong": 2,
+    "weak": 0,
+    "per_100_words": 7.69,
+    "families": [
+      "metadiscurso vazio"
+    ],
+    "weak_needed_for_edit": 2
+  },
+  "decision": "edit",
+  "note": "editorial findings, not an authorship score; never optimize for this number"
+}
