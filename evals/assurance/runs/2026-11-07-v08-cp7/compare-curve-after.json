@@ -1,0 +1,33 @@
+{
+  "kind": "voznativa.perf_compare_curve",
+  "schema_version": 1,
+  "python": "3.12.6",
+  "platform": "Windows-10",
+  "rows": [
+    {
+      "words": 5727,
+      "seconds": 1.21,
+      "status": "no_deterministic_issues"
+    },
+    {
+      "words": 10566,
+      "seconds": 2.22,
+      "status": "no_deterministic_issues"
+    },
+    {
+      "words": 20106,
+      "seconds": 3.99,
+      "status": "no_deterministic_issues"
+    },
+    {
+      "words": 30492,
+      "seconds": 8.54,
+      "status": "no_deterministic_issues"
+    },
+    {
+      "words": 41264,
+      "seconds": 12.39,
+      "status": "no_deterministic_issues"
+    }
+  ]
+}

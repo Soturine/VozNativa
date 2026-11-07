@@ -1,0 +1,37 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-v08-cp7",
+  "entries": [
+    {
+      "file": "compare-curve-after.json",
+      "command": "python -B scripts/experiments/v08_compare_perf.py",
+      "exit_code": 0,
+      "raw_sha256": "d3028eb7c342ed99e06bf9b9c099c4c50af0547e96bf4b89de6ca5694997e3c2",
+      "published_sha256": "c5635aaaafcd735284e3320adc28731e64e0fbda4496e35096b5e938f5a8aed1",
+      "sanitized": true
+    },
+    {
+      "file": "compare-curve-before-c353058.json",
+      "command": "python -B scripts/experiments/v08_compare_perf.py --root <c353058 archive>",
+      "exit_code": 0,
+      "raw_sha256": "7c3fc632eca24e14a1c303b0c630ba2ee50b8823f709d5b48e114dc25f8255af",
+      "published_sha256": "1ca330677175b09e1089ec976a7e607d0ebf00f29476ad0bd892e57a9f5b1b28",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-07T21:20:17+00:00",
+  "revision": "5c94ae1daa289d9f55501d0681ebb430f6c5f3b3",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "cpython": "3.12.6"
+  },
+  "notes": [
+    "GAP-13 well-formed reproduction: whole files of README, SKILL and docs/*.md; fail from 17,078 words on c353058, no_deterministic_issues up to 30,492 words after CP7a",
+    "after-curve measured on the working tree of CP7b before its commit (same code as the commit)"
+  ]
+}
