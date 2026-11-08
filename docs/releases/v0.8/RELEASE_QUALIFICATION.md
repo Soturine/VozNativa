@@ -82,6 +82,16 @@ alimenta as duas formas e exige o mesmo resultado; a referência confere em 3.11
 
 Todos escritos pelo lado do desenvolvimento: nenhum é evidência independente.
 
+## Publicação (CP18)
+
+- Tag anotada `v0.8.0.dev0` (objeto `97e6359`) em `554d1b2`, o commit qualificado pela CI #126.
+- [GitHub pre-release](https://github.com/Soturine/VozNativa/releases/tag/v0.8.0.dev0): `prerelease: true`, não
+  marcada como Latest, sem PyPI. Ativos construídos de `git archive 554d1b2` como a CI faz (sdist, depois wheel a
+  partir do sdist): `voznativa-0.8.0.dev0-py3-none-any.whl` (sha256 `43cef430…0797`),
+  `voznativa-0.8.0.dev0.tar.gz` (sha256 `c9e44433…71cf`) e `SHA256SUMS.txt`. O wheel instalado num venv limpo passou
+  no smoke fora do checkout; os digests da API são iguais aos locais e os arquivos baixados conferem.
+- Nenhum workflow rodou com o push da tag ou a criação da release (o workflow só tem `workflow_dispatch`).
+
 ## Externos
 
 | Item | Estado |

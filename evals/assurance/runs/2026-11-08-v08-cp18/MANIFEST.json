@@ -1,0 +1,60 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-08-v08-cp18",
+  "entries": [
+    {
+      "file": "SHA256SUMS-v0.8.0.dev0.txt",
+      "command": "sha256 of the wheel and sdist built from git archive 554d1b2 (sdist, then wheel from the sdist); checked again after download",
+      "exit_code": 0,
+      "raw_sha256": "0b520fa958be28d27785f07fc10e13791fa6f8011f84053a1df99d3dea017ec1",
+      "published_sha256": "0b520fa958be28d27785f07fc10e13791fa6f8011f84053a1df99d3dea017ec1",
+      "sanitized": false
+    },
+    {
+      "file": "release-api.json",
+      "command": "gh api repos/Soturine/VozNativa/releases/tags/v0.8.0.dev0 (after publishing)",
+      "exit_code": 0,
+      "raw_sha256": "d12798a3d0e47e9af60cc685332ea614ebfe644e65069ef5b326f4bce10e58b0",
+      "published_sha256": "d12798a3d0e47e9af60cc685332ea614ebfe644e65069ef5b326f4bce10e58b0",
+      "sanitized": false
+    },
+    {
+      "file": "release-notes-v0.8.0.dev0.md",
+      "command": "the published release notes",
+      "exit_code": 0,
+      "raw_sha256": "5d55e35e2f1cadc682f9d7caaf1e650e56d99d9d9b4c448370ad297fa73385d8",
+      "published_sha256": "5d55e35e2f1cadc682f9d7caaf1e650e56d99d9d9b4c448370ad297fa73385d8",
+      "sanitized": false
+    },
+    {
+      "file": "smoke-installed-wheel.txt",
+      "command": "clean venv, pip install the release wheel, python -I smoke_installed.py outside the checkout",
+      "exit_code": 0,
+      "raw_sha256": "6a580a9f05dac1d49553b08acfc97492e5e7bb69f6840d610b5815090852d174",
+      "published_sha256": "3e4c1a3bafe50756e23ce8daeef9d9033ccd4b398b09a8276e389d97e43f3f0d",
+      "sanitized": true
+    },
+    {
+      "file": "tag-remote.txt",
+      "command": "git ls-remote --tags origin v0.8.0.dev0* (annotated tag object and peeled commit)",
+      "exit_code": 0,
+      "raw_sha256": "2173b6f2c1bb72c34c76e114eef81ae401b83c67a5ea27e075deddb79729ef33",
+      "published_sha256": "2173b6f2c1bb72c34c76e114eef81ae401b83c67a5ea27e075deddb79729ef33",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-08T06:23:23+00:00",
+  "revision": "7feaaed7571a290be581532f920786ff5366fe74",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "gh": "2"
+  },
+  "notes": [
+    "CP18: annotated tag on the CI-qualified commit 554d1b2 and a GitHub pre-release (not Latest, not PyPI). No workflow ran on the tag or the release."
+  ]
+}
