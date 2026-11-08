@@ -43,6 +43,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | [v08/THREAT_MODEL.md](releases/v0.8/THREAT_MODEL.md) | fronteiras, ameaças, controle e prova por ameaça, risco residual | vigente |
 | [v08/ASSERTIVA_AGENT_AUDIT.md](releases/v0.8/ASSERTIVA_AGENT_AUDIT.md) | dogfood da Assertiva: falsos verdes confirmados por controle negativo, mutação, patches para upstream | registro do CP14 |
 | [v08/DERIVANTA_AGENT_AUDIT.md](releases/v0.8/DERIVANTA_AGENT_AUDIT.md) | dogfood do Derivanta: inspeção, rastreabilidade, retestes, defeito corrigido no Engine | registro do CP15 |
+| [v08/RELEASE_QUALIFICATION.md](releases/v0.8/RELEASE_QUALIFICATION.md) | qualificação da 0.8.0.dev0: plataformas, CI, auditorias no código final, externos | registro do CP16–CP18 |
 | [EVALUATION.md](evaluation/EVALUATION.md) | benchmarks v1–v4 e execuções com modelo até a v0.7 | histórico com números válidos para sua época |
 | [V07_OOD_BENCHMARK.md](releases/v0.7/V07_OOD_BENCHMARK.md), [V07_CORPUS_INTEGRATION.md](releases/v0.7/V07_CORPUS_INTEGRATION.md), [V07_EXTERNAL_BENCHMARK.md](releases/v0.7/V07_EXTERNAL_BENCHMARK.md) | `ptbr-bench-v5`, 7 corpora, protocolo de detectores | históricos da v0.7 (o v5 tem uma ressalva de vazamento) |
 | [COMPETITIVE_BENCHMARK.md](evaluation/COMPETITIVE_BENCHMARK.md) | protocolo de comparação com alternativas | vigente como protocolo |

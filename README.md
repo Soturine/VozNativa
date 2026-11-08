@@ -76,7 +76,7 @@ Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que n
 
 ## Instalação
 
-Requer Python 3.11+ (testado em 3.11, 3.12 e 3.13 no Windows e no Linux). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
+Requer Python 3.11+. A v0.8 foi qualificada localmente no Linux (3.11, 3.12 e 3.13, em contêiner) e no Windows (3.12); a CI manual roda Linux e Windows com 3.11, 3.12 e 3.13 (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.8/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
 **Windows (PowerShell)**
 
