@@ -61,8 +61,9 @@ class TwinsAcrossUnits(unittest.TestCase):
         self.assertNotIn("É importante destacar", result["text"])
         self.assertIn("O orçamento não pode passar de R$ 12.000,00.", result["text"])
         self.assertIn("O deploy não deve ser feito antes das 18h.", result["text"])
-        if result["global_report"]:
-            self.assertNotEqual(result["global_report"]["status"], "fail")
+        # Edits were kept, so the whole document was validated: the report must exist (no conditional check).
+        self.assertIsNotNone(result["global_report"])
+        self.assertNotEqual(result["global_report"]["status"], "fail")
 
 
 MIXED = ("# Relatório anual\n\n"

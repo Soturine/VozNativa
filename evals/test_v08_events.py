@@ -88,9 +88,11 @@ class Recipients(unittest.TestCase):
                  ("A gerente enviou o contrato ao advogado.", "O advogado enviou o contrato à gerente."),
                  ("A rede comprou a fábrica.", "A rede vendeu a fábrica.")]
         for a, b in pairs:
-            for code, severity in codes(a, b)[1].items():
-                if code in NEW:
-                    self.assertEqual(severity, "major", code)
+            found = {code: severity for code, severity in codes(a, b)[1].items() if code in NEW}
+            # Unconditional (Assertiva CP14, FALSE_GREEN_CANDIDATE confirmed by a negative control): with the
+            # detector disabled the old loop asserted nothing and passed.
+            self.assertTrue(found, f"no new event code for {b!r}")
+            self.assertEqual(set(found.values()), {"major"}, found)
 
 
 class Converse(unittest.TestCase):

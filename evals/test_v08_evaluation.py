@@ -196,9 +196,12 @@ class RepositoryDataset(unittest.TestCase):
         self.assertIn("Nenhum número acima é validação independente", evaluation.render(self.record))
 
     def test_nothing_is_auto_accepted_without_identity(self):
-        for split, m in self.record["metrics"].items():
-            if "semantic_risk" in m:
-                self.assertEqual(m["semantic_risk"]["auto_accepted_without_identity"], 0, split)
+        # Unconditional (Assertiva CP14, FALSE_GREEN_CANDIDATE confirmed by a negative control): with the
+        # semantic_risk metric removed, the old `if` asserted nothing and passed.
+        gate_splits = {"development", "frozen_regression"}
+        self.assertTrue(gate_splits <= set(self.record["metrics"]))
+        for split in gate_splits:
+            self.assertEqual(self.record["metrics"][split]["semantic_risk"]["auto_accepted_without_identity"], 0, split)
 
     def test_known_misses_are_visible_not_hidden(self):
         # The predicate sample had 4 known misses (16/20, docs/releases/v0.8/AS_IS.md); CP6 detects pr-17 (recipient
