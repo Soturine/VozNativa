@@ -36,6 +36,17 @@
         "jobs_passed": "8/8",
         "started": "2026-11-07T06:26:58Z",
         "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same, 8 jobs matched by name to the declared matrix (v0.7.0.dev1 CP7)"
+      },
+      {
+        "run": 126,
+        "id": 42453909963,
+        "head_sha": "554d1b259e55e19c68c8c5bafffaed8cea7d1cb8",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "started": "2026-11-08T06:14:16Z",
+        "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same (v0.8.0.dev0 CP17)"
       }
     ],
     "history": [
