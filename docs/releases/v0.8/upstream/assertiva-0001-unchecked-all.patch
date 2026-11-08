@@ -1,0 +1,197 @@
+From da96b750c3c9e7bddcf93a3e81ea601313361cbc Mon Sep 17 00:00:00 2001
+From: Rafael Souza <64234795+Soturine@users.noreply.github.com>
+Date: Sat, 7 Nov 2026 22:16:35 -0300
+Subject: [PATCH] feat(oracle): UNCHECKED_ALL false-green lead for all()/not
+ any() over an unchecked collection
+
+An all() (or not any()) assertion holds when its collection is empty, so a run
+where the code produces nothing passes. Found while dogfooding Assertiva on
+VozNativa v0.8: 0.10.1 flagged CONDITIONAL_ASSERTION but not this shape, and
+nine VozNativa tests had it, each confirmed by a negative control.
+
+The lead is textual, like the other false-green smells: the collection counts
+as checked when another assertion mentions it (or the mapping behind
+.values()/.items()/.keys()), mentions a name bound from it, or a next()
+without a default reads it. Literal non-empty collections are exempt.
+Calibration covers the four assertion forms and five controls.
+---
+ assertiva/adapters/test_facts.py | 68 ++++++++++++++++++++++++++++++++
+ assertiva/effectiveness.py       |  2 +
+ tests/test_oracle_calibration.py | 65 ++++++++++++++++++++++++++++++
+ 3 files changed, 135 insertions(+)
+
+diff --git a/assertiva/adapters/test_facts.py b/assertiva/adapters/test_facts.py
+index ba8e158..6ca9084 100644
+--- a/assertiva/adapters/test_facts.py
++++ b/assertiva/adapters/test_facts.py
+@@ -517,6 +517,8 @@ def _python_test(test_id: str, rel: str, node, helpers, no_raise: bool = False)
+     if asserts and all(any(isinstance(p, ast.If) and not _checks(p.orelse) and not _condition_holds(p, parents, node)
+                            for p in _ancestors(a, parents, node)) for a in asserts):
+         smells.append("CONDITIONAL_ASSERTION")
++    if _unchecked_all(asserts, node):
++        smells.append("UNCHECKED_ALL")
+     if _mocks_subject(node):
+         smells.append("MOCKED_SUBJECT")
+     _, _, unobserved = negative_path_evidence(node)
+@@ -587,6 +589,72 @@ def _empty(node) -> bool:
+             and not node.args and not node.keywords)
+ 
+ 
++def _quantified_iterable(expr):
++    """The iterable of `all(... for x in ITER)` or `not any(... for x in ITER)` (also over a list comprehension or a
++    bare collection), else None."""
++    negated = isinstance(expr, ast.UnaryOp) and isinstance(expr.op, ast.Not)
++    call = expr.operand if negated else expr
++    if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and len(call.args) == 1 and not call.keywords):
++        return None
++    if call.func.id != ("any" if negated else "all"):
++        return None
++    arg = call.args[0]
++    if isinstance(arg, (ast.GeneratorExp, ast.ListComp, ast.SetComp)):
++        return arg.generators[0].iter
++    return arg
++
++
++def _witnesses(node, source: str) -> tuple[set, bool]:
++    """Names bound from an expression that reads `source` (an alias another assertion may check), and whether a
++    `next(...)` without a default reads it (that raises on an empty collection, failing the test)."""
++    names, raises = set(), False
++    for n in ast.walk(node):
++        if isinstance(n, ast.Assign) and source in ast.unparse(n.value):
++            for target in n.targets:
++                names.update(t.id for t in ast.walk(target) if isinstance(t, ast.Name))
++        elif (isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "next" and len(n.args) == 1
++              and source in ast.unparse(n.args[0])):
++            raises = True
++    return names, raises
++
++
++def _unchecked_all(asserts, node) -> bool:
++    """An `all(...)` (or `not any(...)`) assertion holds when its collection is empty. Flag it when the test never
++    shows that collection non-empty: no other assertion mentions it or a name bound from it (a length, a truth check,
++    an equality), and no `next(...)` without a default reads it. Literal non-empty collections are exempt. A textual
++    check: a candidate to confirm with a negative control, like the other false-green leads (VozNativa v0.8
++    dogfood)."""
++    texts = []
++    for a in asserts:
++        if isinstance(a, ast.Assert):
++            texts.append((a, [a.test]))
++        else:
++            leaf = getattr(a.func, "attr", "")
++            args = list(a.args[:1]) if leaf == "assertTrue" else ([ast.UnaryOp(op=ast.Not(), operand=a.args[0])]
++                                                                   if leaf == "assertFalse" and a.args else [])
++            texts.append((a, args))
++    for a, candidates in texts:
++        for expr in candidates:
++            iterable = _quantified_iterable(expr)
++            if iterable is None:
++                continue
++            if isinstance(iterable, (ast.List, ast.Tuple, ast.Set)) and iterable.elts:
++                continue
++            # `d.values()` / `d.items()` / `d.keys()` is as empty as `d`: a check on `d` shows it non-empty.
++            if (isinstance(iterable, ast.Call) and isinstance(iterable.func, ast.Attribute) and not iterable.args
++                    and iterable.func.attr in {"values", "items", "keys"}):
++                iterable = iterable.func.value
++            source = ast.unparse(iterable)
++            others = [ast.unparse(b) for b, _ in texts if b is not a]
++            if any(source in other for other in others):
++                continue
++            aliases, raises = _witnesses(node, source)
++            if raises or any(re.search(rf"\b{re.escape(name)}\b", other) for name in aliases for other in others):
++                continue
++            return True
++    return False
++
++
+ def _vacuous(test) -> bool:
+     """An assertion that holds for any code: an empty collection is a subset of everything (`set() <= x`,
+     `frozenset().issubset(x)`)."""
+diff --git a/assertiva/effectiveness.py b/assertiva/effectiveness.py
+index 23ad51d..d2ae581 100644
+--- a/assertiva/effectiveness.py
++++ b/assertiva/effectiveness.py
+@@ -28,6 +28,8 @@ FALSE_GREEN_SMELLS = {
+     "NO_OP_ASSERTION": "a mock check is referenced but never called, or misspelled so that the mock answers it with a new "
+                        "attribute: it checks nothing",
+     "VACUOUS_ASSERTION": "the assertion holds for any code: an empty collection is a subset of everything",
++    "UNCHECKED_ALL": "an all() (or not any()) assertion over a collection the test never shows to be non-empty: it passes "
++                     "when the code produces nothing",
+     "MOCKED_SUBJECT": "the test replaces the function it then calls and checks: the double answers, not the code under test",
+     "SELF_REFERENTIAL_ORACLE": "the expected value is computed by the same call as the actual one: the test passes whatever "
+                                "the code returns",
+diff --git a/tests/test_oracle_calibration.py b/tests/test_oracle_calibration.py
+index cb61230..0b11b5b 100644
+--- a/tests/test_oracle_calibration.py
++++ b/tests/test_oracle_calibration.py
+@@ -243,3 +243,68 @@ def test_calls_a_product_validator():
+     validate_total(3)
+ ''', {"shop/checks.py": "def validate_total(x):\n    assert x >= 0\n    return x\n"})
+     assert definitions(tmp_path)["test_calls_a_product_validator"].smoke_like
++
++
++def test_dogfood_voznativa_v08_all_over_an_unchecked_collection_is_a_false_green_lead(tmp_path):
++    got = facts(tmp_path, '''from shop.pricing import discount
++import unittest
++
++def items(flag):
++    return [1, 2] if flag else []
++
++def test_unchecked_all():
++    assert all(x > 0 for x in items(False))
++
++def test_unchecked_not_any():
++    assert not any(x < 0 for x in items(False))
++
++class T(unittest.TestCase):
++    def test_unchecked_assert_true(self):
++        self.assertTrue(all(x > 0 for x in items(False)))
++
++    def test_unchecked_assert_false_any(self):
++        self.assertFalse(any(x < 0 for x in items(False)))
++
++    def test_control_length_checked(self):
++        found = items(True)
++        self.assertEqual(len(found), 2)
++        self.assertTrue(all(x > 0 for x in found))
++
++def test_control_truth_checked():
++    found = items(True)
++    assert found
++    assert all(x > 0 for x in found)
++
++def test_control_literal_collection():
++    assert all(discount(x) >= 0 for x in [1, 2, 3])
++
++def test_control_alias_checked():
++    plan = {"units": [{"kind": "code"}]}
++    kinds = {u["kind"] for u in plan["units"]}
++    assert kinds == {"code"}
++    assert all(u["kind"] == "code" for u in plan["units"])
++
++def test_control_next_raises_when_empty():
++    rows = items(True)
++    assert all(x > 0 for x in rows)
++    first = next(x for x in rows if x == 1)
++    assert first == 1
++
++def test_unchecked_mapping_values():
++    groups = {}
++    assert all(len(v) == 1 for v in groups.values())
++
++def test_control_mapping_checked():
++    groups = {"a": {1}}
++    assert len(groups) == 1
++    assert all(len(v) == 1 for v in groups.values())
++''')
++    for name in ("test_unchecked_all", "test_unchecked_not_any", "T::test_unchecked_assert_true",
++                 "T::test_unchecked_assert_false_any", "test_unchecked_mapping_values"):
++        key = next(k for k in got if k.endswith(name.split("::")[-1]))
++        assert "UNCHECKED_ALL" in got[key].smells, name
++    for name in ("test_control_length_checked", "test_control_truth_checked", "test_control_literal_collection",
++                 "test_control_alias_checked", "test_control_next_raises_when_empty",
++                 "test_control_mapping_checked"):
++        key = next(k for k in got if k.endswith(name))
++        assert "UNCHECKED_ALL" not in got[key].smells, name
+-- 
+2.46.0.windows.1
+

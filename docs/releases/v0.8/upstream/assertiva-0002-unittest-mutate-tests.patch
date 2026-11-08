@@ -1,0 +1,93 @@
+From 5d95167a4ab94276e51faddb8b688413858f41dd Mon Sep 17 00:00:00 2001
+From: Rafael Souza <64234795+Soturine@users.noreply.github.com>
+Date: Sat, 7 Nov 2026 22:35:59 -0300
+Subject: [PATCH] fix(mutation): --mutate-tests under unittest runs the
+ selected modules
+
+`unittest discover` takes one start directory, so the selection was appended
+as one: `unittest discover --failfast evals/test_x.py` raised "Start directory
+is not importable", the baseline "failed" and no mutant ran. Found while
+dogfooding on VozNativa v0.8 (a unittest project). Under unittest the selection
+now runs as dotted modules, a folder standing for its test*.py modules; pytest
+and Django keep their paths. Both new tests fail on v0.10.1 (the real run with
+the declared unittest runner reported the baseline as failing).
+---
+ assertiva/adapters/cosmic_ray.py | 19 ++++++++++++++++++-
+ tests/test_cosmic_ray.py         | 27 +++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/assertiva/adapters/cosmic_ray.py b/assertiva/adapters/cosmic_ray.py
+index 2057961..5c4dc83 100644
+--- a/assertiva/adapters/cosmic_ray.py
++++ b/assertiva/adapters/cosmic_ray.py
+@@ -57,6 +57,23 @@ _COMMANDS = {  # the runner the project declares, as the engine runs it with --e
+ }
+ 
+ 
++def _selected(runner: str, test_paths: list[str], root: Path) -> list[str]:
++    """The declared runner's arguments for the auditor's test selection. pytest and Django take paths, but `unittest
++    discover` takes one start *directory*: a file there failed the baseline with an ImportError (0.10.1, found while
++    dogfooding on VozNativa v0.8). unittest runs the selection as dotted modules instead, a folder standing for the
++    test*.py modules under it, so the same tests run and nothing else."""
++    if runner != "unittest" or not test_paths:
++        return [*_COMMANDS[runner], *[_posix(t) for t in test_paths]]
++    modules = []
++    for t in test_paths:
++        path = root / t
++        files = sorted(path.rglob("test*.py")) if path.is_dir() else [Path(t)]
++        for f in files:
++            rel = f.relative_to(root) if f.is_absolute() else f
++            modules.append(".".join(rel.with_suffix("").parts))
++    return ["-m", "unittest", "--failfast", *modules]
++
++
+ def describe(root: Path, python: str, origin: Path) -> dict:
+     """Applies to Python tests under one runner the project declares; never chooses a runner for it."""
+     from assertiva.adapters import runner_adapters
+@@ -114,7 +131,7 @@ def run(state_root: str | Path, python: str, targets: list[str], test_paths: lis
+             if runner not in _COMMANDS:
+                 result.error = f"{TOOL} cannot run the {runner} runner"
+                 return result
+-            test_command = [_posix(python), *_COMMANDS[runner], *[_posix(t) for t in test_paths]]
++            test_command = [_posix(python), *_selected(runner, test_paths, copy)]
+             baseline = run_command(test_command, copy, timeout_s=budget_s)
+             scope = "the selected tests" if test_paths else "the tests"
+             if not baseline.ok:
+diff --git a/tests/test_cosmic_ray.py b/tests/test_cosmic_ray.py
+index 8df7fd9..03d35af 100644
+--- a/tests/test_cosmic_ray.py
++++ b/tests/test_cosmic_ray.py
+@@ -205,3 +205,30 @@ def test_a_tied_runs_survivors_show_the_original_line_and_the_change():
+     assert site["original"] == "return a + b" and site["change"] == "a - b"
+     run.matches_state = None  # an untied report: its lines may not be this state's
+     assert survivor_sites(run) == []
++
++
++def test_unittest_selection_runs_the_selected_modules_not_a_discover_start_directory(tmp_path):
++    # Dogfood on VozNativa v0.8: `--mutate-tests evals/test_x.py` under unittest became `unittest discover --failfast
++    # evals/test_x.py`, an ImportError ("Start directory is not importable"), so no mutant ever ran.
++    write(tmp_path / "suite" / "test_a.py", "")
++    write(tmp_path / "suite" / "deep" / "test_b.py", "")
++    write(tmp_path / "suite" / "helper.py", "")
++    args = cosmic_ray._selected("unittest", ["tests/test_calc.py", "suite"], tmp_path)
++    assert args == ["-m", "unittest", "--failfast", "tests.test_calc", "suite.deep.test_b", "suite.test_a"]
++    assert cosmic_ray._selected("unittest", [], tmp_path) == ["-m", "unittest", "discover", "--failfast"]
++    assert cosmic_ray._selected("pytest-native", ["tests/test_calc.py"], tmp_path)[-1] == "tests/test_calc.py"
++
++
++def test_a_unittest_selection_reaches_the_mutants(tmp_path):
++    import pytest
++    if not cosmic_ray.module_available(sys.executable, "cosmic_ray"):
++        pytest.skip("cosmic-ray not installed in this interpreter")
++    write(tmp_path / "calc.py", "def add(a, b):\n    return a + b\n")
++    write(tmp_path / "tests" / "test_calc.py", "import unittest\nfrom calc import add\n\n\nclass T(unittest.TestCase):\n"
++          "    def test_add(self):\n        self.assertEqual(add(2, 3), 5)\n")
++    write(tmp_path / "tests" / "test_other.py", "import unittest\n\n\nclass T(unittest.TestCase):\n"
++          "    def test_fails(self):\n        self.fail('outside the selection')\n")
++    run = cosmic_ray.run(tmp_path, sys.executable, ["calc.py"], test_paths=["tests/test_calc.py"], runner="unittest")
++    assert run.error is None, run.error
++    assert run.config["test_selection"]["whole_suite"] == "NOT_RUN"
++    assert run.count(S.KILLED) >= 1
+-- 
+2.46.0.windows.1
+

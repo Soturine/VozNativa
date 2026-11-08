@@ -40,6 +40,8 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | [v08/INDEPENDENCE_AND_LEAKAGE.md](releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md) | o que um registro prova; vazamento encontrado entre conjuntos | vigente |
 | [v08/PERFORMANCE.md](releases/v0.8/PERFORMANCE.md) | curvas de tempo e memória | vigente |
 | [v08/REAL_RUNS.md](releases/v0.8/REAL_RUNS.md) | execuções com provider e agente reais: cenários, consumo, autorização | vigente (NOT_RUN) |
+| [v08/THREAT_MODEL.md](releases/v0.8/THREAT_MODEL.md) | fronteiras, ameaças, controle e prova por ameaça, risco residual | vigente |
+| [v08/ASSERTIVA_AGENT_AUDIT.md](releases/v0.8/ASSERTIVA_AGENT_AUDIT.md) | dogfood da Assertiva: falsos verdes confirmados por controle negativo, mutação, patches para upstream | registro do CP14 |
 | [EVALUATION.md](evaluation/EVALUATION.md) | benchmarks v1–v4 e execuções com modelo até a v0.7 | histórico com números válidos para sua época |
 | [V07_OOD_BENCHMARK.md](releases/v0.7/V07_OOD_BENCHMARK.md), [V07_CORPUS_INTEGRATION.md](releases/v0.7/V07_CORPUS_INTEGRATION.md), [V07_EXTERNAL_BENCHMARK.md](releases/v0.7/V07_EXTERNAL_BENCHMARK.md) | `ptbr-bench-v5`, 7 corpora, protocolo de detectores | históricos da v0.7 (o v5 tem uma ressalva de vazamento) |
 | [COMPETITIVE_BENCHMARK.md](evaluation/COMPETITIVE_BENCHMARK.md) | protocolo de comparação com alternativas | vigente como protocolo |
