@@ -151,14 +151,22 @@ def frames(sentence: str) -> list[Frame]:
     out = []
     interesting = transfer_stems() | set(converse_stems())
     for v in found:
-        stem = _stem_of(v.lemmas)
+        k = index.get(v.start)
+        # After "foi/foram/é/será...", a participle reading wins: "enviado" is also read as a present of
+        # "enviadar", and with several stems the verb used to be dropped, so a singular passive had no
+        # frame at all (CP14, found by mutation: the passive branch was never reached by a test).
+        # The bare token "e" is the conjunction as often as "é": it keeps the old rule.
+        part = [a for a in v.analyses if a.get("VerbForm") == "Part"]
+        after_aux = k is not None and k > 0 and fold(tokens[k - 1][0]) in _PASSIVE_AUX \
+            and tokens[k - 1][0].lower() != "e"
+        participle = bool(part) and (after_aux or len(part) == len(v.analyses))
+        lemmas = {a["lemma"] for a in part} if participle else v.lemmas
+        stem = _stem_of(lemmas)
         if stem is None or not any(stem.startswith(s) and len(stem) - len(s) <= 1 for s in interesting):
             continue
-        k = index.get(v.start)
         if k is None:
             continue
-        frame = Frame(v.form, tuple(sorted(v.lemmas)), stem, v.start, v.end)
-        participle = all(a.get("VerbForm") == "Part" for a in v.analyses)
+        frame = Frame(v.form, tuple(sorted(lemmas)), stem, v.start, v.end)
         if participle and k > 0 and fold(tokens[k - 1][0]) in _PASSIVE_AUX:
             frame.passive = True
             by = next((i for i in range(k + 1, min(len(tokens), k + 8))

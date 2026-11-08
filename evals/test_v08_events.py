@@ -97,6 +97,58 @@ class Recipients(unittest.TestCase):
             self.assertEqual(set(found.values()), {"major"}, found)
 
 
+class PassiveAndBoundaries(unittest.TestCase):
+    """CP14: contracts the Cosmic Ray run on events.py showed no test pinned (267 of 540 mutants
+    survived on dc4078d); the passive one was a real defect, not only a missing test."""
+
+    def test_a_singular_passive_has_a_frame(self):
+        # "enviado" is also read as a present of "enviadar": with two stems the verb was dropped.
+        (f,) = frames("O relatório foi enviado à diretoria.")
+        self.assertEqual((f.stem, f.passive, f.agent, f.recipient), ("envi", True, None, "diretoria"))
+        (g,) = frames("O relatório foi repassado aos auditores pela tesoureira.")
+        self.assertEqual((g.passive, g.agent, g.recipient), (True, "tesoureira", "auditores"))
+
+    def test_recipient_dropped_or_swapped_in_the_passive(self):
+        status, found = codes("O relatório foi enviado à diretoria.", "O relatório foi enviado.")
+        self.assertEqual((status, found.get("recipient_dropped")), ("review_required", "major"))
+        found = codes("O relatório foi repassado aos auditores pela tesoureira.",
+                      "O relatório foi repassado à tesoureira pelos auditores.")[1]
+        self.assertEqual(found.get("agent_recipient_swapped"), "major")
+        self.assertFalse(NEW & set(codes("A nota foi enviada ao cliente pela loja.",
+                                         "A loja enviou a nota ao cliente.")[1]))
+
+    def test_a_conjunction_is_not_a_passive_auxiliary(self):
+        frames_ = frames("Ela comprou o carro e vendeu a moto.")
+        self.assertEqual([(f.stem, f.passive) for f in frames_], [("compr", False), ("vend", False)])
+
+    def test_adverbs_before_the_verb_do_not_hide_the_agent(self):
+        for sentence, agent in (("A tesoureira não repassou o relatório aos auditores.", "tesoureira"),
+                                ("A loja já enviou a nota ao fornecedor.", "loja")):
+            with self.subTest(sentence=sentence):
+                (f,) = frames(sentence)
+                self.assertEqual((f.agent, f.confidence), (agent, "high"))
+
+    def test_a_second_finite_verb_lowers_confidence(self):
+        (f,) = frames("A gerente disse que enviou o contrato ao advogado.")
+        self.assertEqual((f.agent, f.recipient, f.confidence), (None, "advogado", "low"))
+
+    def test_the_recipient_is_read_within_eight_words_of_the_verb(self):
+        (f,) = frames("O hospital entregou os exames do setor de cardiologia ao paciente.")
+        self.assertEqual(f.recipient, "paciente")
+        (g,) = frames("O hospital entregou os exames do setor de cardiologia da unidade ao paciente.")
+        self.assertIsNone(g.recipient)
+
+    def test_bare_a_before_a_common_noun_is_the_article(self):
+        (f,) = frames("O síndico pagou a conta a vizinhos.")
+        self.assertIsNone(f.recipient)
+
+    def test_a_shorter_stem_is_not_the_converse(self):
+        # One extra letter is tolerated ("entregu" for "entreg"); one letter less is another word.
+        self.assertTrue(converse("vend", "compr"))
+        self.assertFalse(converse("ven", "compr"))
+        self.assertFalse(converse("vend", "comp"))
+
+
 class Converse(unittest.TestCase):
 
     def test_same_subject_is_flagged(self):
