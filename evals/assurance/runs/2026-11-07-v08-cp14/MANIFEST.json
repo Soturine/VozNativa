@@ -1,0 +1,125 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-07-v08-cp14",
+  "entries": [
+    {
+      "file": "assertiva-execute-dc4078d.json",
+      "command": "assertiva audit <clone at dc4078d> --execute --output json",
+      "exit_code": 0,
+      "raw_sha256": "4c6878f4639506b2e74bc2168af8916f5f4d76675db14d82b00656e1bb23f7a5",
+      "published_sha256": "181176f6ccdd0a172c6931e567c3be6868ef05986106cc8a8e9387ba718f8ab1",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-execute-e8a05c2.json",
+      "command": "assertiva audit <clone at e8a05c2> --execute --output json",
+      "exit_code": 0,
+      "raw_sha256": "e529a8ecde0b37754602c49330bb3cc9e52e06e3152d249db73b692669514b22",
+      "published_sha256": "8c7b7337d4eea56d88c3a3ae72985867f504d9db7d84021e92d806960f5b7c27",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-final-69e4c9b-assessed.json",
+      "command": "assertiva audit <clone at 69e4c9b> --execute --mutation-report cosmic-ray-events-69e4c9b.jsonl; then --assessment assessment-cp14.json",
+      "exit_code": 0,
+      "raw_sha256": "1c21c7e10c1e62d8c148ca05c31e685edc02fa036340a3773b1ddc51357df582",
+      "published_sha256": "8b7e8ae3ac0edacf8dbed2cc0fe88c7f93debfe99b2778ce32b4f853187a416d",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-mutate-events-dc4078d.json",
+      "command": "assertiva audit <clone at dc4078d> --execute --mutate voznativa/events.py --mutate-tests evals/test_v08_events.py --output json",
+      "exit_code": 0,
+      "raw_sha256": "007bc907783ab8a0458bc4467710544a6abe911fea86848bfc3790456c719812",
+      "published_sha256": "7479f56d35a1eae3b970e09360a2ec973c6739621ea297a3e43aee0010111517",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-patch0001-static-dc4078d.json",
+      "command": "PYTHONPATH=<assertiva da96b75> assertiva audit <clone at dc4078d> --output json",
+      "exit_code": 0,
+      "raw_sha256": "deb6e217af15b4657be7ce97a318f03dc01c5b42c0d0916fe00562189a1a1f6c",
+      "published_sha256": "3aadb21c07346cf4826f76551a7eb6b422cb915bfd14ff232a2471c1df3140d2",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-patch0001-static-e8a05c2.json",
+      "command": "PYTHONPATH=<assertiva da96b75> assertiva audit <clone at e8a05c2> --output json",
+      "exit_code": 0,
+      "raw_sha256": "c0c58c6a84453c68cb37deae9cef10f85bd143b436231250d61e40fbefcdcb04",
+      "published_sha256": "186ad5b82bb54db3f664171687135cf38ff148c8aedec8732856bc5e6abcb7d9",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-patch0002-mutate-events-dc4078d.json",
+      "command": "PYTHONPATH=<assertiva 5d95167> assertiva audit <clone at dc4078d> --execute --mutate voznativa/events.py --mutate-tests evals/test_v08_events.py --output json",
+      "exit_code": 0,
+      "raw_sha256": "a07919215e81dcf0cecb5781e42d1acc5e5cdac27a191db6008d537525dff1d7",
+      "published_sha256": "e65ceb2e699cae15c6a6e8d5e31df0523a360497709e7d4ca029b66f45a1c892",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-static-659fb3e.json",
+      "command": "assertiva audit <clone at 659fb3e> --output json",
+      "exit_code": 0,
+      "raw_sha256": "a9151069040170cd02cd851eb047f19a65feef3bff2020db77d617dff9e009f3",
+      "published_sha256": "b48de6fe61a9b1bbfdde286f0da914cf40fad5d671117a38f60b25b9edf8b0c1",
+      "sanitized": true
+    },
+    {
+      "file": "assessment-cp14.json",
+      "command": "agent assessment attached to run 35830dd27aa24b9c",
+      "exit_code": 0,
+      "raw_sha256": "7e920fd0cd6d021c15a39bd57fa77f7eb69d81c0d539b1dfbcd79e4403abe0af",
+      "published_sha256": "7e920fd0cd6d021c15a39bd57fa77f7eb69d81c0d539b1dfbcd79e4403abe0af",
+      "sanitized": false
+    },
+    {
+      "file": "cosmic-ray-events-69e4c9b.jsonl",
+      "command": "cosmic-ray init+exec+dump, voznativa/events.py, unittest --failfast evals.test_v08_events (copy with 69e4c9b events.py and tests)",
+      "exit_code": 0,
+      "raw_sha256": "ccf6bfacca2efa2348c6179f9e2e9eeb503431e3186d691df67fc7513f2fc708",
+      "published_sha256": "f71c99640eb8e4095e9445b8b7ca14373bf5589540b35218a9822589e5fd6d35",
+      "sanitized": true
+    },
+    {
+      "file": "cosmic-ray-events-dc4078d.jsonl",
+      "command": "cosmic-ray init+exec+dump, voznativa/events.py, unittest --failfast evals.test_v08_events (copy of dc4078d)",
+      "exit_code": 0,
+      "raw_sha256": "ea61dcf5cd64ab04c4c3c91bcd4c54a4728db0949630dbbca3f4fe407a9ee8e8",
+      "published_sha256": "ccd75855a6cdd8edf5d5f5938251cd5824f06f5e5c90d6ccc5c8785e798c5fcb",
+      "sanitized": true
+    },
+    {
+      "file": "false-green-controls-659fb3e.json",
+      "command": "python -B scripts/experiments/v08_cp14_false_green_controls.py --root <659fb3e archive> --out <file>",
+      "exit_code": 0,
+      "raw_sha256": "c598fca0ba4e36e51911c28d65e07a618b9d2929ac0f3d92d5ece66f2e36467d",
+      "published_sha256": "33bbca3995e95b9e52cd7b5f8b3072a1738c2d003d522daa4a3dd6581fcfeb17",
+      "sanitized": true
+    },
+    {
+      "file": "false-green-controls-dc4078d.json",
+      "command": "python -B scripts/experiments/v08_cp14_false_green_controls.py --root <dc4078d archive> --out <file>",
+      "exit_code": 0,
+      "raw_sha256": "5c43b172a738686ccdf55c90bd10a902df89fe2297d49880ab766f105388f3d4",
+      "published_sha256": "19db7e0f087752f57205793f8ef06afd9008b36cfcbc4d781a55fb045c08b9a3",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-08T02:13:24+00:00",
+  "revision": "668b0f7912e28365d884448e3dda377b824662c9",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "assertiva": "0.10.1",
+    "cosmic-ray": "8.7.0"
+  },
+  "notes": [
+    "AGENT_OBSERVED (Claude Code session). Runs with PYTHONPATH=<assertiva ...> used a locally patched engine (docs/releases/v0.8/upstream/); the NATIVE_TESTS_FAILING in the patch0002 run is an artifact of that PYTHONPATH (Assertiva's scripts package shadowed VozNativa's), not a project failure."
+  ]
+}

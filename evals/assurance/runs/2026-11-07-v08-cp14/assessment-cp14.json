@@ -1,0 +1,59 @@
+{
+  "run_id": "35830dd27aa24b9c",
+  "lang": "pt-BR",
+  "summary": "Avaliação do agente (AGENT_OBSERVED, sessão Claude Code, não é revisão humana nem independente). Na revisão 69e4c9b a suíte passa numa cópia isolada (1168 aprovados, 2 pulados) e a análise estática não aponta falso verde. Isso é resultado do CP14: nas revisões anteriores 11 testes passavam sem checar nada quando o código não produzia resultado (2 pistas CONDITIONAL_ASSERTION da 0.10.1 e 9 de um detector local UNCHECKED_ALL), todos confirmados por controle negativo e corrigidos. A mutação de voznativa/events.py (Cosmic Ray fora do motor, pelo limite de 300 mutantes) achou um defeito real: a passiva no singular não tinha quadro de evento; corrigido. Restam 208 mutantes vivos em events.py, 42 equivalentes, e o resto da mutação dirigida da v0.8 não foi feito.",
+  "dispositions": [
+    {
+      "finding": "MUTATION_REPORT_UNTIED",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "O dump foi produzido pelo agente numa cópia descartável com a configuração que o motor usaria, porque o motor recusa 575 mutantes (limite 300 por chamada). O arquivo mutado e o teste da cópia são idênticos aos de 69e4c9b (diff conferido), mas o motor não pode amarrar isso sozinho, e a ressalva vale.",
+      "evidence": ["run fb730da78e184bf7: 540 mutants planned exceed the budget of 300", "diff -q voznativa/events.py <cópia> sem diferença"]
+    },
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "disposition": "CONTEXTUAL",
+      "priority": "info",
+      "rationale": "São passos da CI do próprio projeto (validação do pacote, eval semântico, checagem de PTY, build do sdist e smoke do wheel instalado). A CI só roda por workflow_dispatch e não rodou nesta revisão; o gate local qualify.py cobre os mesmos passos e passou.",
+      "evidence": [".github/workflows/ci.yml", "scripts/qualify.py --scope local: verdict PASS em 787bd40"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "vacuous-assertions-fixed",
+      "title": "Onze falsos verdes confirmados e corrigidos",
+      "claim": "Onze testes passavam com o comportamento quebrado (resultado vazio ou condição falsa); agora falham com as mesmas quebras.",
+      "why": "Um all() sobre coleção vazia ou uma asserção atrás de if não protege nada quando o código para de produzir.",
+      "priority": "high",
+      "basis": "OBSERVED",
+      "evidence": ["scripts/experiments/v08_cp14_false_green_controls.py: 11 FALSE_GREEN_CONFIRMED em 659fb3e, 0 em dc4078d", "docs/releases/v0.8/GAP_REGISTER.md V08-GAP-26"],
+      "recommendation": "Manter os controles no repositório e rodá-los quando um teste desses mudar."
+    },
+    {
+      "id": "passive-frames",
+      "title": "Passiva no singular sem quadro de evento (corrigido)",
+      "claim": "Antes de 787bd40, 'O relatório foi enviado à diretoria.' não gerava quadro, e a omissão do destinatário nessa passiva não era reportada.",
+      "why": "Falso negativo semântico num detector P1; só a mutação mostrou, porque nenhum teste alcançava o ramo.",
+      "priority": "medium",
+      "basis": "OBSERVED",
+      "evidence": ["evals/test_v08_events.py PassiveAndBoundaries (2 falham em dc4078d)", "docs/releases/v0.8/GAP_REGISTER.md V08-GAP-27"],
+      "recommendation": "Ler particípios irregulares ('entregue') e o segundo particípio coordenado na morfologia."
+    },
+    {
+      "id": "events-survivors",
+      "title": "166 mutantes não equivalentes vivos em events.py",
+      "claim": "Depois das correções, 208 de 575 mutantes sobrevivem; 42 são equivalentes (anotações, lru_cache); o resto é quase todo troca de operador e de número em janelas e fatias.",
+      "why": "Limites de janela (k + 8, idx + 1) mudam o que vira destinatário ou agente sem nenhum teste notar.",
+      "priority": "low",
+      "basis": "OBSERVED",
+      "evidence": ["dump importado neste run (survivor_sites)"],
+      "recommendation": "Classificar os sobreviventes por linha e fixar só os limites que são contrato."
+    }
+  ],
+  "unknowns": [
+    "Cobertura de linhas: coverage.py não está no interpretador usado pela ferramenta.",
+    "Se a CI roda nesta revisão: ela só roda por workflow_dispatch, e a única execução da v0.8 fica para o CP17.",
+    "Mutação de compare.py (fora do CP5b), evaluation.py, router, morph e diagnose: não executada.",
+    "Qualidade semântica independente: nenhuma revisão humana ou holdout independente (CP9 R1-R4 sem autorização)."
+  ]
+}

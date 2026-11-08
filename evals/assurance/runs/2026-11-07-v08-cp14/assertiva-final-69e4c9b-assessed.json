@@ -1,0 +1,2760 @@
+{
+  "assessment": {
+    "attached_at": "2026-11-08T02:07:36+00:00",
+    "dispositions": 2,
+    "findings": 3,
+    "lang": "pt-BR",
+    "source": "agent",
+    "summary": "Avalia\u00e7\u00e3o do agente (AGENT_OBSERVED, sess\u00e3o Claude Code, n\u00e3o \u00e9 revis\u00e3o humana nem independente). Na revis\u00e3o 69e4c9b a su\u00edte passa numa c\u00f3pia isolada (1168 aprovados, 2 pulados) e a an\u00e1lise est\u00e1tica n\u00e3o aponta falso verde. Isso \u00e9 resultado do CP14: nas revis\u00f5es anteriores 11 testes passavam sem checar nada quando o c\u00f3digo n\u00e3o produzia resultado (2 pistas CONDITIONAL_ASSERTION da 0.10.1 e 9 de um detector local UNCHECKED_ALL), todos confirmados por controle negativo e corrigidos. A muta\u00e7\u00e3o de voznativa/events.py (Cosmic Ray fora do motor, pelo limite de 300 mutantes) achou um defeito real: a passiva no singular n\u00e3o tinha quadro de evento; corrigido. Restam 208 mutantes vivos em events.py, 42 equivalentes, e o resto da muta\u00e7\u00e3o dirigida da v0.8 n\u00e3o foi feito.",
+    "unknowns": [
+      "Cobertura de linhas: coverage.py n\u00e3o est\u00e1 no interpretador usado pela ferramenta.",
+      "Se a CI roda nesta revis\u00e3o: ela s\u00f3 roda por workflow_dispatch, e a \u00fanica execu\u00e7\u00e3o da v0.8 fica para o CP17.",
+      "Muta\u00e7\u00e3o de compare.py (fora do CP5b), evaluation.py, router, morph e diagnose: n\u00e3o executada.",
+      "Qualidade sem\u00e2ntica independente: nenhuma revis\u00e3o humana ou holdout independente (CP9 R1-R4 sem autoriza\u00e7\u00e3o)."
+    ]
+  },
+  "candidate_qualification": null,
+  "change_set": null,
+  "ci_runs": [],
+  "claim_boundary": {
+    "limitations": [
+      "unittest: static inventory is bounded source analysis, not native collection",
+      "credential-like environment variables were withheld from executed project code: CLAUDE_CODE_CHILD_SESSION, CLAUDE_CODE_MESSAGING_TOKEN, CLAUDE_CODE_SESSION_ATTENDED, CLAUDE_CODE_SESSION_ID, SESSIONNAME",
+      "unittest: coverage.py is not available in the target interpreter; coverage was not measured",
+      "unittest: unittest collects TestCase methods only; plain test functions are not run by this runner"
+    ],
+    "not_evidenced": [
+      "whether declared CI checks actually ran, on which revision, and whether they gate merges",
+      "coverage",
+      "mutation report from Cosmic Ray that cannot be tied to this state: its 575 results are leads, not this state's evidence",
+      "mutation / negative-control strength",
+      "startup, health and deployment behavior"
+    ],
+    "observed": [
+      "native unittest run in an isolated copy: PASS (1170 invocations)",
+      "static oracle signals (E3 heuristics, not execution)",
+      "7 declared verification checks (configuration, not run evidence)",
+      "wheel voznativa-0.7.0.dev1-py3-none-any.whl: build PASS, install PASS, import PASS, tests NOT_RUN, dependency_closure PASS"
+    ]
+  },
+  "declared_checks": [],
+  "delivery": {
+    "artifact_lineage": [
+      {
+        "artifact": "voznativa-0.7.0.dev1-py3-none-any.whl",
+        "build": "isolated build by Assertiva",
+        "delivered_candidates": [],
+        "deployed": "NOT_DECLARED",
+        "published": "NOT_DECLARED",
+        "sha256": "9cd9da9cce22a38e8e4ead66c3b3d2d334296b12a4b77fc22b3fae9693e20d94",
+        "source_revision": "69e4c9b546898a011b25db4698d97cb253860130",
+        "tested": "PASS"
+      }
+    ],
+    "matrix": {
+      "ci": {
+        "os": [
+          "ubuntu-latest",
+          "windows-latest"
+        ],
+        "python": [
+          "3.11",
+          "3.12",
+          "3.13"
+        ]
+      },
+      "declared": {
+        "python": {
+          "source": "pyproject.toml requires-python >=3.11",
+          "values": [
+            "3.11"
+          ]
+        }
+      }
+    }
+  },
+  "environment": {
+    "interpreter": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe",
+    "isolation": "DISPOSABLE_COPY",
+    "isolation_limits": [
+      "a disposable copy and a virtual environment are not a security sandbox: project code runs as the user, with network access"
+    ],
+    "requirements": [
+      {
+        "distributions": [
+          "PyYAML"
+        ],
+        "ecosystem": "python",
+        "files": [],
+        "interpreter": {
+          "executable": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe",
+          "version": "3.12.6"
+        },
+        "requires_python": ">=3.11"
+      }
+    ],
+    "services": [],
+    "steps": [
+      {
+        "action": "use the given interpreter",
+        "detail": "",
+        "divergences": [],
+        "downloads": [],
+        "duration_s": null,
+        "ecosystem": "python",
+        "reason": "every declared distribution is installed",
+        "runs_third_party_code": false,
+        "status": "NOT_NEEDED",
+        "step_id": "python-env"
+      }
+    ],
+    "tools": {},
+    "workspace": {
+      "path": "<HOME>\\.assertiva\\workspaces\\af77eafa",
+      "removed_at_end": true
+    }
+  },
+  "evidence_delta": null,
+  "execution_budget": {
+    "decisions": [
+      {
+        "decision": "EXECUTED",
+        "reason": "requested: audit --execute",
+        "stage": "tests"
+      },
+      {
+        "decision": "EXECUTED",
+        "reason": "python-package builds a deliverable for this project",
+        "stage": "artifact:python-package"
+      }
+    ],
+    "depth": 0,
+    "level": "execute",
+    "max_depth": 2
+  },
+  "execution_manifest": {
+    "code": {
+      "files": 671,
+      "local_changes": false,
+      "note": null,
+      "tree_digest": "7005dd453ed5edd9665926a2b462ee7bee6c04a80d62da674ee89da6d761b944",
+      "vcs_revision": "69e4c9b546898a011b25db4698d97cb253860130"
+    },
+    "comparison": [
+      {
+        "invocations": 1170,
+        "selection": "full suite",
+        "status": "PASS",
+        "timeout_s": 900.0,
+        "timeout_source": "adapter default",
+        "wall_clock_s": 128.317,
+        "what": "unittest (execute)"
+      },
+      {
+        "detail": "no test runner adapter for this project",
+        "invocations": null,
+        "selection": "full suite",
+        "status": "NOT_RUN",
+        "timeout_s": 900.0,
+        "timeout_source": "adapter default",
+        "wall_clock_s": null,
+        "what": "python-package tests against the installed wheel"
+      }
+    ],
+    "ended_at": "2026-11-08T02:07:01.791+00:00",
+    "engine": {
+      "assertiva_version": "0.10.1",
+      "platform": "Windows-10",
+      "runtime_version": "3.12.6"
+    },
+    "environment": {
+      "passed_through": [],
+      "withheld": [
+        "CLAUDE_CODE_CHILD_SESSION",
+        "CLAUDE_CODE_MESSAGING_TOKEN",
+        "CLAUDE_CODE_SESSION_ATTENDED",
+        "CLAUDE_CODE_SESSION_ID",
+        "SESSIONNAME"
+      ]
+    },
+    "read": [
+      {
+        "kind": "mutation",
+        "path": "<TMP>/claude/b15a3befbef233ea/f9aed6aa-22f8-4d97-9f9c-acab29b6a45e/scratchpad/crx2/events-dump.jsonl",
+        "sha256": "ccf6bfacca2efa2348c6179f9e2e9eeb503431e3186d691df67fc7513f2fc708"
+      }
+    ],
+    "runs": [
+      {
+        "adapter": "unittest",
+        "command": [
+          "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe",
+          "-m",
+          "assertiva_unittest_evidence",
+          "discover",
+          "-s",
+          "evals",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "invocations": 1170,
+        "limits": {
+          "selection": "full suite",
+          "timeout_s": 900.0,
+          "timeout_source": "adapter default"
+        },
+        "mode": "execute",
+        "provenance": "ENGINE_EXECUTED",
+        "status": "PASS",
+        "wall_clock_s": 128.317
+      }
+    ],
+    "started_at": "2026-11-08T02:04:13.712+00:00"
+  },
+  "findings": [
+    {
+      "assessment": {
+        "disposition": "CONTEXTUAL",
+        "evidence": [
+          "run fb730da78e184bf7: 540 mutants planned exceed the budget of 300",
+          "diff -q voznativa/events.py <c\u00f3pia> sem diferen\u00e7a"
+        ],
+        "priority": "info",
+        "rationale": "O dump foi produzido pelo agente numa c\u00f3pia descart\u00e1vel com a configura\u00e7\u00e3o que o motor usaria, porque o motor recusa 575 mutantes (limite 300 por chamada). O arquivo mutado e o teste da c\u00f3pia s\u00e3o id\u00eanticos aos de 69e4c9b (diff conferido), mas o motor n\u00e3o pode amarrar isso sozinho, e a ressalva vale."
+      },
+      "code": "MUTATION_REPORT_UNTIED",
+      "evidence": {
+        "complete_list": "the report's mutation evidence (survivor_sites) lists every undetected mutant of the run",
+        "count": 208,
+        "evaluated": 575,
+        "limitations": [
+          "Cosmic Ray runs the whole test command for each mutant and records no killing test: per-test contribution is unknown",
+          "the report does not record which revision/source it was produced from"
+        ],
+        "listed": 20,
+        "mutant_ids": [
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Sub:0",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Sub:3",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Sub:4",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Sub:7",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:0",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:3",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:4",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:6",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:7",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:8",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mul:10",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Div:3",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Div:4",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_FloorDiv:0",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_FloorDiv:3",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_FloorDiv:4",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_FloorDiv:7",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mod:0",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mod:3",
+          "voznativa/events.py:core/ReplaceBinaryOperator_Add_Mod:4"
+        ],
+        "no_coverage": 0,
+        "sites": 34,
+        "source": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\crx2\\events-dump.jsonl",
+        "survived": 208,
+        "survivors": [
+          "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Sub",
+          "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Sub",
+          "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Sub",
+          "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Sub",
+          "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:129 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:175 core/ReplaceBinaryOperator_Add_Mul",
+          "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Div",
+          "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Div",
+          "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_FloorDiv",
+          "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_FloorDiv",
+          "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_FloorDiv",
+          "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_FloorDiv",
+          "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Mod",
+          "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Mod",
+          "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Mod"
+        ],
+        "tool": "Cosmic Ray",
+        "truncated": true
+      },
+      "id": "MUTATION_REPORT_UNTIED",
+      "origin": "engine",
+      "priority": "info",
+      "recommendation": null,
+      "severity": "info",
+      "summary": "A mutation report cannot be tied to the audited code and tests; its results are leads, not this state's evidence."
+    },
+    {
+      "assessment": {
+        "disposition": "CONTEXTUAL",
+        "evidence": [
+          ".github/workflows/ci.yml",
+          "scripts/qualify.py --scope local: verdict PASS em 787bd40"
+        ],
+        "priority": "info",
+        "rationale": "S\u00e3o passos da CI do pr\u00f3prio projeto (valida\u00e7\u00e3o do pacote, eval sem\u00e2ntico, checagem de PTY, build do sdist e smoke do wheel instalado). A CI s\u00f3 roda por workflow_dispatch e n\u00e3o rodou nesta revis\u00e3o; o gate local qualify.py cobre os mesmos passos e passou."
+      },
+      "code": "UNCLASSIFIED_VERIFICATION",
+      "evidence": {
+        "checks": [
+          "gha:.github/workflows/ci.yml:test:4",
+          "gha:.github/workflows/ci.yml:test:6",
+          "gha:.github/workflows/ci.yml:test:7",
+          "gha:.github/workflows/ci.yml:package:5",
+          "gha:.github/workflows/ci.yml:package:6"
+        ]
+      },
+      "id": "UNCLASSIFIED_VERIFICATION",
+      "origin": "engine",
+      "priority": "info",
+      "recommendation": null,
+      "severity": "info",
+      "summary": "Some checks could not be classified; they are preserved as UNKNOWN rather than guessed."
+    },
+    {
+      "basis": "OBSERVED",
+      "code": "AGENT_FINDING",
+      "evidence": {
+        "refs": [
+          "scripts/experiments/v08_cp14_false_green_controls.py: 11 FALSE_GREEN_CONFIRMED em 659fb3e, 0 em dc4078d",
+          "docs/releases/v0.8/GAP_REGISTER.md V08-GAP-26"
+        ]
+      },
+      "id": "agent:vacuous-assertions-fixed",
+      "origin": "agent",
+      "priority": "high",
+      "recommendation": "Manter os controles no reposit\u00f3rio e rod\u00e1-los quando um teste desses mudar.",
+      "severity": "high",
+      "summary": "Onze testes passavam com o comportamento quebrado (resultado vazio ou condi\u00e7\u00e3o falsa); agora falham com as mesmas quebras.",
+      "title": "Onze falsos verdes confirmados e corrigidos",
+      "why": "Um all() sobre cole\u00e7\u00e3o vazia ou uma asser\u00e7\u00e3o atr\u00e1s de if n\u00e3o protege nada quando o c\u00f3digo para de produzir."
+    },
+    {
+      "basis": "OBSERVED",
+      "code": "AGENT_FINDING",
+      "evidence": {
+        "refs": [
+          "evals/test_v08_events.py PassiveAndBoundaries (2 falham em dc4078d)",
+          "docs/releases/v0.8/GAP_REGISTER.md V08-GAP-27"
+        ]
+      },
+      "id": "agent:passive-frames",
+      "origin": "agent",
+      "priority": "medium",
+      "recommendation": "Ler partic\u00edpios irregulares ('entregue') e o segundo partic\u00edpio coordenado na morfologia.",
+      "severity": "medium",
+      "summary": "Antes de 787bd40, 'O relat\u00f3rio foi enviado \u00e0 diretoria.' n\u00e3o gerava quadro, e a omiss\u00e3o do destinat\u00e1rio nessa passiva n\u00e3o era reportada.",
+      "title": "Passiva no singular sem quadro de evento (corrigido)",
+      "why": "Falso negativo sem\u00e2ntico num detector P1; s\u00f3 a muta\u00e7\u00e3o mostrou, porque nenhum teste alcan\u00e7ava o ramo."
+    },
+    {
+      "basis": "OBSERVED",
+      "code": "AGENT_FINDING",
+      "evidence": {
+        "refs": [
+          "dump importado neste run (survivor_sites)"
+        ]
+      },
+      "id": "agent:events-survivors",
+      "origin": "agent",
+      "priority": "low",
+      "recommendation": "Classificar os sobreviventes por linha e fixar s\u00f3 os limites que s\u00e3o contrato.",
+      "severity": "low",
+      "summary": "Depois das corre\u00e7\u00f5es, 208 de 575 mutantes sobrevivem; 42 s\u00e3o equivalentes (anota\u00e7\u00f5es, lru_cache); o resto \u00e9 quase todo troca de operador e de n\u00famero em janelas e fatias.",
+      "title": "166 mutantes n\u00e3o equivalentes vivos em events.py",
+      "why": "Limites de janela (k + 8, idx + 1) mudam o que vira destinat\u00e1rio ou agente sem nenhum teste notar."
+    }
+  ],
+  "generated_at": "2026-11-08T02:07:01+00:00",
+  "history": {
+    "durations": [
+      {
+        "invocation_id": "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]",
+        "p50": 0.027013,
+        "p95": null,
+        "samples": 5
+      },
+      {
+        "invocation_id": "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]",
+        "p50": 0.027013,
+        "p95": null,
+        "samples": 5
+      },
+      {
+        "invocation_id": "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]",
+        "p50": 0.027013,
+        "p95": null,
+        "samples": 5
+      },
+      {
+        "invocation_id": "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]",
+        "p50": 0.027013,
+        "p95": null,
+        "samples": 5
+      },
+      {
+        "invocation_id": "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]",
+        "p50": 0.027013,
+        "p95": null,
+        "samples": 5
+      }
+    ],
+    "enabled": true,
+    "failure_clusters": [],
+    "invocations": [],
+    "limitations": [
+      "history covers only runs recorded on this machine",
+      "a single failure is never called flaky; percentiles need enough samples"
+    ],
+    "previous_state": null,
+    "states_recorded": 1,
+    "store": "<HOME>\\.assertiva\\history\\audit-final-4a93ffc2eb4c5793\\history.sqlite3"
+  },
+  "project": {
+    "digest": "7005dd453ed5edd9665926a2b462ee7bee6c04a80d62da674ee89da6d761b944",
+    "dirty": false,
+    "name": "audit-final",
+    "revision": "69e4c9b546898a011b25db4698d97cb253860130",
+    "root": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\audit-final",
+    "technologies": {
+      "language": {
+        "basis": "SOURCE",
+        "evidence": "207/207",
+        "id": "python",
+        "name": "Python"
+      },
+      "omitted": 0,
+      "stack": [],
+      "technologies": [
+        {
+          "basis": "EXECUTED",
+          "evidence": "the unittest adapter ran the tests",
+          "id": "unittest",
+          "name": "unittest"
+        }
+      ]
+    },
+    "version": null
+  },
+  "provenance": {
+    "adapters": [
+      "unittest"
+    ],
+    "assertiva_version": "0.10.1",
+    "read_only_scope": {
+      "measured": "every entry of the project tree, including ignored files and caches, fingerprinted by content before and after (links by their target, never followed)",
+      "not_measured": [
+        "files outside the project tree (home directory, temporary directories, Assertiva's own state)",
+        "targets of links that leave the project",
+        "network effects and external services"
+      ]
+    },
+    "read_only_verified": true,
+    "runtime": {
+      "dirty": null,
+      "install": "installed-package",
+      "revision": null,
+      "version": "0.10.1"
+    },
+    "trace": "<HOME>\\.assertiva\\traces\\audit-final-4a93ffc2eb4c5793\\audit-20261108T020413710698Z.jsonl"
+  },
+  "recommendations": [
+    {
+      "finding": "MUTATION_REPORT_UNTIED",
+      "finding_id": "MUTATION_REPORT_UNTIED",
+      "recommendation": "Run the mutation tool through the engine (--execute --mutate FILE), or import a report that includes the source it mutated and the tests it ran.",
+      "status": "PROPOSED"
+    },
+    {
+      "finding": "UNCLASSIFIED_VERIFICATION",
+      "finding_id": "UNCLASSIFIED_VERIFICATION",
+      "recommendation": "Declare what the unclassified checks verify, or add an adapter; until then they stay UNKNOWN.",
+      "status": "PROPOSED"
+    },
+    {
+      "finding": "AGENT_FINDING",
+      "finding_id": "agent:vacuous-assertions-fixed",
+      "origin": "agent",
+      "recommendation": "Manter os controles no reposit\u00f3rio e rod\u00e1-los quando um teste desses mudar.",
+      "status": "PROPOSED"
+    },
+    {
+      "finding": "AGENT_FINDING",
+      "finding_id": "agent:passive-frames",
+      "origin": "agent",
+      "recommendation": "Ler partic\u00edpios irregulares ('entregue') e o segundo partic\u00edpio coordenado na morfologia.",
+      "status": "PROPOSED"
+    },
+    {
+      "finding": "AGENT_FINDING",
+      "finding_id": "agent:events-survivors",
+      "origin": "agent",
+      "recommendation": "Classificar os sobreviventes por linha e fixar s\u00f3 os limites que s\u00e3o contrato.",
+      "status": "PROPOSED"
+    }
+  ],
+  "remaining_unknowns": [
+    "whether declared CI checks actually ran, on which revision, and whether they gate merges",
+    "coverage",
+    "mutation report from Cosmic Ray that cannot be tied to this state: its 575 results are leads, not this state's evidence",
+    "mutation / negative-control strength",
+    "startup, health and deployment behavior"
+  ],
+  "report_path": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\rep-final\\audit.html",
+  "report_version": "1",
+  "review_candidates": [
+    {
+      "examples": [
+        "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_net_decrease_with_a_relocation_is_not_a_move",
+        "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_net_increase_with_a_relocation_is_not_a_move",
+        "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_pair_below_the_similarity_threshold_is_ignored",
+        "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_pair_exactly_at_the_threshold_counts",
+        "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_an_ignored_pair_does_not_end_the_check"
+      ],
+      "kind": "SHARED_ORACLE_HELPER",
+      "note": "review candidate: shared is not duplicate; nothing is removed",
+      "subject": "doc",
+      "tests": 16
+    }
+  ],
+  "run_id": "35830dd27aa24b9c",
+  "states": {
+    "applied": null,
+    "baseline": null,
+    "candidate": null,
+    "current": {
+      "artifacts": [
+        {
+          "adapter_id": "python-package",
+          "artifact": "voznativa-0.7.0.dev1-py3-none-any.whl",
+          "checks": [
+            {
+              "command": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe -m pip wheel --no-deps --disable-pip-version-check -w <TMP>\\assertiva-artifact-7m7xf87g\\dist --no-build-isolation <TMP>\\assertiva-artifact-7m7xf87g\\src",
+              "detail": "exit 0 in 5.214s",
+              "duration_s": 5.214,
+              "name": "build",
+              "status": "PASS"
+            },
+            {
+              "command": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe -m pip --python <TMP>\\assertiva-artifact-7m7xf87g\\venv\\Scripts\\python.exe install --no-deps --no-index --disable-pip-version-check <TMP>\\assertiva-artifact-7m7xf87g\\dist\\voznativa-0.7.0.dev1-py3-none-any.whl",
+              "detail": "exit 0 in 2.931s",
+              "duration_s": 2.931,
+              "name": "install",
+              "status": "PASS"
+            },
+            {
+              "command": "<TMP>\\assertiva-artifact-7m7xf87g\\venv\\Scripts\\python.exe -c import importlib, json, sys\nout = {}\nfor name in sys.argv[1:]:\n    try:\n        out[name] = importlib.import_module(name).__file__\n    except Exception as exc:\n        out[name] = 'ERROR: ' + type(exc).__name__ + ': ' + str(exc)\nprint(json.dumps(out))\n voznativa",
+              "detail": "voznativa -> <TMP>\\assertiva-artifact-7m7xf87g\\venv\\Lib\\site-packages\\voznativa\\__init__.py",
+              "duration_s": 0.075,
+              "name": "import",
+              "status": "PASS"
+            },
+            {
+              "command": null,
+              "detail": "no test runner adapter for this project",
+              "duration_s": null,
+              "name": "tests",
+              "status": "NOT_RUN"
+            },
+            {
+              "command": "clean venv + declared dependencies only",
+              "detail": "the top-level imports of 58 module(s), read without importing them, resolve with only declared dependencies (pyyaml); dynamic imports are not followed",
+              "duration_s": null,
+              "name": "dependency_closure",
+              "status": "PASS"
+            }
+          ],
+          "environment": {
+            "build_isolation": false,
+            "build_tool": "pip wheel",
+            "timeout_s": 900.0,
+            "timeout_source": "adapter default"
+          },
+          "fidelity": {
+            "ARTIFACT_SOURCE_ISOLATION": "PASS",
+            "ARTIFACT_TARGET_ENV_COMPATIBILITY": "NOT_RUN",
+            "CLEAN_INSTALL": "NOT_RUN",
+            "DECLARED_DEPENDENCY_CLOSURE": "PASS",
+            "SDIST": "NOT_RUN"
+          },
+          "kind": "wheel",
+          "limitations": [
+            "only the wheel was built and verified; the sdist was not",
+            "no clean install from a package index was performed (offline)",
+            "only build, install and import were verified; no tests ran against the artifact"
+          ],
+          "omitted_files": [],
+          "sha256": "9cd9da9cce22a38e8e4ead66c3b3d2d334296b12a4b77fc22b3fae9693e20d94",
+          "status": "PASS"
+        }
+      ],
+      "coverage": [],
+      "label": "current",
+      "limitations": [],
+      "metrics": {
+        "artifact_qualified": {
+          "direction": "HIGHER_IS_BETTER",
+          "evidence_tier": "E0",
+          "unit": null,
+          "value": 1
+        },
+        "broad_error_expectations": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "collection_errors": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        },
+        "distinct_oracle_signatures": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 876
+        },
+        "error_status_only_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "errors": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        },
+        "expected_error_contracts": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 64
+        },
+        "failed": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        },
+        "false_green_candidates": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "false_green_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "fidelity_mismatches": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "inherited_materializations": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        },
+        "negative_path_tests": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 64
+        },
+        "negative_paths_with_state_after_rejection": {
+          "direction": "HIGHER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "negative_paths_without_contract_detail": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 56
+        },
+        "passed": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 1168
+        },
+        "redundancy_candidates": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "redundancy_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "skipped": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 2
+        },
+        "test_declarations": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 901
+        },
+        "test_invocations": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 1170
+        },
+        "wall_clock_s": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": "s",
+          "value": 128.317
+        },
+        "weak_oracle_tests": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E3",
+          "unit": null,
+          "value": 0
+        },
+        "xfailed": {
+          "direction": "CONTEXTUAL",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        },
+        "xpassed": {
+          "direction": "LOWER_IS_BETTER",
+          "evidence_tier": "E1",
+          "unit": null,
+          "value": 0
+        }
+      },
+      "mutation": [
+        {
+          "config": {},
+          "counts": {
+            "KILLED": 366,
+            "SURVIVED": 208,
+            "TIMEOUT": 1
+          },
+          "error": null,
+          "evaluated": 575,
+          "finished": null,
+          "incremental": null,
+          "inputs_digest": null,
+          "killers_complete": null,
+          "kills_by_test": {},
+          "limitations": [
+            "Cosmic Ray runs the whole test command for each mutant and records no killing test: per-test contribution is unknown",
+            "the report does not record which revision/source it was produced from"
+          ],
+          "matches_state": null,
+          "orchestrated": false,
+          "per_mutant": true,
+          "provenance": "EXTERNAL_TOOL_REPORT",
+          "reused": 0,
+          "source": "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\crx2\\events-dump.jsonl",
+          "survivor_sites": [],
+          "survivors": [
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Sub",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Sub",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Sub",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Sub",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:129 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:175 core/ReplaceBinaryOperator_Add_Mul",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Div",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Div",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_FloorDiv",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_FloorDiv",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_FloorDiv",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_FloorDiv",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Mod",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Mod",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Mod",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Mod",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:129 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:175 core/ReplaceBinaryOperator_Add_Pow",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_RShift",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_RShift",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_RShift",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_RShift",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_LShift",
+            "voznativa/events.py:129 core/ReplaceBinaryOperator_Add_LShift",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_LShift",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_LShift",
+            "voznativa/events.py:175 core/ReplaceBinaryOperator_Add_LShift",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:175 core/ReplaceBinaryOperator_Add_BitOr",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_BitAnd",
+            "voznativa/events.py:126 core/ReplaceBinaryOperator_Add_BitAnd",
+            "voznativa/events.py:127 core/ReplaceBinaryOperator_Add_BitAnd",
+            "voznativa/events.py:172 core/ReplaceBinaryOperator_Add_BitAnd",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_BitXor",
+            "voznativa/events.py:118 core/ReplaceBinaryOperator_Add_BitXor"
+          ],
+          "survivors_total": 208,
+          "survivors_truncated": true,
+          "targets": [],
+          "tool": "Cosmic Ray",
+          "tool_version": null
+        }
+      ],
+      "negative_controls": [],
+      "negative_paths": {
+        "evals/test_community_and_stuffing.py::Integration::test_router_epoch": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_community_and_stuffing.py::Packs::test_validation": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_context_layer.py::Router::test_invalid_task_is_rejected": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Boundaries::test_download_is_refused_by_policy_or_host_before_any_io": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Boundaries::test_paths_stay_inside_the_corpus_directory": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Reading::test_csv_without_the_text_column_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Reading::test_gzip_bomb_is_stopped": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Reading::test_invalid_utf8_and_overlong_lines_are_recorded_then_budgeted": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Reading::test_oversized_file_is_refused_before_reading": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_connectors.py::Reading::test_zip_member_leaving_the_archive_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_require_fails_closed": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_unknown_operation_or_purpose_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_processing.py::Splits::test_fractions_must_sum_to_one": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_registry.py::HostBoundary::test_fetch_refuses_another_host_and_other_schemes_before_any_io": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_registry.py::Loading::test_file_name_must_match_the_id": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_corpus_registry.py::Loading::test_one_invalid_file_refuses_the_whole_registry": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_corpus_registry.py::Loading::test_relation_to_an_unregistered_source_is_refused": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_corpus_tei.py::ManifestAndCache::test_cache_inside_a_git_work_tree_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_tei.py::TeiReader::test_doctype_and_entities_are_refused_before_parsing": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_tei.py::TeiReader::test_malformed_and_wrong_root_fail_closed": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_corpus_tei.py::TeiReader::test_size_cap": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_diagnose.py::Modes::test_facts_are_never_automatic": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_protected_unit_of_a_json_plan_cannot_be_replaced": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_document_plan_oracles.py::SegmentCut::test_max_units_counts_rewritable_units_only": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_document_rewrite.py::Contract::test_protected_unit_cannot_be_replaced": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_document_rewrite.py::Contract::test_tampered_plan_or_other_text_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_engine.py::Providers::test_command_accepts_a_json_argv": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_engine.py::Providers::test_command_provider_reports_failures": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_engine.py::Providers::test_emulate_request_mapping_without_network": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_eval_provenance.py::Provenance::test_non_semantic_file_is_refused_with_a_clear_error": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_eval_provenance.py::Provenance::test_require_frozen_refuses_dev_suites": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_external_detection.py::Contracts::test_measurement_kind_and_state_are_closed_sets": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_unsupported_matrix_shapes_make_verify_inconclusive": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_unknown_or_non_text_replacements_are_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_verse_explicit_never_unprotects_code_or_quotes": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_integrity.py::Clean::test_policy_subset_and_unknown_policy": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_longform.py::Segmentation::test_limit_floor": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_mutation_gaps_v06.py::LexiconValidationSecondRound::test_load_errors_and_kept_metadata": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_mutation_gaps_v06.py::TemporalBranches::test_parse_epoch_edges": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_mutation_gaps_v07.py::LexiconFiles::test_attestations_may_cover_only_some_ids": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_privacy.py::RedactionHelpers::test_provider_id_and_errors_carry_no_credential": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::CommandProviderLimits::test_empty_answer_is_a_transient_error": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::CommandProviderLimits::test_missing_executable_is_not_retried": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::CommandProviderLimits::test_oversized_answer_is_an_error_and_is_not_retried": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::CommandProviderLimits::test_timeout_also_stops_an_orphaned_grandchild_and_raises_provider_error": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::CommandProviderLimits::test_timeout_stops_the_whole_process_tree": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_providers_hardening.py::EmulateErrors::test_client_errors_network_errors_and_bad_json_become_provider_errors": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_regional.py::PackContract::test_an_invalid_pack_file_fails_loading_instead_of_being_used": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_semantic_layer.py::CommandLine::test_argument_errors_never_exit_with_a_gate_status": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_review_is_bound_to_the_exact_texts": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_semantic_layer.py::JudgeContract::test_malformed_or_unbound_judgments_are_rejected": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_temporal.py::Epochs::test_parse": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_temporal.py::Lexicon::test_attestations_for_unknown_ids_are_refused": [
+          "ERROR_TYPE",
+          "MESSAGE"
+        ],
+        "evals/test_v08_arms.py::Arms::test_unknown_arm": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_grant_never_unprotects_code_tables_or_quotes": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_plan_crlf_and_poem_only": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_verse_authorisation_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_non_boolean_caller_grant_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_judge_relation.py::Contract::test_invalid_relation_is_refused": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_security.py::HostileYaml::test_malformed_yaml_is_a_clear_refusal": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_security.py::HostileYaml::test_python_tags_are_refused_and_nothing_runs": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_standards.py::DocumentProfileInTheContract::test_profile_is_validated_and_resolved": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_v08_standards.py::Validation::test_registry_refuses_an_invalid_file_and_a_misnamed_id": [
+          "ERROR_TYPE"
+        ],
+        "evals/test_voice_layer.py::Profile::test_requires_samples": [
+          "ERROR_TYPE"
+        ]
+      },
+      "observed_in": "isolated-project-copy",
+      "runs": [
+        {
+          "adapter": "unittest",
+          "attachments": 0,
+          "cases_duration_sum_s": null,
+          "collection_errors": [],
+          "command": [
+            "<TMP>\\claude\\b15a3befbef233ea\\f9aed6aa-22f8-4d97-9f9c-acab29b6a45e\\scratchpad\\av\\Scripts\\python.exe",
+            "-m",
+            "assertiva_unittest_evidence",
+            "discover",
+            "-s",
+            "evals",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "declaration_identity": "KNOWN",
+          "declared_invocations": null,
+          "exit_code": 0,
+          "interpreter": null,
+          "invocations": 1170,
+          "limitations": [
+            "coverage.py is not available in the target interpreter; coverage was not measured",
+            "unittest collects TestCase methods only; plain test functions are not run by this runner"
+          ],
+          "limits": {
+            "selection": "full suite",
+            "timeout_s": 900.0,
+            "timeout_source": "adapter default"
+          },
+          "matrix": {},
+          "mode": "execute",
+          "outcomes": {
+            "PASSED": 1168,
+            "SKIPPED": 2
+          },
+          "outcomes_by_invocation": {
+            "evals/test_additions.py::InsertedClauses::test_auxiliary_verbs_are_not_new_content": "PASSED",
+            "evals/test_additions.py::InsertedClauses::test_inserted_achievement_clause_needs_review": "PASSED",
+            "evals/test_additions.py::InsertedClauses::test_reordering_clauses_is_not_an_addition": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_abbreviations_do_not_split_sentences": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_decimals_and_urls_do_not_split_sentences": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_fenced_code_is_one_unit": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_unicode_ellipsis_and_spaced_en_dash": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_words_that_only_look_like_adverbs_are_not_counted": "PASSED",
+            "evals/test_analyzers.py::Analyzer::test_words_that_only_look_like_gerunds_are_not_counted": "PASSED",
+            "evals/test_analyzers.py::AuditAndGuards::test_audit_reports_semantic_loss_only_with_original": "PASSED",
+            "evals/test_analyzers.py::AuditAndGuards::test_drift_flags_real_style_change": "PASSED",
+            "evals/test_analyzers.py::AuditAndGuards::test_drift_is_length_normalized": "PASSED",
+            "evals/test_analyzers.py::AuditAndGuards::test_mechanicality_does_not_penalize_ordinary_gerunds": "PASSED",
+            "evals/test_analyzers.py::AuditAndGuards::test_region_code_is_case_insensitive": "PASSED",
+            "evals/test_bench_v3_harness.py::HarnessCheck::test_runner_end_to_end_with_a_fake_model": "PASSED",
+            "evals/test_benchmark.py::FrozenCases::test_cases_fit_every_system_including_emulate": "PASSED",
+            "evals/test_benchmark.py::FrozenCases::test_invariants_hold_on_the_source_itself": "PASSED",
+            "evals/test_benchmark.py::Runner::test_manifest_is_recorded_or_warned": "PASSED",
+            "evals/test_benchmark.py::Runner::test_missing_outputs_and_failures_lower_the_rate": "PASSED",
+            "evals/test_benchmark.py::Runner::test_tiers_are_reported_separately": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_harness_error_row_is_a_system_failure": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_injection_task_is_not_obeying": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_judged_change_is_pending_evaluation_not_met": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_keeping_a_natural_text_is_the_task_and_changing_it_is_not": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_meaning_change_fails_the_task_even_with_invariants": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_provider_error_is_a_system_failure_not_a_preserved_success": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_review_flags_need_a_person": "PASSED",
+            "evals/test_benchmark_axes.py::Axes::test_unchanged_text_preserves_trivially_and_misses_a_change_task": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_a_row_without_invariants_is_not_a_violation": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_destination_is_not_met_when_the_transform_broke_meaning_and_na_elsewhere": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_failed_system_has_no_quality_and_an_empty_row_is_a_harness_error": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_summary_counts_on_asymmetric_data": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_summary_on_data_where_no_two_axes_coincide": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_unchanged_needs_no_evaluation_and_an_unjudged_clean_change_is_pending": "PASSED",
+            "evals/test_benchmark_axes.py::MutationFindings::test_wilson_exact_values": "PASSED",
+            "evals/test_benchmark_axes.py::OfficialRunRescore::test_rescore_names_the_official_run_and_its_failure": "PASSED",
+            "evals/test_benchmark_axes.py::RegionalAxis::test_abstention_case": "PASSED",
+            "evals/test_benchmark_axes.py::RegionalAxis::test_option_and_referent_cases": "PASSED",
+            "evals/test_benchmark_axes.py::RegionalAxis::test_summary_counts_regional_outcomes_only_where_they_apply": "PASSED",
+            "evals/test_benchmark_axes.py::Summary::test_invariants_are_counted_only_where_an_output_was_produced": "PASSED",
+            "evals/test_benchmark_axes.py::Summary::test_wilson_interval": "PASSED",
+            "evals/test_blind_review.py::ReviewAndSummary::test_cli_refuses_without_a_terminal": "PASSED",
+            "evals/test_blind_review.py::ReviewAndSummary::test_only_verified_answers_count": "PASSED",
+            "evals/test_blind_review.py::ReviewAndSummary::test_summary_without_a_local_key_counts_nothing": "PASSED",
+            "evals/test_blind_review.py::Tasks::test_focus_and_seeded_order": "PASSED",
+            "evals/test_blind_review.py::Tasks::test_pairs_skip_identical_outputs_and_errors": "PASSED",
+            "evals/test_ci_evidence.py::CheckpointHarness::test_failing_first_stage_fails_the_checkpoint": "PASSED",
+            "evals/test_ci_evidence.py::CheckpointHarness::test_missing_program_and_timeout_are_failures": "PASSED",
+            "evals/test_ci_evidence.py::CheckpointHarness::test_pipeline_with_tail_hides_the_failure": "SKIPPED",
+            "evals/test_ci_evidence.py::CheckpointHarness::test_push_is_verified_against_the_remote_ref": "PASSED",
+            "evals/test_ci_evidence.py::CheckpointHarness::test_success_records_hashes_and_revision": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_a_code_change_after_the_run_is_not_run": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_a_failed_job_inside_a_success_run_is_fail": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_cancelled_and_neutral_runs_are_not_pass": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_divergent_branch_is_not_run": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_evidence_only_commit_after_the_run_is_still_pass": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_evidence_paths_are_narrow": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_expected_jobs_come_from_the_workflow_matrix": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_failed_run_is_fail": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_in_progress_run_is_inconclusive": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_incomplete_matrix_is_inconclusive": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_judge_rejects_a_run_whose_sha_differs_from_the_one_asked": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_live_success_on_head_is_pass": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_query_unavailable_is_inconclusive_never_pass": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_run_of_another_workflow_is_ignored": "PASSED",
+            "evals/test_ci_evidence.py::LiveCiEvidence::test_tampered_record_is_caught": "PASSED",
+            "evals/test_ci_evidence.py::WorkflowTriggerAudit::test_automatic_triggers_are_listed": "PASSED",
+            "evals/test_ci_evidence.py::WorkflowTriggerAudit::test_bare_on_key_is_read": "PASSED",
+            "evals/test_ci_evidence.py::WorkflowTriggerAudit::test_repository_workflows_are_dispatch_only": "PASSED",
+            "evals/test_community_and_stuffing.py::Activation::test_abstains_without_a_request_and_explains_unknown_packs": "PASSED",
+            "evals/test_community_and_stuffing.py::Activation::test_keeps_the_texts_terms_and_withdraws_anglicism_findings_only_when_requested": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_cli_rejects_a_malformed_epoch_as_a_usage_error": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_contract_reports_temporal_and_community_decisions": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_engine_review_flags_added_slang_and_jargon": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_engine_review_keeps_quiet_on_the_authors_own_slang": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_planner_tells_the_writer_to_keep_the_authors_slang_and_terms": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_profile_records_the_authors_slang_as_a_habit_to_keep": "PASSED",
+            "evals/test_community_and_stuffing.py::Integration::test_router_epoch": "PASSED",
+            "evals/test_community_and_stuffing.py::Packs::test_shipped_packs_are_valid_drafts_that_never_add": "PASSED",
+            "evals/test_community_and_stuffing.py::Packs::test_validation": "PASSED",
+            "evals/test_community_and_stuffing.py::Stuffing::test_levels_and_rise": "PASSED",
+            "evals/test_community_and_stuffing.py::Stuffing::test_region_guard_uses_the_shared_thresholds": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_net_decrease_with_a_relocation_is_not_a_move": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_net_increase_with_a_relocation_is_not_a_move": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_pair_below_the_similarity_threshold_is_ignored": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_a_pair_exactly_at_the_threshold_counts": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_an_ignored_pair_does_not_end_the_check": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_fixture_markers": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_informational_categories_never_move_and_do_not_stop_the_check": "PASSED",
+            "evals/test_compare_signal_oracles.py::MovedMarkerLocation::test_the_issue_names_the_first_sentence_that_lost_and_the_first_that_gained": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_a_pair_below_the_threshold_is_ignored_and_does_not_end_the_check": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_a_token_that_may_be_a_light_verb_abstains": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_a_weak_ending_token_does_not_end_the_sentence": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_short_stems_abstain": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_the_issue_reports_the_first_lemma_of_the_anchor": "PASSED",
+            "evals/test_compare_signal_oracles.py::PredicateOracles::test_the_window_does_not_wrap_to_the_last_sentence": "PASSED",
+            "evals/test_compare_signal_oracles.py::TenseOracles::test_a_pair_below_the_threshold_is_ignored_and_does_not_end_the_check": "PASSED",
+            "evals/test_compare_signal_oracles.py::TenseOracles::test_a_periphrasis_is_named_by_its_construction": "PASSED",
+            "evals/test_compare_signal_oracles.py::TenseOracles::test_a_verb_with_two_tenses_on_either_side_abstains": "PASSED",
+            "evals/test_compare_signal_oracles.py::TenseOracles::test_the_message_names_both_tenses": "PASSED",
+            "evals/test_compare_signal_oracles.py::TenseOracles::test_the_same_construction_on_both_sides_is_no_change": "PASSED",
+            "evals/test_containment.py::Containment::test_a_famous_quotation_does_not_glue_documents": "PASSED",
+            "evals/test_containment.py::Containment::test_a_short_sentence_is_never_called_contained": "PASSED",
+            "evals/test_containment.py::Containment::test_chapter_clusters_with_its_novel": "PASSED",
+            "evals/test_containment.py::Containment::test_control_without_containment_the_chapter_is_separate": "PASSED",
+            "evals/test_containment.py::Containment::test_excerpt_republished_by_another_source_is_linked_across_sources": "PASSED",
+            "evals/test_containment.py::Containment::test_measure_is_directional": "PASSED",
+            "evals/test_containment.py::Containment::test_modernised_edition_meets_the_original": "PASSED",
+            "evals/test_containment.py::Containment::test_same_topic_different_text_is_not_a_duplicate": "PASSED",
+            "evals/test_containment.py::MultiKeySplits::test_leakage_reports_an_author_in_two_splits": "PASSED",
+            "evals/test_containment.py::MultiKeySplits::test_works_of_one_author_never_cross_a_split": "PASSED",
+            "evals/test_context_layer.py::Home::test_voznativa_home_takes_precedence": "PASSED",
+            "evals/test_context_layer.py::ProjectContext::test_grounding_accepts_real_and_rejects_invented_references": "PASSED",
+            "evals/test_context_layer.py::ProjectContext::test_repository_doc_used_as_voice_sample_warns": "PASSED",
+            "evals/test_context_layer.py::ProjectContext::test_repository_never_supports_values": "PASSED",
+            "evals/test_context_layer.py::ProjectContext::test_scan_indexes_files_cli_and_versions": "PASSED",
+            "evals/test_context_layer.py::ReferenceSelector::test_budget_is_respected_and_reported": "PASSED",
+            "evals/test_context_layer.py::ReferenceSelector::test_genre_specific_references": "PASSED",
+            "evals/test_context_layer.py::ReferenceSelector::test_unknown_genre_loads_no_genre_file": "PASSED",
+            "evals/test_context_layer.py::ReferenceSelector::test_voice_and_region_references_need_their_flags": "PASSED",
+            "evals/test_context_layer.py::Router::test_explicit_hints_win": "PASSED",
+            "evals/test_context_layer.py::Router::test_invalid_task_is_rejected": "PASSED",
+            "evals/test_context_layer.py::Router::test_register_conflict_is_flagged": "PASSED",
+            "evals/test_context_layer.py::Router::test_router_accuracy_floor": "PASSED",
+            "evals/test_context_layer.py::Router::test_router_never_picks_a_wrong_specific_genre": "PASSED",
+            "evals/test_context_layer.py::Router::test_sources_are_kept_apart": "PASSED",
+            "evals/test_corpus_cli.py::CorpusCommands::test_an_unreadable_input_is_still_a_usage_error": "PASSED",
+            "evals/test_corpus_cli.py::CorpusCommands::test_list_info_permissions_report_validate": "PASSED",
+            "evals/test_corpus_cli.py::CorpusCommands::test_refusals_and_usage_errors": "PASSED",
+            "evals/test_corpus_cli.py::CorpusCommands::test_validate_reports_each_bad_file_with_exit_1": "PASSED",
+            "evals/test_corpus_cli.py::RunFilesKeepEvidence::test_a_run_over_other_sources_never_replaces_an_existing_file": "PASSED",
+            "evals/test_corpus_connectors.py::Boundaries::test_download_is_refused_by_policy_or_host_before_any_io": "PASSED",
+            "evals/test_corpus_connectors.py::Boundaries::test_paths_stay_inside_the_corpus_directory": "PASSED",
+            "evals/test_corpus_connectors.py::Boundaries::test_purge_removes_the_local_copy": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_conllu_sentences_keep_id_text_and_token_count": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_csv_quoted_multiline_field_and_a_cut_last_row": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_csv_without_the_text_column_is_refused": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_gzip_bomb_is_stopped": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_integrity_compares_the_recorded_sha256": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_invalid_utf8_and_overlong_lines_are_recorded_then_budgeted": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_oversized_file_is_refused_before_reading": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_record_cap_and_gzip": "PASSED",
+            "evals/test_corpus_connectors.py::Reading::test_zip_member_leaving_the_archive_is_refused": "PASSED",
+            "evals/test_corpus_evaluate.py::Patterns::test_documents_join_groups_in_order": "PASSED",
+            "evals/test_corpus_evaluate.py::Patterns::test_length_bins": "PASSED",
+            "evals/test_corpus_evaluate.py::Patterns::test_report_is_aggregate_only": "PASSED",
+            "evals/test_corpus_evaluate.py::Patterns::test_threshold_sweep_follows_the_rule": "PASSED",
+            "evals/test_corpus_evaluate.py::Variant::test_sentence_and_document_confusion": "PASSED",
+            "evals/test_corpus_evaluate.py::Variant::test_unlabelled_records_are_ignored": "PASSED",
+            "evals/test_corpus_policy.py::DataAccessAndStatus::test_a_corpus_licence_never_stands_in_for_its_documents": "PASSED",
+            "evals/test_corpus_policy.py::DataAccessAndStatus::test_catalogue_operations_are_always_allowed": "PASSED",
+            "evals/test_corpus_policy.py::DataAccessAndStatus::test_data_operations_need_verified_access": "PASSED",
+            "evals/test_corpus_policy.py::LicenceFamilies::test_non_commercial_terms_deny_a_commercial_purpose": "PASSED",
+            "evals/test_corpus_policy.py::LicenceFamilies::test_query_only_sources_allow_querying_and_nothing_else": "PASSED",
+            "evals/test_corpus_policy.py::LicenceFamilies::test_share_alike_can_be_published_apart_under_the_same_licence": "PASSED",
+            "evals/test_corpus_policy.py::LicenceFamilies::test_the_families_differ_where_they_should": "PASSED",
+            "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_a_permission_covers_only_what_it_names": "PASSED",
+            "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_decisions_carry_reasons_and_evidence": "PASSED",
+            "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_personal_data_needs_permission_for_samples_and_model_calls": "PASSED",
+            "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_require_fails_closed": "PASSED",
+            "evals/test_corpus_policy.py::PersonalDataAndPermissions::test_unknown_operation_or_purpose_is_refused": "PASSED",
+            "evals/test_corpus_policy.py::ShippedSources::test_policy_over_the_processable_sources": "PASSED",
+            "evals/test_corpus_processing.py::Deduplication::test_exact_near_and_cross_source_duplicates_are_clustered": "PASSED",
+            "evals/test_corpus_processing.py::Deduplication::test_unrelated_texts_stay_apart": "PASSED",
+            "evals/test_corpus_processing.py::Provenance::test_group_keys": "PASSED",
+            "evals/test_corpus_processing.py::Provenance::test_original_is_kept_and_normalised_copy_is_separate": "PASSED",
+            "evals/test_corpus_processing.py::Splits::test_fractions_must_sum_to_one": "PASSED",
+            "evals/test_corpus_processing.py::Splits::test_planted_contamination_is_reported": "PASSED",
+            "evals/test_corpus_processing.py::Splits::test_stable_and_never_cutting_a_document_or_a_duplicate": "PASSED",
+            "evals/test_corpus_processing.py::Versions::test_removed_added_and_changed_records": "PASSED",
+            "evals/test_corpus_registry.py::HostBoundary::test_fetch_refuses_another_host_and_other_schemes_before_any_io": "PASSED",
+            "evals/test_corpus_registry.py::HostBoundary::test_hosts_come_from_the_entry_and_www_is_equivalent": "PASSED",
+            "evals/test_corpus_registry.py::HostBoundary::test_identity_terms_are_accent_and_case_insensitive": "PASSED",
+            "evals/test_corpus_registry.py::Loading::test_a_new_corpus_is_added_with_a_yaml_file_alone": "PASSED",
+            "evals/test_corpus_registry.py::Loading::test_file_name_must_match_the_id": "PASSED",
+            "evals/test_corpus_registry.py::Loading::test_one_invalid_file_refuses_the_whole_registry": "PASSED",
+            "evals/test_corpus_registry.py::Loading::test_relation_to_an_unregistered_source_is_refused": "PASSED",
+            "evals/test_corpus_registry.py::ShippedRegistry::test_citation_only_sources_never_claim_verification": "PASSED",
+            "evals/test_corpus_registry.py::ShippedRegistry::test_coraa_and_the_projects_it_contains_are_one_dependency_group": "PASSED",
+            "evals/test_corpus_registry.py::ShippedRegistry::test_loads_and_every_status_is_backed_by_evidence": "PASSED",
+            "evals/test_corpus_registry.py::StatusEvidence::test_catalogued_needs_no_verification": "PASSED",
+            "evals/test_corpus_registry.py::StatusEvidence::test_citation_cannot_be_source_verified": "PASSED",
+            "evals/test_corpus_registry.py::StatusEvidence::test_each_rung_needs_its_evidence": "PASSED",
+            "evals/test_corpus_registry.py::StatusEvidence::test_evidence_files_are_checked_in_the_checkout_but_not_required_in_a_wheel": "PASSED",
+            "evals/test_corpus_registry.py::StatusEvidence::test_restriction_states_need_a_reason": "PASSED",
+            "evals/test_corpus_tei.py::ConlluDocuments::test_document_and_paragraph_carry_to_every_sentence": "PASSED",
+            "evals/test_corpus_tei.py::ConlluDocuments::test_last_sentence_keeps_its_metadata": "PASSED",
+            "evals/test_corpus_tei.py::ConlluDocuments::test_reverse_view_round_trips_the_sentence_layer": "PASSED",
+            "evals/test_corpus_tei.py::ManifestAndCache::test_cache_inside_a_git_work_tree_is_refused": "PASSED",
+            "evals/test_corpus_tei.py::ManifestAndCache::test_per_document_manifest_never_inherits_the_card": "PASSED",
+            "evals/test_corpus_tei.py::PerDocumentLicences::test_known_document_licence_decides_per_operation": "PASSED",
+            "evals/test_corpus_tei.py::PerDocumentLicences::test_share_alike_3_may_go_to_4_but_not_reverse": "PASSED",
+            "evals/test_corpus_tei.py::PerDocumentLicences::test_unknown_document_licence_never_becomes_allowed": "PASSED",
+            "evals/test_corpus_tei.py::PerDocumentLicences::test_urls_map_to_codes_and_anything_else_is_unknown": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_connector_reads_gzipped_tei": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_doctype_and_entities_are_refused_before_parsing": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_document_without_text_is_an_error_not_a_record": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_malformed_and_wrong_root_fail_closed": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_metadata_and_structure_are_kept": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_size_cap": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_tei_corpus_yields_one_record_per_document": "PASSED",
+            "evals/test_corpus_tei.py::TeiReader::test_verse_keeps_one_line_per_l": "PASSED",
+            "evals/test_corpus_v07.py::CrossGenreEvaluators::test_router_eval_separates_abstention_from_confident_errors": "PASSED",
+            "evals/test_corpus_v07.py::CrossGenreEvaluators::test_slang_eval_counts_forms": "PASSED",
+            "evals/test_corpus_v07.py::CrossGenreEvaluators::test_windows_stay_inside_groups_and_under_the_limit": "PASSED",
+            "evals/test_corpus_v07.py::TextRights::test_a_stronger_licence_decision_is_not_weakened": "PASSED",
+            "evals/test_corpus_v07.py::TextRights::test_control_same_licence_without_the_flag_allows_share_alike_export": "PASSED",
+            "evals/test_corpus_v07.py::TextRights::test_news_tweet_and_web_sources_are_marked": "PASSED",
+            "evals/test_corpus_v07.py::TextRights::test_registry_requires_a_note_and_a_known_value": "PASSED",
+            "evals/test_corpus_v07.py::TextRights::test_unclear_text_rights_block_disclosure_but_not_local_use": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_formal_error_in_prose": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_historical_spelling_is_a_legitimate_choice": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_internal_contradictions": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_reduplication_that_is_portuguese_is_not_an_error": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_repetition_in_verse_is_literary_license": "PASSED",
+            "evals/test_diagnose.py::ErrorClasses::test_tense_switch_is_an_ambiguity_not_an_error": "PASSED",
+            "evals/test_diagnose.py::Grounding::test_fiction_is_not_checked_against_facts": "PASSED",
+            "evals/test_diagnose.py::Grounding::test_mismatch_vs_no_evidence": "PASSED",
+            "evals/test_diagnose.py::Modes::test_cli_modes_without_a_model": "PASSED",
+            "evals/test_diagnose.py::Modes::test_facts_are_never_automatic": "PASSED",
+            "evals/test_diagnose.py::Modes::test_preserve_and_review_authorise_nothing": "PASSED",
+            "evals/test_diagnose.py::Modes::test_proofread_applies_only_formal_fixes": "PASSED",
+            "evals/test_document_plan_oracles.py::CoreAndEdges::test_core_drops_surrounding_blank_lines_and_trailing_spaces": "PASSED",
+            "evals/test_document_plan_oracles.py::CoreAndEdges::test_first_and_last_units_reach_the_text_edges": "PASSED",
+            "evals/test_document_plan_oracles.py::CoreAndEdges::test_replacing_cores_keeps_every_edge_byte": "PASSED",
+            "evals/test_document_plan_oracles.py::CoreAndEdges::test_values_belong_to_the_unit_that_holds_them": "PASSED",
+            "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_a_unit_that_overlaps_the_previous_one_is_refused": "PASSED",
+            "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_kind_and_document_hash_are_checked": "PASSED",
+            "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_protected_unit_of_a_json_plan_cannot_be_replaced": "PASSED",
+            "evals/test_document_plan_oracles.py::FieldByFieldRefusal::test_schema_version_is_part_of_the_contract": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_a_chain_without_safe_cut_is_forced_past_twice_the_limit": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_a_unit_may_reach_exactly_segment_words": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_blocks_below_the_limit_stay_together": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_fixture_cut_costs": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_max_units_counts_rewritable_units_only": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_the_back_off_starts_at_the_last_block_of_the_unit": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_the_cut_backs_off_to_the_last_safe_boundary": "PASSED",
+            "evals/test_document_plan_oracles.py::SegmentCut::test_the_limit_adds_word_counts": "PASSED",
+            "evals/test_document_plan_oracles.py::SmallContracts::test_context_keeps_values_and_protections": "PASSED",
+            "evals/test_document_plan_oracles.py::SmallContracts::test_structure_ignores_separators": "PASSED",
+            "evals/test_document_rewrite.py::CommandLine::test_rewrite_long_form_through_the_cli_and_a_command_provider": "PASSED",
+            "evals/test_document_rewrite.py::CommandSplitting::test_windows_quoted_paths_lose_their_quotes_only": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_crlf_document_round_trips": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_dependencies_and_carry": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_plan_is_lossless_and_serialisable": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_protected_kinds_are_their_own_units": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_protected_unit_cannot_be_replaced": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_tampered_plan_or_other_text_is_refused": "PASSED",
+            "evals/test_document_rewrite.py::Contract::test_verse_is_protected_unless_asked": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_budget_exhausted_then_resume": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_carry_reaches_the_prompt": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_clean_rewrite_keeps_protected_bytes_and_structure": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_failing_provider_returns_the_original": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_global_failure_reverts_units_until_the_document_passes": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_large_document": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_limits_exceeded_fail_closed": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_malicious_provider_cannot_change_facts": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_no_change_answers_keep_the_document": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_planner_no_change_calls_no_model": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_structure_change_is_rejected_per_unit": "PASSED",
+            "evals/test_document_rewrite.py::SegmentedRewrite::test_timeout_returns_the_original": "PASSED",
+            "evals/test_engine.py::Loop::test_all_candidates_failing_returns_the_original": "PASSED",
+            "evals/test_engine.py::Loop::test_best_of_n_prefers_clean_over_review": "PASSED",
+            "evals/test_engine.py::Loop::test_create_mode_grounds_against_facts": "PASSED",
+            "evals/test_engine.py::Loop::test_failed_candidate_triggers_retry_with_feedback": "PASSED",
+            "evals/test_engine.py::Loop::test_force_profile_or_explicit_register_still_rewrite": "PASSED",
+            "evals/test_engine.py::Loop::test_judge_can_accept_or_reject": "PASSED",
+            "evals/test_engine.py::Loop::test_judge_gets_one_retry_on_invalid_json": "PASSED",
+            "evals/test_engine.py::Loop::test_judge_json_with_fence_and_trailing_comma_is_repaired_and_reported": "PASSED",
+            "evals/test_engine.py::Loop::test_judge_rejection_feeds_the_next_attempt": "PASSED",
+            "evals/test_engine.py::Loop::test_model_judge_cannot_claim_to_be_human": "PASSED",
+            "evals/test_engine.py::Loop::test_no_change_answer_keeps_the_original": "PASSED",
+            "evals/test_engine.py::Loop::test_prompt_targets_findings_and_quality_is_measured": "PASSED",
+            "evals/test_engine.py::Loop::test_regional_stuffing_is_flagged_for_review": "PASSED",
+            "evals/test_engine.py::Loop::test_text_without_findings_is_not_sent_to_the_model": "PASSED",
+            "evals/test_engine.py::Loop::test_votes_must_agree_to_accept": "PASSED",
+            "evals/test_engine.py::Prompt::test_parse_candidate": "PASSED",
+            "evals/test_engine.py::Prompt::test_prompt_carries_contract_ledger_and_guards": "PASSED",
+            "evals/test_engine.py::Providers::test_command_accepts_a_json_argv": "PASSED",
+            "evals/test_engine.py::Providers::test_command_provider_reports_failures": "PASSED",
+            "evals/test_engine.py::Providers::test_command_provider_runs_a_real_process": "PASSED",
+            "evals/test_engine.py::Providers::test_command_provider_runs_in_an_empty_directory": "PASSED",
+            "evals/test_engine.py::Providers::test_emulate_request_mapping_without_network": "PASSED",
+            "evals/test_engine.py::Providers::test_engine_gives_emulate_a_style_from_the_voice_contract": "PASSED",
+            "evals/test_engine.py::Providers::test_engine_returns_the_original_when_the_provider_keeps_failing": "PASSED",
+            "evals/test_engine.py::Providers::test_transient_failure_is_retried": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_current_suites_are_not_reported_as_independent": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_every_suite_is_listed": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_frozen_decision_and_benchmark_cases_were_not_edited": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_frozen_suites_were_not_edited": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_independent_claims_need_the_protocol_fields": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_non_semantic_file_is_refused_with_a_clear_error": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_require_frozen_refuses_dev_suites": "PASSED",
+            "evals/test_eval_provenance.py::Provenance::test_unlisted_suite_is_unknown_not_independent": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_copyleaks_parser_keeps_vendor_fields_and_derives_no_label": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_http_error_is_blocked_and_sandbox_is_not_a_measurement": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_live_never_runs_without_authorisation_or_key": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_manifest_rules": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_measurement_kind_and_state_are_closed_sets": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_short_text_is_inconclusive_not_a_score": "PASSED",
+            "evals/test_external_detection.py::Contracts::test_unverified_contracts_do_not_pretend": "PASSED",
+            "evals/test_external_detection.py::ProtocolMetrics::test_empty_groups_are_not_run_not_zero": "PASSED",
+            "evals/test_external_detection.py::ProtocolMetrics::test_metrics_are_separate_and_mock_is_labelled": "PASSED",
+            "evals/test_external_detection.py::ProtocolMetrics::test_replay_is_kept_apart_from_live": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_analyzer_counts_sentences": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_audit_baseline": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_benchmark_runner_accepts_preserved_invariants": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_benchmark_runner_detects_explicit_invariant_loss": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_extracts_non_overlapping_protected_values": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_regional_overfit_guard": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_semantic_guard_detects_number_loss_even_with_same_digits_elsewhere": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_semantic_guard_respects_multiplicity": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_voice_drift_baseline": "PASSED",
+            "evals/test_foundation.py::FoundationTests::test_voice_profile_is_observational": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_controls_stay_clean": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_dependent_paragraph_moved_needs_review": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_known_detections_still_fire": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_negation_moved_between_sentences_fails": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_rephrased_sentence_keeps_its_value_and_its_negation_is_localized": "PASSED",
+            "evals/test_global_guards.py::CrossParagraph::test_short_added_sentence_needs_review": "PASSED",
+            "evals/test_global_guards.py::DocumentGuards::test_slang_introduced_anywhere_in_the_document_needs_review": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='crlf')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='double_space')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='nbsp')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='nfd')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='tab_blank_line')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_formatting_does_not_change_verdicts[(variant='wrap')]": "PASSED",
+            "evals/test_global_guards.py::Metamorphic::test_negative_control_a_semantic_change_is_not_formatting": "PASSED",
+            "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_diff_is_asked_without_rename_detection": "PASSED",
+            "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_editing_a_harness_after_the_run_invalidates_it": "PASSED",
+            "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_executable_or_config_files_in_run_folders_are_code": "PASSED",
+            "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_real_git_move_add_remove_into_the_evidence_folder": "PASSED",
+            "evals/test_hardening_cp5b.py::EvidencePathsAreRecordsOnly::test_records_in_run_folders_and_state_docs_are_evidence": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_a_push_run_is_not_qualifying_even_if_declared": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_a_substituted_combination_is_not_the_matrix": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_eight_successful_jobs_with_a_duplicate_are_not_the_matrix": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_extra_unexpected_job_is_not_hidden": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_names_come_from_the_versioned_workflow": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_the_real_run124_job_list_passes": "PASSED",
+            "evals/test_hardening_cp5b.py::ManualRunAndExactMatrix::test_unsupported_matrix_shapes_make_verify_inconclusive": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_duplicate_reordered_or_missing_units": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_and_kinds_does_not_unprotect[(kind='code')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_and_kinds_does_not_unprotect[(kind='quote')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_and_kinds_does_not_unprotect[(kind='table')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_does_not_unprotect[(kind='code')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_does_not_unprotect[(kind='quote')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_does_not_unprotect[(kind='separator')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_flipping_action_does_not_unprotect[(kind='table')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_merging_a_protected_unit_into_a_rewritable_one_with_fresh_hashes": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_plan_of_another_text_is_refused": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_rewritable_units_are_still_replaced": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_shifting_core_offsets_with_a_recomputed_hash": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_unknown_or_non_text_replacements_are_refused": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip[(text='# Relat\u00f3rio\\n\\nO time ')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip[(text='# Relat\u00f3rio\\r\\n\\r\\nO tim')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip[(text='Quando a noite desce')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip[(text='S\u00f3 uma frase.')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_valid_plans_survive_json_roundtrip[(text='```\\ns\u00f3 c\u00f3digo\\n```')]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_verse_explicit_never_unprotects_code_or_quotes": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_verse_flag_must_match_the_declared_policy": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_whitespace_only_document_is_returned_unchanged[(text=\"'   '\")]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_whitespace_only_document_is_returned_unchanged[(text=\"' \\\\r\\\\n\\\\t\\\\r\\\\n'\")]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_whitespace_only_document_is_returned_unchanged[(text=\"''\")]": "PASSED",
+            "evals/test_hardening_cp5b.py::PlanIsDataNotAuthority::test_whitespace_only_document_is_returned_unchanged[(text=\"'\\\\n\\\\n'\")]": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_boolean_float_and_string_counts_are_refused": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_missing_count_is_reported_once_by_the_presence_check": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_negative_count_is_refused_with_a_reason": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_schema_version_must_be_an_integer": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_the_shipped_lexicon_and_its_attestations_satisfy_the_contract": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_valid_boundaries_are_accepted": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_words_years_and_verification_date": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_zero_count_is_not_an_attestation_for_consumers": "PASSED",
+            "evals/test_hardening_h07.py::CountContract::test_zero_count_is_valid_but_attests_nothing": "PASSED",
+            "evals/test_hardening_h07.py::DynamicStringsReachTheComparisons::test_an_ambiguous_form_that_is_also_a_chat_cue_does_not_corroborate_itself": "PASSED",
+            "evals/test_hardening_h07.py::DynamicStringsReachTheComparisons::test_context_detection_from_yaml_needs_a_detect_pattern": "PASSED",
+            "evals/test_hardening_h07.py::DynamicStringsReachTheComparisons::test_epoch_current_from_outside_the_module": "PASSED",
+            "evals/test_hardening_h07.py::DynamicStringsReachTheComparisons::test_status_active_from_yaml_is_active": "PASSED",
+            "evals/test_hardening_h07.py::FutureForms::test_past_and_future_still_differ": "PASSED",
+            "evals/test_hardening_h07.py::FutureForms::test_periphrastic_and_synthetic_future_are_the_same_time": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_a_long_document_does_not_hide_a_lost_action_in_a_later_segment": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_a_sentence_after_one_without_verbs_is_still_checked": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_agent_patient_inversion_still_fails": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_another_content_verb_is_information_not_a_block": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_every_anchor_of_a_sentence_is_checked": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_light_verbs_and_prepositions_are_not_anchors": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_literary_ellipsis_is_never_a_confirmed_error": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_nominalization_with_another_vowel_keeps_the_action": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_passive_with_agent_and_nominalization_keep_the_action": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_the_verb_may_move_to_a_neighbouring_sentence": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_the_window_works_away_from_the_first_sentence": "PASSED",
+            "evals/test_hardening_h07.py::PredicateGuardBoundaries::test_weakly_similar_sentences_are_not_compared": "PASSED",
+            "evals/test_hardening_h07.py::PredicateLoss::test_action_kept_with_another_verb_is_not_blocked": "PASSED",
+            "evals/test_hardening_h07.py::PredicateLoss::test_action_replaced_by_a_light_verb_is_flagged": "PASSED",
+            "evals/test_hardening_h07.py::SplitTableRow::test_validator_reports_a_table_row_split_across_lines": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_backed_verdict_is_accepted_as_grounded": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_cli_ground_applies_a_grounding_judgment": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_judge_prompt_carries_the_fact_sources": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_placeholder_needs_a_person": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_supported_verdict_needs_evidence_found_in_the_sources": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_unsupported_claim_without_a_value_is_rejected": "PASSED",
+            "evals/test_hardening_v040.py::CreateModeJudgeChecksTheSources::test_values_stated_in_the_request_are_a_source": "PASSED",
+            "evals/test_hardening_v040.py::Ho007IsAClassificationDivergence::test_detected_under_another_code_is_a_classification_divergence": "PASSED",
+            "evals/test_hardening_v040.py::Ho007IsAClassificationDivergence::test_inserted_multiplier_is_an_added_value": "PASSED",
+            "evals/test_hardening_v040.py::Ho007IsAClassificationDivergence::test_missed_detection_is_a_false_green": "PASSED",
+            "evals/test_hardening_v040.py::Ho007IsAClassificationDivergence::test_suite_reports_strict_and_status_counts_apart": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_chat_style_weekday_without_preposition_is_kept_as_a_value": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_clean_text_with_no_target_skips_the_model": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_explicit_channel_change_calls_the_model": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_findings_without_target_keep_the_model_no_change": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_labeling_a_text_with_its_own_genre_asks_for_nothing": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_model_no_change_on_a_changed_destination_is_retried_then_reviewed": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_register_and_audience_are_targets_even_without_findings": "PASSED",
+            "evals/test_hardening_v040.py::NoChangeRespectsTheRequestedDestination::test_retry_after_a_rejected_no_change_can_rewrite": "PASSED",
+            "evals/test_hardening_v040.py::RewriteCommandRuns::test_rewrite_with_a_candidate_file": "PASSED",
+            "evals/test_hardening_v040.py::RewriteCommandRuns::test_rewrite_with_a_model_command_and_set": "PASSED",
+            "evals/test_identity_structure.py::IdentityKeepsStructure::test_collapsing_a_markdown_list_is_not_identical": "PASSED",
+            "evals/test_identity_structure.py::IdentityKeepsStructure::test_layout_noise_is_still_identical": "PASSED",
+            "evals/test_identity_structure.py::IdentityKeepsStructure::test_lost_list_items_and_headings_need_review": "PASSED",
+            "evals/test_identity_structure.py::IdentityKeepsStructure::test_merging_paragraphs_is_not_identical": "PASSED",
+            "evals/test_identity_structure.py::IdentityKeepsStructure::test_paragraph_merge_is_informational": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressions::test_conforme_alinhado_is_not_attribution": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressions::test_politeness_formula_is_not_negation": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressions::test_real_attribution_is_still_protected": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressionsSecondRun::test_cada_vez_mais_is_not_a_universal_quantifier": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressionsSecondRun::test_courtesy_sempre_is_not_a_universal_quantifier": "PASSED",
+            "evals/test_integration_findings.py::FixedExpressionsSecondRun::test_real_universal_sempre_is_still_protected": "PASSED",
+            "evals/test_integration_findings.py::JudgeFormulaRemoval::test_all_formula_removed_is_not_equivalence": "PASSED",
+            "evals/test_integration_findings.py::JudgeFormulaRemoval::test_omitted_claim_still_blocks_equivalence": "PASSED",
+            "evals/test_integration_findings.py::JudgeFormulaRemoval::test_removed_emphasis_formula_is_compatible_with_equivalence": "PASSED",
+            "evals/test_integration_findings.py::RegionalMarkersKeepAccents::test_so_is_not_the_mineiro_marker_so": "PASSED",
+            "evals/test_integrity.py::Audit::test_legitimate_characters_are_not_suspicious": "PASSED",
+            "evals/test_integrity.py::Audit::test_scope_never_mentions_a_clean_watermark": "PASSED",
+            "evals/test_integrity.py::Audit::test_suspicious_classes": "PASSED",
+            "evals/test_integrity.py::Clean::test_policy_subset_and_unknown_policy": "PASSED",
+            "evals/test_integrity.py::Clean::test_removes_only_named_classes": "PASSED",
+            "evals/test_integrity.py::Clean::test_rtl_text_keeps_its_marks": "PASSED",
+            "evals/test_integrity.py::Provenance::test_cli_audit_exit_codes_and_rewrite_provenance": "PASSED",
+            "evals/test_integrity.py::Provenance::test_record_has_hashes_not_text": "PASSED",
+            "evals/test_known_gaps_v06.py::KnownGaps::test_g1_wrapped_literary_dialogue_is_not_whatsapp": "PASSED",
+            "evals/test_known_gaps_v06.py::KnownGaps::test_g2_a_contained_chapter_clusters_with_its_novel": "PASSED",
+            "evals/test_known_gaps_v06.py::KnownGaps::test_g3_de_boa_followed_by_a_word": "PASSED",
+            "evals/test_longform.py::DependencyMap::test_kinds_and_dependencies": "PASSED",
+            "evals/test_longform.py::DependencyMap::test_verse_dialogue_and_wrapped_prose": "PASSED",
+            "evals/test_longform.py::LiteraryPolicy::test_literary_notes_never_decide_or_get_acted_on": "PASSED",
+            "evals/test_longform.py::LiteraryPolicy::test_literary_text_keeps_period_spelling_and_characters_forms_of_address": "PASSED",
+            "evals/test_longform.py::LiteraryPolicy::test_planner_leaves_verse_alone_without_an_explicit_request": "PASSED",
+            "evals/test_longform.py::LiteraryPolicy::test_policies": "PASSED",
+            "evals/test_longform.py::Segmentation::test_a_chain_longer_than_twice_the_limit_is_cut_and_reported": "PASSED",
+            "evals/test_longform.py::Segmentation::test_carry_lists_names_introduced_earlier": "PASSED",
+            "evals/test_longform.py::Segmentation::test_limit_floor": "PASSED",
+            "evals/test_longform.py::Segmentation::test_lossless_and_cuts_only_at_safe_boundaries": "PASSED",
+            "evals/test_metamorphic.py::SharedTransformInvariance::test_a_transform_of_both_texts_never_changes_the_verdict": "PASSED",
+            "evals/test_metamorphic.py::SharedTransformInvariance::test_a_transformed_copy_of_the_original_is_never_blocked": "PASSED",
+            "evals/test_metamorphic.py::SurfaceEquivalence::test_a_different_value_is_still_blocked": "PASSED",
+            "evals/test_metamorphic.py::SurfaceEquivalence::test_another_notation_of_the_same_value_is_not_blocked": "PASSED",
+            "evals/test_metamorphic.py::UserTextIsReturnedAsGiven::test_returned_original_keeps_the_users_bytes": "PASSED",
+            "evals/test_morph.py::AddendumExamples::test_ambiguous_forms_abstain": "PASSED",
+            "evals/test_morph.py::AddendumExamples::test_conditional_vs_future_in_the_same_frame": "PASSED",
+            "evals/test_morph.py::AddendumExamples::test_unique_analyses": "PASSED",
+            "evals/test_morph.py::NoInventedAgent::test_agentless_passive_and_indeterminate_subject": "PASSED",
+            "evals/test_morph.py::NotEverythingIsAVerb::test_frequent_lookalikes": "PASSED",
+            "evals/test_morph.py::NotEverythingIsAVerb::test_nouns_after_determiners_and_names_are_skipped": "PASSED",
+            "evals/test_morph.py::TenseAsASemanticSignal::test_controls_do_not_fire": "PASSED",
+            "evals/test_morph.py::TenseAsASemanticSignal::test_tense_mood_and_aspect_changes_are_signalled": "PASSED",
+            "evals/test_morph.py::UDMapping::test_person_and_number": "PASSED",
+            "evals/test_morph.py::UDMapping::test_traditional_names_map_to_the_treebank_annotation": "PASSED",
+            "evals/test_mutation_gaps_v06.py::LexiconValidationSecondRound::test_entry_status_edges": "PASSED",
+            "evals/test_mutation_gaps_v06.py::LexiconValidationSecondRound::test_evidence_needs_a_positive_count_and_reasons": "PASSED",
+            "evals/test_mutation_gaps_v06.py::LexiconValidationSecondRound::test_header_and_required_fields": "PASSED",
+            "evals/test_mutation_gaps_v06.py::LexiconValidationSecondRound::test_load_errors_and_kept_metadata": "PASSED",
+            "evals/test_mutation_gaps_v06.py::StuffingBoundaries::test_compare_flags_only_a_rise": "PASSED",
+            "evals/test_mutation_gaps_v06.py::StuffingBoundaries::test_density_and_repeat_thresholds_are_exact": "PASSED",
+            "evals/test_mutation_gaps_v06.py::StuffingBoundaries::test_measure_values": "PASSED",
+            "evals/test_mutation_gaps_v06.py::TemporalBranches::test_abstain_reason_counts_each_cause": "PASSED",
+            "evals/test_mutation_gaps_v06.py::TemporalBranches::test_parse_epoch_edges": "PASSED",
+            "evals/test_mutation_gaps_v06.py::TemporalBranches::test_staleness_boundary_and_missing_date": "PASSED",
+            "evals/test_mutation_gaps_v06.py::TemporalBranches::test_strength_rounding_negative_request_and_reasons": "PASSED",
+            "evals/test_mutation_gaps_v06.py::TemporalBranches::test_unattested_counts_and_repeated_forms": "PASSED",
+            "evals/test_mutation_gaps_v07.py::Activation::test_absent_slang_strength_means_nothing_requested": "PASSED",
+            "evals/test_mutation_gaps_v07.py::Epochs::test_attestation_edges_are_inclusive": "PASSED",
+            "evals/test_mutation_gaps_v07.py::Epochs::test_current_is_two_years_back_in_any_year": "PASSED",
+            "evals/test_mutation_gaps_v07.py::Epochs::test_epoch_notes_report_every_form_once": "PASSED",
+            "evals/test_mutation_gaps_v07.py::HyphenBoundary::test_hyphen_at_the_very_end_is_not_a_compound": "PASSED",
+            "evals/test_mutation_gaps_v07.py::HyphenBoundary::test_hyphen_then_letter_is_a_compound": "PASSED",
+            "evals/test_mutation_gaps_v07.py::HyphenBoundary::test_punctuation_that_sorts_after_the_hyphen_is_not_a_hyphen": "PASSED",
+            "evals/test_mutation_gaps_v07.py::LexiconFiles::test_attestations_may_cover_only_some_ids": "PASSED",
+            "evals/test_mutation_gaps_v07.py::LexiconFiles::test_evidence_above_e0_needs_a_counted_attestation_with_every_field": "PASSED",
+            "evals/test_mutation_gaps_v07.py::NextWordAcrossALineBreak::test_coordinated_adjective_after_a_line_break_is_not_joined": "PASSED",
+            "evals/test_mutation_gaps_v07.py::NextWordAcrossALineBreak::test_line_break_before_the_next_word": "PASSED",
+            "evals/test_mutation_gaps_v07.py::SenseFlow::test_a_context_decided_other_sense_is_not_reopened_by_the_historic_check": "PASSED",
+            "evals/test_mutation_gaps_v07.py::SenseFlow::test_reason_is_reported_for_non_slang_senses_only": "PASSED",
+            "evals/test_numerals.py::Durations::test_clock_time_needs_a_preposition": "PASSED",
+            "evals/test_numerals.py::Durations::test_durations_compare_in_seconds": "PASSED",
+            "evals/test_numerals.py::Durations::test_minutos_is_not_a_million": "PASSED",
+            "evals/test_numerals.py::NumberWords::test_compounds": "PASSED",
+            "evals/test_numerals.py::NumberWords::test_equivalence_and_change": "PASSED",
+            "evals/test_numerals.py::NumberWords::test_ranges_and_articles_are_not_compounds": "PASSED",
+            "evals/test_numerals.py::NumberWords::test_words_and_digits_with_currency": "PASSED",
+            "evals/test_p0_regressions.py::AdditionsAndStructure::test_added_number_is_detected": "PASSED",
+            "evals/test_p0_regressions.py::AdditionsAndStructure::test_inline_code_is_protected": "PASSED",
+            "evals/test_p0_regressions.py::AdditionsAndStructure::test_url_trailing_punctuation_is_not_part_of_url": "PASSED",
+            "evals/test_p0_regressions.py::BenchmarkRunner::test_invariants_use_word_boundaries": "PASSED",
+            "evals/test_p0_regressions.py::BenchmarkRunner::test_missing_outputs_count_against_pass_rate": "PASSED",
+            "evals/test_p0_regressions.py::BenchmarkRunner::test_negated_invariant_is_not_preserved": "PASSED",
+            "evals/test_p0_regressions.py::DatesAndTimes::test_time_change_is_detected": "PASSED",
+            "evals/test_p0_regressions.py::DatesAndTimes::test_time_formats_are_equivalent": "PASSED",
+            "evals/test_p0_regressions.py::DatesAndTimes::test_written_and_numeric_date_are_equivalent": "PASSED",
+            "evals/test_p0_regressions.py::DatesAndTimes::test_written_date_change_is_detected": "PASSED",
+            "evals/test_p0_regressions.py::DatesAndTimes::test_written_date_is_one_span": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_brazilian_money_is_one_span": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_money_spacing_variant_is_preserved": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_money_value_change_is_detected": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_number_swap_between_entities_is_not_silently_accepted": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_percent_with_space": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_semver_is_one_span": "PASSED",
+            "evals/test_p0_regressions.py::MoneyAndNumbers::test_thousands_separator_is_one_number": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_channel_exemptions_apply": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_cli": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_every_pattern_is_justified_and_has_both_kinds_of_case": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_exempt_genre_keeps_the_construction": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_genre_aware_suite": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_report_is_not_an_authorship_score": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_rewrite_prompt_carries_the_findings": "PASSED",
+            "evals/test_patterns.py::PatternSuite::test_separates_ai_style_drafts_from_natural_texts": "PASSED",
+            "evals/test_planner.py::Adherence::test_engine_prefers_the_candidate_that_follows_the_plan": "PASSED",
+            "evals/test_planner.py::Adherence::test_unplanned_edit_and_introduced_formula": "PASSED",
+            "evals/test_planner.py::BestRatioEquivalence::test_a_best_pair_that_beats_the_runner_up_by_a_hair_is_not_pruned": "PASSED",
+            "evals/test_planner.py::BestRatioEquivalence::test_same_value_as_the_plain_max": "PASSED",
+            "evals/test_planner.py::CommandLine::test_plan_command": "PASSED",
+            "evals/test_planner.py::DecisionSuite::test_close_genres_are_not_a_destination_change": "PASSED",
+            "evals/test_planner.py::DecisionSuite::test_frozen_decision_cases_do_not_regress": "PASSED",
+            "evals/test_planner.py::Decisions::test_a_lone_weak_finding_is_noted_not_acted_on": "PASSED",
+            "evals/test_planner.py::Decisions::test_clean_text_is_no_change": "PASSED",
+            "evals/test_planner.py::Decisions::test_destination_change_is_a_document_transform": "PASSED",
+            "evals/test_planner.py::Decisions::test_local_edit_keeps_the_other_sentences": "PASSED",
+            "evals/test_planner.py::Decisions::test_paragraph_pattern_widens_the_scope": "PASSED",
+            "evals/test_planner.py::Decisions::test_variety_and_register_come_first": "PASSED",
+            "evals/test_planner.py::EmbeddedInstructions::test_instruction_addressed_to_an_assistant_is_reported": "PASSED",
+            "evals/test_planner.py::EmbeddedInstructions::test_ordinary_requests_are_not_instructions": "PASSED",
+            "evals/test_planner.py::WhatMustSurvive::test_code_is_never_planned_for_rewrite": "PASSED",
+            "evals/test_planner.py::WhatMustSurvive::test_consistency_constraints": "PASSED",
+            "evals/test_planner.py::WhatMustSurvive::test_dependent_sentences_are_linked": "PASSED",
+            "evals/test_planner.py::WhatMustSurvive::test_meaning_markers_and_values_are_listed": "PASSED",
+            "evals/test_planner.py::WhatMustSurvive::test_source_inconsistency_is_reported_not_fixed": "PASSED",
+            "evals/test_privacy.py::AssuranceRecordSanitizer::test_every_spelling_of_a_directory_is_replaced": "PASSED",
+            "evals/test_privacy.py::AssuranceRecordSanitizer::test_home_and_temp_of_this_machine_are_replaced": "PASSED",
+            "evals/test_privacy.py::RedactedIntegrationReports::test_credentials_are_masked_even_without_redact": "PASSED",
+            "evals/test_privacy.py::RedactedIntegrationReports::test_provider_error_that_echoes_the_prompt_is_scrubbed": "PASSED",
+            "evals/test_privacy.py::RedactedIntegrationReports::test_redact_keeps_no_text_secret_or_path": "PASSED",
+            "evals/test_privacy.py::RedactedIntegrationReports::test_redact_key_makes_hashes_comparable_across_runs": "PASSED",
+            "evals/test_privacy.py::RedactionHelpers::test_absolute_paths_keep_only_the_file_name": "PASSED",
+            "evals/test_privacy.py::RedactionHelpers::test_argv_masks_flags_assignments_and_known_formats": "PASSED",
+            "evals/test_privacy.py::RedactionHelpers::test_messages_lose_secrets_quotes_and_known_sentences": "PASSED",
+            "evals/test_privacy.py::RedactionHelpers::test_provider_id_and_errors_carry_no_credential": "PASSED",
+            "evals/test_privacy.py::RedactionHelpers::test_short_texts_are_not_reversible_by_plain_hash": "PASSED",
+            "evals/test_privacy.py::ReviewKeyCreation::test_new_key_is_private_from_creation": "PASSED",
+            "evals/test_protected_terms.py::ProtectedTerms::test_case_and_position_do_not_matter": "PASSED",
+            "evals/test_protected_terms.py::ProtectedTerms::test_cli_protect_and_protect_file": "PASSED",
+            "evals/test_protected_terms.py::ProtectedTerms::test_lost_protected_term_fails": "PASSED",
+            "evals/test_protected_terms.py::ProtectedTerms::test_whole_word_only": "PASSED",
+            "evals/test_providers_hardening.py::AgentCliWarnings::test_agent_clis_without_their_sandbox_switch_are_flagged": "PASSED",
+            "evals/test_providers_hardening.py::AgentCliWarnings::test_engine_result_carries_the_warning": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_empty_answer_is_a_transient_error": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_minimal_environment_keeps_unrelated_credentials_out": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_missing_executable_is_not_retried": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_oversized_answer_is_an_error_and_is_not_retried": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_timeout_also_stops_an_orphaned_grandchild_and_raises_provider_error": "PASSED",
+            "evals/test_providers_hardening.py::CommandProviderLimits::test_timeout_stops_the_whole_process_tree": "PASSED",
+            "evals/test_providers_hardening.py::EmulateErrors::test_client_errors_network_errors_and_bad_json_become_provider_errors": "PASSED",
+            "evals/test_providers_hardening.py::EmulateErrors::test_engine_returns_provider_error_instead_of_crashing": "PASSED",
+            "evals/test_providers_hardening.py::EmulateErrors::test_server_errors_are_retried": "PASSED",
+            "evals/test_providers_hardening.py::JudgeFailures::test_garbage_from_the_judge_is_unjudged_not_accepted": "PASSED",
+            "evals/test_providers_hardening.py::JudgeFailures::test_judge_outage_leaves_the_candidate_unjudged": "PASSED",
+            "evals/test_providers_hardening.py::UntrustedText::test_candidate_that_carries_protocol_tokens_fails": "PASSED",
+            "evals/test_providers_hardening.py::UntrustedText::test_text_cannot_close_its_own_block": "PASSED",
+            "evals/test_ptbr_layer.py::EngineChecks::test_form_of_address_change_needs_a_request": "PASSED",
+            "evals/test_ptbr_layer.py::EngineChecks::test_prompt_tells_the_writer_what_to_keep": "PASSED",
+            "evals/test_ptbr_layer.py::EngineChecks::test_rewrite_that_introduces_european_portuguese_needs_review": "PASSED",
+            "evals/test_ptbr_layer.py::EngineChecks::test_translating_domain_terms_is_reported_not_blocked": "PASSED",
+            "evals/test_ptbr_layer.py::Lexicon::test_bare_word_is_not_estar_a_infinitive": "PASSED",
+            "evals/test_ptbr_layer.py::Lexicon::test_domain_depends_on_genre": "PASSED",
+            "evals/test_ptbr_layer.py::Lexicon::test_quotes_keep_their_variant": "PASSED",
+            "evals/test_qualify.py::CiEvidenceBindsToARevision::test_a_failed_run_of_this_revision_is_not_pass": "PASSED",
+            "evals/test_qualify.py::CiEvidenceBindsToARevision::test_another_revision_is_not_run_even_after_a_green_run": "PASSED",
+            "evals/test_qualify.py::CiEvidenceBindsToARevision::test_recorded_green_run_of_this_revision_is_not_pass_without_live_check": "PASSED",
+            "evals/test_qualify.py::KnownFailures::test_new_failure_fails_even_beside_known_ones": "PASSED",
+            "evals/test_qualify.py::KnownFailures::test_only_known_failures_pass": "PASSED",
+            "evals/test_qualify.py::PackageGateTools::test_missing_pip_or_build_is_blocked_not_a_project_failure": "PASSED",
+            "evals/test_qualify.py::UnittestClassification::test_all_passed_is_pass": "PASSED",
+            "evals/test_qualify.py::UnittestClassification::test_everything_skipped_is_skipped_not_pass": "PASSED",
+            "evals/test_qualify.py::UnittestClassification::test_failure_error_import_error_and_unexpected_success_fail": "PASSED",
+            "evals/test_qualify.py::UnittestClassification::test_nothing_collected_is_inconclusive_not_pass": "PASSED",
+            "evals/test_qualify.py::Verdict::test_blocked_or_not_run_required_gate_is_incomplete_not_pass": "PASSED",
+            "evals/test_qualify.py::Verdict::test_external_evidence_is_never_pass_without_a_run": "PASSED",
+            "evals/test_qualify.py::Verdict::test_optional_gates_do_not_decide": "PASSED",
+            "evals/test_qualify.py::Verdict::test_required_failure_wins": "PASSED",
+            "evals/test_readme.py::CommandsAndCounts::test_every_mentioned_subcommand_exists": "PASSED",
+            "evals/test_readme.py::CommandsAndCounts::test_stated_counts_match_the_code": "PASSED",
+            "evals/test_readme.py::CommandsAndCounts::test_version_matches": "PASSED",
+            "evals/test_readme.py::Links::test_anchors_point_to_headings": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='../CHANGELOG.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='../README.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='../ROADMAP.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='../SKILL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='CHANGELOG.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='LICENSE')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='PATH_MAP.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='ROADMAP.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='SKILL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/ARCHITECTURE_AND_RESEARCH.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/DESIGN_SPEC.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/MODEL_ADAPTER_TRACK.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/V08_STANDARDS_VISION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/adr/')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/adr/ADR-0001-regional-evidence-packs.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/adr/ADR-0002-linguistic-analysis.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='architecture/adr/ADR-0003-standards-registry.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/README.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/engineering/ENGINEERING_PROFILE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/guide/AGENT_SKILL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/guide/CLI.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/guide/INSTALL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/guide/QUICKSTART.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/guide/TROUBLESHOOTING.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/policy/LICENSING.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.7/V07_CORPUS_INTEGRATION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.7/V07_OOD_BENCHMARK.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.8/ARCHITECTURE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.8/DOCUMENT_STANDARDS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.8/EVAL_PROTOCOL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.8/EXECUTION_STATE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='docs/research/RESEARCH_LOG.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='engineering/ENGINEERING_PROFILE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='engineering/TRACEABILITY.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='evals/predicates/README.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='evaluation/COMPETITIVE_BENCHMARK.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='evaluation/EVALUATION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='evidence/CORPUS_AND_EVIDENCE_STRATEGY.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='evidence/REGIONAL_EVIDENCE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='examples/quickstart/original.txt')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/AGENT_SKILL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/CLI.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/INSTALL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/QUICKSTART.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='guide/TROUBLESHOOTING.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='policy/LICENSING.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.3/PLAN_v0.3.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.4/PLAN_v0.4.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.5/COMPETITIVE_ANALYSIS_v0.5.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.5/PLAN_v0.5.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.6/AS_IS_v0.6.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.6/COMPETITIVE_ANALYSIS_v0.6.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/AS_IS_v0.7.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/PLAN_v0.7.0.dev1.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/PLAN_v0.7.0.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_CORPUS_INTEGRATION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_DISCOVERY_REGISTER.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_DOGFOOD.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_EXECUTION_STATE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_EXTERNAL_BENCHMARK.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_INTEGRITY_AND_PROVENANCE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_LINGUISTICS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_OOD_BENCHMARK.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_RELEASE_QUALIFICATION.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.7/V07_VERIFICATION_MATRIX.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/ARCHITECTURE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/AS_IS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/DOCS_INVENTORY.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/DOCUMENT_STANDARDS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/EVAL_MATRIX.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/EVAL_PROTOCOL.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/EXECUTION_STATE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/GAP_REGISTER.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/PERFORMANCE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/PLAN.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/REAL_RUNS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/RESEARCH_LANDSCAPE.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/SEMANTICS.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='releases/v0.8/TRACEABILITY.md')]": "PASSED",
+            "evals/test_readme.py::Links::test_relative_links_resolve[(doc='README.md', target='research/RESEARCH_LOG.md')]": "PASSED",
+            "evals/test_readme.py::Quickstart::test_first_use_commands": "PASSED",
+            "evals/test_readme.py::Quickstart::test_stub_provider_short_and_long": "PASSED",
+            "evals/test_regional.py::Activation::test_a_form_that_can_change_the_referent_is_kept": "PASSED",
+            "evals/test_regional.py::Activation::test_a_recorded_exception_blocks_the_state": "PASSED",
+            "evals/test_regional.py::Activation::test_abstains_for_a_region_no_pack_covers": "PASSED",
+            "evals/test_regional.py::Activation::test_abstains_outside_the_contexts_of_the_evidence_and_without_the_referent": "PASSED",
+            "evals/test_regional.py::Activation::test_abstains_without_a_requested_region_even_with_regional_words": "PASSED",
+            "evals/test_regional.py::Activation::test_profile_keeps_counts_not_text": "PASSED",
+            "evals/test_regional.py::Activation::test_suggests_the_region_form_as_an_option_with_capped_strength": "PASSED",
+            "evals/test_regional.py::Activation::test_the_authors_observed_form_wins": "PASSED",
+            "evals/test_regional.py::Integration::test_engine_blocks_regional_decoration_nobody_asked_for": "PASSED",
+            "evals/test_regional.py::Integration::test_ledger_flags_a_referent_changing_swap_and_not_a_same_referent_one": "PASSED",
+            "evals/test_regional.py::Integration::test_plan_carries_the_decision": "PASSED",
+            "evals/test_regional.py::Integration::test_voice_contract_strength_follows_the_activation": "PASSED",
+            "evals/test_regional.py::PackContract::test_an_invalid_pack_file_fails_loading_instead_of_being_used": "PASSED",
+            "evals/test_regional.py::PackContract::test_invalid_packs_are_refused": "PASSED",
+            "evals/test_regional.py::PackContract::test_shipped_pack_is_valid_and_counts_add_up": "PASSED",
+            "evals/test_relations.py::Attribution::test_moving_the_source_to_the_end_passes": "PASSED",
+            "evals/test_relations.py::Attribution::test_swapped_attributions_fail": "PASSED",
+            "evals/test_relations.py::CausalDirection::test_causative_fazer_is_a_causal_connector": "PASSED",
+            "evals/test_relations.py::CausalDirection::test_reversed_direction_fails": "PASSED",
+            "evals/test_relations.py::CausalDirection::test_same_direction_with_other_connector_or_voice_passes": "PASSED",
+            "evals/test_relations.py::CrossSentenceCausality::test_reversed_cause_across_sentences_fails": "PASSED",
+            "evals/test_relations.py::CrossSentenceCausality::test_same_relation_inside_one_sentence_passes": "PASSED",
+            "evals/test_relations.py::EntityBinding::test_reordered_clauses_and_passive_do_not_fire": "PASSED",
+            "evals/test_relations.py::EntityBinding::test_swapped_agents_fail": "PASSED",
+            "evals/test_relations.py::Polarity::test_antonym_flip_fails": "PASSED",
+            "evals/test_relations.py::Polarity::test_prefix_entries_do_not_swallow_exact_entries": "PASSED",
+            "evals/test_relations.py::Polarity::test_synonyms_and_lone_removals_do_not_fail": "PASSED",
+            "evals/test_relations.py::RelationsSuite::test_relations_dev_suite_passes": "PASSED",
+            "evals/test_relations.py::Roles::test_active_to_passive_with_swapped_roles_fails": "PASSED",
+            "evals/test_relations.py::Roles::test_valid_passive_rewrite_passes": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_a_new_name_under_the_same_key_is_not_a_new_participant": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_a_signed_but_invalid_choice_is_rejected": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_counted_answers_are_traceable": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_disagreeing_repeats_are_left_out": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_every_hash_is_checked": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_relabeling_the_arms_after_answering_is_detected": "PASSED",
+            "evals/test_review_assurance.py::BlindSummaryCounting::test_repeated_answers_count_once": "PASSED",
+            "evals/test_review_assurance.py::ReviewAssurance::test_accepted_review_carries_its_assurance": "PASSED",
+            "evals/test_review_assurance.py::ReviewAssurance::test_hmac_review_separates_the_four_properties": "PASSED",
+            "evals/test_review_assurance.py::ReviewAssurance::test_tampered_review_has_no_integrity": "PASSED",
+            "evals/test_review_assurance.py::ReviewerRegistry::test_committed_registry_is_valid": "PASSED",
+            "evals/test_review_assurance.py::ReviewerRegistry::test_unknown_relationship_and_missing_name_are_reported": "PASSED",
+            "evals/test_review_assurance.py::SshSignedReviews::test_developer_key_is_never_independent": "PASSED",
+            "evals/test_review_assurance.py::SshSignedReviews::test_registered_independent_key": "PASSED",
+            "evals/test_review_assurance.py::SshSignedReviews::test_unregistered_principal_cannot_be_verified": "PASSED",
+            "evals/test_router_v3.py::AbstentionKeepsProtections::test_control_unknown_without_evidence_is_not_restricted": "PASSED",
+            "evals/test_router_v3.py::AbstentionKeepsProtections::test_unknown_with_historical_evidence_is_conservative": "PASSED",
+            "evals/test_router_v3.py::ChatNeedsCorroboration::test_one_cue_family_is_not_chat": "PASSED",
+            "evals/test_router_v3.py::ChatNeedsCorroboration::test_two_cue_families_are_chat": "PASSED",
+            "evals/test_router_v3.py::ContractV3::test_every_dimension_has_value_source_confidence": "PASSED",
+            "evals/test_router_v3.py::ContractV3::test_line_endings_and_nbsp_are_irrelevant": "PASSED",
+            "evals/test_router_v3.py::ContractV3::test_long_form_blocks_are_the_same_with_crlf": "PASSED",
+            "evals/test_router_v3.py::ContractV3::test_source_names_do_not_change_the_decision": "PASSED",
+            "evals/test_router_v3.py::ContractV3::test_v1_fields_are_kept": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-chat-1')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-chat-2')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-chat-3')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-cli-flags')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-email-informal')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-forum')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-lit-contemporary')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-lit-dialogue-dash')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-lit-wrapped-noquote')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-manual')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-markdown')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-oral')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-poem')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_every_case[(case='r7-report')]": "PASSED",
+            "evals/test_router_v3.py::FrozenOracleSuite::test_suite_is_frozen": "PASSED",
+            "evals/test_router_v3.py::G1EndToEnd::test_genre_and_protections": "PASSED",
+            "evals/test_router_v3.py::G1EndToEnd::test_historic_spelling_is_dated_and_not_pt_pt": "PASSED",
+            "evals/test_router_v3.py::G1EndToEnd::test_planner_keeps_edits_local": "PASSED",
+            "evals/test_router_v3.py::G1EndToEnd::test_the_original_is_never_changed": "PASSED",
+            "evals/test_router_v3.py::HistoricSpellingIsNotPtPt::test_marker_becomes_a_note_in_pre_reform_text": "PASSED",
+            "evals/test_router_v3.py::HistoricSpellingIsNotPtPt::test_modern_chat_typos_are_not_historic": "PASSED",
+            "evals/test_semantic_layer.py::CommandLine::test_argument_errors_never_exit_with_a_gate_status": "PASSED",
+            "evals/test_semantic_layer.py::CommandLine::test_compare_exit_codes": "PASSED",
+            "evals/test_semantic_layer.py::CommandLine::test_missing_file_is_a_usage_error": "PASSED",
+            "evals/test_semantic_layer.py::CommandLine::test_stdin_is_decoded_as_utf8": "PASSED",
+            "evals/test_semantic_layer.py::EvalSuites::test_dev_suite_passes_completely": "PASSED",
+            "evals/test_semantic_layer.py::EvalSuites::test_holdouts_never_report_false_green": "PASSED",
+            "evals/test_semantic_layer.py::EvalSuites::test_nothing_is_auto_accepted_without_identity": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_no_local_key_means_unverified": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_review_command_refuses_without_a_terminal": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_review_is_bound_to_the_exact_texts": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_signature_from_another_key_is_not_verified": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_tampered_signed_review_is_rejected": "PASSED",
+            "evals/test_semantic_layer.py::HumanReviewAuthenticity::test_unsigned_human_json_is_only_claimed": "PASSED",
+            "evals/test_semantic_layer.py::JudgeContract::test_equivalent_without_claim_inventory_is_downgraded": "PASSED",
+            "evals/test_semantic_layer.py::JudgeContract::test_malformed_or_unbound_judgments_are_rejected": "PASSED",
+            "evals/test_semantic_layer.py::JudgeContract::test_prompt_marks_texts_as_material_and_carries_binding": "PASSED",
+            "evals/test_semantic_layer.py::JudgeContract::test_self_contradictory_equivalent_is_downgraded": "PASSED",
+            "evals/test_semantic_layer.py::LedgerAndMarkers::test_clitic_se_is_not_a_condition": "PASSED",
+            "evals/test_semantic_layer.py::LedgerAndMarkers::test_contractions_match_prepositions": "PASSED",
+            "evals/test_semantic_layer.py::LedgerAndMarkers::test_ledger_records_spans_and_signals_per_sentence": "PASSED",
+            "evals/test_semantic_layer.py::LedgerAndMarkers::test_negative_concord_counts_once": "PASSED",
+            "evals/test_semantic_layer.py::LedgerAndMarkers::test_quoted_negation_belongs_to_the_quote": "PASSED",
+            "evals/test_semantic_layer.py::VerdictPolicy::test_clean_rewrite_is_unverified_not_equivalent": "PASSED",
+            "evals/test_semantic_layer.py::VerdictPolicy::test_llm_cannot_resolve_review_but_verified_human_can": "PASSED",
+            "evals/test_semantic_layer.py::VerdictPolicy::test_llm_judgment_upgrades_only_clean_results": "PASSED",
+            "evals/test_semantic_layer.py::VerdictPolicy::test_nobody_overrides_deterministic_fail": "PASSED",
+            "evals/test_semantic_layer.py::VerdictPolicy::test_not_equivalent_judgment_fails": "PASSED",
+            "evals/test_short_sentences.py::ShortSentences::test_negation_flip_in_a_short_sentence_fails": "PASSED",
+            "evals/test_short_sentences.py::ShortSentences::test_short_rewording_without_flip_does_not_fail": "PASSED",
+            "evals/test_signals_equivalence.py::FirstSlotContractions::test_contraction_in_the_first_slot_is_not_the_phrase": "PASSED",
+            "evals/test_signals_equivalence.py::FirstSlotContractions::test_the_phrase_itself_and_inner_contractions_still_match": "PASSED",
+            "evals/test_signals_equivalence.py::MarkersEquivalence::test_same_markers_as_the_reference_on_every_recorded_text": "PASSED",
+            "evals/test_signals_equivalence.py::MarkersEquivalence::test_same_markers_on_adversarial_and_edge_inputs": "PASSED",
+            "evals/test_skill_contract.py::DemoV05::test_demo_regenerates_identically_and_shows_every_outcome": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_entry_script_runs_outside_the_repository": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_every_documented_command_and_flag_exists": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_every_flag_mentioned_anywhere_exists": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_exit_code_table_matches_cli": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_no_script_shadows_the_package": "PASSED",
+            "evals/test_skill_contract.py::SkillMatchesCli::test_readme_commands_exist": "PASSED",
+            "evals/test_slang_v07.py::ConsumersCountTheSlangSenseOnly::test_control_real_slang_removed_is_still_reported": "PASSED",
+            "evals/test_slang_v07.py::ConsumersCountTheSlangSenseOnly::test_introducing_an_ambiguous_form_is_still_caught": "PASSED",
+            "evals/test_slang_v07.py::ConsumersCountTheSlangSenseOnly::test_profile_does_not_learn_old_senses_as_habits": "PASSED",
+            "evals/test_slang_v07.py::ConsumersCountTheSlangSenseOnly::test_stuffing_and_author_slang_ignore_old_senses": "PASSED",
+            "evals/test_slang_v07.py::FalseFriendNeedsCorroboration::test_control_propina_next_to_another_marker_counts": "PASSED",
+            "evals/test_slang_v07.py::FalseFriendNeedsCorroboration::test_propina_alone_is_brazilian": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-01')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-02')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-03')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-04')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-05')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-06')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-07')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-08')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-09')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-10')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-11')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-12')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-13')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-14')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-15')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-16')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-17')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7-18')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-01')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-02')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-03')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-04')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-05')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-06')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-07')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-08')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-09')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-10')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-11')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_cases[(case='sl7b-12')]": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_frozen": "PASSED",
+            "evals/test_slang_v07.py::HeldOutSample::test_negative_control_v06_pattern_misses_the_slang_use": "PASSED",
+            "evals/test_temporal.py::Activation::test_abstains_by_default_and_keeps_the_authors_forms": "PASSED",
+            "evals/test_temporal.py::Activation::test_an_entry_with_evidence_for_the_request_can_be_offered": "PASSED",
+            "evals/test_temporal.py::Activation::test_requested_slang_still_abstains_without_evidence_for_the_epoch": "PASSED",
+            "evals/test_temporal.py::Detection::test_offsets_point_at_the_original_text": "PASSED",
+            "evals/test_temporal.py::Detection::test_other_senses_are_not_slang": "PASSED",
+            "evals/test_temporal.py::Epochs::test_epoch_notes_flag_forms_outside_their_attestations": "PASSED",
+            "evals/test_temporal.py::Epochs::test_parse": "PASSED",
+            "evals/test_temporal.py::Guard::test_introduced_slang_is_flagged_and_the_authors_is_not": "PASSED",
+            "evals/test_temporal.py::Lexicon::test_attestations_for_unknown_ids_are_refused": "PASSED",
+            "evals/test_temporal.py::Lexicon::test_shipped_lexicon_is_valid_and_measured": "PASSED",
+            "evals/test_temporal.py::Lexicon::test_validation_rejects_unsupported_claims": "PASSED",
+            "evals/test_v08_alignment.py::GuardsStillFire::test_a_negation_really_moved_between_sentences": "PASSED",
+            "evals/test_v08_alignment.py::GuardsStillFire::test_negation_added_to_the_positive_twin": "PASSED",
+            "evals/test_v08_alignment.py::GuardsStillFire::test_negation_removed_elsewhere_and_modality_changed": "PASSED",
+            "evals/test_v08_alignment.py::GuardsStillFire::test_negation_removed_from_the_negated_twin": "PASSED",
+            "evals/test_v08_alignment.py::GuardsStillFire::test_the_twins_swapped_is_not_silent": "PASSED",
+            "evals/test_v08_alignment.py::TiesInAlignment::test_a_higher_similarity_still_wins_over_position": "PASSED",
+            "evals/test_v08_alignment.py::TiesInAlignment::test_appending_a_sentence_is_not_a_moved_negation": "PASSED",
+            "evals/test_v08_alignment.py::TiesInAlignment::test_identical_sentences_align_to_themselves": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_a_stub_is_a_synthetic_fixture_never_a_measurement": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B0-original')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B1-one-line')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B2-deterministic')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B3-skill-prompt')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B4-system')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B5-ablation-no-gates')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_arms_without_what_they_need_are_not_run[(arm='B6-external-tool')]": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_b3_sends_exactly_the_skill_prompt": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_offline_arms": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_rows_keep_hashes_not_texts": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_the_gates_are_what_separates_b4_from_b5": "PASSED",
+            "evals/test_v08_arms.py::Arms::test_unknown_arm": "PASSED",
+            "evals/test_v08_arms.py::SkillPromptIsTheCliPrompt::test_rewrite_prompt_prints_skill_prompt": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_changing_a_text_that_needed_nothing": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_formula_removed_is_ok_formula_added_is_a_signal": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_genre_drift_and_abstention": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_labelled_as_proxy": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_slang_introduced": "PASSED",
+            "evals/test_v08_axes.py::Axes::test_voice_needs_a_profile": "PASSED",
+            "evals/test_v08_compare_perf.py::AlignmentIndexIsTheFullScan::test_suites_and_random_texts": "PASSED",
+            "evals/test_v08_compare_perf.py::GlobalValidationTimeLimit::test_out_of_time_returns_the_original": "PASSED",
+            "evals/test_v08_compare_perf.py::GlobalValidationTimeLimit::test_with_time_left_the_document_is_validated": "PASSED",
+            "evals/test_v08_compare_perf.py::GrowthOfCompare::test_eight_times_the_document_stays_well_below_quadratic": "PASSED",
+            "evals/test_v08_compare_perf.py::NameMatchesAreTheRegexMatches::test_ascii_k_takes_the_index": "PASSED",
+            "evals/test_v08_compare_perf.py::NameMatchesAreTheRegexMatches::test_random_and_irregular_case": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_a_personal_path_leaks_from_code_blocks_too": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_broken_link": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_controls_are_clean": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_missing_anchor": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_personal_paths[(body='Em /home/rafael/projeto/\\n')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_personal_paths[(body='Em C:/Users/maria/x\\n')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_personal_paths[(body='Em C:\\\\Users\\\\rafael\\\\docs\\n')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_secrets[(token='-----BEG')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_secrets[(token='AKIABBBB')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_secrets[(token='ghp_aaaa')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_secrets[(token='sk-ant-a')]": "PASSED",
+            "evals/test_v08_doc_validator.py::PlantedDefects::test_unknown_subcommand_only_in_current_docs": "PASSED",
+            "evals/test_v08_doc_validator.py::RealRepository::test_a_renamed_document_is_caught_in_a_copy": "PASSED",
+            "evals/test_v08_doc_validator.py::RealRepository::test_documentation_is_clean": "PASSED",
+            "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_bundled_texts_are_the_quickstart_files[(name='candidata-boa')]": "PASSED",
+            "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_bundled_texts_are_the_quickstart_files[(name='candidata-perde-acao')]": "PASSED",
+            "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_bundled_texts_are_the_quickstart_files[(name='candidata-ruim')]": "PASSED",
+            "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_demo_cli_writes_no_file_and_needs_no_checkout": "PASSED",
+            "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_demo_reports_the_three_outcomes_without_a_model": "PASSED",
+            "evals/test_v08_dx.py::Doctor::test_a_missing_dependency_is_a_fail_with_a_hint": "PASSED",
+            "evals/test_v08_dx.py::Doctor::test_never_prints_a_secret[(args=('doctor', '--json'))]": "PASSED",
+            "evals/test_v08_dx.py::Doctor::test_never_prints_a_secret[(args=('doctor',))]": "PASSED",
+            "evals/test_v08_dx.py::Doctor::test_ok_here_and_never_touches_the_network": "PASSED",
+            "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_a_directory": "PASSED",
+            "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_missing_file": "PASSED",
+            "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_not_utf8": "PASSED",
+            "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_path_with_spaces_and_accents": "PASSED",
+            "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_rewrite_without_provider_points_to_the_demo": "PASSED",
+            "evals/test_v08_dx.py::SuiteAgainstTheWheel::test_refuses_a_voznativa_that_is_not_the_venv_one": "PASSED",
+            "evals/test_v08_dx.py::SuiteAgainstTheWheel::test_the_copy_leaves_the_package_out": "PASSED",
+            "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_a_bare_flag_is_not_enough": "PASSED",
+            "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_missing_fields_and_the_developer_as_author": "PASSED",
+            "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_the_freezing_commit_must_hold_the_same_file": "PASSED",
+            "evals/test_v08_eval_integrity.py::Leakage::test_a_development_case_copied_into_a_holdout_invalidates_the_run": "PASSED",
+            "evals/test_v08_eval_integrity.py::Leakage::test_near_duplicates_need_six_words": "PASSED",
+            "evals/test_v08_eval_integrity.py::Leakage::test_the_repository_dataset_reports_its_known_leak": "PASSED",
+            "evals/test_v08_eval_integrity.py::PathsStayInside::test_a_link_out_of_the_root_is_refused": "SKIPPED",
+            "evals/test_v08_eval_integrity.py::PathsStayInside::test_a_windows_junction_out_of_the_root_is_refused": "PASSED",
+            "evals/test_v08_eval_integrity.py::PathsStayInside::test_the_inside_check_itself": "PASSED",
+            "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_a_clean_run_reproduces": "PASSED",
+            "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_a_forger_passes_verify_but_not_replay": "PASSED",
+            "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_inputs_changed_since_the_revision": "PASSED",
+            "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_records_that_cannot_be_replayed_say_so": "PASSED",
+            "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_the_record_states_its_limits": "PASSED",
+            "evals/test_v08_evaluation.py::BadCasesNeverPass::test_arms_that_did_not_run_are_never_counted": "PASSED",
+            "evals/test_v08_evaluation.py::BadCasesNeverPass::test_missing_fields_duplicates_and_bad_expectations[(fragment='duplicate case ids')]": "PASSED",
+            "evals/test_v08_evaluation.py::BadCasesNeverPass::test_missing_fields_duplicates_and_bad_expectations[(fragment='missing or non-text')]": "PASSED",
+            "evals/test_v08_evaluation.py::BadCasesNeverPass::test_missing_fields_duplicates_and_bad_expectations[(fragment='non-empty list')]": "PASSED",
+            "evals/test_v08_evaluation.py::BadCasesNeverPass::test_unreadable_source_makes_the_run_incomplete_but_runs_the_others": "PASSED",
+            "evals/test_v08_evaluation.py::Cli::test_invalid_spec_exits_1": "PASSED",
+            "evals/test_v08_evaluation.py::Cli::test_run_report_and_verify": "PASSED",
+            "evals/test_v08_evaluation.py::Metrics::test_denominators_and_intervals": "PASSED",
+            "evals/test_v08_evaluation.py::Metrics::test_the_record_keeps_hashes_not_texts": "PASSED",
+            "evals/test_v08_evaluation.py::RepositoryDataset::test_complete_and_reproducible": "PASSED",
+            "evals/test_v08_evaluation.py::RepositoryDataset::test_known_misses_are_visible_not_hidden": "PASSED",
+            "evals/test_v08_evaluation.py::RepositoryDataset::test_no_source_is_called_independent": "PASSED",
+            "evals/test_v08_evaluation.py::RepositoryDataset::test_nothing_is_auto_accepted_without_identity": "PASSED",
+            "evals/test_v08_evaluation.py::SpecValidation::test_a_developer_suite_cannot_be_an_independent_holdout": "PASSED",
+            "evals/test_v08_evaluation.py::SpecValidation::test_a_frozen_file_that_changed_invalidates_the_run": "PASSED",
+            "evals/test_v08_evaluation.py::SpecValidation::test_line_endings_do_not_change_the_frozen_hash": "PASSED",
+            "evals/test_v08_evaluation.py::SpecValidation::test_malformed_specs": "PASSED",
+            "evals/test_v08_evaluation.py::SpecValidation::test_paths_must_stay_inside_the_root": "PASSED",
+            "evals/test_v08_evaluation.py::Verification::test_an_edited_result_is_detected": "PASSED",
+            "evals/test_v08_evaluation.py::Verification::test_inflated_metrics_and_promoted_arms_are_detected": "PASSED",
+            "evals/test_v08_events.py::Converse::test_a_synonym_is_not_a_converse": "PASSED",
+            "evals/test_v08_events.py::Converse::test_roles_swapped_is_the_same_event": "PASSED",
+            "evals/test_v08_events.py::Converse::test_same_subject_is_flagged": "PASSED",
+            "evals/test_v08_events.py::Frames::test_a_bare_article_is_a_preposition_only_before_a_name_after_the_object": "PASSED",
+            "evals/test_v08_events.py::Frames::test_an_auxiliary_or_preposition_is_not_the_agent": "PASSED",
+            "evals/test_v08_events.py::Frames::test_converse_pairs_are_symmetric_and_not_synonyms": "PASSED",
+            "evals/test_v08_events.py::Frames::test_purpose_after_a_transfer_verb_is_not_a_recipient": "PASSED",
+            "evals/test_v08_events.py::Frames::test_recipient_and_agent": "PASSED",
+            "evals/test_v08_events.py::Frames::test_what_is_not_a_recipient[(sentence='Ela entregou o trabalho \u00e0 noite.')]": "PASSED",
+            "evals/test_v08_events.py::Frames::test_what_is_not_a_recipient[(sentence='Ele mandou a partir de hoje.')]": "PASSED",
+            "evals/test_v08_events.py::Frames::test_what_is_not_a_recipient[(sentence='Enviei o arquivo \u00e0s 14h.')]": "PASSED",
+            "evals/test_v08_events.py::Frames::test_what_is_not_a_recipient[(sentence='O t\u00e9cnico entregou a pe\u00e7a.')]": "PASSED",
+            "evals/test_v08_events.py::Frames::test_what_is_not_a_recipient[(sentence='Trabalhou muito para entregar o relat\u00f3rio.')]": "PASSED",
+            "evals/test_v08_events.py::FrozenEventSets::test_development": "PASSED",
+            "evals/test_v08_events.py::FrozenEventSets::test_holdout_first_run_does_not_regress": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_true_antonyms_fail[(a='A prefeitura contratou dez m\u00e9dicos.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_true_antonyms_fail[(a='O alarme ligou \u00e0s 3h.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_true_antonyms_fail[(a='O pa\u00eds exportou milho em 2025.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_true_antonyms_fail[(a='O tribunal deferiu o recurso.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_words_that_only_look_like_the_classes[(a='Importa pouco o hor\u00e1rio.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_words_that_only_look_like_the_classes[(a='O contrato foi assinado ontem.')]": "PASSED",
+            "evals/test_v08_events.py::NewAntonymClasses::test_words_that_only_look_like_the_classes[(a='\u00c9 importante revisar o contrato hoje.')]": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_a_conjunction_before_a_finite_verb_is_not_a_passive": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_a_second_finite_verb_lowers_confidence": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_a_shorter_stem_is_not_the_converse": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_a_singular_passive_has_a_frame": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_adverbs_before_the_verb_do_not_hide_the_agent[(sentence='A loja j\u00e1 enviou a nota ao fornecedor.')]": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_adverbs_before_the_verb_do_not_hide_the_agent[(sentence='A tesoureira n\u00e3o repassou o relat\u00f3rio aos auditores.')]": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_bare_a_before_a_common_noun_is_the_article": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_recipient_dropped_or_swapped_in_the_passive": "PASSED",
+            "evals/test_v08_events.py::PassiveAndBoundaries::test_the_recipient_is_read_within_eight_words_of_the_verb": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_dropped_and_changed": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_moved_passive_and_inflected_recipient_are_fine[(candidate='Ao paciente, o hospital entregou os exames.')]": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_moved_passive_and_inflected_recipient_are_fine[(candidate='O hospital entregou ao paciente os exames.')]": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_moved_passive_and_inflected_recipient_are_fine[(candidate='Os exames foram entregues ao paciente pelo hospital.')]": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_new_codes_are_never_critical": "PASSED",
+            "evals/test_v08_events.py::Recipients::test_swap_of_giver_and_receiver": "PASSED",
+            "evals/test_v08_evidence_paths.py::EvidencePaths::test_everything_else_is_not": "PASSED",
+            "evals/test_v08_evidence_paths.py::EvidencePaths::test_listed_files_exist_or_are_the_pending_qualification_record": "PASSED",
+            "evals/test_v08_evidence_paths.py::EvidencePaths::test_round_records_are_evidence": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_cli_reference_matches_the_parser": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_every_guide_is_linked_from_the_docs_home": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='compare examples/quickstart/original.txt examples/quickstart/candidata')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='demo')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='diagnose examples/quickstart/erros.txt')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='doctor')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='evaluate evals/v08/datasets/events.json')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='plan examples/quickstart/email.txt')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='plan examples/quickstart/original.txt')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='rewrite examples/quickstart/documento-longo.md --long-form on --segmen')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='rewrite examples/quickstart/erros.txt --mode PROOFREAD --text-only')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='rewrite examples/quickstart/original.txt --cmd \"python <HOME>')]": "PASSED",
+            "evals/test_v08_guides.py::Guides::test_quickstart_commands_run_with_the_documented_exit_code[(command='standards list')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_authorisation_must_match_the_plan": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_grant_never_unprotects_code_tables_or_quotes[(kind='code')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_grant_never_unprotects_code_tables_or_quotes[(kind='quote')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_grant_never_unprotects_code_tables_or_quotes[(kind='table')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_plan_crlf_and_poem_only[(text='# Di\u00e1rio\\r\\n\\r\\n')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_plan_crlf_and_poem_only[(text='Rosa que n\u00e3o')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_verse_authorisation_is_refused": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='# Di\u00e1rio\\n\\n', grant=False)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='# Di\u00e1rio\\n\\n', grant=True)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='# Di\u00e1rio\\r\\n', grant=False)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='# Di\u00e1rio\\r\\n', grant=True)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='', grant=False)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged[(text='', grant=True)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_non_boolean_caller_grant_is_refused[(value='yes')]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_non_boolean_caller_grant_is_refused[(value=1)]": "PASSED",
+            "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_non_boolean_caller_grant_is_refused[(value=None)]": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_accepted_outcome_is_not_inherited": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_that_changes_structure_is_not_reused": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_that_fails_the_unit_gate_is_not_reused": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_with_protocol_tokens_is_not_reused": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_legitimate_resume_still_avoids_the_provider": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resume_cannot_touch_a_protected_unit": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resume_record_fields_come_from_the_plan": "PASSED",
+            "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resumed_unit_outcome_follows_the_gate": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_a_self_rejection_still_makes_the_result_safer": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_invalid_relation_is_refused": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_self_assessment_accepts_nothing": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_the_prompt_asks_for_the_relation": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_unknown_or_different_model_keeps_the_previous_contract[(relation='different_model')]": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_unknown_or_different_model_keeps_the_previous_contract[(relation='unknown')]": "PASSED",
+            "evals/test_v08_judge_relation.py::Contract::test_unknown_or_different_model_keeps_the_previous_contract[(relation=None)]": "PASSED",
+            "evals/test_v08_judge_relation.py::Engine::test_a_separate_judge_still_accepts_and_its_own_claim_is_ignored": "PASSED",
+            "evals/test_v08_judge_relation.py::Engine::test_same_command_line_is_the_same_agent": "PASSED",
+            "evals/test_v08_judge_relation.py::Engine::test_the_generator_judging_itself_is_not_accepted": "PASSED",
+            "evals/test_v08_longform.py::MixedDocument::test_protected_blocks_never_reach_the_model_and_keep_their_bytes[(crlf=False, verse=False)]": "PASSED",
+            "evals/test_v08_longform.py::MixedDocument::test_protected_blocks_never_reach_the_model_and_keep_their_bytes[(crlf=False, verse=True)]": "PASSED",
+            "evals/test_v08_longform.py::MixedDocument::test_protected_blocks_never_reach_the_model_and_keep_their_bytes[(crlf=True, verse=False)]": "PASSED",
+            "evals/test_v08_longform.py::MixedDocument::test_protected_blocks_never_reach_the_model_and_keep_their_bytes[(crlf=True, verse=True)]": "PASSED",
+            "evals/test_v08_longform.py::MixedDocument::test_without_a_change_the_document_is_byte_identical": "PASSED",
+            "evals/test_v08_longform.py::TwinsAcrossUnits::test_a_clean_rewrite_is_not_reverted": "PASSED",
+            "evals/test_v08_rubric.py::EnemPilot::test_cli": "PASSED",
+            "evals/test_v08_rubric.py::EnemPilot::test_the_real_entry_enforces_nothing_it_cannot_prove": "PASSED",
+            "evals/test_v08_rubric.py::Engine::test_no_score_anywhere": "PASSED",
+            "evals/test_v08_rubric.py::Engine::test_not_met_has_evidence": "PASSED",
+            "evals/test_v08_rubric.py::Engine::test_nothing_applies_when_the_source_does_not": "PASSED",
+            "evals/test_v08_rubric.py::Engine::test_objective_checks_run_only_where_verified": "PASSED",
+            "evals/test_v08_security.py::HostileYaml::test_malformed_yaml_is_a_clear_refusal": "PASSED",
+            "evals/test_v08_security.py::HostileYaml::test_python_tags_are_refused_and_nothing_runs": "PASSED",
+            "evals/test_v08_security.py::InputSize::test_compare_refuses_a_text_beyond_the_document_limit": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='compare')]": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='demo')]": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='diagnose')]": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='doctor')]": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='plan')]": "PASSED",
+            "evals/test_v08_security.py::NothingLeavesWithoutAProvider::test_offline_commands_open_no_socket[(command='route')]": "PASSED",
+            "evals/test_v08_security.py::PromptFence::test_a_forged_closing_tag_stays_inside": "PASSED",
+            "evals/test_v08_security.py::PromptFence::test_the_skill_prompt_fences_the_text": "PASSED",
+            "evals/test_v08_skill_flow.py::DefaultFlow::test_contradictions_are_suggestions_not_edits": "PASSED",
+            "evals/test_v08_skill_flow.py::DefaultFlow::test_the_commands_still_disagree_on_the_pilot_text": "PASSED",
+            "evals/test_v08_skill_flow.py::DefaultFlow::test_the_no_change_step_runs_diagnose_too": "PASSED",
+            "evals/test_v08_spans_perf.py::GrowthIsNotQuadratic::test_four_times_the_input_is_not_sixteen_times_the_time": "PASSED",
+            "evals/test_v08_spans_perf.py::GrowthIsNotQuadratic::test_output_on_the_growth_input_is_unchanged_in_shape": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_callers_cannot_change_what_the_next_caller_gets": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='APROVADO')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='aprovado')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='comando')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='entregar\u00e3o')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='enviou')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='falaria')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='pode')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='ser')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='vai')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns[(word='xyz')]": "PASSED",
+            "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_order_does_not_depend_on_string_hashing": "PASSED",
+            "evals/test_v08_spans_perf.py::OccupiedIsTheSameQuestion::test_random_claims_including_overlapping_ones": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text=' Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='## Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='* Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='+ Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='- Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='.\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='1. Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='12) Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='9.\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text=':')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim!\\r\\nAna')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim.   \\t Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim.\\u2003Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim.\\xa0Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim:\\u3000Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Fim?\\x0bAna')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Linha\\u2028Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Linha\\x85Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='Ok\u2026  Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\\n-\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\\nAna')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\\n\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='a)\\nb)\\n#\\n')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='texto\\r\\n\\r\\n  3.  Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='x###################')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='x. 1 1 1 1 1 1 1 1 1')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='x\\n                  ')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\u0661\u0662. Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\u2022 Ana')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_adversarial_texts_at_every_position[(text='\u2026\\t')]": "PASSED",
+            "evals/test_v08_spans_perf.py::SentenceStartIsTheSameQuestion::test_random_texts_at_every_position": "PASSED",
+            "evals/test_v08_standards.py::DocumentProfileInTheContract::test_absent_profile_changes_nothing": "PASSED",
+            "evals/test_v08_standards.py::DocumentProfileInTheContract::test_profile_is_validated_and_resolved": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_a_2023_submission_ignores_the_2025_manual": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_a_date_is_required": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_an_event_edital_is_not_used_for_another_year": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_before_any_edition_is_unknown_not_the_latest": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_each_date_gets_its_own_edition[(day='2022-06-30')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_each_date_gets_its_own_edition[(day='2023-11-20')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_each_date_gets_its_own_edition[(day='2025-03-01')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_each_date_gets_its_own_edition[(day='2026-11-07')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_evidence_level_limits_the_decision[(status='BLOCKED')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_evidence_level_limits_the_decision[(status='CATALOGUED')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_evidence_level_limits_the_decision[(status='CONFLICTED')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_evidence_level_limits_the_decision[(status='SOURCE_CITED')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_evidence_level_limits_the_decision[(status='STALE')]": "PASSED",
+            "evals/test_v08_standards.py::HistoricalReplay::test_two_valid_editions_are_a_conflict_for_a_person": "PASSED",
+            "evals/test_v08_standards.py::RealRegistry::test_enem_entries_carry_their_real_evidence": "PASSED",
+            "evals/test_v08_standards.py::RealRegistry::test_enem_resolution": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='before validity.from')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='category')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='checked_at')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='duplicate id')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='https')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='not redistributable')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='sha256')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_refusals[(fragment='weight')]": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_registry_refuses_an_invalid_file_and_a_misnamed_id": "PASSED",
+            "evals/test_v08_standards.py::Validation::test_valid_entry": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_author_channel_profile_beats_genre_preferences": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_compact_view_and_do_not_list": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_explicit_instruction_beats_author": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_mandatory_constraint_beats_explicit_instruction": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_regional_strength_is_never_applied_without_evidence": "PASSED",
+            "evals/test_voice_layer.py::ContractPrecedence::test_weak_evidence_follows_source": "PASSED",
+            "evals/test_voice_layer.py::DriftAgainstProfile::test_different_style_drifts": "PASSED",
+            "evals/test_voice_layer.py::DriftAgainstProfile::test_same_author_style_does_not_drift": "PASSED",
+            "evals/test_voice_layer.py::Profile::test_confidence_is_capped_by_sample_count": "PASSED",
+            "evals/test_voice_layer.py::Profile::test_identity_inference_is_forbidden": "PASSED",
+            "evals/test_voice_layer.py::Profile::test_profile_stores_no_raw_text_or_topic_words": "PASSED",
+            "evals/test_voice_layer.py::Profile::test_requires_samples": "PASSED",
+            "evals/test_voice_layer.py::Profile::test_short_evidence_is_explicit_only": "PASSED",
+            "evals/test_voice_layer.py::VoiceMatchInEngine::test_engine_reports_distance_to_the_author_profile": "PASSED",
+            "evals/test_voice_layer.py::VoiceMatchInEngine::test_long_rewrites_report_drift_between_windows": "PASSED",
+            "evals/test_whole_word_matching.py::WholeWordMatching::test_entity_inside_another_word_does_not_count_as_present": "PASSED",
+            "evals/test_whole_word_matching.py::WholeWordMatching::test_entity_moved_to_sentence_start_is_still_present": "PASSED",
+            "evals/test_whole_word_matching.py::WholeWordMatching::test_value_is_not_supported_by_a_longer_number": "PASSED"
+          },
+          "provenance": "ENGINE_EXECUTED",
+          "source_identity": null,
+          "status": "PASS",
+          "temp_root": null
+        }
+      ]
+    }
+  },
+  "status": "FINDINGS",
+  "test_effectiveness": {
+    "affected_tests": {},
+    "candidates": [],
+    "dimensions": {
+      "behavioral_surfaces": {
+        "EXCEPTION": 64,
+        "PERSISTENCE": 7,
+        "RESPONSE_BODY": 6,
+        "RESPONSE_STATUS": 1,
+        "RETURN": 827
+      },
+      "determinism": {
+        "FIXED_WAIT": 0,
+        "RETRY": 0,
+        "SLEEP": 0,
+        "UNAWAITED_ASYNC": 0
+      },
+      "distinct_contribution": {
+        "distinct_oracle_signatures": 876,
+        "redundancy_candidates": 0,
+        "tests_in_redundancy_candidates": 0
+      },
+      "double_fidelity": {
+        "most_replaced": [
+          [
+            "socket",
+            2
+          ],
+          [
+            "engine",
+            1
+          ],
+          [
+            "importlib.util",
+            1
+          ]
+        ],
+        "tests_with_doubles": 3
+      },
+      "fidelity": {
+        "boundaries_crossed": {
+          "DATABASE": 3,
+          "FILESYSTEM": 71,
+          "NETWORK": 2,
+          "PROCESS": 14
+        },
+        "boundaries_simulated": {
+          "NETWORK": 1
+        },
+        "declared_levels": {
+          "CONTRACT": 7,
+          "INTEGRATION": 10,
+          "UNDECLARED": 884
+        },
+        "ladder": {
+          "boundaries": {
+            "DATABASE": {
+              "REAL": 3
+            },
+            "FILESYSTEM": {
+              "REAL": 71
+            },
+            "NETWORK": {
+              "DOUBLE": 1,
+              "REAL": 2
+            },
+            "PROCESS": {
+              "REAL": 14
+            }
+          },
+          "note": "read from test code: a rung says how the boundary is exercised, not that the run reached it (a browser test that was not executed proves nothing); REAL for a device means an emulator or a device",
+          "rungs": [
+            "DOUBLE",
+            "INTERCEPTED",
+            "SIMULATOR",
+            "IN_PROCESS",
+            "DISPOSABLE_REAL",
+            "REAL"
+          ]
+        }
+      },
+      "maintainability": {},
+      "mutation_sensitivity": {
+        "available": false,
+        "reason": "no mutation report names the tests that killed each mutant"
+      },
+      "negative_and_boundary_paths": {
+        "broad": 0,
+        "error_expectations": 64
+      },
+      "oracle_strength": {
+        "note": "no explicit oracle can still be a valid contract (must not raise, a guard double): read the test",
+        "oracle_basis": {
+          "both": 0,
+          "characterization": 0,
+          "characterization_tests": [],
+          "contract": 0,
+          "note": "characterization pins today's behavior, bugs included, and fails on any change; a contract states what must hold. Literal expected values are undetermined: read where the value comes from (a requirement, a calculation, or the code's own output)",
+          "signals": {},
+          "undetermined": 901
+        },
+        "oracles": {
+          "EXISTENCE": 3,
+          "HELPER": 17,
+          "SPECIFIC_ERROR": 64,
+          "VALUE": 879
+        },
+        "without_explicit_oracle": 0
+      }
+    },
+    "languages": {
+      "python": {
+        "limitations": [
+          "Python tests are read from their syntax tree: helpers in other modules, fixtures and plugins are not followed"
+        ],
+        "tests": 901
+      }
+    },
+    "note": "candidates are leads with their basis; none is a verdict, and no score combines them"
+  },
+  "test_selection": null,
+  "verification_surface": [
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:4",
+      "command": "python scripts/validate_package.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "python scripts/validate_package.py"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:5",
+      "command": "python -m unittest discover -s evals -p \"test_*.py\" -v",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "TEST",
+      "limitations": [],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [
+          {
+            "command": "python -m unittest discover -s evals -p \"test_*.py\" -v",
+            "directory": "",
+            "kind": "TEST",
+            "piped": false,
+            "runner_args": [
+              "discover",
+              "-s",
+              "evals",
+              "-p",
+              "test_*.py",
+              "-v"
+            ],
+            "status_ignored": false,
+            "tool": "unittest"
+          }
+        ],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [
+          "discover",
+          "-s",
+          "evals",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "unittest"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:6",
+      "command": "voznativa eval evals/semantic/cases.jsonl",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Semantic eval suite (dev set must pass completely)",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "voznativa eval evals/semantic/cases.jsonl"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:test:7",
+      "command": "python scripts/pty_review_check.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": "runner.os == 'Linux'",
+        "environment": null,
+        "invocations": [],
+        "job": "test",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "CONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python-version": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.11",
+            "3.12",
+            "3.13"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Interactive human review through a real pseudo-terminal",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#test",
+      "tool": "python scripts/pty_review_check.py"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:4",
+      "command": "python -m build --sdist --outdir dist .",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "PACKAGE",
+      "limitations": [],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [
+          {
+            "command": "python -m build --sdist --outdir dist .",
+            "directory": "",
+            "kind": "PACKAGE",
+            "piped": false,
+            "runner_args": [
+              "--sdist",
+              "--outdir",
+              "dist",
+              "."
+            ],
+            "status_ignored": false,
+            "tool": "build"
+          }
+        ],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [
+          "--sdist",
+          "--outdir",
+          "dist",
+          "."
+        ],
+        "services": [],
+        "step": null,
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "build"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:5",
+      "command": "mkdir sdist && tar xzf dist/*.tar.gz -C sdist\npython -m pip wheel --no-deps --wheel-dir dist sdist/*/",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Build the wheel from the sdist",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "tar xzf dist/*.tar.gz -C sdist"
+    },
+    {
+      "adapter_id": "github-actions",
+      "check_id": "gha:.github/workflows/ci.yml:package:6",
+      "command": "python -m venv \"$RUNNER_TEMP/venv\"\nif [ -x \"$RUNNER_TEMP/venv/bin/python\" ]; then PY=\"$RUNNER_TEMP/venv/bin/python\"; else PY=\"$RUNNER_TEMP/venv/Scripts/python\"; fi\n\"$PY\" -m pip install dist/*.whl\ncp scripts/smoke_installed.py \"$RUNNER_TEMP/smoke.py\"\ncd \"$RUNNER_TEMP\" && \"$PY\" -I smoke.py",
+      "evidence_tier": "E2",
+      "gate": "UNKNOWN",
+      "kind": "UNKNOWN",
+      "limitations": [
+        "no adapter classifies this command; its semantics are unknown"
+      ],
+      "metadata": {
+        "condition": null,
+        "environment": null,
+        "invocations": [],
+        "job": "package",
+        "lifecycle": {
+          "declared": true,
+          "deploys": false,
+          "executed": "UNKNOWN",
+          "selected": "UNCONDITIONAL"
+        },
+        "matrix": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ]
+        },
+        "matrix_values": {
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "python": [
+            "3.12"
+          ]
+        },
+        "runner_args": [],
+        "services": [],
+        "step": "Install the wheel in a clean venv and smoke-test outside the checkout",
+        "working_directory": null
+      },
+      "origin": "CI",
+      "scope": [],
+      "source": ".github/workflows/ci.yml#package",
+      "tool": "if [ -x $RUNNER_TEMP/venv/bin/python ]"
+    }
+  ],
+  "workflow": "audit"
+}
