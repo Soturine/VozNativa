@@ -75,10 +75,23 @@ def cmd_ledger(args):
     _emit(build(_read(args.text), _protected(args)).as_dict())
 
 
+def _within_compare_limit(*texts: str) -> None:
+    """Fail closed on inputs larger than a document plan accepts (v0.8 CP13):
+    ``compare`` is not linear, so a huge file would run for many minutes."""
+    from .document import Limits
+    limit = Limits().max_words
+    for text in texts:
+        words = len(text.split())
+        if words > limit:
+            raise ValueError(f"texto grande demais para o compare: {words} palavras > {limit}. "
+                             "Divida o documento ou use `rewrite --long-form`, que valida por unidades.")
+
+
 def cmd_compare(args):
     from .compare import apply_judgment, compare
     from .judge import validate
     original, candidate = _read(args.original), _read(args.candidate)
+    _within_compare_limit(original, candidate)
     report = compare(original, candidate, _protected(args))
     for path in args.judgment or []:
         report = apply_judgment(report, validate(json.loads(_read(path)), original, candidate))

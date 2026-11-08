@@ -142,7 +142,12 @@ def load(directory: Path | None = None) -> tuple[dict, ...]:
 def _load(directory: str) -> tuple[dict, ...]:
     entries, problems = [], []
     for path in sorted(Path(directory).glob("*.yml")):
-        entry = _iso_dates(yaml.safe_load(path.read_text(encoding="utf-8")))
+        try:
+            # safe_load: tags such as !!python/object are refused, never constructed (v0.8 CP13).
+            entry = _iso_dates(yaml.safe_load(path.read_text(encoding="utf-8")))
+        except yaml.YAMLError as error:
+            problems.append(f"{path.name}: not valid YAML ({type(error).__name__})")
+            continue
         found = validate_entry(entry) if isinstance(entry, dict) else ["not a mapping"]
         if isinstance(entry, dict) and entry.get("id") != path.stem:
             found.append("id must equal the file name")
