@@ -178,8 +178,8 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 | `integrity TEXTO` | auditoria de caracteres; exit 2 quando há algo suspeito |
 | `corpus list \| permissions \| prepare \| evaluate` | Corpus Registry e política de dados |
 | `review` / `blind-*` | revisão humana assinada e revisão cega pareada |
-| `standards list \| resolve` / `rubric TEXTO --document-profile P` | qual edição de norma, edital ou cartilha vale para o documento na data dele; critérios objetivos checados só onde verificados, nunca nota ([normas](docs/v08/DOCUMENT_STANDARDS.md)) |
-| `evaluate DATASET` | avaliação com splits, eixos separados, proveniência e verificação do registro ([protocolo](docs/v08/EVAL_PROTOCOL.md)) |
+| `standards list \| resolve` / `rubric TEXTO --document-profile P` | qual edição de norma, edital ou cartilha vale para o documento na data dele; critérios objetivos checados só onde verificados, nunca nota ([normas](docs/releases/v0.8/DOCUMENT_STANDARDS.md)) |
+| `evaluate DATASET` | avaliação com splits, eixos separados, proveniência e verificação do registro ([protocolo](docs/releases/v0.8/EVAL_PROTOCOL.md)) |
 
 No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acentos por `?`).
 
@@ -208,19 +208,19 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`](docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
-| `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/v08/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/V07_OOD_BENCHMARK.md`](docs/V07_OOD_BENCHMARK.md) |
-| Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/V07_CORPUS_INTEGRATION.md`](docs/V07_CORPUS_INTEGRATION.md) |
+| `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |
+| Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/releases/v0.7/V07_CORPUS_INTEGRATION.md`](docs/releases/v0.7/V07_CORPUS_INTEGRATION.md) |
 | Amostra de ações e compromissos perdidos (congelada antes da regra, mesmo autor) | 16/20 riscos sinalizados (eram 7), 1/18 falso alarme (eram 4); regressão, não holdout | [`evals/predicates/README.md`](evals/predicates/README.md) |
-| Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/V07_RELEASE_QUALIFICATION.md`](docs/V07_RELEASE_QUALIFICATION.md) |
+| Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`](docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md) |
 
 Casos, regras e runners foram escritos pelo mesmo agente de desenvolvimento: os números mostram conformidade com a especificação, não qualidade percebida por leitores.
 
 ## Roadmap
 
-O que a v0.7 entregou e o que ficou aberto: [`ROADMAP.md`](ROADMAP.md) e [`docs/V07_EXECUTION_STATE.md`](docs/V07_EXECUTION_STATE.md). Próximas linhas: revisão humana real, braços com modelo, correferência, normas e rubricas versionadas ([`docs/V08_STANDARDS_VISION.md`](docs/V08_STANDARDS_VISION.md)).
+O que cada versão entregou e o que está aberto: [`ROADMAP.md`](ROADMAP.md). A rodada v0.8 está em [`docs/releases/v0.8/EXECUTION_STATE.md`](docs/releases/v0.8/EXECUTION_STATE.md). Abertos: revisão humana real, braços com modelo real (aguardando autorização), correferência, evento diferente sem relação lexical, pilotos de normas com fontes verificadas por hash.
 
 ## Perguntas frequentes
 
@@ -234,7 +234,7 @@ O que a v0.7 entregou e o que ficou aberto: [`ROADMAP.md`](ROADMAP.md) e [`docs/
 
 ## Documentação
 
-Índice completo: [`docs/README.md`](docs/README.md). Pontos de entrada: [`SKILL.md`](SKILL.md) (procedimento do agente), [`docs/ARCHITECTURE_AND_RESEARCH.md`](docs/ARCHITECTURE_AND_RESEARCH.md), [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md), [`docs/EVALUATION.md`](docs/EVALUATION.md), [`CHANGELOG.md`](CHANGELOG.md).
+Índice por público: [`docs/README.md`](docs/README.md). Guias: [instalar](docs/guide/INSTALL.md), [primeiros passos](docs/guide/QUICKSTART.md), [CLI](docs/guide/CLI.md), [Agent Skill](docs/guide/AGENT_SKILL.md) (modo conduzido por agente), [problemas comuns](docs/guide/TROUBLESHOOTING.md). Arquitetura vigente: [`docs/releases/v0.8/ARCHITECTURE.md`](docs/releases/v0.8/ARCHITECTURE.md). Mudanças: [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Desenvolvimento
 
@@ -244,8 +244,8 @@ python scripts/qualify.py            # todos os gates locais; exit 0 PASS, 1 FAI
 python -m unittest discover -s evals -p "test_*.py"
 ```
 
-Toda correção de comportamento entra com teste de regressão e, quando há detector novo, controle de falso positivo. Suítes e benchmarks congelados não são editados; um oráculo errado vira suíte nova. A CI do GitHub roda só por disparo manual, no fechamento de cada rodada. Regras de engenharia: [`docs/ENGINEERING_PROFILE.md`](docs/ENGINEERING_PROFILE.md).
+Toda correção de comportamento entra com teste de regressão e, quando há detector novo, controle de falso positivo. Suítes e benchmarks congelados não são editados; um oráculo errado vira suíte nova. A CI do GitHub roda só por disparo manual, no fechamento de cada rodada. Regras de engenharia: [`docs/engineering/ENGINEERING_PROFILE.md`](docs/engineering/ENGINEERING_PROFILE.md).
 
 ## Licença
 
-MIT ([`LICENSE`](LICENSE)) para o código, a documentação, os exemplos e os dados originais do VozNativa. Corpora, modelos e dados derivados de terceiros mantêm suas licenças ([`docs/LICENSING.md`](docs/LICENSING.md)); nenhum texto de corpus é distribuído neste repositório. Projetos e fontes estudados: [`docs/RESEARCH_LOG.md`](docs/RESEARCH_LOG.md).
+MIT ([`LICENSE`](LICENSE)) para o código, a documentação, os exemplos e os dados originais do VozNativa. Corpora, modelos e dados derivados de terceiros mantêm suas licenças ([`docs/policy/LICENSING.md`](docs/policy/LICENSING.md)); nenhum texto de corpus é distribuído neste repositório. Projetos e fontes estudados: [`docs/research/RESEARCH_LOG.md`](docs/research/RESEARCH_LOG.md).

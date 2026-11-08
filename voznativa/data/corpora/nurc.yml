@@ -25,7 +25,7 @@ period:
 license:
   code: per_subset
   per_document: true
-  evidence: each city's collection has its own terms (NURC-SP Corpus Mínimo CC-BY-NC-ND-4.0, docs/LICENSING.md)
+  evidence: each city's collection has its own terms (NURC-SP Corpus Mínimo CC-BY-NC-ND-4.0, docs/policy/LICENSING.md)
 access:
   type: unknown
   note: access differs per city collection

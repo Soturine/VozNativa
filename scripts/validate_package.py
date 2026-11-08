@@ -21,7 +21,7 @@ from voznativa import __version__  # noqa: E402
 
 REQUIRED = [
     "README.md", "SKILL.md", "ROADMAP.md", "CHANGELOG.md", "pyproject.toml", "agents/openai.yaml",
-    "docs/TRACEABILITY.md", "docs/DESIGN_SPEC.md", "docs/COMPETITIVE_BENCHMARK.md",
+    "docs/engineering/TRACEABILITY.md", "docs/architecture/DESIGN_SPEC.md", "docs/evaluation/COMPETITIVE_BENCHMARK.md",
     "references/VOICE_STACK.md", "voznativa/__init__.py", "voznativa/cli.py", "voznativa/compare.py",
     "voznativa/ledger.py", "voznativa/data/markers_pt_br.json", "evals/semantic/cases.jsonl",
     "benchmarks/cases/smoke.jsonl", ".github/workflows/ci.yml",
@@ -127,11 +127,11 @@ def check_data(errors: list[str]) -> None:
 
 
 def check_docs(errors: list[str]) -> None:
-    trace = (ROOT / "docs" / "TRACEABILITY.md").read_text(encoding="utf-8")
+    trace = (ROOT / "docs" / "engineering" / "TRACEABILITY.md").read_text(encoding="utf-8")
     for must_have in ("Semantic/factual lock", "Voice Drift Guard", "Regional Overfit Guard", "Rewrite engine",
                       "Competitive benchmark protocol"):
         if must_have not in trace:
-            errors.append(f"docs/TRACEABILITY.md missing: {must_have}")
+            errors.append(f"docs/engineering/TRACEABILITY.md missing: {must_have}")
     readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()
     for forbidden in ("probabilidade de ia:", "ai probability:"):
         if forbidden in readme:

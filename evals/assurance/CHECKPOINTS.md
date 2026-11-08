@@ -11,7 +11,7 @@ Registro do que foi **implementado, validado, não validado e bloqueado** em cad
 
 ## CP1 — perfil derivado — concluído
 
-- `docs/ENGINEERING_PROFILE.md`: casos de uso, invariantes, máquina de estados do `rewrite`, fronteiras de confiança, requisitos de teste e achados estruturais.
+- `docs/engineering/ENGINEERING_PROFILE.md`: casos de uso, invariantes, máquina de estados do `rewrite`, fronteiras de confiança, requisitos de teste e achados estruturais.
 - Sem ADR (nenhuma decisão material ainda).
 
 ## CP4/H1 — runner de qualificação — implementado e testado
@@ -47,11 +47,11 @@ Não validado neste ponto: Linux (WSL disponível; vai no CP10), Python 3.11/3.1
 
 ## CP5 — v0.5.0 Regional Evidence — implementado e testado
 
-Contrato de pack, piloto `br-norte-lex-mandioca`, integração em todas as camadas, CLI e Skill. Avaliação regional humana NOT_RUN. `docs/REGIONAL_EVIDENCE.md`, ADR-0001.
+Contrato de pack, piloto `br-norte-lex-mandioca`, integração em todas as camadas, CLI e Skill. Avaliação regional humana NOT_RUN. `docs/evidence/REGIONAL_EVIDENCE.md`, ADR-0001.
 
 ## CP6 — pesquisa competitiva — feita
 
-`docs/COMPETITIVE_ANALYSIS_v0.5.md` (código e testes lidos pela API do GitHub; decisões ADOPT/ADAPT/EXPERIMENT/MONITOR/REJECT).
+`docs/releases/v0.5/COMPETITIVE_ANALYSIS_v0.5.md` (código e testes lidos pela API do GitHub; decisões ADOPT/ADAPT/EXPERIMENT/MONITOR/REJECT).
 
 ## CP7 — avaliação e benchmark v3
 

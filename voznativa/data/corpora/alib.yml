@@ -20,7 +20,7 @@ period:
 license:
   code: unknown
   per_document: false
-  evidence: atlas volumes published under copyright; no open dataset licence found (docs/LICENSING.md)
+  evidence: atlas volumes published under copyright; no open dataset licence found (docs/policy/LICENSING.md)
 access:
   type: unknown
   note: results published in the atlas and articles; raw data access not documented

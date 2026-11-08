@@ -1,6 +1,6 @@
 """Regional Evidence Packs (v0.5.0): regionality only where evidence exists.
 
-A pack (``data/regional_packs/*.yml``, contract in docs/REGIONAL_EVIDENCE.md)
+A pack (``data/regional_packs/*.yml``, contract in docs/evidence/REGIONAL_EVIDENCE.md)
 records forms observed for one referent in a documented scope, epoch and
 modality, with its sources, licence, confusions and activation conditions.
 

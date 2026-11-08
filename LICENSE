@@ -23,4 +23,4 @@ SOFTWARE.
 Scope: this licence covers the original code, documentation, examples and
 datasets written for VozNativa. It does not cover third-party corpora, models,
 skills or documents referenced or processed by it, nor data derived from them,
-each of which keeps its own licence and terms (see docs/LICENSING.md).
+each of which keeps its own licence and terms (see docs/policy/LICENSING.md).

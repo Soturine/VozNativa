@@ -38,7 +38,7 @@ Uma feature regional não entra como regra operacional sem:
 5. população/amostra;
 6. contraste com outra região ou baseline;
 7. false-positive case;
-8. nível E0–E4 conforme `docs/CORPUS_AND_EVIDENCE_STRATEGY.md`.
+8. nível E0–E4 conforme `docs/evidence/CORPUS_AND_EVIDENCE_STRATEGY.md`.
 
 ## Fontes iniciais
 
@@ -105,7 +105,7 @@ Se a fonte não sustenta granularidade local, o pack também não sustenta.
 
 ## Estrutura de pack
 
-Substituída pelo contrato versionado de Regional Evidence Pack (v0.5.0): `docs/REGIONAL_EVIDENCE.md` e `docs/adr/ADR-0001-regional-evidence-packs.md`. O esboço abaixo fica como histórico.
+Substituída pelo contrato versionado de Regional Evidence Pack (v0.5.0): `docs/evidence/REGIONAL_EVIDENCE.md` e `docs/architecture/adr/ADR-0001-regional-evidence-packs.md`. O esboço abaixo fica como histórico.
 
 ### Esboço original
 

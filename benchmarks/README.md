@@ -1,6 +1,6 @@
 # VozNativa Benchmarks
 
-Protocolo completo: `docs/COMPETITIVE_BENCHMARK.md`. Esta pasta guarda os casos congelados e a convenção de saídas.
+Protocolo completo: `docs/evaluation/COMPETITIVE_BENCHMARK.md`. Esta pasta guarda os casos congelados e a convenção de saídas.
 
 ## Layout
 

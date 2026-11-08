@@ -1,4 +1,4 @@
-"""v0.7.0.dev1 hardening (docs/PLAN_v0.7.0.dev1.md): reproductions written
+"""v0.7.0.dev1 hardening (docs/releases/v0.7/PLAN_v0.7.0.dev1.md): reproductions written
 before the fixes.
 
 * H07-001/002: ``==`` against values that are equal but not the same object.

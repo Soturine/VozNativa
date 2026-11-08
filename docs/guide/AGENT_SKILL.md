@@ -1,6 +1,6 @@
 # VozNativa como Agent Skill
 
-O VozNativa funciona em três modos ([arquitetura](../v08/ARCHITECTURE.md)): **determinístico** (a CLI, sem modelo), **assistido por modelo** (`rewrite --cmd` chama um provider) e **conduzido por agente**: o agente hospedeiro lê o [`SKILL.md`](../../SKILL.md), roda a CLI, interpreta contexto e intenção, escreve a candidata, passa pelo gate e decide, com evidência e abstenção. Neste modo o agente é o modelo; os gates continuam os mesmos.
+O VozNativa funciona em três modos ([arquitetura](../releases/v0.8/ARCHITECTURE.md)): **determinístico** (a CLI, sem modelo), **assistido por modelo** (`rewrite --cmd` chama um provider) e **conduzido por agente**: o agente hospedeiro lê o [`SKILL.md`](../../SKILL.md), roda a CLI, interpreta contexto e intenção, escreve a candidata, passa pelo gate e decide, com evidência e abstenção. Neste modo o agente é o modelo; os gates continuam os mesmos.
 
 ## Instalar
 

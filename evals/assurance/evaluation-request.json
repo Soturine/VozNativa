@@ -22,7 +22,7 @@
       "important": ["portability Windows/Linux and Python 3.11-3.13", "reproducibility of eval and benchmark results", "bounded provider cost and time", "no invented regional or identity traits"]
     },
     "business_rules": {
-      "authoritative_sources": ["README.md (conservative acceptance policy)", "SKILL.md", "docs/DESIGN_SPEC.md", "docs/PLAN_v0.4.0.md", "references/VOICE_STACK.md"],
+      "authoritative_sources": ["README.md (conservative acceptance policy)", "SKILL.md", "docs/architecture/DESIGN_SPEC.md", "docs/releases/v0.4/PLAN_v0.4.0.md", "references/VOICE_STACK.md"],
       "key_invariants": [
         "only identity is accepted automatically; passing the deterministic gates yields no_deterministic_issues with semantic_equivalence unverified",
         "a fail from compare is never overridden by a judge or a reviewer",

@@ -11,7 +11,7 @@
   crashing the planner.
 
 Each tampering test failed (accepted the tampered plan / run) on d8aa669;
-see docs/V07_DISCOVERY_REGISTER.md for the before/after record.
+see docs/releases/v0.7/V07_DISCOVERY_REGISTER.md for the before/after record.
 """
 import importlib.util
 import json
@@ -200,8 +200,8 @@ class EvidencePathsAreRecordsOnly(unittest.TestCase):
     def test_records_in_run_folders_and_state_docs_are_evidence(self):
         for path in ("evals/qualification/external.json", "evals/assurance/runs/x/MANIFEST.json",
                      "evals/assurance/runs/x/MUTATION.md", "evals/assurance/runs/x/log.txt",
-                     "evals/assurance/runs/x/cases.jsonl", "docs/V07_EXECUTION_STATE.md",
-                     "docs/V07_RELEASE_QUALIFICATION.md"):
+                     "evals/assurance/runs/x/cases.jsonl", "docs/releases/v0.7/V07_EXECUTION_STATE.md",
+                     "docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md"):
             self.assertTrue(ci.is_evidence_path(path), path)
 
     def test_editing_a_harness_after_the_run_invalidates_it(self):

@@ -49,7 +49,7 @@ Legenda: `[x]` implementado e testado · `[~]` parcial · `[ ]` não implementad
 
 ## v0.3.0 — Semantic Intelligence & Author Voice (em andamento)
 
-Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não será marcada como concluída enquanto houver critério obrigatório pendente (holdout independente, revisão humana cega e CI dependem de terceiros).
+Plano, work packages e critérios obrigatórios: `docs/releases/v0.3/PLAN_v0.3.0.md`. Não será marcada como concluída enquanto houver critério obrigatório pendente (holdout independente, revisão humana cega e CI dependem de terceiros).
 
 ### M1 — Semantic Intelligence
 - [x] holdout prospectivo v0.3 congelado antes das correções (1ª execução 15/24; após M1 24/24, não cego)
@@ -94,7 +94,7 @@ Plano, work packages e critérios obrigatórios: `docs/PLAN_v0.3.0.md`. Não ser
 
 ## v0.4.0 — PT-BR Writing Intelligence & Hardening (em desenvolvimento, `0.4.0.dev0`)
 
-Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios externos abertos da v0.3.0 (holdout independente, revisão humana cega, CI).
+Plano e status: `docs/releases/v0.4/PLAN_v0.4.0.md`. Não qualificada: herda os critérios externos abertos da v0.3.0 (holdout independente, revisão humana cega, CI).
 
 ### M0 — Hardening da v0.3
 - [x] `ho-007`: divergência de classificação separada de detecção perdida (caso congelado intacto)
@@ -139,7 +139,7 @@ Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios ext
 ### M4 — Evals e benchmarks
 - [x] `holdout-v040` congelado (32 casos por canal e risco): 32/32, não discrimina v0.3 x v0.4
 - [x] suíte de decisão congelada (30 casos): v0.4 27/30 na primeira execução; v0.3 22/30 na decisão de chamar o modelo
-- [x] `ptbr-bench-v2` congelado antes da execução; resultados em `docs/EVALUATION.md`
+- [x] `ptbr-bench-v2` congelado antes da execução; resultados em `docs/evaluation/EVALUATION.md`
 - [x] latência do pipeline determinístico (`scripts/perf_probe.py`)
 - [ ] revisão humana e holdout independente (dependem de pessoas)
 
@@ -161,7 +161,7 @@ Plano e status: `docs/PLAN_v0.4.0.md`. Não qualificada: herda os critérios ext
 
 ## v0.5 — Regional Layer (em desenvolvimento, `0.5.0.dev0`)
 
-Plano e status: `docs/PLAN_v0.5.0.md`.
+Plano e status: `docs/releases/v0.5/PLAN_v0.5.0.md`.
 
 - [x] registro de fontes (ALiB, SP2010, C-ORAL-BRASIL, ALIP, PHPB, Carolina, NURC) com licença, amostragem e decisão
 - [x] contrato versionado de Regional Evidence Pack (escopo, época, gênero/canal, formas, contextos, confusões, confiança, ativação, proveniência, licença) e ADR-0001
@@ -193,15 +193,15 @@ Plano e status: `docs/PLAN_v0.5.0.md`.
 - [ ] interação comunidade x região x canal medida com dados
 
 ## Pesquisa/decisões pendentes
-- [x] licença do repositório: MIT para o material original (v0.6.0; `LICENSE`, `docs/LICENSING.md`)
+- [x] licença do repositório: MIT para o material original (v0.6.0; `LICENSE`, `docs/policy/LICENSING.md`)
 - [ ] resolver o conflito de licença do Corpus Carolina antes de qualquer ingestão (o piloto metadata-only da v0.3.0 M5 não ingere texto)
 - [ ] holdout semântico escrito por outra pessoa
 - [x] execução real do benchmark skill-only (B0–B3, B5) com manifesto e juízes; B4 (Emulate) bloqueado
 - [ ] calibração dos limiares do `compare` e do drift com reescritas reais
 
-## v0.7.0 — Generalização, documento inteiro e evidência (em desenvolvimento, `0.7.0.dev1`; estabilização em `docs/PLAN_v0.7.0.dev1.md`)
+## v0.7.0 — Generalização, documento inteiro e evidência (em desenvolvimento, `0.7.0.dev1`; estabilização em `docs/releases/v0.7/PLAN_v0.7.0.dev1.md`)
 
-Plano: `docs/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/V07_EXECUTION_STATE.md`. Matriz requisito -> teste: `docs/V07_VERIFICATION_MATRIX.md`.
+Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/releases/v0.7/V07_EXECUTION_STATE.md`. Matriz requisito -> teste: `docs/releases/v0.7/V07_VERIFICATION_MATRIX.md`.
 
 - [x] G1: roteador estrutural, contrato v3 e proteções na abstenção (`router.py`; `evals/test_router_v3.py`)
 - [x] G2: contenção direcional em dedup e splits por várias chaves (`corpus/processing.py`; `evals/test_containment.py`)
@@ -219,7 +219,7 @@ Plano: `docs/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/V07_EXECUTION_STATE.m
 - [x] README verificado por teste (`evals/test_readme.py`)
 - [ ] braços com modelo, revisão humana cega, holdout independente (dependem de orçamento e de pessoas)
 - [ ] automação de navegador (sem alvo autorizado: UNSUPPORTED)
-- [ ] normas, editais e rubricas versionados (visão: `docs/V08_STANDARDS_VISION.md`)
+- [ ] normas, editais e rubricas versionados (visão: `docs/architecture/V08_STANDARDS_VISION.md`)
 
 ## v0.7 — Rewrite Engine Contract (contrato original, entregue nas v0.3–v0.6)
 - [x] contrato agnóstico de modelo
@@ -230,7 +230,20 @@ Plano: `docs/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/V07_EXECUTION_STATE.m
 - [x] compare original/candidate
 - [x] saída JSON estável (`kind` + `schema_version` em cada relatório)
 
-## v0.8 — Evaluation System
+## v0.8.0 — Evaluation System & Contextual Intelligence (em desenvolvimento em `dev/v0.8.0`; estado em `docs/releases/v0.8/EXECUTION_STATE.md`)
+- [x] Evaluation Core: `voznativa evaluate`, splits coerentes com o MANIFEST, eixos por split com IC, `--verify` e `--replay`
+- [x] independência exige evidência; vazamento entre conjuntos detectado (achou `ho-022` e um caso do v5)
+- [x] braços B0–B6 numa interface; B0/B2 offline
+- [ ] braços com provider real (R1–R4): aguardando autorização
+- [~] eventos: destinatário, troca dá/recebe, conversos (holdout prospectivo 11/12); evento diferente sem relação lexical ainda invisível
+- [x] falso vermelho em documento longo (GAP-13) e custo do `compare` (GAP-12)
+- [x] eixos de qualidade como proxies; curva do Router (nenhum limiar mudou)
+- [x] autoavaliação do agente nunca aceita como juízo independente (GAP-16); piloto agent-led (AGENT_OBSERVED)
+- [~] normas: registry, resolver por data, `document_profile`, rubric engine; piloto Enem `SOURCE_CITED`; piloto acadêmico NOT_RUN
+- [x] `doctor`, `demo`, erros acionáveis, suíte contra o wheel, guias em `docs/guide/`, docs reorganizados
+- [ ] revisão humana cega e holdout independente: NOT_RUN (pessoas)
+
+## v0.8 — Evaluation System (plano original, anterior à rodada v0.8.0)
 - [x] factual/semantic (dev + 2 holdouts)
 - [ ] voice → v0.3.0 M3
 - [ ] regional

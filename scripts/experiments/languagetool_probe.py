@@ -136,7 +136,7 @@ def main() -> int:
         "outputs": {"pairs": len(report_pairs), "with_introduced": sum(bool(r["introduced"]) for r in report_pairs),
                     "rules": dict(rules_new.most_common()), "introduced_by_arm": dict(by_arm)},
         "details": {"originals": report_originals, "pairs": report_pairs},
-        "note": "matches are what LanguageTool reports, not verified errors; the reading is in docs/EVALUATION.md",
+        "note": "matches are what LanguageTool reports, not verified errors; the reading is in docs/evaluation/EVALUATION.md",
     }
     Path(args.out).write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: result[k] for k in ("originals", "outputs")}, ensure_ascii=False, indent=2))

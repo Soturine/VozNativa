@@ -2,7 +2,7 @@
 
 ## Unreleased (0.8.0.dev0)
 
-Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; state: `docs/v08/EXECUTION_STATE.md`; gaps: `docs/v08/GAP_REGISTER.md`.
+Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/releases/v0.8/PLAN.md`; state: `docs/releases/v0.8/EXECUTION_STATE.md`; gaps: `docs/releases/v0.8/GAP_REGISTER.md`.
 
 ### Fixed
 - **Document plans could authorise themselves to rewrite verse (V08-GAP-01).** `validate_plan` read `verse_explicit` from the serialised plan, so a plan edited to say `true` (with its policy and unit actions edited to match) passed validation and let `reassemble` replace a poem. The authorisation now comes from the caller: `validate_plan(plan, text, verse_explicit=False)` and `reassemble(text, plan, replacements, verse_explicit=False)`; the plan's field must agree with the caller and grants nothing by itself. A non-boolean grant raises `TypeError`. **API change:** code that reassembles a plan built with `verse_explicit=True` must now pass `verse_explicit=True` to `reassemble`/`validate_plan`. `rewrite_document` and the CLI already pass the caller's flag.
@@ -12,7 +12,7 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 - `voznativa standards list | resolve` and `voznativa/standards.py`: a registry of editais, manuals, norms and exam guides (one YAML per source, strict validation, verification ladder CATALOGUED -> SOURCE_CITED -> VERIFIED) and an Applicability Resolver that picks the edition valid on the document's submission date, never the latest by default; two valid editions of one series are CONFLICTED for a person.
 - Optional `document_profile` in the Context Contract (`route --document-profile`); without it the contract is unchanged.
 - `voznativa rubric` (`voznativa/rubric.py`): objective criteria checked only where the source applies and the criterion is at least SOURCE_CITED; subjective criteria listed as NEEDS_JUDGMENT; no score, total or invented weight.
-- Enem pilot with real sources: the 2026 essay guide is SOURCE_CITED from the official gov.br page (the PDF could not be downloaded from this machine, so no hash and no criterion read from the file); the 2025 guide is only CATALOGUED. The academic pilot is NOT_RUN (no institutional source verified). `docs/v08/DOCUMENT_STANDARDS.md`.
+- Enem pilot with real sources: the 2026 essay guide is SOURCE_CITED from the official gov.br page (the PDF could not be downloaded from this machine, so no hash and no criterion read from the file); the 2025 guide is only CATALOGUED. The academic pilot is NOT_RUN (no institutional source verified). `docs/releases/v0.8/DOCUMENT_STANDARDS.md`.
 
 ### Agent Skill (CP9)
 - Agent-led pilot: this development session acted as the Skill's host agent on three authored texts, following `SKILL.md` as written (18 CLI runs, AGENT_OBSERVED; no API or paid service). It exercised NO_CHANGE, an edit, a rejected candidate corrected as the Skill instructs, and self-assessments recorded without acceptance. `evals/v08/agent-pilot/PILOT.md`.
@@ -23,7 +23,7 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 
 ### Evaluation (CP8)
 - `voznativa/axes.py`: per-candidate quality axes (editorial formulas, unnecessary change against the plan, slang and epoch terms, regional forms, genre drift, voice distance) built from the engine's detectors and labelled as deterministic proxies; `not_applicable` instead of a pass when there is nothing to measure. Not a quality score.
-- Router audit reproduced on a fresh machine with the same result as v0.7 (precision 93.8%, useful coverage 8.8%, wrong 0.58% over 7,424 windows). A threshold curve (`scripts/experiments/v08_router_curve.py`, replaying the router's own rule) shows the current thresholds at the knee; low coverage comes from missing cues for news and blogs, not from thresholds. No threshold changed. `docs/v08/EVAL_MATRIX.md`.
+- Router audit reproduced on a fresh machine with the same result as v0.7 (precision 93.8%, useful coverage 8.8%, wrong 0.58% over 7,424 windows). A threshold curve (`scripts/experiments/v08_router_curve.py`, replaying the router's own rule) shows the current thresholds at the knee; low coverage comes from missing cues for news and blogs, not from thresholds. No threshold changed. `docs/releases/v0.8/EVAL_MATRIX.md`.
 
 ### Performance (V08-GAP-12)
 - `compare` on long documents: sentence alignment uses an inverted index and a shortcut for identical stem sets; entity-name lookups use a word index confirmed by the same regex, falling back to the full scan for characters with irregular case-insensitive matching. Output identical (0 of 309 suite reports changed; reference scans kept and tested). Well-formed 30k-word document 24.7 s -> 8.5 s. Residual: each protected value is still searched in the whole text.
@@ -35,10 +35,10 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 ### Semantics (V08-GAP-04)
 - `compare` reads minimal event frames (`voznativa/events.py`): `recipient_dropped` / `recipient_changed` (a transfer verb's recipient is gone or another), `agent_recipient_swapped` (giver and receiver exchanged), `event_converted` (the verb became its converse with the same subject; with the roles swapped it is the same event and nothing is flagged). All major, never critical; frames abstain on time, purpose, fixed phrases and the object's article. Verb classes: `voznativa/data/verb_relations.json` (authored, E0).
 - New antonym classes for the existing critical `polarity_flipped`: hire/fire, export/import, switch on/off, and finite forms of deferir/indeferir; explicit forms where a prefix would catch other words (contrato, importante).
-- Measured on sets frozen before the code (same author, not independent): development 7/15 -> 14/15 risks flagged with false alarms unchanged at 2/13; prospective holdout, run once, 5/12 -> 11/12 with false alarms unchanged at 3/12; predicate sample 16/20 -> 17/20. Frozen suites and benchmarks unchanged. Still invisible: a different event with no lexical relation (assinou -> recebeu). `docs/v08/SEMANTICS.md`.
+- Measured on sets frozen before the code (same author, not independent): development 7/15 -> 14/15 risks flagged with false alarms unchanged at 2/13; prospective holdout, run once, 5/12 -> 11/12 with false alarms unchanged at 3/12; predicate sample 16/20 -> 17/20. Frozen suites and benchmarks unchanged. Still invisible: a different event with no lexical relation (assinou -> recebeu). `docs/releases/v0.8/SEMANTICS.md`.
 
 ### Performance
-- `spans.extract` is no longer quadratic (V08-GAP-02): 40k words 18.6 s -> 1.6 s, 80k 30.1 s -> 3.0 s on the same machine; `build_plan` on 40k words 9.1 s -> 0.73 s. Output is byte-identical on 3,036 texts and on the 40k/80k digests. `compare` is still quadratic on long documents (V08-GAP-12, open). Measurements: `docs/v08/PERFORMANCE.md`.
+- `spans.extract` is no longer quadratic (V08-GAP-02): 40k words 18.6 s -> 1.6 s, 80k 30.1 s -> 3.0 s on the same machine; `build_plan` on 40k words 9.1 s -> 0.73 s. Output is byte-identical on 3,036 texts and on the 40k/80k digests. `compare` is still quadratic on long documents (V08-GAP-12, open). Measurements: `docs/releases/v0.8/PERFORMANCE.md`.
 - `morph.analyse_word` is memoised (each call still returns new dicts).
 
 ### Fixed (determinism)
@@ -46,7 +46,7 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 
 ### Added
 - `voznativa doctor`: installation check (Python, PyYAML, references, package data, temp dir, whether known provider variables are set, never their values); no network, reads no text; exit 1 only when something will not work.
-- `voznativa evaluate` (Evaluation Core, `voznativa/evaluation.py`): a dataset spec reads the existing suites in place through adapters, each source with an explicit split that must agree with its MANIFEST (a developer-written suite cannot be an independent holdout; a changed frozen file makes the run INVALID). Axes `semantic_risk`, `status_agreement` and `decision` are reported separately and per split, with denominators and Wilson intervals; the run record keeps revision, versions, input hashes, per-case results without the texts and a results digest; `--verify` detects an edited record. Arms that need a model or people are listed as NOT_RUN. Protocol: `docs/v08/EVAL_PROTOCOL.md`.
+- `voznativa evaluate` (Evaluation Core, `voznativa/evaluation.py`): a dataset spec reads the existing suites in place through adapters, each source with an explicit split that must agree with its MANIFEST (a developer-written suite cannot be an independent holdout; a changed frozen file makes the run INVALID). Axes `semantic_risk`, `status_agreement` and `decision` are reported separately and per split, with denominators and Wilson intervals; the run record keeps revision, versions, input hashes, per-case results without the texts and a results digest; `--verify` detects an edited record. Arms that need a model or people are listed as NOT_RUN. Protocol: `docs/releases/v0.8/EVAL_PROTOCOL.md`.
 - `voznativa evaluate --replay RUN`: re-executes a recorded run with the code and inputs of its revision (`git archive`, inputs checked by hash) and compares the digest: REPRODUCED, DIFFERENT or NOT_REPLAYABLE. `--verify` now states that it checks internal consistency only: `results_sha256` is not a signature, and a forger who recomputes it passes `--verify` but not `--replay` (tested).
 - Independent splits need `independence_evidence` (author, custodian, the freezing commit holding the file with the MANIFEST hash, an attestation file); a bare `independent: true` makes the run INVALID. Paths that resolve outside the repository through a link or junction are refused.
 - Leakage between sources (exact after folding, or word-trigram Jaccard >= 0.8) is reported per run; a text shared with a holdout makes the run INVALID. Repository audit (`scripts/experiments/v08_leakage_audit.py`): developer holdout case `ho-022` is a copy of development case `rel-agent-001`; one `ptbr-bench-v5` case repeats a development text committed before the benchmark was frozen, so 1 of its 36 "out of distribution" cases is not (the README says so). Frozen files unchanged.
@@ -64,7 +64,7 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/v08/PLAN.md`; s
 
 ## Unreleased (0.7.0.dev1)
 
-Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Plan and findings: `docs/PLAN_v0.7.0.dev1.md`; state: `docs/V07_EXECUTION_STATE.md` (section v0.7.0.dev1).
+Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Plan and findings: `docs/releases/v0.7/PLAN_v0.7.0.dev1.md`; state: `docs/releases/v0.7/V07_EXECUTION_STATE.md` (section v0.7.0.dev1).
 
 ### Fixed
 - `compare` false green: an action or commitment replaced by a light verb ("será enviado" -> "vai até") kept values and negation and passed as `no_deterministic_issues`. New `predicate_missing` (major, review) and `predicate_replaced` (info) from rule-based verb anchors; experimental, measured only on a non-independent sample (`evals/predicates/`).
@@ -83,7 +83,7 @@ Stabilization of 0.7.0.dev0, **not a release and not qualified externally**. Pla
 
 ## Unreleased (0.7.0.dev0)
 
-Development version, **not a release and not qualified externally** (no PyPI, no tag). Round state: `docs/V07_EXECUTION_STATE.md`; qualification: `docs/V07_RELEASE_QUALIFICATION.md`.
+Development version, **not a release and not qualified externally** (no PyPI, no tag). Round state: `docs/releases/v0.7/V07_EXECUTION_STATE.md`; qualification: `docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`.
 
 ### Fixed (known gaps of 0.6)
 - **G1** router: hard-wrapped literature with `--` dialogue was routed as WhatsApp. Inference runs on an unwrapped copy, `--` dialogue is a literary cue, chat needs two cue families; `unknown` with literary or historical evidence keeps the literary limits (`router.py`, `evals/test_router_v3.py`, 14 frozen oracles).
@@ -107,12 +107,12 @@ Development version, **not a release and not qualified externally** (no PyPI, no
 
 ### Not done
 - Model arms of the benchmarks, human reviews, independent holdout, live detector runs: NOT_RUN.
-- Pronoun/coreference, agreement and government checks, narrative model: backlog (`docs/V07_LINGUISTICS.md`).
-- Standards/rubrics line: vision and ADR only (`docs/V08_STANDARDS_VISION.md`).
+- Pronoun/coreference, agreement and government checks, narrative model: backlog (`docs/releases/v0.7/V07_LINGUISTICS.md`).
+- Standards/rubrics line: vision and ADR only (`docs/architecture/V08_STANDARDS_VISION.md`).
 
 ## 0.6.0.dev0
 
-Development version, **not a release and not qualified**. Inventory and gaps: `docs/AS_IS_v0.6.0.md`. Original VozNativa material is now MIT (`LICENSE`, `docs/LICENSING.md`). CI runs only by manual dispatch.
+Development version, **not a release and not qualified**. Inventory and gaps: `docs/releases/v0.6/AS_IS_v0.6.0.md`. Original VozNativa material is now MIT (`LICENSE`, `docs/policy/LICENSING.md`). CI runs only by manual dispatch.
 
 ### Added
 - **Corpus platform** (`voznativa/corpus/`):
@@ -183,7 +183,7 @@ Development version, **not a release and not qualified**. Inventory and gaps: `d
 
 ## 0.5.0.dev0 (development; continued as 0.6.0.dev0, never released)
 
-Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.5.0.md`. Builds on the hardened v0.4.0 (`v0.4.0-dev` at `8a530f8`). The external criteria inherited from v0.3.0 (independent holdout, blind human review, CI) are still open.
+Development version, **not a release and not qualified**. Plan and status: `docs/releases/v0.5/PLAN_v0.5.0.md`. Builds on the hardened v0.4.0 (`v0.4.0-dev` at `8a530f8`). The external criteria inherited from v0.3.0 (independent holdout, blind human review, CI) are still open.
 
 ### Fixed (v0.4.0 hardening; each has a regression test)
 - Usage errors (unknown flag, missing argument) exited 2, the same code `compare` uses for `review_required`; every command now exits 64 (found by the new qualification runner).
@@ -202,7 +202,7 @@ Development version, **not a release and not qualified**. Plan and status: `docs
 
 ### Added
 - `scripts/qualify.py`: single local qualification runner; each gate in its own process with its exit code; PASS / FAIL / BLOCKED / NOT_RUN / SKIPPED / INCONCLUSIVE / WAIVED_BY_OWNER; reproduces the CI package job; known failures and external evidence declared in `evals/qualification/`.
-- Regional Evidence Packs (`voznativa/regional.py`, `voznativa/data/regional_packs/`, `docs/REGIONAL_EVIDENCE.md`, ADR-0001): versioned, validated contract; abstention by default; the author's observed form wins; pilot `br-norte-lex-mandioca` from published ALiB findings (counts and citations only). Wired into the Voice Contract, Voice Profile (`regional_form.*` counts), planner, `compare` (`regional_referent_changed`), engine (`regional_form_introduced`) and `voznativa regional packs|check`.
+- Regional Evidence Packs (`voznativa/regional.py`, `voznativa/data/regional_packs/`, `docs/evidence/REGIONAL_EVIDENCE.md`, ADR-0001): versioned, validated contract; abstention by default; the author's observed form wins; pilot `br-norte-lex-mandioca` from published ALiB findings (counts and citations only). Wired into the Voice Contract, Voice Profile (`regional_form.*` counts), planner, `compare` (`regional_referent_changed`), engine (`regional_form_introduced`) and `voznativa regional packs|check`.
 - Benchmark outcome axes (`voznativa.benchmark.outcome_axes`) with Wilson intervals; `ptbr-bench-v3` cases and manifest frozen (NOT_RUN) and its runner, with a fake-model harness test.
 - Metamorphic tests of the gate (`evals/test_metamorphic.py`); H4 ledger probe; three targeted mutation runs recorded.
 - Assurance records under `evals/assurance/` (Derivanta Engine and Assertiva runs, negative controls, dogfood ledger) and `scripts/assurance_record.py` (sanitized outputs with hashes).
@@ -210,7 +210,7 @@ Development version, **not a release and not qualified**. Plan and status: `docs
 
 ## 0.4.0.dev0 (development; continued as 0.5.0.dev0, never released)
 
-Development version, **not a release and not qualified**. Plan and status: `docs/PLAN_v0.4.0.md`. The v0.3.0 external criteria (independent holdout, blind human review round, CI) are still open and are not closed by anything below.
+Development version, **not a release and not qualified**. Plan and status: `docs/releases/v0.4/PLAN_v0.4.0.md`. The v0.3.0 external criteria (independent holdout, blind human review round, CI) are still open and are not closed by anything below.
 
 ### Fixed (v0.3.0 audit gaps; each has a regression test)
 - Eval reports mixed a missed detection with a different issue code: `ho-007` (frozen) is caught as `possible_addition` but asks for `span_added`. The strict count stays 23/24; reports now add `status_passed` and `failure_kind` (`false_green`, `false_red`, `severity_divergence`, `classification_divergence`). The case is unchanged.
@@ -236,7 +236,7 @@ Development version, **not a release and not qualified**. Plan and status: `docs
 
 ## 0.3.0.dev0 (development; **not concluded**)
 
-Not a release: the independent holdout, a blind human review round and CI are still open (`docs/PLAN_v0.3.0.md`).
+Not a release: the independent holdout, a blind human review round and CI are still open (`docs/releases/v0.3/PLAN_v0.3.0.md`).
 
 ### Added
 - PT-BR number words (`vinte e três`, `mil e quinhentos reais`, `meia dúzia`, `meia hora`) compared with digits; durations compared in seconds.
@@ -299,7 +299,7 @@ Not a release: the independent holdout, a blind human review round and CI are st
 - Rewrite Engine (`rewrite`, `rewrite-prompt`) with command, static and Emulate providers; retries on the dominant failure; returns the original when nothing is safe.
 - Benchmark: `ptbr-v1` cases (47-58 words), judgments applied by kind, manifest recording.
 - `SKILL.md` rewritten as an operational router; Claude Code plugin manifests; Codex invocation policy; `scripts/voznativa_cli.py` entry point.
-- `docs/EVALUATION.md`, `docs/RESEARCH_LOG.md`, `docs/LICENSING.md` (license proposal only; the repository still has no license).
+- `docs/evaluation/EVALUATION.md`, `docs/research/RESEARCH_LOG.md`, `docs/policy/LICENSING.md` (license proposal only; the repository still has no license).
 - Relation checks: entity role swaps, attribution swaps, reversed causal direction inside a sentence (connector orientation, causative fazer/levar) and antonym flips (13 polarity pairs); `relations.jsonl` and the frozen `holdout-relations.jsonl` (blind first run 11/12).
 - Judgments bound to the sha256 of both texts; `voznativa review` records signed human reviews from an interactive terminal; unsigned human JSON becomes `human_review_claimed`.
 - `evals/semantic/MANIFEST.json`: author, frozen hash, first-run result and contamination per suite; `voznativa eval --require-frozen`.

@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def documents(sizes: list[int]) -> list[str]:
-    files = [ROOT / "README.md", ROOT / "SKILL.md", *sorted((ROOT / "docs").glob("*.md"))]
+    files = [ROOT / "README.md", ROOT / "SKILL.md", *sorted((ROOT / "docs").rglob("*.md"), key=lambda p: p.name)]  # by file name; curves recorded before the CP12 move used docs/*.md
     out, doc, wanted = [], "", sorted(sizes)
     for f in files:
         doc += f.read_text(encoding="utf-8").replace("\r\n", "\n") + "\n\n"

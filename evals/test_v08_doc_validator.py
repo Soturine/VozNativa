@@ -39,6 +39,7 @@ class PlantedDefects(unittest.TestCase):
 
     def problems(self, body, name="docs/guide/pagina.md"):
         path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         return vp.markdown_problems(self.root, [path], SUBCOMMANDS)
 
@@ -71,12 +72,14 @@ class PlantedDefects(unittest.TestCase):
 
     def test_unknown_subcommand_only_in_current_docs(self):
         self.assertTrue(any("not a subcommand" in p for p in self.problems("rode `voznativa inventado x`\n")))
-        historical = self.problems("rode `voznativa inventado x`\n", name="docs/PLAN_v0.3.0.md")
+        historical = self.problems("rode `voznativa inventado x`\n", name="docs/releases/v0.3/PLAN_v0.3.0.md")
         self.assertEqual(historical, [], "history may name commands of its own time")
 
 
 class RealRepository(unittest.TestCase):
 
+    @unittest.skipUnless((ROOT / "voznativa").is_dir(), "the suite runs against an installed wheel: the tree has no "
+                                                        "source package for docs to link to")
     def test_documentation_is_clean(self):
         from voznativa.cli import build_parser
         action = next(a for a in build_parser()._actions if a.__class__.__name__ == "_SubParsersAction")
@@ -87,7 +90,7 @@ class RealRepository(unittest.TestCase):
     def test_a_renamed_document_is_caught_in_a_copy(self):
         with tempfile.TemporaryDirectory() as tmp:
             copy = Path(tmp)
-            for rel in ("README.md", "docs/README.md", "docs/v08/EVAL_PROTOCOL.md"):
+            for rel in ("README.md", "docs/README.md", "docs/releases/v0.8/EVAL_PROTOCOL.md"):
                 (copy / rel).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / rel, copy / rel)
             problems = vp.markdown_problems(copy, [copy / "README.md"], None)

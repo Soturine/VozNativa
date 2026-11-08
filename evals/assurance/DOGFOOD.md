@@ -49,7 +49,7 @@ Instrumentos: Assertiva 0.10.1 (wheel construído da tag `v0.10.1`, `2618d95`, v
 | DEF-VN-05 | identidade de versão | `--version` responde `derivanta-engine 0.1.0` em `0be2a38` (M2) e em `17fa564` (M3, com `review`, MCP e camada de aplicação) | a versão não distingue builds com superfícies diferentes; um relatório não diz qual Engine o produziu além de "0.1.0" | incluir revisão ou versão de desenvolvimento (`0.1.0.devN+g<sha>`) no `--version` e no campo `engine` dos relatórios | intake |
 | DEF-VN-04 | contextual | complexidade em `reference_markers` (oráculo copiado de propósito no teste diferencial) | o Engine não distingue oráculo de referência de código de produção | nenhuma; a disposição é do projeto | não encaminhado |
 
-Framework: o perfil derivado (`docs/ENGINEERING_PROFILE.md`) usou a Constituição, Authority & Exceptions, Continuous Assurance e DoR/DoD sem precisar de regra específica do VozNativa no núcleo; nada foi proposto para a Constituição.
+Framework: o perfil derivado (`docs/engineering/ENGINEERING_PROFILE.md`) usou a Constituição, Authority & Exceptions, Continuous Assurance e DoR/DoD sem precisar de regra específica do VozNativa no núcleo; nada foi proposto para a Constituição.
 
 ## 4. Estado de encaminhamento
 

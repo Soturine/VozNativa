@@ -8,7 +8,7 @@ path (or the file name) in code, tests, scripts, manifests or evidence
 records. A file mentioned by code or evidence is not moved without updating
 those consumers; a file nobody links is not "obsolete" for that reason alone.
 
-    python scripts/doc_inventory.py --out docs/v08/DOCS_INVENTORY.json
+    python scripts/doc_inventory.py --out <scratch>/inventory.json
 """
 from __future__ import annotations
 
@@ -37,8 +37,9 @@ def docs(files: list[str]) -> list[str]:
 
 def version_of(path: str) -> str | None:
     name = Path(path).name
-    if path.startswith("docs/v08/"):
-        return "0.8"
+    folder = re.match(r"docs/releases/v(\d+\.\d+)/", path)
+    if folder:
+        return folder.group(1)
     m = re.search(r"v(\d)\.(\d)", name) or re.search(r"_v(\d)\.(\d)", name)
     if m:
         return f"{m.group(1)}.{m.group(2)}"

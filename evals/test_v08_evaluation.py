@@ -201,7 +201,7 @@ class RepositoryDataset(unittest.TestCase):
                 self.assertEqual(m["semantic_risk"]["auto_accepted_without_identity"], 0, split)
 
     def test_known_misses_are_visible_not_hidden(self):
-        # The predicate sample had 4 known misses (16/20, docs/v08/AS_IS.md); CP6 detects pr-17 (recipient
+        # The predicate sample had 4 known misses (16/20, docs/releases/v0.8/AS_IS.md); CP6 detects pr-17 (recipient
         # omitted), so 3 remain (17/20). The core must show them, not hide them.
         misses = [r["id"] for r in self.record["results"] if r.get("semantic_risk") == "missed"]
         self.assertEqual(sorted(m for m in misses if m.startswith("cases-h07:")),

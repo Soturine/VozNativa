@@ -53,7 +53,7 @@ Quando os metadados permitirem, observar mudança de frequência ao longo do tem
 
 ## Licenciamento
 
-O Carolina reúne documentos de múltiplas origens e **cada documento mantém sua própria licença**, registrada nos metadados. O portal da USP declara o cabeçalho como CC BY-NC-SA 4.0; o card do Hugging Face (`carolina-c4ai/corpus-carolina`, consultado em 2026-10-19) declara `cc-by-4.0`. Esse conflito entre fontes oficiais não está resolvido (ver `docs/LICENSING.md`). Portanto:
+O Carolina reúne documentos de múltiplas origens e **cada documento mantém sua própria licença**, registrada nos metadados. O portal da USP declara o cabeçalho como CC BY-NC-SA 4.0; o card do Hugging Face (`carolina-c4ai/corpus-carolina`, consultado em 2026-10-19) declara `cc-by-4.0`. Esse conflito entre fontes oficiais não está resolvido (ver `docs/policy/LICENSING.md`). Portanto:
 
 - não copiar textos do corpus para o repo sem verificar a licença individual;
 - métricas agregadas devem guardar a versão e o recorte da fonte;

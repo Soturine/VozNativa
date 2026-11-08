@@ -14,7 +14,7 @@ reference point; the time of the event in the discourse is not inferred
 here (a "presente" can narrate the past).
 
 Mapping to UD follows the Portuguese treebanks as annotated, checked on
-Bosque, GSD and PetroGold (docs/adr/ADR-0002-linguistic-analysis.md):
+Bosque, GSD and PetroGold (docs/architecture/adr/ADR-0002-linguistic-analysis.md):
 futuro do pretérito = Mood=Cnd (no Tense); imperfeito do subjuntivo =
 Mood=Sub|Tense=Imp; futuro do subjuntivo = Mood=Sub|Tense=Fut;
 mais-que-perfeito simples = Tense=Pqp; pretérito perfeito = Tense=Past.

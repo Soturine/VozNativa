@@ -9,7 +9,7 @@ document time limit also covers the global validation.
 * ``rewrite_document`` returns the original when ``timeout_s`` runs out
   during the global validation (each revert runs compare again).
 
-Curves before/after: docs/v08/PERFORMANCE.md."""
+Curves before/after: docs/releases/v0.8/PERFORMANCE.md."""
 import json
 import random
 import re

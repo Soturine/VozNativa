@@ -31,7 +31,7 @@ from voznativa.spans import extract  # noqa: E402
 
 
 def source_text() -> str:
-    paths = [ROOT / "README.md", ROOT / "SKILL.md", *sorted((ROOT / "docs").glob("*.md"))]
+    paths = [ROOT / "README.md", ROOT / "SKILL.md", *sorted((ROOT / "docs").rglob("*.md"), key=lambda p: p.name)]  # by file name; curves recorded before the CP12 move used docs/*.md
     return "\n\n".join(p.read_text(encoding="utf-8") for p in paths)
 
 

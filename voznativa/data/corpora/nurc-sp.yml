@@ -20,7 +20,7 @@ period:
 license:
   code: CC-BY-NC-ND-4.0
   per_document: false
-  evidence: Corpus Mínimo (2022, Portulan CLARIN), docs/LICENSING.md
+  evidence: Corpus Mínimo (2022, Portulan CLARIN), docs/policy/LICENSING.md
 access:
   type: unknown
   note: Corpus Mínimo distributed through Portulan CLARIN (reported)
