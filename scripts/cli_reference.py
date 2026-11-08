@@ -31,7 +31,29 @@ def help_of(parser) -> str:
     buffer = io.StringIO()
     with redirect_stdout(buffer):
         parser.print_help()
-    return buffer.getvalue().replace("\r\n", "\n")
+    return _version_neutral(buffer.getvalue().replace("\r\n", "\n"))
+
+
+def _version_neutral(text: str) -> str:
+    """argparse wraps the usage block and the trailing "..." of a subcommand list differently from
+    Python 3.13 on (same content, other line breaks; found by the CP16 Linux 3.13 run). Join both so
+    the reference is the same on every supported Python; the help paragraphs wrap alike everywhere."""
+    out: list[str] = []
+    in_usage = False
+    for line in text.split("\n"):
+        if line.startswith("usage:"):
+            in_usage = True
+            out.append(line.rstrip())
+            continue
+        if in_usage and line.strip():
+            out[-1] += " " + line.strip()
+            continue
+        in_usage = False
+        if line.strip() == "..." and out:
+            out[-1] = out[-1].rstrip() + " ..."
+            continue
+        out.append(line)
+    return "\n".join(out)
 
 
 def render() -> str:

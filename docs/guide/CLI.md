@@ -7,9 +7,7 @@ Códigos de saída do `compare` (e do `rewrite` com `--judgment`): 0 `identical`
 ## `voznativa`
 
 ```text
-usage: voznativa [-h] [--version]
-                 {doctor,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
-                 ...
+usage: voznativa [-h] [--version] {doctor,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
 
 VozNativa PT-BR voice engine
 
@@ -105,9 +103,7 @@ options:
 ## `voznativa blind-review`
 
 ```text
-usage: voznativa blind-review [-h] --reviewer REVIEWER --out OUT [--limit LIMIT]
-                              [--ssh-key SSH_KEY] [--principal PRINCIPAL]
-                              tasks
+usage: voznativa blind-review [-h] --reviewer REVIEWER --out OUT [--limit LIMIT] [--ssh-key SSH_KEY] [--principal PRINCIPAL] tasks
 
 positional arguments:
   tasks
@@ -156,9 +152,7 @@ options:
 ## `voznativa compare`
 
 ```text
-usage: voznativa compare [-h] [--judgment JUDGMENT] [--protect PROTECT]
-                         [--protect-file PROTECT_FILE]
-                         original candidate
+usage: voznativa compare [-h] [--judgment JUDGMENT] [--protect PROTECT] [--protect-file PROTECT_FILE] original candidate
 
 positional arguments:
   original
@@ -175,15 +169,7 @@ options:
 ## `voznativa contract`
 
 ```text
-usage: voznativa contract [-h] [--context CONTEXT] [--profile PROFILE] [--set SET] [--compact]
-                          [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                          [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                          [--region REGION] [--region-strength REGION_STRENGTH]
-                          [--community COMMUNITY] [--slang-strength SLANG_STRENGTH]
-                          [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE]
-                          [--voice-channel VOICE_CHANNEL] [--repo REPO]
-                          [--document-profile DOCUMENT_PROFILE]
-                          [text]
+usage: voznativa contract [-h] [--context CONTEXT] [--profile PROFILE] [--set SET] [--compact] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [text]
 
 positional arguments:
   text
@@ -263,8 +249,7 @@ options:
 ### `voznativa corpus list`
 
 ```text
-usage: voznativa corpus list [-h]
-                             [--status {CATALOGUED,SOURCE_VERIFIED,ACCESS_VERIFIED,CONNECTOR_READY,LOCALLY_VALIDATED,EVALUATION_INTEGRATED,RESTRICTED,AWAITING_PERMISSION,UNAVAILABLE,DEPRECATED}]
+usage: voznativa corpus list [-h] [--status {CATALOGUED,SOURCE_VERIFIED,ACCESS_VERIFIED,CONNECTOR_READY,LOCALLY_VALIDATED,EVALUATION_INTEGRATED,RESTRICTED,AWAITING_PERMISSION,UNAVAILABLE,DEPRECATED}]
 
 options:
   -h, --help            show this help message and exit
@@ -274,9 +259,7 @@ options:
 ### `voznativa corpus permissions`
 
 ```text
-usage: voznativa corpus permissions [-h] [--purpose {noncommercial_research,commercial}]
-                                    [--destination DESTINATION]
-                                    source
+usage: voznativa corpus permissions [-h] [--purpose {noncommercial_research,commercial}] [--destination DESTINATION] source
 
 positional arguments:
   source
@@ -349,15 +332,7 @@ options:
 ## `voznativa diagnose`
 
 ```text
-usage: voznativa diagnose [-h] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT,CREATE}]
-                          [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                          [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                          [--region REGION] [--region-strength REGION_STRENGTH]
-                          [--community COMMUNITY] [--slang-strength SLANG_STRENGTH]
-                          [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE]
-                          [--voice-channel VOICE_CHANNEL] [--repo REPO]
-                          [--document-profile DOCUMENT_PROFILE]
-                          text
+usage: voznativa diagnose [-h] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT,CREATE}] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] text
 
 positional arguments:
   text
@@ -426,9 +401,7 @@ options:
 ## `voznativa evaluate`
 
 ```text
-usage: voznativa evaluate [-h] [--root ROOT] [--out OUT] [--report REPORT] [--verify RUN]
-                          [--replay RUN]
-                          [dataset]
+usage: voznativa evaluate [-h] [--root ROOT] [--out OUT] [--report REPORT] [--verify RUN] [--replay RUN] [dataset]
 
 positional arguments:
   dataset          voznativa.eval_dataset JSON (paths relative to --root)
@@ -447,9 +420,7 @@ options:
 ## `voznativa ground`
 
 ```text
-usage: voznativa ground [-h] [--original ORIGINAL] [--fact FACT] [--repo REPO] [--request REQUEST]
-                        [--judgment JUDGMENT]
-                        candidate
+usage: voznativa ground [-h] [--original ORIGINAL] [--fact FACT] [--repo REPO] [--request REQUEST] [--judgment JUDGMENT] candidate
 
 positional arguments:
   candidate
@@ -466,10 +437,7 @@ options:
 ## `voznativa integrity`
 
 ```text
-usage: voznativa integrity [-h] [--clean]
-                           [--policy {tags,bidi_unbalanced,zero_width_outside_emoji,controls,soft_hyphen}]
-                           [--text-only]
-                           text
+usage: voznativa integrity [-h] [--clean] [--policy {tags,bidi_unbalanced,zero_width_outside_emoji,controls,soft_hyphen}] [--text-only] text
 
 positional arguments:
   text
@@ -529,15 +497,7 @@ options:
 ## `voznativa plan`
 
 ```text
-usage: voznativa plan [-h] [--profile PROFILE] [--set SET]
-                      [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                      [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                      [--region REGION] [--region-strength REGION_STRENGTH]
-                      [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH]
-                      [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL]
-                      [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT]
-                      [--protect-file PROTECT_FILE]
-                      text
+usage: voznativa plan [-h] [--profile PROFILE] [--set SET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] text
 
 positional arguments:
   text
@@ -598,14 +558,7 @@ options:
 ## `voznativa refs`
 
 ```text
-usage: voznativa refs [-h] [--contract CONTRACT] [--budget BUDGET]
-                      [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                      [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                      [--region REGION] [--region-strength REGION_STRENGTH]
-                      [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH]
-                      [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL]
-                      [--repo REPO] [--document-profile DOCUMENT_PROFILE]
-                      [text]
+usage: voznativa refs [-h] [--contract CONTRACT] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [text]
 
 positional arguments:
   text
@@ -650,9 +603,7 @@ options:
 ## `voznativa regional`
 
 ```text
-usage: voznativa regional [-h] [--region REGION] [--region-strength REGION_STRENGTH]
-                          [--genre GENRE] [--channel CHANNEL] [--profile PROFILE]
-                          {packs,check} [text]
+usage: voznativa regional [-h] [--region REGION] [--region-strength REGION_STRENGTH] [--genre GENRE] [--channel CHANNEL] [--profile PROFILE] {packs,check} [text]
 
 positional arguments:
   {packs,check}
@@ -670,9 +621,7 @@ options:
 ## `voznativa review`
 
 ```text
-usage: voznativa review [-h] --reviewer REVIEWER --out OUT [--ssh-key SSH_KEY]
-                        [--principal PRINCIPAL]
-                        original candidate
+usage: voznativa review [-h] --reviewer REVIEWER --out OUT [--ssh-key SSH_KEY] [--principal PRINCIPAL] original candidate
 
 positional arguments:
   original
@@ -691,23 +640,7 @@ options:
 ## `voznativa rewrite`
 
 ```text
-usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET]
-                         [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                         [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                         [--region REGION] [--region-strength REGION_STRENGTH]
-                         [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH]
-                         [--fact FACT] [--voice-sample VOICE_SAMPLE]
-                         [--voice-channel VOICE_CHANNEL] [--repo REPO]
-                         [--document-profile DOCUMENT_PROFILE] [--protect PROTECT]
-                         [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate]
-                         [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--attempts ATTEMPTS]
-                         [--candidates CANDIDATES] [--timeout TIMEOUT]
-                         [--provider-env {inherit,minimal}]
-                         [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only]
-                         [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}]
-                         [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS]
-                         [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse]
-                         text
+usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -774,16 +707,7 @@ options:
 ## `voznativa rewrite-prompt`
 
 ```text
-usage: voznativa rewrite-prompt [-h] [--profile PROFILE] [--set SET] [--budget BUDGET]
-                                [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                                [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                                [--region REGION] [--region-strength REGION_STRENGTH]
-                                [--community COMMUNITY] [--slang-strength SLANG_STRENGTH]
-                                [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE]
-                                [--voice-channel VOICE_CHANNEL] [--repo REPO]
-                                [--document-profile DOCUMENT_PROFILE] [--protect PROTECT]
-                                [--protect-file PROTECT_FILE] [--inline-refs]
-                                text
+usage: voznativa rewrite-prompt [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--inline-refs] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -820,13 +744,7 @@ options:
 ## `voznativa route`
 
 ```text
-usage: voznativa route [-h] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE]
-                       [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE]
-                       [--region REGION] [--region-strength REGION_STRENGTH]
-                       [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH]
-                       [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL]
-                       [--repo REPO] [--document-profile DOCUMENT_PROFILE]
-                       text
+usage: voznativa route [-h] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] text
 
 positional arguments:
   text
@@ -893,9 +811,7 @@ options:
 ### `voznativa standards resolve`
 
 ```text
-usage: voznativa standards resolve [-h] --document-type DOCUMENT_TYPE --submission-date
-                                   SUBMISSION_DATE [--authority AUTHORITY] [--series SERIES]
-                                   [--event-year EVENT_YEAR]
+usage: voznativa standards resolve [-h] --document-type DOCUMENT_TYPE --submission-date SUBMISSION_DATE [--authority AUTHORITY] [--series SERIES] [--event-year EVENT_YEAR]
 
 options:
   -h, --help            show this help message and exit

@@ -34,6 +34,22 @@ class Guides(unittest.TestCase):
                               cwd=ROOT, env=ENV)
         self.assertEqual(done.returncode, 0, done.stdout.decode("utf-8", "replace"))
 
+    def test_the_reference_does_not_depend_on_how_argparse_wraps(self):
+        # CP16: the same help wrapped by Python 3.12 and by 3.13 (Linux 3.13 run of d4b0ed1).
+        sys.path.insert(0, str(ROOT / "scripts"))
+        try:
+            from cli_reference import _version_neutral
+        finally:
+            sys.path.pop(0)
+        py312 = ("usage: voznativa standards resolve [-h] --document-type DOCUMENT_TYPE --submission-date\n"
+                 "                                   SUBMISSION_DATE [--authority AUTHORITY]\n\n"
+                 "positional arguments:\n  {doctor,demo}\n                 ...\n")
+        py313 = ("usage: voznativa standards resolve [-h] --document-type DOCUMENT_TYPE\n"
+                 "                                   --submission-date SUBMISSION_DATE [--authority AUTHORITY]\n\n"
+                 "positional arguments:\n  {doctor,demo} ...\n")
+        self.assertEqual(_version_neutral(py312), _version_neutral(py313))
+        self.assertIn("--submission-date SUBMISSION_DATE [--authority AUTHORITY]\n", _version_neutral(py312))
+
     def test_quickstart_commands_run_with_the_documented_exit_code(self):
         commands = list(quickstart_commands())
         self.assertGreaterEqual(len(commands), 12)
