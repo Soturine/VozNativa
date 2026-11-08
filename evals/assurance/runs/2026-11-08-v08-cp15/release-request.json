@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1",
+  "kind": "derivanta-engine/evaluation-request",
+  "project": {
+    "name": "VozNativa",
+    "objective": "PT-BR rewrite engine and Agent Skill with a deterministic semantic gate for candidate rewrites",
+    "users": {"audiences": ["writers and editors", "AI coding agents running the Skill"], "privileged_roles": ["maintainer"]},
+    "platform": {"targets": ["Python library", "CLI", "Agent Skill"], "connectivity": "offline by default; optional model provider", "deployment_environment": "user machines (pip install)"},
+    "technologies": [
+      {"name": "Python", "version": "3.12", "role": "implementation"},
+      {"name": "PyYAML", "role": "data files"},
+      {"name": "GitHub Actions", "role": "manual CI (workflow_dispatch only)"}
+    ],
+    "data": {"categories": ["user texts (processed locally)", "frozen evaluation sets"], "retention": "none by the tool"},
+    "integrations": ["optional LLM provider command (user-configured)"],
+    "security_privacy_safety": {"auth_required": false, "sensitive_data": ["user texts sent to a provider only when the user configures one"], "safety_relevance": "none"},
+    "quality_attributes": {"critical": ["meaning preservation (no false green in the semantic gate)", "no silent data egress"], "important": ["reproducibility of evaluation records", "performance on long documents"]}
+  },
+  "task": {
+    "objective": "Qualify and publish v0.8.0.dev0 as a GitHub pre-release (not stable, not PyPI) from a qualified main commit after one manual CI run",
+    "intent": "release",
+    "risk_flags": ["public_attack_surface"],
+    "acceptance_criteria": ["the tagged commit is the one the CI run qualified", "wheel, sdist and SHA-256 checksums attached", "no result labelled human or independent unless it was"],
+    "claims": [
+      {"id": "C1", "statement": "Local qualification gate passes on the release candidate", "asserted_state": "executed", "evidence_refs": ["E1"]},
+      {"id": "C2", "statement": "Semantic quality of rewrites is independently validated", "asserted_state": "verified"},
+      {"id": "C3", "statement": "False-green leads of the Assertiva dogfood were judged by negative controls", "asserted_state": "executed", "evidence_refs": ["E2"]}
+    ]
+  },
+  "evidence": [
+    {"id": "E1", "kind": "test_run", "reference": "python scripts/qualify.py --scope local (verdict PASS)", "revision": "b2d106f"},
+    {"id": "E2", "kind": "test_run", "reference": "scripts/experiments/v08_cp14_false_green_controls.py", "revision": "dc4078d"}
+  ]
+}

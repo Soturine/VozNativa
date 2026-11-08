@@ -1,0 +1,6 @@
+PASSED   lint (exit 0)
+PASSED   format (exit 0)
+PASSED   types (exit 0)
+PASSED   tests (exit 0)
+PASSED   conformance (exit 0)
+GATE PASSED

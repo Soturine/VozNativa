@@ -1,0 +1,125 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-08-v08-cp15",
+  "entries": [
+    {
+      "file": "engine-compare-98094ac-vs-b2d106f.json",
+      "command": "derivanta-engine compare <98094ac retest-input report> <b2d106f report> --format json (targets sanitized)",
+      "exit_code": 0,
+      "raw_sha256": "d8393b68d31ddbb60ac3dc6591e192cd6957f3a2a532ab45c07cc8536d7f550d",
+      "published_sha256": "d8393b68d31ddbb60ac3dc6591e192cd6957f3a2a532ab45c07cc8536d7f550d",
+      "sanitized": false
+    },
+    {
+      "file": "engine-compare-ecf3dd2-vs-98094ac.json",
+      "command": "derivanta-engine compare ../2026-11-07-h07-cp5b/engine-inspect-ecf3dd2.json <98094ac report, target sanitized> --format json",
+      "exit_code": 0,
+      "raw_sha256": "00281f21aed60900db1ea3997637513daced2cb2fe24502b2c7c83543d2a054e",
+      "published_sha256": "00281f21aed60900db1ea3997637513daced2cb2fe24502b2c7c83543d2a054e",
+      "sanitized": false
+    },
+    {
+      "file": "engine-evaluate-release.json",
+      "command": "derivanta-engine evaluate --input release-request.json --repository <clone b2d106f> --framework <Framework 218761d> --format json",
+      "exit_code": 0,
+      "raw_sha256": "ec81b05b72962401cd47a5a82b332717f6fb7f96bdc32ea587905a50b16f1787",
+      "published_sha256": "a218cb0e879eb954ad36eae7c1370b272874856c9019bdbaabafe45da95e6b21",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect-98094ac-retest-input.json",
+      "command": "derivanta-engine inspect <clone 98094ac> --maintainability --traceability traceability-v08-b2d106f.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "2a6bf373acc2ae97e1742cc183b0a89e5bb2618b06929bc26a5969f7f174abf6",
+      "published_sha256": "4c903dbfc7d68f25ab70ff4d645ddfcc67eda8d90dce0cd5d3f5d57eb9ca1fbc",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect-98094ac.json",
+      "command": "derivanta-engine inspect <clone 98094ac> --maintainability --traceability traceability-v08-98094ac.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "62fd26b60ccddd4194f461b9c96d1b494d51349689268f26b01e8c616bbab809",
+      "published_sha256": "18ed4a77357846918ea258c87d3355154fb8b3c7a2f3503ccd1c2cc811cfc93c",
+      "sanitized": true
+    },
+    {
+      "file": "engine-inspect-b2d106f.json",
+      "command": "derivanta-engine inspect <clone b2d106f> --maintainability --traceability traceability-v08-b2d106f.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "2f1f215d6d43183dfc2599a8a2872c028f4473653dddf61eab694f6cd695ad3e",
+      "published_sha256": "5c472d3696eedf10bbacea0ecf26f4113e6b7cef2f50761b432d3d24d583699c",
+      "sanitized": true
+    },
+    {
+      "file": "engine-verify-32b89ec.log",
+      "command": "PYTEST_ADDOPTS=--basetemp=<tmp> python tools/verify.py (Engine 0cc48b3, code of 32b89ec)",
+      "exit_code": 0,
+      "raw_sha256": "190590758aa0014addba7f9602629b860aa610967b4c406da1d424f7a37194ca",
+      "published_sha256": "c4cd84ea820c74968ad9d96dd747ed9f4f6a919050e790f53d3762aa2b17c327",
+      "sanitized": true
+    },
+    {
+      "file": "engine-verify-acd6ca3.log",
+      "command": "PYTEST_ADDOPTS=--basetemp=<tmp> python tools/verify.py (Engine acd6ca3)",
+      "exit_code": 0,
+      "raw_sha256": "190590758aa0014addba7f9602629b860aa610967b4c406da1d424f7a37194ca",
+      "published_sha256": "c4cd84ea820c74968ad9d96dd747ed9f4f6a919050e790f53d3762aa2b17c327",
+      "sanitized": true
+    },
+    {
+      "file": "release-request.json",
+      "command": "evaluation request declared by the agent for the v0.8.0.dev0 release task",
+      "exit_code": 0,
+      "raw_sha256": "5a96be85e59a245de8af3a2774587408e64999b0d728fff7d979c7407baeec88",
+      "published_sha256": "5a96be85e59a245de8af3a2774587408e64999b0d728fff7d979c7407baeec88",
+      "sanitized": false
+    },
+    {
+      "file": "traceability-v08-98094ac.json",
+      "command": "python -B scripts/experiments/v08_cp15_traceability_input.py --out <file> (first input)",
+      "exit_code": 0,
+      "raw_sha256": "df56db0d156cfc20035d3e4818026e9f3360a909375ae802a61a43bc6aaa2898",
+      "published_sha256": "5a2c5d0ace5d4f9a21b37267d5849d4a89d0573c06968430e2d411e547d540e9",
+      "sanitized": true
+    },
+    {
+      "file": "traceability-v08-b2d106f.json",
+      "command": "python -B scripts/experiments/v08_cp15_traceability_input.py --out <file> (input used on both sides of the retest)",
+      "exit_code": 0,
+      "raw_sha256": "7c4c344297d6f7786b114ba29d0b2bac787d8d4acfda201ace91d1752af3c3f2",
+      "published_sha256": "995107811c8ed81ee310b5d8ecf27b6a2e2840e49b58ec51d9a9cd69f253e182",
+      "sanitized": true
+    },
+    {
+      "file": "unittest-seed-1.txt",
+      "command": "PYTHONHASHSEED=1 python -B -m unittest discover -s evals -p test_*.py -v (git archive b2d106f), outcome lines sorted",
+      "exit_code": 0,
+      "raw_sha256": "dd1831114881044d0e9a86c4a09cacbbe2cec426edff4bd2c9fb514c3b9dc25a",
+      "published_sha256": "dd1831114881044d0e9a86c4a09cacbbe2cec426edff4bd2c9fb514c3b9dc25a",
+      "sanitized": false
+    },
+    {
+      "file": "unittest-seed-4242.txt",
+      "command": "PYTHONHASHSEED=4242 (same), outcome lines sorted; identical to seed 1",
+      "exit_code": 0,
+      "raw_sha256": "dd1831114881044d0e9a86c4a09cacbbe2cec426edff4bd2c9fb514c3b9dc25a",
+      "published_sha256": "dd1831114881044d0e9a86c4a09cacbbe2cec426edff4bd2c9fb514c3b9dc25a",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-08T05:16:09+00:00",
+  "revision": "0fa3648f4c8c8e700cc408d5717ee42406f8bad8",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "derivanta-engine": "0.1.0@acd6ca3+32b89ec",
+    "derivanta-framework": "218761d"
+  },
+  "notes": [
+    "AGENT_OBSERVED (Claude Code session). Reports of fresh clones name the clone's origin as target; the recorder sanitizes it, and compares were run on copies with the same sanitization."
+  ]
+}

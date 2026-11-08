@@ -1,0 +1,262 @@
+{
+  "schema_version": "0.1",
+  "kind": "derivanta-engine/traceability-input",
+  "requirements": [
+    {
+      "id": "V08-001",
+      "statement": "Um plano serializado não concede permissão para reescrever verso; a autorização vem do chamador",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-001)",
+      "verified_by": [
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_verse_authorisation_is_refused",
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_forged_plan_crlf_and_poem_only",
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_authorisation_must_match_the_plan",
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_caller_grant_never_unprotects_code_tables_or_quotes",
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_non_boolean_caller_grant_is_refused",
+        "evals/test_v08_integrity.py::PlanCannotAuthoriseVerse::test_legitimate_plans_are_unchanged"
+      ]
+    },
+    {
+      "id": "V08-002",
+      "statement": "Um registro de `resume` não é autoridade: candidato revalidado, estrutura checada, sem veredito de juiz herdado, registro refeito do plano",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-002)",
+      "verified_by": [
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_accepted_outcome_is_not_inherited",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_that_changes_structure_is_not_reused",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_that_fails_the_unit_gate_is_not_reused",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_forged_candidate_with_protocol_tokens_is_not_reused",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resumed_unit_outcome_follows_the_gate",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resume_record_fields_come_from_the_plan",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_resume_cannot_touch_a_protected_unit",
+        "evals/test_v08_integrity.py::ResumeIsNotAuthority::test_legitimate_resume_still_avoids_the_provider"
+      ]
+    },
+    {
+      "id": "V08-003",
+      "statement": "`spans.extract` subquadrático com saída idêntica",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-003)",
+      "verified_by": [
+        "evals/test_v08_spans_perf.py"
+      ]
+    },
+    {
+      "id": "V08-004",
+      "statement": "Análise verbal com ordem estável e memo sem vazamento entre chamadas",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-004)",
+      "verified_by": [
+        "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_callers_cannot_change_what_the_next_caller_gets",
+        "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_memo_returns_what_the_analysis_returns",
+        "evals/test_v08_spans_perf.py::MorphMemoAndOrder::test_order_does_not_depend_on_string_hashing"
+      ]
+    },
+    {
+      "id": "V08-005",
+      "statement": "Primeiro uso sem modelo nem chave: `doctor` e `demo`, de qualquer pasta e do wheel",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-005)",
+      "verified_by": [
+        "evals/test_v08_dx.py::Doctor::test_ok_here_and_never_touches_the_network",
+        "evals/test_v08_dx.py::Doctor::test_never_prints_a_secret",
+        "evals/test_v08_dx.py::Doctor::test_a_missing_dependency_is_a_fail_with_a_hint",
+        "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_bundled_texts_are_the_quickstart_files",
+        "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_demo_reports_the_three_outcomes_without_a_model",
+        "evals/test_v08_dx.py::DemoMatchesTheQuickstart::test_demo_cli_writes_no_file_and_needs_no_checkout",
+        "scripts/smoke_installed.py"
+      ]
+    },
+    {
+      "id": "V08-006",
+      "statement": "Erros de entrada dizem o que fazer, exit 64 mantido",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-006)",
+      "verified_by": [
+        "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_missing_file",
+        "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_not_utf8",
+        "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_a_directory",
+        "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_path_with_spaces_and_accents",
+        "evals/test_v08_dx.py::ErrorsSayWhatToDo::test_rewrite_without_provider_points_to_the_demo"
+      ]
+    },
+    {
+      "id": "V08-007",
+      "statement": "A suíte roda contra o wheel instalado, fora do checkout (GAP-06)",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-007)",
+      "verified_by": [
+        "evals/test_v08_dx.py::SuiteAgainstTheWheel::test_refuses_a_voznativa_that_is_not_the_venv_one",
+        "evals/test_v08_dx.py::SuiteAgainstTheWheel::test_the_copy_leaves_the_package_out"
+      ]
+    },
+    {
+      "id": "V08-008",
+      "statement": "Evaluation Core: splits coerentes com o MANIFEST, eixos por split com denominadores e IC, registro verificável, NOT_RUN nunca contado",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-008)",
+      "verified_by": [
+        "evals/test_v08_evaluation.py"
+      ]
+    },
+    {
+      "id": "V08-009",
+      "statement": "Registro: integridade separada de autenticidade; replay na revisão gravada",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-009)",
+      "verified_by": [
+        "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_a_clean_run_reproduces",
+        "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_a_forger_passes_verify_but_not_replay",
+        "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_records_that_cannot_be_replayed_say_so",
+        "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_inputs_changed_since_the_revision",
+        "evals/test_v08_eval_integrity.py::ReplayIsNotTheDigest::test_the_record_states_its_limits"
+      ]
+    },
+    {
+      "id": "V08-010",
+      "statement": "Independência exige evidência verificável; caminhos resolvidos ficam na raiz",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-010)",
+      "verified_by": [
+        "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_a_bare_flag_is_not_enough",
+        "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_missing_fields_and_the_developer_as_author",
+        "evals/test_v08_eval_integrity.py::IndependenceNeedsEvidence::test_the_freezing_commit_must_hold_the_same_file",
+        "evals/test_v08_eval_integrity.py::PathsStayInside::test_a_link_out_of_the_root_is_refused",
+        "evals/test_v08_eval_integrity.py::PathsStayInside::test_a_windows_junction_out_of_the_root_is_refused",
+        "evals/test_v08_eval_integrity.py::PathsStayInside::test_the_inside_check_itself"
+      ]
+    },
+    {
+      "id": "V08-011",
+      "statement": "Vazamento entre conjuntos detectado; holdout contaminado invalida o run",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-011)",
+      "verified_by": [
+        "evals/test_v08_eval_integrity.py::Leakage::test_a_development_case_copied_into_a_holdout_invalidates_the_run",
+        "evals/test_v08_eval_integrity.py::Leakage::test_near_duplicates_need_six_words",
+        "evals/test_v08_eval_integrity.py::Leakage::test_the_repository_dataset_reports_its_known_leak"
+      ]
+    },
+    {
+      "id": "V08-012",
+      "statement": "Braços B0–B6 numa interface; stub é `SYNTHETIC_FIXTURE`; sem provider é `NOT_RUN`; B3 usa o prompt da Skill",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-012)",
+      "verified_by": [
+        "evals/test_v08_arms.py"
+      ]
+    },
+    {
+      "id": "V08-013",
+      "statement": "Destinatário, troca dá/recebe e converso com o mesmo sujeito sinalizados (major); converso com papéis trocados não; classes de antônimos novas com formas explícitas",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-013)",
+      "verified_by": [
+        "evals/test_v08_events.py"
+      ]
+    },
+    {
+      "id": "V08-014",
+      "statement": "Empates do alinhamento de frases não criam negação ou modalidade \"movida\" falsa, sem perder detecção",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-014)",
+      "verified_by": [
+        "evals/test_v08_alignment.py"
+      ]
+    },
+    {
+      "id": "V08-015",
+      "statement": "`compare` em documento longo sem varreduras quadráticas de alinhamento e nomes, mesma saída; validação global dentro de `timeout_s`",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-015)",
+      "verified_by": [
+        "evals/test_v08_compare_perf.py"
+      ]
+    },
+    {
+      "id": "V08-016",
+      "statement": "Documento longo: reescrita limpa com frases gêmeas em unidades diferentes não é revertida; documento misto mantém bytes protegidos e só envia verso autorizado",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-016)",
+      "verified_by": [
+        "evals/test_v08_longform.py"
+      ]
+    },
+    {
+      "id": "V08-017",
+      "statement": "Arquitetura com os três modos e a seção Agent-Led Runtime & Skill Validation, separando implementado, NOT_RUN e planejado",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-017)",
+      "verified_by": [
+        "evals/test_readme.py"
+      ]
+    },
+    {
+      "id": "V08-018",
+      "statement": "Eixos de qualidade separados, rotulados como proxies, com `not_applicable` quando não há o que medir",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-018)",
+      "verified_by": [
+        "evals/test_v08_axes.py"
+      ]
+    },
+    {
+      "id": "V08-019",
+      "statement": "Curva cobertura × precisão do Router reproduzindo a regra atual",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-019)",
+      "verified_by": []
+    },
+    {
+      "id": "V08-020",
+      "statement": "Execuções com provider e agente reais preparadas com consumo estimado e limites, sem chamada antes da autorização",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-020)",
+      "verified_by": []
+    },
+    {
+      "id": "V08-021",
+      "statement": "Autoavaliação do agente nunca aparece como julgamento independente",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-021)",
+      "verified_by": [
+        "evals/test_v08_judge_relation.py"
+      ]
+    },
+    {
+      "id": "V08-022",
+      "statement": "Piloto agent-led com a Skill operada por agente real, sem API externa",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-022)",
+      "verified_by": [
+        "evals/v08/agent-pilot/PILOT.md"
+      ]
+    },
+    {
+      "id": "V08-023",
+      "statement": "O fluxo padrão da Skill consulta `diagnose` antes de NO_CHANGE",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-023)",
+      "verified_by": [
+        "evals/test_v08_skill_flow.py"
+      ]
+    },
+    {
+      "id": "V08-024",
+      "statement": "Standards Registry, Applicability Resolver (edição pela data, nunca a mais recente), `document_profile` sem efeito quando ausente",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-024)",
+      "verified_by": [
+        "evals/test_v08_standards.py"
+      ]
+    },
+    {
+      "id": "V08-025",
+      "statement": "Rubric Engine: objetivo só verificado, subjetivo para julgamento, nenhuma nota",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-025)",
+      "verified_by": [
+        "evals/test_v08_rubric.py"
+      ]
+    },
+    {
+      "id": "V08-026",
+      "statement": "Modelo de ameaças com controle e prova por ameaça; YAML hostil recusado; `compare` com limite; nenhum comando offline abre conexão",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-026)",
+      "verified_by": [
+        "evals/test_v08_security.py"
+      ]
+    },
+    {
+      "id": "V08-027",
+      "statement": "Dogfood agent-led da Assertiva: pistas de falso verde julgadas por controle negativo; mutação dirigida de `events.py`; passiva no singular com quadro de evento",
+      "source": "docs/releases/v0.8/TRACEABILITY.md (V08-027)",
+      "verified_by": [
+        "scripts/experiments/v08_cp14_false_green_controls.py",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_a_singular_passive_has_a_frame",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_recipient_dropped_or_swapped_in_the_passive",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_a_conjunction_before_a_finite_verb_is_not_a_passive",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_adverbs_before_the_verb_do_not_hide_the_agent",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_a_second_finite_verb_lowers_confidence",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_the_recipient_is_read_within_eight_words_of_the_verb",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_bare_a_before_a_common_noun_is_the_article",
+        "evals/test_v08_events.py::PassiveAndBoundaries::test_a_shorter_stem_is_not_the_converse"
+      ]
+    }
+  ]
+}
