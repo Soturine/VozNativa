@@ -28,6 +28,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP10 | Standards Registry, Applicability Resolver, `document_profile` | concluído | `db4d4f9`, `d4b9f8c` | ST-01, ST-02, ST-04; ST-03 parcial. Fichas reais do Enem 2026 (`SOURCE_CITED`, sem hash: download bloqueado pelo servidor) e 2025 (`CATALOGUED`). Replay histórico com fichas sintéticas. [`DOCUMENT_STANDARDS.md`](DOCUMENT_STANDARDS.md) |
 | CP11 | Rubric Engine | concluído (piloto acadêmico NOT_RUN) | `db4d4f9`, `d4b9f8c` | ST-05: checagens objetivas só verificadas, subjetivas para julgamento, nenhuma nota. Piloto Enem: 3 critérios para julgamento, 2 não aplicados por falta de fonte oficial |
 | CP12 | Documentação: guias, hub, inventário, reorganização em pastas | concluído | `38a4050` e o commit da mudança de pastas | `docs/guide/` (INSTALL, QUICKSTART com comandos executados por teste, CLI gerado do parser, AGENT_SKILL, TROUBLESHOOTING); hub por público; inventário de 62 documentos com estado e dependências; avisos de estado nos históricos; SHAs reais no lugar de "(este commit)". A pedido do mantenedor, documentos movidos para pastas por assunto e versão (`docs/releases/v0.X/`), todos os consumidores mutáveis atualizados e [`../../PATH_MAP.md`](../../PATH_MAP.md) para os registros imutáveis; validador confere links, âncoras, caminhos pessoais, segredos e subcomandos em todos os documentos, com defeitos plantados em testes |
+| CP13 | Segurança, privacidade, licenças | concluído | (registrado no próximo commit) | [`THREAT_MODEL.md`](THREAT_MODEL.md): fronteiras, ameaças, controle e prova por linha, risco residual; YAML hostil recusado sem executar nada (GAP-25); `compare` da CLI recusa acima de 200 mil palavras (GAP-24); comandos offline sem rede; padrão `inherit` do provider como risco aceito (GAP-23) |
 
 ## Regras desta rodada
 
@@ -44,4 +45,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP13: segurança, privacidade, licenças e threat model; depois CP14–CP15 (dogfood agent-led de Assertiva e Derivanta) e CP16. R1–R4 do CP9 continuam aguardando autorização.
+CP14: dogfood agent-led da Assertiva (skill real, `audit --execute` em clone limpo, assessment, mutação dirigida, investigação de oráculos e falsos verdes, feedback upstream sem disparar Actions); depois CP15 (Derivanta) e CP16. R1–R4 do CP9 continuam aguardando autorização.
