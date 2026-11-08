@@ -1,5 +1,7 @@
 # Estado de execução da v0.7.0 (retomada de sessão)
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Retome por este arquivo **e** pela realidade do Git (`git fetch --prune; git log --oneline origin/dev/v0.7.0 -20`), nunca pela memória de uma conversa. Se divergirem, o Git vence e este arquivo é corrigido.
 
 - Branch: `dev/v0.7.0` (criada de `bf8e1a4` = `origin/main` em 2026-11-06)

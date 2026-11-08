@@ -1,5 +1,7 @@
 # Dogfood cruzado da v0.7.0 — VozNativa ↔ Assertiva ↔ Derivanta Engine/Framework
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Saída de ferramenta é hipótese. Classificação: `CONFIRMED`, `FALSE_POSITIVE`, `INCONCLUSIVE`, `ACCEPTED_RISK`, `DUPLICATE`, `UPSTREAM_GAP`. O mesmo agente construiu, rodou e julgou: autoavaliação com evidência de ferramenta, não qualificação independente. Histórico da v0.5/v0.6: `evals/assurance/DOGFOOD.md`.
 
 ## Instrumentos

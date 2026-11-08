@@ -1,5 +1,7 @@
 # Arquitetura e pesquisa
 
+> **Estado: substituído.** Arquitetura das primeiras versões, mantida como registro. Arquitetura vigente: [v08/ARCHITECTURE.md](v08/ARCHITECTURE.md); pesquisa recente: [v08/RESEARCH_LANDSCAPE.md](v08/RESEARCH_LANDSCAPE.md).
+
 ## Arquitetura
 
 ```text

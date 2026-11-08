@@ -1,5 +1,7 @@
 # Plano v0.4.0 — PT-BR Writing Intelligence & Hardening
 
+> **Estado: histórico (v0.4).** Plano daquela rodada; o atual é [v08/PLAN.md](v08/PLAN.md).
+
 Une três fontes: os gaps da auditoria da v0.3.0 (M0), o escopo original da v0.4 no `ROADMAP.md` (biblioteca de padrões PT-BR, PT-BR x PT-PT, estrangeirismos) e o planejamento por documento que a v0.3.0 deixou pendente (M2.3, agora M3).
 
 Baseline: `evals/baselines/v0.4.0-start.json` (commit `0ba7bc2`, checkout limpo, 199 testes, validador ok, suítes como na v0.3.0: holdout 23/24).

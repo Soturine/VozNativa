@@ -1,5 +1,7 @@
 # Plano v0.5.0 — Regional Evidence (com o hardening da v0.4.0)
 
+> **Estado: histórico (v0.5).** Plano daquela rodada; o atual é [v08/PLAN.md](v08/PLAN.md).
+
 Versão durante o desenvolvimento: `0.5.0.dev0`. **Código implementado não é versão qualificada.** Baseline: `evals/baselines/v0.4.0-hardening-start.json` (`4044cfc`). Registro por checkpoint: `evals/assurance/CHECKPOINTS.md`.
 
 ## Hardening da v0.4.0 (CP4) — implementado e testado

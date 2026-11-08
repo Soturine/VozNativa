@@ -1,5 +1,7 @@
 # Integração de corpora da v0.7.0 (CP3, 2026-11-06)
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Fontes integradas à avaliação: **3 → 7**. A meta exploratória do plano era 8–12; não foi forçada. Os critérios da escada são os do Registry (`voznativa/corpus/registry.py`). Nenhum texto de terceiros é versionado: o cache fica em `VOZNATIVA_CORPUS_CACHE` (fora de qualquer repositório, verificado por `cache_dir`), e os relatórios versionados guardam só contagens, hashes e taxas.
 
 ## Fontes novas

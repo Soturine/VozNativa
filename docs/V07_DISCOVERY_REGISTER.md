@@ -1,5 +1,7 @@
 # Registro de descobertas da v0.7.0
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Cada item: origem, evidência reproduzível, severidade, decisão (correção obrigatória / melhoria de baixo risco / pesquisa / fora do escopo) e estado. Achados de ferramentas de dogfood ficam em `docs/V07_DOGFOOD.md` (`VN07-DF-###`).
 
 | ID | Origem | Evidência | Sev. | Decisão | Estado |

@@ -1,5 +1,7 @@
 # Plano v0.3.0 — Semantic Intelligence & Author Voice
 
+> **Estado: histórico (v0.3).** Plano daquela rodada; o atual é [v08/PLAN.md](v08/PLAN.md).
+
 Consolida o escopo que seria a v0.2.1 (pendências da auditoria de qualificação), o que estava previsto para a v0.3 (Voice Model) e as dependências diretas de v0.4 (padrões PT-BR) e v0.8 (avaliação). Nada sai do roadmap: itens absorvidos aparecem nas versões originais com "→ v0.3.0".
 
 Baseline: `evals/baselines/v0.3.0-start.json` (commit `595d7ae`, checkout limpo, 156 testes, suítes e execuções reais registradas).

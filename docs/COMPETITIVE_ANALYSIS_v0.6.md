@@ -1,5 +1,7 @@
 # Pesquisa competitiva v0.6 (CP11, consulta em 2026-11-05)
 
+> **Estado: histórico (pesquisa da v0.6, datada).** Pesquisa mais recente: [v08/RESEARCH_LANDSCAPE.md](v08/RESEARCH_LANDSCAPE.md).
+
 Esta pesquisa complementa a v0.5 (`docs/COMPETITIVE_ANALYSIS_v0.5.md`), feita no mesmo dia. Por isso as skills de humanização já analisadas não foram relidas. O foco são as áreas novas da v0.6: plataforma de corpora, gíria com tempo, comunidades e textos longos.
 
 As fontes foram a API do GitHub (licença, último push, release) e buscas na web; os links estão no fim. Nada de terceiros foi copiado.

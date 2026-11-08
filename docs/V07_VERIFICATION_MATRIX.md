@@ -1,5 +1,7 @@
 # Matriz de verificação da v0.7.0
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Requisito → teste → resultado → evidência. Status: PASS só quando o teste rodou e passou na revisão indicada. Revisão humana e ferramentas externas sempre em colunas próprias.
 
 | Req. | Unitário / negativo | Contrato / integração / E2E | Metamórfico / mutação | Benchmark | Humano / externo | Estado |

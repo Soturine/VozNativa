@@ -1,5 +1,7 @@
 # Optional Model / Adapter Track
 
+> **Estado: rascunho de plano futuro.** Nada desta trilha está implementado.
+
 ## Motivação
 
 VozNativa começa como engine/orquestrador em torno de LLMs existentes. Isso mantém o projeto provider-agnostic e permite evoluir rápido.

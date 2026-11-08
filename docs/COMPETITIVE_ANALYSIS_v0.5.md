@@ -1,5 +1,7 @@
 # Pesquisa competitiva e arquitetural (CP6, consulta em 2026-11-05)
 
+> **Estado: histórico (pesquisa da v0.5, datada).** Pesquisa mais recente: [v08/RESEARCH_LANDSCAPE.md](v08/RESEARCH_LANDSCAPE.md).
+
 Fonte: API do GitHub (commit, licença, árvore de arquivos) e leitura dos arquivos citados; não só README. Pesquisas anteriores: `docs/RESEARCH_LOG.md`. Nenhum código ou catálogo de terceiros foi copiado.
 
 ## Skills editoriais

@@ -1,5 +1,7 @@
 # Plano da v0.7.0.dev1: estabilização
 
+> **Estado: histórico (v0.7.0.dev1).** Plano daquela rodada; o atual é [v08/PLAN.md](v08/PLAN.md).
+
 Rodada corretiva sobre a v0.7.0.dev0. Não é a v0.8 e não reabre a v0.7: fecha lacunas de confiabilidade encontradas na auditoria posterior e qualifica a revisão sem regressão.
 
 - **Partida:** `main` = `dev/v0.7.0` = `e7506f5` (conferido com `git ls-remote` em 2026-11-06). Código testado pela CI: `9f44010`, run #124, `workflow_dispatch`, 8/8. `e7506f5` só acrescenta evidência.

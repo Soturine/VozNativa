@@ -1,5 +1,7 @@
 # Inventário AS-IS no início da v0.7.0 (2026-11-06, `bf8e1a4`)
 
+> **Estado: histórico (v0.7).** Inventário do início daquela rodada; o atual é [v08/AS_IS.md](v08/AS_IS.md).
+
 Estados como em `docs/AS_IS_v0.6.0.md`: IMPLEMENTED, PARTIAL, BROKEN, UNCALIBRATED, NOT_RUN, EXTERNAL_BLOCKED. A classificação vem do código e das execuções desta sessão; números da v0.6 só valem com o SHA e o instrumento que os produziram.
 
 ## Baseline executada nesta sessão

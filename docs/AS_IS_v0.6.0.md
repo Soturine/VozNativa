@@ -1,5 +1,7 @@
 # Inventário AS-IS no início da v0.6.0 (2026-11-05, `106fd50`)
 
+> **Estado: histórico (v0.6).** Inventário do início daquela rodada; o atual é [v08/AS_IS.md](v08/AS_IS.md).
+
 Estados: IMPLEMENTED (código + testes executados), PARTIAL (código com lacuna documentada), BROKEN, UNCALIBRATED (funciona, mas limiares/listas sem dados reais), NOT_RUN, EXTERNAL_BLOCKED, NOT_APPLICABLE. A classificação vem do código, dos testes e das execuções registradas, não dos nomes dos arquivos.
 
 ## Baseline executada

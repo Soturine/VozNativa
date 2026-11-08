@@ -1,5 +1,7 @@
 # ptbr-bench-v5 e avaliação fora de distribuição (v0.7.0, CP10)
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 ## Protocolo
 
 - Suítes congeladas anteriores (v1–v4, holdouts) **não foram editadas**. O v4 foi reexecutado sem mudança de casos: 21/22 → 22/22 (o caso que passou a passar, `bv4-sl-03`, deu origem ao G3; a melhora não é evidência independente).

@@ -1,5 +1,7 @@
 # Avaliação do VozNativa
 
+> **Estado: histórico com números válidos para sua época (até a v0.7).** Avaliação da v0.8: [v08/EVAL_PROTOCOL.md](v08/EVAL_PROTOCOL.md) e [v08/EVAL_MATRIX.md](v08/EVAL_MATRIX.md).
+
 O que foi medido, por qual tipo de evidência, e o que **não** foi provado. Atualize sempre que um número mudar.
 
 ## Tipos de evidência

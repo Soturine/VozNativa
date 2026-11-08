@@ -1,5 +1,7 @@
 # Benchmark externo de detectores de IA (v0.7.0, CP11)
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 **Objetivo:** medir como serviços externos classificam textos de origem conhecida antes e depois de uma revisão do VozNativa. **Não** é objetivo reduzir scores, calibrar o engine contra detectores nem afirmar autoria humana. O engine nunca recebe um score de detector; nenhuma iteração é feita contra um classificador.
 
 Distinções mantidas em todo o código e nos relatórios:

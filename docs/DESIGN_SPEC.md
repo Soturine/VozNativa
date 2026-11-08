@@ -1,5 +1,7 @@
 # VozNativa — Design Specification
 
+> **Estado: histórico (v0.1–v0.3).** Tese de produto e especificação inicial, mantidas como registro. Arquitetura vigente: [v08/ARCHITECTURE.md](v08/ARCHITECTURE.md).
+
 ## Product thesis
 
 VozNativa separates three different problems:

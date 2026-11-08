@@ -183,9 +183,79 @@ def check_text_files(errors: list[str]) -> None:
                                   "(a row split across lines?)")
 
 
+# --- documentation checks (v0.8 CP12) ------------------------------------------------
+_MD_LINK = re.compile(r"(?<!!)\[[^\]]*\]\(([^)\s]+)\)")
+_HEADING_LINE = re.compile(r"(?m)^#{1,6}\s+(.+?)\s*#*\s*$")
+_PERSONAL_PATH = re.compile(r"[A-Za-z]:[\\/]Users[\\/](?!<)[^\\/\s`]+|/home/[a-z][\w.-]*/|/Users/[A-Z][\w.-]*/")
+_SECRET = re.compile(r"sk-ant-[A-Za-z0-9_-]{12,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}"
+                     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----")
+_COMMAND = re.compile(r"(?:\bvoznativa|\$VN)[ \t]+([a-z][a-z-]+)")
+# Documents whose commands must exist today (history may name commands of its own time).
+CURRENT_DOCS = ("README.md", "SKILL.md", "docs/README.md", "docs/guide/")
+
+
+def slug(heading: str) -> str:
+    """GitHub-style anchor of a heading."""
+    text = re.sub(r"`", "", heading.strip().lower())
+    return re.sub(r"[^\w\- ]", "", text).replace(" ", "-")
+
+
+def markdown_problems(root: Path, paths: list[Path], subcommands: set[str] | None) -> list[str]:
+    """Broken relative links and anchors, personal absolute paths, secrets and
+    (in current documents) subcommands that do not exist. Pure: the negative
+    tests run it on copies with planted defects."""
+    problems = []
+    anchors: dict[Path, set[str]] = {}
+
+    def anchors_of(path: Path) -> set[str]:
+        if path not in anchors:
+            text = path.read_text(encoding="utf-8") if path.is_file() else ""
+            anchors[path] = {slug(h) for h in _HEADING_LINE.findall(re.sub(r"(?s)```.*?```", "", text))}
+        return anchors[path]
+
+    for path in paths:
+        name = path.relative_to(root).as_posix()
+        text = path.read_text(encoding="utf-8")
+        prose = re.sub(r"(?s)```.*?```", "", text)
+        for target in _MD_LINK.findall(prose):
+            if target.startswith(("http://", "https://", "mailto:")):
+                continue
+            target_path, _, fragment = target.partition("#")
+            resolved = (path.parent / target_path.replace("%20", " ")).resolve() if target_path else path.resolve()
+            if target_path and not resolved.exists():
+                problems.append(f"{name}: broken link {target}")
+            elif fragment and resolved.suffix == ".md" and fragment not in anchors_of(resolved):
+                problems.append(f"{name}: anchor #{fragment} not found in {target_path or name}")
+        for m in _PERSONAL_PATH.finditer(text):
+            problems.append(f"{name}: personal absolute path {m.group(0)!r}")
+        for m in _SECRET.finditer(text):
+            problems.append(f"{name}: secret-looking token {m.group(0)[:12]}...")
+        if subcommands is not None and any(name == c or name.startswith(c) for c in CURRENT_DOCS if c.endswith("/")
+                                           or name == c):
+            for command in sorted(set(_COMMAND.findall(prose)) - subcommands):
+                problems.append(f"{name}: mentions `voznativa {command}`, which is not a subcommand")
+    return problems
+
+
+def documentation_files(root: Path) -> list[Path]:
+    keep = ("README.md", "SKILL.md", "ROADMAP.md", "CHANGELOG.md")
+    out = [root / p for p in keep if (root / p).is_file()]
+    for folder in ("docs", "examples", "references", "benchmarks"):
+        out += [p for p in sorted((root / folder).rglob("*.md")) if not SKIP_DIRS.intersection(p.parts)]
+    return out
+
+
+def check_documentation(errors: list[str]) -> None:
+    from voznativa.cli import build_parser
+    parser = build_parser()
+    action = next(a for a in parser._actions if a.__class__.__name__ == "_SubParsersAction")
+    errors += markdown_problems(ROOT, documentation_files(ROOT), set(action.choices))
+
+
 def validate() -> list[str]:
     errors = [f"missing required file: {p}" for p in REQUIRED if not (ROOT / p).exists()]
     check_text_files(errors)
+    check_documentation(errors)
     check_skill(errors)
     check_data(errors)
     check_docs(errors)

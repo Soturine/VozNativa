@@ -1,5 +1,7 @@
 # Plano v0.7.0.dev0 — Generalização, Long-form ponta a ponta e Evidência externa
 
+> **Estado: histórico (v0.7).** Plano daquela rodada; o atual é [v08/PLAN.md](v08/PLAN.md).
+
 Branch: `dev/v0.7.0` (a partir de `bf8e1a4`). Estado vivo em `docs/V07_EXECUTION_STATE.md`; descobertas em `docs/V07_DISCOVERY_REGISTER.md`; requisito → teste em `docs/V07_VERIFICATION_MATRIX.md`.
 
 ## Política de execução

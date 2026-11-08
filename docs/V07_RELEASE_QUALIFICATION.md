@@ -1,5 +1,7 @@
 # Qualificação da v0.7.0.dev0
 
+> **Estado: histórico (execução da v0.7).** Registro daquela rodada, não reescrito; a rodada atual está em [v08/EXECUTION_STATE.md](v08/EXECUTION_STATE.md).
+
 Três coisas diferentes, nunca somadas:
 
 - **Implementação concluída**: código + testes que rodaram e passaram.
