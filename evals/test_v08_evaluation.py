@@ -180,6 +180,18 @@ class Metrics(unittest.TestCase):
         self.assertGreater(len(record["results"]), 200)
         self.assertTrue(all("original_sha256" in r or "text_sha256" in r for r in record["results"]))
 
+    def test_the_declared_axes_are_the_ones_measured(self):
+        # CP15 (Derivanta Engine: AXES was named only at its definition): the axis names are a
+        # contract of the record, so the declared tuple must match what the run measures.
+        record = evaluation.run(SPEC, ROOT, recorded_at="t")
+        per_row = {k for row in record["results"] for k in row if k in evaluation.AXES}
+        self.assertEqual(per_row, set(evaluation.AXES))
+        for split, metrics in record["metrics"].items():
+            with self.subTest(split=split):
+                measured = set(metrics) - {"cases", "semantic_risk_by_kind"}
+                self.assertTrue(measured)
+                self.assertLessEqual(measured, set(evaluation.AXES), measured)
+
 
 class RepositoryDataset(unittest.TestCase):
 

@@ -140,6 +140,10 @@ class GlobalValidationTimeLimit(unittest.TestCase):
             result = engine.rewrite_document(doc, route(doc), Cut(), limits=Limits(segment_words=10, timeout_s=0.3))
         self.assertEqual((result["outcome"], result["text"]), ("returned_original", doc))
         self.assertIn("global validation", result["reason"])
+        # CP15: this path and the normal one keep the same plan fields (one owner, engine._PLAN_IN_RECORD).
+        self.assertEqual(tuple(result["plan"]), engine._PLAN_IN_RECORD)
+        normal = engine.rewrite_document(doc, route(doc), Cut(), limits=Limits(segment_words=10))
+        self.assertEqual(tuple(normal["plan"]), engine._PLAN_IN_RECORD)
 
     def test_with_time_left_the_document_is_validated(self):
         doc = "É importante destacar que o relatório será enviado na segunda.\n"

@@ -91,6 +91,17 @@ class HistoricalReplay(unittest.TestCase):
     def test_a_date_is_required(self):
         self.assertEqual(standards.resolve({"document_type": "tcc"}, MANUALS)["decision"], "UNKNOWN")
 
+    def test_the_declared_decisions_are_exactly_the_ones_resolve_gives(self):
+        # CP15 (Derivanta Engine: DECISIONS was named only at its definition): the vocabulary is a
+        # contract for callers, so it must match what resolve() emits, both ways.
+        seen = {standards.resolve(profile("2026-01-01"), (entry("m", "x", "2025-02-01", None, status),))["decision"]
+                for status in ("VERIFIED", "SOURCE_CITED", "CATALOGUED", "STALE", "BLOCKED", "CONFLICTED")}
+        seen.add(standards.resolve(profile("2018-05-01"), MANUALS)["decision"])
+        seen.add(standards.resolve(profile("2026-01-01", document_type="dissertacao"), MANUALS)["decision"])
+        overlap = MANUALS + (entry("manual-2025b", "2025b", "2025-03-01", None),)
+        seen.add(standards.resolve(profile("2025-08-01"), overlap)["decision"])
+        self.assertEqual(seen, set(standards.DECISIONS))
+
 
 class Validation(unittest.TestCase):
 

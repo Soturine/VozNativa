@@ -520,6 +520,11 @@ OUTCOME_RANK = {"no_change": 0, "accepted": 1, "needs_judgment": 2, "needs_revie
                 "provider_error": 4}
 
 
+# The plan fields every rewrite_document record keeps, on the normal and the timeout path alike
+# (one owner: CP15, Derivanta Engine DUPLICATE_TABLE between the two returns).
+_PLAN_IN_RECORD = ("sha256", "words", "limits", "forced_cuts", "policy")
+
+
 def rewrite_document(text: str, context: dict, provider: Provider, profile: dict | None = None,
                      limits=None, explicit: dict | None = None, resume: list[dict] | None = None,
                      verse_explicit: bool = False, **kwargs) -> dict:
@@ -603,7 +608,7 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                     reason=f"document time limit ({limits.timeout_s}s) reached during the global validation "
                            f"({stage}); the original is returned",
                     units=public, resume_state=units, reverted_units=[], global_report=None,
-                    plan={k: plan[k] for k in ("sha256", "words", "limits", "forced_cuts", "policy")},
+                    plan={k: plan[k] for k in _PLAN_IN_RECORD},
                     provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
 
     reverted = []
@@ -646,7 +651,7 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                 units=public_units, resume_state=units, reverted_units=reverted,
                 global_report=({"status": report["status"], "summary": report.get("summary"),
                                 "issues": report["issues"][:20]} if report else None),
-                plan={k: plan[k] for k in ("sha256", "words", "limits", "forced_cuts", "policy")},
+                plan={k: plan[k] for k in _PLAN_IN_RECORD},
                 provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
 
 
