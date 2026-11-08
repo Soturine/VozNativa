@@ -1,0 +1,173 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-08-v08-cp16",
+  "entries": [
+    {
+      "file": "assertiva-execute-8db60ea.json",
+      "command": "assertiva audit <clone 8db60ea> --execute --output json",
+      "exit_code": 0,
+      "raw_sha256": "3101b0b33a21e72336eae229ff66902bfbdbd030e26ffa70891590ed23d59d87",
+      "published_sha256": "22a57993644a99e8653c4da63436f3c6581ebd3d3e6e6d8224f6948f5a8792d9",
+      "sanitized": true
+    },
+    {
+      "file": "assertiva-patch0001-static-8db60ea.json",
+      "command": "PYTHONPATH=<assertiva da96b75> assertiva audit <clone 8db60ea> --output json",
+      "exit_code": 0,
+      "raw_sha256": "e4e6e9265bee4c40db30741d1c550d587755559160775f8939b8fefb6bbbe1a5",
+      "published_sha256": "733b141cbdeee1adb80de1f8326dd68c64b6f5be4d257eb92f04cbc6661d5e08",
+      "sanitized": true
+    },
+    {
+      "file": "engine-compare-b2d106f-vs-8db60ea.json",
+      "command": "derivanta-engine compare <b2d106f report> <8db60ea report> --format json (targets sanitized)",
+      "exit_code": 0,
+      "raw_sha256": "3432a2ac10e511dbddddac4d8723f57f87b5ce4a1a4e51cd20727b6a4ed5d976",
+      "published_sha256": "3432a2ac10e511dbddddac4d8723f57f87b5ce4a1a4e51cd20727b6a4ed5d976",
+      "sanitized": false
+    },
+    {
+      "file": "engine-inspect-8db60ea.json",
+      "command": "derivanta-engine inspect <clone 8db60ea> --maintainability --traceability ../2026-11-08-v08-cp15/traceability-v08-b2d106f.json --format json",
+      "exit_code": 0,
+      "raw_sha256": "29390e80270530440714b7b419cc429feb9c3a4f10b2af5b649e8ee42f654eb7",
+      "published_sha256": "ddbeedff4a47929e27012ffa3f3b37e6b92e9c897f48bc886aa6b1e45b12222c",
+      "sanitized": true
+    },
+    {
+      "file": "predicates-8db60ea.json",
+      "command": "python -B scripts/predicate_eval.py --out <file> (clone 8db60ea)",
+      "exit_code": 0,
+      "raw_sha256": "4671250470df00285e714a9f6251996933afd69e32e2a05279d1265f09a047e2",
+      "published_sha256": "4671250470df00285e714a9f6251996933afd69e32e2a05279d1265f09a047e2",
+      "sanitized": false
+    },
+    {
+      "file": "ptbr-bench-v4-8db60ea.json",
+      "command": "python -B scripts/bench_v4.py (clone 8db60ea)",
+      "exit_code": 0,
+      "raw_sha256": "b8f1d0f86fd35fd95c76c67f799beb871845918155ddb0b28ed55c5c068873c9",
+      "published_sha256": "b8f1d0f86fd35fd95c76c67f799beb871845918155ddb0b28ed55c5c068873c9",
+      "sanitized": false
+    },
+    {
+      "file": "ptbr-bench-v5-8db60ea.json",
+      "command": "python -B scripts/bench_v5.py (clone 8db60ea; dirty = the bench_v4 run file)",
+      "exit_code": 0,
+      "raw_sha256": "880465abef8a5beacd5e9c9541b116b90e9e2ab19246da90eb55f0c91b66d62e",
+      "published_sha256": "880465abef8a5beacd5e9c9541b116b90e9e2ab19246da90eb55f0c91b66d62e",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py311-50a54b4.json",
+      "command": "python:3.11-slim, clone 50a54b4",
+      "exit_code": 0,
+      "raw_sha256": "040b099689ec0327e6cae923f4abe42bc850f8b3bc3b9bc2c921f97138dce8a1",
+      "published_sha256": "040b099689ec0327e6cae923f4abe42bc850f8b3bc3b9bc2c921f97138dce8a1",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py311-8db60ea.json",
+      "command": "python:3.11-slim, clone 8db60ea",
+      "exit_code": 0,
+      "raw_sha256": "c6e17ea212a8b1cb53092aa8246ee17b28b7ec4dd05b568699a553d01ec88883",
+      "published_sha256": "c6e17ea212a8b1cb53092aa8246ee17b28b7ec4dd05b568699a553d01ec88883",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py311-d4b0ed1.json",
+      "command": "linux_qualify.sh: python:3.11-slim, clone d4b0ed1, qualify.py --scope local",
+      "exit_code": 0,
+      "raw_sha256": "a14c6cb99d002a336322e38cfc09810f532be806190ae1faaa1f935e846c235e",
+      "published_sha256": "a14c6cb99d002a336322e38cfc09810f532be806190ae1faaa1f935e846c235e",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py312-50a54b4.json",
+      "command": "python:3.12-slim, clone 50a54b4",
+      "exit_code": 0,
+      "raw_sha256": "1cedc999defca9c3258d1abbcc8563626bf991cb9708f404b77b17a1cd7ef368",
+      "published_sha256": "1cedc999defca9c3258d1abbcc8563626bf991cb9708f404b77b17a1cd7ef368",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py312-8db60ea.json",
+      "command": "python:3.12-slim, clone 8db60ea",
+      "exit_code": 0,
+      "raw_sha256": "cea70063426bad8b1af6c15eba91cea1ec307b183bd0f7ce9964f17740a7a6c8",
+      "published_sha256": "cea70063426bad8b1af6c15eba91cea1ec307b183bd0f7ce9964f17740a7a6c8",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py312-d4b0ed1.json",
+      "command": "python:3.12-slim, clone d4b0ed1, qualify.py --scope local",
+      "exit_code": 0,
+      "raw_sha256": "6db7c032da8bcc6af83be9831cf596192638017f362c7691a099140ff4391b12",
+      "published_sha256": "6db7c032da8bcc6af83be9831cf596192638017f362c7691a099140ff4391b12",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py313-50a54b4.json",
+      "command": "python:3.13-slim, clone 50a54b4",
+      "exit_code": 0,
+      "raw_sha256": "ca6e1d2b3d68ba91d21aa0456757999b81958c0caf99acb902b3ee767f73e972",
+      "published_sha256": "ca6e1d2b3d68ba91d21aa0456757999b81958c0caf99acb902b3ee767f73e972",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py313-8db60ea.json",
+      "command": "python:3.13-slim, clone 8db60ea",
+      "exit_code": 0,
+      "raw_sha256": "ca725c7a5ee94dc2e97a02c80aad760b65a9ff6e5e71f90513ae925f043dbb8b",
+      "published_sha256": "ca725c7a5ee94dc2e97a02c80aad760b65a9ff6e5e71f90513ae925f043dbb8b",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-linux-py313-d4b0ed1.json",
+      "command": "python:3.13-slim, clone d4b0ed1, qualify.py --scope local (FAIL: CLI reference wrapping)",
+      "exit_code": 1,
+      "raw_sha256": "d06257b4b2b471a046e472b51d92263c29b5cc1d5d37e5213cde73591afdf378",
+      "published_sha256": "d06257b4b2b471a046e472b51d92263c29b5cc1d5d37e5213cde73591afdf378",
+      "sanitized": false
+    },
+    {
+      "file": "qualify-win-py312-50a54b4.json",
+      "command": "qualify.py --scope local (Windows 10, CPython 3.12.6, clean clone 50a54b4)",
+      "exit_code": 3,
+      "raw_sha256": "816343bc2ce3a72220be7a86fa1c736f951563c6712ed30d23530c5e2a8a7d40",
+      "published_sha256": "40689a6dedbd4984e5cde30ac12aa0070a15ccfdeabe609033388f45a8af0957",
+      "sanitized": true
+    },
+    {
+      "file": "qualify-win-py312-8db60ea.json",
+      "command": "qualify.py --scope local (Windows 10, CPython 3.12.6, clean clone 8db60ea)",
+      "exit_code": 3,
+      "raw_sha256": "0fc60b109c320eee977dbbd8db8304d44be8cfae43319578013c8d32e183ca7c",
+      "published_sha256": "e04e7267808bc0de1b6c5bb515453b42a83b44769944aff85b8d8c4920704633",
+      "sanitized": true
+    },
+    {
+      "file": "qualify-win-py312-d4b0ed1.json",
+      "command": "python scripts/qualify.py --scope local (Windows 10, CPython 3.12.6, clean clone d4b0ed1)",
+      "exit_code": 3,
+      "raw_sha256": "80350873fe8eaac2e13b628662ed3a6ec0348a14737b23e063caeede3854468e",
+      "published_sha256": "953402b5543a715f891467171e1bc9b18fcdcac896cf9cdb1193c7ec7e8d3b2c",
+      "sanitized": true
+    }
+  ],
+  "recorded_at": "2026-11-08T06:11:48+00:00",
+  "revision": "50a54b449e73a07482f7d5a34e241b66b78f4982",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "assertiva": "0.10.1",
+    "derivanta-engine": "0.1.0@0cc48b3"
+  },
+  "notes": [
+    "Local qualification and reconciliation of v0.8.0.dev0. AGENT_OBSERVED for the tool runs; qualify verdicts are the tool's own."
+  ]
+}

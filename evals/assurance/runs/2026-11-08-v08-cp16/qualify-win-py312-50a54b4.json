@@ -1,0 +1,316 @@
+{
+  "kind": "voznativa.qualification",
+  "schema_version": 1,
+  "recorded_at": "2026-11-08T06:03:10+00:00",
+  "version": "0.8.0.dev0",
+  "revision": "50a54b449e73a07482f7d5a34e241b66b78f4982",
+  "dirty": false,
+  "scope": "local",
+  "environment": {
+    "python": "3.12.6",
+    "implementation": "CPython",
+    "platform": "Windows-10",
+    "executable_is_venv": false
+  },
+  "verdict": "INCOMPLETE",
+  "exit_code": 3,
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 4,
+    "SKIPPED": 0,
+    "INCONCLUSIVE": 0,
+    "WAIVED_BY_OWNER": 0
+  },
+  "gates": [
+    {
+      "id": "validator",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "package layout, data, docs commands",
+      "exit_code": 0,
+      "output": "VozNativa package v0.8.0.dev0 is valid",
+      "seconds": 5.94
+    },
+    {
+      "id": "unittest",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "python -m unittest discovery of evals/test_*.py",
+      "exit_code": 0,
+      "seconds": 85.78,
+      "counts": {
+        "ran": 905,
+        "passed": 903,
+        "failed": 0,
+        "errors": 0,
+        "collection_errors": 0,
+        "skipped": 2,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "failed": [],
+      "errors": [],
+      "collection_errors": [],
+      "skipped": [
+        {
+          "id": "test_ci_evidence.CheckpointHarness.test_pipeline_with_tail_hides_the_failure",
+          "reason": "POSIX shell pipeline semantics"
+        },
+        {
+          "id": "test_v08_eval_integrity.PathsStayInside.test_a_link_out_of_the_root_is_refused",
+          "reason": "this system cannot create a symlink here: [WinError 1314] O cliente não tem o privilégio necessário: '<TMP>\\\\tmpaww3nmei\\\\fora.jsonl' -> '<TMP>\\\\tmpa77x5x2c\\\\dentro.jsonl'"
+        }
+      ],
+      "unexpected_successes": []
+    },
+    {
+      "id": "semantic:dev",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "dev semantic suite passes completely",
+      "cases": 77,
+      "passed": 77,
+      "failures": [],
+      "seconds": 0.28
+    },
+    {
+      "id": "semantic:holdouts:safety",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "no missed detection; holdouts frozen and intact",
+      "problems": [],
+      "suites": {
+        "holdout-relations.jsonl": "12/12",
+        "holdout-v030.jsonl": "24/24",
+        "holdout-v040.jsonl": "32/32",
+        "holdout.jsonl": "24/24",
+        "holdout2.jsonl": "16/16"
+      },
+      "seconds": 0.62
+    },
+    {
+      "id": "semantic:holdouts:strict",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "exact status and codes; known divergences listed",
+      "new_failures": [],
+      "known_failures_still_failing": [],
+      "known_failures_now_passing": [],
+      "note": "strict = status and issue codes as written; known items are frozen cases whose recorded first run already diverged (see evals/qualification/expectations.json)",
+      "seconds": 0.59
+    },
+    {
+      "id": "decision:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "engine decision suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "dc-021",
+        "dc-029"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "28/30",
+      "failures": {
+        "dc-021": "wrong_scope",
+        "dc-029": "unnecessary_change"
+      },
+      "seconds": 0.36
+    },
+    {
+      "id": "router:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "genre router suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "rt-014"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "15/16",
+      "seconds": 0.09
+    },
+    {
+      "id": "cli:exit-codes",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "CLI exit codes are the documented gate interface",
+      "cases": [
+        {
+          "case": "compare identical -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "compare negation removed -> 1 fail",
+          "expected": 1,
+          "exit_code": 1,
+          "passed": true
+        },
+        {
+          "case": "compare added claim -> 2 review",
+          "expected": 2,
+          "exit_code": 2,
+          "passed": true
+        },
+        {
+          "case": "compare clean rewrite -> 3 needs judgment",
+          "expected": 3,
+          "exit_code": 3,
+          "passed": true
+        },
+        {
+          "case": "unknown flag -> 64 usage, never a gate status",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "missing file -> 64",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "plan runs without a model -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "--help -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        }
+      ],
+      "seconds": 1.76
+    },
+    {
+      "id": "package:sdist-wheel-smoke",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "sdist -> wheel -> clean venv -> smoke -> full suite against the wheel (CI package job)",
+      "wheel": "voznativa-0.8.0.dev0-py3-none-any.whl",
+      "steps": [
+        {
+          "step": "sdist",
+          "exit_code": 0,
+          "seconds": 6.06
+        },
+        {
+          "step": "wheel from sdist",
+          "exit_code": 0,
+          "seconds": 5.12
+        },
+        {
+          "step": "venv",
+          "exit_code": 0
+        },
+        {
+          "step": "install wheel (+ declared deps)",
+          "exit_code": 0,
+          "seconds": 3.05
+        },
+        {
+          "step": "smoke outside the checkout",
+          "exit_code": 0,
+          "seconds": 8.08
+        },
+        {
+          "step": "unittest suite against the installed wheel",
+          "origin": "__init__.py",
+          "origin_in_venv": true,
+          "status": "PASS",
+          "exit_code": 0,
+          "seconds": 83.67,
+          "counts": {
+            "ran": 905,
+            "passed": 901,
+            "failed": 0,
+            "errors": 0,
+            "collection_errors": 0,
+            "skipped": 4
+          },
+          "skipped": [
+            {
+              "id": "test_bench_v3_harness.HarnessCheck.test_runner_end_to_end_with_a_fake_model",
+              "reason": "bench_v3 pins the engine to this checkout; voznativa comes from elsewhere"
+            },
+            {
+              "id": "test_ci_evidence.CheckpointHarness.test_pipeline_with_tail_hides_the_failure",
+              "reason": "POSIX shell pipeline semantics"
+            },
+            {
+              "id": "test_v08_doc_validator.RealRepository.test_documentation_is_clean",
+              "reason": "the suite runs against an installed wheel: the tree has no source package for docs to link to"
+            },
+            {
+              "id": "test_v08_eval_integrity.PathsStayInside.test_a_link_out_of_the_root_is_refused",
+              "reason": "this system cannot create a symlink here: [WinError 1314] O cliente não tem o privilégio necessário: '<TMP>\\\\tmp2jgyrxm_\\\\fora.jsonl' -> '<TMP>\\\\tmpjj7uigpj\\\\dentro.jsonl'"
+            }
+          ],
+          "failed": [],
+          "errors": [],
+          "collection_errors": []
+        }
+      ],
+      "seconds": 114.45
+    },
+    {
+      "id": "review:pty",
+      "status": "NOT_RUN",
+      "required": true,
+      "scope": "local",
+      "description": "interactive signed review through a real pseudo-terminal",
+      "reason": "needs a POSIX pseudo-terminal; runs on Linux/macOS",
+      "seconds": 0.0
+    },
+    {
+      "id": "ci:workflow-triggers",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "every workflow is workflow_dispatch only (no automatic Actions minutes)",
+      "workflows": {
+        "ci.yml": [
+          "workflow_dispatch"
+        ]
+      },
+      "seconds": 0.03
+    },
+    {
+      "id": "ci:github-actions",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "holdout:independent",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "review:blind-human",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    }
+  ]
+}

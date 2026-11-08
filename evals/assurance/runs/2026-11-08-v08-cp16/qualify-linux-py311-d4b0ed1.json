@@ -1,0 +1,309 @@
+{
+  "kind": "voznativa.qualification",
+  "schema_version": 1,
+  "recorded_at": "2026-11-08T05:27:20+00:00",
+  "version": "0.8.0.dev0",
+  "revision": "d4b0ed12e47abb396cdb959429477983fff15739",
+  "dirty": false,
+  "scope": "local",
+  "environment": {
+    "python": "3.11.17",
+    "implementation": "CPython",
+    "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "executable_is_venv": false
+  },
+  "verdict": "PASS",
+  "exit_code": 0,
+  "counts": {
+    "PASS": 11,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 3,
+    "SKIPPED": 0,
+    "INCONCLUSIVE": 0,
+    "WAIVED_BY_OWNER": 0
+  },
+  "gates": [
+    {
+      "id": "validator",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "package layout, data, docs commands",
+      "exit_code": 0,
+      "output": "VozNativa package v0.8.0.dev0 is valid",
+      "seconds": 1.13
+    },
+    {
+      "id": "unittest",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "python -m unittest discovery of evals/test_*.py",
+      "exit_code": 0,
+      "seconds": 58.97,
+      "counts": {
+        "ran": 903,
+        "passed": 902,
+        "failed": 0,
+        "errors": 0,
+        "collection_errors": 0,
+        "skipped": 1,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "failed": [],
+      "errors": [],
+      "collection_errors": [],
+      "skipped": [
+        {
+          "id": "test_v08_eval_integrity.PathsStayInside.test_a_windows_junction_out_of_the_root_is_refused",
+          "reason": "directory junctions are a Windows feature"
+        }
+      ],
+      "unexpected_successes": []
+    },
+    {
+      "id": "semantic:dev",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "dev semantic suite passes completely",
+      "cases": 77,
+      "passed": 77,
+      "failures": [],
+      "seconds": 0.18
+    },
+    {
+      "id": "semantic:holdouts:safety",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "no missed detection; holdouts frozen and intact",
+      "problems": [],
+      "suites": {
+        "holdout-relations.jsonl": "12/12",
+        "holdout-v030.jsonl": "24/24",
+        "holdout-v040.jsonl": "32/32",
+        "holdout.jsonl": "24/24",
+        "holdout2.jsonl": "16/16"
+      },
+      "seconds": 0.45
+    },
+    {
+      "id": "semantic:holdouts:strict",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "exact status and codes; known divergences listed",
+      "new_failures": [],
+      "known_failures_still_failing": [],
+      "known_failures_now_passing": [],
+      "note": "strict = status and issue codes as written; known items are frozen cases whose recorded first run already diverged (see evals/qualification/expectations.json)",
+      "seconds": 0.44
+    },
+    {
+      "id": "decision:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "engine decision suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "dc-021",
+        "dc-029"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "28/30",
+      "failures": {
+        "dc-021": "wrong_scope",
+        "dc-029": "unnecessary_change"
+      },
+      "seconds": 0.22
+    },
+    {
+      "id": "router:regression",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "genre router suite; no new failure",
+      "new_failures": [],
+      "known_failures_still_failing": [
+        "rt-014"
+      ],
+      "known_failures_now_passing": [],
+      "passed": "15/16",
+      "seconds": 0.03
+    },
+    {
+      "id": "cli:exit-codes",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "CLI exit codes are the documented gate interface",
+      "cases": [
+        {
+          "case": "compare identical -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "compare negation removed -> 1 fail",
+          "expected": 1,
+          "exit_code": 1,
+          "passed": true
+        },
+        {
+          "case": "compare added claim -> 2 review",
+          "expected": 2,
+          "exit_code": 2,
+          "passed": true
+        },
+        {
+          "case": "compare clean rewrite -> 3 needs judgment",
+          "expected": 3,
+          "exit_code": 3,
+          "passed": true
+        },
+        {
+          "case": "unknown flag -> 64 usage, never a gate status",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "missing file -> 64",
+          "expected": 64,
+          "exit_code": 64,
+          "passed": true
+        },
+        {
+          "case": "plan runs without a model -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "case": "--help -> 0",
+          "expected": 0,
+          "exit_code": 0,
+          "passed": true
+        }
+      ],
+      "seconds": 0.78
+    },
+    {
+      "id": "package:sdist-wheel-smoke",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "sdist -> wheel -> clean venv -> smoke -> full suite against the wheel (CI package job)",
+      "wheel": "voznativa-0.8.0.dev0-py3-none-any.whl",
+      "steps": [
+        {
+          "step": "sdist",
+          "exit_code": 0,
+          "seconds": 1.95
+        },
+        {
+          "step": "wheel from sdist",
+          "exit_code": 0,
+          "seconds": 2.08
+        },
+        {
+          "step": "venv",
+          "exit_code": 0
+        },
+        {
+          "step": "install wheel (+ declared deps)",
+          "exit_code": 0,
+          "seconds": 0.63
+        },
+        {
+          "step": "smoke outside the checkout",
+          "exit_code": 0,
+          "seconds": 3.92
+        },
+        {
+          "step": "unittest suite against the installed wheel",
+          "origin": "__init__.py",
+          "origin_in_venv": true,
+          "status": "PASS",
+          "exit_code": 0,
+          "seconds": 57.83,
+          "counts": {
+            "ran": 903,
+            "passed": 900,
+            "failed": 0,
+            "errors": 0,
+            "collection_errors": 0,
+            "skipped": 3
+          },
+          "skipped": [
+            {
+              "id": "test_bench_v3_harness.HarnessCheck.test_runner_end_to_end_with_a_fake_model",
+              "reason": "bench_v3 pins the engine to this checkout; voznativa comes from elsewhere"
+            },
+            {
+              "id": "test_v08_doc_validator.RealRepository.test_documentation_is_clean",
+              "reason": "the suite runs against an installed wheel: the tree has no source package for docs to link to"
+            },
+            {
+              "id": "test_v08_eval_integrity.PathsStayInside.test_a_windows_junction_out_of_the_root_is_refused",
+              "reason": "directory junctions are a Windows feature"
+            }
+          ],
+          "failed": [],
+          "errors": [],
+          "collection_errors": []
+        }
+      ],
+      "seconds": 69.72
+    },
+    {
+      "id": "review:pty",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "interactive signed review through a real pseudo-terminal",
+      "exit_code": 0,
+      "output": "{\n  \"tty_exit_code\": 0,\n  \"signed\": true,\n  \"method\": \"interactive_tty\",\n  \"final_status_with_signed_review\": \"accepted_by_human\",\n  \"non_tty_refused_exit_code\": 64\n}",
+      "seconds": 3.27
+    },
+    {
+      "id": "ci:workflow-triggers",
+      "status": "PASS",
+      "required": true,
+      "scope": "local",
+      "description": "every workflow is workflow_dispatch only (no automatic Actions minutes)",
+      "workflows": {
+        "ci.yml": [
+          "workflow_dispatch"
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "ci:github-actions",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "holdout:independent",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    },
+    {
+      "id": "review:blind-human",
+      "status": "NOT_RUN",
+      "required": false,
+      "scope": "release",
+      "reason": "release-scope gate; use --scope release"
+    }
+  ]
+}

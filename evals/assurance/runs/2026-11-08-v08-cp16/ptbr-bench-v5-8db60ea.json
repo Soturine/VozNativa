@@ -1,0 +1,1030 @@
+{
+  "kind": "voznativa.benchmark_run",
+  "benchmark": "ptbr-bench-v5",
+  "arm": "D-voznativa-v070-deterministic",
+  "version": "0.8.0.dev0",
+  "revision": "8db60ea4f764d372563421a472fd1ca79ebe3c58",
+  "dirty": true,
+  "cases_sha256": "ab3f8125772e36ae143d874d364dcf0079add54ab6d09ebff081dcf0e171bbda",
+  "recorded_at": "2026-11-08T05:51:25+00:00",
+  "cases_passed": {
+    "k": 36,
+    "n": 36,
+    "rate": 1.0,
+    "wilson95": [
+      0.904,
+      1.0
+    ]
+  },
+  "families": {
+    "decision": {
+      "checks": {
+        "k": 13,
+        "n": 13,
+        "rate": 1.0,
+        "wilson95": [
+          0.772,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "epoch=contemporary",
+        "k": 13,
+        "n": 13,
+        "rate": 1.0,
+        "wilson95": [
+          0.772,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 13,
+          "n": 13,
+          "rate": 1.0,
+          "wilson95": [
+            0.772,
+            1.0
+          ]
+        },
+        "genre=academic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=administrative": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=chat": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "genre=corporate": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=email": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "genre=forum": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=legal": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=news": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=report": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=social": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=technical": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=document": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 10,
+          "n": 10,
+          "rate": 1.0,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        },
+        "length=sentence": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "task=channel_change": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "task=light_revision": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "task=no_change": {
+          "k": 10,
+          "n": 10,
+          "rate": 1.0,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 12,
+          "n": 12,
+          "rate": 1.0,
+          "wilson95": [
+            0.757,
+            1.0
+          ]
+        },
+        "variety=pt-BR-nonstandard": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        }
+      }
+    },
+    "diagnosis": {
+      "checks": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "epoch=contemporary",
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "genre=email": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=news": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=poetry": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=report": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "task=proofread": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "task=review": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        }
+      }
+    },
+    "long_form": {
+      "checks": {
+        "k": 5,
+        "n": 5,
+        "rate": 1.0,
+        "wilson95": [
+          0.566,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "epoch=contemporary",
+        "k": 5,
+        "n": 5,
+        "rate": 1.0,
+        "wilson95": [
+          0.566,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 5,
+          "n": 5,
+          "rate": 1.0,
+          "wilson95": [
+            0.566,
+            1.0
+          ]
+        },
+        "genre=poetry": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=report": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "length=document": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "task=no_change": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "task=preservation": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 5,
+          "n": 5,
+          "rate": 1.0,
+          "wilson95": [
+            0.566,
+            1.0
+          ]
+        }
+      }
+    },
+    "protections": {
+      "checks": {
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "wilson95": [
+          0.342,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "genre=literature",
+        "k": 2,
+        "n": 2,
+        "rate": 1.0,
+        "wilson95": [
+          0.342,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "epoch=historic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=literature": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "length=page": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "task=preservation": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        }
+      }
+    },
+    "routing": {
+      "checks": {
+        "k": 16,
+        "n": 16,
+        "rate": 1.0,
+        "wilson95": [
+          0.806,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "variety=pt-BR",
+        "k": 15,
+        "n": 15,
+        "rate": 1.0,
+        "wilson95": [
+          0.796,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 13,
+          "n": 13,
+          "rate": 1.0,
+          "wilson95": [
+            0.772,
+            1.0
+          ]
+        },
+        "epoch=historic": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "genre=academic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=administrative": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=chat": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "genre=email": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=forum": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=legal": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=literature": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "genre=news": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=oral_transcript": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=poetry": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "genre=technical": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=page": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 10,
+          "n": 10,
+          "rate": 1.0,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        },
+        "length=sentence": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "task=no_change": {
+          "k": 10,
+          "n": 10,
+          "rate": 1.0,
+          "wilson95": [
+            0.722,
+            1.0
+          ]
+        },
+        "task=preservation": {
+          "k": 6,
+          "n": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.61,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 15,
+          "n": 15,
+          "rate": 1.0,
+          "wilson95": [
+            0.796,
+            1.0
+          ]
+        },
+        "variety=pt-BR-nonstandard": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        }
+      }
+    },
+    "semantic_gate": {
+      "checks": {
+        "k": 9,
+        "n": 9,
+        "rate": 1.0,
+        "wilson95": [
+          0.701,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "epoch=contemporary",
+        "k": 9,
+        "n": 9,
+        "rate": 1.0,
+        "wilson95": [
+          0.701,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 9,
+          "n": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        },
+        "genre=academic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=legal": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "genre=news": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "genre=report": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=page": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0,
+          "wilson95": [
+            0.676,
+            1.0
+          ]
+        },
+        "task=light_revision": {
+          "k": 9,
+          "n": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 9,
+          "n": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.701,
+            1.0
+          ]
+        }
+      }
+    },
+    "slang": {
+      "checks": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "task=no_change",
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "epoch=historic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=chat": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "genre=literature": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=review": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "length=sentence": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "task=no_change": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 4,
+          "n": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.51,
+            1.0
+          ]
+        }
+      }
+    },
+    "variety": {
+      "checks": {
+        "k": 4,
+        "n": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ]
+      },
+      "worst_group": {
+        "group": "epoch=contemporary",
+        "k": 3,
+        "n": 3,
+        "rate": 1.0,
+        "wilson95": [
+          0.438,
+          1.0
+        ]
+      },
+      "groups": {
+        "epoch=contemporary": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "epoch=historic": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=literature": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "genre=news": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "length=page": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "length=paragraph": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "task=no_change": {
+          "k": 3,
+          "n": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438,
+            1.0
+          ]
+        },
+        "task=preservation": {
+          "k": 1,
+          "n": 1,
+          "rate": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ]
+        },
+        "variety=pt-BR": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        },
+        "variety=pt-PT": {
+          "k": 2,
+          "n": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.342,
+            1.0
+          ]
+        }
+      }
+    }
+  },
+  "failures": [],
+  "not_run_arms": {
+    "model": "no budget approved for paid model calls",
+    "human": "no reviewers recruited",
+    "independent_holdout": "no external author"
+  }
+}
