@@ -3,6 +3,7 @@
 Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline origin/dev/v0.8.0 -20`). Se divergirem, o Git vence e este arquivo é corrigido.
 
 - Branch: `dev/v0.8.0`, criada de `main` = `c2708de` em 2026-11-07.
+- Este arquivo saiu de `docs/v08/` para `docs/releases/v0.8/` no CP12 (mapa: `docs/PATH_MAP.md`).
 - Plano: [`PLAN.md`](PLAN.md). Gaps: [`GAP_REGISTER.md`](GAP_REGISTER.md). Rastreabilidade: [`TRACEABILITY.md`](TRACEABILITY.md).
 - Política: push da branch por CP com `scripts/checkpoint.py push`; nenhuma Action até o CP17; tag e pre-release só no CP18.
 
@@ -26,6 +27,7 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP9 | Execuções reais | parcial | `c8ce828`, `44dce72`, `103414d`, `529ca80`, `6675cd0`, `73045d8` | R1–R4 (provider externo) **NOT_RUN, aguardando autorização** ([`REAL_RUNS.md`](REAL_RUNS.md)). GAP-16 corrigido antes do piloto. **Piloto agent-led executado** com esta sessão como agente hospedeiro (AGENT_OBSERVED, [`../../evals/v08/agent-pilot/PILOT.md`](../../../evals/v08/agent-pilot/PILOT.md)): NO_CHANGE, edição, rejeição corrigida, autoavaliação sem aprovação; achou GAP-17 (Skill decidia NO_CHANGE sem `diagnose`), corrigido |
 | CP10 | Standards Registry, Applicability Resolver, `document_profile` | concluído | `db4d4f9`, `d4b9f8c` | ST-01, ST-02, ST-04; ST-03 parcial. Fichas reais do Enem 2026 (`SOURCE_CITED`, sem hash: download bloqueado pelo servidor) e 2025 (`CATALOGUED`). Replay histórico com fichas sintéticas. [`DOCUMENT_STANDARDS.md`](DOCUMENT_STANDARDS.md) |
 | CP11 | Rubric Engine | concluído (piloto acadêmico NOT_RUN) | `db4d4f9`, `d4b9f8c` | ST-05: checagens objetivas só verificadas, subjetivas para julgamento, nenhuma nota. Piloto Enem: 3 critérios para julgamento, 2 não aplicados por falta de fonte oficial |
+| CP12 | Documentação: guias, hub, inventário, reorganização em pastas | concluído | `38a4050` e o commit da mudança de pastas | `docs/guide/` (INSTALL, QUICKSTART com comandos executados por teste, CLI gerado do parser, AGENT_SKILL, TROUBLESHOOTING); hub por público; inventário de 62 documentos com estado e dependências; avisos de estado nos históricos; SHAs reais no lugar de "(este commit)". A pedido do mantenedor, documentos movidos para pastas por assunto e versão (`docs/releases/v0.X/`), todos os consumidores mutáveis atualizados e [`../../PATH_MAP.md`](../../PATH_MAP.md) para os registros imutáveis; validador confere links, âncoras, caminhos pessoais, segredos e subcomandos em todos os documentos, com defeitos plantados em testes |
 
 ## Regras desta rodada
 
@@ -42,4 +44,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP12: auditoria e reorganização de `docs/` (adendo), consolidação da arquitetura agent-led, validador estendido com testes negativos; depois CP13 (segurança), CP14–CP15 (dogfood), CP16. R1–R4 do CP9 continuam aguardando autorização.
+CP13: segurança, privacidade, licenças e threat model; depois CP14–CP15 (dogfood agent-led de Assertiva e Derivanta) e CP16. R1–R4 do CP9 continuam aguardando autorização.
