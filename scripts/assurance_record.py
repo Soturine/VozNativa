@@ -52,7 +52,9 @@ def _variants(path: str) -> list[str]:
         if not p:
             continue
         fwd = p.replace("\\", "/")
-        out |= {p, fwd, p.replace("\\", "\\\\")}
+        # JSON-escaped once, and twice: a path inside a message that is itself a JSON string (CP16 found
+        # one in a test skip reason that the single-escape spelling missed).
+        out |= {p, fwd, p.replace("\\", "\\\\"), p.replace("\\", "\\\\\\\\")}
         if re.match(r"^[A-Za-z]:/", fwd):
             out.add(f"/{fwd[0].lower()}{fwd[2:]}")
     return sorted(out, key=len, reverse=True)

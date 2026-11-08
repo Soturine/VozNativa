@@ -198,6 +198,14 @@ class AssuranceRecordSanitizer(unittest.TestCase):
             self.assertNotIn("ana", out, text)
             self.assertIn("<PROJECT>", out, text)
 
+    def test_a_path_escaped_twice_is_replaced(self):
+        # CP16: a skip reason holding a Windows path, serialised inside JSON twice.
+        rules = [(p, l) for p, l in self.mod.sanitizer(Path(r"C:\Users\ana\proj")) if l == "<PROJECT>"]
+        twice = json.dumps(json.dumps(r"C:\Users\ana\proj\voznativa\x.py"))
+        out = self.mod.sanitize(twice, rules)
+        self.assertNotIn("ana", out, twice)
+        self.assertIn("<PROJECT>", out)
+
     def test_home_and_temp_of_this_machine_are_replaced(self):
         import tempfile as tf
         rules = self.mod.sanitizer(ROOT)
