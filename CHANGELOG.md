@@ -2,7 +2,7 @@
 
 ## 0.8.0.dev0 — 2026-11-08 (GitHub pre-release; not on PyPI)
 
-Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/releases/v0.8/PLAN.md`; state: `docs/releases/v0.8/EXECUTION_STATE.md`; gaps: `docs/releases/v0.8/GAP_REGISTER.md`.
+Development version published only as a GitHub pre-release (not stable, not on PyPI). Plan: `docs/releases/v0.8/PLAN.md`; state: `docs/releases/v0.8/EXECUTION_STATE.md`; gaps: `docs/releases/v0.8/GAP_REGISTER.md`.
 
 ### Fixed
 - **Document plans could authorise themselves to rewrite verse (V08-GAP-01).** `validate_plan` read `verse_explicit` from the serialised plan, so a plan edited to say `true` (with its policy and unit actions edited to match) passed validation and let `reassemble` replace a poem. The authorisation now comes from the caller: `validate_plan(plan, text, verse_explicit=False)` and `reassemble(text, plan, replacements, verse_explicit=False)`; the plan's field must agree with the caller and grants nothing by itself. A non-boolean grant raises `TypeError`. **API change:** code that reassembles a plan built with `verse_explicit=True` must now pass `verse_explicit=True` to `reassemble`/`validate_plan`. `rewrite_document` and the CLI already pass the caller's flag.
@@ -70,10 +70,18 @@ Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/releases/v0.8/P
 - Expected input errors now say what to do, in Portuguese, with the same exit code 64: file not found (with the working directory), not UTF-8 (with the byte position), a directory instead of a file. `rewrite` without a provider points to `voznativa demo`.
 
 ### Assurance
-- The package gate (`qualify` `package:sdist-wheel-smoke`, also the CI package job) now runs the **whole unittest suite against the installed wheel** (V08-GAP-06): the tracked tree without `voznativa/` and the packaging files, so fixtures exist but the code can only come from the wheel; the import origin is checked first. Local run: 748 tests, 746 PASS, 2 skips with stated reasons. `test_regional` reads its pack through the imported package; the `bench_v3` end-to-end test skips when the engine is not this checkout's (its own guard).
+- The local package gate (`qualify` `package:sdist-wheel-smoke`) now runs the **whole unittest suite against the installed wheel** (V08-GAP-06): the tracked tree without `voznativa/` and the packaging files, so fixtures exist but the code can only come from the wheel; the import origin is checked first. Local run: 748 tests, 746 PASS, 2 skips with stated reasons. The CI package job still runs the installed-wheel smoke only (this entry said otherwise until CP16; corrected). `test_regional` reads its pack through the imported package; the `bench_v3` end-to-end test skips when the engine is not this checkout's (its own guard).
+
+### Dogfood (CP14-CP15)
+- Assertiva (agent-led): 13 false-green leads judged by negative controls; 11 tests that passed while the code produced nothing were fixed (V08-GAP-26). Cosmic Ray on `events.py` found that a singular passive ("foi enviado à diretoria") had no event frame, so a dropped or swapped recipient there went unreported; fixed (V08-GAP-27). Two patches for Assertiva are kept as files in `docs/releases/v0.8/upstream/` (not pushed).
+- Derivanta Engine (agent-led): declared vocabularies (`standards.DECISIONS`, `evaluation.AXES`) are now tested against what the code emits; one owner for the plan fields of a `rewrite_document` record; the v0.8 traceability matrix covers every v0.8 test file. The Engine's unhelpful error for an invalid traceability input (DEF-VN-08) was fixed on its PR #3 branch.
+- Recorded tool outputs under `evals/assurance/runs/` are evidence, not cases: the validator and a test no longer read a Cosmic Ray dump as a case file (the CP14 evidence commit had broken the gate).
 
 ### Known
-- False red on long documents (V08-GAP-13): appending one sentence to a 16.5k-word document gives `fail` (`modality_moved`, `negation_moved`). Open, scheduled with the `compare` work.
+- Semantic quality is not independently validated: no independent holdout, no blind human review, no real-provider runs (CP9 R1-R4 NOT_RUN, awaiting authorization). Every measured set was written by the developer side.
+- A different event with no lexical relation ("assinou" -> "recebeu") is only informational (`predicate_replaced`); the irregular participle "entregue" and a second coordinated participle get no event frame (V08-GAP-04, -27).
+- The Enem 2026 guide is SOURCE_CITED without a file hash (V08-GAP-21); no academic standards source is verified (V08-GAP-22).
+- `compare` is still slower than linear on very long documents (V08-GAP-12, partial); two old import cycles remain (V08-GAP-28).
 
 ## Unreleased (0.7.0.dev1)
 
