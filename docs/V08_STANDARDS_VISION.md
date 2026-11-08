@@ -1,6 +1,8 @@
 # Visão: normas versionadas, inteligência de documento e avaliação por rubricas (linha futura, pós-v0.7)
 
-Responde ao adendo "Versioned Standards, Document Intelligence & Evaluation Framework". **Nada aqui está implementado**; este documento é descoberta, arquitetura proposta e backlog. A v0.7 só fez os pontos de contato que caíam naturalmente no trabalho em andamento (listados em §2).
+Responde ao adendo "Versioned Standards, Document Intelligence & Evaluation Framework". Escrito na v0.7 como descoberta, arquitetura proposta e backlog.
+
+> **Estado em `dev/v0.8.0` (CP10–CP11):** ST-01, ST-02, ST-04 e ST-05 estão implementados e testados; ST-03 em parte; ST-06..ST-08 não. Piloto Enem com fontes reais em nível `SOURCE_CITED` (sem hash do PDF); piloto acadêmico NOT_RUN. O que existe, com que fontes e com que limites: [`v08/DOCUMENT_STANDARDS.md`](v08/DOCUMENT_STANDARDS.md). O restante deste documento continua sendo a visão original, mantida como registro.
 
 ## 1. Visão
 

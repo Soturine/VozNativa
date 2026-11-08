@@ -24,6 +24,8 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP7 | Long-form e arquitetura | concluído | (este commit) | `test_v08_longform`: reescrita limpa com gêmeas não é mais revertida (em `c353058` revertia [1, 4]); documento misto com todos os blocos. [`ARCHITECTURE.md`](ARCHITECTURE.md) com os três modos e Agent-Led Runtime; lacuna V08-GAP-16 (autoavaliação do agente sem rótulo próprio) para o CP12 |
 | CP8 | Eixos de qualidade e curva do Router | concluído | (este commit) | `voznativa/axes.py` (proxies rotulados); auditoria do Router reproduzida igual à v0.7; curva de limiares: ponto atual no joelho, limiar não muda, falta de pistas em notícia/blog. [`EVAL_MATRIX.md`](EVAL_MATRIX.md). Corpora rematerializados no scratchpad (só datas de verificação mudaram no registro) |
 | CP9 | Execuções reais | parcial | `c8ce828`, `103414d`, `529ca80`, (este commit) | R1–R4 (provider externo) **NOT_RUN, aguardando autorização** ([`REAL_RUNS.md`](REAL_RUNS.md)). GAP-16 corrigido antes do piloto. **Piloto agent-led executado** com esta sessão como agente hospedeiro (AGENT_OBSERVED, [`../../evals/v08/agent-pilot/PILOT.md`](../../evals/v08/agent-pilot/PILOT.md)): NO_CHANGE, edição, rejeição corrigida, autoavaliação sem aprovação; achou GAP-17 (Skill decidia NO_CHANGE sem `diagnose`), corrigido |
+| CP10 | Standards Registry, Applicability Resolver, `document_profile` | concluído | (este commit) | ST-01, ST-02, ST-04; ST-03 parcial. Fichas reais do Enem 2026 (`SOURCE_CITED`, sem hash: download bloqueado pelo servidor) e 2025 (`CATALOGUED`). Replay histórico com fichas sintéticas. [`DOCUMENT_STANDARDS.md`](DOCUMENT_STANDARDS.md) |
+| CP11 | Rubric Engine | concluído (piloto acadêmico NOT_RUN) | (este commit) | ST-05: checagens objetivas só verificadas, subjetivas para julgamento, nenhuma nota. Piloto Enem: 3 critérios para julgamento, 2 não aplicados por falta de fonte oficial |
 
 ## Regras desta rodada
 
@@ -40,4 +42,4 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 ## Próximo passo
 
-CP9: apresentar ao mantenedor as opções de execução real (provider, Agent Skill com agente real, juiz) com estimativa de consumo e aguardar autorização; preparar cenários, instrumentos e limites; sem autorização, tudo que precisa de modelo fica NOT_RUN.
+CP12: auditoria e reorganização de `docs/` (adendo), consolidação da arquitetura agent-led, validador estendido com testes negativos; depois CP13 (segurança), CP14–CP15 (dogfood), CP16. R1–R4 do CP9 continuam aguardando autorização.
