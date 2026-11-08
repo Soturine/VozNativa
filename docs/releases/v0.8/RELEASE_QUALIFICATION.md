@@ -7,9 +7,11 @@
 
 ## Revisão candidata
 
-**`8db60ea`** (`dev/v0.8.0`). A primeira candidata (`d4b0ed1`) falhou no Linux com Python 3.13 (abaixo); a
-correção está em `9a847f9`. Os commits depois de `8db60ea` mudam só registros de evidência e documentos de estado;
-a CI do CP17 roda na `main` que os contém, e `scripts/ci_evidence.py` confere a equivalência de código.
+**`50a54b4`** (`dev/v0.8.0`): o último commit que muda código. Antes dele, `d4b0ed1` falhou no Linux com Python
+3.13 (corrigido em `9a847f9`) e `8db60ea` passou, mas o registro de evidência do CP16 achou um defeito no gravador
+(GAP-29), corrigido em `50a54b4` (`scripts/assurance_record.py` e um teste); a matriz inteira rodou de novo. Os
+commits depois de `50a54b4` mudam só registros de evidência e documentos de estado; a CI do CP17 roda na `main` que
+os contém, e `scripts/ci_evidence.py` confere a equivalência de código.
 
 ## Qualificação local por plataforma
 
@@ -17,7 +19,16 @@ a CI do CP17 roda na `main` que os contém, e `scripts/ci_evidence.py` confere a
 WSL2) com um clone do repositório dentro do contêiner; Windows 10 com o CPython 3.12 da máquina (é o único
 instalado: o 3.11 do Windows fica para a CI, V08-GAP-10).
 
-### `8db60ea` (candidata)
+### `50a54b4` (candidata final)
+
+| Plataforma | Python | unittest | demais gates locais | pacote (sdist → wheel → venv → smoke → suíte contra o wheel) | `review:pty` | Veredito |
+|---|---|---|---|---|---|---|
+| Windows 10 | 3.12.6 | 905: 903 PASS, 2 skips | PASS | PASS (901 PASS contra o wheel) | NOT_RUN (POSIX) | INCOMPLETE (só o `pty`) |
+| Linux (contêiner) | 3.11.17 | 905: 904 PASS, 1 skip | PASS | PASS (902 PASS) | PASS | PASS |
+| Linux (contêiner) | 3.12.15 | 905: 904 PASS, 1 skip | PASS | PASS (902 PASS) | PASS | PASS |
+| Linux (contêiner) | 3.13.16 | 905: 904 PASS, 1 skip | PASS | PASS (902 PASS) | PASS | PASS |
+
+### `8db60ea` (candidata anterior)
 
 | Plataforma | Python | unittest | demais gates locais | pacote (sdist → wheel → venv → smoke → suíte contra o wheel) | `review:pty` | Veredito |
 |---|---|---|---|---|---|---|
@@ -46,6 +57,8 @@ alimenta as duas formas e exige o mesmo resultado; a referência confere em 3.11
 
 ## Reconciliação das auditorias com o código final
 
+- As auditorias abaixo rodaram em `8db60ea`; de lá para `50a54b4` mudaram só `scripts/assurance_record.py` e
+  `evals/test_privacy.py` (gravador de evidência), fora do pacote `voznativa`.
 - **Derivanta Engine** na candidata `8db60ea` (e antes em `d4b0ed1`, mesmo resultado) contra o reteste do CP15 (`b2d106f`), mesma entrada de
   rastreabilidade: COMPARABLE, 0 novos, 1 ausente (a duplicação do teste novo, corrigida), 172 persistentes;
   rastreabilidade 28 com link, 2 sem link por desenho, 0 quebrados.
