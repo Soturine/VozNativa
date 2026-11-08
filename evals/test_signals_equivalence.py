@@ -55,6 +55,8 @@ def corpus() -> list[str]:
     texts = []
     for path in glob.glob(str(ROOT / "evals" / "**" / "*.jsonl"), recursive=True) + \
             glob.glob(str(ROOT / "benchmarks" / "cases" / "*.jsonl")):
+        if Path(path).relative_to(ROOT).as_posix().startswith("evals/assurance/runs/"):
+            continue      # recorded tool outputs (Cosmic Ray dumps...), not texts
         for line in Path(path).read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue

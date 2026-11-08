@@ -36,6 +36,7 @@ JSONL_FIELDS = {
     "benchmarks/runs": ("tag", "cost_usd"),  # per-call cost logs of benchmark runs: records, not cases
 }
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "build", "dist"}
+RECORD_JSONL = ("evals/assurance/runs/",)   # recorded tool outputs, hashed in their MANIFEST: not cases
 
 
 def files(pattern: str):
@@ -101,6 +102,8 @@ def check_data(errors: list[str]) -> None:
             except json.JSONDecodeError as error:
                 errors.append(f"{rel(path)}:{number}: invalid JSON: {error}")
                 continue
+            if rel(path).startswith(RECORD_JSONL):
+                continue   # a tool's own output kept as evidence (e.g. a Cosmic Ray dump): valid JSON, no case schema
             missing = [f for f in required if f not in row]
             if missing:
                 errors.append(f"{rel(path)}:{number}: missing fields {missing}")
