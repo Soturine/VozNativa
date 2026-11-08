@@ -3,7 +3,7 @@ name: voznativa
 description: Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal. Use para humanizar ou naturalizar texto em PT-BR, tirar cara de IA sem alterar o sentido, adaptar a um canal (WhatsApp, e-mail, documentação, LinkedIn, acadêmico, jurídico) ou à voz de amostras do autor, escrever a partir de notas ou de um repositório, e verificar se uma reescrita mudou o significado.
 license: MIT
 metadata:
-  version: "0.7.0.dev1"
+  version: "0.8.0.dev0"
   language: pt-BR
 ---
 

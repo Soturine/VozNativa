@@ -13,7 +13,7 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 | quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
 | quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-**Estado:** `0.7.0.dev1` (estabilização da `0.7.0.dev0`), em desenvolvimento, não publicado no PyPI e sem release estável. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
+**Estado:** `0.8.0.dev0` (versão de desenvolvimento, publicada só como GitHub pre-release), não publicada no PyPI e sem release estável. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
 ## Em 30 segundos
 

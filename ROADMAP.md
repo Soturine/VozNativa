@@ -230,7 +230,7 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [x] compare original/candidate
 - [x] saída JSON estável (`kind` + `schema_version` em cada relatório)
 
-## v0.8.0 — Evaluation System & Contextual Intelligence (em desenvolvimento em `dev/v0.8.0`; estado em `docs/releases/v0.8/EXECUTION_STATE.md`)
+## v0.8.0 — Evaluation System & Contextual Intelligence (`0.8.0.dev0`, GitHub pre-release; estado em `docs/releases/v0.8/EXECUTION_STATE.md`)
 - [x] Evaluation Core: `voznativa evaluate`, splits coerentes com o MANIFEST, eixos por split com IC, `--verify` e `--replay`
 - [x] independência exige evidência; vazamento entre conjuntos detectado (achou `ho-022` e um caso do v5)
 - [x] braços B0–B6 numa interface; B0/B2 offline

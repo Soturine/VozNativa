@@ -103,7 +103,7 @@ def main() -> int:
                 "epoch-and-community": run("contract", "t.txt", "--epoch", "current", "--community", "tech",
                                            "--slang-strength", "0.5")["slang_strength"]["effective"] == 0.0,
                 # v0.7.0: contract v3, the new commands and the long-form path from the wheel.
-                "version-0.7": voznativa.__version__.startswith("0.7."),
+                "version-0.8": voznativa.__version__.startswith("0.8."),
                 "route-v3": run("route", "t.txt")["schema_version"] == 3,
                 "diagnose": run("diagnose", "t.txt")["kind"] == "voznativa.diagnosis",
                 "mode-review": run("rewrite", "t.txt", "--mode", "REVIEW")["outcome"] == "no_change",

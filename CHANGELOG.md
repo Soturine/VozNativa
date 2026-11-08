@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (0.8.0.dev0)
+## 0.8.0.dev0 — 2026-11-08 (GitHub pre-release; not on PyPI)
 
 Work in progress on `dev/v0.8.0`, **not a release**. Plan: `docs/releases/v0.8/PLAN.md`; state: `docs/releases/v0.8/EXECUTION_STATE.md`; gaps: `docs/releases/v0.8/GAP_REGISTER.md`.
 
