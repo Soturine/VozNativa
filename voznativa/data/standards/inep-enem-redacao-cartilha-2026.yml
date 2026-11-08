@@ -1,0 +1,57 @@
+schema_version: 1
+kind: voznativa.standard_source
+id: inep-enem-redacao-cartilha-2026
+authority: Inep
+series: enem-redacao-cartilha
+category: cartilha
+title: "A Redação do Enem 2026 | Cartilha do(a) participante"
+urls:
+  official: https://www.gov.br/inep/pt-br/centrais-de-conteudo/acervo-linha-editorial/publicacoes-institucionais/avaliacoes-e-exames-da-educacao-basica/a-redacao-do-enem-2026-cartilha-do-a-participante
+  file: https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026.pdf
+edition: "2026"
+published: 2026-09-18
+validity:
+  from: 2026-09-18
+  until: null
+  note: governs essays of the Enem 2026 edition; no end date stated on the page
+applies_to:
+  document_types: [redacao-enem]
+  event: enem
+  event_year: 2026
+rights:
+  text: metadata_only
+  note: no licence statement on the page; the cartilha and its sample essays are not copied into this repository
+verification:
+  status: SOURCE_CITED
+  checked_at: 2026-11-07
+  evidence: >-
+    official gov.br page read on 2026-11-07: title, publisher Inep, publication 18/09/2026 09:18, download links
+    for the standard and accessible versions, and the description of the essay quoted in the criteria below.
+    The PDF itself could not be downloaded from this machine (connection reset by the server), so no sha256.
+  sha256: null
+criteria:
+  - id: genero-dissertativo-argumentativo
+    kind: subjective
+    verification: SOURCE_CITED
+    statement: the essay is a dissertative-argumentative text on a social, scientific, cultural or political theme
+    source: official page, paraphrased
+  - id: ponto-de-vista-argumentado
+    kind: subjective
+    verification: SOURCE_CITED
+    statement: the participant defends a point of view with coherent arguments
+    source: official page, paraphrased
+  - id: proposta-de-intervencao-direitos-humanos
+    kind: subjective
+    verification: SOURCE_CITED
+    statement: the essay proposes a social intervention that respects human rights
+    source: official page, paraphrased
+  - id: cinco-competencias
+    kind: subjective
+    verification: CATALOGUED
+    statement: five competences, each scored up to 200 points
+    source: secondary reports (press, course sites); not read in the official file
+  - id: limite-de-linhas
+    kind: objective
+    verification: CATALOGUED
+    statement: line limits of the answer sheet
+    source: not verified in any official source in this round; no number is recorded and nothing is checked

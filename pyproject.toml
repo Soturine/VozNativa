@@ -24,7 +24,7 @@ packages = ["voznativa", "voznativa.corpus"]
 
 [tool.setuptools.package-data]
 voznativa = ["data/*.json", "data/*.yml", "data/regional_packs/*.yml", "data/corpora/*.yml", "data/slang/*.yml",
-             "data/community_packs/*.yml"]
+             "data/community_packs/*.yml", "data/standards/*.yml"]
 
 [tool.setuptools.dynamic]
 version = { attr = "voznativa.__version__" }

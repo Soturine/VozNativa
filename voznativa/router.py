@@ -141,7 +141,7 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
           region_strength: float = 0.0, community: str | None = None, slang_strength: float = 0.0,
           epoch: str | None = None, spoken: bool | None = None, fact_sources: list[str] | None = None,
           voice_samples: list[str] | None = None, voice_channel: str | None = None,
-          repo: str | None = None) -> dict:
+          repo: str | None = None, document_profile: dict | None = None) -> dict:
     from .text import canonical
     text = canonical(text)
     if task not in TASKS:
@@ -194,7 +194,7 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
                       time_info=time_info, epoch_info=epoch_info, text=text, region=region,
                       region_strength=region_strength, community=community, structure_info=structure_info,
                       audience=audience, samples=samples, flags=flags)
-    return {
+    contract = {
         "schema_version": CONTRACT_SCHEMA_VERSION,
         "kind": "voznativa.context_contract",
         "dimensions": dims,
@@ -222,6 +222,27 @@ def route(text: str, task: str = "rewrite", genre: str | None = None, channel: s
         "warnings": warnings,
         "words": len(text.split()),
     }
+    if document_profile is not None:
+        # v0.8 (ST-04): only when a profile is given; without it the contract is unchanged.
+        contract["document_profile"] = _document_profile(document_profile)
+    return contract
+
+
+DOCUMENT_PROFILE_KEYS = ("document_type", "authority", "series", "institution", "event", "event_year",
+                         "submission_date", "purpose", "audience", "language")
+
+
+def _document_profile(profile: dict) -> dict:
+    """Validated document profile plus the standards that apply to it (``standards.resolve``)."""
+    if not isinstance(profile, dict):
+        raise ValueError("document_profile must be an object")
+    unknown = sorted(set(profile) - set(DOCUMENT_PROFILE_KEYS))
+    if unknown:
+        raise ValueError(f"document_profile has unknown fields {unknown}; allowed: {DOCUMENT_PROFILE_KEYS}")
+    if not profile.get("document_type"):
+        raise ValueError("document_profile needs document_type")
+    from .standards import resolve
+    return {"value": dict(profile), "source": "explicit", "standards": resolve(profile)}
 
 
 CONTRACT_SCHEMA_VERSION = 3

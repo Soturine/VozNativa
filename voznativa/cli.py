@@ -174,6 +174,7 @@ def _contract_args(p):
     p.add_argument("--voice-sample", action="append", help="text the author wrote (repeatable); never used for facts")
     p.add_argument("--voice-channel")
     p.add_argument("--repo", help="repository used as a fact source")
+    p.add_argument("--document-profile", help="JSON file describing the document (type, authority, series, event year, submission date); attaches the applicable standards")
 
 
 def _route(args):
@@ -182,7 +183,9 @@ def _route(args):
                  register=args.register, audience=args.audience, region=args.region,
                  region_strength=args.region_strength, community=args.community,
                  slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
-                 voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo)
+                 voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo,
+                 document_profile=json.loads(_read(args.document_profile))
+                 if getattr(args, "document_profile", None) else None)
 
 
 def cmd_route(args):
@@ -445,6 +448,23 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--json", action="store_true", help="JSON result instead of text")
     p.set_defaults(func=cmd_demo)
 
+    p = sub.add_parser("rubric", help="criteria of the standard that applies to a document: objective checks only where verified, subjective ones listed for judgment; never a score")
+    p.add_argument("text")
+    p.add_argument("--document-profile", required=True, help="JSON file: document_type, submission_date, authority/series, event_year")
+    p.set_defaults(func=cmd_rubric)
+
+    p = sub.add_parser("standards", help="Standards Registry: registered editais, manuals, norms and rubrics, and which edition applies to a document (never the latest by default)")
+    ss = p.add_subparsers(dest="standards_command", required=True)
+    q = ss.add_parser("list", help="registered sources with edition, validity and verification")
+    q.set_defaults(func=cmd_standards)
+    q = ss.add_parser("resolve", help="which source applies to a document on its submission date")
+    q.add_argument("--document-type", required=True)
+    q.add_argument("--submission-date", required=True, help="YYYY-MM-DD")
+    q.add_argument("--authority")
+    q.add_argument("--series")
+    q.add_argument("--event-year", type=int)
+    q.set_defaults(func=cmd_standards)
+
     p = sub.add_parser("evaluate", help="evaluation core: a dataset spec with splits, axes, provenance and "
                                         "integrity (eval runs a single legacy suite); exit 0 COMPLETE, 1 INVALID or "
                                         "INCOMPLETE")
@@ -703,6 +723,29 @@ def _explain(error: Exception) -> str:
         return ("o arquivo não está em UTF-8 (byte inválido na posição "
                 f"{error.start}). Salve-o como UTF-8 e tente de novo.")
     return str(error)
+
+
+def cmd_rubric(args):
+    from .rubric import evaluate
+    report = evaluate(_read(args.text), json.loads(_read(args.document_profile)))
+    _emit(report)
+    return 1 if report["counts"]["NOT_MET"] else 0
+
+
+def cmd_standards(args):
+    from . import standards
+    if args.standards_command == "list":
+        _emit({"kind": "voznativa.standards_list", "sources": [
+            {k: e[k] for k in ("id", "authority", "series", "category", "edition", "published", "validity")}
+            | {"verification": e["verification"]["status"], "criteria": len(e["criteria"])}
+            for e in standards.load()]})
+        return 0
+    profile = {"document_type": args.document_type, "submission_date": args.submission_date,
+               **{k: v for k, v in (("authority", args.authority), ("series", args.series),
+                                    ("event_year", args.event_year)) if v is not None}}
+    result = standards.resolve(profile)
+    _emit(dict(result, kind="voznativa.standards_resolution", profile=profile))
+    return 0 if result["decision"] in ("APPLICABLE", "APPLICABLE_UNVERIFIED") else 2
 
 
 def cmd_evaluate(args):
