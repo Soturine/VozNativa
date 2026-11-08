@@ -41,3 +41,17 @@ Mutação: 10 mutantes aplicados à mão nas regras novas (cópia completa da á
 - **`eh-03`** ("Transferi R$ 500,00 para o meu irmão" → sem o irmão): perdido no holdout. Não ajustei a regra depois de ver o holdout; uma correção precisa de conjunto novo congelado antes.
 - Correferência, elipse do destinatário ("entreguei-lhe"), sujeito oculto: sem quadro, sem sinal.
 - Os quadros cobrem só verbos de transferência e pares conversos listados; outros eventos continuam nas checagens anteriores.
+
+## Causas dos erros restantes (diagnóstico, sem ajuste retroativo)
+
+Investigação feita depois da execução única do holdout, a pedido do mantenedor. **Nenhum caso dos conjuntos congelados foi usado para mudar regra ou léxico.** Cada causa vira gap pendente; corrigir exige um conjunto novo, congelado antes do código.
+
+| Caso | Sintoma | Camada | Causa comprovada | O que resolveria | Gap |
+|---|---|---|---|---|---|
+| `eh-03` ("Transferi R$ 500,00 para o meu irmão" → sem o irmão) | recipient não detectado | **extração** (morfologia) | `morph.verbs` não devolve "Transferi": no início de frase, terminação fraca (-i) exige sujeito antes ou artigo depois, e o próximo token é "R$"; sem verbo não há quadro. Além disso, "para" é lido como o verbo *parar* | aceitar 1ª pessoa do pretérito com terminação forte quando o lema é de transferência, medido contra o ouro UD (falso positivo de verbo) | V08-GAP-18 |
+| `ed-12` ("assinou" → "recebeu") | evento diferente não detectado | **conhecimento lexical** | não são antônimos nem conversos; regras não separam evento diferente de sinônimo | recurso lexical de relações entre verbos com licença clara, ou juiz | V08-GAP-04 (aberto) |
+| `ed-19`, `eh-16` (destinatário deslocado na frase) | falso alarme `role_or_order_swapped` | **correspondência** (checagem anterior à v0.8) | `_crossing_issues` compara a ordem das palavras dos dois lados de um pivô; mover o complemento ("entregou aos fornecedores o cronograma") parece troca | consultar os quadros de evento: mesmo agente, mesmo destinatário e mesmo objeto → não é troca | V08-GAP-19 |
+| `ed-27`, `eh-22` (converso com papéis trocados) | falso alarme `role_or_order_swapped` | **representação de papéis** | a mesma checagem por ordem não sabe que "A comprou de B" = "B vendeu para A"; as regras do CP6 já não sinalizam | idem, com os pares conversos de `verb_relations.json` | V08-GAP-19 |
+| `eh-17` ("A escola informou… aos pais" → "Os pais foram informados pela escola…") | falso alarme `attribution_changed` | **léxico de marcadores** | "informou" conta como marcador de atribuição; a passiva "informados pela" não é reconhecida como a mesma atribuição | marcador de atribuição na passiva com agente da passiva, medido nas suítes de atribuição | V08-GAP-20 |
+
+Nada disso é crítico: os falsos alarmes acima pedem revisão (`major`) e não reprovam.
