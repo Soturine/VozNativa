@@ -1,0 +1,15 @@
+{
+  "run_id": 42453909963,
+  "run_number": 126,
+  "url": "https://github.com/Soturine/VozNativa/actions/runs/42453909963",
+  "event": "workflow_dispatch",
+  "head_sha": "554d1b259e55e19c68c8c5bafffaed8cea7d1cb8",
+  "conclusion": "success",
+  "jobs": "8/8",
+  "status": "PASS",
+  "equivalence": {
+    "equivalent": true,
+    "relation": "same"
+  },
+  "verified": "live"
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "voznativa.assurance_run",
+  "schema_version": 1,
+  "run": "2026-11-08-v08-cp17",
+  "entries": [
+    {
+      "file": "ci-evidence-554d1b2.json",
+      "command": "python scripts/ci_evidence.py (live query, clean tree at 554d1b2)",
+      "exit_code": 0,
+      "raw_sha256": "6458aedb8a4d6e7415e52f556da7bf5a0269e18684401510217025abe07528f6",
+      "published_sha256": "3b7853726c14ee4e0240249c9a8bde2cfdee082827b780c4bde87960beb617c0",
+      "sanitized": true
+    },
+    {
+      "file": "ci-run-42453909963.json",
+      "command": "gh run view 42453909963 --json ... (jobs and conclusions)",
+      "exit_code": 0,
+      "raw_sha256": "ec8c8282d7e40734152d1b6a00e2ca5d0488ce2671f40225e5d014c1ee04da86",
+      "published_sha256": "ec8c8282d7e40734152d1b6a00e2ca5d0488ce2671f40225e5d014c1ee04da86",
+      "sanitized": false
+    }
+  ],
+  "recorded_at": "2026-11-08T06:17:15+00:00",
+  "revision": "554d1b259e55e19c68c8c5bafffaed8cea7d1cb8",
+  "dirty_paths": [],
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-10"
+  },
+  "tools": {
+    "gh": "2.89.0"
+  },
+  "notes": [
+    "The single CI run of v0.8: workflow_dispatch on main at 554d1b2, dispatched once by the agent with gh workflow run ci.yml --ref main."
+  ]
+}

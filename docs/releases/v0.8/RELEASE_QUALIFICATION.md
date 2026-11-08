@@ -86,7 +86,7 @@ Todos escritos pelo lado do desenvolvimento: nenhum é evidência independente.
 
 | Item | Estado |
 |---|---|
-| CI do GitHub na revisão da `main` | NOT_RUN (CP17) |
+| CI do GitHub na revisão da `main` | **PASS**: run #126 ([42453909963](https://github.com/Soturine/VozNativa/actions/runs/42453909963)), `workflow_dispatch` na `main` em `554d1b2`, 8/8 jobs (Ubuntu e Windows × 3.11/3.12/3.13 e o job de pacote nos dois), conferido ao vivo por `scripts/ci_evidence.py` (relação `same`); registros em `evals/assurance/runs/2026-11-08-v08-cp17/`. Única execução da CI nesta rodada |
 | Holdout independente | NOT_RUN: precisa de outra pessoa |
 | Revisão humana cega | NOT_RUN: nenhum revisor registrado |
 | Provider real (R1–R4 do CP9) | NOT_RUN: aguardando autorização de custo |
