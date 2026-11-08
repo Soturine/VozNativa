@@ -117,10 +117,9 @@ class PassiveAndBoundaries(unittest.TestCase):
         self.assertFalse(NEW & set(codes("A nota foi enviada ao cliente pela loja.",
                                          "A loja enviou a nota ao cliente.")[1]))
 
-    def test_a_conjunction_is_not_a_passive_auxiliary(self):
+    def test_a_conjunction_before_a_finite_verb_is_not_a_passive(self):
         frames_ = frames("Ela comprou o carro e vendeu a moto.")
         self.assertEqual([(f.stem, f.passive) for f in frames_], [("compr", False), ("vend", False)])
-
     def test_adverbs_before_the_verb_do_not_hide_the_agent(self):
         for sentence, agent in (("A tesoureira não repassou o relatório aos auditores.", "tesoureira"),
                                 ("A loja já enviou a nota ao fornecedor.", "loja")):

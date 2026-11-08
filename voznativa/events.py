@@ -155,10 +155,10 @@ def frames(sentence: str) -> list[Frame]:
         # After "foi/foram/é/será...", a participle reading wins: "enviado" is also read as a present of
         # "enviadar", and with several stems the verb used to be dropped, so a singular passive had no
         # frame at all (CP14, found by mutation: the passive branch was never reached by a test).
-        # The bare token "e" is the conjunction as often as "é": it keeps the old rule.
+        # A bare "e" counts too, as it always did for an unambiguous participle: before a participle it
+        # coordinates a passive ("foi revisado e enviado à diretoria").
         part = [a for a in v.analyses if a.get("VerbForm") == "Part"]
-        after_aux = k is not None and k > 0 and fold(tokens[k - 1][0]) in _PASSIVE_AUX \
-            and tokens[k - 1][0].lower() != "e"
+        after_aux = k is not None and k > 0 and fold(tokens[k - 1][0]) in _PASSIVE_AUX
         participle = bool(part) and (after_aux or len(part) == len(v.analyses))
         lemmas = {a["lemma"] for a in part} if participle else v.lemmas
         stem = _stem_of(lemmas)
