@@ -175,6 +175,9 @@ class Metrics(unittest.TestCase):
         record = evaluation.run(SPEC, ROOT, recorded_at="t")
         dumped = json.dumps(record, ensure_ascii=False)
         self.assertNotIn("O deploy não deve ser feito antes das 18h.", dumped)
+        # Non-empty first (Assertiva CP14, vacuous all() confirmed by a negative control).
+        self.assertEqual(record["status"], "COMPLETE")
+        self.assertGreater(len(record["results"]), 200)
         self.assertTrue(all("original_sha256" in r or "text_sha256" in r for r in record["results"]))
 
 
@@ -191,6 +194,7 @@ class RepositoryDataset(unittest.TestCase):
         self.assertEqual(again["metrics"], self.record["metrics"])
 
     def test_no_source_is_called_independent(self):
+        self.assertEqual(len(self.record["inputs"]), len(SPEC["sources"]))   # not vacuous (CP14)
         self.assertTrue(all(not i["independent"] for i in self.record["inputs"]))
         self.assertNotIn("external_independent_holdout", self.record["metrics"])
         self.assertIn("Nenhum número acima é validação independente", evaluation.render(self.record))

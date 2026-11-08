@@ -56,8 +56,11 @@ class PatternSuite(unittest.TestCase):
     def test_separates_ai_style_drafts_from_natural_texts(self):
         # Written by the developer, so this is a sanity check, not independent evidence.
         drafts = load_cases(ROOT / "benchmarks" / "cases" / "ptbr-ai-drafts-v1.jsonl")
+        # CP14 (UNCHECKED_ALL, confirmed): a loader returning nothing passed both all() vacuously.
+        self.assertGreater(len(drafts), 0)
         self.assertTrue(all(detect(c["text"], c["genre"])["decision"] == "edit" for c in drafts))
         natural = [c for c in load_cases(ROOT / "benchmarks" / "cases" / "ptbr-v1.jsonl") if c["id"] != "bm-email-001"]
+        self.assertGreater(len(natural), 0)
         self.assertTrue(all(detect(c["text"], c["genre"])["decision"] == "no_change_candidate" for c in natural))
 
     def test_exempt_genre_keeps_the_construction(self):

@@ -78,6 +78,9 @@ class Activation(unittest.TestCase):
         applied = community.apply_to_report(report, tech, thesis)
         self.assertFalse({f["text"].lower() for f in applied["findings"]
                           if f["id"] == "anglicism_out_of_domain"} & {"deploy", "backend"})
+        # CP14 (UNCHECKED_ALL, confirmed): a report that dropped the withdrawn list passed vacuously.
+        self.assertEqual({w["text"].lower() for w in applied["withdrawn"]} & {"deploy", "backend"},
+                         {"deploy", "backend"}, "every withdrawn finding is listed")
         self.assertTrue(all(w["withdrawn_by"] == "community:tech" for w in applied["withdrawn"]))
         self.assertLessEqual(applied["summary"]["weak"] + applied["summary"]["strong"],
                              report["summary"]["weak"] + report["summary"]["strong"])

@@ -35,7 +35,9 @@ class Frames(unittest.TestCase):
                          "Trabalhou muito para entregar o relatório.", "O técnico entregou a peça.",
                          "Ele mandou a partir de hoje."):
             with self.subTest(sentence=sentence):
-                self.assertTrue(all(f.recipient is None for f in frames(sentence)), frames(sentence))
+                found = frames(sentence)
+                self.assertTrue(found, "the transfer verb must still be read (CP14: vacuous all())")
+                self.assertTrue(all(f.recipient is None for f in found), found)
 
     def test_purpose_after_a_transfer_verb_is_not_a_recipient(self):
         (f,) = [x for x in frames("A empresa enviou o técnico para avaliar o equipamento.") if x.stem == "envi"]

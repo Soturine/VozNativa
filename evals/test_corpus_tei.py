@@ -195,6 +195,10 @@ class ManifestAndCache(unittest.TestCase):
         self.assertEqual(with_lic["policy"]["EXPORT_STATISTICS"], "ALLOWED")
         self.assertEqual(without["document_license"], "unknown")
         self.assertEqual(without["doc_id"], "D2")
+        # CP14 (UNCHECKED_ALL, confirmed): a row missing its policy entries passed vacuously; both rows
+        # must decide the same operations.
+        self.assertEqual(set(without["policy"]), set(with_lic["policy"]))
+        self.assertGreater(len(without["policy"]), 1)
         self.assertTrue(all(state != "ALLOWED" for op, state in without["policy"].items()
                             if op != "EXPORT_STATISTICS"), without["policy"])
         self.assertNotIn("text", without)

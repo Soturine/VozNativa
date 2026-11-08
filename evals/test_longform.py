@@ -137,6 +137,9 @@ class LiteraryPolicy(unittest.TestCase):
         self.assertEqual(report["decision"], "no_change_candidate")
         p = plan(text, route(text, genre="literary"))
         self.assertEqual(p["decision"], "no_change")
+        # CP14 (UNCHECKED_ALL, confirmed): a plan without sentence rows passed the not-any() vacuously.
+        self.assertEqual(len(p["sentences"]), p["summary"]["sentences"])
+        self.assertGreater(len(p["sentences"]), 0)
         self.assertFalse(any(r["reasons"] for r in p["sentences"]))
 
     def test_planner_leaves_verse_alone_without_an_explicit_request(self):

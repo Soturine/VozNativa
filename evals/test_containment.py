@@ -116,6 +116,8 @@ class MultiKeySplits(unittest.TestCase):
         by_author = {}
         for r, m in zip(recs, meta):
             by_author.setdefault(m["author"], set()).add(splits[f"{r.source}:{r.record_id}"])
+        # CP14 (UNCHECKED_ALL, confirmed): with no records the all() below held vacuously.
+        self.assertEqual(len(by_author), 3, by_author)
         self.assertTrue(all(len(v) == 1 for v in by_author.values()), by_author)
         self.assertFalse(leakage(recs, splits)["contaminated"])
 

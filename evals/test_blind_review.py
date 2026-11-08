@@ -48,6 +48,9 @@ class Tasks(unittest.TestCase):
 
     def test_focus_and_seeded_order(self):
         focused = build_tasks(RUN, focus="X", seed=3)["tasks"]
+        # CP14 (Assertiva UNCHECKED_ALL lead, confirmed by a negative control): a focus that dropped
+        # every pair passed the all() below vacuously.
+        self.assertTrue(focused, "the focus keeps the pairs that include X")
         self.assertTrue(all("X" in (t["a"]["arm"], t["b"]["arm"]) for t in focused))
         self.assertEqual(build_tasks(RUN, seed=7), build_tasks(RUN, seed=7))
 
