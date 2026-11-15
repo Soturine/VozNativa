@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased (dev/v0.8.1-dogfood-tg1)
+
+Found by an agent-led dogfood on a real long technical report (about 7,300 words of academic Portuguese, kept outside the repository) with a real provider. Regression tests with synthetic fixtures: `evals/test_v081_dogfood.py` (DF-01 to DF-03) and `evals/test_v081_compare_omission.py` (DF-04).
+
+### Fixed
+- **DF-01: `--max-calls` did not bound the judge.** In long form only the writer spent `Limits.max_provider_calls`; every judge vote was a provider call outside the budget (real run: 12 counted, 16 made). The judge now spends the same budget; a vote refused by the budget leaves the unit unjudged, never accepted. The record has `provider_calls` (writer and judge) and a new `judge_calls`.
+- **DF-02: a self-judged long document was accepted.** `rewrite_document` passed the writer to `rewrite` inside its budget wrapper, so a judge that was the writer itself was no longer recognised as `same_agent` (V08-GAP-16) and its own "equivalent" accepted every unit; the one-unit path already gave `needs_judgment`. `_generator_relation` now looks through the wrappers.
+- **DF-03: one term spelled two ways after a long-form rewrite.** Units are rewritten separately; a respelling suggested by the anglicism finding ("backend" -> "back-end") reached some units only. The document guards now report `term_variant` (a hyphenated form and its unhyphenated twin both present when the original had one of them), and the outcome is at least `needs_review`.
+- **DF-04: a dropped clause could be a false green.** `compare` checked omissions per sentence against the stems of the whole candidate (additions were also checked per clause). Deleting a trailing clause with a concrete result (synthetic case: ", gerando planilhas auditáveis dos lotes") gave `no_deterministic_issues`. A clause whose content words are absent from its aligned candidate sentence and both neighbours is now `possible_omission` (major), with the thresholds already used for an inserted clause. A clause that is wholly an editorial formula or connective of the pattern catalogue ("No cenário atual", "Dessa forma") is not a claim; replaying the real run's recorded answers through the fix found the connective case before release.
+
 ## 0.8.0.dev0 — 2026-11-08 (GitHub pre-release; not on PyPI)
 
 Development version published only as a GitHub pre-release (not stable, not on PyPI). Plan: `docs/releases/v0.8/PLAN.md`; state: `docs/releases/v0.8/EXECUTION_STATE.md`; gaps: `docs/releases/v0.8/GAP_REGISTER.md`.
