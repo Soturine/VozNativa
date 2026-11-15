@@ -142,7 +142,10 @@
         "indicam",
         "ao que tudo indica",
         "aponta para",
-        "apontam para"
+        "apontam para",
+        "indicando",
+        "sugerindo",
+        "apontando para"
       ]
     },
     "quantifier": {
@@ -314,8 +317,16 @@
         "gerou",
         "consequentemente",
         "por isso",
+        "por essa razão",
+        "por esse motivo",
         "portanto",
         "por consequência",
+        "gerando",
+        "causando",
+        "provocando",
+        "levando a",
+        "resultando em",
+        "fazendo com que",
         "levar a",
         "levaria a",
         "levará a",

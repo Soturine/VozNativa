@@ -41,8 +41,21 @@ Custo observado: US$ 2,29 em 42 chamadas (teste, execução 1 e execução 2).
 | DF-02 | documento longo autojulgado era aceito | ao escrever o teste do DF-01 | `rewrite` dá `needs_judgment`, `rewrite_document` dava `accepted` | `_generator_relation` atravessa os wrappers |
 | DF-03 | um termo com duas grafias após a reescrita | execução real: "back-end" em 3 parágrafos, "backend" nos demais e nas tabelas | stub sintético | guard `term_variant` → `needs_review` |
 | DF-04 | oração apagada podia dar verde | ao analisar um falso positivo da execução real | oração final com resultado concreto apagada → `no_deterministic_issues` | `possible_omission` por oração (frase alinhada e vizinhas); fórmulas e conectores do catálogo não contam |
+| DF-05 | léxicos de marcadores sem gerúndio ("gerando", "indicando") e sem "por essa razão" | ao classificar as 5 reprovações críticas das execuções reais | 6 reescritas equivalentes sinalizadas; 2 remoções de nexo causal ou evidencial invisíveis | formas acrescentadas aos léxicos causal e evidencial |
 
-Testes: `evals/test_v081_dogfood.py` (DF-01 a DF-03) e `evals/test_v081_compare_omission.py` (DF-04). Em `702a448` todos os testes de defeito falham e os controles passam.
+Testes: `evals/test_v081_dogfood.py` (DF-01 a DF-03), `evals/test_v081_compare_omission.py` (DF-04) e `evals/test_v081_marker_forms.py` (DF-05). Em `702a448` todos os testes de defeito falham e os controles passam.
+
+### Reprovações críticas das execuções reais (problemas semânticos detectados)
+
+| Candidata | Achado crítico | Classificação | Depois do DF-05 |
+|---|---|---|---|
+| acréscimo de "três critérios — …" numa frase da conclusão | `span_added` | **verdadeiro positivo**: informação inserida | continua reprovada |
+| "sem testar X" → "antes que X tenham sido testadas" | `negation_changed` | sentido mantido; reprovar é conservador | continua reprovada |
+| "Por isso" → "Por essa razão" | `causality_changed` | falso positivo (DF-05) | `review_required` (sem crítico) |
+| ", indicando X" → ", o que indica X" | `modality_changed` | falso positivo (DF-05) | `review_required` (sem crítico) |
+| reordenação entre frases | `causality_moved` | não classificada | continua reprovada |
+
+Não detectados pelos verificadores e achados na revisão humana: troca de singular por plural ("consequência" → "consequências"), enfraquecimento de verbo ("identificados" → "tratados") e acréscimo explicativo ("login" → "autenticação de acesso (login)"). Nenhum gera achado determinístico. Os dois primeiros estavam numa unidade `needs_review` por outros sinais; o terceiro estava numa unidade **`accepted`**: os dois votos do juiz (o mesmo modelo que escreveu) aprovaram o acréscimo. É a evidência concreta deste dogfood de que `accepted` com juiz não independente não dispensa revisão humana.
 
 ## Antes × depois sem ruído do modelo (replay)
 
