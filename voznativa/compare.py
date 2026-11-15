@@ -1022,7 +1022,7 @@ def _omitted_clause_issues(src, out, alignment, found: list[dict]) -> list[dict]
     of ``_novel_clause``. ``_coverage_issues`` measures a whole sentence
     against the stems of the whole candidate, so a dropped clause whose words
     occur anywhere else, or that leaves most of its sentence, was invisible
-    (", gerando capturas reais das telas" deleted: no_deterministic_issues).
+    (", gerando planilhas auditáveis dos lotes" deleted: no_deterministic_issues).
     Same thresholds as for an inserted clause; major, a person decides.
     A clause that is wholly an editorial formula of the pattern catalogue
     ("No cenário atual", "vale ressaltar") is what the planner asks to cut,
