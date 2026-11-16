@@ -230,6 +230,13 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [x] compare original/candidate
 - [x] saída JSON estável (`kind` + `schema_version` em cada relatório)
 
+## v0.8.1 — correções de dois dogfoods com documentos longos reais
+- [x] DF-01–DF-05 (relatório técnico em DOCX convertido fora do produto): orçamento do juiz, autojulgamento em documento longo, grafia dupla de termo, oração apagada, formas de marcadores
+- [x] DF-06–DF-09 (relatório acadêmico só em PDF): PROOFREAD apagando conjunção, siglas falsamente contraditórias, entidade dentro de token, marcador "movido" falso
+- [ ] convergência de estilo entre unidades de um documento longo (achado, não corrigido)
+- [ ] leitura nativa de DOCX/PDF: fora do escopo (conversão feita por ferramentas do dogfood)
+- registros: `docs/releases/v0.8/DOGFOOD_TG1.md`, `docs/releases/v0.8/DOGFOOD_TCC2.md`, `docs/releases/v0.8.1/RELEASE_QUALIFICATION.md`
+
 ## v0.8.0 — Evaluation System & Contextual Intelligence (`0.8.0.dev0`, GitHub pre-release; estado em `docs/releases/v0.8/EXECUTION_STATE.md`)
 - [x] Evaluation Core: `voznativa evaluate`, splits coerentes com o MANIFEST, eixos por split com IC, `--verify` e `--replay`
 - [x] independência exige evidência; vazamento entre conjuntos detectado (achou `ho-022` e um caso do v5)
