@@ -54,6 +54,33 @@ LEGIT_REPEATS = {"bem", "muito", "pouco", "corre", "pisca", "quase", "agora", "n
                  "bla", "blá", "ai", "ok", "ha", "há", "he", "hum", "oi", "ei", "tchau", "bora", "pois", "tá", "ta"}
 
 
+_EXPANSION_STOP = {"de", "da", "do", "das", "dos", "e", "a", "o", "as", "os", "em", "na", "no", "nas", "nos", "por",
+                   "para", "via", "com", "the", "of", "and", "for", "to", "in", "on"}
+
+
+def _expansion(words: str, acronym: str) -> str | None:
+    """The expansion an acronym definition introduces, or None when the words
+    before the parenthesis cannot spell it (v0.8.1 DF-07).
+
+    The shortest run of trailing words whose initials (content words, hyphen
+    parts included, any order: "Gestão de Estoques Integrada (GEI)")
+    cover the acronym's letters, with their counts. Comparing those runs
+    instead of the last six words keeps "Implantação do Sistema de Gestão
+    de Estoques (SGE)" the same expansion as "Sistema de Gestão de Estoques
+    (SGE)", and "Rotina de cálculo de frete (SQL)" is no definition."""
+    from collections import Counter
+
+    from .text import fold
+    need = Counter(acronym.lower())
+    tokens = [t for t in re.split(r"[\s/]+", words.strip()) if t]
+    for k in range(1, min(len(tokens), 12) + 1):
+        tail = tokens[-k:]
+        content = [p for t in tail for p in t.lower().split("-") if p and p not in _EXPANSION_STOP]
+        if not need - Counter(fold(p[0]) for p in content):     # "Águas" spells the A of ANA
+            return " ".join(content)
+    return None
+
+
 def mode_policy(mode: str | None) -> dict:
     """What a mode authorises (None: the tool's default rewrite behaviour)."""
     if mode is None:
@@ -95,7 +122,11 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
         word = m.group(1).lower()
         second = m.group(0).split()[-1]
         symbol = len(word) == 1 and word not in "oaeéà"
-        if word in LEGIT_REPEATS or symbol or (m.group(1)[:1].isupper() and second[:1].isupper()):
+        # v0.8.1 DF-06: a one-letter label and the conjunction or article after it
+        # ("os lotes C, E e G", "o lote A a ser enviado") differ in case; auto_fix
+        # deleted the conjunction.
+        label = len(word) == 1 and m.group(1) != second
+        if word in LEGIT_REPEATS or symbol or label or (m.group(1)[:1].isupper() and second[:1].isupper()):
             # reduplicated names ("Dee Dee", "Boutros Boutros-Ghali"), grammatical pairs, symbols ("x x")
             continue
         if artistic:
@@ -119,7 +150,9 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
     defs: dict[str, set] = {}
     positions: dict[str, tuple] = {}
     for m in _ACRONYM_DEF.finditer(text):
-        expansion = " ".join(m.group(1).split()[-6:]).lower()
+        expansion = _expansion(m.group(1), m.group(2))
+        if expansion is None:      # the words before the parenthesis do not spell the acronym
+            continue
         defs.setdefault(m.group(2), set()).add(expansion)
         positions.setdefault(m.group(2), (m.start(), m.end()))
     for acronym, expansions in defs.items():

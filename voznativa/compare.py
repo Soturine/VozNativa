@@ -134,7 +134,9 @@ def _span_issues(src, out) -> list[dict]:
         if span.type == "entity":
             # Entities are checked by presence: rewrites legitimately drop repeats
             # and move names to sentence start, where extraction skips them.
-            if not contains_word(out.text, span.text):
+            # v0.8.1 DF-08: an entity extracted inside a token ("×n" in "Rm×n") is
+            # never a whole word; the same extraction on the candidate also counts.
+            if not contains_word(out.text, span.text) and not actual:
                 issues.append(_issue("span_missing", "critical", f"entity lost: {span.text}",
                                      type="entity", text=span.text, expected_count=expected, actual_count=0))
             continue
@@ -147,7 +149,7 @@ def _span_issues(src, out) -> list[dict]:
     for key, count in after.items():
         span = sample_out[key]
         if span.type == "entity":
-            if not contains_word(src.text, span.text):
+            if not contains_word(src.text, span.text) and key not in before:
                 issues.append(_issue("span_added", "major", f"entity not in source: {span.text}",
                                      type="entity", text=span.text))
             continue
@@ -610,6 +612,25 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
     v0.7.0 CP9 found it passing as no_deterministic_issues."""
     issues = []
     rules = signals.severity_rules()
+    # v0.8.1 DF-09: two artefacts made legitimate edits far apart in a long document
+    # look like one marker moved between sentences: (a) a source "sentence" with no
+    # content word (a citation left after the period, ". [17].") is aligned by its
+    # number to a candidate sentence and "gains" that sentence's markers; (b) a split
+    # sends the marker to a new candidate sentence no source aligns to, so the aligned
+    # half "loses" it. (a) is skipped; in (b) the new neighbour counts with the first
+    # pair aligned to its sentence. Pairs are otherwise counted as before.
+    valid = [(i, j) for i, j, sim in alignment if j is not None and sim >= ALIGN_MIN_SIMILARITY]
+    aligned_out = {j for _, j in valid}
+    first_pair: dict[int, int] = {}
+    for i, j in valid:
+        first_pair.setdefault(j, i)
+    absorbed: dict[int, list[int]] = {}
+    for k in range(len(out.entries)):
+        if k in aligned_out:
+            continue
+        owner = k - 1 if k - 1 in aligned_out else k + 1 if k + 1 in aligned_out else None
+        if owner is not None:
+            absorbed.setdefault(owner, []).append(k)
     for label in sorted(set(before) & set(after)):
         if before[label] != after[label]:
             continue        # a net change is reported above
@@ -617,11 +638,12 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
         if category in rules["informational"] or label in rules["informational"]:
             continue
         lost, gained = [], []
-        for i, j, sim in alignment:
-            if j is None or sim < ALIGN_MIN_SIMILARITY:
+        for i, j in valid:
+            if not src.entries[i].stems:
                 continue
-            delta = _bucket(out.entries[j].signal_counts()).get(label, 0) - \
-                _bucket(src.entries[i].signal_counts()).get(label, 0)
+            extra = absorbed.get(j, []) if first_pair[j] == i else []
+            delta = sum(_bucket(out.entries[k].signal_counts()).get(label, 0) for k in [j, *extra]) \
+                - _bucket(src.entries[i].signal_counts()).get(label, 0)
             (lost if delta < 0 else gained if delta > 0 else []).append((i, j))
         if lost and gained:
             critical = category in rules["critical_when_localized"]
