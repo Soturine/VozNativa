@@ -1,8 +1,12 @@
 # Changelog
 
-## Unreleased (dev/v0.8.1-dogfood-tg1)
+## 0.8.1 — 2026-11-16 (GitHub release; not on PyPI)
 
-Found by an agent-led dogfood on a real long technical report (about 7,300 words of academic Portuguese, kept outside the repository) with a real provider. Regression tests with synthetic fixtures: `evals/test_v081_dogfood.py` (DF-01 to DF-03), `evals/test_v081_compare_omission.py` (DF-04) and `evals/test_v081_marker_forms.py` (DF-05).
+Patch release: nine defects (DF-01 to DF-09) found by two agent-led dogfoods with real long academic documents and a real provider. The documents and every prompt stay outside the repository; every regression test uses synthetic fixtures written in another domain, and each one fails on the code before its fix and passes after (controls pass on both). Records: `docs/releases/v0.8/DOGFOOD_TG1.md`, `docs/releases/v0.8/DOGFOOD_TCC2.md`; qualification: `docs/releases/v0.8.1/RELEASE_QUALIFICATION.md`.
+
+**What passing tests mean.** They show that the listed defects are fixed and that the frozen suites did not regress. They do not prove semantic equivalence of any rewrite: apart from identity, no deterministic check can, and the engine still asks for a judgment or a human review. In both dogfoods a human review rejected candidates that the gates and a same-model judge had let through.
+
+First dogfood: a technical report (about 7,300 words) converted from DOCX outside the product. Regression tests: `evals/test_v081_dogfood.py` (DF-01 to DF-03), `evals/test_v081_compare_omission.py` (DF-04) and `evals/test_v081_marker_forms.py` (DF-05).
 
 ### Fixed
 - **DF-01: `--max-calls` did not bound the judge.** In long form only the writer spent `Limits.max_provider_calls`; every judge vote was a provider call outside the budget (real run: 12 counted, 16 made). The judge now spends the same budget; a vote refused by the budget leaves the unit unjudged, never accepted. The record has `provider_calls` (writer and judge) and a new `judge_calls`.
@@ -11,12 +15,20 @@ Found by an agent-led dogfood on a real long technical report (about 7,300 words
 - **DF-04: a dropped clause could be a false green.** `compare` checked omissions per sentence against the stems of the whole candidate (additions were also checked per clause). Deleting a trailing clause with a concrete result (synthetic case: ", gerando planilhas auditáveis dos lotes") gave `no_deterministic_issues`. A clause whose content words are absent from its aligned candidate sentence and both neighbours is now `possible_omission` (major), with the thresholds already used for an inserted clause. A clause that is wholly an editorial formula or connective of the pattern catalogue ("No cenário atual", "Dessa forma") is not a claim; replaying the real run's recorded answers through the fix found the connective case before release.
 - **DF-05: gerund and phrase forms missing from the marker lexicons.** The causal list had "gera", "gerou", "causa", "leva a" but not "gerando", "causando", "levando a", and had "por isso" without "por essa razão"; the evidential list had "indica" without "indicando". Rewrites the planner itself asks for (", gerando X" -> " e gerou X"; ", indicando X" -> ", o que indica X") changed the counts and were flagged, two of them as critical in the real run, so good candidates were discarded; and deleting a causal gerund clause changed no count at all. Added: `gerando`, `causando`, `provocando`, `levando a`, `resultando em`, `fazendo com que`, `por essa razão`, `por esse motivo` (causal); `indicando`, `sugerindo`, `apontando para` (evidential). Semantic suites, holdouts, predicate sample (17/20, 1/18) and benches (22/22, 36/36) unchanged.
 
-Second dogfood (branch `dev/v0.8.1-dogfood-tcc2`): a long academic report available only as PDF, converted outside the product, with a real provider. Tests: `evals/test_v081_diagnose_labels.py`, `evals/test_v081_entity_in_token.py`, `evals/test_v081_moved_groups.py`.
+Second dogfood: a long academic report available only as PDF, converted outside the product. Tests: `evals/test_v081_diagnose_labels.py`, `evals/test_v081_entity_in_token.py`, `evals/test_v081_moved_groups.py`.
 
 - **DF-06: `--mode PROOFREAD` deleted a conjunction after a one-letter label.** `repeated_word` read "os lotes C, E e G" and "o lote A a ser enviado" as repetitions with `auto_fix`, and PROOFREAD removed the "e"/"a" (reproduced on the CLI). A one-letter pair in different case is no longer a repetition; "o o" and "e e" are still fixed.
 - **DF-07: false `acronym_redefined` contradictions.** The six words before the parenthesis were compared, so the same expansion with a different lead ("Implantação do Sistema de Gestão de Estoques (SGE)") and a parenthesis that does not spell an acronym ("Rotina de cálculo de frete (SQL)") were reported as contradictions (4 false majors on the real document, all from headings). The expansion is now the shortest run of trailing words whose initials cover the acronym's letters; with none, there is no definition. Known gap: acronyms built from inner letters (e.g. RADAR, from "Radio Detection And Ranging") are no longer checked.
 - **DF-08: no long-form rewrite could survive an entity found inside a token.** Flattened math from a PDF ("C ∈Rm×n") gives the entity "×n", which the whole-word presence check never finds: every edit anywhere was `span_missing` (critical), and the global validation reverted 13 of 13 changed units. The same extraction on the other text now also counts as presence.
 - **DF-09: a split sentence and a trailing citation far apart were a "moved" marker.** `*_moved` compared aligned pairs one by one; a citation after the period (". [17].") is a sentence aligned by its number to the merged candidate sentence, and a split leaves the aligned half without the marker. Sentences without content words are now left out of the move count, and a new unaligned candidate sentence counts with its neighbour's first pair. Real distant and neighbouring negation moves stay critical.
+
+### Known limitations (not fixed in 0.8.1)
+- Units of a long document are rewritten separately and can converge on one new construction ("Essa X permite…" went from 3 to 11 while pattern findings fell from 37 to 8); no detector sees it.
+- A removed content qualifier ("envio automático" -> "envio") is `no_deterministic_issues`; grammar errors (agreement, government) are not findings, so a unit without findings never reaches the model.
+- DF-07 abstains on acronyms built from inner letters.
+- VozNativa does not read DOCX or PDF; both dogfoods converted documents with their own tools.
+- `evals/test_v08_compare_perf.py` is timing-sensitive: under full-suite load on the development machine its 8x growth ratio crossed the 19x bound (19.4, 21.2); measured alone it is about 12-13x on both 0.8.0.dev0 and 0.8.1.
+- Independent holdout and blind human review are still NOT_RUN (they need other people).
 
 ## 0.8.0.dev0 — 2026-11-08 (GitHub pre-release; not on PyPI)
 
