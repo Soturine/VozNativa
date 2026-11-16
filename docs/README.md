@@ -41,6 +41,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | [v08/PERFORMANCE.md](releases/v0.8/PERFORMANCE.md) | curvas de tempo e memória | vigente |
 | [v08/REAL_RUNS.md](releases/v0.8/REAL_RUNS.md) | execuções com provider e agente reais: cenários, consumo, autorização | vigente (NOT_RUN) |
 | [v08/THREAT_MODEL.md](releases/v0.8/THREAT_MODEL.md) | fronteiras, ameaças, controle e prova por ameaça, risco residual | vigente |
+| [v08/DOGFOOD_TG1.md](releases/v0.8/DOGFOOD_TG1.md) | dogfood agent-led com documento acadêmico longo e provider real: DF-01 a DF-04, replay antes × depois | registro da v0.8.1 (branch) |
 | [v08/ASSERTIVA_AGENT_AUDIT.md](releases/v0.8/ASSERTIVA_AGENT_AUDIT.md) | dogfood da Assertiva: falsos verdes confirmados por controle negativo, mutação, patches para upstream | registro do CP14 |
 | [v08/DERIVANTA_AGENT_AUDIT.md](releases/v0.8/DERIVANTA_AGENT_AUDIT.md) | dogfood do Derivanta: inspeção, rastreabilidade, retestes, defeito corrigido no Engine | registro do CP15 |
 | [v08/RELEASE_QUALIFICATION.md](releases/v0.8/RELEASE_QUALIFICATION.md) | qualificação da 0.8.0.dev0: plataformas, CI, auditorias no código final, externos | registro do CP16–CP18 |
