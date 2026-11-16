@@ -134,7 +134,9 @@ def _span_issues(src, out) -> list[dict]:
         if span.type == "entity":
             # Entities are checked by presence: rewrites legitimately drop repeats
             # and move names to sentence start, where extraction skips them.
-            if not contains_word(out.text, span.text):
+            # v0.8.1 DF-08: an entity extracted inside a token ("×n" in "Rm×n") is
+            # never a whole word; the same extraction on the candidate also counts.
+            if not contains_word(out.text, span.text) and not actual:
                 issues.append(_issue("span_missing", "critical", f"entity lost: {span.text}",
                                      type="entity", text=span.text, expected_count=expected, actual_count=0))
             continue
@@ -147,7 +149,7 @@ def _span_issues(src, out) -> list[dict]:
     for key, count in after.items():
         span = sample_out[key]
         if span.type == "entity":
-            if not contains_word(src.text, span.text):
+            if not contains_word(src.text, span.text) and key not in before:
                 issues.append(_issue("span_added", "major", f"entity not in source: {span.text}",
                                      type="entity", text=span.text))
             continue
