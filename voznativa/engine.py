@@ -491,6 +491,54 @@ class _BudgetedProvider:
         return attr
 
 
+class _BudgetedJudge:
+    """The judge of a long document, spending the writer's budget (v0.8.1 DF-01).
+    A refused vote is a ProviderError: the unit stays unjudged, never accepted."""
+
+    def __init__(self, inner: Provider, budget: _BudgetedProvider):
+        self.inner, self.budget, self.calls = inner, budget, 0
+        self.id = getattr(inner, "id", type(inner).__name__)
+
+    def generate(self, prompt: str, n: int = 1):
+        self.budget._spend()
+        self.calls += 1
+        return self.inner.generate(prompt, n)
+
+    def __getattr__(self, name):
+        return getattr(self.inner, name)
+
+
+def _unwrapped(provider):
+    while isinstance(provider, (_BudgetedProvider, _BudgetedJudge)):
+        provider = provider.inner
+    return provider
+
+
+_SPELLING = re.compile(r"(?<![\w-])\w+(?:-\w+)+(?![\w-])")
+
+
+def _split_spellings(original: str, final: str) -> list[dict]:
+    """Terms the rewrite left spelled two ways (v0.8.1 DF-03): a hyphenated form
+    and its unhyphenated twin ("back-end" / "backend", "e-mail" / "email") that
+    both occur in ``final`` while ``original`` used at most one of them. Units
+    are rewritten separately, so one unit can respell a term the others keep."""
+    def hyphenated(text: str) -> set[str]:
+        return {m.group(0).lower() for m in _SPELLING.finditer(text)}
+
+    def forms(text: str, key: str, found: set[str]) -> set[str]:
+        joined = re.search(rf"(?<![\w-]){re.escape(key)}(?![\w-])", text, re.I)
+        return {h for h in found if h.replace("-", "") == key} | ({key} if joined else set())
+
+    found_before, found_after = hyphenated(original), hyphenated(final)
+    split = []
+    for key in sorted({h.replace("-", "") for h in found_before | found_after}):
+        now, was = forms(final, key, found_after), forms(original, key, found_before)
+        if len(now) >= 2 and len(was) < 2:
+            split.append({"term": key, "forms": sorted(now), "original_forms": sorted(was),
+                          "note": "one term now spelled two ways; keep the document's spelling or change it everywhere"})
+    return split
+
+
 def _document_guards(original: str, final: str, context: dict, profile: dict | None, report: dict | None) -> dict:
     """Whole-document checks after reassembly (v0.7.0 CP9). Each issue says
     whether it blocks (critical) or is a signal for a person (major/info);
@@ -503,6 +551,7 @@ def _document_guards(original: str, final: str, context: dict, profile: dict | N
                        temporal.introduced_terms(original, final, temporal.activate(context, original))]
         introduced += [{"kind": "regional", **a} for a in
                        introduced_forms(original, final, activate(context, original, profile))]
+        introduced += [{"kind": "term_variant", **a} for a in _split_spellings(original, final)]
     effects = []
     for issue in (report or {}).get("issues", []):
         effects.append({"code": issue["code"], "severity": issue["severity"],
@@ -555,6 +604,13 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
         return dict(base, outcome="returned_original", text=text, reason=f"document limits: {error}",
                     output_sha256=sha256(text), units=[], plan=None)
     budget = _BudgetedProvider(provider, limits.max_provider_calls)
+    # v0.8.1 dogfood (DF-01): the judge spends the same budget as the writer; before,
+    # every vote was a call outside --max-calls. DF-02: _generator_relation unwraps
+    # both wrappers, so a writer that judges itself is still same_agent here
+    # (the budget wrapper hid it and a self-judged long document was accepted).
+    judge = _BudgetedJudge(kwargs["judge_provider"], budget) if kwargs.get("judge_provider") is not None else None
+    if judge is not None:
+        kwargs["judge_provider"] = judge
     user_protect = tuple(kwargs.pop("protect", ()))
     previous = {(u.get("index"), u.get("source_sha256")): u for u in (resume or [])}
     replacements, units = {}, []
@@ -609,7 +665,8 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                            f"({stage}); the original is returned",
                     units=public, resume_state=units, reverted_units=[], global_report=None,
                     plan={k: plan[k] for k in _PLAN_IN_RECORD},
-                    provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
+                    provider_calls=budget.calls, judge_calls=judge.calls if judge else 0,
+                    seconds=round(time.monotonic() - started, 2))
 
     reverted = []
     if replacements and out_of_time():
@@ -652,7 +709,8 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                 global_report=({"status": report["status"], "summary": report.get("summary"),
                                 "issues": report["issues"][:20]} if report else None),
                 plan={k: plan[k] for k in _PLAN_IN_RECORD},
-                provider_calls=budget.calls, seconds=round(time.monotonic() - started, 2))
+                provider_calls=budget.calls, judge_calls=judge.calls if judge else 0,
+                    seconds=round(time.monotonic() - started, 2))
 
 
 _RESUMABLE = {"accepted", "needs_judgment", "needs_review", "no_change"}
@@ -725,7 +783,9 @@ def _extract_json(raw: str) -> tuple[dict, list[str]]:
 def _generator_relation(provider, judge_provider) -> str:
     """``same_agent`` when the judge is the generator itself (the same object,
     or the same command line); otherwise ``unknown``: two commands can still
-    run the same model, so the engine never claims independence (V08-GAP-16)."""
+    run the same model, so the engine never claims independence (V08-GAP-16).
+    The long-form budget wrappers are looked through (v0.8.1 DF-02)."""
+    provider, judge_provider = _unwrapped(provider), _unwrapped(judge_provider)
     if judge_provider is provider:
         return "same_agent"
     gen, judge = getattr(provider, "argv", None), getattr(judge_provider, "argv", None)

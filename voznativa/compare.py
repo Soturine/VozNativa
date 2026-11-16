@@ -79,6 +79,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
+    issues += _omitted_clause_issues(src, out, alignment, issues)
     issues += _length_issues(original, candidate)
     issues += _structure_issues(src, out)
     issues += _regional_referent_issues(original, candidate)
@@ -1013,6 +1014,54 @@ def _coverage_issues(src, out) -> list[dict]:
 
 
 _CLAUSE_SPLIT = re.compile(r"[,;:()\[\]]|\s[—–-]\s")
+
+
+def _omitted_clause_issues(src, out, alignment, found: list[dict]) -> list[dict]:
+    """A clause of a source sentence whose content words are absent from its
+    aligned candidate sentence and both neighbours (v0.8.1 DF-04): the mirror
+    of ``_novel_clause``. ``_coverage_issues`` measures a whole sentence
+    against the stems of the whole candidate, so a dropped clause whose words
+    occur anywhere else, or that leaves most of its sentence, was invisible
+    (", gerando planilhas auditáveis dos lotes" deleted: no_deterministic_issues).
+    Same thresholds as for an inserted clause; major, a person decides.
+    A clause that is wholly an editorial formula of the pattern catalogue
+    ("No cenário atual", "vale ressaltar") is what the planner asks to cut,
+    not a claim (holdout h4-ac-003)."""
+    from .patterns import catalog
+    formulas = [p["compiled"] for p in catalog() if p.get("compiled") is not None]
+
+    def is_formula(piece: str) -> bool:
+        piece = " ".join(piece.split())   # the catalogue's regexes spell spaces (test_metamorphic: tabs)
+        size = len(piece)
+        # The connective patterns end in a comma ("dessa forma\s*,"), which the clause
+        # split removed: match the clause with its comma back (real dogfood replay).
+        return any(len(m.group(0).rstrip(", ").strip()) >= 0.8 * size
+                   for rx in formulas for m in rx.finditer(piece + ","))
+
+    already = {i.get("sentence") for i in found if i["code"] == "possible_omission"}
+    issues = []
+    for i, j, _sim in alignment:
+        if j is None:
+            continue
+        entry = src.entries[i]
+        if entry.sentence.text in already:
+            continue
+        pieces = [p for p in _CLAUSE_SPLIT.split(entry.content) if p.strip()]
+        if len(pieces) < 2:
+            continue
+        near = set().union(*(set(out.entries[k].stems) for k in (j - 1, j, j + 1) if 0 <= k < len(out.entries)))
+        for piece in pieces:
+            stems = set(content_stems(piece))
+            lost = stems - near
+            if len(lost) >= CLAUSE_MIN_NEW_STEMS and len(lost) / len(stems) >= CLAUSE_MIN_NOVELTY \
+                    and not is_formula(piece):
+                issues.append(_issue("possible_omission", "major",
+                                     "a clause of the source sentence is absent from its candidate sentence; "
+                                     "check for a dropped claim",
+                                     sentence=entry.sentence.text, clause=piece.strip(), lost_words=sorted(lost),
+                                     candidate_sentence=out.entries[j].sentence.text))
+                break
+    return issues
 
 
 def _novel_clause(entry, src_stems: set) -> tuple[str, list[str]] | None:

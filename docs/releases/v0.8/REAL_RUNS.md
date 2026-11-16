@@ -2,6 +2,8 @@
 
 Nada aqui foi executado. Estado de todos os cenários: **NOT_RUN, aguardando autorização explícita do mantenedor** (ponto 4 dos adendos). Nenhuma chamada paga sem consentimento para aquela chamada específica.
 
+Atualização (v0.8.1, branch `dev/v0.8.1-dogfood-tg1`): com autorização do mantenedor, um dogfood fora destes cenários rodou o documento longo com provider real (`claude -p`, 42 chamadas, US$ 2,29). Registro em [`DOGFOOD_TG1.md`](DOGFOOD_TG1.md). R1–R4 continuam NOT_RUN.
+
 ## Pré-requisitos ausentes nesta máquina (2026-11-07)
 
 - Nenhum CLI de agente no PATH do shell (`claude`, `codex`, `gemini`: não instalados).
