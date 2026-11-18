@@ -19,6 +19,7 @@ import json
 import re
 import sys
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -145,7 +146,10 @@ class LongFormBudgetCoversTheJudge(unittest.TestCase):
         self.assertNotEqual(result["outcome"], "accepted")
 
     def test_a_different_judge_still_accepts(self):
-        result, writer, judge = self.run_doc(budget=100, votes=1)
+        # v0.10 CP6 (D-02): an outside judge accepts when its independence is observable (declared models)
+        with mock.patch.object(Cleaner, "model", "writer-model", create=True), \
+                mock.patch.object(EquivalentJudge, "model", "judge-model", create=True):
+            result, writer, judge = self.run_doc(budget=100, votes=1)
         self.assertIn("accepted", [u["outcome"] for u in result["units"]], "control: an outside judge can accept")
 
 

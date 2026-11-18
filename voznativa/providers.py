@@ -106,6 +106,23 @@ def identity(provider) -> dict:
     return {"program": program, "model": model}
 
 
+# v0.10 CP6: vendor from what the configuration states (model name prefix, then agent CLI);
+# None when nothing observable says it. Never inferred from the judge's own answer.
+_VENDOR_PREFIX = (("claude", "anthropic"), ("anthropic", "anthropic"), ("gpt", "openai"), ("o1", "openai"),
+                  ("o3", "openai"), ("o4", "openai"), ("openai", "openai"), ("gemini", "google"),
+                  ("google", "google"), ("gemma", "google"), ("llama", "meta"), ("meta", "meta"),
+                  ("mistral", "mistral"), ("mixtral", "mistral"), ("qwen", "alibaba"), ("deepseek", "deepseek"))
+_CLI_VENDOR = {"claude": "anthropic", "codex": "openai", "gemini": "google"}
+
+
+def vendor_of(ident: dict) -> str | None:
+    model = (ident.get("model") or "").lower().split("/")[-1]
+    for prefix, vendor in _VENDOR_PREFIX:
+        if model.startswith(prefix):
+            return vendor
+    return _CLI_VENDOR.get(ident.get("program") or "")
+
+
 def agent_cli_warnings(argv: list[str]) -> list[str]:
     """Warnings for agent CLIs started without their tool/sandbox switch."""
     if not argv:

@@ -20,7 +20,14 @@ from .review import assess as assess_review
 # Who judged, relative to who wrote the candidate (v0.8, V08-GAP-16). An agent judging
 # its own candidate ("same_agent") is a dependent self-assessment: recorded as agent
 # assessment, never accepted as an independent verdict (compare.apply_judgment).
-GENERATOR_RELATIONS = {"same_agent", "different_model", "unknown"}
+GENERATOR_RELATIONS = {"same_agent", "same_model", "same_vendor", "different_model", "different_provider",
+                       "independence_verified", "unknown"}
+# v0.10 CP6 (V010-GAP-01/02, decision D-02): only a relation that shows independence lets an
+# LLM "equivalent" accept a candidate. "unknown" no longer does: two commands can run the same
+# model. same_vendor (another model of the same vendor) accepts with independence "partial",
+# stated in the report. independence_verified needs evidence in the judgment itself.
+ACCEPTING_RELATIONS = {"different_model", "different_provider", "independence_verified", "same_vendor"}
+PARTIAL_INDEPENDENCE = {"same_vendor", "different_model"}
 
 CLAIM_STATUSES = {"preserved", "formula_removed", "omitted", "changed", "strengthened", "weakened", "reversed"}
 # Statuses compatible with an "equivalent" verdict. formula_removed covers emphasis
@@ -33,7 +40,9 @@ RESPONSE_SCHEMA = {
     "original_sha256": "copy from BINDING",
     "candidate_sha256": "copy from BINDING",
     "judge_id": "model name/version or reviewer id",
-    "generator_relation": "same_agent (you wrote the candidate) | different_model | unknown",
+    "generator_relation": "same_agent (you wrote the candidate) | same_model | same_vendor | different_model | "
+                          "different_provider | unknown (only these can be checked by the engine; unknown accepts "
+                          "nothing)",
     "verdict": "equivalent | not_equivalent | uncertain",
     "claims": [{"source": "claim as stated in the ORIGINAL", "status": "|".join(sorted(CLAIM_STATUSES)),
                 "candidate": "matching text in the CANDIDATE or null", "note": "short reason"}],
@@ -98,6 +107,9 @@ def validate(judgment: dict, original: str, candidate: str) -> dict:
     relation = judgment.get("generator_relation", "unknown")
     if relation not in GENERATOR_RELATIONS:
         raise ValueError(f"generator_relation must be one of {sorted(GENERATOR_RELATIONS)}")
+    if relation == "independence_verified" and not str(judgment.get("independence_evidence", "")).strip():
+        raise ValueError("generator_relation 'independence_verified' needs independence_evidence (who judged, "
+                         "which model and why it is independent of the writer)")
     for field, text in (("original_sha256", original), ("candidate_sha256", candidate)):
         if not judgment.get(field):
             raise ValueError(f"judgment is not bound to the texts: missing {field} (see judge-prompt)")

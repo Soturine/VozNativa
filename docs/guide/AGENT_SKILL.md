@@ -20,7 +20,7 @@ A pasta instalada precisa se chamar `voznativa`. A Skill usa `python <pasta>/scr
 3. `rewrite-prompt`: contrato de voz, ledger, plano por frase, referências a ler.
 4. Escreve a candidata seguindo o plano.
 5. `compare`: `fail` → corrige os itens críticos e repete (3 tentativas, depois devolve o original); `review_required` → entrega com os itens para revisão.
-6. Sem achado determinístico: `judge-prompt` e um juízo vinculado aos dois textos. **Se o agente escreveu a candidata, declara `"generator_relation": "same_agent"`**: o juízo vira `agent_assessment` e não aprova nada.
+6. Sem achado determinístico: `judge-prompt` e um juízo vinculado aos dois textos. **Se o agente escreveu a candidata, declara `"generator_relation": "same_agent"`**: o juízo vira `agent_assessment` e não aprova nada. Relação `unknown` (ou ausente) também não aprova desde a v0.10; `same_vendor` aprova com independência parcial registrada no relatório.
 
 ## O que ninguém deve confundir
 

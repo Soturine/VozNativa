@@ -822,10 +822,15 @@ def _generator_relation(provider, judge_provider) -> str:
         return "same_agent"
     # v0.9 CP2: two command lines that differ in one argument (a log folder, a role name)
     # can still run the same model; the first v0.8.1 dogfood accepted a unit that way.
-    from .providers import AGENT_CLIS, identity
+    from .providers import AGENT_CLIS, identity, vendor_of
     a, b = identity(provider), identity(judge_provider)
     if a["model"] and b["model"]:
-        return "same_agent" if a["model"].lower() == b["model"].lower() else "different_model"
+        if a["model"].lower() == b["model"].lower():
+            return "same_model"                          # v0.10: same model, another instance
+        va, vb = vendor_of(a), vendor_of(b)
+        if va and vb:
+            return "same_vendor" if va == vb else "different_provider"
+        return "different_model"                         # vendor not observable: no claim beyond the model
     if a["program"] and a["program"] == b["program"] and a["program"] in (*AGENT_CLIS, "ollama", "http"):
         # same agent CLI (or the same API adapter) and no evidence of a different model
         return "same_agent"

@@ -1417,13 +1417,19 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
     status = report["status"]
     if status in {"fail", "identical"}:
         return merged
-    self_assessed = kind == "llm" and judgment.get("generator_relation") == "same_agent"
-    if self_assessed and verdict == "equivalent":
+    relation = judgment.get("generator_relation", "unknown")
+    # v0.10 CP6 (D-02): an LLM equivalent accepts only with a relation that shows independence;
+    # same_agent/same_model are self-assessment and unknown is not evidence of independence.
+    from .judge import ACCEPTING_RELATIONS, PARTIAL_INDEPENDENCE
+    if kind == "llm" and verdict == "equivalent" and relation not in ACCEPTING_RELATIONS:
+        note = ("the agent that wrote the candidate judged it: a dependent self-assessment, not an independent "
+                "judgment; nothing is accepted on it" if relation in ("same_agent", "same_model") else
+                "the judge's relation to the writer is unknown: two commands can run the same model, so this "
+                "verdict is not evidence of independence; declare the judge model (e.g. --model in the judge "
+                "command, --judge-api-model) or use a judge of another provider")
         merged["agent_assessment"] = {
-            "verdict": verdict, "judge_id": judgment.get("judge_id"), "generator_relation": "same_agent",
-            "evidence": "AGENT_OBSERVED",
-            "note": "the agent that wrote the candidate judged it: a dependent self-assessment, not an "
-                    "independent judgment; nothing is accepted on it"}
+            "verdict": verdict, "judge_id": judgment.get("judge_id"), "generator_relation": relation,
+            "evidence": "AGENT_OBSERVED", "note": note}
         merged["safe_to_auto_accept"] = False
         merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
         return merged
@@ -1447,4 +1453,11 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
         merged.update(status=f"accepted_by_{kind}",
                       semantic_equivalence=f"judged_{judged}_by_{kind}",
                       safe_to_auto_accept=True, requires=[])
+        if kind == "llm":
+            merged["judge_independence"] = {
+                "relation": relation,
+                "level": "partial" if relation in PARTIAL_INDEPENDENCE else "declared" if relation ==
+                "independence_verified" else "provider",
+                "note": "a model judge is evidence, not a human review; same vendor or an undeclared vendor means "
+                        "shared training and blind spots are possible"}
     return merged
