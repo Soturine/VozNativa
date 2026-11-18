@@ -174,7 +174,7 @@ patterns:
     family: fórmulas de cortesia
     strength: weak
     scope: anywhere
-    regex: '(?:desde já,? agrade(?:ço|cemos)|agradecemos imensamente|lamentamos profundamente|não hesite em|estamos sempre à disposição|gostar(?:ia|íamos) de informar que|venho por meio desta|solicitamos a gentileza de)'
+    regex: '(?:desde já,? agrade(?:ço|cemos)|agradecemos imensamente|lamentamos profundamente|não hesite em|estamos sempre à disposição|gostar(?:ia|íamos) de informar que|venho por meio des[st][ae]|é com (?:grande|imensa) (?:satisfação|alegria|prazer) que (?:anunciamos|informamos|comunicamos)|solicitamos a gentileza de)'
     exempt: [whatsapp, literary]
     suggestion: "diga a informação primeiro; uma fórmula de cortesia basta"
     rationale: "fórmula protocolar que atrasa a informação"

@@ -60,6 +60,17 @@
     "behaviour": 4
    },
    "split": "holdout"
+  },
+  "evals/v010/arms/texts.jsonl": {
+   "sha256": "00462845e5419573f630271ca69c3d35b1611f3ffa31e736796b74b9efd8ec3e",
+   "cases": 10,
+   "by_expect": {
+    "needs_change": 6,
+    "no_change": 4
+   },
+   "split": "arms",
+   "frozen_at": "2026-11-18",
+   "frozen_before": "the CP10 real-model runs"
   }
  }
 }
