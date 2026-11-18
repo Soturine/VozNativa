@@ -1,0 +1,32 @@
+# Registro de gaps da v0.9
+
+Mesma convenção da v0.8 ([`../v0.8/GAP_REGISTER.md`](../v0.8/GAP_REGISTER.md)): cada linha separa consequência, evidência e decisão. Estados: `HYPOTHESIS`, `REPRODUCED`, `REFUTED`, `FIXED` (teste falha sem a correção e passa com ela), `PARTIAL`, `ACCEPTED_RISK`, `NOT_RUN`, `BLOCKED`. Severidade: P1 (segurança, privacidade ou falso verde semântico), P2 (qualidade ou desempenho com contorno), P3 (documentação, UX).
+
+Reprodução do CP0: `compare`/`diagnose`/`route` da `v0.8.1` (`17d1f10`) sobre pares **sintéticos** (script fora do repositório; entradas e saídas resumidas abaixo). Os gaps abertos da v0.8 que continuam abertos aparecem com o ID antigo entre parênteses.
+
+| ID | Consequência | Evidência (CP0, `17d1f10`) | Sev. | Estado | CP |
+|---|---|---|---|---|---|
+| V09-GAP-01 | Qualificador operacional apagado passa verde | "envio **automático** do lote" → "envio do lote": `no_deterministic_issues`, 0 sinais. Controle: "rápido e eficiente" → "eficiente" também 0 sinais (deve continuar sem crítico) | P1 | REPRODUCED | CP4 |
+| V09-GAP-02 | Troca de evento com valores intactos passa verde (V08-GAP-04) | assinou → recebeu, enviou → visualizou, aprovou → analisou, executado → planejado, identificados → tratados: só `predicate_replaced` (info); pagou → solicitou pagamento: 0 sinais | P1 | REPRODUCED | CP4 |
+| V09-GAP-03 | Estado do fato muda sem sinal: realizado × pretendido × testado em ambiente diferente × novidade | concluiu → pretende concluir: 0 sinais; também permitiu → passou a permitir: 0 sinais; testado no hardware real → testado no emulador: 0 sinais. Controle: implementou → poderá implementar já dá `modality_changed` crítico | P1 | REPRODUCED | CP4 |
+| V09-GAP-04 | 1ª pessoa do pretérito no início de frase sem quadro de evento (V08-GAP-18) | "Transferi R$ 500,00 para…" → "Recebi R$ 500,00 na…": 0 sinais | P2 | REPRODUCED | CP4 |
+| V09-GAP-05 | Troca de papéis por ordem de palavras dá falso alarme com complemento deslocado e converso (V08-GAP-19) | `ed-19`, `ed-27`, `eh-16`, `eh-22` (diagnóstico da v0.8) | P2 | REPRODUCED (v0.8) | CP4 |
+| V09-GAP-06 | Atribuição ativa → passiva com agente marcada como mudança (V08-GAP-20) | "A gerente informou os clientes" → "Os clientes foram informados pela gerente": `attribution_changed` major (falso vermelho) | P3 | REPRODUCED | CP4 |
+| V09-GAP-07 | Particípio irregular e coordenado (resto de V08-GAP-27) | "foi entregue ao cliente" → "foi entregue": já `recipient_dropped` major em `17d1f10` (parte resolvida); "revisado e enviado" segue aberto | P2 | PARTIAL (v0.8) | CP4 |
+| V09-GAP-08 | Erros gramaticais de alta confiança não viram achado; sem achado o planner decide `no_change` e o modelo nem é chamado | "Os resultado da pesquisa…", "As equipe trabalharam…", "assistiu o jogo": `diagnose` vazio. Controle "o o" detectado | P2 | REPRODUCED | CP4 |
+| V09-GAP-09 | Convergência de estilo entre unidades de documento longo não é vista por nenhum detector | segundo dogfood: achados de `patterns` 37 → 8, "Essa X permite/promove/contribui" 3 → 11 ([`DOGFOOD_TCC2.md`](../v0.8/DOGFOOD_TCC2.md)) | P2 | REPRODUCED (dogfood) | CP3 |
+| V09-GAP-10 | Termos técnicos consagrados viram sugestão de troca em texto acadêmico de computação; grafia dupla só é contida depois (DF-03) | primeiro dogfood: 25 de 30 pontos do plano eram estrangeirismos técnicos ("backend", "branch") ([`DOGFOOD_TG1.md`](../v0.8/DOGFOOD_TG1.md)) | P2 | REPRODUCED (dogfood) | CP4 |
+| V09-GAP-11 | `acronym_redefined` se abstém em siglas de letras internas (DF-07) | segundo dogfood | P3 | REPRODUCED (dogfood) | CP4 |
+| V09-GAP-12 | Router: relatório técnico-acadêmico sai `unknown` por empate; com `## ` sai `documentation` (V08-GAP-05: cobertura 8,8%, precisão 93,8%) | dois dogfoods. Texto sintético curto com `## ` sai `academic` em `17d1f10`: o caso real depende de mais pistas | P2 | REPRODUCED (dogfood) | CP4 |
+| V09-GAP-13 | O produto não lê DOCX nem PDF: os dois dogfoods usaram conversores externos | dogfoods | P2 | REPRODUCED | CP5 |
+| V09-GAP-14 | Teste de tempo `test_v08_compare_perf` instável sob carga (limite 19×; 19,4 e 21,2 na suíte inteira; 12–13× isolado) | [`../v0.8.1/RELEASE_QUALIFICATION.md`](../v0.8.1/RELEASE_QUALIFICATION.md). Medição do CP0 com `scripts/perf_compare.py` (5 repetições, tempo de CPU): razão 14,4× | P2 | REPRODUCED | CP3 |
+| V09-GAP-15 | Sem adapter para modelo local; nenhum provider HTTP genérico | `voznativa/providers.py`: só comando e Emulate | P2 | REPRODUCED | CP2 |
+| V09-GAP-16 | Emulate nunca validado ao vivo | sem `EMULATE_API_KEY` nesta máquina | P3 | BLOCKED | CP2 |
+| V09-GAP-17 | Hosts Codex e Gemini CLI não instalados; instalação por plugin do Claude Code `DOCUMENTED_NOT_VERIFIED` | `codex`, `gemini` ausentes do PATH; `claude` 2.1.317 presente | P3 | REPRODUCED | CP2 |
+| V09-GAP-18 | `doctor` não separa causas (provider ausente, credencial, rede, permissão) nem testa o provider configurado | `voznativa/onboarding.py` | P3 | REPRODUCED | CP1 |
+| V09-GAP-19 | Nenhuma configuração persistente: todo `rewrite` repete `--cmd`, `--provider-env`, `--max-calls` | parser do `rewrite` | P3 | REPRODUCED | CP1 |
+| V09-GAP-20 | Documentação desatualizada: README diz documento longo "só testado com stub" (dois dogfoods usaram provider real); `LICENSING.md` abre dizendo que o repositório não tem licença (MIT desde a v0.6); README cita a v0.7 como fonte das contagens de teste; docs dos dogfoods dizem "concluído na branch" sem a integração posterior | leitura do CP0 | P3 | REPRODUCED | CP1 |
+| V09-GAP-21 | Packs sem contrato único de schema/versão/licença/proveniência; sem política de contribuição de dados linguísticos | ROADMAP v0.9 | P2 | REPRODUCED | CP6 |
+| V09-GAP-22 | Não havia gate de privacidade antes do push: o incidente da v0.8.1 dependeu de auditoria manual | histórico da v0.8.1 | P1 | FIXED (CP0): `scripts/privacy_gate.py`, `evals/test_v09_privacy_gate.py` (vazamento plantado pego em fixture, mensagem, identificador, termo, credencial, caminho e e-mail; faixa limpa passa) | CP0 |
+
+Abertos da v0.8 sem ação planejada nesta rodada (continuam no registro antigo): V08-GAP-07 (holdout independente e revisão cega: precisam de pessoas), V08-GAP-21/22 (fontes oficiais de normas), V08-GAP-23 (`--provider-env inherit` como padrão: risco aceito até a 1.0), V08-GAP-28 (ciclos de import), V08-GAP-29 (registros antigos com caminho local).

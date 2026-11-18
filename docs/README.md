@@ -57,7 +57,9 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Documento | Conteúdo | Estado |
 |---|---|---|
-| [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | execução em curso |
+| [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/PLAN.md](releases/v0.9/PLAN.md), [v0.9/GAP_REGISTER.md](releases/v0.9/GAP_REGISTER.md), [v0.9/TRACEABILITY.md](releases/v0.9/TRACEABILITY.md) | plano, critérios de release congelados no CP0, lacunas e rastreabilidade da v0.9 | execução em curso |
+| [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | encerrado (v0.8.0.dev0 e v0.8.1) |
 | [v08/PLAN.md](releases/v0.8/PLAN.md), [v08/AS_IS.md](releases/v0.8/AS_IS.md), [v08/GAP_REGISTER.md](releases/v0.8/GAP_REGISTER.md), [v08/TRACEABILITY.md](releases/v0.8/TRACEABILITY.md) | plano, ponto de partida, lacunas, rastreabilidade da v0.8 | execução em curso |
 | [v08/DOCS_INVENTORY.md](releases/v0.8/DOCS_INVENTORY.md) | inventário e estado de cada documento | vigente |
 | [TRACEABILITY.md](engineering/TRACEABILITY.md) | requisitos v0.1–v0.7 → artefato → estado | vigente para esses requisitos |
@@ -68,7 +70,8 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Versão | Documentos |
 |---|---|
-| v0.8 (em curso) | [`v08/`](releases/v0.8/EXECUTION_STATE.md); [V08_STANDARDS_VISION.md](architecture/V08_STANDARDS_VISION.md) (visão, com o que já foi implementado) |
+| v0.9 (em curso) | [`v0.9/`](releases/v0.9/EXECUTION_STATE.md) |
+| v0.8 | [`v08/`](releases/v0.8/EXECUTION_STATE.md); [V08_STANDARDS_VISION.md](architecture/V08_STANDARDS_VISION.md) (visão, com o que já foi implementado) |
 | v0.7 | [PLAN_v0.7.0.md](releases/v0.7/PLAN_v0.7.0.md), [PLAN_v0.7.0.dev1.md](releases/v0.7/PLAN_v0.7.0.dev1.md), [AS_IS_v0.7.0.md](releases/v0.7/AS_IS_v0.7.0.md), [V07_EXECUTION_STATE.md](releases/v0.7/V07_EXECUTION_STATE.md), [V07_DISCOVERY_REGISTER.md](releases/v0.7/V07_DISCOVERY_REGISTER.md), [V07_VERIFICATION_MATRIX.md](releases/v0.7/V07_VERIFICATION_MATRIX.md), [V07_DOGFOOD.md](releases/v0.7/V07_DOGFOOD.md), [V07_RELEASE_QUALIFICATION.md](releases/v0.7/V07_RELEASE_QUALIFICATION.md) |
 | v0.6 | [AS_IS_v0.6.0.md](releases/v0.6/AS_IS_v0.6.0.md) |
 | v0.5 | [PLAN_v0.5.0.md](releases/v0.5/PLAN_v0.5.0.md) |
