@@ -47,6 +47,37 @@
         "jobs_passed": "8/8",
         "started": "2026-11-08T06:14:16Z",
         "evidence": "live check: python scripts/ci_evidence.py -> PASS, relation same (v0.8.0.dev0 CP17)"
+      },
+      {
+        "run": 129,
+        "id": 44286549587,
+        "head_sha": "8cf27c820b2ff7a04f5ba44f2c29fd88315ef215",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "failure",
+        "jobs_passed": "5/8",
+        "started": "2026-11-18T10:33:36Z",
+        "evidence": "3 Windows test jobs failed: 8.3 short TEMP on the runner; fixed in e645559 (v0.9 CP9)"
+      },
+      {
+        "run": 130,
+        "id": 44296791894,
+        "head_sha": "39cc6d8f943d3012c90c1a788e008250f568529a",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "evidence": "live check: qualify ci:github-actions -> PASS, relation same (v0.9 CP9)"
+      },
+      {
+        "run": 131,
+        "id": 44298758615,
+        "head_sha": "118b0e7ec4775071d3b19c9061436950ce10e8c7",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "evidence": "final CI of v0.9.0 (documentation commit after #130); the tag commit only adds evidence paths"
       }
     ],
     "history": [
