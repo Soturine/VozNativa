@@ -25,7 +25,8 @@ class EvidencePaths(unittest.TestCase):
 
     def test_round_records_are_evidence(self):
         for path in ("docs/releases/v0.8/EXECUTION_STATE.md", "docs/releases/v0.8/RELEASE_QUALIFICATION.md",
-                     "docs/releases/v0.7/V07_EXECUTION_STATE.md", "docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md"):
+                     "docs/releases/v0.7/V07_EXECUTION_STATE.md", "docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md",
+                     "docs/releases/v0.9/EXECUTION_STATE.md", "docs/releases/v0.9/RELEASE_QUALIFICATION.md"):
             self.assertTrue(ci.is_evidence_path(path), path)
 
     def test_everything_else_is_not(self):
