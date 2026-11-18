@@ -1,0 +1,65 @@
+{
+ "kind": "voznativa.frozen_sample",
+ "schema_version": 1,
+ "frozen_at": "2026-11-18",
+ "frozen_before": "the v0.10 rules (discourse relations, coordinated participles, false-alarm calibration, diagnostic statuses, open TaskContext): no v0.10 rule code existed when these hashes were taken",
+ "author": "the same agent that writes the rules (synthetic sentences, invented domains)",
+ "independent": false,
+ "use": "development: may be read while writing rules; holdout: not read while writing rules, run once after the rules are fixed and reported as is",
+ "files": {
+  "evals/v010/semantic/development.jsonl": {
+   "sha256": "7011a1eb3c2f7381d81a1745730a4d71b3ba73872e3f0ce5287d3b5a70cc46cb",
+   "cases": 34,
+   "by_expect": {
+    "risk": 21,
+    "clean": 13
+   },
+   "split": "development"
+  },
+  "evals/v010/semantic/holdout.jsonl": {
+   "sha256": "6c9a0ba7775ecd8df3c22bbd10c83c0da295827bf6fa137dbe20811586220773",
+   "cases": 22,
+   "by_expect": {
+    "risk": 12,
+    "clean": 10
+   },
+   "split": "holdout"
+  },
+  "evals/v010/diagnose/development.jsonl": {
+   "sha256": "9a15af2e37fd875b3ace6f5a4e8765361bf45e28813c08f244d9525f1e763f33",
+   "cases": 16,
+   "by_expect": {
+    "error": 7,
+    "variant": 4,
+    "no_error": 5
+   },
+   "split": "development"
+  },
+  "evals/v010/diagnose/holdout.jsonl": {
+   "sha256": "b7d0106a4b6a6c00ef85f304ec57190743f21a6ee4830437e1fc6c3f0d884bfe",
+   "cases": 10,
+   "by_expect": {
+    "error": 5,
+    "variant": 3,
+    "no_error": 2
+   },
+   "split": "holdout"
+  },
+  "evals/v010/context/development.jsonl": {
+   "sha256": "13a89a5bc3bc9718059212bfd364d0182d3e934b18d14395e1921f76fce3e782",
+   "cases": 6,
+   "by_expect": {
+    "behaviour": 6
+   },
+   "split": "development"
+  },
+  "evals/v010/context/holdout.jsonl": {
+   "sha256": "6de6f283f70bf98b29c2304fe82b9fb14063507f355755a6be5ef47786e9aaee",
+   "cases": 4,
+   "by_expect": {
+    "behaviour": 4
+   },
+   "split": "holdout"
+  }
+ }
+}

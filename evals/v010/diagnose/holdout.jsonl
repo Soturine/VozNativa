@@ -1,0 +1,10 @@
+{"id": "hg-01", "expect": "error", "kind": "daqui_ha", "text": "O resultado do concurso sai daqui há três dias.", "genre": "news"}
+{"id": "hg-02", "expect": "error", "kind": "seje", "text": "É preciso que o contrato seje assinado pelas duas partes.", "genre": "corporate"}
+{"id": "hg-03", "expect": "error", "kind": "menas", "text": "Sobraram menas vagas do que o previsto no estacionamento.", "genre": "corporate"}
+{"id": "hg-04", "expect": "error", "kind": "plural_agreement", "text": "As peça do motor chegaram com defeito.", "genre": "corporate"}
+{"id": "hg-05", "expect": "variant", "kind": "ter_existencial_informal", "text": "Tem pão fresquinho na padaria da esquina, corre lá", "genre": "whatsapp", "register": "colloquial"}
+{"id": "hg-06", "expect": "variant", "kind": "para_mim_infinitive_informal", "text": "Deixa a chave embaixo do tapete pra mim pegar", "genre": "whatsapp", "register": "colloquial"}
+{"id": "hg-07", "expect": "variant", "kind": "dialect_in_fiction", "text": "— Os menino tão tudo no rio — gritou a vizinha da janela.", "genre": "literary"}
+{"id": "hg-08", "expect": "no_error", "kind": "clean_formal", "text": "O conselho deliberou sobre a reforma do mercado municipal.", "genre": "corporate"}
+{"id": "hg-09", "expect": "no_error", "kind": "a_vs_ha_correct", "text": "A feira volta daqui a um mês, segundo a organização.", "genre": "news"}
+{"id": "hg-10", "expect": "error", "kind": "esteje", "text": "Assim que o pedido esteje pronto, avisaremos por e-mail.", "genre": "corporate"}

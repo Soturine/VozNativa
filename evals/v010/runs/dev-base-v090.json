@@ -1,0 +1,584 @@
+{
+ "kind": "voznativa.v010_prospective_run",
+ "split": "development",
+ "engine_version": "0.9.0",
+ "engine_root": "v0.9.0 worktree",
+ "independent": false,
+ "summary": {
+  "semantic": {
+   "sensitivity": "16/21",
+   "false_alarms": "5/13"
+  },
+  "diagnose": {
+   "sensitivity": "3/7",
+   "false_alarms": "0/9"
+  },
+  "context": "not_applicable"
+ },
+ "rows": [
+  {
+   "set": "semantic",
+   "id": "sd-01",
+   "expect": "risk",
+   "kind": "relation_invented_causal",
+   "status": "review_required",
+   "codes": [
+    "causality_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-02",
+   "expect": "risk",
+   "kind": "relation_invented_causal",
+   "status": "review_required",
+   "codes": [
+    "causality_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-03",
+   "expect": "risk",
+   "kind": "concession_to_cause",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-04",
+   "expect": "risk",
+   "kind": "contrast_to_consequence",
+   "status": "review_required",
+   "codes": [
+    "causality_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-05",
+   "expect": "risk",
+   "kind": "condition_to_addition",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major",
+    "tense_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-06",
+   "expect": "risk",
+   "kind": "exception_dropped",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major",
+    "length_ratio:major",
+    "possible_omission:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-07",
+   "expect": "risk",
+   "kind": "only_if_weakened",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-08",
+   "expect": "risk",
+   "kind": "purpose_to_cause",
+   "status": "fail",
+   "codes": [
+    "causality_changed:major",
+    "negation_changed:critical",
+    "tense_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-09",
+   "expect": "risk",
+   "kind": "temporal_order_swapped",
+   "status": "review_required",
+   "codes": [
+    "role_or_order_swapped:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-10",
+   "expect": "risk",
+   "kind": "consequence_to_contrast",
+   "status": "fail",
+   "codes": [
+    "aspect_changed:major",
+    "causality_changed:critical"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-11",
+   "expect": "risk",
+   "kind": "concession_dropped",
+   "status": "review_required",
+   "codes": [
+    "causality_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-12",
+   "expect": "risk",
+   "kind": "condition_sentence_dropped_informal",
+   "status": "review_required",
+   "codes": [
+    "condition_changed:major",
+    "negation_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-13",
+   "expect": "clean",
+   "kind": "connective_synonym_contrast",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-14",
+   "expect": "clean",
+   "kind": "connective_synonym_consequence",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-15",
+   "expect": "clean",
+   "kind": "connective_synonym_concession",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sd-16",
+   "expect": "clean",
+   "kind": "connective_synonym_contrast_opener",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-17",
+   "expect": "clean",
+   "kind": "informal_register_kept",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sd-18",
+   "expect": "clean",
+   "kind": "causal_kept_reordered",
+   "status": "fail",
+   "codes": [
+    "causality_changed:critical"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sd-19",
+   "expect": "clean",
+   "kind": "purpose_synonym",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "se-01",
+   "expect": "risk",
+   "kind": "tested_vs_approved",
+   "status": "review_required",
+   "codes": [
+    "event_changed:major",
+    "polarity_changed:info",
+    "predicate_replaced:info"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "se-02",
+   "expect": "risk",
+   "kind": "coordinated_participle_dropped",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "se-03",
+   "expect": "risk",
+   "kind": "coordinated_participle_dropped",
+   "status": "no_deterministic_issues",
+   "codes": [
+    "polarity_changed:info"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "se-04",
+   "expect": "risk",
+   "kind": "coordinated_verb_dropped",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "se-05",
+   "expect": "clean",
+   "kind": "coordinated_kept_reordered",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-01",
+   "expect": "clean",
+   "kind": "passive_future_aux_dropped",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-02",
+   "expect": "clean",
+   "kind": "periphrastic_future_with_dated_event",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sf-03",
+   "expect": "clean",
+   "kind": "inline_code_marking_added",
+   "status": "fail",
+   "codes": [
+    "span_added:critical"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sf-04",
+   "expect": "clean",
+   "kind": "inteiro_toda_synonym",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed:major"
+   ],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sf-05",
+   "expect": "risk",
+   "kind": "future_to_past_real",
+   "status": "review_required",
+   "codes": [
+    "tense_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-06",
+   "expect": "risk",
+   "kind": "inline_code_content_changed",
+   "status": "fail",
+   "codes": [
+    "span_added:critical",
+    "span_missing:critical"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-07",
+   "expect": "risk",
+   "kind": "inteiro_to_partial",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "set": "semantic",
+   "id": "sf-08",
+   "expect": "risk",
+   "kind": "universal_to_partial",
+   "status": "review_required",
+   "codes": [
+    "quantifier_changed:major"
+   ],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-09",
+   "expect": "clean",
+   "kind": "vai_ser_to_sera",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": true
+  },
+  {
+   "set": "semantic",
+   "id": "sf-10",
+   "expect": "risk",
+   "kind": "vai_ser_to_foi",
+   "status": "no_deterministic_issues",
+   "codes": [],
+   "correct": false
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-01",
+   "expect": "error",
+   "kind": "daqui_ha",
+   "statuses": [],
+   "types": [],
+   "correct": false
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-02",
+   "expect": "error",
+   "kind": "seje",
+   "statuses": [],
+   "types": [],
+   "correct": false
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-03",
+   "expect": "error",
+   "kind": "menas",
+   "statuses": [],
+   "types": [],
+   "correct": false
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-04",
+   "expect": "error",
+   "kind": "plural_agreement",
+   "statuses": [
+    "ERROR_CONFIRMED"
+   ],
+   "types": [
+    "plural_agreement"
+   ],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-05",
+   "expect": "error",
+   "kind": "haver_plural",
+   "statuses": [
+    "ERROR_CONFIRMED"
+   ],
+   "types": [
+    "existential_haver"
+   ],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-06",
+   "expect": "error",
+   "kind": "fazer_plural",
+   "statuses": [
+    "ERROR_CONFIRMED"
+   ],
+   "types": [
+    "impersonal_fazer"
+   ],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-07",
+   "expect": "variant",
+   "kind": "ter_existencial_informal",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-08",
+   "expect": "variant",
+   "kind": "para_mim_infinitive_informal",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-09",
+   "expect": "variant",
+   "kind": "a_gente_informal",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-10",
+   "expect": "variant",
+   "kind": "dialect_in_fiction",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-11",
+   "expect": "no_error",
+   "kind": "clean_formal",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-12",
+   "expect": "no_error",
+   "kind": "clean_informal",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-13",
+   "expect": "no_error",
+   "kind": "a_vs_ha_correct",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-14",
+   "expect": "no_error",
+   "kind": "ha_time_correct",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-15",
+   "expect": "no_error",
+   "kind": "poem_parataxis",
+   "statuses": [],
+   "types": [],
+   "correct": true
+  },
+  {
+   "set": "diagnose",
+   "id": "dg-16",
+   "expect": "error",
+   "kind": "esteje",
+   "statuses": [],
+   "types": [],
+   "correct": false
+  },
+  {
+   "set": "context",
+   "id": "cx-01",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  },
+  {
+   "set": "context",
+   "id": "cx-02",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  },
+  {
+   "set": "context",
+   "id": "cx-03",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  },
+  {
+   "set": "context",
+   "id": "cx-04",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  },
+  {
+   "set": "context",
+   "id": "cx-05",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  },
+  {
+   "set": "context",
+   "id": "cx-06",
+   "correct": null,
+   "problems": [
+    "not_applicable"
+   ]
+  }
+ ]
+}

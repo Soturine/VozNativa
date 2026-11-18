@@ -1,0 +1,6 @@
+{"id": "cx-01", "text": "Cê consegue me mandar a planilha até sexta? Se não der, avisa", "explicit": {}, "expect": {"not_genre": ["academic", "enem"], "rubric_applied": false}}
+{"id": "cx-02", "text": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.", "explicit": {"genre": "poema"}, "expect": {"attribute": {"genre": "poema"}, "preserve_line_breaks": true, "rubric_applied": false}}
+{"id": "cx-03", "text": "Roteiro para podcast sobre apicultura urbana, episódio 3: abelhas sem ferrão na laje.", "explicit": {"genre": "roteiro de podcast", "audience": "ouvintes iniciantes", "channel": "áudio"}, "expect": {"attribute": {"genre": "roteiro de podcast", "audience": "ouvintes iniciantes"}, "no_error": true}}
+{"id": "cx-04", "text": "Senhores pais, a excursão ao planetário sai às 7h. Tragam lanche.", "explicit": {"genre": "bilhete escolar", "tone": "cordial", "constraint": "manter o horário"}, "expect": {"attribute": {"tone": "cordial"}, "unknown_genre_ok": true}}
+{"id": "cx-05", "text": "Texto misto: abre como e-mail formal e termina com um meme kkk.", "explicit": {"genre": ["e-mail", "post"], "register": "mixed"}, "expect": {"mixed": true, "no_error": true}}
+{"id": "cx-06", "text": "A redação deve apresentar proposta de intervenção detalhada.", "explicit": {"genre": "enem"}, "expect": {"rubric_candidate": "enem", "no_error": true}}

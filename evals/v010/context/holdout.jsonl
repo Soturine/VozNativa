@@ -1,0 +1,4 @@
+{"id": "hx-01", "text": "Bom dia, grupo! Amanhã não tem aula de violão, a professora tá doente", "explicit": {}, "expect": {"not_genre": ["academic", "enem"], "rubric_applied": false}}
+{"id": "hx-02", "text": "Lá vem a lua\nsubindo o morro\nde pés descalços", "explicit": {"genre": "haicai"}, "expect": {"attribute": {"genre": "haicai"}, "preserve_line_breaks": true, "rubric_applied": false}}
+{"id": "hx-03", "text": "Legenda para vídeo curto sobre conserto de chinelo.", "explicit": {"genre": "legenda de vídeo", "channel": "rede social", "region": "nordeste"}, "expect": {"attribute": {"genre": "legenda de vídeo"}, "no_error": true}}
+{"id": "hx-04", "text": "Ata da assembleia dos moradores da Vila Esperança.", "explicit": {"genre": "ata", "register": "professional-formal", "voice": "neutra"}, "expect": {"attribute": {"genre": "ata"}, "no_error": true}}

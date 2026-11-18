@@ -1,0 +1,32 @@
+# Estado de execução da v0.10
+
+> Fonte única do estado da rodada. Cada CP registra commit, gate e evidência; retomar a partir da última linha concluída.
+
+## Ponto de partida (CP0)
+
+| Item | Valor |
+|---|---|
+| Base | tag `v0.9.0` (objeto `e83eb0c`, tipo `tag`) → `main` `6b487f7`; local = `origin/main`; árvore limpa |
+| GitHub | release `v0.9.0` Latest; PR #2 MERGED; sem issues abertas; CI #131 8/8 em `118b0e7` |
+| Branch | `dev/v0.10.0` criada de `6b487f7` |
+| Worktree da base | `../v010-work/base-v090` (destacada em `v0.9.0`) |
+| Identidade Git | local do repositório (noreply Soturine); global não alterado |
+
+## Baseline reproduzida (R1)
+
+| Medição | Resultado em `v0.9.0` |
+|---|---|
+| `qualify.py --scope release --offline` | todos os gates locais **PASS** (validador, unittest, semântica dev, holdouts safety/strict, decisão, roteador, códigos de saída, gatilhos da CI, pacote sdist→wheel→venv→smoke→suíte); INCOMPLETE só por `review:pty` (POSIX), CI (offline), holdout independente e revisão humana; 5 min 14 s |
+| `perf_compare.py` (5 repetições, CPU) | 17.600 palavras: **5,52 s** mín. (mediana 5,64 s); razão 800/100 blocos 12,6× → teto R11 = 6,35 s |
+| `v010_prospective_eval.py --split development` | semântica: riscos **16/21**, falsos alarmes **5/13**; diagnóstico: erros **3/7**, falsos alarmes **0/9**; contexto: não aplicável (módulo não existe) |
+| Holdouts v0.10 | **não rodados** (regra: uma execução, no fim, para base e candidato juntos) |
+
+## Conjuntos congelados
+
+`evals/v010/MANIFEST.json` (sha256 por arquivo), escritos antes de qualquer regra da v0.10. Mesmo autor das regras; `independent: false`. Os conjuntos das v0.7–v0.9 seguem byte-idênticos.
+
+## Checkpoints
+
+| CP | Estado | Commit | Evidência |
+|---|---|---|---|
+| CP0 | concluído | (este commit) | plano, critérios R1–R15, conjuntos congelados, baseline |
