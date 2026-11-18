@@ -59,7 +59,9 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Documento | Conteúdo | Estado |
 |---|---|---|
-| [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/RELEASE_NOTES.md](releases/v0.9/RELEASE_NOTES.md) | notas da release 0.9.0 (inglês): destaques, evidência, integrações, migração, limitações, instalação | release 0.9.0 |
+| [v0.9/RELEASE_QUALIFICATION.md](releases/v0.9/RELEASE_QUALIFICATION.md) | qualificação da 0.9.0: critérios R1–R10 congelados no CP0, resultados, CI, decisão | registro da v0.9.0 |
+| [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | registro da v0.9.0 |
 | [v0.9/DOGFOOD.md](releases/v0.9/DOGFOOD.md) | dogfood com o engine real e provider real: cenários, defeito do ciclo, DOCX real pelo fluxo do produto, custos | registro do CP8 |
 | [v0.9/ASSURANCE.md](releases/v0.9/ASSURANCE.md) | Assertiva, Derivanta (triagem) e segurança das superfícies novas | registro do CP8 |
 | [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) | DOCX (extração, cópia reescrita, conferência), PDF (extração rastreável, notas), normas | vigente |
@@ -67,7 +69,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | [v0.9/SEMANTICS.md](releases/v0.9/SEMANTICS.md) | qualificadores, classes de evento, estado do fato, aspecto, passiva, diagnóstico gramatical, termos técnicos; conjuntos congelados e holdout | vigente |
 | [v0.9/EDITORIAL.md](releases/v0.9/EDITORIAL.md) | consistência editorial entre unidades de documento longo: convergência de aberturas, memória editorial, evidência real e sintética, desempenho | vigente |
 | [v0.9/INTEGRATIONS.md](releases/v0.9/INTEGRATIONS.md) | providers e hosts executados de verdade, estado por integração, relação gerador × juiz, custos | vigente |
-| [v0.9/PLAN.md](releases/v0.9/PLAN.md), [v0.9/GAP_REGISTER.md](releases/v0.9/GAP_REGISTER.md), [v0.9/TRACEABILITY.md](releases/v0.9/TRACEABILITY.md) | plano, critérios de release congelados no CP0, lacunas e rastreabilidade da v0.9 | execução em curso |
+| [v0.9/PLAN.md](releases/v0.9/PLAN.md), [v0.9/GAP_REGISTER.md](releases/v0.9/GAP_REGISTER.md), [v0.9/TRACEABILITY.md](releases/v0.9/TRACEABILITY.md) | plano, critérios de release congelados no CP0, lacunas e rastreabilidade da v0.9 | registro da v0.9.0 |
 | [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | encerrado (v0.8.0.dev0 e v0.8.1) |
 | [v08/PLAN.md](releases/v0.8/PLAN.md), [v08/AS_IS.md](releases/v0.8/AS_IS.md), [v08/GAP_REGISTER.md](releases/v0.8/GAP_REGISTER.md), [v08/TRACEABILITY.md](releases/v0.8/TRACEABILITY.md) | plano, ponto de partida, lacunas, rastreabilidade da v0.8 | execução em curso |
 | [v08/DOCS_INVENTORY.md](releases/v0.8/DOCS_INVENTORY.md) | inventário e estado de cada documento | vigente |
@@ -79,7 +81,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Versão | Documentos |
 |---|---|
-| v0.9 (em curso) | [`v0.9/`](releases/v0.9/EXECUTION_STATE.md) |
+| v0.9 (0.9.0) | [`v0.9/`](releases/v0.9/EXECUTION_STATE.md) |
 | v0.8 | [`v08/`](releases/v0.8/EXECUTION_STATE.md); [V08_STANDARDS_VISION.md](architecture/V08_STANDARDS_VISION.md) (visão, com o que já foi implementado) |
 | v0.7 | [PLAN_v0.7.0.md](releases/v0.7/PLAN_v0.7.0.md), [PLAN_v0.7.0.dev1.md](releases/v0.7/PLAN_v0.7.0.dev1.md), [AS_IS_v0.7.0.md](releases/v0.7/AS_IS_v0.7.0.md), [V07_EXECUTION_STATE.md](releases/v0.7/V07_EXECUTION_STATE.md), [V07_DISCOVERY_REGISTER.md](releases/v0.7/V07_DISCOVERY_REGISTER.md), [V07_VERIFICATION_MATRIX.md](releases/v0.7/V07_VERIFICATION_MATRIX.md), [V07_DOGFOOD.md](releases/v0.7/V07_DOGFOOD.md), [V07_RELEASE_QUALIFICATION.md](releases/v0.7/V07_RELEASE_QUALIFICATION.md) |
 | v0.6 | [AS_IS_v0.6.0.md](releases/v0.6/AS_IS_v0.6.0.md) |

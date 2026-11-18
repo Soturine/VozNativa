@@ -23,7 +23,19 @@ Passing tests and gates still do **not** prove that a rewrite preserves meaning.
 
 ## Evidence
 
-QUALIFICATION_SUMMARY
+| Instrument | v0.8.1 | v0.9.0 |
+|---|---|---|
+| unit tests (Windows, CPython 3.12.6) | 933 (931 pass, 2 skipped) | 1,025 (1,023 pass, 2 skipped); same local gates on CPython 3.11.18 |
+| GitHub Actions (manual dispatch) | 8/8 | 8/8 (run #130; run #129 failed on Windows short temp paths, which exposed and fixed a real privacy-gate defect) |
+| `ptbr-bench-v4` / `ptbr-bench-v5` (frozen) | 22/22 / 36/36 | 22/22 / 36/36 |
+| predicate sample (frozen in v0.7) | 17/20 risks, 1/18 false alarms | 19/20, 1/18 |
+| frozen regression (Evaluation Core) | 86/89 detected, 1/33 false alarms | 88/89, 1/33 |
+| v0.9 sets frozen before the rules: development / holdout (run once) | 4/31 · 7/20 / 4/18 · 1/10 | 31/31 · 4/20 / 18/18 · 2/10 |
+| grammar diagnostics (development / holdout) | 0/11 / 0/6 | 11/11 / 6/6, no false alarm |
+| same-model arms (12 texts; direct LLM call vs engine) | — | direct call changed 6/6 texts that needed no change; engine 0/6 |
+| `compare` on 17,600 words (CPU) | 5.84 s | 5.48 s |
+
+All sets were written by the same agent that wrote the rules: these numbers show conformance to the specification, not quality judged by readers. Three Assertiva `audit --execute` runs (the last one: suite PASS, 0 false-green candidates) and a Derivanta Engine comparison (COMPARABLE) were run on the candidate. Real-provider spend in the round: about USD 1.2. Full records: `docs/releases/v0.9/` (`RELEASE_QUALIFICATION.md`, `EVALUATION.md`, `SEMANTICS.md`, `EDITORIAL.md`, `DOCUMENTS.md`, `INTEGRATIONS.md`, `DOGFOOD.md`, `ASSURANCE.md`).
 
 ## Integrations actually run
 
@@ -63,4 +75,4 @@ Verify the download with `SHA256SUMS.txt`.
 
 ## Checksums
 
-CHECKSUMS
+The `SHA256SUMS.txt` asset lists the SHA-256 of the wheel and the sdist, both built from the exact tagged revision (`git archive v0.9.0`).

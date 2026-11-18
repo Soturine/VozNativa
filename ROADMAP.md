@@ -266,7 +266,11 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [~] blind pairwise harness: instrumento pronto, sem rodada humana (v0.3.0 M4)
 - [x] frozen benchmark manifests (`cases_sha256`, `manifest.example.json`)
 
-## v0.9 — Packaging & Integrations
+## v0.9 — Packaging & Integrations (0.9.0: `docs/releases/v0.9/`)
+- [x] instalação e primeiro uso: `doctor` com categorias, configuração por usuário e projeto, `--dry-run` (v0.9.0)
+- [x] sinais para mudança de sentido com valores intactos, diagnóstico gramatical, consistência editorial entre unidades (v0.9.0)
+- [~] DOCX numa cópia segura (subconjunto declarado) e PDF com extração e notas (v0.9.0)
+- [~] hosts: Claude Code verificado numa sessão real; Codex e Gemini CLI não executados
 - [x] manifests para hosts suportados (Claude Code plugin, Codex `openai.yaml`; Gemini via SKILL.md)
 - [~] CLI (`voznativa`); estável só a partir da 1.0
 - [x] exemplos antes/depois de execuções reais (v0.3.0 M6)
