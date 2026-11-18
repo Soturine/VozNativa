@@ -7,12 +7,12 @@ Códigos de saída do `compare` (e do `rewrite` com `--judgment`): 0 `identical`
 ## `voznativa`
 
 ```text
-usage: voznativa [-h] [--version] {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
+usage: voznativa [-h] [--version] {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
 
 VozNativa PT-BR voice engine
 
 positional arguments:
-  {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
+  {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
     doctor              check the installation (no network, reads no text); exit 1 when something
                         will not work
     docx                Word documents: extract the editable paragraphs, apply edits to a new
@@ -53,6 +53,9 @@ positional arguments:
     eval                run a behavioral eval suite (JSONL)
     benchmark           score frozen benchmark outputs (deterministic tier)
     route               build the Context Contract (genre, register, sources, flags)
+    context             open TaskContext: router dimensions plus any attribute (--attr), with
+                        provenance, unknown/mixed/conflicts and the conservative choices made;
+                        --interpret-prompt prints the prompt an agent answers to propose one
     refs                select references for a contract (progressive disclosure)
     project             index a repository as a fact source
     ground              check that protected values in a text come from fact sources
@@ -184,10 +187,51 @@ options:
   --json      JSON instead of text
 ```
 
+## `voznativa context`
+
+```text
+usage: voznativa context [-h] [--interpret-prompt] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] text
+
+positional arguments:
+  text
+
+options:
+  -h, --help            show this help message and exit
+  --interpret-prompt    print the prompt for an agent to propose attributes (answer with
+                        --context-proposal)
+  --task {rewrite,audit,create,profile,compare}
+  --genre GENRE
+  --channel CHANNEL
+  --register REGISTER
+  --audience AUDIENCE
+  --region REGION
+  --region-strength REGION_STRENGTH
+  --community COMMUNITY
+  --slang-strength SLANG_STRENGTH
+  --epoch EPOCH         reader's period: current, a year (1995) or a range (1994-1996)
+  --fact FACT           fact source file (repeatable); never used for voice
+  --voice-sample VOICE_SAMPLE
+                        text the author wrote (repeatable); never used for facts
+  --voice-channel VOICE_CHANNEL
+  --repo REPO           repository used as a fact source
+  --document-profile DOCUMENT_PROFILE
+                        JSON file describing the document (type, authority, series, event year,
+                        submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
+```
+
 ## `voznativa contract`
 
 ```text
-usage: voznativa contract [-h] [--context CONTEXT] [--profile PROFILE] [--set SET] [--compact] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [text]
+usage: voznativa contract [-h] [--context CONTEXT] [--profile PROFILE] [--set SET] [--compact] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [text]
 
 positional arguments:
   text
@@ -216,6 +260,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
 ```
 
 ## `voznativa corpus`
@@ -350,7 +403,7 @@ options:
 ## `voznativa diagnose`
 
 ```text
-usage: voznativa diagnose [-h] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT,CREATE}] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] text
+usage: voznativa diagnose [-h] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT,CREATE}] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] text
 
 positional arguments:
   text
@@ -377,6 +430,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
 ```
 
 ## `voznativa doctor`
@@ -652,7 +714,7 @@ options:
 ## `voznativa plan`
 
 ```text
-usage: voznativa plan [-h] [--profile PROFILE] [--set SET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] text
+usage: voznativa plan [-h] [--profile PROFILE] [--set SET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [--protect PROTECT] [--protect-file PROTECT_FILE] text
 
 positional arguments:
   text
@@ -679,6 +741,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
@@ -713,7 +784,7 @@ options:
 ## `voznativa refs`
 
 ```text
-usage: voznativa refs [-h] [--contract CONTRACT] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [text]
+usage: voznativa refs [-h] [--contract CONTRACT] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [text]
 
 positional arguments:
   text
@@ -740,6 +811,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
 ```
 
 ## `voznativa region`
@@ -795,7 +875,7 @@ options:
 ## `voznativa rewrite`
 
 ```text
-usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--docx-out DOCX_OUT] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
+usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--docx-out DOCX_OUT] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -823,6 +903,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
@@ -880,7 +969,7 @@ options:
 ## `voznativa rewrite-prompt`
 
 ```text
-usage: voznativa rewrite-prompt [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--inline-refs] text
+usage: voznativa rewrite-prompt [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [--protect PROTECT] [--protect-file PROTECT_FILE] [--inline-refs] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -908,6 +997,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
@@ -917,7 +1015,7 @@ options:
 ## `voznativa route`
 
 ```text
-usage: voznativa route [-h] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] text
+usage: voznativa route [-h] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] text
 
 positional arguments:
   text
@@ -942,6 +1040,15 @@ options:
   --document-profile DOCUMENT_PROFILE
                         JSON file describing the document (type, authority, series, event year,
                         submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
 ```
 
 ## `voznativa rubric`

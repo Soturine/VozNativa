@@ -190,17 +190,56 @@ def _contract_args(p):
     p.add_argument("--voice-channel")
     p.add_argument("--repo", help="repository used as a fact source")
     p.add_argument("--document-profile", help="JSON file describing the document (type, authority, series, event year, submission date); attaches the applicable standards")
+    p.add_argument("--attr", action="append", metavar="NAME=VALUE",
+                   help="open task attribute (repeatable), any name: tone=cordial, genre=roteiro de podcast, "
+                        "purpose=convidar; a comma makes a list (genre=e-mail,post). Context for the writer, "
+                        "never a rule that edits text; safety fields (facts, protect, judge…) are refused")
+    p.add_argument("--attrs-file", help="JSON object of open task attributes (same rules as --attr)")
+    p.add_argument("--context-proposal", help="JSON answer to `voznativa context --interpret-prompt` from an "
+                                              "agent; attributes without evidence are dropped and never "
+                                              "override the user's")
+
+
+def _task_attributes(args) -> tuple[dict, dict | None]:
+    from .task_context import parse_pairs, validate_proposal
+    attrs = {}
+    if getattr(args, "attrs_file", None):
+        data = json.loads(_read(args.attrs_file))
+        if not isinstance(data, dict):
+            raise ValueError("--attrs-file must hold a JSON object")
+        attrs.update(data)
+    attrs.update(parse_pairs(getattr(args, "attr", None)))
+    proposal = (validate_proposal(json.loads(_read(args.context_proposal)))
+                if getattr(args, "context_proposal", None) else None)
+    return attrs, proposal
 
 
 def _route(args):
     from .router import route
-    return route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
-                 register=args.register, audience=args.audience, region=args.region,
-                 region_strength=args.region_strength, community=args.community,
-                 slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
-                 voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo,
-                 document_profile=json.loads(_read(args.document_profile))
-                 if getattr(args, "document_profile", None) else None)
+    contract = route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
+                     register=args.register, audience=args.audience, region=args.region,
+                     region_strength=args.region_strength, community=args.community,
+                     slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
+                     voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo,
+                     document_profile=json.loads(_read(args.document_profile))
+                     if getattr(args, "document_profile", None) else None)
+    attrs, proposal = _task_attributes(args)
+    if attrs or proposal:
+        # v0.10 CP2: open attributes travel with the contract; without them the contract is unchanged.
+        from .task_context import build
+        contract["task_context"] = build(_read(args.text), contract, attributes=attrs, agent_proposal=proposal)
+    return contract
+
+
+def cmd_context(args):
+    from .task_context import build, interpret_prompt
+    contract = _route(args)
+    if args.interpret_prompt:
+        _emit(None, interpret_prompt(_read(args.text), contract))
+        return
+    attrs, proposal = _task_attributes(args)
+    _emit(contract.get("task_context") or build(_read(args.text), contract, attributes=attrs,
+                                                agent_proposal=proposal))
 
 
 def cmd_route(args):
@@ -865,6 +904,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("text")
     _contract_args(p)
     p.set_defaults(func=cmd_route)
+
+    p = sub.add_parser("context", help="open TaskContext: router dimensions plus any attribute (--attr), with "
+                                       "provenance, unknown/mixed/conflicts and the conservative choices made; "
+                                       "--interpret-prompt prints the prompt an agent answers to propose one")
+    p.add_argument("text")
+    p.add_argument("--interpret-prompt", action="store_true",
+                   help="print the prompt for an agent to propose attributes (answer with --context-proposal)")
+    _contract_args(p)
+    p.set_defaults(func=cmd_context)
 
     p = sub.add_parser("refs", help="select references for a contract (progressive disclosure)")
     p.add_argument("text", nargs="?", default="-")

@@ -30,4 +30,5 @@
 | CP | Estado | Commit | Evidência |
 |---|---|---|---|
 | CP0 | concluído | `74880ad` | plano, critérios R1–R15, conjuntos congelados, baseline |
-| CP1 | concluído | (este commit) | [`RESEARCH_REGISTER.md`](RESEARCH_REGISTER.md): 13 fontes com licença literal e decisão; OpenAlex sem conector ativo (chave e custo) |
+| CP1 | concluído | `7bf35bd` | [`RESEARCH_REGISTER.md`](RESEARCH_REGISTER.md): 13 fontes com licença literal e decisão; OpenAlex sem conector ativo (chave e custo) |
+| CP2 | concluído | (este commit) | TaskContext aberto (`task_context.py`, subcomando `context`, `--attr`/`--attrs-file`/`--context-proposal`); 15 testes; conjunto `context` dev 6/6; gate local PASS (1.040 testes) |

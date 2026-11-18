@@ -122,6 +122,12 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
             sections.append(block)
     if targets and not create:
         sections.append(_targets_block(targets))
+    if context.get("task_context"):
+        # v0.10 CP2: open attributes (tone, purpose, unmapped genres) and the hypotheses made
+        from .task_context import prompt_block as task_block
+        block = task_block(context["task_context"])
+        if block:
+            sections.append(block)
     if not create:
         block = _ptbr_block(text, context["genre"]["value"])
         if block:
