@@ -40,6 +40,8 @@ Ambiente disponível: CPython 3.12.6 e 3.11.18 (gerenciado pelo uv, fora do `py`
 
 | CP3 | Consistência editorial em documento longo, método do teste de tempo | concluído | ver `git log` | guard `style_convergence` e memória editorial: caso real do dogfood sinalizado (3 → 11), controle real quieto; 4 execuções reais (US$ 0,65), efeito da memória inconclusivo com n = 1; R9 sem regressão (17.600 palavras 4,95 s CPU). [`EDITORIAL.md`](EDITORIAL.md) |
 
+| CP4 | Robustez semântica, diagnóstico gramatical, termos técnicos, siglas | concluído | `e5b134c` (conjuntos congelados antes das regras) e o commit das regras | development 4/31 → 31/31 e 7/20 → 4/20; holdout (uma vez) 4/18 → 18/18 e 1/10 → 2/10; diagnóstico 0 → 11/11 e 6/6 sem falso alarme; predicados 19/20 e 1/18; testes de defeito falham em `17d1f10`. Suítes congeladas pegaram 4 falsos vermelhos de uma versão intermediária (moeda "reais", "em produção", "voltou ao"), corrigidos antes do commit. [`SEMANTICS.md`](SEMANTICS.md) |
+
 ## Bloqueios conhecidos
 
 - Execução de binários baixados (servidor de modelo local) negada pelo controle de permissões da sessão no CP2; os arquivos estão fora do repositório, prontos para o mantenedor rodar.

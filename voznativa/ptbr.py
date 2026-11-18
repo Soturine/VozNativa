@@ -95,15 +95,37 @@ def variant_markers(text: str) -> list[dict]:
     return sorted(found, key=lambda f: f["start"])
 
 
+DOMAIN_EVIDENCE_TERMS = 3
+# Only terminology domains: a technical term often has no established Portuguese equivalent
+# ("branch" -> "ramo" was rejected in the first v0.8.1 dogfood's human review), while business or
+# marketing jargon in an academic text ("deadline", "insights") has one (patterns suite pt-206).
+DOMAIN_EVIDENCE_DOMAINS = frozenset({"tech"})
+
+
 def foreign_terms(text: str, genre: str) -> dict:
+    """Foreign terms at home in the genre's domains or out of them.
+
+    v0.9 CP4 (V09-GAP-10): the text itself also establishes a domain when it
+    uses at least ``DOMAIN_EVIDENCE_TERMS`` distinct terms of it. An academic
+    report on software engineering ("backend", "branch", "deploy") is in the
+    tech domain even though the academic genre has no home domain; the first
+    v0.8.1 dogfood got 25 suggestions to replace established technical terms."""
     d = data()
     home = set(d["foreign_terms"]["genre_domains"].get(genre, d["foreign_terms"]["genre_domains"]["unknown"]))
-    in_domain, out_domain = [], []
+    hits = []
     for hit in d["_terms_rx"].finditer(_unquoted(text)):
         domain, pt = d["_terms"][hit.group(1).lower()]
-        entry = {"text": hit.group(1), "start": hit.start(), "end": hit.end(), "domain": domain, "pt": pt}
-        (in_domain if domain in home else out_domain).append(entry)
-    return {"in_domain": in_domain, "out_of_domain": out_domain, "genre_domains": sorted(home)}
+        hits.append({"text": hit.group(1), "start": hit.start(), "end": hit.end(), "domain": domain, "pt": pt})
+    by_domain: dict[str, set] = {}
+    for h in hits:
+        by_domain.setdefault(h["domain"], set()).add(h["text"].lower())
+    established = sorted(dom for dom, terms in by_domain.items()
+                         if len(terms) >= DOMAIN_EVIDENCE_TERMS and dom not in home and dom in DOMAIN_EVIDENCE_DOMAINS)
+    home |= set(established)
+    in_domain = [h for h in hits if h["domain"] in home]
+    out_domain = [h for h in hits if h["domain"] not in home]
+    return {"in_domain": in_domain, "out_of_domain": out_domain, "genre_domains": sorted(home),
+            "established_by_text": established}
 
 
 def treatment(text: str) -> dict:

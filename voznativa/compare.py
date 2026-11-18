@@ -13,9 +13,12 @@ Verdict policy (conservative by design):
 """
 from __future__ import annotations
 
+import json
 import re
 from bisect import bisect_left
 from collections import Counter
+from functools import lru_cache
+from pathlib import Path
 
 from . import ledger as ledger_mod
 from . import spans as spans_mod
@@ -75,6 +78,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _order_issues(src, out, alignment)
     issues += _tense_issues(src, out, alignment)
     issues += _predicate_issues(src, out, alignment)
+    issues += _class_issues(src, out, alignment)
     issues += _event_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
@@ -701,6 +705,8 @@ def _tense_issues(src, out, alignment) -> list[dict]:
 # ("fazer a revisão") and modals (modality has its own signal). A source action that
 # survives only as one of these ("será enviado" -> "vai até") has lost its predicate.
 LIGHT_VERBS = frozenset("ser estar ir ter haver ficar fazer dar vir poder dever precisar querer conseguir".split())
+_ASPECTUAL = frozenset("deixar parar passar começar voltar tornar".split())
+_ASPECT_TAIL = re.compile(r"\s+(?:de|a)\s+[^\W\d_]+(?:ar|er|ir|ôr|or)\b", re.I)
 PREDICATE_MIN_STEM = 4
 
 
@@ -732,6 +738,11 @@ def _event_anchors(text: str) -> dict[str, set]:
         # "durantar" and "prazo" as "prazar": not an anchor.
         if all(a["source"] == "regular" and a["ending"] in WEAK_ENDINGS for a in v.analyses):
             continue
+        # v0.9 CP4: in an aspectual periphrasis ("deixou de enviar", "passou a permitir",
+        # "voltou a abrir") the infinitive is the event; the auxiliary is aspect, which
+        # the marker categories compare (aspect.*, negation.cessative).
+        if set(v.lemmas) & _ASPECTUAL and _ASPECT_TAIL.match(text, v.end):
+            continue
         add(v.lemmas)
     return anchors
 
@@ -762,8 +773,13 @@ def _predicate_issues(src, out, alignment) -> list[dict]:
         near_words = {fold(w) for text in near for w in words(text)}
         after = _event_anchors(out.entries[j].sentence.text)
         after_lemmas = {lemma for text in near for lemmas in _event_anchors(text).values() for lemma in lemmas}
+        events = _semantic_classes()["events"]
+        near_classes = _verb_classes(" ".join(near), events)
         for stem_, lemmas in sorted(before.items()):
             if any(w.startswith(stem_) for w in near_words) or lemmas & after_lemmas:
+                continue
+            # v0.9 CP4: a verb of the same listed event class is the same action ("solicitou" -> "pediu").
+            if {events.get(lemma) for lemma in lemmas} & near_classes:
                 continue
             lemma = sorted(lemmas)[0]
             common = {"lemma": lemma, "source_sentence": source_text,
@@ -778,6 +794,145 @@ def _predicate_issues(src, out, alignment) -> list[dict]:
                                      f"the action '{lemma}' has no counterpart in the candidate sentence "
                                      "(only a light verb or none): an action or commitment may be lost",
                                      **common))
+    return issues
+
+
+@lru_cache(maxsize=1)
+def _semantic_classes() -> dict:
+    """voznativa/data/semantic_classes.json, indexed for lookup (v0.9 CP4)."""
+    data = json.loads((Path(__file__).resolve().parent / "data" / "semantic_classes.json").read_text(encoding="utf-8"))
+    words, phrases = {}, []
+    for name, groups in data["qualifier_sets"].items():
+        for g, members in enumerate(groups):
+            for member in members:
+                key = fold(member)
+                if " " in key:
+                    phrases.append((re.compile(rf"(?<!\w){re.escape(key)}(?!\w)"), (name, g)))
+                else:
+                    words[key] = (name, g)
+    events = {lemma: name for name, lemmas in data["event_classes"].items() for lemma in lemmas}
+    governors = {lemma: name for name, lemmas in data["status_governors"].items() if not name.startswith("_")
+                 for lemma in lemmas}
+    forms = {fold(form): lemma for lemma, items in data["irregular_forms"].items() if not lemma.startswith("_")
+             for form in items}
+    return {"qualifier_words": words, "qualifier_phrases": phrases, "events": events, "governors": governors,
+            "forms": forms,
+            "noun_readings": frozenset(fold(w) for w in data["noun_readings"]["words"])}
+
+
+_NOUN_CUES = frozenset(fold(w) for w in "o a os as um uma uns umas no na nos nas do da dos das ao aos à às pelo pela "
+                       "pelos pelas este esta esse essa aquele aquela seu sua meu minha nosso nossa num numa".split())
+
+
+def _qualifiers(text: str) -> set[tuple[str, int]]:
+    """(set, group) of the operational qualifiers in a sentence; a word that is
+    also a noun is skipped after a determiner, a preposition or a number."""
+    table = _semantic_classes()
+    tokens = [fold(t) for t in re.findall(r"[^\W_]+(?:-[^\W_]+)*", text)]
+    found = set()
+    for k, token in enumerate(tokens):
+        hit = table["qualifier_words"].get(token)
+        if hit is None:
+            continue
+        if token in table["noun_readings"] and k and (tokens[k - 1] in _NOUN_CUES or tokens[k - 1].isdigit()):
+            continue
+        found.add(hit)
+    folded = " ".join(tokens)
+    for pattern, hit in table["qualifier_phrases"]:
+        if pattern.search(folded):
+            found.add(hit)
+    return found
+
+
+def _verb_classes(text: str, table: dict) -> set[str]:
+    """Classes of the verbs in ``table`` that a sentence uses in any form
+    (``voznativa.morph`` analyses; a word whose analyses name no listed lemma
+    adds nothing)."""
+    from .morph import analyse_word
+    forms = _semantic_classes()["forms"]
+    out = set()
+    for token in re.findall(r"[^\W\d_]{2,}", text):
+        irregular = forms.get(fold(token))
+        if irregular and table.get(irregular):
+            out.add(table[irregular])
+        if len(token) < 3:
+            continue
+        for analysis in analyse_word(token.lower()):
+            name = table.get(analysis.get("lemma"))
+            if name:
+                out.add(name)
+    return out
+
+
+def _class_issues(src, out, alignment) -> list[dict]:
+    """Meaning changes with every value intact (v0.9 CP4, V09-GAP-01/02/03):
+
+    * ``qualifier_dropped`` / ``qualifier_changed`` / ``qualifier_added``: an
+      operational qualifier with a contrast (automático/manual,
+      obrigatório/opcional, parcial/total, estimado/confirmado, real/simulado,
+      presencial/online, a frequency...) disappears, flips or appears.
+      Ornamental adjectives ("rápido", "excelente") are not listed and never
+      count;
+    * ``event_changed``: the source verb's event class is gone and the
+      candidate brings a different class ("assinou" -> "recebeu", "aprovou" ->
+      "analisou"); a synonym in the same class is not a change, and a verb
+      outside the classes abstains (``predicate_replaced`` stays info);
+    * ``fact_status_changed``: the candidate adds a verb that turns the event
+      into an intention, attempt, request or proposal ("concluiu" ->
+      "pretende concluir", "pagou" -> "solicitou o pagamento").
+
+    All major: a person decides; none is critical and none proves anything
+    when absent. Sentences next to the aligned one count, so a split or merged
+    sentence is not a loss."""
+    table = _semantic_classes()
+    issues = []
+    same_shape = len(src.entries) == len(out.entries)
+    for i, j, sim in alignment:
+        # A pair below the alignment threshold is still compared when both texts have the same
+        # number of sentences and it sits at the same position: a sentence with most words
+        # replaced is where a meaning change hides ("presencial na sede" -> "online pela plataforma").
+        if j is None or (sim < ALIGN_MIN_SIMILARITY and not (same_shape and i == j and sim >= 0.25)):
+            continue
+        s_text = src.entries[i].sentence.text
+        o_text = out.entries[j].sentence.text
+        s_near = " ".join(src.entries[k].sentence.text for k in (i - 1, i, i + 1) if 0 <= k < len(src.entries))
+        o_near = " ".join(out.entries[k].sentence.text for k in (j - 1, j, j + 1) if 0 <= k < len(out.entries))
+        common = {"source_sentence": s_text, "candidate_sentence": o_text}
+
+        q_src, q_out, q_out_near, q_src_near = _qualifiers(s_text), _qualifiers(o_text), _qualifiers(o_near), \
+            _qualifiers(s_near)
+        sets_out_near = {name for name, _ in q_out_near}
+        for name, group in sorted(q_src):
+            if (name, group) in q_out_near:
+                continue
+            others = sorted(g for n, g in q_out if n == name and g != group)
+            if others:
+                issues.append(_issue("qualifier_changed", "major",
+                                     f"the qualifier of kind '{name}' changed to its contrast in the candidate",
+                                     qualifier_set=name, **common))
+            elif name not in sets_out_near:
+                issues.append(_issue("qualifier_dropped", "major",
+                                     f"a qualifier of kind '{name}' is gone (an operational or factual property, "
+                                     "not an ornament): the statement may now say more or less", qualifier_set=name,
+                                     **common))
+        for name in sorted({n for n, _ in q_out} - {n for n, _ in q_src_near}):
+            issues.append(_issue("qualifier_added", "major",
+                                 f"the candidate adds a qualifier of kind '{name}' the original does not have",
+                                 qualifier_set=name, **common))
+
+        e_src, e_out_near = _verb_classes(s_text, table["events"]), _verb_classes(o_near, table["events"])
+        e_new = _verb_classes(o_text, table["events"]) - _verb_classes(s_near, table["events"])
+        missing = e_src - e_out_near
+        if missing and e_new:
+            issues.append(_issue("event_changed", "major",
+                                 f"the event class {sorted(missing)} became {sorted(e_new)} with the values intact: "
+                                 "another action, not a paraphrase?", source_classes=sorted(missing),
+                                 candidate_classes=sorted(e_new), **common))
+        g_added = _verb_classes(o_text, table["governors"]) - _verb_classes(s_near, table["governors"])
+        if g_added:
+            issues.append(_issue("fact_status_changed", "major",
+                                 f"the candidate adds {sorted(g_added)}: what happened may now be only wanted, "
+                                 "attempted, asked for or proposed", governors=sorted(g_added), **common))
     return issues
 
 

@@ -5,7 +5,8 @@
     "level": "E1",
     "basis": "Closed-class and high-frequency function words described in standard Brazilian Portuguese grammars (negation, modal auxiliaries, quantifiers, conjunctions). Lists were written for VozNativa; no third-party list was copied.",
     "calibration": "not calibrated against a corpus; see voznativa/README.md#limitations",
-    "matching": "accent-folded, lower-case, longest phrase first; a token consumed by a longer phrase is not counted again"
+    "matching": "accent-folded, lower-case, longest phrase first; a token consumed by a longer phrase is not counted again",
+    "v0.9": "CP4 added negation.cessative, aspect.inception and aspect.iteration as patterns that require an infinitive (deixar/parar de + inf.; passar/começar a + inf.; voltar/tornar a + inf.), double-negation idioms (não deixa de, não podemos deixar de) and the passive attribution with an agent (V08-GAP-20); written from standard grammar descriptions. A first version as phrase lists matched 'voltou ao depósito' (frozen events set ed-26) and was replaced"
   },
   "categories": {
     "negation": {
@@ -532,7 +533,13 @@
         "cada vez menos",
         "sempre à disposição",
         "sempre às ordens",
-        "sempre que precisar"
+        "sempre que precisar",
+        "não podemos deixar de",
+        "não posso deixar de",
+        "não pode deixar de",
+        "não deixa de",
+        "não deixam de",
+        "não deixou de"
       ]
     },
     "polarity": {
@@ -906,6 +913,26 @@
       "label": "causality.causal",
       "regex": "\\b(?:leva|levou|levam|levaram|levará|levaria)\\b(?=\\s+(?:(?!para\\b|pra\\b)[\\w-]+\\s+){1,3}?(?:a|à)\\s+[\\w-]+(?:ar|er|ir|or)\\b)",
       "doc": "causative levar + object + a + infinitive; only the verb is the marker so cause/effect stay comparable"
+    },
+    {
+      "label": "attribution.source",
+      "regex": "\\b(?:informad|relatad|afirmad|declarad|apontad|estimad|dit)[oa]s?\\s+(?:pel[oa]s?|por)\\b",
+      "doc": "v0.9 CP4 (V08-GAP-20): the same attribution in the passive with an agent ('A gerente informou os clientes' = 'Os clientes foram informados pela gerente'); a passive without the agent is still a lost source. Only verbs whose active forms are attribution.source count (avisad/comunicad were removed after the holdout run: 'avisou' is not an attribution marker, so its passive created one, holdout h-c09)"
+    },
+    {
+      "label": "negation.cessative",
+      "regex": "\\b(?:deix|par)(?:ou|a|am|aram|ará|arão|aria|ariam|ava|avam)\\s+de\\s+(?:se\\s+)?[^\\W\\d_]+(?:ar|er|ir|or)\\b",
+      "doc": "v0.9 CP4: 'deixou de enviar' = 'não envia mais' (negation total); an infinitive must follow, so 'deixou de lado' is not counted"
+    },
+    {
+      "label": "aspect.inception",
+      "regex": "\\b(?:pass|começ)(?:ou|a|am|aram|ará|arão|aria|ariam)\\s+a\\s+(?:se\\s+)?[^\\W\\d_]+(?:ar|er|ir|or)\\b",
+      "doc": "v0.9 CP4: 'passou a permitir', 'começou a aceitar'; an infinitive must follow ('passou a bola', 'começou a aula' are not aspect)"
+    },
+    {
+      "label": "aspect.iteration",
+      "regex": "\\b(?:volt|torn)(?:ou|a|am|aram|ará|arão|aria|ariam)\\s+a\\s+(?:se\\s+)?[^\\W\\d_]+(?:ar|er|ir|or)\\b",
+      "doc": "v0.9 CP4: 'voltou a abrir'; an infinitive must follow ('voltou ao depósito' is movement, events set ed-26)"
     }
   ],
   "comparison": {
