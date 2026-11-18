@@ -608,15 +608,34 @@ options:
 ## `voznativa knowledge`
 
 ```text
-usage: voznativa knowledge [-h] {list,select} ...
+usage: voznativa knowledge [-h] {list,select,sources,check,status,proposals} ...
 
 positional arguments:
-  {list,select}
-    list         entries and sources of the registry (bundled + VOZNATIVA_KNOWLEDGE_DIR)
-    select       entries this text calls for, within a character budget, with the reason
+  {list,select,sources,check,status,proposals}
+    list                entries and sources of the registry (bundled + VOZNATIVA_KNOWLEDGE_DIR)
+    select              entries this text calls for, within a character budget, with the reason
+    sources             watched sources: official host, access, cost, what a change would affect
+    check               ask due sources whether they changed (conditional GET, private addresses
+                        refused); --mode propose stores snapshots and Change Proposals in
+                        VOZNATIVA_WATCH_DIR (default ~/.voznativa/watch); nothing is applied
+    status              offline view: last check and staleness of each source
+    proposals           stored Change Proposals (state, difference, what they affect)
 
 options:
-  -h, --help     show this help message and exit
+  -h, --help            show this help message and exit
+```
+
+### `voznativa knowledge check`
+
+```text
+usage: voznativa knowledge check [-h] [--mode {report,propose}] [--offline] [--force] [--only ONLY]
+
+options:
+  -h, --help            show this help message and exit
+  --mode {report,propose}
+  --offline             fetch nothing: last snapshot and its age per source
+  --force               check sources that are not due yet
+  --only ONLY           source id (repeatable)
 ```
 
 ### `voznativa knowledge list`
@@ -627,6 +646,15 @@ usage: voznativa knowledge list [-h] [--json]
 options:
   -h, --help  show this help message and exit
   --json
+```
+
+### `voznativa knowledge proposals`
+
+```text
+usage: voznativa knowledge proposals [-h]
+
+options:
+  -h, --help  show this help message and exit
 ```
 
 ### `voznativa knowledge select`
@@ -667,6 +695,24 @@ options:
   --context-proposal CONTEXT_PROPOSAL
                         JSON answer to `voznativa context --interpret-prompt` from an agent;
                         attributes without evidence are dropped and never override the user's
+```
+
+### `voznativa knowledge sources`
+
+```text
+usage: voznativa knowledge sources [-h]
+
+options:
+  -h, --help  show this help message and exit
+```
+
+### `voznativa knowledge status`
+
+```text
+usage: voznativa knowledge status [-h]
+
+options:
+  -h, --help  show this help message and exit
 ```
 
 ## `voznativa ledger`

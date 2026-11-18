@@ -1,0 +1,110 @@
+{
+ "kind": "voznativa.watch_live_record",
+ "date": "2026-11-18",
+ "command": "voznativa knowledge check --mode propose [--force]",
+ "runs": [
+  {
+   "checked_at": "2026-11-18T16:21:42+00:00",
+   "results": [
+    {
+     "source_id": "pypi-pyyaml",
+     "status": "first_snapshot",
+     "summary": {
+      "version": "6.0.3",
+      "uploaded": "2025-09-25T21:31:46.040932Z",
+      "licence": "MIT",
+      "requires_python": ">=3.8"
+     }
+    },
+    {
+     "source_id": "pypi-pypdf",
+     "status": "first_snapshot",
+     "summary": {
+      "version": "7.1.1",
+      "uploaded": "2026-11-18T11:51:06.563393Z",
+      "licence": "BSD-3-Clause",
+      "requires_python": ">=3.10"
+     }
+    },
+    {
+     "source_id": "ud-portuguese-gsd",
+     "status": "first_snapshot",
+     "summary": {
+      "sha": "58dccb570416fa13a52b6f6b398b17bea872907c",
+      "date": "2026-11-10T13:32:23Z",
+      "message": "Updated treebank evaluation."
+     }
+    },
+    {
+     "source_id": "ud-portuguese-bosque",
+     "status": "first_snapshot",
+     "summary": {
+      "sha": "036da549f7d74034c666c19c04e5150e305fe43d",
+      "date": "2026-11-10T13:30:48Z",
+      "message": "Updated treebank evaluation."
+     }
+    },
+    {
+     "source_id": "crossref-ptbr-variation",
+     "status": "first_snapshot",
+     "summary": {
+      "total": 60451,
+      "works_listed": 20
+     },
+     "new_works": 1
+    },
+    {
+     "source_id": "inep-enem-documents",
+     "status": "first_snapshot"
+    },
+    {
+     "source_id": "openalex-ptbr",
+     "status": "disabled"
+    }
+   ]
+  },
+  {
+   "checked_at": "2026-11-18T16:21:52+00:00",
+   "results": [
+    {
+     "source_id": "pypi-pyyaml",
+     "status": "unchanged",
+     "via": "304"
+    },
+    {
+     "source_id": "pypi-pypdf",
+     "status": "unchanged",
+     "via": "304"
+    },
+    {
+     "source_id": "ud-portuguese-gsd",
+     "status": "unchanged",
+     "via": "304"
+    },
+    {
+     "source_id": "ud-portuguese-bosque",
+     "status": "unchanged",
+     "via": "304"
+    },
+    {
+     "source_id": "crossref-ptbr-variation",
+     "status": "changed",
+     "summary": {
+      "total": 229,
+      "works_listed": 20
+     },
+     "new_works": 20
+    },
+    {
+     "source_id": "inep-enem-documents",
+     "status": "unchanged"
+    },
+    {
+     "source_id": "openalex-ptbr",
+     "status": "disabled"
+    }
+   ]
+  }
+ ],
+ "note": "second run: four sources answered 304 to the conditional GET; Crossref returned works newly indexed (relevance-ranked), which led to aggregating new works into one proposal per check"
+}

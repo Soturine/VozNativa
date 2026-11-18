@@ -480,6 +480,20 @@ def cmd_packs(args):
 
 def cmd_knowledge(args):
     from . import knowledge
+    if args.knowledge_command in ("sources", "check", "status", "proposals"):
+        from . import watcher
+        if args.knowledge_command == "sources":
+            _emit({"kind": "voznativa.watch_sources", "sources": watcher.load_sources()})
+            return 0
+        if args.knowledge_command == "proposals":
+            _emit({"kind": "voznativa.change_proposals", "state_dir": str(watcher.state_dir()),
+                   "proposals": watcher.list_proposals()})
+            return 0
+        offline = args.knowledge_command == "status" or args.offline
+        report = watcher.check(mode="report" if args.knowledge_command == "status" else args.mode,
+                               offline=offline, force=getattr(args, "force", False), only=getattr(args, "only", None))
+        _emit(report)
+        return 1 if any(r["status"] == "error" for r in report["results"]) else 0
     if args.knowledge_command == "select":
         _emit(knowledge.for_text(_read(args.text), _route(args), budget_chars=args.budget))
         return 0
@@ -754,6 +768,17 @@ def build_parser() -> argparse.ArgumentParser:
     q.add_argument("text")
     q.add_argument("--budget", type=int, default=900)
     _contract_args(q)
+    # v0.10 CP8: Knowledge Watcher (report/propose only; never changes the repository)
+    q = ks.add_parser("sources", help="watched sources: official host, access, cost, what a change would affect")
+    q = ks.add_parser("check", help="ask due sources whether they changed (conditional GET, private addresses "
+                                    "refused); --mode propose stores snapshots and Change Proposals in "
+                                    "VOZNATIVA_WATCH_DIR (default ~/.voznativa/watch); nothing is applied")
+    q.add_argument("--mode", choices=["report", "propose"], default="report")
+    q.add_argument("--offline", action="store_true", help="fetch nothing: last snapshot and its age per source")
+    q.add_argument("--force", action="store_true", help="check sources that are not due yet")
+    q.add_argument("--only", action="append", help="source id (repeatable)")
+    q = ks.add_parser("status", help="offline view: last check and staleness of each source")
+    q = ks.add_parser("proposals", help="stored Change Proposals (state, difference, what they affect)")
     p.set_defaults(func=cmd_knowledge)
     p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
                                    "equations/code, and annotated copies; no editing of the PDF itself")

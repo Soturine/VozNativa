@@ -1,0 +1,75 @@
+# Knowledge Watcher sources (v0.10 CP8). Official hosts only; cost and access stated.
+# The watcher reads these and proposes; it never changes the repository (decision D-04).
+schema_version: 1
+kind: voznativa.watch_sources
+sources:
+  - id: pypi-pyyaml
+    kind: pypi
+    url: https://pypi.org/pypi/PyYAML/json
+    hosts: [pypi.org]
+    affects: [dependency PyYAML (pyproject dependencies)]
+    tests: [python scripts/qualify.py --scope release]
+    access: public JSON API, no key
+    cost: free; one request per check
+    licence_note: package metadata; the licence field of the package itself is compared between snapshots
+    min_interval_hours: 168
+  - id: pypi-pypdf
+    kind: pypi
+    url: https://pypi.org/pypi/pypdf/json
+    hosts: [pypi.org]
+    affects: [optional dependency pypdf (extra pdf)]
+    tests: [python -m unittest evals.test_v09_pdf, python scripts/qualify.py --scope release]
+    access: public JSON API, no key
+    cost: free; one request per check
+    licence_note: package metadata; the licence field of the package itself is compared between snapshots
+    min_interval_hours: 168
+  - id: ud-portuguese-gsd
+    kind: github_commits
+    url: https://api.github.com/repos/UniversalDependencies/UD_Portuguese-GSD/commits?per_page=1
+    hosts: [api.github.com]
+    affects: [corpus registry ud-portuguese-gsd (pinned commit and file hashes), evals/v010/runs/corpus-gsd-*]
+    tests: [python -m unittest evals.test_corpus_registry, python scripts/corpus_false_alarms.py <new split>]
+    access: GitHub REST API without a token (60 requests per hour per address)
+    cost: free
+    licence_note: CC BY-SA 4.0 annotations; underlying text without a declared licence (see the registry entry)
+    min_interval_hours: 168
+  - id: ud-portuguese-bosque
+    kind: github_commits
+    url: https://api.github.com/repos/UniversalDependencies/UD_Portuguese-Bosque/commits?per_page=1
+    hosts: [api.github.com]
+    affects: [corpus registry ud-portuguese-bosque]
+    tests: [python -m unittest evals.test_corpus_registry]
+    access: GitHub REST API without a token (60 requests per hour per address)
+    cost: free
+    licence_note: CC BY-SA 4.0 annotations
+    min_interval_hours: 168
+  - id: crossref-ptbr-variation
+    kind: crossref
+    url: https://api.crossref.org/works?query.bibliographic=portugu%C3%AAs+brasileiro+varia%C3%A7%C3%A3o+lingu%C3%ADstica&filter=from-index-date:{since},until-index-date:{until}&rows=20&select=DOI,title,license
+    hosts: [api.crossref.org]
+    affects: [research register (reading list); never a rule by itself]
+    tests: []
+    access: Crossref REST API, public, no key; from-index-date for incremental changes (Crossref guidance)
+    cost: free; one request per check
+    licence_note: metadata only; each work's licence is listed and nothing is downloaded
+    min_interval_hours: 168
+  - id: inep-enem-documents
+    kind: http_page
+    url: https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/outros-documentos
+    hosts: [www.gov.br]
+    affects: [standards registry, series enem-redacao-cartilha (new edition, errata)]
+    tests: [python -m unittest evals.test_v08_standards]
+    access: public page
+    cost: free; one request per check
+    licence_note: no reuse licence stated; metadata only (edition, date, URL) may enter the standards registry
+    min_interval_hours: 168
+  - id: openalex-ptbr
+    kind: crossref
+    url: https://api.openalex.org/works?search=portugu%C3%AAs+brasileiro
+    hosts: [api.openalex.org]
+    enabled: false
+    disabled_reason: OpenAlex requires an API key and bills usage since 2026; incremental filters need a paid plan
+    affects: [research register]
+    access: API key required
+    cost: usage-based
+    licence_note: metadata (CC0 for OpenAlex data)
