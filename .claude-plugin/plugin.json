@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "voznativa",
-  "description": "Reescreve, audita, cria e perfila textos em português brasileiro sem mudar fatos, negação, modalidade, prazos ou compromissos, seguindo a voz do autor por canal.",
+  "description": "Revisa, corrige, simplifica, reescreve, adapta, audita e cria textos em português brasileiro sem mudar fatos, negação, condições, exceções, prazos ou compromissos, respeitando o gênero, o público e a voz do autor.",
   "version": "0.10.0",
   "author": {
     "name": "Soturine",
