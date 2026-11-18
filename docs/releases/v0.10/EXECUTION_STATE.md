@@ -42,4 +42,4 @@
 | CP11a | concluído | `1ffa346` | VozNativa lia inglês como português (achado no dogfood B1): guarda de idioma |
 | CP10 | concluído | `448f5c3` | braços com Haiku em 10 textos de gêneros não mapeados: LLM direto alterou 3/4 bons e perdeu uma exceção; engines 0/4; contexto/conhecimento sem ganho demonstrado (n = 1); lacuna de fórmulas corrigida; aviso de credenciais com `--provider-env inherit` (V08-GAP-23); script de mutação v0.10 |
 | CP11 + CP12 | concluído | `ba6dfa0` | Derivanta PR #6 (2 correções; merge BLOCKED pela permissão), Assertiva PR #11 (1 correção + doc); holdouts v0.10 rodados uma vez (12/12 e 0/10; 5/5 e 0/5); mutação 24/25 com defeito do harness corrigido (v0.9 reconferida 20/20); perf intercalado ≈ 1,015 |
-| CP13 | concluído | (este commit) | docs sincronizados (README, ROADMAP, CHANGELOG, índice, notas em inglês, registro de gaps), versão 0.10.0 |
+| CP13 | concluído | `132f3a5` | docs sincronizados (README, ROADMAP, CHANGELOG, índice, notas em inglês, registro de gaps), versão 0.10.0 |
