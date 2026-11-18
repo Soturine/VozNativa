@@ -1,0 +1,1 @@
+É importante destacar que o backup automático do servidor da biblioteca roda diariamente às 2h e não pode ser interrompido. Vale ressaltar que a restauração parcial é opcional, leva até 40 minutos e só pode ser iniciada pelo técnico de plantão.

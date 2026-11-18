@@ -250,6 +250,10 @@ _HAVER_EXIST = re.compile(
     r"\b(houveram|haviam|haverão|haveriam|hajam)\s+((?:\d+|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|"
     r"muitos|muitas|vários|várias|poucos|poucas|alguns|algumas|diversos|diversas|inúmeros|inúmeras|tantos|tantas)\b)",
     re.I)
+# v0.9 CP8 dogfood: "houveram/haverão/hajam" are existential before any noun phrase, not only before a
+# quantifier ("Houveram atrasos"); the exceptions are "houveram de/por bem" and the auxiliary + participle.
+_HAVER_ALWAYS = re.compile(r"\b(houveram|haverão|hajam)\s+(?!de\b|por\b)([^\W\d_]+)", re.I)
+_PARTICIPLE = re.compile(r"(?:ado|ada|ados|adas|ido|ida|idos|idas|ito|ita|eito|osto|erto)$", re.I)
 _HAVER_FIX = {"houveram": "houve", "haviam": "havia", "haverão": "haverá", "haveriam": "haveria", "hajam": "haja"}
 _FAZER_FIX = {"fazem": "faz", "faziam": "fazia", "fizeram": "fez", "farão": "fará"}
 _CRASE = re.compile(r"\bà\s+(partir\b|pé\b|cavalo\b|prazo\b|ele\b|eles\b|você\b|vocês\b|"
@@ -302,7 +306,12 @@ def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
             fix = fix.capitalize() if verb[:1].isupper() else fix
             add("impersonal_fazer", s.start + m.start(1), s.start + m.end(1), verb,
                 f"'{verb} {m.group(2)}': 'fazer' indicating elapsed time is impersonal (singular)", fix)
-        for m in _HAVER_EXIST.finditer(s.text):
+        seen_haver = set()
+        for m in list(_HAVER_EXIST.finditer(s.text)) + [m for m in _HAVER_ALWAYS.finditer(s.text)
+                                                         if not _PARTICIPLE.search(m.group(2))]:
+            if m.start(1) in seen_haver:
+                continue
+            seen_haver.add(m.start(1))
             verb = m.group(1)
             fix = _HAVER_FIX[verb.lower()]
             fix = fix.capitalize() if verb[:1].isupper() else fix

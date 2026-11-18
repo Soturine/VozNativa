@@ -73,8 +73,15 @@ def extract(path: str | Path) -> dict:
     pypdf = _pypdf()
     path = Path(path)
     raw = path.read_bytes()
-    reader = pypdf.PdfReader(str(path))
-    pages = [normalise(page.extract_text() or "") for page in reader.pages]
+    try:
+        reader = pypdf.PdfReader(str(path))
+        if reader.is_encrypted:
+            raise ValueError(f"{path.name}: encrypted PDF (decrypt it first; no password is tried)")
+        pages = [normalise(page.extract_text() or "") for page in reader.pages]
+    except ValueError:
+        raise
+    except Exception as error:  # noqa: BLE001 - pypdf raises many types on a malformed file
+        raise ValueError(f"{path.name}: unreadable PDF ({type(error).__name__})") from None
     vocabulary = Counter(w.lower() for page in pages for w in re.findall(r"[^\W\d_]+", page))
     elements, protected, hyphen_kept, empty_pages = [], [], [], []
     for number, page_text in enumerate(pages, 1):

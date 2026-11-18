@@ -160,6 +160,19 @@ class Apply(Fixture):
             docx.apply(self.src, {"p1": "Outro texto."}, existing)
         self.assertEqual(existing.read_bytes(), b"x")
 
+    def test_dtd_and_entities_are_refused(self):
+        hostile = self.tmp / "entidades.docx"
+        with zipfile.ZipFile(self.src) as zin, zipfile.ZipFile(hostile, "w") as zout:
+            for item in zin.infolist():
+                data = zin.read(item.filename)
+                if item.filename == "word/document.xml":
+                    data = data.decode("utf-8").replace(
+                        "?>\n", '?>\n<!DOCTYPE w [<!ENTITY a "aaaa"><!ENTITY b "&a;&a;&a;">]>\n', 1).encode("utf-8")
+                zout.writestr(item, data)
+        with self.assertRaises(docx.DocxError) as ctx:
+            docx.extract(hostile)
+        self.assertIn("DTD", str(ctx.exception))
+
     def test_not_a_docx(self):
         bad = self.tmp / "texto.docx"
         bad.write_text("não sou um zip", encoding="utf-8")

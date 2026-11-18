@@ -68,15 +68,26 @@ def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+MAX_DOCUMENT_BYTES = 50 * 1024 * 1024     # uncompressed document.xml; a larger one is refused (decompression bomb)
+
+
 def _read_document(path: Path) -> tuple[str, list[str]]:
     try:
         with zipfile.ZipFile(path) as z:
             names = z.namelist()
             if DOCUMENT not in names:
                 raise DocxError(f"{path.name}: no {DOCUMENT} (not a Word document)")
-            return z.read(DOCUMENT).decode("utf-8"), names
+            if z.getinfo(DOCUMENT).file_size > MAX_DOCUMENT_BYTES:
+                raise DocxError(f"{path.name}: {DOCUMENT} larger than {MAX_DOCUMENT_BYTES} bytes uncompressed")
+            xml = z.read(DOCUMENT).decode("utf-8")
     except zipfile.BadZipFile as error:
         raise DocxError(f"{path.name}: not a ZIP package ({error})") from None
+    except UnicodeDecodeError:
+        raise DocxError(f"{path.name}: {DOCUMENT} is not UTF-8") from None
+    # A Word document never declares a DTD; one here is the entity-expansion vector, refused before any parse.
+    if re.search(r"<!DOCTYPE|<!ENTITY", xml[:4096] + xml[-4096:], re.I) or "<!ENTITY" in xml:
+        raise DocxError(f"{path.name}: {DOCUMENT} declares a DTD or entities (refused)")
+    return xml, names
 
 
 def _paragraph_spans(xml: str) -> list[dict]:

@@ -83,6 +83,13 @@ class PdfWorkflow(unittest.TestCase):
         self.assertIn("forne- cedor", ir["elements"][0]["text"])
         self.assertEqual(ir["hyphenation_kept"], [{"page": 1, "word": "fornecedor"}])
 
+    def test_a_malformed_pdf_is_a_clear_error(self):
+        bad = self.tmp / "quebrado.pdf"
+        bad.write_bytes(b"%PDF-1.4\nisto nao e um pdf\n%%EOF")
+        with self.assertRaises(ValueError) as ctx:
+            pdf.extract(bad)
+        self.assertIn("quebrado.pdf", str(ctx.exception))
+
     def test_ligatures_are_normalised(self):
         self.assertEqual(pdf.normalise("eﬁciência e ﬂuxo"), "eficiência e fluxo")
 

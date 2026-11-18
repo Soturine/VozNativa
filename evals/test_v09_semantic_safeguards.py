@@ -137,6 +137,16 @@ class Grammar(unittest.TestCase):
                          [("formal_error", "existential_haver", "Houve")])
         self.assertEqual(grammar("A vacinação continua à partir das 8h."), [("formal_error", "crase", "a")])
 
+    def test_houveram_before_a_plural_noun(self):
+        # v0.9 CP8 dogfood: "Houveram atrasos ..." was not diagnosed (only "houveram muitas ..." was),
+        # the plan had no grammar reason for it and a real rewrite was accepted with the error kept.
+        self.assertEqual(grammar("Houveram falhas na entrega das cestas."),
+                         [("formal_error", "existential_haver", "Houve")])
+        for text in ("Os sócios houveram por bem adiar a assembleia.", "Eles houveram de partir cedo.",
+                     "Os técnicos houveram terminado antes da chuva."):
+            with self.subTest(text=text):
+                self.assertEqual(grammar(text), [])
+
     def test_controls_are_not_errors(self):
         for text in ("A enfermeira os chamou pelo nome.", "Ele as lista toda semana na reunião.", "Os ônibus e os lápis ficaram na sala.",
                      "As duas turmas e os três professores chegaram.", "Os pais haviam saído antes da chuva.",
