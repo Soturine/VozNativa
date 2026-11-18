@@ -60,6 +60,9 @@ class Qualifiers(unittest.TestCase):
             ("A matrícula online da escola abre na segunda-feira.",
              "Na segunda-feira abre a matrícula online da escola."),
             ("No final do semestre, o total de faltas foi baixo.", "No final do semestre, o total de faltas ficou baixo."),
+            # "manual" and "final" as nouns, rewritten away: not qualifiers (killed a CP7 mutant that survived)
+            ("Consulte o manual da bomba antes da limpeza.", "Consulte as instruções da bomba antes da limpeza."),
+            ("O resultado sai no final de maio.", "O resultado sai no fim de maio."),
         ):
             with self.subTest(candidate=candidate):
                 status, found = codes(original, candidate)
@@ -135,7 +138,7 @@ class Grammar(unittest.TestCase):
         self.assertEqual(grammar("A vacinação continua à partir das 8h."), [("formal_error", "crase", "a")])
 
     def test_controls_are_not_errors(self):
-        for text in ("A enfermeira os chamou pelo nome.", "Os ônibus e os lápis ficaram na sala.",
+        for text in ("A enfermeira os chamou pelo nome.", "Ele as lista toda semana na reunião.", "Os ônibus e os lápis ficaram na sala.",
                      "As duas turmas e os três professores chegaram.", "Os pais haviam saído antes da chuva.",
                      "Os alunos fazem três provas por bimestre.", "O kit foi entregue à mulher da portaria, à vista.",
                      "Os lotes C, E e G foram enviados."):

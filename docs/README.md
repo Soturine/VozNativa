@@ -61,6 +61,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 |---|---|---|
 | [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
 | [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) | DOCX (extração, cópia reescrita, conferência), PDF (extração rastreável, notas), normas | vigente |
+| [v0.9/EVALUATION.md](releases/v0.9/EVALUATION.md) | antes × depois com os mesmos instrumentos, braços com modelo real, mutação, eixos não medidos | vigente |
 | [v0.9/SEMANTICS.md](releases/v0.9/SEMANTICS.md) | qualificadores, classes de evento, estado do fato, aspecto, passiva, diagnóstico gramatical, termos técnicos; conjuntos congelados e holdout | vigente |
 | [v0.9/EDITORIAL.md](releases/v0.9/EDITORIAL.md) | consistência editorial entre unidades de documento longo: convergência de aberturas, memória editorial, evidência real e sintética, desempenho | vigente |
 | [v0.9/INTEGRATIONS.md](releases/v0.9/INTEGRATIONS.md) | providers e hosts executados de verdade, estado por integração, relação gerador × juiz, custos | vigente |
