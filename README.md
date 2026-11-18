@@ -13,7 +13,7 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 | quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
 | quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-**Estado:** `0.8.1` (GitHub release com tag anotada `v0.8.1`; não publicada no PyPI). Corrige nove defeitos (DF-01 a DF-09) encontrados em dois dogfoods com documentos acadêmicos longos reais e provider real ([`CHANGELOG.md`](CHANGELOG.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
+**Estado:** `0.9.0` (GitHub release com tag anotada `v0.9.0`; não publicada no PyPI). Instalação e configuração mais simples, providers por contrato (inclusive servidor local), sinais novos para mudança de sentido com valores intactos, diagnóstico gramatical, consistência editorial em documentos longos, DOCX numa cópia segura, PDF com escopo honesto e packs com contrato ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.9/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
 ## Em 30 segundos
 
@@ -77,7 +77,7 @@ Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que n
 
 ## Instalação
 
-Requer Python 3.11+. A v0.8 foi qualificada localmente no Linux (3.11, 3.12 e 3.13, em contêiner) e no Windows (3.12); a CI manual roda Linux e Windows com 3.11, 3.12 e 3.13 (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.8/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
+Requer Python 3.11+. A v0.9.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13; o Linux local não rodou nesta versão (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
 **Windows (PowerShell)**
 
@@ -232,7 +232,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS na v0.8.1: 933 testes (931 PASS, 2 skips com motivo), contagens por revisão e plataforma em [`docs/releases/v0.8.1/RELEASE_QUALIFICATION.md`](docs/releases/v0.8.1/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS na v0.9.0; contagens por revisão e plataforma em [`docs/releases/v0.9/RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |

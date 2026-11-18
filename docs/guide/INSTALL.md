@@ -33,7 +33,7 @@ macOS: os comandos são os mesmos; a qualificação desta versão rodou em Windo
 Num venv já ativado (Windows ou Linux):
 
 ```bash
-python -m pip install "git+https://github.com/Soturine/VozNativa.git@v0.8.1"
+python -m pip install "git+https://github.com/Soturine/VozNativa.git@v0.9.0"
 ```
 
 Ou baixe `voznativa-<versão>-py3-none-any.whl` e `SHA256SUMS.txt` da [página de releases](https://github.com/Soturine/VozNativa/releases), confira o hash e instale o arquivo:

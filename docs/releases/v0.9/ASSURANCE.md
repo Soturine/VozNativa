@@ -28,12 +28,9 @@ Triagem dos novos (fundamentada; INFO não é ordem de refatoração):
 |---|---|---|---|---|
 | 1 | `195137e` | FAIL (1.395) | `NATIVE_TESTS_FAILING` (high): `test_corpus_tei.test_connector_reads_gzipped_tei` com `MemoryError`; 1 `info` (checks da CI não classificados, como nas rodadas anteriores) | causa achada: **defeito latente anterior à v0.9**: `read_tei` pedia `read(500_000_001)` e o descompressor alocava 500 MB para qualquer arquivo. Corrigido em `7176d24` (leitura em blocos de 1 MiB, limite igual), com teste que registra a leitura de 500.000.001 bytes no código antigo. A mesma falha tinha aparecido uma vez na suíte local e eu a atribuíra à carga da máquina: a Assertiva mostrou que não era ruído |
 | 2 | `7176d24` | FAIL (1.396) | `NATIVE_TESTS_FAILING` (high): `test_v08_evidence_paths` exige `docs/releases/v0.9/RELEASE_QUALIFICATION.md`, que ficou fora daquele commit (passava localmente porque o arquivo existia na árvore de trabalho); `BROAD_ERROR_EXPECTATION_SIGNAL` (medium): o teste novo usava `assertRaises(Exception)` | o registro entrou no commit seguinte; o teste passou a esperar `AccessError` |
-| 3 | commit seguinte | ver abaixo | ver abaixo | — |
+| 3 | `bd62d60` | **PASS** (1.398) | só o `info` de sempre (checks da CI não classificados) | — |
 
 Em todas as execuções: wheel construído, instalado e importado com fechamento de dependências PASS; testes contra o wheel NOT_RUN **pela ferramenta** (sem adaptador; a suíte contra o wheel roda no gate de pacote do `qualify.py`); 0 candidatos a falso verde.
-
-RESULTADO_ASSERTIVA_3
-
 ## Segurança das superfícies novas (CP8.5)
 
 | Superfície | Ameaça | Controle | Prova |

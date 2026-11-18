@@ -1,8 +1,10 @@
 # Changelog
 
-## Unreleased (0.9.0 in progress on `dev/v0.9.0`)
+## 0.9.0 — 2026-11-18 (GitHub release; not on PyPI)
 
-Round plan, release criteria (frozen before development) and gaps: `docs/releases/v0.9/`.
+Packaging, integrations and editorial quality. Round plan, release criteria (frozen before development), gaps, evaluation and qualification: `docs/releases/v0.9/`; release notes: `docs/releases/v0.9/RELEASE_NOTES.md`.
+
+**What passing tests mean.** They show the listed defects fixed and the frozen suites not regressed. They do not prove semantic equivalence of any rewrite; a judge of the same vendor is fallible evidence, not independence.
 
 ### Added
 - **Configuration files for `rewrite`** (`voznativa/config.py`): a user file (`$VOZNATIVA_CONFIG`, else `%APPDATA%\voznativa\config.toml` or `~/.config/voznativa/config.toml`) and a project `.voznativa.toml` (nearest one up to the repository root), one `[rewrite]` table, precedence flag > project > user > default; unknown keys, wrong types and invalid TOML are errors (exit 64). **A project file cannot set `cmd`, `judge_cmd`, `provider_env` or `provider_env_allow`**: a cloned repository must not choose what runs on the user's machine or which credentials reach the model process. VozNativa never writes these files and reads no secret from them.
