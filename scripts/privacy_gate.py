@@ -121,6 +121,32 @@ def public_text(base: str, head: str, tree: bool) -> tuple[dict, str]:
     return {"commits": len(commits), "added_lines": len(added), "tree_files": tree_files}, "\n".join(parts)
 
 
+_NUMBER = re.compile(r"[\d.,]+")
+_NEIGHBOUR = re.compile(r"[^\W\d_]{2,}")
+
+
+def _neighbours(text: str, token: str) -> set[str]:
+    """Words right before and after each occurrence of ``token`` (lower case)."""
+    out = set()
+    for m in re.finditer(rf"(?<![\w.,]){re.escape(token)}(?!\w)", text):
+        before = _NEIGHBOUR.findall(text[max(0, m.start() - 40):m.start()])
+        after = _NEIGHBOUR.findall(text[m.end():m.end() + 40])
+        out |= {w.lower() for w in before[-1:] + after[:1]}
+    return out
+
+
+def _shared(token: str, doc: str, public: str) -> bool:
+    """A distinctive token of the private document appears in the public text. v0.10.5 (V105-GAP-04): a bare
+    number ("2,60", "4417") counts only next to a word that is also next to it in the document; numbers are
+    common, so a number alone in a regex quantifier or a word count is not evidence of a leak. Tokens with
+    letters (identifiers, acronyms) keep the presence rule."""
+    if not re.search(rf"(?<![\w.,]){re.escape(token)}(?!\w)", public):
+        return False
+    if not _NUMBER.fullmatch(token):
+        return True
+    return bool(_neighbours(doc, token) & _neighbours(public, token))
+
+
 def scan(public: str, base: str, privates: list[Path], terms: list[str]) -> dict:
     findings: dict[str, list] = {}
     pub_words = words(public)
@@ -130,7 +156,7 @@ def scan(public: str, base: str, privates: list[Path], terms: list[str]) -> dict
         doc = re.sub(r"-\n(?=[a-zà-ú])", "", read_private(path)).replace("\n", " ")
         shared = sorted(pub_grams & grams(words(doc)))
         tokens = {t for t in DISTINCT.findall(doc) if t.lower() not in base_text}
-        distinct = sorted(t for t in tokens if re.search(rf"(?<![\w.,]){re.escape(t)}(?!\w)", public))
+        distinct = sorted(t for t in tokens if _shared(t, doc, public))
         if shared:
             findings.setdefault("private_5grams", []).append({"document": path.name, "count": len(shared),
                                                               "shared": shared[:50]})
