@@ -131,6 +131,9 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
         sections.append(f"DOCUMENTO: este TEXTO é o trecho {document['unit']} de {document['units']} de um documento "
                         "maior. Reescreva só este trecho, mantendo a estrutura de blocos (parágrafos, listas, "
                         f"falas). Nomes e termos já introduzidos antes, que devem ficar idênticos: {carry}.")
+        if document.get("editorial"):
+            # v0.9 CP3: editorial memory across units (spellings, openers added by earlier units)
+            sections.append("MEMÓRIA EDITORIAL DO DOCUMENTO: " + document["editorial"])
     if feedback:
         sections.append("A TENTATIVA ANTERIOR FOI REJEITADA. Corrija:\n" + "\n".join(f"- {f}" for f in feedback))
     if create:
@@ -539,7 +542,8 @@ def _split_spellings(original: str, final: str) -> list[dict]:
     return split
 
 
-def _document_guards(original: str, final: str, context: dict, profile: dict | None, report: dict | None) -> dict:
+def _document_guards(original: str, final: str, context: dict, profile: dict | None, report: dict | None,
+                     unit_pairs: list[tuple[str, str]] | None = None) -> dict:
     """Whole-document checks after reassembly (v0.7.0 CP9). Each issue says
     whether it blocks (critical) or is a signal for a person (major/info);
     none of them is a verdict of equivalence."""
@@ -552,6 +556,9 @@ def _document_guards(original: str, final: str, context: dict, profile: dict | N
         introduced += [{"kind": "regional", **a} for a in
                        introduced_forms(original, final, activate(context, original, profile))]
         introduced += [{"kind": "term_variant", **a} for a in _split_spellings(original, final)]
+        # v0.9 CP3: openers the units converged on (the second v0.8.1 dogfood: 3 -> 11)
+        from .editorial import convergence
+        introduced += convergence(original, final, unit_pairs)
     effects = []
     for issue in (report or {}).get("issues", []):
         effects.append({"code": issue["code"], "severity": issue["severity"],
@@ -612,6 +619,8 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
     if judge is not None:
         kwargs["judge_provider"] = judge
     user_protect = tuple(kwargs.pop("protect", ()))
+    from .editorial import EditorialMemory
+    memory = EditorialMemory.for_document(text)   # v0.9 CP3
     previous = {(u.get("index"), u.get("source_sha256")): u for u in (resume or [])}
     replacements, units = {}, []
     for unit in plan["units"]:
@@ -631,9 +640,11 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
             rec, candidate = reused
             if candidate is not None:
                 replacements[unit["index"]] = candidate
+                memory.record(source, candidate)
             units.append(rec)
             continue
-        document_info = {"unit": unit["index"] + 1, "units": len(plan["units"]), "carry": unit["carry"]}
+        document_info = {"unit": unit["index"] + 1, "units": len(plan["units"]), "carry": unit["carry"],
+                         "editorial": memory.prompt_note(source)}
         result = rewrite(source, context, budget, profile, explicit=explicit, attempts=limits.attempts_per_unit,
                          protect=user_protect + tuple(unit["carry"]), document=document_info,
                          **kwargs)
@@ -646,6 +657,7 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                            f"{structure_of(source)} -> {structure_of(candidate)}")
             else:
                 replacements[unit["index"]] = candidate
+                memory.record(source, candidate)
                 rec.update(candidate_sha256=sha256(candidate), _candidate=candidate)
         elif outcome == "no_change":
             rec.update(candidate_sha256=unit["sha256"], _candidate=source)
@@ -700,12 +712,13 @@ def rewrite_document(text: str, context: dict, provider: Provider, profile: dict
                if u["action"] == "rewrite") and outcome in {"accepted", "needs_judgment"}:
             outcome = "needs_review"      # partly rewritten: someone should see which parts were kept
         final = candidate_doc
-    guards = _document_guards(text, final, context, profile, report)
+    unit_pairs = [(unit_text(text, u), replacements[u["index"]]) for u in plan["units"] if u["index"] in replacements]
+    guards = _document_guards(text, final, context, profile, report, unit_pairs)
     if guards["introduced"] and final != text and OUTCOME_RANK[outcome] < OUTCOME_RANK["needs_review"]:
         outcome = "needs_review"
     public_units = [{k: v for k, v in u.items() if not k.startswith("_")} for u in units]
     return dict(base, outcome=outcome, text=final, output_sha256=sha256(final), guards=guards,
-                units=public_units, resume_state=units, reverted_units=reverted,
+                units=public_units, resume_state=units, reverted_units=reverted, editorial_memory=memory.state(),
                 global_report=({"status": report["status"], "summary": report.get("summary"),
                                 "issues": report["issues"][:20]} if report else None),
                 plan={k: plan[k] for k in _PLAN_IN_RECORD},

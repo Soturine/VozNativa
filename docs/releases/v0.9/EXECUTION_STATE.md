@@ -38,6 +38,8 @@ Ambiente disponível: CPython 3.12.6 e 3.11.18 (gerenciado pelo uv, fora do `py`
 
 | CP2 | Providers, relação gerador × juiz, hosts | concluído | ver `git log` | provider real ponta a ponta (US$ 0,049); autojulgamento com linhas diferentes corrigido e provado com chamadas reais (GAP-24, P1); sessão agent-led real do Claude Code (US$ 0,21); adapter HTTP testado contra servidor local; modelo local real NOT_RUN (permissão); Codex/Gemini NOT_RUN; Emulate BLOCKED. [`INTEGRATIONS.md`](INTEGRATIONS.md) |
 
+| CP3 | Consistência editorial em documento longo, método do teste de tempo | concluído | ver `git log` | guard `style_convergence` e memória editorial: caso real do dogfood sinalizado (3 → 11), controle real quieto; 4 execuções reais (US$ 0,65), efeito da memória inconclusivo com n = 1; R9 sem regressão (17.600 palavras 4,95 s CPU). [`EDITORIAL.md`](EDITORIAL.md) |
+
 ## Bloqueios conhecidos
 
 - Execução de binários baixados (servidor de modelo local) negada pelo controle de permissões da sessão no CP2; os arquivos estão fora do repositório, prontos para o mantenedor rodar.

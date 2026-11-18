@@ -58,6 +58,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | Documento | Conteúdo | Estado |
 |---|---|---|
 | [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/EDITORIAL.md](releases/v0.9/EDITORIAL.md) | consistência editorial entre unidades de documento longo: convergência de aberturas, memória editorial, evidência real e sintética, desempenho | vigente |
 | [v0.9/INTEGRATIONS.md](releases/v0.9/INTEGRATIONS.md) | providers e hosts executados de verdade, estado por integração, relação gerador × juiz, custos | vigente |
 | [v0.9/PLAN.md](releases/v0.9/PLAN.md), [v0.9/GAP_REGISTER.md](releases/v0.9/GAP_REGISTER.md), [v0.9/TRACEABILITY.md](releases/v0.9/TRACEABILITY.md) | plano, critérios de release congelados no CP0, lacunas e rastreabilidade da v0.9 | execução em curso |
 | [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | encerrado (v0.8.0.dev0 e v0.8.1) |
