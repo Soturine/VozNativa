@@ -109,7 +109,9 @@ def _embedded_instructions(sents) -> list[dict]:
     return out
 
 
-_GRAMMAR_TYPES = ("plural_agreement", "impersonal_fazer", "existential_haver", "crase")
+_GRAMMAR_TYPES = ("plural_agreement", "impersonal_fazer", "existential_haver", "crase",
+                  # v0.10 CP4
+                  "daqui_ha", "nonstandard_subjunctive", "menas", "a_gente_plural")
 
 
 def _grammar_reasons(text: str, context: dict, sents) -> dict[int, list[dict]]:
@@ -121,7 +123,7 @@ def _grammar_reasons(text: str, context: dict, sents) -> dict[int, list[dict]]:
     from .diagnose import diagnose
     found: dict[int, list[dict]] = {}
     for d in diagnose(text, context)["diagnostics"]:
-        if d["class"] != "formal_error" or d["type"] not in _GRAMMAR_TYPES:
+        if d.get("status", "ERROR_CONFIRMED") != "ERROR_CONFIRMED" or d["type"] not in _GRAMMAR_TYPES:
             continue
         for sent in sents:
             if sent.start <= d["start"] < sent.end:

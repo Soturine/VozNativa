@@ -30,9 +30,26 @@ from __future__ import annotations
 
 import re
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2   # v0.10 CP4: every diagnostic also has ``status`` and ``recommend_edit``
 CLASSES = ("formal_error", "possible_contextual_error", "internal_contradiction", "source_mismatch",
-           "legitimate_choice", "literary_license", "unresolved_ambiguity", "no_evidence")
+           "legitimate_choice", "literary_license", "unresolved_ambiguity", "no_evidence", "style_preference")
+# v0.10 CP4 (V010-GAP-10): what the finding means in this context, separate from detecting it.
+# Only ERROR_CONFIRMED recommends an edit; the others describe a phenomenon a person may keep.
+STATUSES = ("ERROR_CONFIRMED", "ACCEPTABLE_VARIANT", "STYLE_PREFERENCE", "CONTEXT_DEPENDENT", "LITERARY_CHOICE",
+            "UNCERTAIN", "NO_CHANGE_EXPECTED")
+# Grammar types that the knowledge registry describes as legitimate variants in informal registers.
+VARIANT_IN_INFORMAL = frozenset({"plural_agreement", "existential_haver", "impersonal_fazer", "para_mim_infinitive",
+                                 "ter_existential"})
+
+
+def status_of(d: dict, informal: bool) -> str:
+    cls = d["class"]
+    if cls == "formal_error":
+        return "ERROR_CONFIRMED"
+    if cls == "possible_contextual_error":
+        return "ACCEPTABLE_VARIANT" if informal and d["type"] in VARIANT_IN_INFORMAL else "CONTEXT_DEPENDENT"
+    return {"literary_license": "LITERARY_CHOICE", "legitimate_choice": "ACCEPTABLE_VARIANT",
+            "style_preference": "STYLE_PREFERENCE"}.get(cls, "UNCERTAIN")
 MODES = {
     "PRESERVE": {"task": "audit", "rewrite": False, "authorized": []},
     "REVIEW": {"task": "audit", "rewrite": False, "authorized": []},
@@ -212,9 +229,14 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
     grounding = _grounding(text, facts, context)
     out += grounding["diagnostics"]
     out.sort(key=lambda d: (d["start"], d["class"]))
+    for d in out:
+        d["status"] = status_of(d, informal)
+        d["recommend_edit"] = d["status"] == "ERROR_CONFIRMED"
     counts = {c: sum(d["class"] == c for d in out) for c in CLASSES}
     return {"kind": "voznativa.diagnosis", "schema_version": SCHEMA_VERSION, "diagnostics": out,
-            "counts": {k: v for k, v in counts.items() if v}, "grounding": grounding["status"],
+            "counts": {k: v for k, v in counts.items() if v},
+            "statuses": {st: n for st in STATUSES if (n := sum(d["status"] == st for d in out))},
+            "grounding": grounding["status"],
             "note": "diagnostics of the source; none is applied automatically except formal fixes in an "
                     "authorising mode"}
 
@@ -259,6 +281,19 @@ _FAZER_FIX = {"fazem": "faz", "faziam": "fazia", "fizeram": "fez", "farão": "fa
 _CRASE = re.compile(r"\bà\s+(partir\b|pé\b|cavalo\b|prazo\b|ele\b|eles\b|você\b|vocês\b|"
                     r"[^\W\d_]+(?:ar|er|ir)\b)", re.I)
 _CRASE_FEMININE_ER = frozenset({"mulher", "colher"})   # feminine nouns ending like an infinitive
+# v0.10 CP4 (V010-GAP-09). "daqui há" mixes the future preposition with the past "há": a spelling
+# error in any written register (controls: "daqui a dois dias", "há doze anos").
+_DAQUI_HA = re.compile(r"\b(daqui)\s+(há)\b", re.I)
+_SUBJUNCTIVE = re.compile(r"\b(seje|sejem|esteje|estejem)\b", re.I)
+_SUBJUNCTIVE_FIX = {"seje": "seja", "sejem": "sejam", "esteje": "esteja", "estejem": "estejam"}
+_MENAS = re.compile(r"\b(menas)\b", re.I)
+# "pra mim fazer": the standard asks "para eu fazer", but "difícil para mim aceitar" is grammatical
+# (for me, to accept): never formal_error, only context-dependent or an informal variant.
+_PARA_MIM = re.compile(r"\b(pr?a(?:ra)?\s+mim)\s+([^\W\d_]+(?:ar|er|ir|or))\b", re.I)
+# sentence-initial existential "ter" ("Tem muita gente na fila"); not "tem que/de", "tem razão".
+_TER_EXIST = re.compile(r"^(Tem|Tinha|Teve)\s+(?!que\b|de\b|razão\b|certeza\b|como\b|sido\b)([^\W\d_]+)")
+_A_GENTE = re.compile(r"\b(a gente)\s+([^\W\d_]+mos)\b", re.I)
+_A_GENTE_NOT_VERB = frozenset({"mesmos", "todos", "ramos", "anos", "mesmas"})
 
 
 def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
@@ -317,6 +352,48 @@ def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
             fix = fix.capitalize() if verb[:1].isupper() else fix
             add("existential_haver", s.start + m.start(1), s.start + m.end(1), verb,
                 f"'{verb} {m.group(2)}': 'haver' meaning 'existir' is impersonal (singular)", fix)
+        for m in _DAQUI_HA.finditer(s.text):
+            start, end = s.start + m.start(), s.start + m.end()
+            fix = m.group(1) + " a"
+            if artistic:
+                out.append(_d("literary_license", "daqui_ha", "info", "medium", start, end, m.group(0),
+                              "'daqui há': future time takes 'a' (literary text: may be the author's choice)",
+                              "none", "preserve"))
+            else:
+                # spelling, not register: wrong in a chat message too
+                out.append(_d("formal_error", "daqui_ha", "minor", "high", start, end, m.group(0),
+                              "'daqui há': future time takes the preposition ('daqui a'); 'há' marks the past",
+                              "form only", "auto_fix", fix=fix))
+        for m in _SUBJUNCTIVE.finditer(s.text):
+            word = m.group(1)
+            fix = _SUBJUNCTIVE_FIX[word.lower()]
+            add("nonstandard_subjunctive", s.start + m.start(1), s.start + m.end(1), word,
+                f"'{word}': the subjunctive of ser/estar is '{fix}'", fix.capitalize() if word[:1].isupper() else fix)
+        for m in _MENAS.finditer(s.text):
+            word = m.group(1)
+            add("menas", s.start + m.start(1), s.start + m.end(1), word, "'menas': 'menos' is invariable",
+                "Menos" if word[:1].isupper() else "menos")
+        for m in _PARA_MIM.finditer(s.text):
+            start, end = s.start + m.start(), s.start + m.end()
+            if artistic:
+                continue
+            cls = "legitimate_choice" if informal else "possible_contextual_error"
+            out.append(_d(cls, "para_mim_infinitive", "info", "medium", start, end, m.group(0),
+                          f"'{m.group(1)} {m.group(2)}': before an infinitive the standard uses 'eu' as its subject; "
+                          "'pra mim' is a widespread spoken form (and 'difícil para mim aceitar' is grammatical)",
+                          "form only", "suggest" if not informal else "preserve"))
+        m = _TER_EXIST.match(s.text)
+        if m and not artistic:
+            cls = "legitimate_choice" if informal else "style_preference"
+            out.append(_d(cls, "ter_existential", "info", "medium", s.start + m.start(1), s.start + m.end(1),
+                          m.group(1), "existential 'ter': common Brazilian Portuguese; formal writing tends to "
+                          "prefer 'haver' (an editorial preference, not an error)", "none",
+                          "preserve" if informal else "suggest"))
+        for m in _A_GENTE.finditer(s.text):
+            if m.group(2).lower() in _A_GENTE_NOT_VERB:
+                continue
+            add("a_gente_plural", s.start + m.start(), s.start + m.end(), m.group(0),
+                f"'{m.group(0)}': 'a gente' takes the verb in the third person singular")
         for m in _CRASE.finditer(s.text):
             target = m.group(1).lower()
             if target in _CRASE_FEMININE_ER:
