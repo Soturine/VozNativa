@@ -78,6 +78,16 @@
         "conclusion": "success",
         "jobs_passed": "8/8",
         "evidence": "final CI of v0.9.0 (documentation commit after #130); the tag commit only adds evidence paths"
+      },
+      {
+        "run": 132,
+        "id": 44361981494,
+        "head_sha": "e612a4309761543cfe4682fb2ef50b912c708c33",
+        "branch": "main",
+        "event": "workflow_dispatch",
+        "conclusion": "success",
+        "jobs_passed": "8/8",
+        "evidence": "final CI of v0.10.0 on the merge commit of PR #3; the tag commit only adds this record (evidence_only)"
       }
     ],
     "history": [
