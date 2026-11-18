@@ -7,18 +7,20 @@ Códigos de saída do `compare` (e do `rewrite` com `--judgment`): 0 `identical`
 ## `voznativa`
 
 ```text
-usage: voznativa [-h] [--version] {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
+usage: voznativa [-h] [--version] {doctor,docx,packs,knowledge,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
 
 VozNativa PT-BR voice engine
 
 positional arguments:
-  {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
+  {doctor,docx,packs,knowledge,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,context,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
     doctor              check the installation (no network, reads no text); exit 1 when something
                         will not work
     docx                Word documents: extract the editable paragraphs, apply edits to a new
                         copy, check a copy against its original (the original is never written)
     packs               linguistic packs: list bundled and external ones (VOZNATIVA_PACKS_DIR),
                         validate a pack file against the contract; exit 1 when a pack is invalid
+    knowledge           Linguistic Knowledge Registry: entries and sources (nature, licence,
+                        access), what a text would retrieve and why; reference only, never a gate
     pdf                 PDF (optional dependency pypdf): traceable text extraction with protected
                         equations/code, and annotated copies; no editing of the PDF itself
     config              effective rewrite configuration: value and source of each option (flag >
@@ -601,6 +603,70 @@ options:
   -h, --help   show this help message and exit
   --fact FACT  fact source (repeatable): judge grounding instead of equivalence
   --repo REPO  repository used as a fact source (grounding mode)
+```
+
+## `voznativa knowledge`
+
+```text
+usage: voznativa knowledge [-h] {list,select} ...
+
+positional arguments:
+  {list,select}
+    list         entries and sources of the registry (bundled + VOZNATIVA_KNOWLEDGE_DIR)
+    select       entries this text calls for, within a character budget, with the reason
+
+options:
+  -h, --help     show this help message and exit
+```
+
+### `voznativa knowledge list`
+
+```text
+usage: voznativa knowledge list [-h] [--json]
+
+options:
+  -h, --help  show this help message and exit
+  --json
+```
+
+### `voznativa knowledge select`
+
+```text
+usage: voznativa knowledge select [-h] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] text
+
+positional arguments:
+  text
+
+options:
+  -h, --help            show this help message and exit
+  --budget BUDGET
+  --task {rewrite,audit,create,profile,compare}
+  --genre GENRE
+  --channel CHANNEL
+  --register REGISTER
+  --audience AUDIENCE
+  --region REGION
+  --region-strength REGION_STRENGTH
+  --community COMMUNITY
+  --slang-strength SLANG_STRENGTH
+  --epoch EPOCH         reader's period: current, a year (1995) or a range (1994-1996)
+  --fact FACT           fact source file (repeatable); never used for voice
+  --voice-sample VOICE_SAMPLE
+                        text the author wrote (repeatable); never used for facts
+  --voice-channel VOICE_CHANNEL
+  --repo REPO           repository used as a fact source
+  --document-profile DOCUMENT_PROFILE
+                        JSON file describing the document (type, authority, series, event year,
+                        submission date); attaches the applicable standards
+  --attr NAME=VALUE     open task attribute (repeatable), any name: tone=cordial, genre=roteiro de
+                        podcast, purpose=convidar; a comma makes a list (genre=e-mail,post).
+                        Context for the writer, never a rule that edits text; safety fields
+                        (facts, protect, judge…) are refused
+  --attrs-file ATTRS_FILE
+                        JSON object of open task attributes (same rules as --attr)
+  --context-proposal CONTEXT_PROPOSAL
+                        JSON answer to `voznativa context --interpret-prompt` from an agent;
+                        attributes without evidence are dropped and never override the user's
 ```
 
 ## `voznativa ledger`

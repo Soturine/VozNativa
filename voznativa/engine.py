@@ -132,6 +132,11 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
         block = _ptbr_block(text, context["genre"]["value"])
         if block:
             sections.append(block)
+        # v0.10 CP3: only the registry entries this text calls for, as reference material
+        from . import knowledge as knowledge_mod
+        block = knowledge_mod.prompt_block(knowledge_mod.for_text(text, context))
+        if block:
+            sections.append(block)
     if document and not create:
         carry = ", ".join(document.get("carry") or []) or "nenhum"
         sections.append(f"DOCUMENTO: este TEXTO é o trecho {document['unit']} de {document['units']} de um documento "
@@ -326,7 +331,12 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
     """Run the loop; a provider failure (after its own retries) returns the
     original with outcome ``provider_error`` instead of raising."""
     try:
-        return _rewrite(text, context, provider, profile, **kwargs)
+        result = _rewrite(text, context, provider, profile, **kwargs)
+        if context["task"] != "create":
+            # v0.10 CP3: provenance of the knowledge the writer saw (ids and reasons, no text)
+            from . import knowledge as knowledge_mod
+            result["knowledge"] = knowledge_mod.compact(knowledge_mod.for_text(text, context))
+        return result
     except ProviderError as error:
         voice_contract = contract_mod.resolve(context, profile, kwargs.get("explicit"), text)
         return _result("provider_error", text, None, [], provider, voice_contract,

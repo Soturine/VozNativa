@@ -478,6 +478,26 @@ def cmd_packs(args):
     return 0 if all(r["status"] == "valid" for r in inv["packs"]) else 1
 
 
+def cmd_knowledge(args):
+    from . import knowledge
+    if args.knowledge_command == "select":
+        _emit(knowledge.for_text(_read(args.text), _route(args), budget_chars=args.budget))
+        return 0
+    registry, errors = knowledge.load()
+    if args.json:
+        _emit({"kind": "voznativa.knowledge_inventory", "sources": registry["sources"],
+               "entries": registry["entries"], "errors": list(errors)})
+    else:
+        lines = [f"{len(registry['entries'])} entradas, {len(registry['sources'])} fontes"]
+        for e in registry["entries"]:
+            lines.append(f"  {e['id']:<28} {','.join(e['phenomena'])}  [{e['origin']}]")
+        lines += [f"  fonte {s['id']:<20} {s['nature']:<12} {s['access']:<17} {s['title'][:60]}"
+                  for s in registry["sources"].values()]
+        lines += [f"  erro: {e}" for e in errors]
+        _emit(None, "\n".join(lines))
+    return 1 if errors else 0
+
+
 def cmd_pdf(args):
     from . import pdf
     try:
@@ -725,6 +745,16 @@ def build_parser() -> argparse.ArgumentParser:
     q = ks.add_parser("validate", help="validate pack files as external contributions (strict envelope)")
     q.add_argument("files", nargs="+")
     p.set_defaults(func=cmd_packs)
+    p = sub.add_parser("knowledge", help="Linguistic Knowledge Registry: entries and sources (nature, licence, "
+                                         "access), what a text would retrieve and why; reference only, never a gate")
+    ks = p.add_subparsers(dest="knowledge_command", required=True)
+    q = ks.add_parser("list", help="entries and sources of the registry (bundled + VOZNATIVA_KNOWLEDGE_DIR)")
+    q.add_argument("--json", action="store_true")
+    q = ks.add_parser("select", help="entries this text calls for, within a character budget, with the reason")
+    q.add_argument("text")
+    q.add_argument("--budget", type=int, default=900)
+    _contract_args(q)
+    p.set_defaults(func=cmd_knowledge)
     p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
                                    "equations/code, and annotated copies; no editing of the PDF itself")
     ps = p.add_subparsers(dest="pdf_command", required=True)

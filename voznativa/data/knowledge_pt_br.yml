@@ -1,0 +1,182 @@
+# Linguistic Knowledge Registry (v0.10 CP3). Schema: voznativa/knowledge.py.
+# Statements are short paraphrases written for this project (MIT); sources are cited as
+# bibliographic references only (access: citation_only): nothing below copies their text.
+# verification: SOURCE_CITED means the reference exists and states the point in general terms;
+# page-level verification by a person is pending (VERIFIED is never set by the agent).
+schema_version: 1
+kind: voznativa.knowledge_registry
+sources:
+  - id: src-acordo-1990
+    title: "Acordo Ortográfico da Língua Portuguesa (1990), promulgado pelo Decreto nº 6.583/2008"
+    url: https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/decreto/d6583.htm
+    nature: prescriptive
+    licence: public_law
+    access: open
+    accessed: 2026-11-18
+  - id: src-volp-6
+    title: "ABL, Vocabulário Ortográfico da Língua Portuguesa, 6ª edição (consulta on-line)"
+    url: https://www.academia.org.br/nossa-lingua/vocabulario-ortografico
+    nature: prescriptive
+    licence: unknown
+    access: consultation_only
+    accessed: 2026-11-18
+  - id: src-bechara-2009
+    title: "BECHARA, E. Moderna Gramática Portuguesa. 37. ed. Rio de Janeiro: Nova Fronteira, 2009"
+    nature: prescriptive
+    licence: all_rights_reserved
+    access: citation_only
+  - id: src-castilho-2010
+    title: "CASTILHO, A. T. de. Nova Gramática do Português Brasileiro. São Paulo: Contexto, 2010"
+    nature: descriptive
+    licence: all_rights_reserved
+    access: citation_only
+  - id: src-bagno-2012
+    title: "BAGNO, M. Gramática Pedagógica do Português Brasileiro. São Paulo: Parábola, 2012"
+    nature: descriptive
+    licence: all_rights_reserved
+    access: citation_only
+  - id: src-koch-coesao
+    title: "KOCH, I. V. A coesão textual. São Paulo: Contexto (várias edições desde 1989)"
+    nature: descriptive
+    licence: all_rights_reserved
+    access: citation_only
+  - id: src-inep-2026
+    title: "Inep. A Redação do Enem 2026 — Cartilha do(a) participante (publicada em 18/09/2026)"
+    url: https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026.pdf
+    nature: prescriptive
+    licence: unknown
+    access: metadata_only
+    accessed: 2026-11-18
+entries:
+  - id: kn-haver-existencial
+    phenomena: [existential_haver]
+    area: morfossintaxe
+    statement: >-
+      "Haver" no sentido de existir ou acontecer é impessoal na norma-padrão e fica no singular
+      ("houve atrasos"); o plural é frequente na fala e em textos informais.
+    applies_to: {registers: [professional-formal, professional-natural, technical], genres: [any]}
+    variant_in: {registers: [colloquial, casual], genres: [whatsapp, social, literary]}
+    sources: [src-bechara-2009, src-castilho-2010]
+  - id: kn-fazer-tempo
+    phenomena: [impersonal_fazer]
+    area: morfossintaxe
+    statement: >-
+      "Fazer" indicando tempo decorrido é impessoal na norma-padrão ("faz três anos"); o plural
+      aparece na fala.
+    applies_to: {registers: [professional-formal, professional-natural, technical], genres: [any]}
+    variant_in: {registers: [colloquial, casual], genres: [whatsapp, social, literary]}
+    sources: [src-bechara-2009]
+  - id: kn-concordancia-nominal
+    phenomena: [plural_agreement]
+    area: morfossintaxe
+    statement: >-
+      O português brasileiro falado marca o plural de forma variável, muitas vezes só no
+      determinante ("os resultado"); a norma-padrão escrita pede a marca em todos os elementos.
+      Em texto formal é desvio; em fala representada ou mensagem informal é variante.
+    applies_to: {registers: [professional-formal, professional-natural, technical], genres: [any]}
+    variant_in: {registers: [colloquial, casual], genres: [whatsapp, social, literary]}
+    sources: [src-bechara-2009, src-bagno-2012]
+  - id: kn-ter-existencial
+    phenomena: [ter_existential]
+    area: morfossintaxe
+    statement: >-
+      "Ter" existencial ("tem muita gente na fila") é a forma mais comum no português brasileiro
+      falado e é aceitável em registro informal; em texto formal, "haver" é a preferência editorial,
+      não correção de erro.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-castilho-2010, src-bagno-2012]
+  - id: kn-para-mim-infinitivo
+    phenomena: [para_mim_infinitive]
+    area: morfossintaxe
+    statement: >-
+      Antes de infinitivo, a norma-padrão usa o pronome reto como sujeito ("para eu fazer");
+      "pra mim fazer" é variante oral muito difundida, aceitável em registro informal.
+    applies_to: {registers: [professional-formal, professional-natural, technical], genres: [any]}
+    variant_in: {registers: [colloquial, casual], genres: [whatsapp, social, literary]}
+    sources: [src-bechara-2009, src-bagno-2012]
+  - id: kn-a-gente
+    phenomena: [a_gente_plural]
+    area: morfossintaxe
+    statement: >-
+      "A gente" pede verbo na 3ª pessoa do singular na norma-padrão; "a gente vamos" é variante
+      estigmatizada, comum na fala; em diálogo literário pode ser caracterização de personagem.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-castilho-2010, src-bagno-2012]
+  - id: kn-daqui-a
+    phenomena: [daqui_ha]
+    area: ortografia
+    statement: >-
+      Tempo futuro se marca com a preposição ("daqui a dois dias"); "há" indica tempo passado
+      ("há dois dias"). "Daqui há" mistura as duas e é erro de grafia em qualquer registro escrito.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-bechara-2009]
+  - id: kn-seja-esteja
+    phenomena: [nonstandard_subjunctive]
+    area: morfologia
+    statement: >-
+      O presente do subjuntivo de "ser" e "estar" é "seja" e "esteja"; "seje" e "esteje" são
+      formas não padrão da fala. Em fala representada de personagem podem ser escolha do autor.
+    applies_to: {registers: [any], genres: [any]}
+    variant_in: {genres: [literary]}
+    sources: [src-bechara-2009, src-volp-6]
+  - id: kn-menos-invariavel
+    phenomena: [menas]
+    area: morfologia
+    statement: >-
+      "Menos" é invariável ("menos pessoas"); "menas" não está no vocabulário oficial e é forma
+      não padrão.
+    applies_to: {registers: [any], genres: [any]}
+    variant_in: {genres: [literary]}
+    sources: [src-bechara-2009, src-volp-6]
+  - id: kn-crase
+    phenomena: [crase]
+    area: ortografia
+    statement: >-
+      Não há crase antes de verbo, de palavra masculina nem de pronome pessoal ("a partir de",
+      "a pé", "a ele"); a crase é a fusão da preposição "a" com o artigo feminino.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-bechara-2009, src-acordo-1990]
+  - id: kn-concessao
+    phenomena: [relation_concession, relation_changed]
+    area: linguistica_textual
+    statement: >-
+      Concessão ("embora", "apesar de", "mesmo que", "ainda que") apresenta um fato que não impede
+      outro; trocá-la por causa ("como", "porque") afirma que um fato produziu o outro, o que muda o
+      sentido.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-koch-coesao]
+  - id: kn-contraste-consequencia
+    phenomena: [relation_contrast, relation_consequence, relation_changed]
+    area: linguistica_textual
+    statement: >-
+      Contraste ("mas", "porém", "entretanto", "contudo") e consequência ("por isso", "portanto",
+      "logo", "assim") são relações opostas; trocar uma pela outra inverte a leitura do segundo fato.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-koch-coesao]
+  - id: kn-relacao-implicita
+    phenomena: [relation_implicit, relation_invented]
+    area: linguistica_textual
+    statement: >-
+      Duas frases justapostas sem conectivo deixam a relação ao leitor; acrescentar "porque" ou
+      "por isso" afirma uma causalidade que o original não afirmou. Na dúvida, mantenha a
+      justaposição ou use uma relação temporal neutra.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-koch-coesao]
+  - id: kn-condicao-escopo
+    phenomena: [condition_scope]
+    area: semantica
+    statement: >-
+      "Desde que", "contanto que", "somente se", "salvo", "exceto" restringem o alcance do que se
+      afirma; retirá-los ou trocá-los por "e" amplia a afirmação.
+    applies_to: {registers: [any], genres: [any]}
+    sources: [src-bechara-2009]
+  - id: kn-enem-competencias
+    phenomena: [rubric_enem]
+    area: norma_institucional
+    statement: >-
+      A redação do Enem é um texto dissertativo-argumentativo avaliado em cinco competências pela
+      cartilha da edição vigente; os critérios valem só para esse gênero e essa edição, nunca para
+      outros textos.
+    applies_to: {registers: [any], genres: [enem]}
+    requires_rubric: enem
+    sources: [src-inep-2026]

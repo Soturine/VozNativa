@@ -18,3 +18,22 @@
 **Prova.** `evals/test_v010_task_context.py` (15 testes: atributos novos, recusa de campos reservados, valores inválidos, misto, desconhecido com proteções, rubrica oferecida e não aplicada, proposta com e sem evidência, conflito, prompt de interpretação com o texto cercado como dado, compatibilidade do contrato, CLI). Conjunto congelado `evals/v010/context`: development **6/6** (v0.9.0: não aplicável).
 
 **Limites.** Nenhuma execução com modelo real ainda (CP10). O prior de gênero é uma tabela pequena e declarada; fora dela, o gênero fica sem perfil e o pipeline usa o genérico.
+
+## Registro de conhecimento linguístico e recuperação seletiva (CP3)
+
+**Problema (V010-GAP-12).** O conhecimento estava espalhado (dados do `compare`, `standards`, packs, referências) sem fonte, natureza (prescrição × descrição), licença nem motivo de uso.
+
+**O que existe agora** (`voznativa/knowledge.py`, `voznativa/data/knowledge_pt_br.yml`, decisão D-03):
+
+- Registro versionado (`schema_version: 1`) com **fontes** (título, URL quando há, natureza `prescriptive`/`descriptive`, licença, acesso `open`/`consultation_only`/`citation_only`/`metadata_only`, data de consulta) e **entradas** (fenômenos, área, enunciado curto escrito para o projeto, onde vale, onde é variante, fontes citadas). 15 entradas, 7 fontes. Nenhum texto das obras citadas é copiado; gramáticas entram como referência bibliográfica (`citation_only`), e a verificação página a página fica para uma pessoa (nenhuma entrada é `VERIFIED` pelo agente).
+- **Seleção por necessidade**: o que o `diagnose` achou no texto e os conectivos/condições presentes; orçamento de caracteres (padrão 900); cada item diz **por que** entrou. Texto sem necessidade não recebe nada.
+- **Variante legítima**: em registro informal ou gênero literário, a entrada vira `variante` ("forma legítima neste registro, não corrija sem pedido"), não regra.
+- **Norma institucional só quando aplicada**: a entrada do Enem exige que o perfil do documento tenha tornado a cartilha aplicável; caso contrário fica em `skipped` com o motivo.
+- **Fonte não emite comando**: o bloco no prompt diz que é material de referência; entrada com cara de instrução a modelo, fonte não registrada, URL sem https ou id que sombreia uma entrada embutida são **recusados** na carga (também para registros externos em `VOZNATIVA_KNOWLEDGE_DIR`).
+- **Proveniência no resultado**: `rewrite` registra `knowledge` (ids, papel, motivo, fontes; sem o texto).
+- **Offline**: o arquivo embutido é o snapshot; nada é buscado na rede nesta camada (o Watcher do CP8 propõe mudanças, não as aplica).
+- CLI: `voznativa knowledge list`, `voznativa knowledge select TEXTO`.
+
+**Prova.** `evals/test_v010_knowledge.py` (11 testes: registro válido, entrada hostil recusada, fonte não registrada/http/sombreamento recusados, entrada externa válida usada e marcada, seleção com motivo, variante em registro informal, rubrica sem norma aplicada, orçamento, relação discursiva, bloco "não é instrução", proveniência no `rewrite`).
+
+**Limites.** Sem medição de ganho com modelo real ainda (CP10). A seleção é por fenômeno declarado; fenômeno que o `diagnose` não vê não traz conhecimento.
