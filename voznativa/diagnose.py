@@ -155,7 +155,6 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
     ``auto_fix`` (formal, high confidence; applied only by PROOFREAD and up),
     ``suggest`` (a person decides) or ``preserve``."""
     from . import ledger as ledger_mod
-    from .planner import _weekday_conflicts
     from .router import infer_time_of_text
     out = []
     artistic = _artistic(context, text)
@@ -187,7 +186,7 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
                           f"'{m.group(1)}' repeated", "form only", "auto_fix", fix=m.group(1)))
 
     led = ledger_mod.build(text)
-    for w in _weekday_conflicts(led):
+    for w in ledger_mod.weekday_conflicts(led):
         sentence = led.entries[w["sentence"]].sentence
         out.append(_d("internal_contradiction", "weekday_date_mismatch", "major", "high", sentence.start,
                       sentence.end, sentence.text, w.get("message", "weekday does not match the date"),

@@ -20,14 +20,8 @@ from .review import assess as assess_review
 # Who judged, relative to who wrote the candidate (v0.8, V08-GAP-16). An agent judging
 # its own candidate ("same_agent") is a dependent self-assessment: recorded as agent
 # assessment, never accepted as an independent verdict (compare.apply_judgment).
-GENERATOR_RELATIONS = {"same_agent", "same_model", "same_vendor", "different_model", "different_provider",
-                       "independence_verified", "unknown"}
-# v0.10 CP6 (V010-GAP-01/02, decision D-02): only a relation that shows independence lets an
-# LLM "equivalent" accept a candidate. "unknown" no longer does: two commands can run the same
-# model. same_vendor (another model of the same vendor) accepts with independence "partial",
-# stated in the report. independence_verified needs evidence in the judgment itself.
-ACCEPTING_RELATIONS = {"different_model", "different_provider", "independence_verified", "same_vendor"}
-PARTIAL_INDEPENDENCE = {"same_vendor", "different_model"}
+# v0.10 CP9: owned by compare (one owner, no import cycle); re-exported here.
+from .compare import ACCEPTING_RELATIONS, GENERATOR_RELATIONS, PARTIAL_INDEPENDENCE  # noqa: E402,F401
 
 CLAIM_STATUSES = {"preserved", "formula_removed", "omitted", "changed", "strengthened", "weakened", "reversed"}
 # Statuses compatible with an "equivalent" verdict. formula_removed covers emphasis

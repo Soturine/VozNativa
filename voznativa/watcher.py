@@ -148,8 +148,7 @@ def _proposal(source: dict, diff: dict, summary: dict, checked_at: str) -> dict:
         "kind": "voznativa.change_proposal", "schema_version": 1, "id": f"cp-{source['id']}-{pid}",
         "source_id": source["id"], "discovered_at": checked_at,
         "state": "NEEDS_HUMAN" if needs_human else "CANDIDATE",
-        "trail": ["DISCOVERED", "SOURCE_VERIFIED", "LICENSE_CHECKED", "DIFFERENCE_ANALYZED", "RELEVANCE_TRIAGED",
-                  "NEEDS_HUMAN" if needs_human else "CANDIDATE"],
+        "trail": list(PIPELINE[:5]) + ["NEEDS_HUMAN" if needs_human else "CANDIDATE"],
         "difference": diff, "summary_sha256": hashlib.sha256(json.dumps(summary, sort_keys=True).encode()).hexdigest(),
         "licence_check": ("licence changed: a person must re-check what the new terms allow" if licence_changed
                           else source["licence_note"]),
@@ -219,54 +218,10 @@ def check(sources: list[dict] | None = None, mode: str = "report", offline: bool
                 headers["If-None-Match"] = snapshot["etag"]
             if snapshot.get("last_modified"):
                 headers["If-Modified-Since"] = snapshot["last_modified"]
-        response, error = None, None
-        for attempt in (1, 2):
-            try:
-                response = fetcher(url, set(source["hosts"]), headers)
-                break
-            except AccessError as exc:
-                status = getattr(exc, "status", None)
-                error = {"kind": exc.kind, "status": status, "message": _clean(str(exc), 200)}
-                retryable = status == 429 or (status is not None and 500 <= status < 600)
-                if attempt == 1 and retryable:
-                    wait = 2.0
-                    if status == 429:
-                        try:
-                            wait = min(float(getattr(exc, "retry_after", None) or 5), MAX_RETRY_AFTER_S)
-                        except ValueError:
-                            wait = 5.0
-                    sleep(wait)
-                    continue
-                break
-        if response is None:
-            removed = error and error.get("status") in (404, 410)
-            results.append(dict(row, status="source_removed" if removed else "error", error=error))
-            if removed and mode == "propose":
-                proposals.append(_proposal(source, {"field": "*", "change": "source_removed",
-                                                    "status": error.get("status")}, {}, checked_at))
-            continue
-        if response["status"] == 304:
-            results.append(dict(row, status="unchanged", via="304"))
-            if mode == "propose" and snapshot:
-                _store_snapshot(directory, source["id"], dict(snapshot, checked_at=checked_at))
-            continue
-        try:
-            summary = _summary(source, response)
-        except (ValueError, KeyError, TypeError, AttributeError) as exc:
-            results.append(dict(row, status="error", error={"kind": "unparseable", "message": _clean(exc, 200)}))
-            continue
-        if len(json.dumps(summary, ensure_ascii=False)) > MAX_SUMMARY:
-            results.append(dict(row, status="error", error={"kind": "summary_too_large"}))
-            continue
-        diffs = _differences((snapshot or {}).get("summary"), summary, source)
-        status = "changed" if diffs and snapshot else "first_snapshot" if not snapshot else "unchanged"
-        results.append(dict(row, status=status, differences=diffs, summary=summary))
-        if mode == "propose":
-            _store_snapshot(directory, source["id"], {"checked_at": checked_at, "summary": summary,
-                                                      "etag": response.get("etag"),
-                                                      "last_modified": response.get("last_modified")})
-            if snapshot:
-                proposals += [_proposal(source, d, summary, checked_at) for d in diffs]
+        response, error = _fetch_with_retry(fetcher, url, source, headers, sleep, AccessError)
+        row, found = _evaluate(source, row, snapshot, response, error, directory, mode, checked_at)
+        results.append(row)
+        proposals += found
     if mode == "propose":
         for prop in proposals:
             path = directory / "proposals" / f"{prop['id']}.json"
@@ -277,6 +232,57 @@ def check(sources: list[dict] | None = None, mode: str = "report", offline: bool
             "state_dir": str(directory) if mode == "propose" else None, "results": results,
             "proposals": [p["id"] for p in proposals],
             "policy": "report/propose only; nothing in the repository, the rules or the installation was changed"}
+
+
+def _fetch_with_retry(fetcher, url: str, source: dict, headers: dict, sleep, access_error):
+    """One request, and one more only for 429 (after Retry-After, capped) or 5xx."""
+    error = None
+    for attempt in (1, 2):
+        try:
+            return fetcher(url, set(source["hosts"]), headers), None
+        except access_error as exc:
+            status = getattr(exc, "status", None)
+            error = {"kind": exc.kind, "status": status, "message": _clean(str(exc), 200)}
+            if attempt == 2 or not (status == 429 or (status is not None and 500 <= status < 600)):
+                break
+            wait = 2.0
+            if status == 429:
+                try:
+                    wait = min(float(getattr(exc, "retry_after", None) or 5), MAX_RETRY_AFTER_S)
+                except ValueError:
+                    wait = 5.0
+            sleep(wait)
+    return None, error
+
+
+def _evaluate(source, row, snapshot, response, error, directory, mode, checked_at) -> tuple[dict, list[dict]]:
+    """Result row and proposals for one fetched (or failed) source; stores the snapshot in propose mode."""
+    propose = mode == "propose"
+    if response is None:
+        removed = bool(error) and error.get("status") in (404, 410)
+        found = [_proposal(source, {"field": "*", "change": "source_removed", "status": error.get("status")}, {},
+                           checked_at)] if removed and propose else []
+        return dict(row, status="source_removed" if removed else "error", error=error), found
+    if response["status"] == 304:
+        if propose and snapshot:
+            _store_snapshot(directory, source["id"], dict(snapshot, checked_at=checked_at))
+        return dict(row, status="unchanged", via="304"), []
+    try:
+        summary = _summary(source, response)
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        return dict(row, status="error", error={"kind": "unparseable", "message": _clean(exc, 200)}), []
+    if len(json.dumps(summary, ensure_ascii=False)) > MAX_SUMMARY:
+        return dict(row, status="error", error={"kind": "summary_too_large"}), []
+    diffs = _differences((snapshot or {}).get("summary"), summary, source)
+    status = "changed" if diffs and snapshot else "first_snapshot" if not snapshot else "unchanged"
+    found = []
+    if propose:
+        _store_snapshot(directory, source["id"], {"checked_at": checked_at, "summary": summary,
+                                                  "etag": response.get("etag"),
+                                                  "last_modified": response.get("last_modified")})
+        if snapshot:
+            found = [_proposal(source, d, summary, checked_at) for d in diffs]
+    return dict(row, status=status, differences=diffs, summary=summary), found
 
 
 def _store_snapshot(directory: Path, sid: str, data: dict) -> None:

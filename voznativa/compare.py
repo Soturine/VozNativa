@@ -51,6 +51,16 @@ LIMITATIONS = [
 ]
 
 
+GENERATOR_RELATIONS = {"same_agent", "same_model", "same_vendor", "different_model", "different_provider",
+                       "independence_verified", "unknown"}
+# v0.10 CP6 (V010-GAP-01/02, decision D-02): only a relation that shows independence lets an
+# LLM "equivalent" accept a candidate. "unknown" no longer does: two commands can run the same
+# model. same_vendor (another model of the same vendor) accepts with independence "partial",
+# stated in the report. independence_verified needs evidence in the judgment itself.
+ACCEPTING_RELATIONS = {"different_model", "different_provider", "independence_verified", "same_vendor"}
+PARTIAL_INDEPENDENCE = {"same_vendor", "different_model"}
+
+
 def _jaccard(a: set, b: set) -> float:
     if not a or not b:
         return 0.0
@@ -1420,7 +1430,6 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
     relation = judgment.get("generator_relation", "unknown")
     # v0.10 CP6 (D-02): an LLM equivalent accepts only with a relation that shows independence;
     # same_agent/same_model are self-assessment and unknown is not evidence of independence.
-    from .judge import ACCEPTING_RELATIONS, PARTIAL_INDEPENDENCE
     if kind == "llm" and verdict == "equivalent" and relation not in ACCEPTING_RELATIONS:
         note = ("the agent that wrote the candidate judged it: a dependent self-assessment, not an independent "
                 "judgment; nothing is accepted on it" if relation in ("same_agent", "same_model") else

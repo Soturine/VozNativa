@@ -41,8 +41,17 @@ RESERVED = frozenset({
     "safe_to_auto_accept", "status", "constraints_override", "allow_remote", "api_url", "api_key",
 })
 # Router dimensions copied into the attribute view (closed dimensions become ordinary attributes).
-ROUTER_DIMENSIONS = ("genre", "channel", "register", "audience", "community", "structure", "language_variant",
-                     "time_of_text", "time_of_target", "target_region")
+# Router dimensions copied into the attribute view (closed dimensions become ordinary attributes);
+# one owner: router.DIMENSIONS (v0.10 CP9, Derivanta duplication candidate). Task, restrictions and
+# author voice stay in the contract: they are not context attributes.
+def _router_dimensions() -> tuple[str, ...]:
+    from .router import DIMENSIONS
+    return tuple(d for d in DIMENSIONS if d not in ("task", "restrictions", "author_voice", "region_of_text"))
+
+
+ROUTER_DIMENSIONS = _router_dimensions()
+CORE_DIMENSIONS = ("genre", "channel", "audience", "register")      # reported as unknown when absent
+SHOWN_SOURCES = SOURCES[:4]                                            # what the writer is told about
 # Free genre names -> engine genre, used only as a low-confidence prior for the closed pipeline
 # (patterns, defaults). The free value is what the writer sees.
 GENRE_PRIOR = {
@@ -199,7 +208,7 @@ def build(text: str, contract: dict, attributes: dict | None = None, agent_propo
     mixed = genre["source"] == "mixed" or any(isinstance(a["value"], list) for k, a in attrs.items()
                                               if k in ("genre", "register", "channel")) or \
         str((attrs.get("register") or {}).get("value", "")).lower() in ("mixed", "misto")
-    unknown = sorted(d for d in ("genre", "channel", "audience", "register") if d not in attrs)
+    unknown = sorted(d for d in CORE_DIMENSIONS if d not in attrs)
     hypotheses = []
     if "genre" not in attrs:
         hypotheses.append("gênero não identificado: mantidas as proteções do texto, nenhuma rubrica aplicada, "
@@ -235,7 +244,7 @@ def build(text: str, contract: dict, attributes: dict | None = None, agent_propo
 def prompt_block(task: dict) -> str | None:
     """What the writer is told about the task beyond the closed contract."""
     shown = {k: a for k, a in task["attributes"].items()
-             if a["source"] in ("explicit", "agent_proposed", "document", "standard")}
+             if a["source"] in SHOWN_SOURCES}
     if not shown and not task["hypotheses"]:
         return None
     lines = ["CONTEXTO DA TAREFA (atributos declarados; orientam a escrita, não autorizam inventar fatos):"]
