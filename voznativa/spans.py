@@ -156,9 +156,13 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("identifier", re.compile(r"\b(?:HTTP|RFC|ISO|NBR|ABNT|CVE|PEP|ADR|LGPD|PL|PR|CPU|GPU)\s?-?\d[\d.:/-]*\b")),
     ("identifier", re.compile(r"(?<![\w.])(?:[a-z]+(?:_[a-z0-9]+)+|[a-z]+(?:[A-Z][a-z0-9]+)+)(?:\(\))?(?![\w])")),
     ("identifier", re.compile(r"\b(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b")),
+    # v0.10.5 (fire trial, real text): letters glued to digits name a thing ("L1", "PETR4", "#petr4",
+    # "@usuario10"); changing the digit changed the referent and nothing noticed it.
+    ("identifier", re.compile(r"(?<![\w.@#])(?:[@#][\w.]*\d\w*|[A-Za-z]{1,20}\d{1,4}[A-Za-z]?)(?![\w])")),
     ("quantity", re.compile(
         rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?\s?(?:{_UNIT_ALT})(?![\w/])", re.I)),
-    ("ordinal", re.compile(r"\b\d+[ºª°]")),
+    # v0.10.5: the old spelling of the ordinal ("a 7a companhia", "o 1o lugar", Gutenberg texts)
+    ("ordinal", re.compile(r"\b\d+[ºª°]|\b\d{1,3}(?:a|o|as|os)\b(?=\s)")),
     ("number", re.compile(rf"(?<![\w.,])(?:{_NUM})(?:\s+(?:{_MULT_ALT})\b)?(?![\w])", re.I)),
     ("number", re.compile(r"\b(?:dobro|metade|triplo)\b", re.I)),
     # Multiplier verbs state a value ("a receita triplicou" = x3; ho-007).

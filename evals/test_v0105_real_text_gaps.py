@@ -77,5 +77,25 @@ class HardWraps(unittest.TestCase):
         self.assertTrue(flagged(original, "Ela disse: «Volto na sexta.» E saiu."))
 
 
+class DigitsGluedToLetters(unittest.TestCase):
+    """Fire trial: '7a companhia' (old ordinal), 'L1' (a term), '#petr4', '@perfil10': the digit names the referent."""
+
+    def test_defect_old_style_ordinal_changed(self):
+        self.assertTrue(flagged("O 3o pelotão chegou cedo.", "O 10o pelotão chegou cedo."))
+
+    def test_defect_alphanumeric_term_changed(self):
+        self.assertTrue(flagged("O efeito da L1 na escrita foi medido.", "O efeito da L2 na escrita foi medido."))
+        self.assertTrue(flagged("Alta de #vale3 hoje.", "Alta de #vale5 hoje."))
+        self.assertTrue(flagged("Resposta de @loja22 ontem.", "Resposta de @loja12 ontem."))
+
+    def test_defect_old_ordinal_respelled_is_the_same_value(self):
+        # false red on v0.10.0: "3º" was a new ordinal span with no counterpart
+        self.assertFalse(flagged("O 3o pelotão chegou cedo.", "O 3º pelotão chegou cedo."))
+
+    def test_controls_equivalent_forms(self):
+        self.assertFalse(flagged("Saiu às 18h30 após 10km.", "Saiu às 18:30 após 10 km."))
+        self.assertFalse(flagged("Use o formato mp3 e o Python3.", "Use o Python3 e o formato mp3."))
+
+
 if __name__ == "__main__":
     unittest.main()
