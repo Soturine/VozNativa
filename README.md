@@ -45,6 +45,7 @@ Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tenta
 | **Voice Profile e Voice Contract** | hábitos do autor por canal, sem guardar texto | IMPLEMENTED; limiares sem calibração com amostras reais |
 | **Gíria, comunidade, região** | mantém a gíria do autor e o sentido pelo contexto ("de boa qualidade" não é gíria); nunca acrescenta gíria, termo de comunidade ou regionalismo sem evidência | IMPLEMENTED; packs regionais e de comunidade em estado piloto/E0 |
 | **Corpus Registry** | 38 fontes; 7 integradas à avaliação (notícia, blog, acadêmico, tweets, avaliações, literatura do séc. XIX, traduções); política de dados por operação | IMPLEMENTED |
+| **DOCX e PDF** | DOCX: extração, reescrita numa cópia e conferência parte a parte (subconjunto: parágrafos de texto com formatação uniforme). PDF: extração rastreável por página e notas numa cópia ([v0.9](docs/releases/v0.9/DOCUMENTS.md)) | IMPLEMENTED (subconjunto declarado); renderização no Word: NOT_RUN; PDF sem caixas por palavra |
 | **Integridade e proveniência** | `integrity`: caracteres invisíveis, bidi, tags, homóglifos; cada `rewrite` devolve um registro de proveniência sem o texto | IMPLEMENTED; não detecta nem remove marca d'água estatística |
 | **Benchmarks e assurance** | suítes congeladas, `ptbr-bench-v5` fora de distribuição, qualificação local, evidência de CI vinculada ao SHA | IMPLEMENTED; braços com modelo e revisão humana: NOT_RUN |
 | **Benchmark de detectores de IA** | adapters e protocolo H0/H1/A0/A1 para *medir* detectores, nunca para contorná-los | infraestrutura IMPLEMENTED; execução real: NOT_RUN |
@@ -184,12 +185,14 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 33 subcomandos. Os mais usados:
+`voznativa --help` lista os 35 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
 | `doctor` / `demo` | conferir a instalação (cada problema com categoria e ação); ver compare, plan e diagnose funcionando sem modelo |
 | `config` | configuração efetiva do `rewrite` e a origem de cada valor |
+| `docx extract \| apply \| check`, `rewrite X.docx --docx-out Y.docx` | Word: parágrafos editáveis × protegidos, reescrita numa cópia, conferência de integridade; o original nunca é gravado |
+| `pdf extract \| annotate` | PDF (dependência opcional pypdf, `pip install "voznativa[pdf]"`): texto por página com equações e código protegidos; notas numa cópia |
 | `compare ORIGINAL CANDIDATA` | gate semântico; exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz |
 | `plan TEXTO` | o que mudar, por quê e quanto, sem modelo |
 | `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd`, `--dry-run` |

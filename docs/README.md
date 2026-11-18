@@ -10,6 +10,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | ver funcionando sem modelo nem chave (`doctor`, `demo`) | [guide/QUICKSTART.md](guide/QUICKSTART.md#1-ver-funcionando) |
 | conferir se uma reescrita mudou o sentido | [guide/QUICKSTART.md](guide/QUICKSTART.md#2-conferir-uma-reescrita) |
 | entender `NO_CHANGE`, `needs_judgment`, `returned_original` | [guide/QUICKSTART.md](guide/QUICKSTART.md#4-desfechos-do-rewrite) |
+| revisar um Word (.docx) ou extrair um PDF | [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) |
 | reescrever com um provider | [guide/QUICKSTART.md](guide/QUICKSTART.md#5-com-um-provider) |
 | revisar um documento longo | [guide/QUICKSTART.md](guide/QUICKSTART.md#6-documento-longo-normas-e-avaliação) |
 | usar como Agent Skill (Claude Code, Codex, Gemini CLI) | [guide/AGENT_SKILL.md](guide/AGENT_SKILL.md) e [`SKILL.md`](../SKILL.md) |
@@ -58,6 +59,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | Documento | Conteúdo | Estado |
 |---|---|---|
 | [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) | DOCX (extração, cópia reescrita, conferência), PDF (extração rastreável, notas), normas | vigente |
 | [v0.9/SEMANTICS.md](releases/v0.9/SEMANTICS.md) | qualificadores, classes de evento, estado do fato, aspecto, passiva, diagnóstico gramatical, termos técnicos; conjuntos congelados e holdout | vigente |
 | [v0.9/EDITORIAL.md](releases/v0.9/EDITORIAL.md) | consistência editorial entre unidades de documento longo: convergência de aberturas, memória editorial, evidência real e sintética, desempenho | vigente |
 | [v0.9/INTEGRATIONS.md](releases/v0.9/INTEGRATIONS.md) | providers e hosts executados de verdade, estado por integração, relação gerador × juiz, custos | vigente |

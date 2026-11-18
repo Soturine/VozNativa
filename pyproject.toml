@@ -16,6 +16,10 @@ license-files = ["LICENSE"]
 # The semantic layer (spans, ledger, compare, judge) is stdlib-only.
 dependencies = ["PyYAML>=6.0"]
 
+[project.optional-dependencies]
+# PDF extraction and annotated copies (voznativa pdf ...); BSD-licensed. DOCX needs nothing extra.
+pdf = ["pypdf>=4.0"]
+
 [project.scripts]
 voznativa = "voznativa.cli:main"
 

@@ -12,6 +12,8 @@ Other commands exit 0 on success.
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import sys
 from pathlib import Path
@@ -347,9 +349,102 @@ def _providers(args):
 
 
 def cmd_rewrite(args):
+    if str(args.text).lower().endswith(".docx"):
+        return _rewrite_docx(args)
+    return _rewrite_text(args)
+
+
+def _rewrite_docx(args):
+    """``rewrite FILE.docx --docx-out NEW.docx`` (v0.9 CP5): the editable paragraphs
+    go through the long-form engine as blocks (headings as context), and the
+    rewritten text is applied to a new file only if every block came back;
+    protected paragraphs never reach the model. The original is never written."""
+    import tempfile
+
+    from . import docx
+    if not args.docx_out:
+        raise ValueError("a .docx input needs --docx-out NEW.docx (the original is never written)")
+    source = Path(args.text)
+    ir = docx.extract(source)
+    text, ids = docx.to_text(ir)
+    with tempfile.TemporaryDirectory(prefix="voznativa-docx-") as tmp:
+        plain = Path(tmp) / (source.stem + ".txt")
+        plain.write_text(text, encoding="utf-8")
+        args.text = str(plain)
+        if args.long_form is None:
+            args.long_form = "on"
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            code = _rewrite_text(args, text_only=False)
+    result = json.loads(buffer.getvalue())
+    report = {"input": source.name, "elements": ir["summary"], "applied": False, "output": None}
+    if result.get("outcome") in ("accepted", "needs_judgment", "needs_review") and result["text"] != text:
+        try:
+            edits = docx.from_text(ir, ids, result["text"])
+            written = docx.apply(source, edits, args.docx_out)
+            report.update(applied=True, output=written["output"], edited=written["edited"],
+                          check=docx.check(source, args.docx_out, allowed=written["edited"]))
+        except docx.DocxError as error:
+            report["reason"] = str(error)
+    else:
+        report["reason"] = f"nothing to apply (outcome {result.get('outcome')})"
+    result["docx"] = report
+    if args.text_only:
+        _emit(None, result["text"])
+    else:
+        _emit(result)
+    return code
+
+
+def cmd_docx(args):
+    from . import docx
+    if args.docx_command == "extract":
+        ir = docx.extract(args.file)
+        if args.out:
+            Path(args.out).write_text(json.dumps(ir, ensure_ascii=False, indent=2), encoding="utf-8")
+            _emit({k: ir[k] for k in ("kind", "source", "summary")})
+        else:
+            _emit(ir)
+        return 0
+    if args.docx_command == "apply":
+        edits = json.loads(_read(args.edits))
+        if isinstance(edits, dict) and "elements" in edits:       # an edited IR: take the changed texts
+            base = {e["id"]: e["text"] for e in docx.extract(args.file)["elements"]}
+            edits = {e["id"]: e["text"] for e in edits["elements"] if e["text"] != base.get(e["id"])}
+        written = docx.apply(args.file, edits, args.out)
+        written["check"] = docx.check(args.file, args.out, allowed=written["edited"])
+        _emit(written)
+        return 0 if written["check"]["status"] == "PASS" else 1
+    report = docx.check(args.original, args.candidate)
+    _emit(report)
+    return 0 if report["status"] == "PASS" else 1
+
+
+def cmd_pdf(args):
+    from . import pdf
+    try:
+        if args.pdf_command == "extract":
+            ir = pdf.extract(args.file)
+            if args.text:
+                Path(args.text).write_text(pdf.to_text(ir), encoding="utf-8")
+            if args.out:
+                Path(args.out).write_text(json.dumps(ir, ensure_ascii=False, indent=2), encoding="utf-8")
+                _emit({k: ir[k] for k in ("kind", "source", "summary", "limits")})
+            else:
+                _emit(ir)
+            return 0
+        _emit(pdf.annotate(args.file, json.loads(_read(args.notes)), args.out))
+        return 0
+    except pdf.PdfUnavailable as error:
+        sys.stderr.write(f"voznativa: {error}\n")
+        return 69                       # sysexits EX_UNAVAILABLE: an optional component is missing
+
+
+def _rewrite_text(args, text_only: bool | None = None):
     from .engine import rewrite
     from .project import scan
     resolved = _apply_config(args)
+    text_only = args.text_only if text_only is None else text_only
     context = _route(args)
     if args.dry_run:
         return _rewrite_dry_run(args, context, resolved)
@@ -357,7 +452,7 @@ def cmd_rewrite(args):
     if args.mode:
         moded = _mode_result(_read(args.text), context, args.mode, [_read(f) for f in args.fact or []])
         if moded is not None:
-            _emit(None, moded["text"]) if args.text_only else _emit(moded)
+            _emit(None, moded["text"]) if text_only else _emit(moded)
             return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2,
                     "returned_original": 1}[moded["outcome"]]
     provider, judge = _providers(args)
@@ -390,7 +485,7 @@ def cmd_rewrite(args):
                                                                                     dict) else {})}
              for role, p in (("writer", provider), ("judge", judge)) if p is not None}
     result["provider_identity"] = usage   # program and model as configured, tokens only when the server reports them
-    if args.text_only:
+    if text_only:
         _emit(None, result["text"])
     else:
         _emit(result)
@@ -550,6 +645,32 @@ def build_parser() -> argparse.ArgumentParser:
                    help="also send one short prompt to the configured provider command (may cost money; "
                         "uses the network if the provider does)")
     p.set_defaults(func=cmd_doctor)
+    p = sub.add_parser("docx", help="Word documents: extract the editable paragraphs, apply edits to a new copy, "
+                                    "check a copy against its original (the original is never written)")
+    ds = p.add_subparsers(dest="docx_command", required=True)
+    q = ds.add_parser("extract", help="intermediate representation: paragraphs, types, editable or protected (why)")
+    q.add_argument("file")
+    q.add_argument("--out", help="write the JSON here instead of printing it")
+    q = ds.add_parser("apply", help="write a NEW file with the edited paragraphs; protected ones are refused")
+    q.add_argument("file")
+    q.add_argument("edits", help='JSON {"p3": "new text", ...} or an edited extract')
+    q.add_argument("--out", required=True, help="new .docx (must not be the original nor exist)")
+    q = ds.add_parser("check", help="integrity of a copy: parts, bytes outside document.xml, protected paragraphs")
+    q.add_argument("original")
+    q.add_argument("candidate")
+    p.set_defaults(func=cmd_docx)
+    p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
+                                   "equations/code, and annotated copies; no editing of the PDF itself")
+    ps = p.add_subparsers(dest="pdf_command", required=True)
+    q = ps.add_parser("extract", help="paragraphs per page; equation and code lines become protected placeholders")
+    q.add_argument("file")
+    q.add_argument("--out", help="write the JSON here")
+    q.add_argument("--text", help="also write the plain text (blocks) here, for rewrite/compare")
+    q = ps.add_parser("annotate", help='a NEW PDF with one note per page: JSON [{"page": 3, "text": "..."}]')
+    q.add_argument("file")
+    q.add_argument("notes")
+    q.add_argument("--out", required=True)
+    p.set_defaults(func=cmd_pdf)
     p = sub.add_parser("config", help="effective rewrite configuration: value and source of each option "
                                       "(flag > project .voznativa.toml > user file > default); writes nothing")
     p.add_argument("--json", action="store_true", help="JSON instead of text")
@@ -803,6 +924,8 @@ def build_parser() -> argparse.ArgumentParser:
                                 "1.5x --segment-words); protected blocks never reach the model")
             p.add_argument("--segment-words", type=int, help="target words per unit (long form; default 600)")
             p.add_argument("--max-calls", type=int, help="provider call budget for a long document (default 800)")
+            p.add_argument("--docx-out", help="with a .docx input: the new .docx to write (the original is never "
+                                              "written; protected paragraphs never reach the model)")
             p.add_argument("--dry-run", action="store_true",
                            help="show the plan, units, call budget and effective configuration; start no provider")
             p.add_argument("--mode", choices=[m for m in MODES if m != "CREATE"],
