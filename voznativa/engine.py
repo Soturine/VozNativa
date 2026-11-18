@@ -910,6 +910,7 @@ def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int =
             answer.update(kind="llm", original_sha256=content_hash(text), candidate_sha256=content_hash(candidate))
         answer.setdefault("judge_id", getattr(judge_provider, "id", "judge"))
         answer["generator_relation"] = relation      # the engine knows; the model's own claim is not evidence
+        answer["relation_evidence"] = "ENGINE_OBSERVED"   # v0.10.5 V105-GAP-11
         if repairs or attempt > 1:
             answer["parse_repairs"] = repairs + ([f"answered on judge attempt {attempt}"] if attempt > 1 else [])
         try:

@@ -49,7 +49,12 @@ _COMO_CAUSAL = re.compile(r"(?:^|[.!?;]\s+)Como\s+(?!sempre\b|de costume\b|previ
 
 
 def relations(text: str) -> list[dict]:
-    """Every explicit relation with its connective and offset."""
+    """Every explicit relation with its connective and offset (in the text with whitespace runs collapsed).
+
+    v0.10.5 (V105-GAP-07): multiword connectives broken by a hard line wrap ("uma vez\\nque") were invisible
+    until the lines were joined, so unwrapping a text read as an invented cause. Whitespace runs inside a
+    paragraph count as one space; a blank line is kept as a paragraph break."""
+    text = re.sub(r"[ \t]*\n(?![ \t]*\n)[ \t]*", " ", text)
     found = []
     for rel, pattern in _PATTERNS.items():
         for m in pattern.finditer(text):

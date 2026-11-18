@@ -89,6 +89,15 @@ def _within_compare_limit(*texts: str) -> None:
                              "Divida o documento ou use `rewrite --long-form`, que valida por unidades.")
 
 
+def _declared_judgment(raw: str) -> dict:
+    """A judgment read from a file: its generator_relation is what its author wrote, never observed by the engine
+    (v0.10.5 V105-GAP-11, found by the Derivanta Framework audit). The file cannot claim otherwise."""
+    judgment = json.loads(raw)
+    if isinstance(judgment, dict):
+        judgment["relation_evidence"] = "DECLARED"
+    return judgment
+
+
 def cmd_compare(args):
     from .compare import apply_judgment, compare
     from .judge import validate
@@ -96,7 +105,7 @@ def cmd_compare(args):
     _within_compare_limit(original, candidate)
     report = compare(original, candidate, _protected(args))
     for path in args.judgment or []:
-        report = apply_judgment(report, validate(json.loads(_read(path)), original, candidate))
+        report = apply_judgment(report, validate(_declared_judgment(_read(path)), original, candidate))
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -270,7 +279,7 @@ def cmd_ground(args):
         from .judge import validate_grounding
         sources = authorized_sources(request, facts, project, original=original)
         for path in args.judgment:
-            report = apply_judgment(report, validate_grounding(json.loads(_read(path)), sources, candidate))
+            report = apply_judgment(report, validate_grounding(_declared_judgment(_read(path)), sources, candidate))
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -551,9 +560,13 @@ def _rewrite_text(args, text_only: bool | None = None):
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
     text = _read(args.text)
+    # v0.10.5 (V105-GAP-08, fire trial): an explicit POLISH or ADAPT is the user asking for an edit. Before,
+    # a text without detector findings and without a destination came back as no_change and the model was
+    # never asked ("revise este resumo para clareza" with --mode POLISH). The model may still answer NO_CHANGE.
+    force = bool(args.force) or (args.mode or "").upper() in ("POLISH", "ADAPT")
     common = dict(candidates=args.candidates, judge_provider=judge, facts=[_read(f) for f in args.fact or []],
                   project=scan(args.repo) if args.repo else None, budget_words=args.budget,
-                  protect=_protected(args), force=args.force, judge_votes=args.judge_votes)
+                  protect=_protected(args), force=force, judge_votes=args.judge_votes)
     long_form = context["task"] != "create" and (
         args.long_form == "on" or (args.long_form == "auto" and len(text.split()) > 1.5 * args.segment_words))
     if long_form:
@@ -597,7 +610,8 @@ def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
     the_plan = plan(text, context)
     report = {"kind": "voznativa.rewrite.dry_run", "schema_version": 1, "provider_called": False,
               "decision": the_plan["decision"], "summary": the_plan.get("summary"),
-              "would_call_model": the_plan["decision"] != "no_change" or bool(args.force),
+              "would_call_model": the_plan["decision"] != "no_change" or bool(args.force)
+              or (getattr(args, "mode", None) or "").upper() in ("POLISH", "ADAPT"),
               "long_form": long_form, "budget": _call_budget(args, long_form),
               "provider": {"cmd": bool(args.cmd), "api": bool(args.api_url), "emulate": bool(args.emulate),
                            "judge": bool(args.judge_cmd or args.judge_api_url or args.judge_api_model),

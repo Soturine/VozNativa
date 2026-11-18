@@ -126,7 +126,11 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("command", re.compile(r"(?m)^\s*[$>]\s+\S.*$")),
     ("url", re.compile(r"\bhttps?://[^\s<>\"'`]+[^\s<>\"'`.,;:!?)\]}]")),
     ("email", re.compile(r"\b[\w.+-]+@[\w-]+(?:\.[\w-]+)+\b")),
-    ("quote", re.compile(r"“[^”\n]{1,300}”|«[^»\n]{1,300}»|\"[^\"\n]{1,300}\"")),
+    # v0.10.5 (V105-GAP-07): a quote may cross one line break (hard-wrapped text, PDF copies); before, the
+    # same quote was a span only after the lines were joined, and unwrapping read as a critical change.
+    # A blank line still ends it.
+    ("quote", re.compile(r"“(?:[^”\n]|\n(?![ \t]*\n)){1,300}”|«(?:[^»\n]|\n(?![ \t]*\n)){1,300}»|"
+                         r"\"(?:[^\"\n]|\n(?![ \t]*\n)){1,300}\"")),
     ("date", re.compile(r"\b\d{4}-\d{2}-\d{2}\b")),
     ("date", re.compile(r"\b\d{1,2}[/.-]\d{1,2}[/.-]\d{2,4}\b")),
     ("date", re.compile(
