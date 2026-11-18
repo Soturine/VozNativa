@@ -1,0 +1,47 @@
+{
+ "kind": "voznativa.frozen_sample",
+ "schema_version": 1,
+ "frozen_at": "2026-11-18",
+ "frozen_before": "the v0.9 CP4 rules (qualifiers, event classes, fact status, aspect, grammar diagnostics): no rule code existed when these hashes were taken",
+ "author": "the same agent that writes the rules (synthetic sentences, varied domains)",
+ "independent": false,
+ "use": "development: sensitivity and false alarm measured before and after, may be read while writing rules; holdout: not read while writing rules, run once after the rules are fixed and reported as is",
+ "files": {
+  "evals/v09/semantic/development.jsonl": {
+   "sha256": "a90082fda65edd9c8ae77b86ecf19fdb1c9dce25a15148584a418db5b7b2e633",
+   "cases": 51,
+   "by_expect": {
+    "clean": 20,
+    "risk": 31
+   },
+   "split": "development"
+  },
+  "evals/v09/semantic/holdout.jsonl": {
+   "sha256": "06a850c206d3fe4eb4457e150840e5ee9e2fea2990d60823c40249808424cbe2",
+   "cases": 28,
+   "by_expect": {
+    "clean": 10,
+    "risk": 18
+   },
+   "split": "holdout"
+  },
+  "evals/v09/diagnose/development.jsonl": {
+   "sha256": "6d4a56baf8a65bf1aefbff9278d757638071dcbf0c02fb6ff5809545f79fc30d",
+   "cases": 22,
+   "by_expect": {
+    "clean": 11,
+    "error": 11
+   },
+   "split": "development"
+  },
+  "evals/v09/diagnose/holdout.jsonl": {
+   "sha256": "cbaa88daca48f044680b3bd13d39489f17708989a6f3637d189fdf80e17821ce",
+   "cases": 12,
+   "by_expect": {
+    "clean": 6,
+    "error": 6
+   },
+   "split": "holdout"
+  }
+ }
+}

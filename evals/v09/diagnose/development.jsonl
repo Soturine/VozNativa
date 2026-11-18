@@ -1,0 +1,22 @@
+{"id": "dd-01", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "Os resultado da pesquisa mostram melhora no atendimento."}
+{"id": "dd-02", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "A comissão analisou todos os documento enviados pela escola."}
+{"id": "dd-03", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "Vários aluno faltaram à prova de recuperação."}
+{"id": "dd-04", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "O manual lista as etapa do processo de matrícula."}
+{"id": "dd-05", "expect": "error", "kind": "impersonal_fazer", "text": "Fazem dois anos que a biblioteca foi reformada."}
+{"id": "dd-06", "expect": "error", "kind": "impersonal_fazer", "text": "A obra está parada, e já fazem seis meses que ninguém aparece."}
+{"id": "dd-07", "expect": "error", "kind": "existential_haver", "text": "Houveram muitas reclamações sobre o barulho da obra."}
+{"id": "dd-08", "expect": "error", "kind": "existential_haver", "text": "Na reunião haviam vários moradores insatisfeitos."}
+{"id": "dd-09", "expect": "error", "kind": "crase", "text": "As inscrições ficam abertas à partir de segunda-feira."}
+{"id": "dd-10", "expect": "error", "kind": "crase", "text": "O grupo começou à organizar a feira de ciências."}
+{"id": "dd-11", "expect": "error", "kind": "crase", "text": "Os moradores foram à pé até a praça."}
+{"id": "dd-12", "expect": "clean", "kind": "clitic_pronoun", "text": "Ele os viu ontem na feira e as cumprimentou."}
+{"id": "dd-13", "expect": "clean", "kind": "invariable_noun", "text": "Os ônibus e os tórax das maquetes ficaram prontos."}
+{"id": "dd-14", "expect": "clean", "kind": "numeral", "text": "Os dois relatórios e as três planilhas chegaram."}
+{"id": "dd-15", "expect": "clean", "kind": "plural_ok", "text": "Os resultados da pesquisa mostram melhora no atendimento."}
+{"id": "dd-16", "expect": "clean", "kind": "fazer_personal", "text": "Os alunos fazem dois trabalhos por semestre."}
+{"id": "dd-17", "expect": "clean", "kind": "haver_auxiliary", "text": "Os técnicos haviam chegado antes da chuva."}
+{"id": "dd-18", "expect": "clean", "kind": "crase_ok", "text": "A doação foi entregue à mulher que coordena a horta, e o pagamento foi à vista."}
+{"id": "dd-19", "expect": "clean", "kind": "single_letter_labels", "text": "Os lotes C, E e G foram enviados; o lote A a ser enviado fica para março."}
+{"id": "dd-20", "expect": "clean", "kind": "anglicism_invariable", "text": "Os software de gestão e os hardware antigos foram trocados."}
+{"id": "dd-21", "expect": "clean", "kind": "haver_singular", "text": "Houve muitas reclamações e havia vários moradores na reunião."}
+{"id": "dd-22", "expect": "clean", "kind": "clitic_pronoun", "text": "Quando encontrei as caixas, eu as levei para o depósito."}
