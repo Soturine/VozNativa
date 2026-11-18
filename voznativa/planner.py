@@ -28,7 +28,6 @@ uses the pattern detector as one input, never as the measure of quality.
 """
 from __future__ import annotations
 
-import datetime as dt
 import difflib
 import re
 
@@ -62,30 +61,13 @@ P1_FINDINGS = {"pt_pt_variant", "orality_in_formal", "treatment_mixed"}
 MEANING_CATEGORIES = {"negation", "modality", "commitment", "condition", "causality", "quantifier", "attribution"}
 _DEPENDENT_OPENER = re.compile(r"^(?:isso|isto|esse|essa|esses|essas|este|esta|ele|ela|eles|elas|por isso|portanto|"
                                r"assim|então|mas|porém|contudo|no entanto|além disso|também|daí|logo)\b", re.I)
-WEEKDAYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 KEEP_SIMILARITY = 0.92
 
 
-def _weekday_conflicts(led) -> list[dict]:
-    """A weekday right before a full date (with year) that falls on another day."""
-    out = []
-    for entry in led.entries:
-        spans = sorted(entry.spans, key=lambda s: s.start)
-        for a, b in zip(spans, spans[1:]):
-            m = re.match(r"date:(\d{4})-(\d{2})-(\d{2})$", b.key)
-            if a.type == "weekday" and m and 0 <= b.start - a.end <= 6:
-                try:
-                    actual = WEEKDAYS[dt.date(*map(int, m.groups())).weekday()]
-                except ValueError:
-                    continue
-                stated = a.key.split(":")[1]
-                if stated != actual:
-                    out.append({"code": "weekday_date_mismatch", "sentence": entry.sentence.index,
-                                "text": f"{a.text} … {b.text}", "stated": stated, "date_is": actual,
-                                "message": f"'{a.text}' does not match {b.text} (that date is a {actual}); "
-                                           "keep it as written and tell the user"})
-    return out
 
+
+# v0.10 CP9: moved to ledger (it reads only the ledger); alias kept for callers.
+from .ledger import weekday_conflicts as _weekday_conflicts  # noqa: E402
 
 _EMBEDDED_INSTRUCTION = re.compile(
     r"(?:ignor(?:e|ar|em) (?:as |todas as |quaisquer )?(?:regras|instruções|orientações)(?: anteriores)?"
@@ -109,7 +91,9 @@ def _embedded_instructions(sents) -> list[dict]:
     return out
 
 
-_GRAMMAR_TYPES = ("plural_agreement", "impersonal_fazer", "existential_haver", "crase")
+_GRAMMAR_TYPES = ("plural_agreement", "impersonal_fazer", "existential_haver", "crase",
+                  # v0.10 CP4
+                  "daqui_ha", "nonstandard_subjunctive", "menas", "a_gente_plural")
 
 
 def _grammar_reasons(text: str, context: dict, sents) -> dict[int, list[dict]]:
@@ -121,7 +105,7 @@ def _grammar_reasons(text: str, context: dict, sents) -> dict[int, list[dict]]:
     from .diagnose import diagnose
     found: dict[int, list[dict]] = {}
     for d in diagnose(text, context)["diagnostics"]:
-        if d["class"] != "formal_error" or d["type"] not in _GRAMMAR_TYPES:
+        if d.get("status", "ERROR_CONFIRMED") != "ERROR_CONFIRMED" or d["type"] not in _GRAMMAR_TYPES:
             continue
         for sent in sents:
             if sent.start <= d["start"] < sent.end:
@@ -222,6 +206,16 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
                 r["op"] = "sentence_rewrite"
             r.pop("note", None)       # no paragraph is rewritten, so nothing changes "to fit"
 
+    # v0.10 CP11 (V010-GAP-16): an English text is not edited as Portuguese. A requested destination
+    # (target) is still honoured: translating or adapting is the user's explicit request.
+    language = ptbr.language_of(text)
+    if language["value"] == "en" and decision == "edit":
+        scope, decision = "none", "no_change"
+        for r in rows:
+            r["op"], r["reasons"], r["priority"] = "keep", [], None
+        for p in paragraphs:
+            p["op"] = "keep"
+
     tr = ptbr.treatment(text)
     names = sorted({s.text for s in led.spans if s.type == "entity"})
     consistency = {
@@ -243,6 +237,7 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
         "warnings": _weekday_conflicts(led) + _embedded_instructions(sents),
         "regional": _regional(text, context, profile),
         "literary": literary,
+        "language": language,
         "temporal": _temporal(text, context),
         "community": _community(text, context),
         "summary": {"sentences": len(rows), "keep": sum(r["op"] == "keep" for r in rows),

@@ -64,35 +64,69 @@ def host_allowed(host: str, hosts: set[str]) -> bool:
     return False
 
 
+def resolves_to_private(host: str, resolver=None) -> bool:
+    """True when ``host`` is (or resolves to) a loopback, private, link-local, multicast or
+    reserved address (v0.10 CP8: SSRF guard for the Knowledge Watcher). Unresolvable hosts are
+    treated as private: the request is refused rather than sent somewhere unknown."""
+    import ipaddress
+    import socket
+    resolver = resolver or (lambda h: [info[4][0] for info in socket.getaddrinfo(h, None)])
+    try:
+        addresses = [ipaddress.ip_address(host)]
+    except ValueError:
+        try:
+            addresses = [ipaddress.ip_address(a.split("%")[0]) for a in resolver(host)]
+        except (OSError, ValueError):
+            return True
+    return not addresses or any(a.is_private or a.is_loopback or a.is_link_local or a.is_multicast or a.is_reserved
+                                or a.is_unspecified for a in addresses)
+
+
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):  # redirects are followed by fetch(), host by host
         return None
 
 
-def fetch(url: str, hosts: set[str], limits: HttpLimits = HttpLimits(), partial: int | None = None) -> dict:
+def fetch(url: str, hosts: set[str], limits: HttpLimits = HttpLimits(), partial: int | None = None,
+          headers: dict | None = None, block_private: bool = False, resolver=None) -> dict:
     """GET ``url`` within ``limits``; every redirect target must be in ``hosts``.
     Returns status, final URL, content type, byte count and the text (decoded,
     capped). With ``partial=N`` only the first N bytes are requested (HTTP
     Range) and read; the result says ``truncated`` instead of failing.
     Raises AccessError with kind ``host_not_allowed``, ``too_large``,
-    ``timeout``, ``http`` or ``network``."""
+    ``timeout``, ``http`` or ``network``.
+
+    v0.10 CP8: ``headers`` adds request headers (conditional GET: ``If-None-Match``,
+    ``If-Modified-Since``); a 304 returns ``status 304`` with no text. ``block_private``
+    refuses any hop whose host resolves to a private or loopback address (kind
+    ``private_address``). The result carries ``etag``, ``last_modified`` and ``retry_after``
+    when the server sends them; HTTP errors keep their code in ``AccessError.status``."""
     opener = urllib.request.build_opener(_NoRedirect)
     current, started = url, time.monotonic()
     for _ in range(limits.max_redirects + 1):
         parts = urllib.parse.urlsplit(current)
         if parts.scheme not in {"https", "http"} or not host_allowed(parts.hostname or "", hosts):
             raise AccessError("host_not_allowed", f"{parts.hostname} is not a host of this registry entry")
-        headers = {"User-Agent": USER_AGENT}
+        if block_private and resolves_to_private(parts.hostname or "", resolver):
+            raise AccessError("private_address", f"{parts.hostname} resolves to a private or local address")
+        sent = {"User-Agent": USER_AGENT, **(headers or {})}
         if partial:
-            headers["Range"] = f"bytes=0-{partial - 1}"
-        request = urllib.request.Request(current, headers=headers)
+            sent["Range"] = f"bytes=0-{partial - 1}"
+        request = urllib.request.Request(current, headers=sent)
         try:
             response = opener.open(request, timeout=limits.timeout_s)
         except urllib.error.HTTPError as error:
             if error.code in {301, 302, 303, 307, 308} and error.headers.get("Location"):
                 current = urllib.parse.urljoin(current, error.headers["Location"])
                 continue
-            raise AccessError("http", f"HTTP {error.code} from {parts.hostname}") from None
+            if error.code == 304:
+                return {"status": 304, "url": current, "content_type": None, "bytes": 0, "truncated": False,
+                        "seconds": round(time.monotonic() - started, 2), "text": "",
+                        "etag": error.headers.get("ETag"), "last_modified": error.headers.get("Last-Modified")}
+            failure = AccessError("http", f"HTTP {error.code} from {parts.hostname}")
+            failure.status = error.code
+            failure.retry_after = error.headers.get("Retry-After") if error.headers else None
+            raise failure from None
         except (urllib.error.URLError, OSError) as error:
             reason = getattr(error, "reason", error)
             text = f"{type(reason).__name__}: {reason}".lower()
@@ -110,7 +144,8 @@ def fetch(url: str, hosts: set[str], limits: HttpLimits = HttpLimits(), partial:
             charset = response.headers.get_content_charset() or "utf-8"
             return {"status": response.status, "url": current, "content_type": response.headers.get_content_type(),
                     "bytes": len(data), "truncated": truncated, "seconds": round(time.monotonic() - started, 2),
-                    "text": data.decode(charset, "replace")}
+                    "text": data.decode(charset, "replace"), "etag": response.headers.get("ETag"),
+                    "last_modified": response.headers.get("Last-Modified")}
     raise AccessError("http", f"more than {limits.max_redirects} redirects")
 
 

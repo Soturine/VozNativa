@@ -122,8 +122,19 @@ def build_prompt(text: str, context: dict, voice_contract: dict, selection: dict
             sections.append(block)
     if targets and not create:
         sections.append(_targets_block(targets))
+    if context.get("task_context"):
+        # v0.10 CP2: open attributes (tone, purpose, unmapped genres) and the hypotheses made
+        from .task_context import prompt_block as task_block
+        block = task_block(context["task_context"])
+        if block:
+            sections.append(block)
     if not create:
         block = _ptbr_block(text, context["genre"]["value"])
+        if block:
+            sections.append(block)
+        # v0.10 CP3: only the registry entries this text calls for, as reference material
+        from . import knowledge as knowledge_mod
+        block = knowledge_mod.prompt_block(knowledge_mod.for_text(text, context))
         if block:
             sections.append(block)
     if document and not create:
@@ -320,7 +331,12 @@ def rewrite(text: str, context: dict, provider: Provider, profile: dict | None =
     """Run the loop; a provider failure (after its own retries) returns the
     original with outcome ``provider_error`` instead of raising."""
     try:
-        return _rewrite(text, context, provider, profile, **kwargs)
+        result = _rewrite(text, context, provider, profile, **kwargs)
+        if context["task"] != "create":
+            # v0.10 CP3: provenance of the knowledge the writer saw (ids and reasons, no text)
+            from . import knowledge as knowledge_mod
+            result["knowledge"] = knowledge_mod.compact(knowledge_mod.for_text(text, context))
+        return result
     except ProviderError as error:
         voice_contract = contract_mod.resolve(context, profile, kwargs.get("explicit"), text)
         return _result("provider_error", text, None, [], provider, voice_contract,
@@ -806,10 +822,15 @@ def _generator_relation(provider, judge_provider) -> str:
         return "same_agent"
     # v0.9 CP2: two command lines that differ in one argument (a log folder, a role name)
     # can still run the same model; the first v0.8.1 dogfood accepted a unit that way.
-    from .providers import AGENT_CLIS, identity
+    from .providers import AGENT_CLIS, identity, vendor_of
     a, b = identity(provider), identity(judge_provider)
     if a["model"] and b["model"]:
-        return "same_agent" if a["model"].lower() == b["model"].lower() else "different_model"
+        if a["model"].lower() == b["model"].lower():
+            return "same_model"                          # v0.10: same model, another instance
+        va, vb = vendor_of(a), vendor_of(b)
+        if va and vb:
+            return "same_vendor" if va == vb else "different_provider"
+        return "different_model"                         # vendor not observable: no claim beyond the model
     if a["program"] and a["program"] == b["program"] and a["program"] in (*AGENT_CLIS, "ollama", "http"):
         # same agent CLI (or the same API adapter) and no evidence of a different model
         return "same_agent"

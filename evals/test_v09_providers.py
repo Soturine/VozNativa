@@ -190,7 +190,7 @@ class ChatAPIThroughTheEngine(unittest.TestCase):
         self.addCleanup(server.close)
         writer = ChatAPIProvider(server.url, "modelo-x")
         judge = ChatAPIProvider(server.url, "modelo-x", id="outro-id")
-        self.assertEqual(engine._generator_relation(writer, judge), "same_agent")
+        self.assertEqual(engine._generator_relation(writer, judge), "same_model")   # v0.10: named precisely
 
 
 class GeneratorRelation(unittest.TestCase):
@@ -200,9 +200,12 @@ class GeneratorRelation(unittest.TestCase):
         rel = engine._generator_relation
         # v0.8.1 first dogfood: same model, command lines differing in one argument
         self.assertEqual(rel(cmd("claude", "-p", "--model", "sonnet", "--log", "w"),
-                             cmd("claude", "-p", "--model", "sonnet", "--log", "j")), "same_agent")
+                             cmd("claude", "-p", "--model", "sonnet", "--log", "j")), "same_model")
+        # v0.10: two models through the same vendor's CLI are same_vendor, not independent providers
         self.assertEqual(rel(cmd("claude", "-p", "--model=opus"), cmd("claude", "-p", "--model", "sonnet")),
-                         "different_model")
+                         "same_vendor")
+        self.assertEqual(rel(cmd("claude", "-p", "--model", "claude-opus-5-5"), cmd("x", "--model", "gpt-5")),
+                         "different_provider")
         self.assertEqual(rel(cmd("claude", "-p", "--tools", ""), cmd("claude", "-p")), "same_agent")
         self.assertEqual(rel(cmd("claude", "-p"), cmd("codex", "exec")), "unknown")
         self.assertEqual(rel(cmd("python", "a.py"), cmd("python", "b.py")), "unknown")

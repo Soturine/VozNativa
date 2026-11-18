@@ -72,6 +72,34 @@ def _sentence_of(offset: int, sents) -> int:
     return sents[-1].index if sents else 0
 
 
+# v0.10 CP11 (V010-GAP-16, dogfood on the English README of Assertiva): the Portuguese layers read English
+# as Portuguese ("as pytest" -> plural_agreement; 42 English words planned as anglicisms to replace).
+# Function words that exist in only one of the two languages; ambiguous ones ("a", "as", "no", "do",
+# "se", "e") are left out. Code blocks and inline code are removed first.
+_EN_ONLY = frozenset("the and of to is are was were be been with for that this these those it its which when what "
+                     "does do not or by an on from have has had will would can should could into than then there "
+                     "their they you your we our how why where if only also any each".split())
+_PT_ONLY = frozenset("de que não para com um uma em da das dos na nas nos pelo pela pelos pelas é são foi ser está "
+                     "mais mas como ao aos à às ou seu sua seus suas este esta isso isto também quando onde porque "
+                     "muito já ainda sem sobre entre depois antes até".split())
+_CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
+
+
+def language_of(text: str) -> dict:
+    """``pt``, ``en`` or ``unknown`` from function words only (no model, no guess on short text).
+    English needs at least 8 English-only function words and three times as many as Portuguese-only ones."""
+    words = re.findall(r"[^\W\d_]+", _CODE.sub(" ", text).lower())
+    en = sum(w in _EN_ONLY for w in words)
+    pt = sum(w in _PT_ONLY for w in words)
+    if en >= 8 and en >= 3 * max(pt, 1):
+        value = "en"
+    elif pt >= 3 and pt >= en:
+        value = "pt"
+    else:
+        value = "unknown"
+    return {"value": value, "evidence": {"en_function_words": en, "pt_function_words": pt}}
+
+
 def variant_markers(text: str) -> list[dict]:
     plain = _unquoted(text)
     found = []

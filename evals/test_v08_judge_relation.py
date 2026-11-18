@@ -51,10 +51,17 @@ class Contract(unittest.TestCase):
         merged = apply_judgment(self.report, judgment("not_equivalent", "same_agent"))
         self.assertEqual(merged["status"], "fail")
 
-    def test_unknown_or_different_model_keeps_the_previous_contract(self):
-        for relation in (None, "unknown", "different_model"):
+    def test_independent_relations_accept_and_unknown_no_longer_does(self):
+        # v0.10 CP6 (V010-GAP-01, decision D-02): before, None/"unknown" accepted like different_model.
+        for relation in ("different_model", "different_provider", "same_vendor"):
             with self.subTest(relation=relation):
                 self.assertEqual(apply_judgment(self.report, judgment(relation=relation))["status"], "accepted_by_llm")
+        for relation in (None, "unknown", "same_model", "same_agent"):
+            with self.subTest(relation=relation):
+                report = apply_judgment(self.report, judgment(relation=relation))
+                self.assertEqual(report["status"], "no_deterministic_issues")
+                self.assertIn("independent_judgment", report["requires"])
+                self.assertFalse(report["safe_to_auto_accept"])
 
     def test_invalid_relation_is_refused(self):
         with self.assertRaises(ValueError):
@@ -91,8 +98,16 @@ class Engine(unittest.TestCase):
         self.assertEqual(result["outcome"], "needs_judgment", "a self-assessment must not accept")
 
     def test_a_separate_judge_still_accepts_and_its_own_claim_is_ignored(self):
-        result = self.run_with(OneProvider(), OneProvider())
+        writer, judge = OneProvider(), OneProvider()
+        writer.model, judge.model = "writer-model", "judge-model"     # v0.10: independence must be observable
+        result = self.run_with(writer, judge)
         self.assertEqual(result["outcome"], "accepted")
+        self.assertEqual(result["report"]["evidence"]["judgments"][-1]["generator_relation"], "different_model")
+
+    def test_two_undeclared_providers_no_longer_accept(self):
+        result = self.run_with(OneProvider(), OneProvider())
+        self.assertEqual(result["outcome"], "needs_judgment")
+        self.assertEqual(result["report"]["agent_assessment"]["generator_relation"], "unknown")
 
     def test_same_command_line_is_the_same_agent(self):
         class Cmd:

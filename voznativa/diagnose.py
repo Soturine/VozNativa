@@ -30,9 +30,26 @@ from __future__ import annotations
 
 import re
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2   # v0.10 CP4: every diagnostic also has ``status`` and ``recommend_edit``
 CLASSES = ("formal_error", "possible_contextual_error", "internal_contradiction", "source_mismatch",
-           "legitimate_choice", "literary_license", "unresolved_ambiguity", "no_evidence")
+           "legitimate_choice", "literary_license", "unresolved_ambiguity", "no_evidence", "style_preference")
+# v0.10 CP4 (V010-GAP-10): what the finding means in this context, separate from detecting it.
+# Only ERROR_CONFIRMED recommends an edit; the others describe a phenomenon a person may keep.
+STATUSES = ("ERROR_CONFIRMED", "ACCEPTABLE_VARIANT", "STYLE_PREFERENCE", "CONTEXT_DEPENDENT", "LITERARY_CHOICE",
+            "UNCERTAIN", "NO_CHANGE_EXPECTED")
+# Grammar types that the knowledge registry describes as legitimate variants in informal registers.
+VARIANT_IN_INFORMAL = frozenset({"plural_agreement", "existential_haver", "impersonal_fazer", "para_mim_infinitive",
+                                 "ter_existential"})
+
+
+def status_of(d: dict, informal: bool) -> str:
+    cls = d["class"]
+    if cls == "formal_error":
+        return "ERROR_CONFIRMED"
+    if cls == "possible_contextual_error":
+        return "ACCEPTABLE_VARIANT" if informal and d["type"] in VARIANT_IN_INFORMAL else "CONTEXT_DEPENDENT"
+    return {"literary_license": "LITERARY_CHOICE", "legitimate_choice": "ACCEPTABLE_VARIANT",
+            "style_preference": "STYLE_PREFERENCE"}.get(cls, "UNCERTAIN")
 MODES = {
     "PRESERVE": {"task": "audit", "rewrite": False, "authorized": []},
     "REVIEW": {"task": "audit", "rewrite": False, "authorized": []},
@@ -138,7 +155,6 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
     ``auto_fix`` (formal, high confidence; applied only by PROOFREAD and up),
     ``suggest`` (a person decides) or ``preserve``."""
     from . import ledger as ledger_mod
-    from .planner import _weekday_conflicts
     from .router import infer_time_of_text
     out = []
     artistic = _artistic(context, text)
@@ -170,7 +186,7 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
                           f"'{m.group(1)}' repeated", "form only", "auto_fix", fix=m.group(1)))
 
     led = ledger_mod.build(text)
-    for w in _weekday_conflicts(led):
+    for w in ledger_mod.weekday_conflicts(led):
         sentence = led.entries[w["sentence"]].sentence
         out.append(_d("internal_contradiction", "weekday_date_mismatch", "major", "high", sentence.start,
                       sentence.end, sentence.text, w.get("message", "weekday does not match the date"),
@@ -207,14 +223,24 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
                       "pre-reform spelling: the text's time, not an error to modernise without a request",
                       "none", "preserve"))
 
-    out += _grammar(text, informal, artistic)
+    from .ptbr import language_of
+    language = language_of(text)
+    if language["value"] != "en":       # v0.10 CP11: Portuguese grammar is not checked on English text
+        out += _grammar(text, informal, artistic)
     out += _tense_mix(text, artistic)
     grounding = _grounding(text, facts, context)
     out += grounding["diagnostics"]
     out.sort(key=lambda d: (d["start"], d["class"]))
+    for d in out:
+        d["status"] = status_of(d, informal)
+        d["recommend_edit"] = d["status"] == "ERROR_CONFIRMED"
     counts = {c: sum(d["class"] == c for d in out) for c in CLASSES}
     return {"kind": "voznativa.diagnosis", "schema_version": SCHEMA_VERSION, "diagnostics": out,
-            "counts": {k: v for k, v in counts.items() if v}, "grounding": grounding["status"],
+            "counts": {k: v for k, v in counts.items() if v},
+            "statuses": {st: n for st in STATUSES if (n := sum(d["status"] == st for d in out))},
+            "grounding": grounding["status"],
+            **({"language": language, "skipped": "Portuguese grammar checks: the text is in English"}
+               if language["value"] == "en" else {}),
             "note": "diagnostics of the source; none is applied automatically except formal fixes in an "
                     "authorising mode"}
 
@@ -233,13 +259,29 @@ _CLITIC_ATTRACTORS = frozenset(
     "eu tu ele ela nós vós eles elas você vocês que não nunca jamais já se quem também só ainda sempre ninguém "
     "alguém tudo isso isto aquilo me te lhe nos vos lhes onde quando como porque".split())
 _VERB_ENDING = re.compile(r"(?:ou|eu|iu|aram|eram|iram|ava|avam|ia|iam|ará|erá|irá|arão|erão|irão|ei|amos|emos|imos)$")
+# v0.10 CP7 (V010-GAP-15, real text: UD Portuguese-GSD test, 10 of 11 ERROR_CONFIRMED were false):
+# a plural determiner that is a pronoun ("Outras estão", "muitos acharam", "esses foram", "outros
+# tenham") or a clitic ("os ajudam") before a third-person plural verb or a form of ser/estar/ir.
+_PLURAL_VERB = re.compile(r"(?:am|ram|vam|iam|rão|ão)$")
+_VERB_FORMS = frozenset("foi é era será seria são estão vão dão têm vêm há tem vem pode podem deve devem "
+                        "fica ficam ficou".split())
+# Singular nouns in -em that a plural verb ending would hide ("muitos homem" must stay an error);
+# -gem nouns (viagem, imagem, margem) are excluded by their ending.
+_NOUN_IN_EM = frozenset("homem ordem jovem nuvem refém armazém desdém vintém harém item totem também alguém "
+                        "ninguém bem trem".split())
+_PRONOUN_DETERMINERS = frozenset("todos todas muitos muitas poucos poucas outros outras alguns algumas vários "
+                                 "várias diversos diversas esses essas estes estas aqueles aquelas tais".split())
+_NOUN_IN_AO = frozenset("mão irmão cidadão órgão órfão cão pão chão grão mamão limão sertão alemão "
+                        "cristão pagão capitão escrivão".split())
 _PREP_BEFORE_ARTICLE = frozenset("de em para com por sobre entre sem até após contra perante todos todas".split())
 _NOT_A_NOUN = frozenset(
     "que quais quanto quantos quantas qual cujo cuja mesmo mesma demais seguinte próprio própria um uma dois duas três "
     "quatro cinco seis sete oito nove dez onze doze treze catorze quatorze quinze dezesseis dezessete dezoito dezenove "
     "vinte trinta quarenta cinquenta sessenta setenta oitenta noventa cem cento duzentos duzentas mil milhão milhões "
     "e ou nem mas de a o em por para com sem se não já ainda mais menos muito pouco bem mal quem onde quando como "
-    "dele dela deles delas nele nela isso isto aquilo outro outra tal".split())
+    "dele dela deles delas nele nela isso isto aquilo outro outra tal "
+    # v0.10 CP7: adverbs after a determiner in edited text ("dos cerca de 60", "às quase", "as então")
+    "cerca quase então apenas só somente ainda sempre também".split())
 _NUMBER_WORDS = re.compile(r"\d")
 _ANGLICISM_END = re.compile(r"(?:ware|ing|er|ion|ment|ness|ity|ow|ay|ey|ck|sh|th)$")
 _FAZER_TIME = re.compile(
@@ -259,6 +301,27 @@ _FAZER_FIX = {"fazem": "faz", "faziam": "fazia", "fizeram": "fez", "farão": "fa
 _CRASE = re.compile(r"\bà\s+(partir\b|pé\b|cavalo\b|prazo\b|ele\b|eles\b|você\b|vocês\b|"
                     r"[^\W\d_]+(?:ar|er|ir)\b)", re.I)
 _CRASE_FEMININE_ER = frozenset({"mulher", "colher"})   # feminine nouns ending like an infinitive
+# v0.10 CP4 (V010-GAP-09). "daqui há" mixes the future preposition with the past "há": a spelling
+# error in any written register (controls: "daqui a dois dias", "há doze anos").
+_DAQUI_HA = re.compile(r"\b(daqui)\s+(há)\b", re.I)
+_SUBJUNCTIVE = re.compile(r"\b(seje|sejem|esteje|estejem)\b", re.I)
+_SUBJUNCTIVE_FIX = {"seje": "seja", "sejem": "sejam", "esteje": "esteja", "estejem": "estejam"}
+_MENAS = re.compile(r"\b(menas)\b", re.I)
+# "pra mim fazer": the standard asks "para eu fazer", but "difícil para mim aceitar" is grammatical
+# (for me, to accept): never formal_error, only context-dependent or an informal variant.
+_PARA_MIM = re.compile(r"\b(pr?a(?:ra)?\s+mim)\s+([^\W\d_]+(?:ar|er|ir|or))\b", re.I)
+# sentence-initial existential "ter" ("Tem muita gente na fila"); not "tem que/de", "tem razão".
+_TER_EXIST = re.compile(r"^(Tem|Tinha|Teve)\s+(?!que\b|de\b|razão\b|certeza\b|como\b|sido\b)([^\W\d_]+)")
+_A_GENTE = re.compile(r"\b(a gente)\s+([^\W\d_]+mos)\b", re.I)
+_A_GENTE_NOT_VERB = frozenset({"mesmos", "todos", "ramos", "anos", "mesmas"})
+
+
+def _looks_plural_verb(word: str) -> bool:
+    if word in _VERB_FORMS:
+        return True
+    if word.endswith("ão"):
+        return word not in _NOUN_IN_AO and (word.endswith("rão") or word in {"estão", "são", "vão", "dão"})
+    return bool(_PLURAL_VERB.search(word)) and not word.endswith(("ão",))
 
 
 def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
@@ -287,12 +350,20 @@ def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
                 # "os"/"as" are also clitic pronouns: before a verb ("eu as levei", "a diretora as
                 # recebeu") or after a word that attracts the pronoun ("ele", "que", "não").
                 previous = tokens[k - 1].group(0).lower() if k else None
-                verb_next = _VERB_ENDING.search(tokens[k + 1].group(0).lower())
+                verb_next = _VERB_ENDING.search(tokens[k + 1].group(0).lower()) or \
+                    _looks_plural_verb(tokens[k + 1].group(0).lower())
                 if k and previous not in _PREP_BEFORE_ARTICLE and (previous in _CLITIC_ATTRACTORS or verb_next):
                     continue
             elif low not in _PLURAL_DETERMINERS:
                 continue
             word = noun.lower()
+            if low not in _SENTENCE_START_ONLY and (_looks_plural_verb(word) or word in _VERB_FORMS):
+                continue        # the determiner is a pronoun subject: "outros tenham", "esses foram"
+            if low in _PRONOUN_DETERMINERS and (word.endswith("ndo") or (
+                    word.endswith("em") and not word.endswith("gem") and word not in _NOUN_IN_EM)):
+                continue        # "Muitos aprendem", "todos desliguem", "muitas sendo" (GSD dev, v0.10 CP7)
+            if re.match(r"\s*-", s.text[tokens[k + 1].end():]):
+                continue        # hyphenated compound split by spaces ("rubro - negros")
             if (not noun.isalpha() or noun[:1].isupper() or len(word) < 3 or word in _NOT_A_NOUN
                     or word.endswith(("s", "x", "z")) or _NUMBER_WORDS.search(word) or _ANGLICISM_END.search(word)
                     or s.text[tokens[k].end():tokens[k + 1].start()].strip()):
@@ -317,6 +388,48 @@ def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
             fix = fix.capitalize() if verb[:1].isupper() else fix
             add("existential_haver", s.start + m.start(1), s.start + m.end(1), verb,
                 f"'{verb} {m.group(2)}': 'haver' meaning 'existir' is impersonal (singular)", fix)
+        for m in _DAQUI_HA.finditer(s.text):
+            start, end = s.start + m.start(), s.start + m.end()
+            fix = m.group(1) + " a"
+            if artistic:
+                out.append(_d("literary_license", "daqui_ha", "info", "medium", start, end, m.group(0),
+                              "'daqui há': future time takes 'a' (literary text: may be the author's choice)",
+                              "none", "preserve"))
+            else:
+                # spelling, not register: wrong in a chat message too
+                out.append(_d("formal_error", "daqui_ha", "minor", "high", start, end, m.group(0),
+                              "'daqui há': future time takes the preposition ('daqui a'); 'há' marks the past",
+                              "form only", "auto_fix", fix=fix))
+        for m in _SUBJUNCTIVE.finditer(s.text):
+            word = m.group(1)
+            fix = _SUBJUNCTIVE_FIX[word.lower()]
+            add("nonstandard_subjunctive", s.start + m.start(1), s.start + m.end(1), word,
+                f"'{word}': the subjunctive of ser/estar is '{fix}'", fix.capitalize() if word[:1].isupper() else fix)
+        for m in _MENAS.finditer(s.text):
+            word = m.group(1)
+            add("menas", s.start + m.start(1), s.start + m.end(1), word, "'menas': 'menos' is invariable",
+                "Menos" if word[:1].isupper() else "menos")
+        for m in _PARA_MIM.finditer(s.text):
+            start, end = s.start + m.start(), s.start + m.end()
+            if artistic:
+                continue
+            cls = "legitimate_choice" if informal else "possible_contextual_error"
+            out.append(_d(cls, "para_mim_infinitive", "info", "medium", start, end, m.group(0),
+                          f"'{m.group(1)} {m.group(2)}': before an infinitive the standard uses 'eu' as its subject; "
+                          "'pra mim' is a widespread spoken form (and 'difícil para mim aceitar' is grammatical)",
+                          "form only", "suggest" if not informal else "preserve"))
+        m = _TER_EXIST.match(s.text)
+        if m and not artistic:
+            cls = "legitimate_choice" if informal else "style_preference"
+            out.append(_d(cls, "ter_existential", "info", "medium", s.start + m.start(1), s.start + m.end(1),
+                          m.group(1), "existential 'ter': common Brazilian Portuguese; formal writing tends to "
+                          "prefer 'haver' (an editorial preference, not an error)", "none",
+                          "preserve" if informal else "suggest"))
+        for m in _A_GENTE.finditer(s.text):
+            if m.group(2).lower() in _A_GENTE_NOT_VERB:
+                continue
+            add("a_gente_plural", s.start + m.start(), s.start + m.end(), m.group(0),
+                f"'{m.group(0)}': 'a gente' takes the verb in the third person singular")
         for m in _CRASE.finditer(s.text):
             target = m.group(1).lower()
             if target in _CRASE_FEMININE_ER:

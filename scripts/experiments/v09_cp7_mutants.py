@@ -72,7 +72,16 @@ MUTANTS = [
 
 
 def run_tests(module: str) -> bool:
-    done = subprocess.run([sys.executable, "-m", "unittest", f"evals.{module}"], cwd=ROOT, capture_output=True)
+    # v0.10 CP12: no bytecode cache. Two mutants of the same length applied to the same file within one
+    # second share the source's mtime (seconds) and size, so a cached .pyc of the previous mutant passed as
+    # valid and the wrong code ran (a mutant "survived" that the tests kill when run alone).
+    import os
+    import shutil
+    for cache in ROOT.rglob("__pycache__"):
+        shutil.rmtree(cache, ignore_errors=True)
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    done = subprocess.run([sys.executable, "-m", "unittest", f"evals.{module}"], cwd=ROOT, capture_output=True,
+                          env=env)
     return done.returncode == 0
 
 

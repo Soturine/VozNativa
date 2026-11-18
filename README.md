@@ -13,7 +13,7 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 | quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
 | quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-**Estado:** `0.9.0` (GitHub release com tag anotada `v0.9.0`; não publicada no PyPI). Instalação e configuração mais simples, providers por contrato (inclusive servidor local), sinais novos para mudança de sentido com valores intactos, diagnóstico gramatical, consistência editorial em documentos longos, DOCX numa cópia segura, PDF com escopo honesto e packs com contrato ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.9/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
+**Estado:** `0.10.0` (GitHub release com tag anotada `v0.10.0`; não publicada no PyPI). Contexto aberto da tarefa (atributos livres, gênero inédito sem código, misto e desconhecido declarados), conhecimento linguístico com fontes entregue ao escritor só quando o texto pede, status de diagnóstico que separa erro de variante legítima, relações discursivas no gate, juiz de modelo que só aprova com independência observável, Knowledge Watcher que propõe e nunca aplica, e dogfood recíproco com correções em Assertiva e Derivanta ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.10/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
 ## Em 30 segundos
 
@@ -35,13 +35,16 @@ Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tenta
 
 | Grupo | O que faz | Estado |
 |---|---|---|
-| **Semantic Ledger e `compare`** | inventário de valores (números por extenso, datas, horas, dinheiro, versões, caminhos), negação, modalidade, quantificadores, condições, causalidade, atribuição, papéis agente/paciente; mudanças dentro de uma frase e entre frases e parágrafos (negação deslocada, frase que retoma a anterior movida, frase curta acrescentada) | IMPLEMENTED; pronomes e correferência: NOT_IMPLEMENTED |
+| **Semantic Ledger e `compare`** | inventário de valores (números por extenso, datas, horas, dinheiro, versões, caminhos), negação, modalidade, quantificadores, condições, causalidade, atribuição, papéis agente/paciente; mudanças dentro de uma frase e entre frases e parágrafos (negação deslocada, frase que retoma a anterior movida, frase curta acrescentada); relações discursivas por família (concessão virando causa, contraste virando consequência, causa inventada entre fatos justapostos) e ação coordenada perdida (v0.10); juiz de modelo só aprova com independência observável | IMPLEMENTED; pronomes e correferência: NOT_IMPLEMENTED |
 | **Context Router (contrato v3)** | 14 dimensões (gênero, canal, registro, época do texto, variedade, estrutura, público…) com valor, fonte e confiança; abstém-se (`unknown`) em vez de chutar e mantém proteções conservadoras | IMPLEMENTED |
+| **Contexto aberto (TaskContext)** | qualquer atributo da tarefa (`--attr tone=cordial`, `--attr "genre=roteiro de podcast"`, listas para texto misto) com proveniência e confiança; gênero novo sem código; desconhecido, misto e conflitos relatados com a escolha conservadora feita; campos de segurança recusados; proposta de um agente (`context --interpret-prompt`) nunca vence o pedido do usuário; norma (Enem) só oferecida, aplicada com perfil do documento ([v0.10](docs/releases/v0.10/CONTEXT_AND_KNOWLEDGE.md)) | IMPLEMENTED; com modelo real sem ganho demonstrado (n = 1, [avaliação](docs/releases/v0.10/EVALUATION.md)) |
+| **Conhecimento linguístico** | registro com fontes (natureza prescritiva/descritiva, licença, acesso); o escritor recebe só o que o texto pede, com motivo e orçamento; variante legítima marcada como tal; entrada com cara de instrução é recusada; `knowledge list \| select` | IMPLEMENTED; enunciados escritos para o projeto, fontes citadas sem verificação página a página |
+| **Knowledge Watcher** | `knowledge check \| status \| proposals`: fontes oficiais (PyPI, treebanks UD, Crossref, Inep) consultadas com GET condicional e bloqueio de endereço privado; mudanças viram propostas para uma pessoa, nunca aplicadas ([v0.10](docs/releases/v0.10/KNOWLEDGE_WATCHER.md)) | IMPLEMENTED (report/propose); agendamento: SCHEDULER_READY, não ativo |
 | **Planner e Rewrite Engine** | decide por frase o que manter, cortar ou reescrever; não chama o modelo quando não há o que mudar (`NO_CHANGE`); valida, tenta de novo, devolve o original se nada for seguro | IMPLEMENTED |
 | **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento; memória editorial entre unidades (grafia dos termos, aberturas já repetidas) e sinal `style_convergence` quando a reescrita faz as unidades convergirem para a mesma abertura ([v0.9](docs/releases/v0.9/EDITORIAL.md)) | IMPLEMENTED; executado com provider real (`claude -p`) em dois dogfoods com documentos acadêmicos de 7.300 e 8.300 palavras, que acharam e corrigiram DF-01 a DF-09 ([TG1](docs/releases/v0.8/DOGFOOD_TG1.md), [TCC2](docs/releases/v0.8/DOGFOOD_TCC2.md)); escritor e juiz eram o mesmo modelo |
 | **Pattern Library e camada PT-BR** | 27 padrões editoriais por gênero e posição; PT-PT × PT-BR (falsos amigos não trocados às cegas; grafia anterior à reforma ortográfica não é PT-PT) | IMPLEMENTED; limiares calibrados só em parte |
 | **Análise verbal** | tempo, modo, pessoa e perífrases por regras, com abstenção; sinaliza mudança de tempo verbal na reescrita | IMPLEMENTED (93–97% de acerto nas análises únicas, medido contra Universal Dependencies) |
-| **Diagnóstico do original** | `diagnose`: erro formal (inclui concordância nominal, "fazer"/"haver" impessoais e crase, desde a v0.9), contradição interna, escolha legítima, licença literária, ambiguidade; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED; regência não coberta |
+| **Diagnóstico do original** | `diagnose`: erro formal (concordância nominal, "fazer"/"haver" impessoais, crase, "daqui há", "seje", "menas"…), contradição interna, escolha legítima, licença literária, ambiguidade; cada achado com status (`ERROR_CONFIRMED`, `ACCEPTABLE_VARIANT`, `STYLE_PREFERENCE`, `CONTEXT_DEPENDENT`, `LITERARY_CHOICE`, `UNCERTAIN`): "tem muita gente" numa mensagem é variante, não erro; texto em inglês não é corrigido como português; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED; regência não coberta |
 | **Voice Profile e Voice Contract** | hábitos do autor por canal, sem guardar texto | IMPLEMENTED; limiares sem calibração com amostras reais |
 | **Gíria, comunidade, região** | mantém a gíria do autor e o sentido pelo contexto ("de boa qualidade" não é gíria); nunca acrescenta gíria, termo de comunidade ou regionalismo sem evidência | IMPLEMENTED; packs regionais e de comunidade em estado piloto/E0 |
 | **Corpus Registry** | 38 fontes; 7 integradas à avaliação (notícia, blog, acadêmico, tweets, avaliações, literatura do séc. XIX, traduções); política de dados por operação | IMPLEMENTED |
@@ -77,7 +80,7 @@ Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que n
 
 ## Instalação
 
-Requer Python 3.11+. A v0.9.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13; o Linux local não rodou nesta versão (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
+Requer Python 3.11+. A v0.10.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13 (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.10/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
 **Windows (PowerShell)**
 
@@ -158,7 +161,7 @@ Com um servidor local no formato chat-completions (Ollama, llama.cpp `llama-serv
 voznativa rewrite texto.txt --api-url http://localhost:11434/v1 --api-model <modelo>
 ```
 
-Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada.
+Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada; desde a v0.10, juiz de relação desconhecida também não aprova, e modelo diferente do mesmo fornecedor aprova com independência parcial registrada ([migração](docs/releases/v0.10/MIGRATION.md)).
 
 Para não repetir as opções, ponha-as no arquivo do usuário (`voznativa config` mostra o caminho e de onde vem cada valor). Precedência: flag > `.voznativa.toml` do projeto > arquivo do usuário > padrão. O arquivo do projeto **não pode** definir `cmd`, `judge_cmd` nem o ambiente do provider: um repositório clonado não escolhe o que roda na sua máquina.
 
@@ -185,7 +188,7 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 36 subcomandos. Os mais usados:
+`voznativa --help` lista os 38 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
@@ -198,6 +201,8 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 | `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd`, `--dry-run` |
 | `diagnose TEXTO` | erros, contradições e escolhas legítimas do original |
 | `route TEXTO` | contrato de contexto |
+| `context TEXTO --attr NOME=VALOR` | contexto aberto da tarefa (atributos, hipóteses, desconhecido/misto); `--interpret-prompt` para um agente propor |
+| `knowledge list \| select \| sources \| check \| status \| proposals` | conhecimento linguístico com fontes; Knowledge Watcher (report/propose) |
 | `profile AMOSTRAS…` / `contract TEXTO` | perfil de voz e contrato de voz |
 | `integrity TEXTO` | auditoria de caracteres; exit 2 quando há algo suspeito |
 | `corpus list \| permissions \| prepare \| evaluate` | Corpus Registry e política de dados |
@@ -232,13 +237,15 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS na v0.9.0; contagens por revisão e plataforma em [`docs/releases/v0.9/RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS na v0.10.0; contagens por revisão e plataforma em [`docs/releases/v0.10/RELEASE_QUALIFICATION.md`](docs/releases/v0.10/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |
 | Avaliação cruzada em 7 corpora | 0 textos rotulados como chat por engano (eram 22) | [`docs/releases/v0.7/V07_CORPUS_INTEGRATION.md`](docs/releases/v0.7/V07_CORPUS_INTEGRATION.md) |
-| Amostra de ações e compromissos perdidos (congelada antes da regra, mesmo autor) | 16/20 riscos sinalizados (eram 7), 1/18 falso alarme (eram 4); regressão, não holdout | [`evals/predicates/README.md`](evals/predicates/README.md) |
-| Revisão humana cega, holdout independente, braços com modelo, detectores reais | NOT_RUN | [`docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`](docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md) |
+| Amostra de ações e compromissos perdidos (congelada antes da regra, mesmo autor) | 19/20 riscos sinalizados, 1/18 falso alarme; regressão, não holdout | [`evals/predicates/README.md`](evals/predicates/README.md) |
+| Braços com modelo real (mesmo modelo, textos congelados antes) | v0.10: LLM direto alterou 3 de 4 textos bons; engine 0 de 4; contexto aberto sem ganho demonstrado | [`docs/releases/v0.10/EVALUATION.md`](docs/releases/v0.10/EVALUATION.md) |
+| Texto real editado (UD Portuguese-GSD, lido localmente) | falsos alarmes de diagnóstico achados e corrigidos; só contagens no repositório | [`docs/releases/v0.10/SOURCES_AND_CORPORA.md`](docs/releases/v0.10/SOURCES_AND_CORPORA.md) |
+| Revisão humana cega, holdout independente, detectores reais | NOT_RUN | [`docs/releases/v0.10/RELEASE_QUALIFICATION.md`](docs/releases/v0.10/RELEASE_QUALIFICATION.md) |
 
 Casos, regras e runners foram escritos pelo mesmo agente de desenvolvimento: os números mostram conformidade com a especificação, não qualidade percebida por leitores.
 

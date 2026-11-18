@@ -190,17 +190,56 @@ def _contract_args(p):
     p.add_argument("--voice-channel")
     p.add_argument("--repo", help="repository used as a fact source")
     p.add_argument("--document-profile", help="JSON file describing the document (type, authority, series, event year, submission date); attaches the applicable standards")
+    p.add_argument("--attr", action="append", metavar="NAME=VALUE",
+                   help="open task attribute (repeatable), any name: tone=cordial, genre=roteiro de podcast, "
+                        "purpose=convidar; a comma makes a list (genre=e-mail,post). Context for the writer, "
+                        "never a rule that edits text; safety fields (facts, protect, judge…) are refused")
+    p.add_argument("--attrs-file", help="JSON object of open task attributes (same rules as --attr)")
+    p.add_argument("--context-proposal", help="JSON answer to `voznativa context --interpret-prompt` from an "
+                                              "agent; attributes without evidence are dropped and never "
+                                              "override the user's")
+
+
+def _task_attributes(args) -> tuple[dict, dict | None]:
+    from .task_context import parse_pairs, validate_proposal
+    attrs = {}
+    if getattr(args, "attrs_file", None):
+        data = json.loads(_read(args.attrs_file))
+        if not isinstance(data, dict):
+            raise ValueError("--attrs-file must hold a JSON object")
+        attrs.update(data)
+    attrs.update(parse_pairs(getattr(args, "attr", None)))
+    proposal = (validate_proposal(json.loads(_read(args.context_proposal)))
+                if getattr(args, "context_proposal", None) else None)
+    return attrs, proposal
 
 
 def _route(args):
     from .router import route
-    return route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
-                 register=args.register, audience=args.audience, region=args.region,
-                 region_strength=args.region_strength, community=args.community,
-                 slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
-                 voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo,
-                 document_profile=json.loads(_read(args.document_profile))
-                 if getattr(args, "document_profile", None) else None)
+    contract = route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
+                     register=args.register, audience=args.audience, region=args.region,
+                     region_strength=args.region_strength, community=args.community,
+                     slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
+                     voice_samples=args.voice_sample, voice_channel=args.voice_channel, repo=args.repo,
+                     document_profile=json.loads(_read(args.document_profile))
+                     if getattr(args, "document_profile", None) else None)
+    attrs, proposal = _task_attributes(args)
+    if attrs or proposal:
+        # v0.10 CP2: open attributes travel with the contract; without them the contract is unchanged.
+        from .task_context import build
+        contract["task_context"] = build(_read(args.text), contract, attributes=attrs, agent_proposal=proposal)
+    return contract
+
+
+def cmd_context(args):
+    from .task_context import build, interpret_prompt
+    contract = _route(args)
+    if args.interpret_prompt:
+        _emit(None, interpret_prompt(_read(args.text), contract))
+        return
+    attrs, proposal = _task_attributes(args)
+    _emit(contract.get("task_context") or build(_read(args.text), contract, attributes=attrs,
+                                                agent_proposal=proposal))
 
 
 def cmd_route(args):
@@ -437,6 +476,40 @@ def cmd_packs(args):
             lines += [f"           erro: {e}" for e in r["errors"]] + [f"           aviso: {w}" for w in r["warnings"]]
         _emit(None, "\n".join(lines))
     return 0 if all(r["status"] == "valid" for r in inv["packs"]) else 1
+
+
+def cmd_knowledge(args):
+    from . import knowledge
+    if args.knowledge_command in ("sources", "check", "status", "proposals"):
+        from . import watcher
+        if args.knowledge_command == "sources":
+            _emit({"kind": "voznativa.watch_sources", "sources": watcher.load_sources()})
+            return 0
+        if args.knowledge_command == "proposals":
+            _emit({"kind": "voznativa.change_proposals", "state_dir": str(watcher.state_dir()),
+                   "proposals": watcher.list_proposals()})
+            return 0
+        offline = args.knowledge_command == "status" or args.offline
+        report = watcher.check(mode="report" if args.knowledge_command == "status" else args.mode,
+                               offline=offline, force=getattr(args, "force", False), only=getattr(args, "only", None))
+        _emit(report)
+        return 1 if any(r["status"] == "error" for r in report["results"]) else 0
+    if args.knowledge_command == "select":
+        _emit(knowledge.for_text(_read(args.text), _route(args), budget_chars=args.budget))
+        return 0
+    registry, errors = knowledge.load()
+    if args.json:
+        _emit({"kind": "voznativa.knowledge_inventory", "sources": registry["sources"],
+               "entries": registry["entries"], "errors": list(errors)})
+    else:
+        lines = [f"{len(registry['entries'])} entradas, {len(registry['sources'])} fontes"]
+        for e in registry["entries"]:
+            lines.append(f"  {e['id']:<28} {','.join(e['phenomena'])}  [{e['origin']}]")
+        lines += [f"  fonte {s['id']:<20} {s['nature']:<12} {s['access']:<17} {s['title'][:60]}"
+                  for s in registry["sources"].values()]
+        lines += [f"  erro: {e}" for e in errors]
+        _emit(None, "\n".join(lines))
+    return 1 if errors else 0
 
 
 def cmd_pdf(args):
@@ -686,6 +759,27 @@ def build_parser() -> argparse.ArgumentParser:
     q = ks.add_parser("validate", help="validate pack files as external contributions (strict envelope)")
     q.add_argument("files", nargs="+")
     p.set_defaults(func=cmd_packs)
+    p = sub.add_parser("knowledge", help="Linguistic Knowledge Registry: entries and sources (nature, licence, "
+                                         "access), what a text would retrieve and why; reference only, never a gate")
+    ks = p.add_subparsers(dest="knowledge_command", required=True)
+    q = ks.add_parser("list", help="entries and sources of the registry (bundled + VOZNATIVA_KNOWLEDGE_DIR)")
+    q.add_argument("--json", action="store_true")
+    q = ks.add_parser("select", help="entries this text calls for, within a character budget, with the reason")
+    q.add_argument("text")
+    q.add_argument("--budget", type=int, default=900)
+    _contract_args(q)
+    # v0.10 CP8: Knowledge Watcher (report/propose only; never changes the repository)
+    q = ks.add_parser("sources", help="watched sources: official host, access, cost, what a change would affect")
+    q = ks.add_parser("check", help="ask due sources whether they changed (conditional GET, private addresses "
+                                    "refused); --mode propose stores snapshots and Change Proposals in "
+                                    "VOZNATIVA_WATCH_DIR (default ~/.voznativa/watch); nothing is applied")
+    q.add_argument("--mode", choices=["report", "propose"], default="report")
+    q.add_argument("--offline", action="store_true", help="fetch nothing: last snapshot and its age per source")
+    q.add_argument("--force", action="store_true", help="check sources that are not due yet")
+    q.add_argument("--only", action="append", help="source id (repeatable)")
+    q = ks.add_parser("status", help="offline view: last check and staleness of each source")
+    q = ks.add_parser("proposals", help="stored Change Proposals (state, difference, what they affect)")
+    p.set_defaults(func=cmd_knowledge)
     p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
                                    "equations/code, and annotated copies; no editing of the PDF itself")
     ps = p.add_subparsers(dest="pdf_command", required=True)
@@ -865,6 +959,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("text")
     _contract_args(p)
     p.set_defaults(func=cmd_route)
+
+    p = sub.add_parser("context", help="open TaskContext: router dimensions plus any attribute (--attr), with "
+                                       "provenance, unknown/mixed/conflicts and the conservative choices made; "
+                                       "--interpret-prompt prints the prompt an agent answers to propose one")
+    p.add_argument("text")
+    p.add_argument("--interpret-prompt", action="store_true",
+                   help="print the prompt for an agent to propose attributes (answer with --context-proposal)")
+    _contract_args(p)
+    p.set_defaults(func=cmd_context)
 
     p = sub.add_parser("refs", help="select references for a contract (progressive disclosure)")
     p.add_argument("text", nargs="?", default="-")

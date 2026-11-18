@@ -1,0 +1,192 @@
+{
+ "kind": "voznativa.v010_mutation_record",
+ "date": "2026-11-18",
+ "script": "scripts/experiments/v010_mutants.py",
+ "first_run": {
+  "summary": {
+   "killed": 21,
+   "survived": 3,
+   "error": 0
+  },
+  "survivors": [
+   "compare: code marking of any content is info",
+   "planner: English planned for edits",
+   "task_context: proposal overrides the user"
+  ],
+  "note": "two survivors were test gaps (closed with new tests); one equivalent mutant"
+ },
+ "harness_defect": "intermediate runs reported a killed-when-alone mutant as survived: same-length mutants applied to one file within one second reused the previous mutant's .pyc (mtime in seconds + size); fixed in both harnesses (no bytecode, caches cleared)",
+ "final_run": {
+  "kind": "voznativa.v010_mutants",
+  "control": "pass",
+  "summary": {
+   "killed": 24,
+   "survived": 1,
+   "error": 0
+  },
+  "results": [
+   {
+    "mutant": "judge: unknown accepts again",
+    "file": "voznativa/compare.py",
+    "test": "test_v08_judge_relation",
+    "result": "killed"
+   },
+   {
+    "mutant": "judge: same model accepts",
+    "file": "voznativa/compare.py",
+    "test": "test_v08_judge_relation",
+    "result": "killed"
+   },
+   {
+    "mutant": "engine: same model reported as different",
+    "file": "voznativa/engine.py",
+    "test": "test_v09_providers",
+    "result": "killed"
+   },
+   {
+    "mutant": "engine: vendor ignored",
+    "file": "voznativa/engine.py",
+    "test": "test_v09_providers",
+    "result": "killed"
+   },
+   {
+    "mutant": "judge: verified independence without evidence",
+    "file": "voznativa/judge.py",
+    "test": "test_v010_judge_independence",
+    "result": "killed"
+   },
+   {
+    "mutant": "discourse: opposed families not reported",
+    "file": "voznativa/discourse.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "discourse: invented causal not reported",
+    "file": "voznativa/discourse.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "discourse: 'Como' causal not read",
+    "file": "voznativa/discourse.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "compare: causal swap not demoted",
+    "file": "voznativa/compare.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "compare: coordinated action never dropped",
+    "file": "voznativa/compare.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "compare: scheduled present always skipped",
+    "file": "voznativa/compare.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "compare: code marking of any content is info",
+    "file": "voznativa/compare.py",
+    "test": "test_v010_discourse",
+    "result": "killed"
+   },
+   {
+    "mutant": "diagnose: variant becomes context dependent",
+    "file": "voznativa/diagnose.py",
+    "test": "test_v010_diagnose_status",
+    "result": "killed"
+   },
+   {
+    "mutant": "diagnose: recommend_edit always true",
+    "file": "voznativa/diagnose.py",
+    "test": "test_v010_diagnose_status",
+    "result": "killed"
+   },
+   {
+    "mutant": "diagnose: pronoun determiner before verb flagged",
+    "file": "voznativa/diagnose.py",
+    "test": "test_v010_plural_real_text",
+    "result": "killed"
+   },
+   {
+    "mutant": "diagnose: English checked as Portuguese",
+    "file": "voznativa/diagnose.py",
+    "test": "test_v010_language_guard",
+    "result": "killed"
+   },
+   {
+    "mutant": "planner: English planned for edits",
+    "file": "voznativa/planner.py",
+    "test": "test_v010_language_guard",
+    "result": "killed"
+   },
+   {
+    "mutant": "task_context: reserved fields accepted",
+    "file": "voznativa/task_context.py",
+    "test": "test_v010_task_context",
+    "result": "killed"
+   },
+   {
+    "mutant": "task_context: proposal overrides the user",
+    "file": "voznativa/task_context.py",
+    "test": "test_v010_task_context",
+    "result": "survived"
+   },
+   {
+    "mutant": "task_context: provenance rank inverted",
+    "file": "voznativa/task_context.py",
+    "test": "test_v010_task_context",
+    "result": "killed"
+   },
+   {
+    "mutant": "knowledge: instruction-like entry accepted",
+    "file": "voznativa/knowledge.py",
+    "test": "test_v010_knowledge",
+    "result": "killed"
+   },
+   {
+    "mutant": "knowledge: rubric entry without applied standard",
+    "file": "voznativa/knowledge.py",
+    "test": "test_v010_knowledge",
+    "result": "killed"
+   },
+   {
+    "mutant": "watcher: private address allowed",
+    "file": "voznativa/corpus/connectors.py",
+    "test": "test_v010_watcher",
+    "result": "killed"
+   },
+   {
+    "mutant": "watcher: licence change not escalated",
+    "file": "voznativa/watcher.py",
+    "test": "test_v010_watcher",
+    "result": "killed"
+   },
+   {
+    "mutant": "watcher: report mode writes",
+    "file": "voznativa/watcher.py",
+    "test": "test_v010_watcher",
+    "result": "killed"
+   }
+  ]
+ },
+ "equivalent_mutants": {
+  "task_context: proposal overrides the user": "provenance rank decides who wins, so the order of the two layers does not matter; a mutant on the rank comparison itself is killed"
+ },
+ "v09_recheck": {
+  "script": "scripts/experiments/v09_cp7_mutants.py (fixed harness) on a v0.9.0 worktree",
+  "summary": {
+   "killed": 20,
+   "survived": 0,
+   "error": 0
+  },
+  "note": "the v0.9 result (20/20) holds without the stale bytecode"
+ }
+}

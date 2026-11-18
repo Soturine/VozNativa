@@ -106,6 +106,42 @@ def identity(provider) -> dict:
     return {"program": program, "model": model}
 
 
+# v0.10 CP6: vendor from what the configuration states (model name prefix, then agent CLI);
+# None when nothing observable says it. Never inferred from the judge's own answer.
+_VENDOR_PREFIX = (("claude", "anthropic"), ("anthropic", "anthropic"), ("gpt", "openai"), ("o1", "openai"),
+                  ("o3", "openai"), ("o4", "openai"), ("openai", "openai"), ("gemini", "google"),
+                  ("google", "google"), ("gemma", "google"), ("llama", "meta"), ("meta", "meta"),
+                  ("mistral", "mistral"), ("mixtral", "mistral"), ("qwen", "alibaba"), ("deepseek", "deepseek"))
+_CLI_VENDOR = {"claude": "anthropic", "codex": "openai", "gemini": "google"}
+
+
+def vendor_of(ident: dict) -> str | None:
+    model = (ident.get("model") or "").lower().split("/")[-1]
+    for prefix, vendor in _VENDOR_PREFIX:
+        if model.startswith(prefix):
+            return vendor
+    return _CLI_VENDOR.get(ident.get("program") or "")
+
+
+_CREDENTIAL_NAME = ("KEY", "TOKEN", "SECRET", "PASSWORD", "PASSWD", "CREDENTIAL", "AUTH")
+
+
+def inherited_credential_warnings(env: str, environ: dict | None = None) -> list[str]:
+    """v0.10 CP13 (V08-GAP-23): ``--provider-env inherit`` stays the default in 0.10 (a stricter default
+    could break the CLI's own login), but the user is told when it hands credential-like variables to the
+    model process. Names only, never values; the default is meant to change to ``minimal`` in 0.11."""
+    if env != "inherit":
+        return []
+    environ = os.environ if environ is None else environ
+    names = sorted(k for k in environ if any(part in k.upper() for part in _CREDENTIAL_NAME))
+    if not names:
+        return []
+    shown = ", ".join(names[:5]) + (f" and {len(names) - 5} more" if len(names) > 5 else "")
+    return [f"--provider-env inherit passes {len(names)} credential-like variable(s) to the model command "
+            f"({shown}); use --provider-env minimal, plus --provider-env-allow for the one the CLI needs. "
+            "The default becomes 'minimal' in 0.11."]
+
+
 def agent_cli_warnings(argv: list[str]) -> list[str]:
     """Warnings for agent CLIs started without their tool/sandbox switch."""
     if not argv:
@@ -288,7 +324,7 @@ class CommandProvider:
         from .redact import redact_argv
         # The id is recorded in reports; never let a credential in argv reach it.
         self.id = self.id or "command:" + " ".join(redact_argv(self.argv)[:3])
-        self.warnings = agent_cli_warnings(self.argv)
+        self.warnings = agent_cli_warnings(self.argv) + inherited_credential_warnings(self.env)
 
     @classmethod
     def from_string(cls, command: str, timeout: float = 300.0, **options) -> "CommandProvider":

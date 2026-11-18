@@ -6,6 +6,13 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _declared(provider, model):
+    """v0.10 CP6 (D-02): a judge accepts only when its relation to the writer is known;
+    stubs declare their model so these tests keep exercising the judge mechanics."""
+    provider.model = model
+    return provider
 sys.path.insert(0, str(ROOT))
 
 from voznativa.contract import resolve
@@ -56,13 +63,13 @@ class Loop(unittest.TestCase):
                              "added_claims": []})
         reject = json.dumps({"kind": "llm", "judge_id": "fake", "verdict": "not_equivalent",
                              "claims": [{"source": "não deve antes das 18h", "status": "changed"}]})
-        ok = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([accept, accept]))
+        ok = rewrite(SOURCE, context(), _declared(StaticProvider([CLEAN]), "writer-model"), judge_provider=_declared(StaticProvider([accept, accept]), "judge-model"))
         self.assertEqual(ok["outcome"], "accepted")
         self.assertEqual(len(ok["report"]["evidence"]["judgments"]), 2)
-        bad = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([reject]),
+        bad = rewrite(SOURCE, context(), _declared(StaticProvider([CLEAN]), "writer-model"), judge_provider=_declared(StaticProvider([reject]), "judge-model"),
                       attempts=1)
         self.assertEqual(bad["outcome"], "returned_original")
-        broken = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider(["sim"]))
+        broken = rewrite(SOURCE, context(), _declared(StaticProvider([CLEAN]), "writer-model"), judge_provider=_declared(StaticProvider(["sim"]), "judge-model"))
         self.assertEqual(broken["outcome"], "needs_judgment")
         self.assertIn("judge_error", broken["report"])
 
@@ -70,7 +77,7 @@ class Loop(unittest.TestCase):
         # Real output from claude-sonnet-5-5 in the 2026-10-19 integration run had both.
         raw = '```json\n{"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"},],' \
               ' "added_claims": [],}\n```'
-        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=StaticProvider([raw]),
+        result = rewrite(SOURCE, context(), _declared(StaticProvider([CLEAN]), "writer-model"), judge_provider=_declared(StaticProvider([raw]), "judge-model"),
                          judge_votes=1)
         self.assertEqual(result["outcome"], "accepted")
         repairs = result["report"]["evidence"]["judgments"][0]["parse_repairs"]
@@ -78,8 +85,8 @@ class Loop(unittest.TestCase):
 
     def test_judge_gets_one_retry_on_invalid_json(self):
         good = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
-        judge = StaticProvider(["isto não é json", good])
-        result = rewrite(SOURCE, context(), StaticProvider([CLEAN]), judge_provider=judge, judge_votes=1)
+        judge = _declared(StaticProvider(["isto não é json", good]), "judge-model")
+        result = rewrite(SOURCE, context(), _declared(StaticProvider([CLEAN]), "writer-model"), judge_provider=judge, judge_votes=1)
         self.assertEqual(result["outcome"], "accepted")
         self.assertIn("NÃO ERA JSON VÁLIDO", judge.calls[1])
 
@@ -98,8 +105,8 @@ class Loop(unittest.TestCase):
         reject = json.dumps({"verdict": "not_equivalent", "claims": [
             {"source": "o banco estará em manutenção", "status": "omitted", "note": "o motivo sumiu"}]})
         accept = json.dumps({"verdict": "equivalent", "claims": [{"source": "x", "status": "preserved"}]})
-        writer = StaticProvider([CLEAN, CLEAN])
-        result = rewrite(SOURCE, context(), writer, judge_provider=StaticProvider([reject, accept, accept]))
+        writer = _declared(StaticProvider([CLEAN, CLEAN]), "writer-model")
+        result = rewrite(SOURCE, context(), writer, judge_provider=_declared(StaticProvider([reject, accept, accept]), "judge-model"))
         self.assertEqual(result["outcome"], "accepted")
         self.assertIn("o juiz semântico apontou", writer.calls[1])
         self.assertIn("o motivo sumiu", writer.calls[1])

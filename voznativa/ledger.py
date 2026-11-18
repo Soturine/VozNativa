@@ -8,6 +8,8 @@ layer (see ``voznativa.judge``), which is recorded separately.
 """
 from __future__ import annotations
 
+import datetime as dt
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 
@@ -105,3 +107,28 @@ def _mask(text: str, ranges: list[tuple[int, int]]) -> str:
         for i in range(max(0, start), min(len(chars), end)):
             chars[i] = " "
     return "".join(chars)
+
+
+# v0.10 CP9 (V08-GAP-28): moved from planner, which diagnose imported only for this.
+WEEKDAYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+
+
+def weekday_conflicts(led) -> list[dict]:
+    """A weekday right before a full date (with year) that falls on another day."""
+    out = []
+    for entry in led.entries:
+        spans = sorted(entry.spans, key=lambda s: s.start)
+        for a, b in zip(spans, spans[1:]):
+            m = re.match(r"date:(\d{4})-(\d{2})-(\d{2})$", b.key)
+            if a.type == "weekday" and m and 0 <= b.start - a.end <= 6:
+                try:
+                    actual = WEEKDAYS[dt.date(*map(int, m.groups())).weekday()]
+                except ValueError:
+                    continue
+                stated = a.key.split(":")[1]
+                if stated != actual:
+                    out.append({"code": "weekday_date_mismatch", "sentence": entry.sentence.index,
+                                "text": f"{a.text} … {b.text}", "stated": stated, "date_is": actual,
+                                "message": f"'{a.text}' does not match {b.text} (that date is a {actual}); "
+                                           "keep it as written and tell the user"})
+    return out

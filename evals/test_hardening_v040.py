@@ -81,7 +81,10 @@ class CreateModeJudgeChecksTheSources(unittest.TestCase):
     def run_create(self, candidate, verdict, claims, votes=1):
         writer, judge_json = grounding_answer(self.sources, candidate, verdict, claims)
         judge = StaticProvider([judge_json] * 4)
-        result = rewrite(REQUEST, self.ctx, StaticProvider([writer]), facts=FACTS, judge_provider=judge,
+        writer_provider = StaticProvider([writer])
+        # v0.10 CP6 (D-02): acceptance needs an observable relation; the stubs declare their models
+        judge.model, writer_provider.model = "judge-model", "writer-model"
+        result = rewrite(REQUEST, self.ctx, writer_provider, facts=FACTS, judge_provider=judge,
                          judge_votes=votes, attempts=1)
         return result, judge
 

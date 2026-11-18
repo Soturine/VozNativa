@@ -1,0 +1,31 @@
+{
+ "kind": "voznativa.v010_perf_record",
+ "date": "2026-11-18",
+ "script": "scripts/perf_compare.py (CPU time, 5 repeats, 100/400/800 blocks)",
+ "cp0_baseline_v090": {
+  "cpu_min_800": 5.5156,
+  "note": "measured at CP0, machine idle"
+ },
+ "cp12_candidate_alone": {
+  "cpu_min_800": 7.1562,
+  "note": "measured hours later; ratio 1.30 against the CP0 baseline"
+ },
+ "cp12_interleaved": [
+  {
+   "rev": "base",
+   "cpu_min_800": 6.25,
+   "cpu_median_800": 6.3594
+  },
+  {
+   "rev": "cand",
+   "cpu_min_800": 6.3438,
+   "cpu_median_800": 6.4375
+  }
+ ],
+ "same_process_profile": {
+  "v090_cpu": 6.75,
+  "v010_cpu": 6.78
+ },
+ "reading": "v0.9.0 itself went from 5.52 s (CP0) to 6.25 s (CP12): machine drift of about 13% between sessions. Interleaved in the same session the ratio is about 1.015; the profile shows no new hotspot (discourse, coordination and tense checks are outside the top 30). The threshold (1.15) was not changed.",
+ "ratio_800_100_candidate": 14.77
+}

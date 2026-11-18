@@ -1,0 +1,740 @@
+{
+ "kind": "voznativa.v010_arms",
+ "command": [
+  "claude",
+  "-p",
+  "--model",
+  "haiku",
+  "--tools",
+  ""
+ ],
+ "summary": {
+  "A0_original": {
+   "texts": 10,
+   "unnecessary_edits": "0/4",
+   "changed_when_needed": "0/6",
+   "texts_with_major_or_critical": 0,
+   "relation_issues": 0,
+   "formulas_left_in_texts_needing_change": 5,
+   "specific_checks_ok": "5/5",
+   "calls": 0
+  },
+  "A1_llm_direct": {
+   "texts": 10,
+   "unnecessary_edits": "3/4",
+   "changed_when_needed": "6/6",
+   "texts_with_major_or_critical": 4,
+   "relation_issues": 0,
+   "formulas_left_in_texts_needing_change": 0,
+   "specific_checks_ok": "4/5",
+   "calls": 10
+  },
+  "B3_v090": {
+   "texts": 10,
+   "unnecessary_edits": "0/4",
+   "changed_when_needed": "4/6",
+   "texts_with_major_or_critical": 0,
+   "relation_issues": 0,
+   "formulas_left_in_texts_needing_change": 0,
+   "specific_checks_ok": "5/5",
+   "calls": 4
+  },
+  "B4_v010_bare": {
+   "texts": 10,
+   "unnecessary_edits": "0/4",
+   "changed_when_needed": "4/6",
+   "texts_with_major_or_critical": 0,
+   "relation_issues": 0,
+   "formulas_left_in_texts_needing_change": 0,
+   "specific_checks_ok": "5/5",
+   "calls": 4
+  },
+  "B5_v010_full": {
+   "texts": 10,
+   "unnecessary_edits": "0/4",
+   "changed_when_needed": "4/6",
+   "texts_with_major_or_critical": 0,
+   "relation_issues": 0,
+   "formulas_left_in_texts_needing_change": 0,
+   "specific_checks_ok": "5/5",
+   "calls": 4
+  }
+ },
+ "caveat": "compare is the engine's own instrument (engine arms favoured on that axis); specific checks are string tests written before the run; one run per arm, n = 1 per text; the model's answers vary between runs; not an independent or human evaluation",
+ "rows": [
+  {
+   "id": "t01",
+   "needs_change": true,
+   "attrs": {
+    "genre": "roteiro de podcast",
+    "audience": "ouvintes iniciantes",
+    "tone": "leve"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 2
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "calls": 1,
+    "seconds": 2.4,
+    "output": "Olá, ouvintes! Hoje vamos falar sobre abelhas sem ferrão. Elas produzem mel em pequenas quantidades, cerca de 1 litro por ano por colmeia, e não picam."
+   },
+   "B3_v090": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.2,
+    "output": "Olá, ouvintes! Hoje vamos falar sobre abelhas sem ferrão. Elas produzem mel em pequenas quantidades, cerca de 1 litro por ano por colmeia, e não picam."
+   },
+   "B4_v010_bare": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 5.5,
+    "output": "Olá, ouvintes! Hoje vamos falar sobre abelhas sem ferrão. Elas produzem mel em pequenas quantidades, cerca de 1 litro por ano por colmeia, e não picam."
+   },
+   "B5_v010_full": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.8,
+    "output": "Olá, ouvintes! Hoje vamos falar sobre abelhas sem ferrão. Elas produzem mel em pequenas quantidades, cerca de 1 litro por ano por colmeia, e não picam.",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t02",
+   "needs_change": false,
+   "attrs": {
+    "genre": "legenda de vídeo",
+    "channel": "rede social"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "calls": 1,
+    "seconds": 2.3,
+    "output": "Consertei o chinelo com linha de pesca e uma agulha grossa, e ele durou mais seis meses."
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Consertei o chinelo com linha de pesca e uma agulha grossa. Durou mais seis meses."
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Consertei o chinelo com linha de pesca e uma agulha grossa. Durou mais seis meses."
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Consertei o chinelo com linha de pesca e uma agulha grossa. Durou mais seis meses.",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t03",
+   "needs_change": true,
+   "attrs": {
+    "genre": "bilhete escolar",
+    "tone": "cordial",
+    "constraint": "manter o horário e a condição"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "calls": 1,
+    "seconds": 2.3,
+    "output": "Senhores pais, informamos que a excursão ao planetário sairá às 7h. Lembramos que somente alunos com autorização assinada poderão embarcar."
+   },
+   "B3_v090": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 5.1,
+    "output": "Senhores pais, informamos que a excursão ao planetário sairá às 7h. Ressaltamos que somente alunos com autorização assinada poderão embarcar."
+   },
+   "B4_v010_bare": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.7,
+    "output": "Senhores pais, informamos que a excursão ao planetário sairá às 7h. Ressaltamos que somente alunos com autorização assinada poderão embarcar."
+   },
+   "B5_v010_full": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.1,
+    "output": "Senhores pais, informamos que a excursão ao planetário sairá às 7h. Ressaltamos que somente alunos com autorização assinada poderão embarcar.",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t04",
+   "needs_change": false,
+   "attrs": {
+    "genre": "ata",
+    "register": "professional-formal"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "calls": 1,
+    "seconds": 2.4,
+    "output": "Aos dez dias de março, reuniram-se os moradores da Vila Esperança. A reforma da praça foi aprovada por 23 votos a 4, condicionada à liberação da verba municipal."
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Aos dez dias do mês de março, reuniram-se os moradores da Vila Esperança. Foi aprovada, por 23 votos a 4, a reforma da praça, condicionada à liberação da verba municipal."
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Aos dez dias do mês de março, reuniram-se os moradores da Vila Esperança. Foi aprovada, por 23 votos a 4, a reforma da praça, condicionada à liberação da verba municipal."
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Aos dez dias do mês de março, reuniram-se os moradores da Vila Esperança. Foi aprovada, por 23 votos a 4, a reforma da praça, condicionada à liberação da verba municipal.",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t05",
+   "needs_change": true,
+   "attrs": {
+    "genre": [
+     "e-mail",
+     "post"
+    ],
+    "register": "mixed"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "fail",
+    "critical": 1,
+    "major": 1,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "calls": 1,
+    "seconds": 2.4,
+    "output": "Prezados colegas, o bazar beneficente será no sábado, das 9h às 13h. Quem puder doar roupas, pode trazer até sexta-feira. Obrigado!"
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.6,
+    "output": "Prezados colegas, venho por meio deste comunicar que o bazar beneficente será no sábado, das 9h às 13h. Quem puder doar roupas, traz até sexta, beleza? kkk"
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Prezados colegas, venho por meio deste comunicar que o bazar beneficente será no sábado, das 9h às 13h. Quem puder doar roupas, traz até sexta, beleza? kkk"
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Prezados colegas, venho por meio deste comunicar que o bazar beneficente será no sábado, das 9h às 13h. Quem puder doar roupas, traz até sexta, beleza? kkk",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t06",
+   "needs_change": true,
+   "attrs": {
+    "genre": "relatório técnico curto"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 2,
+    "specific_ok": true
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "review_required",
+    "critical": 0,
+    "major": 2,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "calls": 1,
+    "seconds": 2.4,
+    "output": "O servidor ficou instável às 14h. Mesmo assim, o serviço de pagamentos continuou disponível. Nenhum dado foi perdido."
+   },
+   "B3_v090": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.6,
+    "output": "O servidor apresentou instabilidade às 14h. Entretanto, o serviço de pagamentos continuou disponível. Nenhum dado foi perdido."
+   },
+   "B4_v010_bare": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.3,
+    "output": "O servidor apresentou instabilidade às 14h. Entretanto, o serviço de pagamentos continuou disponível. Nenhum dado foi perdido."
+   },
+   "B5_v010_full": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 4.1,
+    "output": "O servidor apresentou instabilidade às 14h. Entretanto, o serviço de pagamentos continuou disponível. Nenhum dado foi perdido.",
+    "knowledge": [
+     "kn-contraste-consequencia"
+    ]
+   }
+  },
+  {
+   "id": "t07",
+   "needs_change": false,
+   "attrs": {
+    "genre": "poema"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true
+   },
+   "A1_llm_direct": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "calls": 1,
+    "seconds": 2.3,
+    "output": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.\nSó o relógio insiste."
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.\nSó o relógio insiste."
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.4,
+    "output": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.\nSó o relógio insiste."
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.\nSó o relógio insiste.",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t08",
+   "needs_change": false,
+   "attrs": {
+    "genre": "mensagem",
+    "channel": "whatsapp"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "calls": 1,
+    "seconds": 2.2,
+    "output": "Consegue me mandar a planilha até sexta? Se não der, me avisa."
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Cê consegue me mandar a planilha até sexta? Se não der, avisa"
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.4,
+    "output": "Cê consegue me mandar a planilha até sexta? Se não der, avisa"
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "Cê consegue me mandar a planilha até sexta? Se não der, avisa",
+    "knowledge": []
+   }
+  },
+  {
+   "id": "t09",
+   "needs_change": true,
+   "attrs": {
+    "genre": "anúncio",
+    "constraint": "preservar condições e exceções"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "review_required",
+    "critical": 0,
+    "major": 2,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": false,
+    "calls": 1,
+    "seconds": 2.3,
+    "output": "É com satisfação que anunciamos: o desconto de 20% vale apenas para pagamento à vista, exceto para produtos que já estão em promoção."
+   },
+   "B3_v090": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "É com grande satisfação que anunciamos: o desconto de 20% vale desde que o pagamento seja à vista, exceto para produtos já em promoção."
+   },
+   "B4_v010_bare": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.4,
+    "output": "É com grande satisfação que anunciamos: o desconto de 20% vale desde que o pagamento seja à vista, exceto para produtos já em promoção."
+   },
+   "B5_v010_full": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "specific_ok": true,
+    "outcome": "no_change",
+    "calls": 0,
+    "seconds": 0.5,
+    "output": "É com grande satisfação que anunciamos: o desconto de 20% vale desde que o pagamento seja à vista, exceto para produtos já em promoção.",
+    "knowledge": [
+     "kn-condicao-escopo"
+    ]
+   }
+  },
+  {
+   "id": "t10",
+   "needs_change": true,
+   "attrs": {
+    "genre": "redação escolar",
+    "audience": "professora"
+   },
+   "A0_original": {
+    "changed": false,
+    "status": "identical",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 1
+   },
+   "A1_llm_direct": {
+    "changed": true,
+    "status": "review_required",
+    "critical": 0,
+    "major": 1,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "calls": 1,
+    "seconds": 2.6,
+    "output": "Além disso, a reciclagem reduz o lixo nos aterros. Também gera empregos para catadores. Ainda economiza matéria-prima, mas exige uma coleta seletiva organizada pela prefeitura."
+   },
+   "B3_v090": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 5.8,
+    "output": "A reciclagem reduz o lixo nos aterros. Ela também gera empregos para catadores e economiza matéria-prima, embora exija coleta seletiva organizada pela prefeitura."
+   },
+   "B4_v010_bare": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 5.1,
+    "output": "A reciclagem reduz o lixo nos aterros, gera empregos para catadores e economiza matéria-prima, embora exija coleta seletiva organizada pela prefeitura."
+   },
+   "B5_v010_full": {
+    "changed": true,
+    "status": "no_deterministic_issues",
+    "critical": 0,
+    "major": 0,
+    "relation_issues": 0,
+    "formulas_left": 0,
+    "outcome": "needs_judgment",
+    "calls": 1,
+    "seconds": 6.3,
+    "output": "A reciclagem reduz o lixo nos aterros. Ela também gera empregos para catadores. Ela também economiza matéria-prima, embora exija coleta seletiva organizada pela prefeitura.",
+    "knowledge": [
+     "kn-concessao"
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{"id": "dg-01", "expect": "error", "kind": "daqui_ha", "text": "A próxima reunião do conselho será daqui há duas semanas.", "genre": "corporate"}
+{"id": "dg-02", "expect": "error", "kind": "seje", "text": "Espero que o relatório seje entregue até amanhã.", "genre": "corporate"}
+{"id": "dg-03", "expect": "error", "kind": "menas", "text": "Neste ano vieram menas pessoas à quermesse do bairro.", "genre": "news"}
+{"id": "dg-04", "expect": "error", "kind": "plural_agreement", "text": "Os relatório da safra mostram queda na produção.", "genre": "corporate"}
+{"id": "dg-05", "expect": "error", "kind": "haver_plural", "text": "Houveram muitas reclamações sobre o barulho da obra.", "genre": "news"}
+{"id": "dg-06", "expect": "error", "kind": "fazer_plural", "text": "Fazem três anos que a ponte está interditada.", "genre": "news"}
+{"id": "dg-07", "expect": "variant", "kind": "ter_existencial_informal", "text": "Tem muita gente na fila da lotérica hoje kkk", "genre": "whatsapp", "register": "colloquial"}
+{"id": "dg-08", "expect": "variant", "kind": "para_mim_infinitive_informal", "text": "Me manda o endereço pra mim passar aí depois", "genre": "whatsapp", "register": "colloquial"}
+{"id": "dg-09", "expect": "variant", "kind": "a_gente_informal", "text": "A gente vamos chegar mais tarde, guarda um lugar", "genre": "whatsapp", "register": "colloquial"}
+{"id": "dg-10", "expect": "variant", "kind": "dialect_in_fiction", "text": "— Nós vai pescar amanhã cedo, se Deus quiser — disse o velho, puxando a canoa.", "genre": "literary"}
+{"id": "dg-11", "expect": "no_error", "kind": "clean_formal", "text": "A comissão aprovou o calendário de vacinação do rebanho para o próximo semestre.", "genre": "corporate"}
+{"id": "dg-12", "expect": "no_error", "kind": "clean_informal", "text": "Bora no cinema hoje? Tô de folga", "genre": "whatsapp", "register": "colloquial"}
+{"id": "dg-13", "expect": "no_error", "kind": "a_vs_ha_correct", "text": "Daqui a duas semanas o mercado volta a abrir aos domingos.", "genre": "news"}
+{"id": "dg-14", "expect": "no_error", "kind": "ha_time_correct", "text": "Moro neste bairro há doze anos.", "genre": "news"}
+{"id": "dg-15", "expect": "no_error", "kind": "poem_parataxis", "text": "Chuva no telhado.\nCafé na mesa.\nNinguém na porta.", "genre": "literary"}
+{"id": "dg-16", "expect": "error", "kind": "esteje", "text": "Caso o portão esteje fechado, use a entrada lateral.", "genre": "corporate"}
