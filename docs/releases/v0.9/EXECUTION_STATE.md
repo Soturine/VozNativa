@@ -10,7 +10,8 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 
 | CP | Título | Estado | Commit | Verificação |
 |---|---|---|---|---|
-| CP0 | Estado, baseline, gate de privacidade, plano | concluído | ver `git log` | baseline abaixo; gate de privacidade com 7 testes; critérios R1–R10 congelados |
+| CP0 | Estado, baseline, gate de privacidade, plano | concluído | `ac5c4de` | baseline abaixo; gate de privacidade com 8 testes (o primeiro push foi bloqueado pelo próprio gate: valores plantados no teste; e o gate lia só o diff líquido, corrigido para o patch de cada commit antes do push); critérios R1–R10 congelados |
+| CP1 | Instalação, `doctor`, configuração, `--dry-run`, docs | concluído | ver `git log` | primeiro uso pelo wheel em venv limpo em CPython 3.11.18 e 3.12.6 (Windows); instalação pela tag; gates locais + pacote PASS; Linux BLOCKED (Docker sem resposta) |
 
 ## Baseline (CP0)
 
@@ -35,6 +36,10 @@ Ambiente disponível: CPython 3.12.6 e 3.11.18 (gerenciado pelo uv, fora do `py`
 - **Dados privados:** documentos e saídas dos dogfoods ficam fora do repositório; fixtures sintéticas de outro domínio.
 - **Edição de arquivos:** nada de heredoc com barra invertida; usar a ferramenta de edição.
 
+## Bloqueios conhecidos
+
+- Docker Desktop parou de responder no CP1 (`docker images` sem resposta em 60 s); não reiniciado (aplicativo do usuário). Linux local: nova tentativa no CP9; substituto previsto em R2 é a CI.
+
 ## Próximo passo
 
-CP1.
+CP2.

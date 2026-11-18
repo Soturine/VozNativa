@@ -38,7 +38,7 @@ Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tenta
 | **Semantic Ledger e `compare`** | inventário de valores (números por extenso, datas, horas, dinheiro, versões, caminhos), negação, modalidade, quantificadores, condições, causalidade, atribuição, papéis agente/paciente; mudanças dentro de uma frase e entre frases e parágrafos (negação deslocada, frase que retoma a anterior movida, frase curta acrescentada) | IMPLEMENTED; pronomes e correferência: NOT_IMPLEMENTED |
 | **Context Router (contrato v3)** | 14 dimensões (gênero, canal, registro, época do texto, variedade, estrutura, público…) com valor, fonte e confiança; abstém-se (`unknown`) em vez de chutar e mantém proteções conservadoras | IMPLEMENTED |
 | **Planner e Rewrite Engine** | decide por frase o que manter, cortar ou reescrever; não chama o modelo quando não há o que mudar (`NO_CHANGE`); valida, tenta de novo, devolve o original se nada for seguro | IMPLEMENTED |
-| **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento | IMPLEMENTED (provedores reais: só testado com stub) |
+| **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento | IMPLEMENTED; executado com provider real (`claude -p`) em dois dogfoods com documentos acadêmicos de 7.300 e 8.300 palavras, que acharam e corrigiram DF-01 a DF-09 ([TG1](docs/releases/v0.8/DOGFOOD_TG1.md), [TCC2](docs/releases/v0.8/DOGFOOD_TCC2.md)); escritor e juiz eram o mesmo modelo |
 | **Pattern Library e camada PT-BR** | 27 padrões editoriais por gênero e posição; PT-PT × PT-BR (falsos amigos não trocados às cegas; grafia anterior à reforma ortográfica não é PT-PT) | IMPLEMENTED; limiares calibrados só em parte |
 | **Análise verbal** | tempo, modo, pessoa e perífrases por regras, com abstenção; sinaliza mudança de tempo verbal na reescrita | IMPLEMENTED (93–97% de acerto nas análises únicas, medido contra Universal Dependencies) |
 | **Diagnóstico do original** | `diagnose`: erro formal, contradição interna, escolha legítima, licença literária, ambiguidade; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED (base) |
@@ -151,6 +151,18 @@ voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd 
 
 Desligue as ferramentas do agente (`--tools ""`): o diretório temporário **não é sandbox**. Desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change`, `returned_original`, `provider_error`.
 
+Para não repetir as opções, ponha-as no arquivo do usuário (`voznativa config` mostra o caminho e de onde vem cada valor). Precedência: flag > `.voznativa.toml` do projeto > arquivo do usuário > padrão. O arquivo do projeto **não pode** definir `cmd`, `judge_cmd` nem o ambiente do provider: um repositório clonado não escolhe o que roda na sua máquina.
+
+```toml
+# arquivo do usuário, por exemplo %APPDATA%\voznativa\config.toml ou ~/.config/voznativa/config.toml
+[rewrite]
+cmd = '["claude", "-p", "--tools", ""]'
+provider_env = "minimal"
+max_calls = 60
+```
+
+`voznativa rewrite texto.txt --dry-run` mostra o plano, as unidades e o teto de chamadas sem iniciar o provider; `voznativa doctor` confere se o comando configurado existe e está isolado, sem chamá-lo (`--probe-provider` faz uma chamada real, que pode custar).
+
 ## Como Agent Skill
 
 | Host | Instalação |
@@ -164,14 +176,15 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 32 subcomandos. Os mais usados:
+`voznativa --help` lista os 33 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
-| `doctor` / `demo` | conferir a instalação; ver compare, plan e diagnose funcionando sem modelo |
+| `doctor` / `demo` | conferir a instalação (cada problema com categoria e ação); ver compare, plan e diagnose funcionando sem modelo |
+| `config` | configuração efetiva do `rewrite` e a origem de cada valor |
 | `compare ORIGINAL CANDIDATA` | gate semântico; exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz |
 | `plan TEXTO` | o que mudar, por quê e quanto, sem modelo |
-| `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd` |
+| `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd`, `--dry-run` |
 | `diagnose TEXTO` | erros, contradições e escolhas legítimas do original |
 | `route TEXTO` | contrato de contexto |
 | `profile AMOSTRAS…` / `contract TEXTO` | perfil de voz e contrato de voz |
@@ -208,7 +221,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`](docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS na v0.8.1: 933 testes (931 PASS, 2 skips com motivo), contagens por revisão e plataforma em [`docs/releases/v0.8.1/RELEASE_QUALIFICATION.md`](docs/releases/v0.8.1/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |

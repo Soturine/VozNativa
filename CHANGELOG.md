@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased (0.9.0 in progress on `dev/v0.9.0`)
+
+Round plan, release criteria (frozen before development) and gaps: `docs/releases/v0.9/`.
+
+### Added
+- **Configuration files for `rewrite`** (`voznativa/config.py`): a user file (`$VOZNATIVA_CONFIG`, else `%APPDATA%\voznativa\config.toml` or `~/.config/voznativa/config.toml`) and a project `.voznativa.toml` (nearest one up to the repository root), one `[rewrite]` table, precedence flag > project > user > default; unknown keys, wrong types and invalid TOML are errors (exit 64). **A project file cannot set `cmd`, `judge_cmd`, `provider_env` or `provider_env_allow`**: a cloned repository must not choose what runs on the user's machine or which credentials reach the model process. VozNativa never writes these files and reads no secret from them.
+- `voznativa config`: effective value and source of every option.
+- `rewrite --dry-run`: plan, long-form units and the provider-call ceiling, without starting any provider (even a configured one); the command line is not echoed.
+- `doctor`: every check has a `category` (`python_version`, `package`, `dependency`, `package_data`, `permission`, `config`, `provider_not_configured`, `provider_not_found`, `provider_unsafe`, `credential`, `provider_call`, `timeout`) and an action; it checks the configured provider (program found, agent tools disabled, allowed credentials present) without calling it, and `--probe-provider` makes one real call and classifies the failure. Report `schema_version` 2 (fields added; existing ones unchanged). Still no network module loaded unless the probe is asked for.
+- `scripts/privacy_gate.py`: pre-push audit of every unpublished commit's patch and message against private documents read from outside the repository, a sensitive-terms list, credentials, personal paths and e-mails. `scripts/perf_compare.py`: fixed timing method for `compare`.
+
+### Changed
+- `rewrite` options `--attempts`, `--candidates`, `--timeout`, `--provider-env`, `--judge-votes`, `--long-form`, `--segment-words` and `--max-calls` now default to "not given" in the parser and take their documented defaults from the configuration layer; with no configuration file the values are the same as in 0.8.1.
+
+### Documentation
+- README: long-form rewriting is no longer described as "only tested with a stub" (two dogfoods ran it with a real provider); test counts point to the 0.8.1 qualification. `LICENSING.md` no longer opens by saying the repository has no licence (MIT since 0.6.0). The two dogfood records say that their branches were later integrated and released as 0.8.1.
+- Install guide: installation from a tag and from the release wheel with checksum; troubleshooting for `Cannot import build backend 'setuptools.build_meta'`, found while verifying the tag install on a machine with `PIP_NO_BUILD_ISOLATION=0` (pip reads that `0` as *isolation off*).
+
 ## 0.8.1 — 2026-11-16 (GitHub release; not on PyPI)
 
 Patch release: nine defects (DF-01 to DF-09) found by two agent-led dogfoods with real long academic documents and a real provider. The documents and every prompt stay outside the repository; every regression test uses synthetic fixtures written in another domain, and each one fails on the code before its fix and passes after (controls pass on both). Records: `docs/releases/v0.8/DOGFOOD_TG1.md`, `docs/releases/v0.8/DOGFOOD_TCC2.md`; qualification: `docs/releases/v0.8.1/RELEASE_QUALIFICATION.md`.

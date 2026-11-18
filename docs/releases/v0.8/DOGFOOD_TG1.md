@@ -2,6 +2,8 @@
 
 Estado: **concluído na branch** `dev/v0.8.1-dogfood-tg1` (criada de `dev/v0.8.0` = `702a448`; a tag `v0.8.0.dev0` está em `554d1b2`). Sem tag, sem release, sem CI disparada.
 
+> **Integração posterior:** estas correções entraram na `main` pelo histórico limpo (merge `9b618fe`) e foram publicadas na release estável [`v0.8.1`](../v0.8.1/RELEASE_NOTES.md) (tag em `17d1f10`). O PR #1 foi fechado sem merge. O texto abaixo é o registro da época e não foi reescrito.
+
 ## Escopo e privacidade
 
 - Documento: relatório técnico parcial de graduação em engenharia (PT-BR acadêmico), 89 parágrafos editáveis com cerca de 7.300 palavras, 12 tabelas, 7 figuras, 12 referências.

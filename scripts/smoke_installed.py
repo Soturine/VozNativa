@@ -87,6 +87,9 @@ def main() -> int:
                 # v0.4.0: rewrite crashed on every call in v0.3.0 and nothing ran the command.
                 "rewrite": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["outcome"] == "returned_original",
                 "plan": run("plan", "t.txt")["kind"] == "voznativa.rewrite_plan",
+                # v0.9 CP1: configuration layer and dry run ship in the wheel; dry run starts no provider.
+                "config": run("config", "--json")["kind"] == "voznativa.config",
+                "rewrite-dry-run": run("rewrite", "t.txt", "--dry-run")["provider_called"] is False,
                 "patterns": run("patterns", "t.txt")["kind"] == "voznativa.pattern_report",
                 # v0.5.0: the evidence packs are package data; abstention needs no pack.
                 "regional-packs": bool(run("regional", "packs")["packs"]),
