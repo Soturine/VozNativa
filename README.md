@@ -151,6 +151,14 @@ voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd 
 
 Desligue as ferramentas do agente (`--tools ""`): o diretório temporário **não é sandbox**. Desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change`, `returned_original`, `provider_error`.
 
+Com um servidor local no formato chat-completions (Ollama, llama.cpp `llama-server`, LM Studio), sem chave e sem o texto sair da máquina:
+
+```bash
+voznativa rewrite texto.txt --api-url http://localhost:11434/v1 --api-model <modelo>
+```
+
+Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada.
+
 Para não repetir as opções, ponha-as no arquivo do usuário (`voznativa config` mostra o caminho e de onde vem cada valor). Precedência: flag > `.voznativa.toml` do projeto > arquivo do usuário > padrão. O arquivo do projeto **não pode** definir `cmd`, `judge_cmd` nem o ambiente do provider: um repositório clonado não escolhe o que roda na sua máquina.
 
 ```toml

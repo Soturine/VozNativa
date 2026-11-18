@@ -36,7 +36,11 @@ Ambiente disponível: CPython 3.12.6 e 3.11.18 (gerenciado pelo uv, fora do `py`
 - **Dados privados:** documentos e saídas dos dogfoods ficam fora do repositório; fixtures sintéticas de outro domínio.
 - **Edição de arquivos:** nada de heredoc com barra invertida; usar a ferramenta de edição.
 
+| CP2 | Providers, relação gerador × juiz, hosts | concluído | ver `git log` | provider real ponta a ponta (US$ 0,049); autojulgamento com linhas diferentes corrigido e provado com chamadas reais (GAP-24, P1); sessão agent-led real do Claude Code (US$ 0,21); adapter HTTP testado contra servidor local; modelo local real NOT_RUN (permissão); Codex/Gemini NOT_RUN; Emulate BLOCKED. [`INTEGRATIONS.md`](INTEGRATIONS.md) |
+
 ## Bloqueios conhecidos
+
+- Execução de binários baixados (servidor de modelo local) negada pelo controle de permissões da sessão no CP2; os arquivos estão fora do repositório, prontos para o mantenedor rodar.
 
 - Docker Desktop parou de responder no CP1 (`docker images` sem resposta em 60 s); não reiniciado (aplicativo do usuário). Linux local: nova tentativa no CP9; substituto previsto em R2 é a CI.
 

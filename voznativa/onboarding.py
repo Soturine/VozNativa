@@ -70,6 +70,8 @@ def _provider_checks(probe: bool) -> list[dict]:
     out = [_check("configuração", "OK", "valores vindos de arquivo: " + (
         ", ".join(f"{k} ({s})" for k, s in sorted(sources.items())) if sources else "nenhum (só padrões)"))]
     cmd = cfg["cmd"]["value"]
+    if cfg["api_url"]["value"] or cfg["api_model"]["value"]:
+        return out + _api_provider_checks(cfg, probe)
     if not cmd:
         out.append(_check("provider", "OK",
                           "nenhum configurado; compare, plan, diagnose, route e demo não precisam de modelo",
@@ -116,6 +118,46 @@ def _provider_checks(probe: bool) -> list[dict]:
                                           "sem memória; tente de novo ou aumente --timeout no rewrite",
                                "provider_call": "o programa saiu com erro: confira login/credencial, rede, nome "
                                                 "do modelo e a mensagem acima"}[category], category))
+    return out
+
+
+_API_HINTS = {
+    "connection_refused": "o servidor não está rodando nesse endereço: inicie-o (ollama serve, llama-server ...) "
+                          "ou corrija api_url",
+    "model_not_found": "o servidor não tem esse modelo: confira api_model (ollama list, /v1/models)",
+    "timeout": "o servidor não respondeu em 60 s: modelo grande demais para a memória, fila ou rede",
+    "auth": "credencial ausente ou recusada: defina a variável de api_key_env",
+    "rate_limit": "limite de uso do serviço: espere ou reduza --max-calls",
+    "invalid_response": "a resposta não está no formato chat-completions: confira se api_url termina em /v1",
+}
+
+
+def _api_provider_checks(cfg: dict, probe: bool) -> list[dict]:
+    from .providers import ChatAPIProvider, ProviderError
+    url, model = cfg["api_url"]["value"], cfg["api_model"]["value"]
+    if not (url and model):
+        return [_check("provider", "FAIL", "api_url e api_model precisam estar os dois definidos",
+                       "defina os dois no arquivo do usuário ou passe --api-url e --api-model", "config")]
+    try:
+        provider = ChatAPIProvider(url, model, timeout=60.0, api_key_env=cfg["api_key_env"]["value"],
+                                   allow_remote=bool(cfg["api_allow_remote"]["value"]), retries=0)
+    except ValueError as error:
+        return [_check("provider", "FAIL", str(error), "corrija api_url (http://host:porta/v1)", "config")]
+    out = [_check("provider", "OK", f"API de chat: {provider.id} (sem chamada)")]
+    key_env = cfg["api_key_env"]["value"]
+    if key_env and not os.environ.get(key_env):
+        out.append(_check("credenciais do provider", "WARN", f"{key_env} não definida (valor nunca exibido)",
+                          "defina a variável no ambiente", "credential"))
+    if probe:
+        started = time.perf_counter()
+        try:
+            answer = provider.generate("Responda apenas com a palavra: ok")[0]
+            out.append(_check("chamada de teste", "OK",
+                              f"respondeu em {time.perf_counter() - started:.1f} s ({len(answer)} caracteres)"))
+        except ProviderError as error:
+            category = "timeout" if error.kind == "timeout" else "provider_call"
+            out.append(_check("chamada de teste", "FAIL", f"{error.kind}: {str(error)[:300]}",
+                              _API_HINTS.get(error.kind, "leia a mensagem acima"), category))
     return out
 
 

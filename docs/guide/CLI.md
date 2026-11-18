@@ -654,7 +654,7 @@ options:
 ## `voznativa rewrite`
 
 ```text
-usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
+usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -692,6 +692,18 @@ options:
                         pre-written candidate file (offline)
   --judge-cmd JUDGE_CMD
                         command used as semantic judge
+  --api-url API_URL     chat-completions server, e.g. http://localhost:11434/v1 (Ollama) or
+                        http://localhost:8080/v1 (llama.cpp); local addresses only unless --api-
+                        allow-remote
+  --api-model API_MODEL
+                        model name for --api-url
+  --api-key-env API_KEY_ENV
+                        environment variable holding the API key, if the server needs one
+  --api-allow-remote    allow --api-url to name a non-local host (the text leaves this machine)
+  --judge-api-url JUDGE_API_URL
+                        chat-completions server for the judge (default: --api-url)
+  --judge-api-model JUDGE_API_MODEL
+                        model for the judge on a chat-completions server
   --attempts ATTEMPTS   tries per text or unit (default 3)
   --candidates CANDIDATES
                         candidates per try (default 1)

@@ -281,7 +281,7 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
     if candidates_files:
         return StaticProvider([_read(f) for f in candidates_files])
     if not spec:
-        raise ValueError("--cmd, --emulate or --candidate is required (rewrite needs a provider; to see the cycle "
+        raise ValueError("--cmd, --api-url/--api-model, --emulate or --candidate is required (rewrite needs a provider; to see the cycle "
                          "without a model, run `voznativa demo` or use the stub in examples/quickstart)")
     if spec == "emulate":
         import os
@@ -292,7 +292,8 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
     return CommandProvider.from_string(spec, timeout, env=env, env_allow=tuple(env_allow or ()))
 
 
-CONFIG_KEYS = ("cmd", "judge_cmd", "provider_env", "provider_env_allow", "timeout", "attempts", "candidates",
+CONFIG_KEYS = ("cmd", "judge_cmd", "provider_env", "provider_env_allow", "api_url", "api_model", "api_key_env",
+               "api_allow_remote", "judge_api_url", "judge_api_model", "timeout", "attempts", "candidates",
                "judge_votes", "max_calls", "segment_words", "long_form", "genre", "channel", "register", "protect")
 
 
@@ -309,11 +310,40 @@ def _apply_config(args) -> dict:
 
 def _call_budget(args, long_form: bool) -> dict:
     """Upper bound of provider calls this rewrite may make (generation, retries and judge)."""
-    judge = args.judge_votes if args.judge_cmd else 0
+    judge = args.judge_votes if (args.judge_cmd or args.judge_api_url or args.judge_api_model) else 0
     per_text = args.attempts * args.candidates + judge
     if long_form:
         return {"max_provider_calls": args.max_calls, "counted": "generation + judge, all units (DF-01)"}
     return {"max_provider_calls": per_text, "counted": "attempts x candidates + judge votes"}
+
+
+def _providers(args):
+    """Writer and judge from the resolved options. One source per role:
+    --cmd, --api-url/--api-model, --emulate or --candidate for the writer;
+    --judge-cmd or --judge-api-url/--judge-api-model for the judge."""
+    from .providers import ChatAPIProvider
+    writers = [n for n, v in (("--cmd", args.cmd), ("--api-url", args.api_url), ("--emulate", args.emulate))
+               if v] + (["--candidate"] if args.candidate else [])
+    if len(writers) > 1:
+        raise ValueError(f"choose one provider, got {' and '.join(writers)}")
+    if args.api_url or args.api_model:
+        if not (args.api_url and args.api_model):
+            raise ValueError("--api-url and --api-model go together (e.g. http://localhost:11434/v1 and a model)")
+        provider = ChatAPIProvider(args.api_url, args.api_model, timeout=args.timeout, api_key_env=args.api_key_env,
+                                   allow_remote=bool(args.api_allow_remote))
+    else:
+        provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
+                             args.provider_env, args.provider_env_allow)
+    if args.judge_cmd and (args.judge_api_url or args.judge_api_model):
+        raise ValueError("choose one judge: --judge-cmd or --judge-api-url/--judge-api-model")
+    judge = None
+    if args.judge_api_url or args.judge_api_model:
+        judge = ChatAPIProvider(args.judge_api_url or args.api_url, args.judge_api_model or args.api_model,
+                                timeout=args.timeout, api_key_env=args.api_key_env,
+                                allow_remote=bool(args.api_allow_remote))
+    elif args.judge_cmd:
+        judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env, args.provider_env_allow)
+    return provider, judge
 
 
 def cmd_rewrite(args):
@@ -330,10 +360,7 @@ def cmd_rewrite(args):
             _emit(None, moded["text"]) if args.text_only else _emit(moded)
             return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2,
                     "returned_original": 1}[moded["outcome"]]
-    provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
-                         args.provider_env, args.provider_env_allow)
-    judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env,
-                      args.provider_env_allow) if args.judge_cmd else None
+    provider, judge = _providers(args)
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
     text = _read(args.text)
@@ -358,6 +385,11 @@ def cmd_rewrite(args):
     result["provenance"] = provenance_record(text, result["text"], tool_version=__version__, operation="rewrite",
                                              provider=result.get("provider") if called else None,
                                              outcome=result.get("outcome"))
+    from .providers import identity
+    usage = {role: {**identity(p), **({"tokens_reported": dict(p.usage)} if isinstance(getattr(p, "usage", None),
+                                                                                    dict) else {})}
+             for role, p in (("writer", provider), ("judge", judge)) if p is not None}
+    result["provider_identity"] = usage   # program and model as configured, tokens only when the server reports them
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -380,7 +412,8 @@ def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
               "decision": the_plan["decision"], "summary": the_plan.get("summary"),
               "would_call_model": the_plan["decision"] != "no_change" or bool(args.force),
               "long_form": long_form, "budget": _call_budget(args, long_form),
-              "provider": {"cmd": bool(args.cmd), "judge": bool(args.judge_cmd), "emulate": bool(args.emulate),
+              "provider": {"cmd": bool(args.cmd), "api": bool(args.api_url), "emulate": bool(args.emulate),
+                           "judge": bool(args.judge_cmd or args.judge_api_url or args.judge_api_model),
                            "candidate_files": len(args.candidate or []),
                            "env": args.provider_env},
               # where each non-default option came from; values are not echoed (a command line may hold a path)
@@ -392,8 +425,8 @@ def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
         report["units"] = {"total": len(units),
                            "rewritable": sum(1 for u in units if u.get("action") == "rewrite"),
                            "protected": sum(1 for u in units if u.get("action") != "rewrite")}
-    if not (args.cmd or args.emulate or args.candidate):
-        report["note"] = "no provider configured: a real run needs --cmd, --emulate or --candidate"
+    if not (args.cmd or args.api_url or args.emulate or args.candidate):
+        report["note"] = "no provider configured: a real run needs --cmd, --api-url/--api-model, --emulate or --candidate"
     _emit(report)
     return 0
 
@@ -743,6 +776,15 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--emulate", action="store_true", help="system baseline via EMULATE_API_KEY")
             p.add_argument("--candidate", action="append", help="pre-written candidate file (offline)")
             p.add_argument("--judge-cmd", help="command used as semantic judge")
+            p.add_argument("--api-url", help="chat-completions server, e.g. http://localhost:11434/v1 (Ollama) or "
+                                             "http://localhost:8080/v1 (llama.cpp); local addresses only unless "
+                                             "--api-allow-remote")
+            p.add_argument("--api-model", help="model name for --api-url")
+            p.add_argument("--api-key-env", help="environment variable holding the API key, if the server needs one")
+            p.add_argument("--api-allow-remote", action="store_true", default=None,
+                           help="allow --api-url to name a non-local host (the text leaves this machine)")
+            p.add_argument("--judge-api-url", help="chat-completions server for the judge (default: --api-url)")
+            p.add_argument("--judge-api-model", help="model for the judge on a chat-completions server")
             p.add_argument("--attempts", type=int, help="tries per text or unit (default 3)")
             p.add_argument("--candidates", type=int, help="candidates per try (default 1)")
             p.add_argument("--timeout", type=float, help="seconds per provider call (default 300)")

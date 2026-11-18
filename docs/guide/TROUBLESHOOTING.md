@@ -7,7 +7,7 @@
 | `o arquivo não está em UTF-8` (exit 64) | arquivo salvo em ANSI/Latin-1 | salve como UTF-8 e rode de novo |
 | `... é uma pasta` (exit 64) | passou uma pasta | passe o arquivo de texto |
 | acentos viram `?` | pipe do PowerShell 5.1 troca acentos antes de o texto chegar | passe o arquivo como argumento, sem pipe |
-| `--cmd, --emulate or --candidate is required` | `rewrite` precisa de um provider | sem modelo: `voznativa demo`, `plan`, `diagnose`, `compare`; com stub: [QUICKSTART](QUICKSTART.md#5-com-um-provider) |
+| `--cmd, --api-url/--api-model, --emulate or --candidate is required` | `rewrite` precisa de um provider | sem modelo: `voznativa demo`, `plan`, `diagnose`, `compare`; com stub: [QUICKSTART](QUICKSTART.md#5-com-um-provider) |
 | `provider_error` com "No such file" | o provider roda num diretório temporário vazio | use caminho absoluto no `--cmd` (ou a forma JSON para caminhos com espaço) |
 | o `rewrite` devolveu o texto igual | `no_change` (nada a mudar) ou `returned_original` (nenhuma candidata segura) | leia `reason`; `--force` chama o modelo mesmo sem achados |
 | `needs_judgment` em vez de `accepted` | gates não provam equivalência | juiz independente (`--judge-cmd` com outro modelo) ou revisão humana assinada; o juízo do próprio agente não aprova |

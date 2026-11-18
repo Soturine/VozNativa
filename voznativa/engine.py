@@ -791,6 +791,15 @@ def _generator_relation(provider, judge_provider) -> str:
     gen, judge = getattr(provider, "argv", None), getattr(judge_provider, "argv", None)
     if gen is not None and list(gen) == list(judge or []):
         return "same_agent"
+    # v0.9 CP2: two command lines that differ in one argument (a log folder, a role name)
+    # can still run the same model; the first v0.8.1 dogfood accepted a unit that way.
+    from .providers import AGENT_CLIS, identity
+    a, b = identity(provider), identity(judge_provider)
+    if a["model"] and b["model"]:
+        return "same_agent" if a["model"].lower() == b["model"].lower() else "different_model"
+    if a["program"] and a["program"] == b["program"] and a["program"] in (*AGENT_CLIS, "ollama", "http"):
+        # same agent CLI (or the same API adapter) and no evidence of a different model
+        return "same_agent"
     return "unknown"
 
 

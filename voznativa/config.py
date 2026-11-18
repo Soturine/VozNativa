@@ -15,9 +15,10 @@ table. Values are checked by type and unknown keys are refused, so a typo is
 an error instead of a silently ignored setting.
 
 **Trust boundary.** A project file comes with a repository someone else may
-have written. Keys that decide *what runs* or *what reaches the model
-process* (``cmd``, ``judge_cmd``, ``provider_env``, ``provider_env_allow``)
-are accepted only from the user file or the command line; in a project file
+have written. Keys that decide *what runs*, *where the text is sent* or
+*what reaches the model process* (``cmd``, ``judge_cmd``, ``provider_env``,
+``provider_env_allow`` and the ``api_*`` keys of the chat-API provider) are
+accepted only from the user file or the command line; in a project file
 they are refused with an error. Otherwise cloning a hostile repository and
 running ``voznativa rewrite`` would execute a command chosen by the
 repository. No file is ever written by VozNativa, and no secret value is read
@@ -38,6 +39,13 @@ KEYS: dict[str, tuple[type | tuple, object, bool]] = {
     "judge_cmd": (str, None, False),
     "provider_env": (str, "inherit", False),
     "provider_env_allow": (list, [], False),
+    # v0.9 CP2: chat-API provider. The URL decides where the text goes: user file or flag only.
+    "api_url": (str, None, False),
+    "api_model": (str, None, False),
+    "api_key_env": (str, None, False),
+    "api_allow_remote": (bool, False, False),
+    "judge_api_url": (str, None, False),
+    "judge_api_model": (str, None, False),
     "timeout": ((int, float), 300.0, True),
     "attempts": (int, 3, True),
     "candidates": (int, 1, True),
@@ -100,7 +108,7 @@ def _load(path: Path, scope: str) -> dict:
             raise ConfigError(f"project config {path}: '{key}' is refused in a project file (it decides what runs "
                               f"or what reaches the model process); set it in the user file "
                               f"({user_path()}) or on the command line")
-        if isinstance(value, bool) or not isinstance(value, kind):
+        if (isinstance(value, bool) != (kind is bool)) or not isinstance(value, kind):
             raise ConfigError(f"{scope} config {path}: '{key}' has the wrong type ({type(value).__name__})")
         if kind is list and not all(isinstance(v, str) for v in value):
             raise ConfigError(f"{scope} config {path}: '{key}' must be a list of strings")

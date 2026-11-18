@@ -56,17 +56,54 @@ AGENT_CLIS = {
 
 
 class Provider(Protocol):
+    """The whole contract the engine relies on (v0.9 CP2 keeps it this small).
+
+    ``generate`` returns raw answers; the engine, never the provider, applies
+    the Semantic Ledger, ``compare``, the guards, the budget and the
+    provenance record, so no adapter can skip them. Optional attributes the
+    engine reads when present: ``warnings`` (isolation problems), ``usage``
+    (tokens and calls observed), ``argv``/``model`` (identity, see
+    ``identity``)."""
     id: str
 
     def generate(self, prompt: str, n: int = 1) -> list[str]: ...
 
 
-class ProviderError(RuntimeError):
-    """A provider call failed. ``transient`` says whether retrying can help."""
+# Kinds of provider failure (v0.9 CP2), so callers (doctor, reports) say what to do
+# instead of echoing a message. ``transient`` still decides whether a retry can help.
+ERROR_KINDS = ("not_found", "connection_refused", "timeout", "auth", "rate_limit", "model_not_found",
+               "server_error", "bad_request", "invalid_response", "empty_answer", "too_large", "exit_status",
+               "unsupported", "other")
 
-    def __init__(self, message: str, transient: bool = True):
+
+class ProviderError(RuntimeError):
+    """A provider call failed. ``transient`` says whether retrying can help;
+    ``kind`` (one of ``ERROR_KINDS``) says what failed."""
+
+    def __init__(self, message: str, transient: bool = True, kind: str = "other"):
         super().__init__(message)
         self.transient = transient
+        self.kind = kind if kind in ERROR_KINDS else "other"
+
+
+_MODEL_FLAGS = ("--model", "-m")
+
+
+def identity(provider) -> dict:
+    """What can be observed about who answers: the program (agent CLI name,
+    ``http`` for an API adapter) and the model when the configuration states
+    it. Unknown parts are ``None``; nothing is guessed (v0.9 CP2)."""
+    model = getattr(provider, "model", None)
+    argv = getattr(provider, "argv", None)
+    program = getattr(provider, "program", None)
+    if argv:
+        program = re.split(r"[\\/]", argv[0])[-1].lower().removesuffix(".exe").removesuffix(".cmd")
+        for i, arg in enumerate(argv[1:], 1):
+            if arg in _MODEL_FLAGS and i + 1 < len(argv):
+                model = argv[i + 1]
+            elif arg.startswith("--model="):
+                model = arg.split("=", 1)[1]
+    return {"program": program, "model": model}
 
 
 def agent_cli_warnings(argv: list[str]) -> list[str]:
@@ -294,7 +331,8 @@ class CommandProvider:
                 except OSError as error:  # command not found, not executable: retrying cannot help
                     if job is not None:
                         job.close()
-                    raise ProviderError(f"{self.id}: cannot start: {error.strerror or error}", transient=False) \
+                    raise ProviderError(f"{self.id}: cannot start: {error.strerror or error}", transient=False,
+                                        kind="not_found") \
                         from error
                 if job is not None:
                     job.adopt(process)
@@ -303,20 +341,22 @@ class CommandProvider:
                 except subprocess.TimeoutExpired:
                     _kill_tree(process, job)
                     process.wait()
-                    raise ProviderError(f"{self.id}: no answer after {self.timeout:g}s (process tree stopped)")
+                    raise ProviderError(f"{self.id}: no answer after {self.timeout:g}s (process tree stopped)",
+                                        kind="timeout")
                 finally:
                     if job is not None:
                         job.close()
             size = os.path.getsize(out_path)
             stderr = Path(err_path).read_bytes()[:2000].decode("utf-8", "replace")
             if process.returncode != 0:
-                raise ProviderError(f"{self.id} exited {process.returncode}: {scrub_secrets(stderr)[:500]}")
+                raise ProviderError(f"{self.id} exited {process.returncode}: {scrub_secrets(stderr)[:500]}",
+                                    kind="exit_status")
             if size > self.max_output_bytes:
                 raise ProviderError(f"{self.id}: answer of {size} bytes exceeds {self.max_output_bytes}",
-                                    transient=False)
+                                    transient=False, kind="too_large")
             answer = _decode(Path(out_path).read_bytes())
         if not answer.strip():
-            raise ProviderError(f"{self.id}: empty answer")
+            raise ProviderError(f"{self.id}: empty answer", kind="empty_answer")
         return answer
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
@@ -385,23 +425,10 @@ class EmulateProvider:
             return response.read(self.max_output_bytes + 1)
 
     def _once(self, text: str) -> str:
-        req = self.request(text)
-        try:
-            raw = self._send(req)
-        except urllib.error.HTTPError as error:
-            raise ProviderError(f"{self.id}: HTTP {error.code}",
-                                transient=error.code == 429 or error.code >= 500) from None
-        except (urllib.error.URLError, socket.timeout, TimeoutError, ConnectionError) as error:
-            reason = getattr(error, "reason", error)
-            raise ProviderError(f"{self.id}: network error: {type(reason).__name__}") from None
-        if len(raw) > self.max_output_bytes:
-            raise ProviderError(f"{self.id}: answer exceeds {self.max_output_bytes} bytes", transient=False)
-        try:
-            payload = json.loads(raw.decode("utf-8"))
-        except (UnicodeDecodeError, json.JSONDecodeError):
-            raise ProviderError(f"{self.id}: answer is not JSON") from None
+        payload = _http_json(self.id, lambda: self._send(self.request(text)), self.max_output_bytes)
         if not isinstance(payload, dict) or not isinstance(payload.get("text"), str) or not payload["text"].strip():
-            raise ProviderError(f"{self.id}: unexpected response (keys: {sorted(payload)[:5] if isinstance(payload, dict) else type(payload).__name__})")
+            raise ProviderError(f"{self.id}: unexpected response (keys: {sorted(payload)[:5] if isinstance(payload, dict) else type(payload).__name__})",
+                                kind="invalid_response")
         return payload["text"]
 
     def humanize(self, text: str) -> str:
@@ -418,4 +445,156 @@ class EmulateProvider:
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
         raise ProviderError("Emulate takes the source text, not a prompt; use the engine's system mode",
-                            transient=False)
+                            transient=False, kind="unsupported")
+
+
+def _http_json(provider_id: str, send: Callable[[], bytes], max_bytes: int):
+    """Run one HTTP exchange and decode its JSON, mapping every failure to a
+    typed ``ProviderError`` (v0.9 CP2). The message never carries the
+    request (it holds the user's text and, for some services, a key)."""
+    try:
+        raw = send()
+    except urllib.error.HTTPError as error:
+        code = error.code
+        kind = ("auth" if code in (401, 403) else "rate_limit" if code == 429 else
+                "model_not_found" if code == 404 else "server_error" if code >= 500 else "bad_request")
+        detail = ""
+        try:  # local servers explain a missing model in the body ({"error": "model 'x' not found"})
+            body = error.read(2000).decode("utf-8", "replace")
+            from .redact import scrub_secrets
+            detail = ": " + scrub_secrets(body)[:200] if body else ""
+        except Exception:  # noqa: BLE001 - the status code is enough
+            pass
+        if code == 400 and "model" in detail.lower() and "not" in detail.lower():
+            kind = "model_not_found"
+        raise ProviderError(f"{provider_id}: HTTP {code}{detail}", transient=code == 429 or code >= 500,
+                            kind=kind) from None
+    except (socket.timeout, TimeoutError) as error:
+        raise ProviderError(f"{provider_id}: no answer in time ({type(error).__name__})", kind="timeout") from None
+    except urllib.error.URLError as error:
+        reason = getattr(error, "reason", error)
+        if isinstance(reason, (socket.timeout, TimeoutError)):
+            raise ProviderError(f"{provider_id}: no answer in time", kind="timeout") from None
+        if isinstance(reason, ConnectionRefusedError):
+            raise ProviderError(f"{provider_id}: connection refused (is the server running?)", transient=False,
+                                kind="connection_refused") from None
+        raise ProviderError(f"{provider_id}: network error: {type(reason).__name__}", kind="other") from None
+    except ConnectionRefusedError:
+        raise ProviderError(f"{provider_id}: connection refused (is the server running?)", transient=False,
+                            kind="connection_refused") from None
+    except ConnectionError as error:
+        raise ProviderError(f"{provider_id}: network error: {type(error).__name__}", kind="other") from None
+    if len(raw) > max_bytes:
+        raise ProviderError(f"{provider_id}: answer exceeds {max_bytes} bytes", transient=False, kind="too_large")
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise ProviderError(f"{provider_id}: answer is not JSON", transient=False, kind="invalid_response") from None
+
+
+@dataclass
+class ChatAPIProvider:
+    """A server that speaks the chat-completions format (``POST {base_url}/chat/completions``):
+    Ollama (``http://localhost:11434/v1``), llama.cpp ``llama-server``
+    (``http://localhost:8080/v1``), LM Studio, vLLM, or a hosted API the user
+    is authorised to use (v0.9 CP2).
+
+    * Standard library only; one HTTP request per candidate.
+    * The prompt is sent as one user message; the answer is
+      ``choices[0].message.content``. Token counts the server reports are
+      added to ``usage``; nothing is estimated.
+    * The key, if any, comes from the environment variable named by
+      ``api_key_env`` (never from a file, never in a message or the id).
+    * A non-local URL is refused unless ``allow_remote`` is set, so a typo
+      cannot send the text to another host.
+    * Errors are typed: connection refused (server down), model not found,
+      timeout, auth, rate limit, invalid response; retries only for
+      transient ones.
+    The engine treats it like any other provider: its answers go through the
+    same gates, budget and provenance record."""
+    base_url: str
+    model: str
+    timeout: float = 300.0
+    api_key_env: str | None = None
+    allow_remote: bool = False
+    retries: int = 1
+    backoff: float = 2.0
+    temperature: float | None = None
+    max_tokens: int | None = None
+    max_output_bytes: int = MAX_OUTPUT_BYTES
+    transport: Callable[[urllib.request.Request], bytes] | None = None
+    id: str = ""
+    program: str = "http"
+    calls: int = 0
+    usage: dict = field(default_factory=lambda: {"prompt_tokens": 0, "completion_tokens": 0, "reported_calls": 0})
+    errors: list = field(default_factory=list)
+    warnings: list = field(default_factory=list)
+
+    def __post_init__(self):
+        from urllib.parse import urlsplit
+        parts = urlsplit(self.base_url)
+        if parts.scheme not in ("http", "https") or not parts.hostname:
+            raise ValueError(f"chat API base URL must be http(s)://host[:port]/path, got {self.base_url!r}")
+        local = parts.hostname in ("localhost", "127.0.0.1", "::1")
+        if not local and not self.allow_remote:
+            raise ValueError(f"{parts.hostname} is not a local address; the text would leave this machine. "
+                             "Pass --api-allow-remote if that is intended")
+        if not self.model:
+            raise ValueError("chat API provider needs a model name (--api-model)")
+        self.base_url = self.base_url.rstrip("/")
+        self.id = self.id or f"chat-api:{parts.hostname}:{parts.port or ''}/{self.model}"
+
+    def request(self, prompt: str) -> urllib.request.Request:
+        body = {"model": self.model, "messages": [{"role": "user", "content": prompt}], "stream": False}
+        if self.temperature is not None:
+            body["temperature"] = self.temperature
+        if self.max_tokens is not None:
+            body["max_tokens"] = self.max_tokens
+        headers = {"Content-Type": "application/json"}
+        if self.api_key_env:
+            key = os.environ.get(self.api_key_env)
+            if not key:
+                raise ProviderError(f"{self.id}: environment variable {self.api_key_env} is not set",
+                                    transient=False, kind="auth")
+            headers["Authorization"] = f"Bearer {key}"
+        return urllib.request.Request(self.base_url + "/chat/completions", method="POST", headers=headers,
+                                      data=json.dumps(body, ensure_ascii=False).encode("utf-8"))
+
+    def _send(self, req: urllib.request.Request) -> bytes:
+        if self.transport:
+            return self.transport(req)
+        with urllib.request.urlopen(req, timeout=self.timeout) as response:
+            return response.read(self.max_output_bytes + 1)
+
+    def _once(self, prompt: str) -> str:
+        self.calls += 1
+        payload = _http_json(self.id, lambda: self._send(self.request(prompt)), self.max_output_bytes)
+        try:
+            content = payload["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError):
+            raise ProviderError(f"{self.id}: unexpected response (no choices[0].message.content)",
+                                transient=False, kind="invalid_response") from None
+        if isinstance(payload.get("usage"), dict):
+            self.usage["reported_calls"] += 1
+            for key in ("prompt_tokens", "completion_tokens"):
+                if isinstance(payload["usage"].get(key), int):
+                    self.usage[key] += payload["usage"][key]
+        if not isinstance(content, str) or not content.strip():
+            raise ProviderError(f"{self.id}: empty answer", kind="empty_answer")
+        return content
+
+    def generate(self, prompt: str, n: int = 1) -> list[str]:
+        outputs = []
+        for _ in range(n):
+            delay = self.backoff
+            for attempt in range(self.retries + 1):
+                try:
+                    outputs.append(self._once(prompt))
+                    break
+                except ProviderError as error:
+                    self.errors.append(str(error))
+                    if attempt == self.retries or not error.transient:
+                        raise
+                    time.sleep(delay)
+                    delay *= 2
+        return outputs
