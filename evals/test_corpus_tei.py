@@ -111,7 +111,8 @@ class TeiReader(unittest.TestCase):
         rows = list(tei.read_tei(stream, [], 500_000_000))
         self.assertEqual(len(rows), 1)
         self.assertTrue(stream.sizes and max(stream.sizes) <= 1 << 20, stream.sizes)
-        with self.assertRaises(Exception) as ctx:
+        from voznativa.corpus.connectors import AccessError
+        with self.assertRaises(AccessError) as ctx:
             list(tei.read_tei(Spy(b"<TEI>" + b"x" * 300 + b"</TEI>"), [], 100))
         self.assertIn("larger than 100", str(ctx.exception))
 

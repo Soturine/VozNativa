@@ -60,6 +60,8 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | Documento | Conteúdo | Estado |
 |---|---|---|
 | [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/DOGFOOD.md](releases/v0.9/DOGFOOD.md) | dogfood com o engine real e provider real: cenários, defeito do ciclo, DOCX real pelo fluxo do produto, custos | registro do CP8 |
+| [v0.9/ASSURANCE.md](releases/v0.9/ASSURANCE.md) | Assertiva, Derivanta (triagem) e segurança das superfícies novas | registro do CP8 |
 | [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) | DOCX (extração, cópia reescrita, conferência), PDF (extração rastreável, notas), normas | vigente |
 | [v0.9/EVALUATION.md](releases/v0.9/EVALUATION.md) | antes × depois com os mesmos instrumentos, braços com modelo real, mutação, eixos não medidos | vigente |
 | [v0.9/SEMANTICS.md](releases/v0.9/SEMANTICS.md) | qualificadores, classes de evento, estado do fato, aspecto, passiva, diagnóstico gramatical, termos técnicos; conjuntos congelados e holdout | vigente |
