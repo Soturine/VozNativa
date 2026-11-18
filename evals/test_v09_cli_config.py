@@ -107,7 +107,8 @@ class Precedence(unittest.TestCase):
         sub = self.e.project / "a" / "b"
         sub.mkdir(parents=True)
         (self.e.project / ".voznativa.toml").write_text("[rewrite]\nattempts = 2\n", encoding="utf-8")
-        self.assertEqual(config.project_path(sub), self.e.project / ".voznativa.toml")
+        # resolved on both sides: the Windows CI runner's TEMP is a short 8.3 path (CI #129)
+        self.assertEqual(config.project_path(sub), (self.e.project / ".voznativa.toml").resolve())
 
 
 class ProjectFileTrustBoundary(unittest.TestCase):

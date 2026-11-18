@@ -173,7 +173,9 @@ def main(argv: list[str] | None = None) -> int:
         if not p.is_file():
             print(f"privacy_gate: cannot read {p.name}", file=sys.stderr)
             return 2
-        if ROOT in p.parents:
+        # Both sides resolved: on Windows a short 8.3 path (C:\Users\RUNNER~1\...) and its long form are
+        # the same folder, and comparing a resolved file with an unresolved root missed it (CI #129).
+        if ROOT.resolve() in p.parents:
             print(f"privacy_gate: {p.name} lives inside the repository; private inputs must stay outside",
                   file=sys.stderr)
             return 2
