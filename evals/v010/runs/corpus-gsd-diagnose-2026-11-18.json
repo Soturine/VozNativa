@@ -1,0 +1,366 @@
+{
+ "kind": "voznativa.corpus_false_alarm_campaign",
+ "date": "2026-11-18",
+ "corpus": "ud-portuguese-gsd",
+ "pinned_commit": "c91edee46c9d096c684dda4848637dff5f4299e9",
+ "command": "python scripts/corpus_false_alarms.py <split>.conllu --genre news [--root <v0.9.0 worktree>]",
+ "text_stored": false,
+ "triage_by": "the agent that wrote the rules (AGENT_OBSERVED, not human review)",
+ "protocol": "test split used to find and fix false alarms (development); dev split run ONCE with the fixed rules before any look at it (held-out result below), then used for a second fix (now development too)",
+ "test_split": {
+  "v0.9.0": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-test.conllu",
+   "corpus_sha256": "0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31",
+   "sentences": 1200,
+   "by_status": {
+    "ERROR_CONFIRMED": 11,
+    "OTHER": 1
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 11,
+    "OTHER:tense_switch": 1
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "test-s76",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s474",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s501",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s592",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s681",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s856",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s920",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1103",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1133",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1150",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1193",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "v0.10_before_fix": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-test.conllu",
+   "corpus_sha256": "0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31",
+   "sentences": 1200,
+   "by_status": {
+    "ERROR_CONFIRMED": 11,
+    "STYLE_PREFERENCE": 3,
+    "UNCERTAIN": 1
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 11,
+    "STYLE_PREFERENCE:ter_existential": 3,
+    "UNCERTAIN:tense_switch": 1
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "test-s76",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s474",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s501",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s592",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s681",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s856",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s920",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1103",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1133",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1150",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "test-s1193",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "v0.10_final": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-test.conllu",
+   "corpus_sha256": "0572d50de07593d662f7a1ff49490c7c3722612acac1d5c50916deb3d7b02a31",
+   "sentences": 1200,
+   "by_status": {
+    "ERROR_CONFIRMED": 1,
+    "STYLE_PREFERENCE": 3,
+    "UNCERTAIN": 1
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 1,
+    "STYLE_PREFERENCE:ter_existential": 3,
+    "UNCERTAIN:tense_switch": 1
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "test-s592",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "triage": {
+   "v0.10_before_fix": {
+    "true_slips": 1,
+    "false_alarms": 10,
+    "false_alarm_shapes": [
+     "pronoun determiner + plural verb",
+     "clitic + verb",
+     "adverb after determiner",
+     "hyphen split by spaces"
+    ]
+   },
+   "v0.10_final": {
+    "true_slips": 1,
+    "false_alarms": 0
+   }
+  }
+ },
+ "dev_split": {
+  "v0.9.0": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-dev.conllu",
+   "corpus_sha256": "0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6",
+   "sentences": 1204,
+   "by_status": {
+    "ERROR_CONFIRMED": 16
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 13,
+    "ERROR_CONFIRMED:repeated_word": 3
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "dev-s44",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s59",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s120",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s120",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s129",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s146a",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s192",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s262",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s369",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s405",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s424",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s550",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s710",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s893",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s1162",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s1199",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "v0.10_held_out_once": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-dev.conllu",
+   "corpus_sha256": "0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6",
+   "sentences": 1204,
+   "by_status": {
+    "ERROR_CONFIRMED": 11
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 8,
+    "ERROR_CONFIRMED:repeated_word": 3
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "dev-s44",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s59",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s120",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s129",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s146a",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s262",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s405",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s424",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s550",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s710",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s1162",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "v0.10_final": {
+   "engine_version": "0.9.0",
+   "corpus_file": "pt_gsd-ud-dev.conllu",
+   "corpus_sha256": "0d3b6c8518ad727a26476eb682f58d5dc2bbda0307270d2a7691eb6463a074e6",
+   "sentences": 1204,
+   "by_status": {
+    "ERROR_CONFIRMED": 6
+   },
+   "by_type": {
+    "ERROR_CONFIRMED:plural_agreement": 3,
+    "ERROR_CONFIRMED:repeated_word": 3
+   },
+   "error_confirmed_ids": [
+    {
+     "sent_id": "dev-s59",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s120",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s129",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s146a",
+     "type": "plural_agreement"
+    },
+    {
+     "sent_id": "dev-s405",
+     "type": "repeated_word"
+    },
+    {
+     "sent_id": "dev-s550",
+     "type": "plural_agreement"
+    }
+   ]
+  },
+  "triage": {
+   "v0.10_held_out_once": {
+    "true_slips": 6,
+    "false_alarms": 5,
+    "false_alarm_shapes": [
+     "pronoun determiner + verb in -em",
+     "gerund"
+    ]
+   },
+   "v0.10_final": {
+    "true_slips": 6,
+    "false_alarms": 0
+   }
+  }
+ },
+ "limits": "precision only (recall needs annotated errors, which the treebank does not have); news and blog prose; triage by the same agent"
+}

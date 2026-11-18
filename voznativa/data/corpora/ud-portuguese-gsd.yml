@@ -105,3 +105,5 @@ evaluations:
 - evals/corpus/runs/crossgenre-2026-11-06-cp5b.json
 - evals/corpus/runs/crossgenre-2026-11-06-cp6.json
 - evals/corpus/runs/crossgenre-2026-11-06-cp6b.json
+- scripts/corpus_false_alarms.py
+- evals/v010/runs/corpus-gsd-diagnose-2026-11-18.json

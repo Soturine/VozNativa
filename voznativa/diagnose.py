@@ -255,13 +255,29 @@ _CLITIC_ATTRACTORS = frozenset(
     "eu tu ele ela nós vós eles elas você vocês que não nunca jamais já se quem também só ainda sempre ninguém "
     "alguém tudo isso isto aquilo me te lhe nos vos lhes onde quando como porque".split())
 _VERB_ENDING = re.compile(r"(?:ou|eu|iu|aram|eram|iram|ava|avam|ia|iam|ará|erá|irá|arão|erão|irão|ei|amos|emos|imos)$")
+# v0.10 CP7 (V010-GAP-15, real text: UD Portuguese-GSD test, 10 of 11 ERROR_CONFIRMED were false):
+# a plural determiner that is a pronoun ("Outras estão", "muitos acharam", "esses foram", "outros
+# tenham") or a clitic ("os ajudam") before a third-person plural verb or a form of ser/estar/ir.
+_PLURAL_VERB = re.compile(r"(?:am|ram|vam|iam|rão|ão)$")
+_VERB_FORMS = frozenset("foi é era será seria são estão vão dão têm vêm há tem vem pode podem deve devem "
+                        "fica ficam ficou".split())
+# Singular nouns in -em that a plural verb ending would hide ("muitos homem" must stay an error);
+# -gem nouns (viagem, imagem, margem) are excluded by their ending.
+_NOUN_IN_EM = frozenset("homem ordem jovem nuvem refém armazém desdém vintém harém item totem também alguém "
+                        "ninguém bem trem".split())
+_PRONOUN_DETERMINERS = frozenset("todos todas muitos muitas poucos poucas outros outras alguns algumas vários "
+                                 "várias diversos diversas esses essas estes estas aqueles aquelas tais".split())
+_NOUN_IN_AO = frozenset("mão irmão cidadão órgão órfão cão pão chão grão mamão limão sertão alemão "
+                        "cristão pagão capitão escrivão".split())
 _PREP_BEFORE_ARTICLE = frozenset("de em para com por sobre entre sem até após contra perante todos todas".split())
 _NOT_A_NOUN = frozenset(
     "que quais quanto quantos quantas qual cujo cuja mesmo mesma demais seguinte próprio própria um uma dois duas três "
     "quatro cinco seis sete oito nove dez onze doze treze catorze quatorze quinze dezesseis dezessete dezoito dezenove "
     "vinte trinta quarenta cinquenta sessenta setenta oitenta noventa cem cento duzentos duzentas mil milhão milhões "
     "e ou nem mas de a o em por para com sem se não já ainda mais menos muito pouco bem mal quem onde quando como "
-    "dele dela deles delas nele nela isso isto aquilo outro outra tal".split())
+    "dele dela deles delas nele nela isso isto aquilo outro outra tal "
+    # v0.10 CP7: adverbs after a determiner in edited text ("dos cerca de 60", "às quase", "as então")
+    "cerca quase então apenas só somente ainda sempre também".split())
 _NUMBER_WORDS = re.compile(r"\d")
 _ANGLICISM_END = re.compile(r"(?:ware|ing|er|ion|ment|ness|ity|ow|ay|ey|ck|sh|th)$")
 _FAZER_TIME = re.compile(
@@ -296,6 +312,14 @@ _A_GENTE = re.compile(r"\b(a gente)\s+([^\W\d_]+mos)\b", re.I)
 _A_GENTE_NOT_VERB = frozenset({"mesmos", "todos", "ramos", "anos", "mesmas"})
 
 
+def _looks_plural_verb(word: str) -> bool:
+    if word in _VERB_FORMS:
+        return True
+    if word.endswith("ão"):
+        return word not in _NOUN_IN_AO and (word.endswith("rão") or word in {"estão", "são", "vão", "dão"})
+    return bool(_PLURAL_VERB.search(word)) and not word.endswith(("ão",))
+
+
 def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
     from .text import sentences
     out = []
@@ -322,12 +346,20 @@ def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
                 # "os"/"as" are also clitic pronouns: before a verb ("eu as levei", "a diretora as
                 # recebeu") or after a word that attracts the pronoun ("ele", "que", "não").
                 previous = tokens[k - 1].group(0).lower() if k else None
-                verb_next = _VERB_ENDING.search(tokens[k + 1].group(0).lower())
+                verb_next = _VERB_ENDING.search(tokens[k + 1].group(0).lower()) or \
+                    _looks_plural_verb(tokens[k + 1].group(0).lower())
                 if k and previous not in _PREP_BEFORE_ARTICLE and (previous in _CLITIC_ATTRACTORS or verb_next):
                     continue
             elif low not in _PLURAL_DETERMINERS:
                 continue
             word = noun.lower()
+            if low not in _SENTENCE_START_ONLY and (_looks_plural_verb(word) or word in _VERB_FORMS):
+                continue        # the determiner is a pronoun subject: "outros tenham", "esses foram"
+            if low in _PRONOUN_DETERMINERS and (word.endswith("ndo") or (
+                    word.endswith("em") and not word.endswith("gem") and word not in _NOUN_IN_EM)):
+                continue        # "Muitos aprendem", "todos desliguem", "muitas sendo" (GSD dev, v0.10 CP7)
+            if re.match(r"\s*-", s.text[tokens[k + 1].end():]):
+                continue        # hyphenated compound split by spaces ("rubro - negros")
             if (not noun.isalpha() or noun[:1].isupper() or len(word) < 3 or word in _NOT_A_NOUN
                     or word.endswith(("s", "x", "z")) or _NUMBER_WORDS.search(word) or _ANGLICISM_END.search(word)
                     or s.text[tokens[k].end():tokens[k + 1].start()].strip()):

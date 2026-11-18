@@ -26,3 +26,4 @@
 | V08-GAP-23 | `--provider-env inherit` como padrão | herdado | P2 | OPEN | CP13 |
 | V08-GAP-28 | Ciclos de import | herdado | P3 | OPEN | CP9 |
 | V08-GAP-29 | Caminhos locais em registros históricos | herdado | P3 | OPEN | CP9 |
+| V010-GAP-15 | `plural_agreement` dispara com pronome sujeito, clítico, advérbio e hífen separado (texto real) | UD-GSD test: 10 de 11 `ERROR_CONFIRMED` falsos (iguais em `v0.9.0`) | P2 | FIXED (CP7) | CP7 |
