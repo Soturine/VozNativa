@@ -121,6 +121,21 @@ class PrivacyGate(unittest.TestCase):
         self._commit("doc.md", "Autor: 1+test@users.noreply.github.com\nC:\\Users\\<user>\\x e /home/runner/w\n")
         self.assertEqual(self._run(), 0)
 
+    @unittest.skipUnless(sys.platform == "win32", "8.3 short paths exist only on Windows")
+    def test_a_private_input_inside_a_short_path_root_is_refused(self):
+        # CI #129: the Windows runner's TEMP is C:\Users\RUNNER~1\...; the root was compared unresolved
+        # with a resolved file and a private input inside the repository was accepted.
+        import ctypes
+        buf = ctypes.create_unicode_buffer(1024)
+        ctypes.windll.kernel32.GetShortPathNameW(str(self.repo), buf, 1024)
+        if not buf.value or Path(buf.value) == self.repo:
+            self.skipTest("8.3 names are disabled on this volume")
+        self.gate.ROOT = Path(buf.value)
+        inside = self.repo / "privado.txt"
+        inside.write_text(PRIVATE, encoding="utf-8")
+        self._commit("ok.md", "texto neutro\n")
+        self.assertEqual(self.gate.main(["--base", "HEAD~1", "--private", str(inside)]), 2)
+
     def test_a_private_input_inside_the_repository_is_refused(self):
         inside = self.repo / "privado.txt"
         inside.write_text(PRIVATE, encoding="utf-8")
