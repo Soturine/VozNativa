@@ -160,7 +160,11 @@
         "qualquer",
         "quaisquer",
         "em todos os casos",
-        "sem exceção"
+        "sem exceção",
+        "inteiro",
+        "inteira",
+        "inteiros",
+        "inteiras"
       ],
       "restrictive": [
         "apenas",

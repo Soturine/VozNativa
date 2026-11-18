@@ -80,6 +80,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _predicate_issues(src, out, alignment)
     issues += _class_issues(src, out, alignment)
     issues += _event_issues(src, out, alignment)
+    issues += _coordination_issues(src, out, alignment)
     issues += _polarity_issues(src, out, alignment)
     issues += _attribution_issues(src, out)
     issues += _coverage_issues(src, out)
@@ -87,6 +88,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     issues += _length_issues(original, candidate)
     issues += _structure_issues(src, out)
     issues += _regional_referent_issues(original, candidate)
+    issues = _discourse_issues(original, candidate, issues)
 
     if any(i["severity"] == "critical" for i in issues):
         status = "fail"
@@ -95,6 +97,68 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     else:
         status = "no_deterministic_issues"
     return _report(status, issues, original, candidate, src=src, out=out)
+
+
+# v0.10 CP6 (V010-GAP-05, rest of V09-GAP-07): two coordinated actions, "foi revisado e enviado",
+# "recolheu e pesou"; dropping one leaves every value intact and passed as no_deterministic_issues.
+_COORD_PARTICIPLE = re.compile(r"\b([^\W\d_]{3,}(?:ado|ada|ados|adas|ido|ida|idos|idas))\s+e\s+"
+                               r"(?:(?:depois|em seguida|logo|também)\s*,?\s+)?"
+                               r"([^\W\d_]{3,}(?:ado|ada|ados|adas|ido|ida|idos|idas))\b", re.I)
+_COORD_PRETERITE = re.compile(r"\b([^\W\d_]{3,}(?:ou|eu|iu|aram|eram|iram))\s+e\s+"
+                              r"([^\W\d_]{3,}(?:ou|eu|iu|aram|eram|iram))\b", re.I)
+_COORD_NOT_VERB = frozenset({"seu", "meu", "teu", "ateu", "europeu", "museu", "chapéu", "céu", "réu", "troféu",
+                             "pneu", "judeu", "plebeu", "liceu", "apogeu"})
+
+
+def _stem_present(word: str, text: str) -> bool:
+    stem = word.lower()[:max(4, len(word) - 3)]
+    return re.search(rf"\b{re.escape(stem)}", text.lower()) is not None
+
+
+def _coordination_issues(src, out, alignment) -> list[dict]:
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        sentence = src.entries[i].sentence.text
+        target = out.entries[j].sentence.text
+        for pattern in (_COORD_PARTICIPLE, _COORD_PRETERITE):
+            for m in pattern.finditer(sentence):
+                a, b = m.group(1), m.group(2)
+                if a.lower() in _COORD_NOT_VERB or b.lower() in _COORD_NOT_VERB:
+                    continue
+                missing = [w for w in (a, b) if not _stem_present(w, target) and not _stem_present(w, out.text)]
+                if len(missing) == 1:
+                    issues.append(_issue("coordinated_action_dropped", "major",
+                                         f"'{m.group(0)}': the action '{missing[0]}' is no longer stated",
+                                         source_sentence=sentence, candidate_sentence=target,
+                                         dropped=missing[0]))
+    return issues
+
+
+def _discourse_issues(original: str, candidate: str, issues: list[dict]) -> list[dict]:
+    """v0.10 CP5 (V010-GAP-03/08): relations between facts, by family (voznativa.discourse).
+
+    Adds ``relation_changed``/``relation_invented``/``relation_dropped``. When the causal
+    family is kept with another connective ("porque" -> "Como ..., "), a
+    ``causality_changed`` raised by the marker swap is demoted to info: the cause is
+    still stated. Direction of the cause keeps its own check (``causal_direction_reversed``)."""
+    from . import discourse
+    found = discourse.issues(original, candidate)
+    already_causal = any(i["code"] in ("causality_changed", "causality_moved") and i["severity"] != "info"
+                         and "added" in i["message"] for i in issues)
+    out = list(issues)
+    for item in found:
+        if item["code"] == "relation_invented" and already_causal:
+            continue                # the causal marker check already says it, with its location
+        out.append(_issue(item["code"], item["severity"], item["message"],
+                          **{k: v for k, v in item.items() if k not in ("code", "severity", "message")}))
+    if not any(i["code"] == "relation_changed" for i in found) and discourse.preserved(original, candidate, "causal"):
+        for i, item in enumerate(out):
+            if item["code"] == "causality_changed" and item["severity"] != "info":
+                out[i] = dict(item, severity="info", demoted="causal relation kept with another connective "
+                                                             "(voznativa.discourse)")
+    return out
 
 
 def _report(status, issues, original, candidate, src=None, out=None) -> dict:
@@ -158,6 +222,14 @@ def _span_issues(src, out) -> list[dict]:
                                      type="entity", text=span.text))
             continue
         if key not in before:
+            inner = span.text.strip("`").strip()
+            if span.type == "inline_code" and inner and contains_word(src.text, inner) and \
+                    not any(s.type == "inline_code" and s.text.strip("`").strip() == inner for s in src.spans):
+                # v0.10 CP6 (V010-GAP-06, v0.9 arms a-09): "pasta data" -> "pasta `data`" only marks
+                # as code a word the source already has; content changes still fail below.
+                issues.append(_issue("code_marking_added", "info", f"'{inner}' is now marked as code",
+                                     type=span.type, text=span.text))
+                continue
             severity = "critical" if span.type in HARD_TYPES else "major"
             issues.append(_issue("span_added", severity, f"{span.type} '{span.text}' is not in the source",
                                  type=span.type, text=span.text, key=key, actual_count=count))
@@ -667,10 +739,25 @@ _NON_FINITE = {"inf", "ger", "part"}
 
 def _time_reference(label: str) -> str | None:
     """A comparable time label, or None when the form carries no tense of its
-    own (an infinitive, gerund or participle left over by the analysis)."""
-    if label.split("@")[0] in _NON_FINITE:
+    own (an infinitive, gerund or participle left over by the analysis; v0.10:
+    also a compound whose auxiliary is non-finite, "ter começado")."""
+    if any(part in _NON_FINITE for part in label.split("@")):
         return None
     return _SAME_TIME.get(label, label)
+
+
+# v0.10 CP6 (V010-GAP-06): "vai ser no sábado" -> "é no sábado" is the scheduled present, not a
+# change of time, when the sentence anchors the event in the future (weekday, date, "amanhã"...).
+_FUTURE_ANCHOR = re.compile(
+    r"\b(?:amanhã|depois de amanhã|próxim[oa]s?|semana que vem|mês que vem|ano que vem|"
+    r"(?:no|na|neste|nesta|nesse|nessa) (?:segunda|terça|quarta|quinta|sexta|sábado|domingo)(?:-feira)?|"
+    r"(?:segunda|terça|quarta|quinta|sexta)(?:-feira)?|sábado|domingo|"
+    r"(?:no )?dia \d{1,2}|\d{1,2}/\d{1,2}|às \d{1,2}h|em (?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto|"
+    r"setembro|outubro|novembro|dezembro))\b", re.I)
+_FUTURES = {"fut_pres", "periphrastic_future@pres_ind"}
+# "foi/foram/fui/fomos" are the preterite of both "ser" and "ir": past either way, so the
+# morphology's abstention on the lemma must not hide a future turned into a past (V010-GAP-04).
+_SER_IR_PRETERITE = re.compile(r"\b(?:foi|foram|fui|fomos|fora|foras)\b", re.I)
 
 
 def _tense_issues(src, out, alignment) -> list[dict]:
@@ -686,8 +773,22 @@ def _tense_issues(src, out, alignment) -> list[dict]:
             continue
         before = tense_profile(src.entries[i].sentence.text)
         after = tense_profile(out.entries[j].sentence.text)
+        for lemma in sorted(set(before) - set(after)):
+            a = before[lemma]
+            if lemma in ("ser", "ir") and len(a) == 1 and next(iter(a)) in _FUTURES | {"pres_ind"} and \
+                    _SER_IR_PRETERITE.search(out.entries[j].sentence.text) and \
+                    not _SER_IR_PRETERITE.search(src.entries[i].sentence.text):
+                issues.append(_issue("tense_changed", "major", f"verb '{lemma}': {next(iter(a))} -> pretérito",
+                                     lemma=lemma, before=sorted(a), after=["pret_perf"],
+                                     source_sentence=src.entries[i].sentence.text,
+                                     analyzer="voznativa.morph-rules@1"))
         for lemma in sorted(set(before) & set(after)):
             a, b = before[lemma], after[lemma]
+            pair = {next(iter(a)), next(iter(b))} if len(a) == 1 and len(b) == 1 else set()
+            if len(pair) == 2 and pair <= _FUTURES | {"pres_ind"} and "pres_ind" in pair and (
+                    _FUTURE_ANCHOR.search(src.entries[i].sentence.text) or
+                    _FUTURE_ANCHOR.search(out.entries[j].sentence.text)):
+                continue            # scheduled present with a future anchor: same time
             if len(a) == 1 and len(b) == 1 and _time_reference(next(iter(a))) != _time_reference(next(iter(b))) \
                     and None not in (_time_reference(next(iter(a))), _time_reference(next(iter(b)))):
                 def name(label):
