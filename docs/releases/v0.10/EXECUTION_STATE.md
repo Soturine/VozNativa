@@ -29,4 +29,5 @@
 
 | CP | Estado | Commit | Evidência |
 |---|---|---|---|
-| CP0 | concluído | (este commit) | plano, critérios R1–R15, conjuntos congelados, baseline |
+| CP0 | concluído | `74880ad` | plano, critérios R1–R15, conjuntos congelados, baseline |
+| CP1 | concluído | (este commit) | [`RESEARCH_REGISTER.md`](RESEARCH_REGISTER.md): 13 fontes com licença literal e decisão; OpenAlex sem conector ativo (chave e custo) |
