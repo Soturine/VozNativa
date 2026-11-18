@@ -11,6 +11,10 @@ id: br-norte-lex-mandioca
 version: 0.1.0
 status: pilot                     # pilot | experimental | calibrated
 human_reviewed: false
+provenance:
+  authors: [VozNativa maintainers]
+  created: "2026-11-05"
+  note: "metadata added in v0.9 CP6 (pack envelope); content unchanged"
 
 scope:
   country: BR
@@ -47,6 +51,7 @@ sources:
     accessed: "2026-11-05 (site with an invalid TLS certificate; not read directly)"
 
 license:
+  spdx: MIT    # the curation; facts and counts cited, no source text
   pack: "facts, counts and citations only; no text of the atlas or the article is reproduced"
   source_terms: "published scientific article and atlas; cited, not redistributed"
 

@@ -1,0 +1,258 @@
+{
+  "kind": "voznativa.corpus_verification_run",
+  "date": "2026-11-18",
+  "results": [
+    {
+      "id": "alib",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://alib.ufba.br/",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "tls",
+        "detail": "SSLCertVerificationError reaching alib.ufba.br"
+      },
+      "access": null
+    },
+    {
+      "id": "alip",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "http://www.alip.ibilce.unesp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://alip.ibilce.unesp.br/",
+        "identity_terms_found": [
+          "ALIP",
+          "Iboruna"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "c-oral-brasil-i",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "http://www.c-oral-brasil.org/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://www.c-oral-brasil.org/",
+        "identity_terms_found": [
+          "C-ORAL-BRASIL"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "c-oral-brasil-ii",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://repositorio.ufmg.br/handle/1843/57812",
+        "method": "GET official page; identity terms",
+        "result": "failed",
+        "failure": "tls",
+        "detail": "SSLCertVerificationError reaching repositorio.ufmg.br"
+      },
+      "access": null
+    },
+    {
+      "id": "corpus-carolina",
+      "status_before": "ACCESS_VERIFIED",
+      "status_after": "ACCESS_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://sites.usp.br/corpuscarolina/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://sites.usp.br/corpuscarolina/",
+        "identity_terms_found": [
+          "Carolina"
+        ]
+      },
+      "access": {
+        "date": "2026-11-18",
+        "method": "Hugging Face API + file read",
+        "result": "data_read",
+        "detail": {
+          "file": "corpus/datasets_and_other_corpora/pt-BR/DATa.xml.gz",
+          "bytes_read": 65536,
+          "truncated": true,
+          "sha": "55e63a519393c70a48dcfa14a558499c6bb0583b",
+          "data_files_listed": 554
+        }
+      }
+    },
+    {
+      "id": "nurc-recife",
+      "status_before": "CATALOGUED",
+      "status_after": "CATALOGUED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://github.com/nilc-nlp/CORAA",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/nilc-nlp/CORAA",
+        "identity_terms_found": [
+          "NURC-Recife"
+        ]
+      },
+      "access": {
+        "date": "2026-11-18",
+        "method": "data read",
+        "result": "failed",
+        "detail": "no data file at the repository root"
+      }
+    },
+    {
+      "id": "nurc-rj",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://nurcrj.letras.ufrj.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurcrj.letras.ufrj.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "nurc-sp",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://nurc.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurc.fflch.usp.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "nurc",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://nurcrj.letras.ufrj.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://nurcrj.letras.ufrj.br/",
+        "identity_terms_found": [
+          "NURC"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "phpb",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://phpp.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://phpp.fflch.usp.br/",
+        "identity_terms_found": [
+          "História do Português"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "sp2010",
+      "status_before": "SOURCE_VERIFIED",
+      "status_after": "SOURCE_VERIFIED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://projetosp2010.fflch.usp.br/",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://projetosp2010.fflch.usp.br/",
+        "identity_terms_found": [
+          "SP2010"
+        ]
+      },
+      "access": null
+    },
+    {
+      "id": "ud-portuguese-bosque",
+      "status_before": "EVALUATION_INTEGRATED",
+      "status_after": "EVALUATION_INTEGRATED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-Bosque",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-Bosque",
+        "identity_terms_found": [
+          "Bosque"
+        ]
+      },
+      "access": {
+        "date": "2026-11-18",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_bosque-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 11291250,
+          "truncated": true
+        }
+      }
+    },
+    {
+      "id": "ud-portuguese-gsd",
+      "status_before": "EVALUATION_INTEGRATED",
+      "status_after": "EVALUATION_INTEGRATED",
+      "source": {
+        "date": "2026-11-18",
+        "url": "https://github.com/UniversalDependencies/UD_Portuguese-GSD",
+        "method": "GET official page; identity terms",
+        "result": "verified",
+        "http_status": 200,
+        "final_url": "https://github.com/UniversalDependencies/UD_Portuguese-GSD",
+        "identity_terms_found": [
+          "GSD"
+        ]
+      },
+      "access": {
+        "date": "2026-11-18",
+        "method": "GitHub API + raw file read",
+        "result": "data_read",
+        "detail": {
+          "file": "pt_gsd-ud-train.conllu",
+          "bytes_read": 65536,
+          "declared_size": 13521544,
+          "truncated": true
+        }
+      }
+    }
+  ]
+}

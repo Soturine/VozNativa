@@ -10,9 +10,11 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | ver funcionando sem modelo nem chave (`doctor`, `demo`) | [guide/QUICKSTART.md](guide/QUICKSTART.md#1-ver-funcionando) |
 | conferir se uma reescrita mudou o sentido | [guide/QUICKSTART.md](guide/QUICKSTART.md#2-conferir-uma-reescrita) |
 | entender `NO_CHANGE`, `needs_judgment`, `returned_original` | [guide/QUICKSTART.md](guide/QUICKSTART.md#4-desfechos-do-rewrite) |
+| revisar um Word (.docx) ou extrair um PDF | [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) |
 | reescrever com um provider | [guide/QUICKSTART.md](guide/QUICKSTART.md#5-com-um-provider) |
 | revisar um documento longo | [guide/QUICKSTART.md](guide/QUICKSTART.md#6-documento-longo-normas-e-avaliação) |
 | usar como Agent Skill (Claude Code, Codex, Gemini CLI) | [guide/AGENT_SKILL.md](guide/AGENT_SKILL.md) e [`SKILL.md`](../SKILL.md) |
+| criar ou validar um pack de comunidade | [guide/PACKS.md](guide/PACKS.md) e [policy/CONTRIBUTING_LINGUISTIC_DATA.md](policy/CONTRIBUTING_LINGUISTIC_DATA.md) |
 | consultar todos os comandos e opções | [guide/CLI.md](guide/CLI.md) (gerado do `--help`) |
 | resolver um erro | [guide/TROUBLESHOOTING.md](guide/TROUBLESHOOTING.md) |
 | saber o que é seguro, privado e licenciado | [LICENSING.md](policy/LICENSING.md); seção "Segurança e limites" do [README](../README.md) |
@@ -57,7 +59,16 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Documento | Conteúdo | Estado |
 |---|---|---|
-| [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | execução em curso |
+| [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | execução em curso |
+| [v0.9/DOGFOOD.md](releases/v0.9/DOGFOOD.md) | dogfood com o engine real e provider real: cenários, defeito do ciclo, DOCX real pelo fluxo do produto, custos | registro do CP8 |
+| [v0.9/ASSURANCE.md](releases/v0.9/ASSURANCE.md) | Assertiva, Derivanta (triagem) e segurança das superfícies novas | registro do CP8 |
+| [v0.9/DOCUMENTS.md](releases/v0.9/DOCUMENTS.md) | DOCX (extração, cópia reescrita, conferência), PDF (extração rastreável, notas), normas | vigente |
+| [v0.9/EVALUATION.md](releases/v0.9/EVALUATION.md) | antes × depois com os mesmos instrumentos, braços com modelo real, mutação, eixos não medidos | vigente |
+| [v0.9/SEMANTICS.md](releases/v0.9/SEMANTICS.md) | qualificadores, classes de evento, estado do fato, aspecto, passiva, diagnóstico gramatical, termos técnicos; conjuntos congelados e holdout | vigente |
+| [v0.9/EDITORIAL.md](releases/v0.9/EDITORIAL.md) | consistência editorial entre unidades de documento longo: convergência de aberturas, memória editorial, evidência real e sintética, desempenho | vigente |
+| [v0.9/INTEGRATIONS.md](releases/v0.9/INTEGRATIONS.md) | providers e hosts executados de verdade, estado por integração, relação gerador × juiz, custos | vigente |
+| [v0.9/PLAN.md](releases/v0.9/PLAN.md), [v0.9/GAP_REGISTER.md](releases/v0.9/GAP_REGISTER.md), [v0.9/TRACEABILITY.md](releases/v0.9/TRACEABILITY.md) | plano, critérios de release congelados no CP0, lacunas e rastreabilidade da v0.9 | execução em curso |
+| [v08/EXECUTION_STATE.md](releases/v0.8/EXECUTION_STATE.md) | checkpoints da v0.8, commits e retomada | encerrado (v0.8.0.dev0 e v0.8.1) |
 | [v08/PLAN.md](releases/v0.8/PLAN.md), [v08/AS_IS.md](releases/v0.8/AS_IS.md), [v08/GAP_REGISTER.md](releases/v0.8/GAP_REGISTER.md), [v08/TRACEABILITY.md](releases/v0.8/TRACEABILITY.md) | plano, ponto de partida, lacunas, rastreabilidade da v0.8 | execução em curso |
 | [v08/DOCS_INVENTORY.md](releases/v0.8/DOCS_INVENTORY.md) | inventário e estado de cada documento | vigente |
 | [TRACEABILITY.md](engineering/TRACEABILITY.md) | requisitos v0.1–v0.7 → artefato → estado | vigente para esses requisitos |
@@ -68,7 +79,8 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Versão | Documentos |
 |---|---|
-| v0.8 (em curso) | [`v08/`](releases/v0.8/EXECUTION_STATE.md); [V08_STANDARDS_VISION.md](architecture/V08_STANDARDS_VISION.md) (visão, com o que já foi implementado) |
+| v0.9 (em curso) | [`v0.9/`](releases/v0.9/EXECUTION_STATE.md) |
+| v0.8 | [`v08/`](releases/v0.8/EXECUTION_STATE.md); [V08_STANDARDS_VISION.md](architecture/V08_STANDARDS_VISION.md) (visão, com o que já foi implementado) |
 | v0.7 | [PLAN_v0.7.0.md](releases/v0.7/PLAN_v0.7.0.md), [PLAN_v0.7.0.dev1.md](releases/v0.7/PLAN_v0.7.0.dev1.md), [AS_IS_v0.7.0.md](releases/v0.7/AS_IS_v0.7.0.md), [V07_EXECUTION_STATE.md](releases/v0.7/V07_EXECUTION_STATE.md), [V07_DISCOVERY_REGISTER.md](releases/v0.7/V07_DISCOVERY_REGISTER.md), [V07_VERIFICATION_MATRIX.md](releases/v0.7/V07_VERIFICATION_MATRIX.md), [V07_DOGFOOD.md](releases/v0.7/V07_DOGFOOD.md), [V07_RELEASE_QUALIFICATION.md](releases/v0.7/V07_RELEASE_QUALIFICATION.md) |
 | v0.6 | [AS_IS_v0.6.0.md](releases/v0.6/AS_IS_v0.6.0.md) |
 | v0.5 | [PLAN_v0.5.0.md](releases/v0.5/PLAN_v0.5.0.md) |

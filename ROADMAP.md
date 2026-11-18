@@ -270,10 +270,10 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [x] manifests para hosts suportados (Claude Code plugin, Codex `openai.yaml`; Gemini via SKILL.md)
 - [~] CLI (`voznativa`); estável só a partir da 1.0
 - [x] exemplos antes/depois de execuções reais (v0.3.0 M6)
-- [ ] documentação de extensão de packs
-- [ ] política de contribuição de dados linguísticos
+- [x] documentação de extensão de packs (v0.9: `docs/guide/PACKS.md`, envelope v1, `voznativa packs`)
+- [x] política de contribuição de dados linguísticos (v0.9: `docs/policy/CONTRIBUTING_LINGUISTIC_DATA.md`)
 - [~] provider adapter para Emulate (não validado ao vivo)
-- [ ] adapters para modelos locais/custom
+- [~] adapters para modelos locais/custom (v0.9: `--api-url` para servidores chat-completions; testado com servidor local e modelo falso, execução com modelo local real pendente)
 
 ## Research track — Optional Model / Adapter
 - [x] arquitetura e gates documentados

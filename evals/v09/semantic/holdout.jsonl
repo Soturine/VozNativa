@@ -1,0 +1,28 @@
+{"id": "h-q01", "expect": "risk", "kind": "qualifier_dropped", "original": "A emissão automática dos boletos começa no dia 5.", "candidate": "A emissão dos boletos começa no dia 5."}
+{"id": "h-q02", "expect": "risk", "kind": "qualifier_changed", "original": "A participação na reunião é opcional para os estagiários.", "candidate": "A participação na reunião é obrigatória para os estagiários."}
+{"id": "h-q03", "expect": "risk", "kind": "qualifier_dropped", "original": "O desconto temporário vale para compras acima de R$ 200,00.", "candidate": "O desconto vale para compras acima de R$ 200,00."}
+{"id": "h-q04", "expect": "risk", "kind": "qualifier_changed", "original": "O prazo previsto para a entrega das carteiras é 10 de abril.", "candidate": "O prazo definido para a entrega das carteiras é 10 de abril."}
+{"id": "h-q05", "expect": "risk", "kind": "qualifier_dropped", "original": "A reunião semanal da brigada acontece no refeitório.", "candidate": "A reunião da brigada acontece no refeitório."}
+{"id": "h-q06", "expect": "risk", "kind": "qualifier_added", "original": "A vacinação dos animais acontece no posto do bairro.", "candidate": "A vacinação gratuita dos animais acontece no posto do bairro."}
+{"id": "h-s01", "expect": "risk", "kind": "setting_changed", "original": "O drone foi testado em campo na fazenda experimental.", "candidate": "O drone foi testado em ambiente virtual da fazenda experimental."}
+{"id": "h-s02", "expect": "risk", "kind": "setting_added", "original": "A nova válvula reduziu o vazamento em 12%.", "candidate": "No modelo teórico, a nova válvula reduziu o vazamento em 12%."}
+{"id": "h-e01", "expect": "risk", "kind": "event_changed", "original": "O conselho homologou o resultado do concurso.", "candidate": "O conselho revisou o resultado do concurso."}
+{"id": "h-e02", "expect": "risk", "kind": "event_changed", "original": "O laboratório detectou a contaminação na amostra 14.", "candidate": "O laboratório eliminou a contaminação na amostra 14."}
+{"id": "h-e03", "expect": "risk", "kind": "event_changed", "original": "A secretária assinou o ofício de liberação da verba.", "candidate": "A secretária leu o ofício de liberação da verba."}
+{"id": "h-e04", "expect": "risk", "kind": "event_changed", "original": "O mecânico consertou o freio do ônibus 27.", "candidate": "O mecânico inspecionou o freio do ônibus 27."}
+{"id": "h-t01", "expect": "risk", "kind": "status_changed", "original": "O clube contratou dois treinadores para a base.", "candidate": "O clube quer contratar dois treinadores para a base."}
+{"id": "h-t02", "expect": "risk", "kind": "status_changed", "original": "O condomínio quitou a dívida com a construtora.", "candidate": "O condomínio pediu a quitação da dívida com a construtora."}
+{"id": "h-t03", "expect": "risk", "kind": "status_changed", "original": "A escola instalou painéis solares no telhado.", "candidate": "A escola sugeriu instalar painéis solares no telhado."}
+{"id": "h-a01", "expect": "risk", "kind": "aspect_changed", "original": "O ônibus da linha 12 passa pela avenida principal.", "candidate": "O ônibus da linha 12 deixou de passar pela avenida principal."}
+{"id": "h-a02", "expect": "risk", "kind": "aspect_changed", "original": "A farmácia também entrega remédios no bairro.", "candidate": "A farmácia passou a entregar remédios no bairro."}
+{"id": "h-p01", "expect": "risk", "kind": "first_person_event", "original": "Emprestei R$ 300,00 ao meu irmão em julho.", "candidate": "Pedi R$ 300,00 ao meu irmão em julho."}
+{"id": "h-c01", "expect": "clean", "kind": "qualifier_kept", "original": "A emissão automática dos boletos começa no dia 5.", "candidate": "A partir do dia 5, os boletos serão emitidos automaticamente."}
+{"id": "h-c02", "expect": "clean", "kind": "ornament_dropped", "original": "O município fez uma ótima campanha de vacinação em maio.", "candidate": "O município fez uma campanha de vacinação em maio."}
+{"id": "h-c03", "expect": "clean", "kind": "event_synonym", "original": "O mecânico consertou o freio do ônibus 27.", "candidate": "O mecânico reparou o freio do ônibus 27."}
+{"id": "h-c04", "expect": "clean", "kind": "event_synonym", "original": "O laboratório detectou a contaminação na amostra 14.", "candidate": "O laboratório identificou a contaminação na amostra 14."}
+{"id": "h-c05", "expect": "clean", "kind": "status_kept", "original": "O clube quer contratar dois treinadores para a base.", "candidate": "O clube deseja contratar dois treinadores para a base."}
+{"id": "h-c06", "expect": "clean", "kind": "aspect_kept", "original": "A farmácia passou a entregar remédios no bairro.", "candidate": "Agora a farmácia passou a fazer entregas de remédios no bairro."}
+{"id": "h-c07", "expect": "clean", "kind": "noun_use", "original": "O piloto do avião anunciou o pouso às 14h.", "candidate": "Às 14h, o piloto do avião anunciou o pouso."}
+{"id": "h-c08", "expect": "clean", "kind": "formula_cut", "original": "Vale ressaltar que a consulta é gratuita e online.", "candidate": "A consulta é gratuita e online."}
+{"id": "h-c09", "expect": "clean", "kind": "passive_attribution", "original": "O síndico avisou os moradores sobre a falta de água.", "candidate": "Os moradores foram avisados pelo síndico sobre a falta de água."}
+{"id": "h-c10", "expect": "clean", "kind": "setting_kept", "original": "O drone foi testado em campo na fazenda experimental.", "candidate": "Os testes do drone foram feitos em campo, na fazenda experimental."}

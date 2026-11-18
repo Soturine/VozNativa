@@ -22,7 +22,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e .
+      # v0.9: the optional PDF dependency too, so the PDF tests run here instead of skipping.
+      - run: python -m pip install -e ".[pdf]"
       - run: python scripts/validate_package.py
       - run: python -m unittest discover -s evals -p "test_*.py" -v
       - name: Semantic eval suite (dev set must pass completely)

@@ -149,9 +149,27 @@ def _text_without_notes(el, counts) -> str:
     return re.sub(r"\s+", " ", "".join(parts)).strip()
 
 
+READ_CHUNK = 1 << 20
+
+
+def _read_capped(stream, max_bytes: int):
+    """Read at most ``max_bytes + 1`` in 1 MiB chunks (v0.9 CP8). One
+    ``read(max_bytes + 1)`` asked the decompressor for a 500 MB buffer even for
+    a file of a few bytes, and failed with MemoryError under load (Assertiva
+    run on the CP8 candidate; also seen once in the local suite)."""
+    chunks, total = [], 0
+    while total <= max_bytes:
+        chunk = stream.read(min(READ_CHUNK, max_bytes + 1 - total))
+        if not chunk:
+            break
+        chunks.append(chunk)
+        total += len(chunk)
+    return chunks[0][:0].join(chunks) if chunks else stream.read(0)
+
+
 def read_tei(stream, errors: list[dict], max_bytes: int):
     """Yield (record_id, text, meta) per TEI document in the stream."""
-    data = stream.read(max_bytes + 1)
+    data = _read_capped(stream, max_bytes)
     if len(data) > max_bytes:
         raise AccessError("too_large", f"XML document larger than {max_bytes} bytes")
     if FORBIDDEN.search(data):

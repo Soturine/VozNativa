@@ -1,0 +1,12 @@
+{"id": "dh-01", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "Os participante receberam o certificado por e-mail."}
+{"id": "dh-02", "expect": "error", "kind": "plural_determiner_singular_noun", "text": "A prefeitura recuperou algumas calçada do centro."}
+{"id": "dh-03", "expect": "error", "kind": "impersonal_fazer", "text": "Fazem três semanas que o semáforo está quebrado."}
+{"id": "dh-04", "expect": "error", "kind": "existential_haver", "text": "Haviam muitas pessoas na fila do posto de saúde."}
+{"id": "dh-05", "expect": "error", "kind": "crase", "text": "O treino volta à acontecer na quadra coberta."}
+{"id": "dh-06", "expect": "error", "kind": "existential_haver", "text": "Houveram dois acidentes na rodovia durante o feriado."}
+{"id": "dh-07", "expect": "clean", "kind": "clitic_pronoun", "text": "A diretora as recebeu na sala e os orientou sobre o prazo."}
+{"id": "dh-08", "expect": "clean", "kind": "invariable_noun", "text": "Os lápis e os vírus estudados ficaram no laboratório."}
+{"id": "dh-09", "expect": "clean", "kind": "haver_auxiliary", "text": "As equipes haviam terminado a limpeza quando a chuva começou."}
+{"id": "dh-10", "expect": "clean", "kind": "fazer_personal", "text": "As cozinheiras fazem cem marmitas por dia."}
+{"id": "dh-11", "expect": "clean", "kind": "crase_ok", "text": "Os voluntários foram à feira e entregaram os panfletos à coordenadora."}
+{"id": "dh-12", "expect": "clean", "kind": "plural_ok", "text": "Algumas calçadas do centro foram recuperadas pela prefeitura."}

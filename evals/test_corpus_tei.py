@@ -92,6 +92,30 @@ class TeiReader(unittest.TestCase):
         self.assertEqual(records, [])
         self.assertEqual(len(errors), 1)
 
+    def test_no_read_asks_for_the_whole_limit_at_once(self):
+        # v0.9 CP8 (Assertiva): read(max_bytes + 1) asked for a 500 MB buffer for any file and failed with
+        # MemoryError under load. The reader now takes bounded chunks and still enforces the limit.
+        import io
+        from voznativa.corpus import tei
+
+        class Spy(io.BytesIO):
+            def __init__(self, data):
+                super().__init__(data)
+                self.sizes = []
+
+            def read(self, size=-1):
+                self.sizes.append(size)
+                return super().read(size)
+
+        stream = Spy(tei_doc().encode("utf-8"))
+        rows = list(tei.read_tei(stream, [], 500_000_000))
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(stream.sizes and max(stream.sizes) <= 1 << 20, stream.sizes)
+        from voznativa.corpus.connectors import AccessError
+        with self.assertRaises(AccessError) as ctx:
+            list(tei.read_tei(Spy(b"<TEI>" + b"x" * 300 + b"</TEI>"), [], 100))
+        self.assertIn("larger than 100", str(ctx.exception))
+
     def test_connector_reads_gzipped_tei(self):
         with tempfile.TemporaryDirectory() as tmp:
             with gzip.open(Path(tmp) / "c.xml.gz", "wt", encoding="utf-8") as fh:

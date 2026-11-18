@@ -2,6 +2,8 @@
 
 Estado: **concluído na branch** `dev/v0.8.1-dogfood-tcc2`, criada de `b52af15` (topo de `dev/v0.8.1-dogfood-tg1`). Sem tag, release ou CI.
 
+> **Integração posterior:** estas correções entraram na `main` pelo histórico limpo (merge `159eda5`) e foram publicadas na release estável [`v0.8.1`](../v0.8.1/RELEASE_NOTES.md) (tag em `17d1f10`). Os SHAs citados abaixo são da branch da época. O texto abaixo é o registro da época e não foi reescrito.
+
 ## Escopo e privacidade
 
 - Documento: relatório parcial de Trabalho de Graduação de engenharia (PT-BR acadêmico), 58 páginas geradas por pdfTeX, sem DOCX nem fonte. 148 parágrafos editáveis, cerca de 8.300 palavras, com equações exibidas e inline, listagens de código, 19 figuras, 4 tabelas e 37 referências.

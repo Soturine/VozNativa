@@ -7,14 +7,22 @@ Códigos de saída do `compare` (e do `rewrite` com `--judgment`): 0 `identical`
 ## `voznativa`
 
 ```text
-usage: voznativa [-h] [--version] {doctor,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
+usage: voznativa [-h] [--version] {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
 
 VozNativa PT-BR voice engine
 
 positional arguments:
-  {doctor,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
+  {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
     doctor              check the installation (no network, reads no text); exit 1 when something
                         will not work
+    docx                Word documents: extract the editable paragraphs, apply edits to a new
+                        copy, check a copy against its original (the original is never written)
+    packs               linguistic packs: list bundled and external ones (VOZNATIVA_PACKS_DIR),
+                        validate a pack file against the contract; exit 1 when a pack is invalid
+    pdf                 PDF (optional dependency pypdf): traceable text extraction with protected
+                        equations/code, and annotated copies; no editing of the PDF itself
+    config              effective rewrite configuration: value and source of each option (flag >
+                        project .voznativa.toml > user file > default); writes nothing
     demo                offline tour of compare, plan and diagnose on bundled texts (no model, no
                         key, no file written)
     rubric              criteria of the standard that applies to a document: objective checks only
@@ -164,6 +172,16 @@ options:
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
+```
+
+## `voznativa config`
+
+```text
+usage: voznativa config [-h] [--json]
+
+options:
+  -h, --help  show this help message and exit
+  --json      JSON instead of text
 ```
 
 ## `voznativa contract`
@@ -364,11 +382,70 @@ options:
 ## `voznativa doctor`
 
 ```text
-usage: voznativa doctor [-h] [--json]
+usage: voznativa doctor [-h] [--json] [--probe-provider]
+
+options:
+  -h, --help        show this help message and exit
+  --json            JSON report instead of text
+  --probe-provider  also send one short prompt to the configured provider command (may cost money;
+                    uses the network if the provider does)
+```
+
+## `voznativa docx`
+
+```text
+usage: voznativa docx [-h] {extract,apply,check} ...
+
+positional arguments:
+  {extract,apply,check}
+    extract             intermediate representation: paragraphs, types, editable or protected
+                        (why)
+    apply               write a NEW file with the edited paragraphs; protected ones are refused
+    check               integrity of a copy: parts, bytes outside document.xml, protected
+                        paragraphs
+
+options:
+  -h, --help            show this help message and exit
+```
+
+### `voznativa docx apply`
+
+```text
+usage: voznativa docx apply [-h] --out OUT file edits
+
+positional arguments:
+  file
+  edits       JSON {"p3": "new text", ...} or an edited extract
 
 options:
   -h, --help  show this help message and exit
-  --json      JSON report instead of text
+  --out OUT   new .docx (must not be the original nor exist)
+```
+
+### `voznativa docx check`
+
+```text
+usage: voznativa docx check [-h] original candidate
+
+positional arguments:
+  original
+  candidate
+
+options:
+  -h, --help  show this help message and exit
+```
+
+### `voznativa docx extract`
+
+```text
+usage: voznativa docx extract [-h] [--out OUT] file
+
+positional arguments:
+  file
+
+options:
+  -h, --help  show this help message and exit
+  --out OUT   write the JSON here instead of printing it
 ```
 
 ## `voznativa drift`
@@ -479,6 +556,42 @@ options:
                         file with one protected term per line
 ```
 
+## `voznativa packs`
+
+```text
+usage: voznativa packs [-h] {list,validate} ...
+
+positional arguments:
+  {list,validate}
+    list           every pack with status, errors and warnings
+    validate       validate pack files as external contributions (strict envelope)
+
+options:
+  -h, --help       show this help message and exit
+```
+
+### `voznativa packs list`
+
+```text
+usage: voznativa packs list [-h] [--json]
+
+options:
+  -h, --help  show this help message and exit
+  --json
+```
+
+### `voznativa packs validate`
+
+```text
+usage: voznativa packs validate [-h] files [files ...]
+
+positional arguments:
+  files
+
+options:
+  -h, --help  show this help message and exit
+```
+
 ## `voznativa patterns`
 
 ```text
@@ -492,6 +605,48 @@ options:
   --genre GENRE        genre for exemptions (default: inferred)
   --channel CHANNEL    channel for exemptions (whatsapp, email, linkedin...)
   --register REGISTER  target register (orality and forms of address are judged against it)
+```
+
+## `voznativa pdf`
+
+```text
+usage: voznativa pdf [-h] {extract,annotate} ...
+
+positional arguments:
+  {extract,annotate}
+    extract           paragraphs per page; equation and code lines become protected placeholders
+    annotate          a NEW PDF with one note per page: JSON [{"page": 3, "text": "..."}]
+
+options:
+  -h, --help          show this help message and exit
+```
+
+### `voznativa pdf annotate`
+
+```text
+usage: voznativa pdf annotate [-h] --out OUT file notes
+
+positional arguments:
+  file
+  notes
+
+options:
+  -h, --help  show this help message and exit
+  --out OUT
+```
+
+### `voznativa pdf extract`
+
+```text
+usage: voznativa pdf extract [-h] [--out OUT] [--text TEXT] file
+
+positional arguments:
+  file
+
+options:
+  -h, --help   show this help message and exit
+  --out OUT    write the JSON here
+  --text TEXT  also write the plain text (blocks) here, for rewrite/compare
 ```
 
 ## `voznativa plan`
@@ -640,7 +795,7 @@ options:
 ## `voznativa rewrite`
 
 ```text
-usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
+usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--docx-out DOCX_OUT] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -671,19 +826,33 @@ options:
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
-  --cmd CMD             model command reading the prompt on stdin, e.g. "claude -p"
+  --cmd CMD             model command reading the prompt on stdin, e.g. "claude -p" (or 'cmd' in
+                        the user config file)
   --emulate             system baseline via EMULATE_API_KEY
   --candidate CANDIDATE
                         pre-written candidate file (offline)
   --judge-cmd JUDGE_CMD
                         command used as semantic judge
-  --attempts ATTEMPTS
+  --api-url API_URL     chat-completions server, e.g. http://localhost:11434/v1 (Ollama) or
+                        http://localhost:8080/v1 (llama.cpp); local addresses only unless --api-
+                        allow-remote
+  --api-model API_MODEL
+                        model name for --api-url
+  --api-key-env API_KEY_ENV
+                        environment variable holding the API key, if the server needs one
+  --api-allow-remote    allow --api-url to name a non-local host (the text leaves this machine)
+  --judge-api-url JUDGE_API_URL
+                        chat-completions server for the judge (default: --api-url)
+  --judge-api-model JUDGE_API_MODEL
+                        model for the judge on a chat-completions server
+  --attempts ATTEMPTS   tries per text or unit (default 3)
   --candidates CANDIDATES
-  --timeout TIMEOUT
+                        candidates per try (default 1)
+  --timeout TIMEOUT     seconds per provider call (default 300)
   --provider-env {inherit,minimal}
-                        environment for --cmd/--judge-cmd: all variables (default) or only what a
-                        CLI needs to start; minimal keeps unrelated credentials out of the model
-                        process
+                        environment for --cmd/--judge-cmd: all variables (default inherit) or only
+                        what a CLI needs to start; minimal keeps unrelated credentials out of the
+                        model process
   --provider-env-allow PROVIDER_ENV_ALLOW
                         variable kept with --provider-env minimal (repeatable), e.g.
                         ANTHROPIC_API_KEY
@@ -692,12 +861,16 @@ options:
                         independent judge calls that must all say equivalent (default 2)
   --force               call the model even when the text has no editorial findings
   --long-form {auto,on,off}
-                        rewrite unit by unit with a global validation (auto: texts longer than
-                        1.5x --segment-words); protected blocks never reach the model
+                        rewrite unit by unit with a global validation (default auto: texts longer
+                        than 1.5x --segment-words); protected blocks never reach the model
   --segment-words SEGMENT_WORDS
-                        target words per unit (long form)
+                        target words per unit (long form; default 600)
   --max-calls MAX_CALLS
-                        provider call budget for a long document
+                        provider call budget for a long document (default 800)
+  --docx-out DOCX_OUT   with a .docx input: the new .docx to write (the original is never written;
+                        protected paragraphs never reach the model)
+  --dry-run             show the plan, units, call budget and effective configuration; start no
+                        provider
   --mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}
                         editorial mode: PRESERVE/REVIEW never change the text and call no model;
                         PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite

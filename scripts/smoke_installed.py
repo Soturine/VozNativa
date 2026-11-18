@@ -87,6 +87,9 @@ def main() -> int:
                 # v0.4.0: rewrite crashed on every call in v0.3.0 and nothing ran the command.
                 "rewrite": run("rewrite", "t.txt", "--candidate", "c.txt", "--force")["outcome"] == "returned_original",
                 "plan": run("plan", "t.txt")["kind"] == "voznativa.rewrite_plan",
+                # v0.9 CP1: configuration layer and dry run ship in the wheel; dry run starts no provider.
+                "config": run("config", "--json")["kind"] == "voznativa.config",
+                "rewrite-dry-run": run("rewrite", "t.txt", "--dry-run")["provider_called"] is False,
                 "patterns": run("patterns", "t.txt")["kind"] == "voznativa.pattern_report",
                 # v0.5.0: the evidence packs are package data; abstention needs no pack.
                 "regional-packs": bool(run("regional", "packs")["packs"]),
@@ -103,7 +106,10 @@ def main() -> int:
                 "epoch-and-community": run("contract", "t.txt", "--epoch", "current", "--community", "tech",
                                            "--slang-strength", "0.5")["slang_strength"]["effective"] == 0.0,
                 # v0.7.0: contract v3, the new commands and the long-form path from the wheel.
-                "version-0.8": voznativa.__version__.startswith("0.8."),
+                # v0.9: the CLI, the package and the installed metadata agree (a fixed "0.8." prefix aged out).
+                "version-consistent": subprocess.run([sys.executable, "-m", "voznativa", "--version"],
+                                                     capture_output=True, text=True).stdout.split()[-1]
+                == voznativa.__version__ == __import__("importlib.metadata").metadata.version("voznativa"),
                 "route-v3": run("route", "t.txt")["schema_version"] == 3,
                 "diagnose": run("diagnose", "t.txt")["kind"] == "voznativa.diagnosis",
                 "mode-review": run("rewrite", "t.txt", "--mode", "REVIEW")["outcome"] == "no_change",

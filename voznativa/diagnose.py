@@ -78,7 +78,36 @@ def _expansion(words: str, acronym: str) -> str | None:
         content = [p for t in tail for p in t.lower().split("-") if p and p not in _EXPANSION_STOP]
         if not need - Counter(fold(p[0]) for p in content):     # "Águas" spells the A of ANA
             return " ".join(content)
+    # v0.9 CP4 (V09-GAP-11): acronyms that take inner letters ("Radio Detection And
+    # Ranging (RADAR)", "Sound Navigation And Ranging (SONAR)").
+    # Read the acronym as the in-order concatenation of a prefix of each word (each word
+    # gives at least its initial, at most three letters), over all words of the tail.
+    for k in range(1, min(len(tokens), 8) + 1):
+        parts = [fold(p) for t in tokens[-k:] for p in t.lower().split("-") if p]
+        if parts and _prefix_spelling(fold(acronym.lower()), parts):
+            return " ".join(p for p in parts if p not in _EXPANSION_STOP) or None
     return None
+
+
+def _prefix_spelling(acronym: str, parts: list[str]) -> bool:
+    """True when ``acronym`` is prefix(parts[0]) + ... + prefix(parts[-1]), every
+    content word contributing 1-3 letters from its start and stopwords 0 or 1."""
+    from functools import lru_cache
+
+    @lru_cache(maxsize=None)
+    def match(a: int, w: int) -> bool:
+        if w == len(parts):
+            return a == len(acronym)
+        word = parts[w]
+        low = 0 if word in _EXPANSION_STOP else 1
+        high = 1 if word in _EXPANSION_STOP else 3
+        for n in range(low, high + 1):
+            if n > len(word) or a + n > len(acronym):
+                break
+            if word[:n] == acronym[a:a + n] and match(a + n, w + 1):
+                return True
+        return False
+    return match(0, 0)
 
 
 def mode_policy(mode: str | None) -> dict:
@@ -178,6 +207,7 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
                       "pre-reform spelling: the text's time, not an error to modernise without a request",
                       "none", "preserve"))
 
+    out += _grammar(text, informal, artistic)
     out += _tense_mix(text, artistic)
     grounding = _grounding(text, facts, context)
     out += grounding["diagnostics"]
@@ -187,6 +217,115 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
             "counts": {k: v for k, v in counts.items() if v}, "grounding": grounding["status"],
             "note": "diagnostics of the source; none is applied automatically except formal fixes in an "
                     "authorising mode"}
+
+
+# v0.9 CP4 (V09-GAP-08): grammar errors that standard Brazilian Portuguese grammars treat as
+# errors in any formal text, detectable with high confidence from a few words around them.
+# Each rule has controls in evals/v09/diagnose (clitic "os viu", invariable "os ônibus", numerals,
+# "haviam chegado", "fazem dois trabalhos", "à mulher", "à vista"). In informal text they are
+# suggestions; in literary text they are the author's choice.
+_PLURAL_DETERMINERS = frozenset(
+    "dos das nas aos às pelos pelas esses essas estes estas aqueles aquelas seus suas meus minhas nossos nossas "
+    "teus tuas vários várias muitos muitas alguns algumas poucos poucas diversos diversas certos certas "
+    "outros outras todos todas quaisquer tais".split())
+_SENTENCE_START_ONLY = frozenset({"os", "as"})        # elsewhere they may be clitic pronouns ("ele os viu")
+_CLITIC_ATTRACTORS = frozenset(
+    "eu tu ele ela nós vós eles elas você vocês que não nunca jamais já se quem também só ainda sempre ninguém "
+    "alguém tudo isso isto aquilo me te lhe nos vos lhes onde quando como porque".split())
+_VERB_ENDING = re.compile(r"(?:ou|eu|iu|aram|eram|iram|ava|avam|ia|iam|ará|erá|irá|arão|erão|irão|ei|amos|emos|imos)$")
+_PREP_BEFORE_ARTICLE = frozenset("de em para com por sobre entre sem até após contra perante todos todas".split())
+_NOT_A_NOUN = frozenset(
+    "que quais quanto quantos quantas qual cujo cuja mesmo mesma demais seguinte próprio própria um uma dois duas três "
+    "quatro cinco seis sete oito nove dez onze doze treze catorze quatorze quinze dezesseis dezessete dezoito dezenove "
+    "vinte trinta quarenta cinquenta sessenta setenta oitenta noventa cem cento duzentos duzentas mil milhão milhões "
+    "e ou nem mas de a o em por para com sem se não já ainda mais menos muito pouco bem mal quem onde quando como "
+    "dele dela deles delas nele nela isso isto aquilo outro outra tal".split())
+_NUMBER_WORDS = re.compile(r"\d")
+_ANGLICISM_END = re.compile(r"(?:ware|ing|er|ion|ment|ness|ity|ow|ay|ey|ck|sh|th)$")
+_FAZER_TIME = re.compile(
+    r"\b(fazem|faziam|fizeram|farão)\s+((?:\d+|um|uma|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|vinte|"
+    r"trinta|alguns|algumas|muitos|muitas|vários|várias|poucos|poucas|uns|umas)\s+(?:anos?|meses|mês|dias?|semanas?|"
+    r"horas?|minutos?|décadas?|séculos?))\b", re.I)
+_HAVER_EXIST = re.compile(
+    r"\b(houveram|haviam|haverão|haveriam|hajam)\s+((?:\d+|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|"
+    r"muitos|muitas|vários|várias|poucos|poucas|alguns|algumas|diversos|diversas|inúmeros|inúmeras|tantos|tantas)\b)",
+    re.I)
+# v0.9 CP8 dogfood: "houveram/haverão/hajam" are existential before any noun phrase, not only before a
+# quantifier ("Houveram atrasos"); the exceptions are "houveram de/por bem" and the auxiliary + participle.
+_HAVER_ALWAYS = re.compile(r"\b(houveram|haverão|hajam)\s+(?!de\b|por\b)([^\W\d_]+)", re.I)
+_PARTICIPLE = re.compile(r"(?:ado|ada|ados|adas|ido|ida|idos|idas|ito|ita|eito|osto|erto)$", re.I)
+_HAVER_FIX = {"houveram": "houve", "haviam": "havia", "haverão": "haverá", "haveriam": "haveria", "hajam": "haja"}
+_FAZER_FIX = {"fazem": "faz", "faziam": "fazia", "fizeram": "fez", "farão": "fará"}
+_CRASE = re.compile(r"\bà\s+(partir\b|pé\b|cavalo\b|prazo\b|ele\b|eles\b|você\b|vocês\b|"
+                    r"[^\W\d_]+(?:ar|er|ir)\b)", re.I)
+_CRASE_FEMININE_ER = frozenset({"mulher", "colher"})   # feminine nouns ending like an infinitive
+
+
+def _grammar(text: str, informal: bool, artistic: bool) -> list[dict]:
+    from .text import sentences
+    out = []
+
+    def add(kind, start, end, found, message, fix=None):
+        if artistic:
+            out.append(_d("literary_license", kind, "info", "medium", start, end, found,
+                          message + " (literary text: may be the author's choice)", "none", "preserve"))
+        elif informal:
+            out.append(_d("possible_contextual_error", kind, "info", "medium", start, end, found,
+                          message + " (informal register: a person decides)", "form only", "suggest"))
+        else:
+            out.append(_d("formal_error", kind, "minor", "high", start, end, found, message, "form only",
+                          "auto_fix" if fix else "suggest", **({"fix": fix} if fix else {})))
+
+    for s in sentences(text):
+        if s.kind != "prose":
+            continue
+        tokens = list(re.finditer(r"[^\W\d_]+(?:-[^\W\d_]+)*|\d+", s.text))
+        for k in range(len(tokens) - 1):
+            det, noun = tokens[k].group(0), tokens[k + 1].group(0)
+            low = det.lower()
+            if low in _SENTENCE_START_ONLY:
+                # "os"/"as" are also clitic pronouns: before a verb ("eu as levei", "a diretora as
+                # recebeu") or after a word that attracts the pronoun ("ele", "que", "não").
+                previous = tokens[k - 1].group(0).lower() if k else None
+                verb_next = _VERB_ENDING.search(tokens[k + 1].group(0).lower())
+                if k and previous not in _PREP_BEFORE_ARTICLE and (previous in _CLITIC_ATTRACTORS or verb_next):
+                    continue
+            elif low not in _PLURAL_DETERMINERS:
+                continue
+            word = noun.lower()
+            if (not noun.isalpha() or noun[:1].isupper() or len(word) < 3 or word in _NOT_A_NOUN
+                    or word.endswith(("s", "x", "z")) or _NUMBER_WORDS.search(word) or _ANGLICISM_END.search(word)
+                    or s.text[tokens[k].end():tokens[k + 1].start()].strip()):
+                continue
+            start, end = s.start + tokens[k].start(), s.start + tokens[k + 1].end()
+            add("plural_agreement", start, end, text[start:end],
+                f"'{det} {noun}': plural determiner with a singular word (concordância nominal)")
+        for m in _FAZER_TIME.finditer(s.text):
+            verb = m.group(1)
+            fix = _FAZER_FIX[verb.lower()]
+            fix = fix.capitalize() if verb[:1].isupper() else fix
+            add("impersonal_fazer", s.start + m.start(1), s.start + m.end(1), verb,
+                f"'{verb} {m.group(2)}': 'fazer' indicating elapsed time is impersonal (singular)", fix)
+        seen_haver = set()
+        for m in list(_HAVER_EXIST.finditer(s.text)) + [m for m in _HAVER_ALWAYS.finditer(s.text)
+                                                         if not _PARTICIPLE.search(m.group(2))]:
+            if m.start(1) in seen_haver:
+                continue
+            seen_haver.add(m.start(1))
+            verb = m.group(1)
+            fix = _HAVER_FIX[verb.lower()]
+            fix = fix.capitalize() if verb[:1].isupper() else fix
+            add("existential_haver", s.start + m.start(1), s.start + m.end(1), verb,
+                f"'{verb} {m.group(2)}': 'haver' meaning 'existir' is impersonal (singular)", fix)
+        for m in _CRASE.finditer(s.text):
+            target = m.group(1).lower()
+            if target in _CRASE_FEMININE_ER:
+                continue
+            grave = m.group(0)[0]
+            add("crase", s.start + m.start(), s.start + m.start() + 1, grave,
+                f"'{grave} {m.group(1)}': no crase before a masculine word, a pronoun or a verb",
+                "A" if grave == "À" else "a")
+    return out
 
 
 def _tense_mix(text: str, artistic: bool) -> list[dict]:

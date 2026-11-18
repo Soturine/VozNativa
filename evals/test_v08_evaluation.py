@@ -221,10 +221,10 @@ class RepositoryDataset(unittest.TestCase):
 
     def test_known_misses_are_visible_not_hidden(self):
         # The predicate sample had 4 known misses (16/20, docs/releases/v0.8/AS_IS.md); CP6 detects pr-17 (recipient
-        # omitted), so 3 remain (17/20). The core must show them, not hide them.
+        # omitted), so 3 remained (17/20). v0.9 CP4 detects pr-09 (assinou -> recebeu) and pr-10 (aprovou ->
+        # avaliou) as event_changed, so 1 remains (19/20). The core must show it, not hide it.
         misses = [r["id"] for r in self.record["results"] if r.get("semantic_risk") == "missed"]
-        self.assertEqual(sorted(m for m in misses if m.startswith("cases-h07:")),
-                         ["cases-h07:pr-09", "cases-h07:pr-10", "cases-h07:pr-13"], misses)
+        self.assertEqual(sorted(m for m in misses if m.startswith("cases-h07:")), ["cases-h07:pr-13"], misses)
 
 
 class Verification(unittest.TestCase):

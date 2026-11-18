@@ -1,0 +1,51 @@
+{"id": "d-q01", "expect": "risk", "kind": "qualifier_dropped", "original": "O sistema fez o envio automático do lote às 8h.", "candidate": "O sistema fez o envio do lote às 8h."}
+{"id": "d-q02", "expect": "risk", "kind": "qualifier_dropped", "original": "O preenchimento do formulário é obrigatório para todos os inscritos.", "candidate": "O preenchimento do formulário vale para todos os inscritos."}
+{"id": "d-q03", "expect": "risk", "kind": "qualifier_changed", "original": "A aprovação do projeto foi parcial e depende de ajustes no cronograma.", "candidate": "A aprovação do projeto foi total e depende de ajustes no cronograma."}
+{"id": "d-q04", "expect": "risk", "kind": "qualifier_dropped", "original": "O acesso provisório ao laboratório vale até 15 de maio.", "candidate": "O acesso ao laboratório vale até 15 de maio."}
+{"id": "d-q05", "expect": "risk", "kind": "qualifier_changed", "original": "O custo estimado da reforma é de R$ 18.000,00.", "candidate": "O custo confirmado da reforma é de R$ 18.000,00."}
+{"id": "d-q06", "expect": "risk", "kind": "qualifier_added", "original": "O resultado da auditoria saiu na quinta-feira.", "candidate": "O resultado preliminar da auditoria saiu na quinta-feira."}
+{"id": "d-q07", "expect": "risk", "kind": "qualifier_changed", "original": "A capacitação será presencial na sede da cooperativa.", "candidate": "A capacitação será online pela plataforma da cooperativa."}
+{"id": "d-q08", "expect": "risk", "kind": "qualifier_dropped", "original": "As inscrições são gratuitas para estudantes da rede pública.", "candidate": "As inscrições estão abertas para estudantes da rede pública."}
+{"id": "d-q09", "expect": "risk", "kind": "qualifier_changed", "original": "A conferência do estoque é feita manualmente toda segunda-feira.", "candidate": "A conferência do estoque é feita automaticamente toda segunda-feira."}
+{"id": "d-q10", "expect": "risk", "kind": "qualifier_dropped", "original": "O relatório mensal de consumo chega ao síndico pelo correio.", "candidate": "O relatório de consumo chega ao síndico pelo correio."}
+{"id": "d-s01", "expect": "risk", "kind": "setting_changed", "original": "O firmware foi testado no hardware real da estação.", "candidate": "O firmware foi testado no emulador da estação."}
+{"id": "d-s02", "expect": "risk", "kind": "setting_changed", "original": "A frenagem foi ensaiada fisicamente na bancada do laboratório.", "candidate": "A frenagem foi simulada no software do laboratório."}
+{"id": "d-s03", "expect": "risk", "kind": "setting_added", "original": "O algoritmo reduziu o tempo de resposta em 40%.", "candidate": "Em simulação, o algoritmo reduziu o tempo de resposta em 40%."}
+{"id": "d-e01", "expect": "risk", "kind": "event_changed", "original": "A diretora assinou o contrato em 3 de março.", "candidate": "A diretora recebeu o contrato em 3 de março."}
+{"id": "d-e02", "expect": "risk", "kind": "event_changed", "original": "O fornecedor enviou a nota fiscal ao cliente.", "candidate": "O fornecedor visualizou a nota fiscal do cliente."}
+{"id": "d-e03", "expect": "risk", "kind": "event_changed", "original": "O comitê aprovou o orçamento de R$ 40.000,00.", "candidate": "O comitê analisou o orçamento de R$ 40.000,00."}
+{"id": "d-e04", "expect": "risk", "kind": "event_changed", "original": "Foram identificados três riscos no projeto da ponte.", "candidate": "Foram tratados três riscos no projeto da ponte."}
+{"id": "d-e05", "expect": "risk", "kind": "event_changed", "original": "O ensaio de carga foi executado na bancada.", "candidate": "O ensaio de carga foi planejado na bancada."}
+{"id": "d-e06", "expect": "risk", "kind": "event_changed", "original": "A equipe corrigiu dois defeitos no módulo de cobrança.", "candidate": "A equipe encontrou dois defeitos no módulo de cobrança."}
+{"id": "d-e07", "expect": "risk", "kind": "event_changed", "original": "O técnico instalou o sensor na caixa d'água.", "candidate": "O técnico verificou o sensor na caixa d'água."}
+{"id": "d-t01", "expect": "risk", "kind": "status_changed", "original": "A empresa pagou a fatura de R$ 900,00.", "candidate": "A empresa solicitou o pagamento da fatura de R$ 900,00."}
+{"id": "d-t02", "expect": "risk", "kind": "status_changed", "original": "A equipe concluiu a migração em maio.", "candidate": "A equipe pretende concluir a migração em maio."}
+{"id": "d-t03", "expect": "risk", "kind": "status_changed", "original": "A prefeitura reformou a quadra da escola.", "candidate": "A prefeitura planeja reformar a quadra da escola."}
+{"id": "d-t04", "expect": "risk", "kind": "status_changed", "original": "O síndico trocou as lâmpadas do corredor.", "candidate": "O síndico tentou trocar as lâmpadas do corredor."}
+{"id": "d-t05", "expect": "risk", "kind": "status_changed", "original": "A coordenação publicou o edital na sexta-feira.", "candidate": "A coordenação propôs publicar o edital na sexta-feira."}
+{"id": "d-a01", "expect": "risk", "kind": "aspect_changed", "original": "A atualização também permitiu exportar relatórios.", "candidate": "A atualização passou a permitir exportar relatórios."}
+{"id": "d-a02", "expect": "risk", "kind": "aspect_changed", "original": "A biblioteca abre aos sábados.", "candidate": "A biblioteca voltou a abrir aos sábados."}
+{"id": "d-a03", "expect": "risk", "kind": "aspect_changed", "original": "O aplicativo deixou de enviar notificações por e-mail.", "candidate": "O aplicativo envia notificações por e-mail."}
+{"id": "d-a04", "expect": "risk", "kind": "aspect_changed", "original": "A loja aceita pagamento por aproximação.", "candidate": "A loja começou a aceitar pagamento por aproximação."}
+{"id": "d-p01", "expect": "risk", "kind": "first_person_event", "original": "Transferi R$ 500,00 para a conta da escola.", "candidate": "Recebi R$ 500,00 na conta da escola."}
+{"id": "d-p02", "expect": "risk", "kind": "first_person_event", "original": "Paguei R$ 120,00 pela inscrição no curso.", "candidate": "Devolvi R$ 120,00 pela inscrição no curso."}
+{"id": "d-c01", "expect": "clean", "kind": "qualifier_kept", "original": "O sistema fez o envio automático do lote às 8h.", "candidate": "O lote foi enviado automaticamente pelo sistema às 8h."}
+{"id": "d-c02", "expect": "clean", "kind": "ornament_dropped", "original": "O sistema fez o envio rápido e eficiente do lote às 8h.", "candidate": "O sistema fez o envio eficiente do lote às 8h."}
+{"id": "d-c03", "expect": "clean", "kind": "ornament_dropped", "original": "A equipe entregou um excelente trabalho na reforma da praça.", "candidate": "A equipe entregou um bom trabalho na reforma da praça."}
+{"id": "d-c04", "expect": "clean", "kind": "qualifier_kept", "original": "O preenchimento do formulário é obrigatório para todos os inscritos.", "candidate": "Todos os inscritos precisam preencher o formulário, que é obrigatório."}
+{"id": "d-c05", "expect": "clean", "kind": "noun_use", "original": "No final do mês, o total de pedidos passou de 300.", "candidate": "No fim do mês, os pedidos passaram de 300."}
+{"id": "d-c06", "expect": "clean", "kind": "event_synonym", "original": "O fornecedor enviou a nota fiscal ao cliente.", "candidate": "O fornecedor encaminhou a nota fiscal ao cliente."}
+{"id": "d-c07", "expect": "clean", "kind": "event_synonym", "original": "O comitê analisou o orçamento de R$ 40.000,00.", "candidate": "O comitê avaliou o orçamento de R$ 40.000,00."}
+{"id": "d-c08", "expect": "clean", "kind": "event_synonym", "original": "A equipe concluiu a migração em maio.", "candidate": "A equipe finalizou a migração em maio."}
+{"id": "d-c09", "expect": "clean", "kind": "event_synonym", "original": "Foram identificados três riscos no projeto da ponte.", "candidate": "Foram encontrados três riscos no projeto da ponte."}
+{"id": "d-c10", "expect": "clean", "kind": "event_nominalized", "original": "O comitê aprovou o orçamento de R$ 40.000,00 na reunião.", "candidate": "O orçamento de R$ 40.000,00 teve a aprovação do comitê na reunião."}
+{"id": "d-c11", "expect": "clean", "kind": "status_kept", "original": "A empresa solicitou o pagamento da fatura de R$ 900,00.", "candidate": "A empresa pediu o pagamento da fatura de R$ 900,00."}
+{"id": "d-c12", "expect": "clean", "kind": "status_kept", "original": "A prefeitura planeja reformar a quadra da escola.", "candidate": "A prefeitura pretende reformar a quadra da escola."}
+{"id": "d-c13", "expect": "clean", "kind": "aspect_kept", "original": "A atualização passou a permitir exportar relatórios.", "candidate": "Com a atualização, passou a ser possível exportar relatórios."}
+{"id": "d-c14", "expect": "clean", "kind": "aspect_kept", "original": "O aplicativo deixou de enviar notificações por e-mail.", "candidate": "O aplicativo não envia mais notificações por e-mail."}
+{"id": "d-c15", "expect": "clean", "kind": "passive_attribution", "original": "A gerente informou os clientes sobre o atraso.", "candidate": "Os clientes foram informados pela gerente sobre o atraso."}
+{"id": "d-c16", "expect": "clean", "kind": "setting_kept", "original": "O firmware foi testado no hardware real da estação.", "candidate": "Os testes do firmware usaram o hardware real da estação."}
+{"id": "d-c17", "expect": "clean", "kind": "formula_cut", "original": "É importante destacar que o curso é gratuito e presencial.", "candidate": "O curso é gratuito e presencial."}
+{"id": "d-c18", "expect": "clean", "kind": "currency", "original": "A passagem custa um real a mais desde janeiro.", "candidate": "Desde janeiro, a passagem custa um real a mais."}
+{"id": "d-c19", "expect": "clean", "kind": "first_person_kept", "original": "Transferi R$ 500,00 para a conta da escola.", "candidate": "Fiz uma transferência de R$ 500,00 para a conta da escola."}
+{"id": "d-c20", "expect": "clean", "kind": "event_synonym", "original": "O técnico instalou o sensor na caixa d'água.", "candidate": "O técnico montou o sensor na caixa d'água."}

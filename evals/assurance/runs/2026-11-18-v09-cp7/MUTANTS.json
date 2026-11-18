@@ -1,0 +1,129 @@
+{
+ "summary": {
+  "killed": 20,
+  "survived": 0,
+  "error": 0
+ },
+ "results": [
+  {
+   "mutant": "compare: qualifier never dropped",
+   "file": "voznativa/compare.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "compare: event change needs no new class",
+   "file": "voznativa/compare.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "compare: status governors ignored",
+   "file": "voznativa/compare.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "compare: same-class synonym is a loss again",
+   "file": "voznativa/compare.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "compare: noun reading not skipped",
+   "file": "voznativa/compare.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "engine: same declared model counts as different",
+   "file": "voznativa/engine.py",
+   "test": "test_v09_providers",
+   "result": "killed"
+  },
+  {
+   "mutant": "engine: same agent CLI is unknown",
+   "file": "voznativa/engine.py",
+   "test": "test_v09_providers",
+   "result": "killed"
+  },
+  {
+   "mutant": "diagnose: clitic attractors ignored",
+   "file": "voznativa/diagnose.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "diagnose: informal gets a fix",
+   "file": "voznativa/diagnose.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "diagnose: \u00e0 mulher is a crase error",
+   "file": "voznativa/diagnose.py",
+   "test": "test_v09_semantic_safeguards",
+   "result": "killed"
+  },
+  {
+   "mutant": "docx: mixed formatting is editable",
+   "file": "voznativa/docx.py",
+   "test": "test_v09_docx",
+   "result": "killed"
+  },
+  {
+   "mutant": "docx: output may be the source",
+   "file": "voznativa/docx.py",
+   "test": "test_v09_docx",
+   "result": "killed"
+  },
+  {
+   "mutant": "docx: check ignores outside XML",
+   "file": "voznativa/docx.py",
+   "test": "test_v09_docx",
+   "result": "killed"
+  },
+  {
+   "mutant": "packs: forbidden keys allowed",
+   "file": "voznativa/packs.py",
+   "test": "test_v09_packs",
+   "result": "killed"
+  },
+  {
+   "mutant": "packs: external needs no licence",
+   "file": "voznativa/packs.py",
+   "test": "test_v09_packs",
+   "result": "killed"
+  },
+  {
+   "mutant": "config: project may set cmd",
+   "file": "voznativa/config.py",
+   "test": "test_v09_cli_config",
+   "result": "killed"
+  },
+  {
+   "mutant": "config: dry run starts the provider",
+   "file": "voznativa/cli.py",
+   "test": "test_v09_cli_config",
+   "result": "killed"
+  },
+  {
+   "mutant": "editorial: no unit spread required",
+   "file": "voznativa/editorial.py",
+   "test": "test_v09_editorial",
+   "result": "killed"
+  },
+  {
+   "mutant": "editorial: memory never warns",
+   "file": "voznativa/editorial.py",
+   "test": "test_v09_editorial",
+   "result": "killed"
+  },
+  {
+   "mutant": "privacy gate: net diff only",
+   "file": "scripts/privacy_gate.py",
+   "test": "test_v09_privacy_gate",
+   "result": "killed"
+  }
+ ]
+}

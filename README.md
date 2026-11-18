@@ -13,7 +13,7 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 | quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
 | quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-**Estado:** `0.8.1` (GitHub release com tag anotada `v0.8.1`; não publicada no PyPI). Corrige nove defeitos (DF-01 a DF-09) encontrados em dois dogfoods com documentos acadêmicos longos reais e provider real ([`CHANGELOG.md`](CHANGELOG.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
+**Estado:** `0.9.0` (GitHub release com tag anotada `v0.9.0`; não publicada no PyPI). Instalação e configuração mais simples, providers por contrato (inclusive servidor local), sinais novos para mudança de sentido com valores intactos, diagnóstico gramatical, consistência editorial em documentos longos, DOCX numa cópia segura, PDF com escopo honesto e packs com contrato ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.9/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
 ## Em 30 segundos
 
@@ -38,13 +38,14 @@ Dentro do `rewrite`, uma candidata que falha nunca é entregue: depois das tenta
 | **Semantic Ledger e `compare`** | inventário de valores (números por extenso, datas, horas, dinheiro, versões, caminhos), negação, modalidade, quantificadores, condições, causalidade, atribuição, papéis agente/paciente; mudanças dentro de uma frase e entre frases e parágrafos (negação deslocada, frase que retoma a anterior movida, frase curta acrescentada) | IMPLEMENTED; pronomes e correferência: NOT_IMPLEMENTED |
 | **Context Router (contrato v3)** | 14 dimensões (gênero, canal, registro, época do texto, variedade, estrutura, público…) com valor, fonte e confiança; abstém-se (`unknown`) em vez de chutar e mantém proteções conservadoras | IMPLEMENTED |
 | **Planner e Rewrite Engine** | decide por frase o que manter, cortar ou reescrever; não chama o modelo quando não há o que mudar (`NO_CHANGE`); valida, tenta de novo, devolve o original se nada for seguro | IMPLEMENTED |
-| **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento | IMPLEMENTED (provedores reais: só testado com stub) |
+| **Documentos longos** | `rewrite --long-form`: unidades sem perda, código/tabelas/citações/verso nunca enviados ao modelo, nomes e siglas carregados entre unidades, validação global e reversão de unidades que quebram o documento; memória editorial entre unidades (grafia dos termos, aberturas já repetidas) e sinal `style_convergence` quando a reescrita faz as unidades convergirem para a mesma abertura ([v0.9](docs/releases/v0.9/EDITORIAL.md)) | IMPLEMENTED; executado com provider real (`claude -p`) em dois dogfoods com documentos acadêmicos de 7.300 e 8.300 palavras, que acharam e corrigiram DF-01 a DF-09 ([TG1](docs/releases/v0.8/DOGFOOD_TG1.md), [TCC2](docs/releases/v0.8/DOGFOOD_TCC2.md)); escritor e juiz eram o mesmo modelo |
 | **Pattern Library e camada PT-BR** | 27 padrões editoriais por gênero e posição; PT-PT × PT-BR (falsos amigos não trocados às cegas; grafia anterior à reforma ortográfica não é PT-PT) | IMPLEMENTED; limiares calibrados só em parte |
 | **Análise verbal** | tempo, modo, pessoa e perífrases por regras, com abstenção; sinaliza mudança de tempo verbal na reescrita | IMPLEMENTED (93–97% de acerto nas análises únicas, medido contra Universal Dependencies) |
-| **Diagnóstico do original** | `diagnose`: erro formal, contradição interna, escolha legítima, licença literária, ambiguidade; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED (base) |
+| **Diagnóstico do original** | `diagnose`: erro formal (inclui concordância nominal, "fazer"/"haver" impessoais e crase, desde a v0.9), contradição interna, escolha legítima, licença literária, ambiguidade; modos `PRESERVE`, `REVIEW`, `PROOFREAD`, `POLISH`, `ADAPT` | IMPLEMENTED; regência não coberta |
 | **Voice Profile e Voice Contract** | hábitos do autor por canal, sem guardar texto | IMPLEMENTED; limiares sem calibração com amostras reais |
 | **Gíria, comunidade, região** | mantém a gíria do autor e o sentido pelo contexto ("de boa qualidade" não é gíria); nunca acrescenta gíria, termo de comunidade ou regionalismo sem evidência | IMPLEMENTED; packs regionais e de comunidade em estado piloto/E0 |
 | **Corpus Registry** | 38 fontes; 7 integradas à avaliação (notícia, blog, acadêmico, tweets, avaliações, literatura do séc. XIX, traduções); política de dados por operação | IMPLEMENTED |
+| **DOCX e PDF** | DOCX: extração, reescrita numa cópia e conferência parte a parte (subconjunto: parágrafos de texto com formatação uniforme). PDF: extração rastreável por página e notas numa cópia ([v0.9](docs/releases/v0.9/DOCUMENTS.md)) | IMPLEMENTED (subconjunto declarado); renderização no Word: NOT_RUN; PDF sem caixas por palavra |
 | **Integridade e proveniência** | `integrity`: caracteres invisíveis, bidi, tags, homóglifos; cada `rewrite` devolve um registro de proveniência sem o texto | IMPLEMENTED; não detecta nem remove marca d'água estatística |
 | **Benchmarks e assurance** | suítes congeladas, `ptbr-bench-v5` fora de distribuição, qualificação local, evidência de CI vinculada ao SHA | IMPLEMENTED; braços com modelo e revisão humana: NOT_RUN |
 | **Benchmark de detectores de IA** | adapters e protocolo H0/H1/A0/A1 para *medir* detectores, nunca para contorná-los | infraestrutura IMPLEMENTED; execução real: NOT_RUN |
@@ -76,7 +77,7 @@ Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que n
 
 ## Instalação
 
-Requer Python 3.11+. A v0.8 foi qualificada localmente no Linux (3.11, 3.12 e 3.13, em contêiner) e no Windows (3.12); a CI manual roda Linux e Windows com 3.11, 3.12 e 3.13 (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.8/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
+Requer Python 3.11+. A v0.9.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13; o Linux local não rodou nesta versão (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
 **Windows (PowerShell)**
 
@@ -151,6 +152,26 @@ voznativa rewrite texto.txt --cmd '["claude", "-p", "--tools", ""]' --judge-cmd 
 
 Desligue as ferramentas do agente (`--tools ""`): o diretório temporário **não é sandbox**. Desfechos: `accepted`, `needs_judgment`, `needs_review`, `no_change`, `returned_original`, `provider_error`.
 
+Com um servidor local no formato chat-completions (Ollama, llama.cpp `llama-server`, LM Studio), sem chave e sem o texto sair da máquina:
+
+```bash
+voznativa rewrite texto.txt --api-url http://localhost:11434/v1 --api-model <modelo>
+```
+
+Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada.
+
+Para não repetir as opções, ponha-as no arquivo do usuário (`voznativa config` mostra o caminho e de onde vem cada valor). Precedência: flag > `.voznativa.toml` do projeto > arquivo do usuário > padrão. O arquivo do projeto **não pode** definir `cmd`, `judge_cmd` nem o ambiente do provider: um repositório clonado não escolhe o que roda na sua máquina.
+
+```toml
+# arquivo do usuário, por exemplo %APPDATA%\voznativa\config.toml ou ~/.config/voznativa/config.toml
+[rewrite]
+cmd = '["claude", "-p", "--tools", ""]'
+provider_env = "minimal"
+max_calls = 60
+```
+
+`voznativa rewrite texto.txt --dry-run` mostra o plano, as unidades e o teto de chamadas sem iniciar o provider; `voznativa doctor` confere se o comando configurado existe e está isolado, sem chamá-lo (`--probe-provider` faz uma chamada real, que pode custar).
+
 ## Como Agent Skill
 
 | Host | Instalação |
@@ -164,14 +185,17 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 32 subcomandos. Os mais usados:
+`voznativa --help` lista os 36 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|
-| `doctor` / `demo` | conferir a instalação; ver compare, plan e diagnose funcionando sem modelo |
+| `doctor` / `demo` | conferir a instalação (cada problema com categoria e ação); ver compare, plan e diagnose funcionando sem modelo |
+| `config` | configuração efetiva do `rewrite` e a origem de cada valor |
+| `docx extract \| apply \| check`, `rewrite X.docx --docx-out Y.docx` | Word: parágrafos editáveis × protegidos, reescrita numa cópia, conferência de integridade; o original nunca é gravado |
+| `pdf extract \| annotate` | PDF (dependência opcional pypdf, `pip install "voznativa[pdf]"`): texto por página com equações e código protegidos; notas numa cópia |
 | `compare ORIGINAL CANDIDATA` | gate semântico; exit 0 ok, 1 fail, 2 revisão, 3 precisa de juiz |
 | `plan TEXTO` | o que mudar, por quê e quanto, sem modelo |
-| `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd` |
+| `rewrite TEXTO --cmd …` | ciclo completo; `--long-form`, `--mode`, `--protect`, `--judge-cmd`, `--dry-run` |
 | `diagnose TEXTO` | erros, contradições e escolhas legítimas do original |
 | `route TEXTO` | contrato de contexto |
 | `profile AMOSTRAS…` / `contract TEXTO` | perfil de voz e contrato de voz |
@@ -197,7 +221,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 ## Segurança e limites
 
-- **Preservação semântica é verificada, não garantida.** Os gates são determinísticos e conservadores. Não detectam pronomes trocados nem todo antônimo. Ação perdida só aparece quando o verbo some e sobra um verbo leve (`predicate_missing`). Troca por outro verbo pleno ("assinou" → "recebeu") é só informativa (`predicate_replaced`), porque regras não separam sinônimo de outro evento. Sem juiz, o melhor estado é `unverified`.
+- **Preservação semântica é verificada, não garantida.** Os gates são determinísticos e conservadores. Não detectam pronomes trocados nem todo antônimo. Ação perdida aparece quando o verbo some e sobra um verbo leve (`predicate_missing`). Troca por outro verbo pleno vira sinal de revisão (`event_changed`) só quando os dois verbos estão em classes de evento listadas e diferentes ("assinou" → "recebeu"); fora das classes é só informativa (`predicate_replaced`). Qualificador operacional apagado ou trocado, fato que virou intenção ou pedido e mudança de aspecto também viram sinal de revisão, a partir de listas pequenas e autorais ([v0.9](docs/releases/v0.9/SEMANTICS.md)). Sem juiz, o melhor estado é `unverified`.
 - **Juiz LLM não é revisão humana.** Só uma revisão assinada (`voznativa review`, terminal interativo) resolve `review_required`; assinatura com a chave local prova integridade, não identidade nem independência.
 - **Providers externos recebem o texto.** O VozNativa não envia nada a terceiros sem `--cmd`/`--emulate`; os relatórios guardam hashes, não o texto.
 - **Detectores de IA.** O projeto não promete indetectabilidade nem atribui autoria humana; o benchmark de detectores mede, não otimiza.
@@ -208,7 +232,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS; contagens por revisão e plataforma em [`docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md`](docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS na v0.9.0; contagens por revisão e plataforma em [`docs/releases/v0.9/RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |

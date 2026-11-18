@@ -97,20 +97,32 @@ class GrowthOfCompare(unittest.TestCase):
                        f"ao comitê. O prazo não pode passar de {k + 1} dias.")
         return "\n\n".join(out) + "\n"
 
-    def best(self, blocks):
-        doc = self.document(blocks)
-        times = []
-        for _ in range(2):
-            started = time.perf_counter()
-            compare(doc, doc + "\nUma frase nova.\n")
-            times.append(time.perf_counter() - started)
-        return min(times)
+    @classmethod
+    def best_pair(cls, small_blocks=100, large_blocks=800, repeat=3):
+        """Minimum CPU time of each size over ``repeat`` interleaved runs (v0.9 CP3, V09-GAP-14).
+
+        v0.8 measured wall time, twice per size, one size after the other: under the
+        load of the whole suite (other processes, I/O) the ratio crossed 19 (19.4,
+        21.2) while isolated runs gave 12-13 on the same code. Process CPU time is not
+        inflated by other processes, interleaving exposes both sizes to the same load
+        bursts, and the minimum keeps the least disturbed run. The threshold did not
+        change; the regression it guards against (x24 before the fix) still fails it."""
+        docs = {n: cls.document(n) for n in (small_blocks, large_blocks)}
+        compare(docs[small_blocks], docs[small_blocks] + "\nUma frase nova.\n")  # warm-up
+        times = {n: [] for n in docs}
+        for _ in range(repeat):
+            for n, doc in docs.items():
+                started = time.process_time()
+                compare(doc, doc + "\nUma frase nova.\n")
+                times[n].append(time.process_time() - started)
+        return min(times[small_blocks]), min(times[large_blocks])
 
     def test_eight_times_the_document_stays_well_below_quadratic(self):
         # Measured on this input, 2026-11-07: before the fix (c353058) x24.0 for x8 the blocks,
         # after x12.6 (linear would be x8; residual: spans checked against the whole text).
-        small, large = self.best(100), self.best(800)
-        self.assertLess(large / max(small, 1e-3), 19.0, f"small {small:.2f}s, large {large:.2f}s")
+        # v0.9 CP3: same threshold, CPU time, interleaved repeats (see best_pair).
+        small, large = self.best_pair()
+        self.assertLess(large / max(small, 1e-3), 19.0, f"small {small:.2f}s CPU, large {large:.2f}s CPU")
 
 
 class SlowCompare:

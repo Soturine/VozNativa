@@ -3,6 +3,11 @@ kind: voznativa.community_pack
 id: gaming
 name: Jogos
 status: draft
+license: MIT
+provenance:
+  authors: [VozNativa maintainers]
+  created: "2026-11-05"
+  note: "metadata added in v0.9 CP6 (pack envelope); content unchanged"
 context_of_practice: comunidades de jogadores (chats, fóruns, transmissões, avaliações de jogos)
 locale: pt-BR
 evidence:

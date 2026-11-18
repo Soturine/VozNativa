@@ -12,6 +12,8 @@ Other commands exit 0 on success.
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import sys
 from pathlib import Path
@@ -281,7 +283,7 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
     if candidates_files:
         return StaticProvider([_read(f) for f in candidates_files])
     if not spec:
-        raise ValueError("--cmd, --emulate or --candidate is required (rewrite needs a provider; to see the cycle "
+        raise ValueError("--cmd, --api-url/--api-model, --emulate or --candidate is required (rewrite needs a provider; to see the cycle "
                          "without a model, run `voznativa demo` or use the stub in examples/quickstart)")
     if spec == "emulate":
         import os
@@ -292,21 +294,187 @@ def _provider(spec: str | None, candidates_files: list[str] | None, timeout: flo
     return CommandProvider.from_string(spec, timeout, env=env, env_allow=tuple(env_allow or ()))
 
 
+CONFIG_KEYS = ("cmd", "judge_cmd", "provider_env", "provider_env_allow", "api_url", "api_model", "api_key_env",
+               "api_allow_remote", "judge_api_url", "judge_api_model", "timeout", "attempts", "candidates",
+               "judge_votes", "max_calls", "segment_words", "long_form", "genre", "channel", "register", "protect")
+
+
+def _apply_config(args) -> dict:
+    """Fill every rewrite option not given on the command line from the project
+    file, then the user file, then the built-in default (v0.9 CP1). Returns the
+    resolution (value and source per key) for the report."""
+    from .config import resolve
+    resolved = resolve({k: getattr(args, k, None) for k in CONFIG_KEYS})
+    for key in CONFIG_KEYS:
+        setattr(args, key, resolved[key]["value"])
+    return resolved
+
+
+def _call_budget(args, long_form: bool) -> dict:
+    """Upper bound of provider calls this rewrite may make (generation, retries and judge)."""
+    judge = args.judge_votes if (args.judge_cmd or args.judge_api_url or args.judge_api_model) else 0
+    per_text = args.attempts * args.candidates + judge
+    if long_form:
+        return {"max_provider_calls": args.max_calls, "counted": "generation + judge, all units (DF-01)"}
+    return {"max_provider_calls": per_text, "counted": "attempts x candidates + judge votes"}
+
+
+def _providers(args):
+    """Writer and judge from the resolved options. One source per role:
+    --cmd, --api-url/--api-model, --emulate or --candidate for the writer;
+    --judge-cmd or --judge-api-url/--judge-api-model for the judge."""
+    from .providers import ChatAPIProvider
+    writers = [n for n, v in (("--cmd", args.cmd), ("--api-url", args.api_url), ("--emulate", args.emulate))
+               if v] + (["--candidate"] if args.candidate else [])
+    if len(writers) > 1:
+        raise ValueError(f"choose one provider, got {' and '.join(writers)}")
+    if args.api_url or args.api_model:
+        if not (args.api_url and args.api_model):
+            raise ValueError("--api-url and --api-model go together (e.g. http://localhost:11434/v1 and a model)")
+        provider = ChatAPIProvider(args.api_url, args.api_model, timeout=args.timeout, api_key_env=args.api_key_env,
+                                   allow_remote=bool(args.api_allow_remote))
+    else:
+        provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
+                             args.provider_env, args.provider_env_allow)
+    if args.judge_cmd and (args.judge_api_url or args.judge_api_model):
+        raise ValueError("choose one judge: --judge-cmd or --judge-api-url/--judge-api-model")
+    judge = None
+    if args.judge_api_url or args.judge_api_model:
+        judge = ChatAPIProvider(args.judge_api_url or args.api_url, args.judge_api_model or args.api_model,
+                                timeout=args.timeout, api_key_env=args.api_key_env,
+                                allow_remote=bool(args.api_allow_remote))
+    elif args.judge_cmd:
+        judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env, args.provider_env_allow)
+    return provider, judge
+
+
 def cmd_rewrite(args):
+    if str(args.text).lower().endswith(".docx"):
+        return _rewrite_docx(args)
+    return _rewrite_text(args)
+
+
+def _rewrite_docx(args):
+    """``rewrite FILE.docx --docx-out NEW.docx`` (v0.9 CP5): the editable paragraphs
+    go through the long-form engine as blocks (headings as context), and the
+    rewritten text is applied to a new file only if every block came back;
+    protected paragraphs never reach the model. The original is never written."""
+    import tempfile
+
+    from . import docx
+    if not args.docx_out:
+        raise ValueError("a .docx input needs --docx-out NEW.docx (the original is never written)")
+    source = Path(args.text)
+    ir = docx.extract(source)
+    text, ids = docx.to_text(ir)
+    with tempfile.TemporaryDirectory(prefix="voznativa-docx-") as tmp:
+        plain = Path(tmp) / (source.stem + ".txt")
+        plain.write_text(text, encoding="utf-8")
+        args.text = str(plain)
+        if args.long_form is None:
+            args.long_form = "on"
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            code = _rewrite_text(args, text_only=False)
+    result = json.loads(buffer.getvalue())
+    report = {"input": source.name, "elements": ir["summary"], "applied": False, "output": None}
+    if result.get("outcome") in ("accepted", "needs_judgment", "needs_review") and result["text"] != text:
+        try:
+            edits = docx.from_text(ir, ids, result["text"])
+            written = docx.apply(source, edits, args.docx_out)
+            report.update(applied=True, output=written["output"], edited=written["edited"],
+                          check=docx.check(source, args.docx_out, allowed=written["edited"]))
+        except docx.DocxError as error:
+            report["reason"] = str(error)
+    else:
+        report["reason"] = f"nothing to apply (outcome {result.get('outcome')})"
+    result["docx"] = report
+    if args.text_only:
+        _emit(None, result["text"])
+    else:
+        _emit(result)
+    return code
+
+
+def cmd_docx(args):
+    from . import docx
+    if args.docx_command == "extract":
+        ir = docx.extract(args.file)
+        if args.out:
+            Path(args.out).write_text(json.dumps(ir, ensure_ascii=False, indent=2), encoding="utf-8")
+            _emit({k: ir[k] for k in ("kind", "source", "summary")})
+        else:
+            _emit(ir)
+        return 0
+    if args.docx_command == "apply":
+        edits = json.loads(_read(args.edits))
+        if isinstance(edits, dict) and "elements" in edits:       # an edited IR: take the changed texts
+            base = {e["id"]: e["text"] for e in docx.extract(args.file)["elements"]}
+            edits = {e["id"]: e["text"] for e in edits["elements"] if e["text"] != base.get(e["id"])}
+        written = docx.apply(args.file, edits, args.out)
+        written["check"] = docx.check(args.file, args.out, allowed=written["edited"])
+        _emit(written)
+        return 0 if written["check"]["status"] == "PASS" else 1
+    report = docx.check(args.original, args.candidate)
+    _emit(report)
+    return 0 if report["status"] == "PASS" else 1
+
+
+def cmd_packs(args):
+    from . import packs
+    if args.packs_command == "validate":
+        reports = [packs.validate_file(f, external=True) for f in args.files]
+        _emit({"kind": "voznativa.pack_validation", "envelope_version": packs.ENVELOPE_VERSION, "reports": reports})
+        return 0 if all(r["status"] == "valid" for r in reports) else 1
+    inv = packs.inventory()
+    if args.json:
+        _emit(inv)
+    else:
+        lines = [f"envelope v{inv['envelope_version']}" + (f"; externos em {inv['external_dir']}"
+                                                            if inv.get("external_dir") else "")]
+        for r in inv["packs"]:
+            lines.append(f"  [{r['status']:<7}] {r['source']:<8} {r.get('kind') or '?':<34} {r.get('id') or r['file']}")
+            lines += [f"           erro: {e}" for e in r["errors"]] + [f"           aviso: {w}" for w in r["warnings"]]
+        _emit(None, "\n".join(lines))
+    return 0 if all(r["status"] == "valid" for r in inv["packs"]) else 1
+
+
+def cmd_pdf(args):
+    from . import pdf
+    try:
+        if args.pdf_command == "extract":
+            ir = pdf.extract(args.file)
+            if args.text:
+                Path(args.text).write_text(pdf.to_text(ir), encoding="utf-8")
+            if args.out:
+                Path(args.out).write_text(json.dumps(ir, ensure_ascii=False, indent=2), encoding="utf-8")
+                _emit({k: ir[k] for k in ("kind", "source", "summary", "limits")})
+            else:
+                _emit(ir)
+            return 0
+        _emit(pdf.annotate(args.file, json.loads(_read(args.notes)), args.out))
+        return 0
+    except pdf.PdfUnavailable as error:
+        sys.stderr.write(f"voznativa: {error}\n")
+        return 69                       # sysexits EX_UNAVAILABLE: an optional component is missing
+
+
+def _rewrite_text(args, text_only: bool | None = None):
     from .engine import rewrite
     from .project import scan
+    resolved = _apply_config(args)
+    text_only = args.text_only if text_only is None else text_only
     context = _route(args)
+    if args.dry_run:
+        return _rewrite_dry_run(args, context, resolved)
     profile, explicit = _voice_inputs(args)
     if args.mode:
         moded = _mode_result(_read(args.text), context, args.mode, [_read(f) for f in args.fact or []])
         if moded is not None:
-            _emit(None, moded["text"]) if args.text_only else _emit(moded)
+            _emit(None, moded["text"]) if text_only else _emit(moded)
             return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2,
                     "returned_original": 1}[moded["outcome"]]
-    provider = _provider("emulate" if args.emulate else args.cmd, args.candidate, args.timeout,
-                         args.provider_env, args.provider_env_allow)
-    judge = _provider(args.judge_cmd, None, args.timeout, args.provider_env,
-                      args.provider_env_allow) if args.judge_cmd else None
+    provider, judge = _providers(args)
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
     text = _read(args.text)
@@ -331,13 +499,50 @@ def cmd_rewrite(args):
     result["provenance"] = provenance_record(text, result["text"], tool_version=__version__, operation="rewrite",
                                              provider=result.get("provider") if called else None,
                                              outcome=result.get("outcome"))
-    if args.text_only:
+    from .providers import identity
+    usage = {role: {**identity(p), **({"tokens_reported": dict(p.usage)} if isinstance(getattr(p, "usage", None),
+                                                                                    dict) else {})}
+             for role, p in (("writer", provider), ("judge", judge)) if p is not None}
+    result["provider_identity"] = usage   # program and model as configured, tokens only when the server reports them
+    if text_only:
         _emit(None, result["text"])
     else:
         _emit(result)
     return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2, "returned_original": 1,
             "provider_error": 1}[
         result["outcome"]]
+
+
+def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
+    """What ``rewrite`` would do, without starting any provider (v0.9 CP1):
+    the plan, the units of a long document, the call budget and the
+    effective configuration. Nothing is sent anywhere."""
+    from .planner import plan
+    text = _read(args.text)
+    long_form = context["task"] != "create" and (
+        args.long_form == "on" or (args.long_form == "auto" and len(text.split()) > 1.5 * args.segment_words))
+    the_plan = plan(text, context)
+    report = {"kind": "voznativa.rewrite.dry_run", "schema_version": 1, "provider_called": False,
+              "decision": the_plan["decision"], "summary": the_plan.get("summary"),
+              "would_call_model": the_plan["decision"] != "no_change" or bool(args.force),
+              "long_form": long_form, "budget": _call_budget(args, long_form),
+              "provider": {"cmd": bool(args.cmd), "api": bool(args.api_url), "emulate": bool(args.emulate),
+                           "judge": bool(args.judge_cmd or args.judge_api_url or args.judge_api_model),
+                           "candidate_files": len(args.candidate or []),
+                           "env": args.provider_env},
+              # where each non-default option came from; values are not echoed (a command line may hold a path)
+              "config_sources": {k: v["source"] for k, v in resolved.items() if v["source"] != "default"}}
+    if long_form:
+        from .document import Limits, build_plan
+        doc = build_plan(text, context, Limits(segment_words=args.segment_words), verse_explicit=args.rewrite_verse)
+        units = doc["units"]
+        report["units"] = {"total": len(units),
+                           "rewritable": sum(1 for u in units if u.get("action") == "rewrite"),
+                           "protected": sum(1 for u in units if u.get("action") != "rewrite")}
+    if not (args.cmd or args.api_url or args.emulate or args.candidate):
+        report["note"] = "no provider configured: a real run needs --cmd, --api-url/--api-model, --emulate or --candidate"
+    _emit(report)
+    return 0
 
 
 
@@ -455,7 +660,48 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("doctor", help="check the installation (no network, reads no text); exit 1 when "
                                       "something will not work")
     p.add_argument("--json", action="store_true", help="JSON report instead of text")
+    p.add_argument("--probe-provider", action="store_true",
+                   help="also send one short prompt to the configured provider command (may cost money; "
+                        "uses the network if the provider does)")
     p.set_defaults(func=cmd_doctor)
+    p = sub.add_parser("docx", help="Word documents: extract the editable paragraphs, apply edits to a new copy, "
+                                    "check a copy against its original (the original is never written)")
+    ds = p.add_subparsers(dest="docx_command", required=True)
+    q = ds.add_parser("extract", help="intermediate representation: paragraphs, types, editable or protected (why)")
+    q.add_argument("file")
+    q.add_argument("--out", help="write the JSON here instead of printing it")
+    q = ds.add_parser("apply", help="write a NEW file with the edited paragraphs; protected ones are refused")
+    q.add_argument("file")
+    q.add_argument("edits", help='JSON {"p3": "new text", ...} or an edited extract')
+    q.add_argument("--out", required=True, help="new .docx (must not be the original nor exist)")
+    q = ds.add_parser("check", help="integrity of a copy: parts, bytes outside document.xml, protected paragraphs")
+    q.add_argument("original")
+    q.add_argument("candidate")
+    p.set_defaults(func=cmd_docx)
+    p = sub.add_parser("packs", help="linguistic packs: list bundled and external ones (VOZNATIVA_PACKS_DIR), "
+                                     "validate a pack file against the contract; exit 1 when a pack is invalid")
+    ks = p.add_subparsers(dest="packs_command", required=True)
+    q = ks.add_parser("list", help="every pack with status, errors and warnings")
+    q.add_argument("--json", action="store_true")
+    q = ks.add_parser("validate", help="validate pack files as external contributions (strict envelope)")
+    q.add_argument("files", nargs="+")
+    p.set_defaults(func=cmd_packs)
+    p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
+                                   "equations/code, and annotated copies; no editing of the PDF itself")
+    ps = p.add_subparsers(dest="pdf_command", required=True)
+    q = ps.add_parser("extract", help="paragraphs per page; equation and code lines become protected placeholders")
+    q.add_argument("file")
+    q.add_argument("--out", help="write the JSON here")
+    q.add_argument("--text", help="also write the plain text (blocks) here, for rewrite/compare")
+    q = ps.add_parser("annotate", help='a NEW PDF with one note per page: JSON [{"page": 3, "text": "..."}]')
+    q.add_argument("file")
+    q.add_argument("notes")
+    q.add_argument("--out", required=True)
+    p.set_defaults(func=cmd_pdf)
+    p = sub.add_parser("config", help="effective rewrite configuration: value and source of each option "
+                                      "(flag > project .voznativa.toml > user file > default); writes nothing")
+    p.add_argument("--json", action="store_true", help="JSON instead of text")
+    p.set_defaults(func=cmd_config)
     p = sub.add_parser("demo", help="offline tour of compare, plan and diagnose on bundled texts (no model, "
                                     "no key, no file written)")
     p.add_argument("--json", action="store_true", help="JSON result instead of text")
@@ -671,28 +917,44 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--inline-refs", action="store_true", help="embed reference text instead of paths")
             p.set_defaults(func=cmd_rewrite_prompt)
         else:
-            p.add_argument("--cmd", help='model command reading the prompt on stdin, e.g. "claude -p"')
+            # v0.9 CP1: options that a config file can set default to None here ("not given");
+            # _apply_config fills them as flag > project file > user file > built-in default.
+            p.add_argument("--cmd", help='model command reading the prompt on stdin, e.g. "claude -p" '
+                                         "(or 'cmd' in the user config file)")
             p.add_argument("--emulate", action="store_true", help="system baseline via EMULATE_API_KEY")
             p.add_argument("--candidate", action="append", help="pre-written candidate file (offline)")
             p.add_argument("--judge-cmd", help="command used as semantic judge")
-            p.add_argument("--attempts", type=int, default=3)
-            p.add_argument("--candidates", type=int, default=1)
-            p.add_argument("--timeout", type=float, default=300.0)
-            p.add_argument("--provider-env", choices=["inherit", "minimal"], default="inherit",
-                           help="environment for --cmd/--judge-cmd: all variables (default) or only what a "
-                                "CLI needs to start; minimal keeps unrelated credentials out of the model process")
+            p.add_argument("--api-url", help="chat-completions server, e.g. http://localhost:11434/v1 (Ollama) or "
+                                             "http://localhost:8080/v1 (llama.cpp); local addresses only unless "
+                                             "--api-allow-remote")
+            p.add_argument("--api-model", help="model name for --api-url")
+            p.add_argument("--api-key-env", help="environment variable holding the API key, if the server needs one")
+            p.add_argument("--api-allow-remote", action="store_true", default=None,
+                           help="allow --api-url to name a non-local host (the text leaves this machine)")
+            p.add_argument("--judge-api-url", help="chat-completions server for the judge (default: --api-url)")
+            p.add_argument("--judge-api-model", help="model for the judge on a chat-completions server")
+            p.add_argument("--attempts", type=int, help="tries per text or unit (default 3)")
+            p.add_argument("--candidates", type=int, help="candidates per try (default 1)")
+            p.add_argument("--timeout", type=float, help="seconds per provider call (default 300)")
+            p.add_argument("--provider-env", choices=["inherit", "minimal"],
+                           help="environment for --cmd/--judge-cmd: all variables (default inherit) or only what "
+                                "a CLI needs to start; minimal keeps unrelated credentials out of the model process")
             p.add_argument("--provider-env-allow", action="append",
                            help="variable kept with --provider-env minimal (repeatable), e.g. ANTHROPIC_API_KEY")
             p.add_argument("--text-only", action="store_true")
-            p.add_argument("--judge-votes", type=int, default=2,
+            p.add_argument("--judge-votes", type=int,
                            help="independent judge calls that must all say equivalent (default 2)")
             p.add_argument("--force", action="store_true",
                            help="call the model even when the text has no editorial findings")
-            p.add_argument("--long-form", choices=["auto", "on", "off"], default="auto",
-                           help="rewrite unit by unit with a global validation (auto: texts longer than 1.5x "
-                                "--segment-words); protected blocks never reach the model")
-            p.add_argument("--segment-words", type=int, default=600, help="target words per unit (long form)")
-            p.add_argument("--max-calls", type=int, default=800, help="provider call budget for a long document")
+            p.add_argument("--long-form", choices=["auto", "on", "off"],
+                           help="rewrite unit by unit with a global validation (default auto: texts longer than "
+                                "1.5x --segment-words); protected blocks never reach the model")
+            p.add_argument("--segment-words", type=int, help="target words per unit (long form; default 600)")
+            p.add_argument("--max-calls", type=int, help="provider call budget for a long document (default 800)")
+            p.add_argument("--docx-out", help="with a .docx input: the new .docx to write (the original is never "
+                                              "written; protected paragraphs never reach the model)")
+            p.add_argument("--dry-run", action="store_true",
+                           help="show the plan, units, call budget and effective configuration; start no provider")
             p.add_argument("--mode", choices=[m for m in MODES if m != "CREATE"],
                            help="editorial mode: PRESERVE/REVIEW never change the text and call no model; "
                                 "PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite")
@@ -788,9 +1050,26 @@ def cmd_evaluate(args):
 
 def cmd_doctor(args):
     from .onboarding import doctor, render_doctor
-    report = doctor()
+    report = doctor(probe_provider=args.probe_provider)
     _emit(report) if args.json else _emit(None, render_doctor(report))
     return 1 if report["status"] == "FAIL" else 0
+
+
+def cmd_config(args):
+    from .config import describe
+    report = describe()
+    if args.json:
+        _emit(report)
+        return 0
+    lines = [f"Precedência: {' > '.join(report['precedence'])}",
+             f"arquivo do usuário: {report['user_file']['path']} "
+             f"({'presente' if report['user_file']['present'] else 'ausente'})",
+             f"arquivo do projeto: {report['project_file']['path'] or report['project_file']['name'] + ' (ausente)'}",
+             f"recusadas no arquivo do projeto: {', '.join(report['project_refused_keys'])}", ""]
+    for key, item in report["effective"].items():
+        lines.append(f"  {key:<20} {item['value']!r:<40} ({item['source']})")
+    _emit(None, "\n".join(lines))
+    return 0
 
 
 def cmd_demo(args):

@@ -1,0 +1,529 @@
+{
+  "schema_version": 1,
+  "kind": "voznativa.semantic_classes",
+  "evidence": {
+    "level": "E0 (authored)",
+    "basis": "Written for v0.9 CP4 by the engine's developer from general Portuguese adjective and verb classes (operational qualifiers with a contrast, event classes whose members are near-synonyms, verbs that turn a realized event into an intention, attempt, request or proposal). Fixed after the v0.9 prospective sets were frozen (evals/v09/MANIFEST.json) and before the rules were run on them; not calibrated against an external lexical resource.",
+    "use": "compare: qualifier_dropped / qualifier_changed / qualifier_added, event_changed and fact_status_changed, all major (review), never critical; an unknown word or verb abstains"
+  },
+  "qualifier_sets": {
+    "automation": [
+      [
+        "automático",
+        "automática",
+        "automáticos",
+        "automáticas",
+        "automaticamente"
+      ],
+      [
+        "manual",
+        "manuais",
+        "manualmente"
+      ]
+    ],
+    "obligation": [
+      [
+        "obrigatório",
+        "obrigatória",
+        "obrigatórios",
+        "obrigatórias",
+        "obrigatoriamente"
+      ],
+      [
+        "opcional",
+        "opcionais",
+        "facultativo",
+        "facultativa",
+        "facultativos",
+        "facultativas"
+      ]
+    ],
+    "extent": [
+      [
+        "parcial",
+        "parciais",
+        "parcialmente"
+      ],
+      [
+        "total",
+        "totais",
+        "totalmente",
+        "integral",
+        "integrais",
+        "integralmente"
+      ]
+    ],
+    "permanence": [
+      [
+        "provisório",
+        "provisória",
+        "provisórios",
+        "provisórias",
+        "provisoriamente",
+        "temporário",
+        "temporária",
+        "temporários",
+        "temporárias",
+        "temporariamente"
+      ],
+      [
+        "definitivo",
+        "definitiva",
+        "definitivos",
+        "definitivas",
+        "definitivamente",
+        "permanente",
+        "permanentes",
+        "permanentemente"
+      ]
+    ],
+    "stage": [
+      [
+        "preliminar",
+        "preliminares",
+        "preliminarmente"
+      ],
+      [
+        "final",
+        "finais"
+      ]
+    ],
+    "certainty": [
+      [
+        "estimado",
+        "estimada",
+        "estimados",
+        "estimadas",
+        "aproximado",
+        "aproximada",
+        "aproximados",
+        "aproximadas",
+        "aproximadamente",
+        "previsto",
+        "prevista",
+        "previstos",
+        "previstas"
+      ],
+      [
+        "confirmado",
+        "confirmada",
+        "confirmados",
+        "confirmadas",
+        "definido",
+        "definida",
+        "definidos",
+        "definidas"
+      ]
+    ],
+    "mode": [
+      [
+        "presencial",
+        "presenciais",
+        "presencialmente"
+      ],
+      [
+        "online",
+        "on-line",
+        "remoto",
+        "remota",
+        "remotos",
+        "remotas",
+        "remotamente",
+        "a distância"
+      ]
+    ],
+    "price": [
+      [
+        "gratuito",
+        "gratuita",
+        "gratuitos",
+        "gratuitas",
+        "gratuitamente",
+        "grátis",
+        "de graça",
+        "sem custo"
+      ]
+    ],
+    "scope": [
+      [
+        "interno",
+        "interna",
+        "internos",
+        "internas",
+        "internamente"
+      ],
+      [
+        "externo",
+        "externa",
+        "externos",
+        "externas",
+        "externamente"
+      ]
+    ],
+    "officiality": [
+      [
+        "oficial",
+        "oficiais",
+        "oficialmente"
+      ],
+      [
+        "extraoficial",
+        "extraoficiais",
+        "extraoficialmente"
+      ]
+    ],
+    "exclusivity": [
+      [
+        "exclusivo",
+        "exclusiva",
+        "exclusivos",
+        "exclusivas",
+        "exclusivamente"
+      ]
+    ],
+    "frequency": [
+      [
+        "diário",
+        "diária",
+        "diários",
+        "diárias",
+        "diariamente"
+      ],
+      [
+        "semanal",
+        "semanais",
+        "semanalmente"
+      ],
+      [
+        "quinzenal",
+        "quinzenais",
+        "quinzenalmente"
+      ],
+      [
+        "mensal",
+        "mensais",
+        "mensalmente"
+      ],
+      [
+        "bimestral",
+        "bimestrais"
+      ],
+      [
+        "trimestral",
+        "trimestrais",
+        "trimestralmente"
+      ],
+      [
+        "semestral",
+        "semestrais",
+        "semestralmente"
+      ],
+      [
+        "anual",
+        "anuais",
+        "anualmente"
+      ]
+    ],
+    "setting": [
+      [
+        "físico",
+        "física",
+        "físicos",
+        "físicas",
+        "fisicamente",
+        "em campo"
+      ],
+      [
+        "simulado",
+        "simulada",
+        "simulados",
+        "simuladas",
+        "simulação",
+        "simulações",
+        "simulador",
+        "simuladores",
+        "emulado",
+        "emulada",
+        "emulados",
+        "emuladas",
+        "emulador",
+        "emuladores",
+        "emulação",
+        "virtual",
+        "virtuais",
+        "teórico",
+        "teórica",
+        "teóricos",
+        "teóricas",
+        "hipotético",
+        "hipotética",
+        "offline"
+      ]
+    ]
+  },
+  "noun_readings": {
+    "_doc": "words that are also nouns; after a determiner, preposition or number they are read as nouns and not counted ('o manual', 'no final', 'o total de')",
+    "_removed_v09": "'real'/'reais' (currency after a spelled-out number: 'mil e quinhentos reais') and 'em produção' ('para produção' is the same setting) gave false reds on frozen suites (fr-008, num-103, h3-num-003, the CLI clean-rewrite case); removed before the holdout run",
+    "words": [
+      "manual",
+      "final",
+      "finais",
+      "total",
+      "totais",
+      "oficial",
+      "oficiais"
+    ],
+    "_setting_nouns": "simulador, emulador, simulação are nouns on purpose: 'no emulador' is the setting itself, so they are not skipped after a determiner"
+  },
+  "event_classes": {
+    "sign": [
+      "assinar",
+      "rubricar"
+    ],
+    "receive": [
+      "receber",
+      "obter"
+    ],
+    "send": [
+      "enviar",
+      "encaminhar",
+      "remeter",
+      "mandar",
+      "despachar"
+    ],
+    "view": [
+      "visualizar",
+      "ver",
+      "ler",
+      "abrir",
+      "consultar"
+    ],
+    "approve": [
+      "aprovar",
+      "homologar",
+      "deferir",
+      "autorizar",
+      "validar"
+    ],
+    "review": [
+      "analisar",
+      "avaliar",
+      "revisar",
+      "examinar",
+      "inspecionar",
+      "verificar",
+      "conferir"
+    ],
+    "pay": [
+      "pagar",
+      "quitar"
+    ],
+    "request": [
+      "solicitar",
+      "pedir",
+      "requerer",
+      "requisitar"
+    ],
+    "complete": [
+      "concluir",
+      "finalizar",
+      "terminar",
+      "encerrar"
+    ],
+    "install": [
+      "implementar",
+      "implantar",
+      "instalar",
+      "montar"
+    ],
+    "detect": [
+      "identificar",
+      "detectar",
+      "encontrar",
+      "localizar",
+      "constatar"
+    ],
+    "fix": [
+      "corrigir",
+      "resolver",
+      "tratar",
+      "consertar",
+      "reparar",
+      "eliminar",
+      "sanar"
+    ],
+    "execute": [
+      "executar",
+      "realizar",
+      "rodar"
+    ],
+    "plan": [
+      "planejar",
+      "programar",
+      "agendar",
+      "projetar"
+    ],
+    "test": [
+      "testar",
+      "ensaiar"
+    ],
+    "simulate": [
+      "simular",
+      "emular"
+    ],
+    "lend": [
+      "emprestar"
+    ],
+    "transfer": [
+      "transferir",
+      "depositar"
+    ],
+    "return": [
+      "devolver",
+      "restituir"
+    ],
+    "hire": [
+      "contratar",
+      "admitir"
+    ],
+    "dismiss": [
+      "demitir",
+      "dispensar"
+    ],
+    "build": [
+      "construir",
+      "edificar"
+    ],
+    "renovate": [
+      "reformar",
+      "renovar"
+    ],
+    "publish": [
+      "publicar",
+      "divulgar"
+    ],
+    "cancel": [
+      "cancelar",
+      "anular",
+      "suspender"
+    ]
+  },
+  "status_governors": {
+    "_doc": "verbs that put the event they govern in another state: wanted, attempted, asked for, proposed. A class the candidate adds and the original lacks is fact_status_changed",
+    "intention": [
+      "pretender",
+      "planejar",
+      "tencionar",
+      "querer",
+      "desejar",
+      "visar",
+      "almejar"
+    ],
+    "attempt": [
+      "tentar",
+      "buscar",
+      "procurar"
+    ],
+    "request": [
+      "solicitar",
+      "pedir",
+      "requerer",
+      "requisitar"
+    ],
+    "proposal": [
+      "propor",
+      "sugerir",
+      "recomendar"
+    ]
+  },
+  "irregular_forms": {
+    "_doc": "forms of listed irregular verbs that voznativa.morph does not analyse; ambiguous forms (via, vi, vimos, quer as a noun-less clitic) are left out",
+    "ver": [
+      "vejo",
+      "vê",
+      "veem",
+      "viu",
+      "viram",
+      "viam",
+      "verá",
+      "verão",
+      "veria",
+      "vendo",
+      "visto",
+      "vista",
+      "vistos",
+      "vistas"
+    ],
+    "ler": [
+      "leio",
+      "lê",
+      "leem",
+      "leu",
+      "leram",
+      "lia",
+      "liam",
+      "lerá",
+      "lerão",
+      "lendo",
+      "lido",
+      "lida",
+      "lidos",
+      "lidas"
+    ],
+    "obter": [
+      "obtenho",
+      "obtém",
+      "obtêm",
+      "obteve",
+      "obtiveram",
+      "obtinha",
+      "obtinham",
+      "obterá",
+      "obtendo",
+      "obtido",
+      "obtida",
+      "obtidos",
+      "obtidas"
+    ],
+    "propor": [
+      "propor",
+      "proponho",
+      "propõe",
+      "propõem",
+      "propôs",
+      "propuseram",
+      "propunha",
+      "propunham",
+      "proporá",
+      "proporão",
+      "propondo",
+      "proposto",
+      "proposta",
+      "propostos",
+      "propostas"
+    ],
+    "requerer": [
+      "requer",
+      "requerem",
+      "requeiro",
+      "requereu",
+      "requereram",
+      "requeria",
+      "requererá",
+      "requerendo",
+      "requerido",
+      "requerida"
+    ],
+    "querer": [
+      "quero",
+      "quer",
+      "querem",
+      "quis",
+      "quiseram",
+      "queria",
+      "queriam",
+      "quererá",
+      "querendo"
+    ]
+  }
+}

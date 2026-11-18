@@ -109,6 +109,29 @@ def _embedded_instructions(sents) -> list[dict]:
     return out
 
 
+_GRAMMAR_TYPES = ("plural_agreement", "impersonal_fazer", "existential_haver", "crase")
+
+
+def _grammar_reasons(text: str, context: dict, sents) -> dict[int, list[dict]]:
+    """High-confidence grammar errors of ``diagnose`` (v0.9 CP4, V09-GAP-08) as point
+    edits of their sentence. Before, a text whose only problem was "os resultado"
+    or "fazem dois anos" had no finding, the plan said no_change and the model was
+    never called. Informal and literary texts are left alone (diagnose reports
+    those as suggestions or the author's choice, not formal errors)."""
+    from .diagnose import diagnose
+    found: dict[int, list[dict]] = {}
+    for d in diagnose(text, context)["diagnostics"]:
+        if d["class"] != "formal_error" or d["type"] not in _GRAMMAR_TYPES:
+            continue
+        for sent in sents:
+            if sent.start <= d["start"] < sent.end:
+                found.setdefault(sent.index, []).append(
+                    {"id": f"grammar_{d['type']}", "family": "grammar", "priority": "P2", "text": d["text"],
+                     "op": "point_edit", "suggestion": d["message"] + (f" -> '{d['fix']}'" if d.get("fix") else "")})
+                break
+    return found
+
+
 def plan(text: str, context: dict, profile: dict | None = None, explicit: dict | None = None,
          protect: list[str] | tuple = (), report: dict | None = None) -> dict:
     text = canonical(text)
@@ -123,11 +146,12 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
     led = ledger_mod.build(text, protect)
     entries = {e.sentence.index: e for e in led.entries}
     act_on_weak = report["decision"] == "edit"
+    grammar = _grammar_reasons(text, context, sents)
 
     rows = []
     for sent in sents:
         entry = entries.get(sent.index)
-        reasons = []
+        reasons = list(grammar.get(sent.index, []))
         for f in report["findings"]:
             if f["sentence"] != sent.index or f.get("note_only"):
                 continue  # a note (e.g. a period spelling in literature) is reported, never acted on

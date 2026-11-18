@@ -1,0 +1,381 @@
+{
+ "kind": "voznativa.v09_before_after",
+ "data_root": "VozNativa",
+ "before": {
+  "engine_version": "0.8.1",
+  "evaluate": {
+   "events": {
+    "development": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 14,
+       "missed": 1,
+       "false_alarm": 2,
+       "correct_clear": 11,
+       "abstained": 0,
+       "not_applicable": 0
+      },
+      "sensitivity": {
+       "k": 14,
+       "n": 15,
+       "rate": 0.933,
+       "wilson95": [
+        0.702,
+        0.988
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 2,
+       "n": 13,
+       "rate": 0.154,
+       "wilson95": [
+        0.043,
+        0.422
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    },
+    "prospective_holdout": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 11,
+       "missed": 1,
+       "false_alarm": 3,
+       "correct_clear": 9,
+       "abstained": 0,
+       "not_applicable": 0
+      },
+      "sensitivity": {
+       "k": 11,
+       "n": 12,
+       "rate": 0.917,
+       "wilson95": [
+        0.646,
+        0.985
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 3,
+       "n": 12,
+       "rate": 0.25,
+       "wilson95": [
+        0.089,
+        0.532
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    }
+   },
+   "gate-and-planner": {
+    "development": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 61,
+       "missed": 0,
+       "false_alarm": 0,
+       "correct_clear": 17,
+       "abstained": 0,
+       "not_applicable": 31
+      },
+      "sensitivity": {
+       "k": 61,
+       "n": 61,
+       "rate": 1.0,
+       "wilson95": [
+        0.941,
+        1.0
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 0,
+       "n": 17,
+       "rate": 0.0,
+       "wilson95": [
+        0.0,
+        0.184
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    },
+    "frozen_regression": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 86,
+       "missed": 3,
+       "false_alarm": 1,
+       "correct_clear": 32,
+       "abstained": 0,
+       "not_applicable": 24
+      },
+      "sensitivity": {
+       "k": 86,
+       "n": 89,
+       "rate": 0.966,
+       "wilson95": [
+        0.906,
+        0.988
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 1,
+       "n": 33,
+       "rate": 0.03,
+       "wilson95": [
+        0.005,
+        0.153
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     },
+     "decision": {
+      "counts": {
+       "called_when_needed": 14,
+       "stayed_out_correctly": 15,
+       "unnecessary_call": 1
+      },
+      "calls_when_needed": {
+       "k": 14,
+       "n": 14,
+       "rate": 1.0,
+       "wilson95": [
+        0.785,
+        1.0
+       ]
+      },
+      "unnecessary_calls": {
+       "k": 1,
+       "n": 16,
+       "rate": 0.062,
+       "wilson95": [
+        0.011,
+        0.283
+       ]
+      },
+      "exact_decision": {
+       "k": 28,
+       "n": 30,
+       "rate": 0.933,
+       "wilson95": [
+        0.787,
+        0.982
+       ]
+      }
+     }
+    }
+   }
+  },
+  "unnecessary_edit": {
+   "cases": 49,
+   "edit_decisions": 2,
+   "examples": [
+    {
+     "file": "evals\\decision\\cases.jsonl",
+     "id": "dc-029",
+     "decision": "edit"
+    },
+    {
+     "file": "evals\\patterns\\cases.jsonl",
+     "id": "pt-204",
+     "decision": "edit"
+    }
+   ]
+  }
+ },
+ "after": {
+  "engine_version": "0.8.1",
+  "evaluate": {
+   "events": {
+    "development": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 15,
+       "missed": 0,
+       "false_alarm": 2,
+       "correct_clear": 11,
+       "abstained": 0,
+       "not_applicable": 0
+      },
+      "sensitivity": {
+       "k": 15,
+       "n": 15,
+       "rate": 1.0,
+       "wilson95": [
+        0.796,
+        1.0
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 2,
+       "n": 13,
+       "rate": 0.154,
+       "wilson95": [
+        0.043,
+        0.422
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    },
+    "prospective_holdout": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 11,
+       "missed": 1,
+       "false_alarm": 2,
+       "correct_clear": 10,
+       "abstained": 0,
+       "not_applicable": 0
+      },
+      "sensitivity": {
+       "k": 11,
+       "n": 12,
+       "rate": 0.917,
+       "wilson95": [
+        0.646,
+        0.985
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 2,
+       "n": 12,
+       "rate": 0.167,
+       "wilson95": [
+        0.047,
+        0.448
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    }
+   },
+   "gate-and-planner": {
+    "development": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 61,
+       "missed": 0,
+       "false_alarm": 0,
+       "correct_clear": 17,
+       "abstained": 0,
+       "not_applicable": 31
+      },
+      "sensitivity": {
+       "k": 61,
+       "n": 61,
+       "rate": 1.0,
+       "wilson95": [
+        0.941,
+        1.0
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 0,
+       "n": 17,
+       "rate": 0.0,
+       "wilson95": [
+        0.0,
+        0.184
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     }
+    },
+    "frozen_regression": {
+     "semantic_risk": {
+      "counts": {
+       "detected": 88,
+       "missed": 1,
+       "false_alarm": 1,
+       "correct_clear": 32,
+       "abstained": 0,
+       "not_applicable": 24
+      },
+      "sensitivity": {
+       "k": 88,
+       "n": 89,
+       "rate": 0.989,
+       "wilson95": [
+        0.939,
+        0.998
+       ]
+      },
+      "false_alarm_rate": {
+       "k": 1,
+       "n": 33,
+       "rate": 0.03,
+       "wilson95": [
+        0.005,
+        0.153
+       ]
+      },
+      "auto_accepted_without_identity": 0
+     },
+     "decision": {
+      "counts": {
+       "called_when_needed": 14,
+       "stayed_out_correctly": 15,
+       "unnecessary_call": 1
+      },
+      "calls_when_needed": {
+       "k": 14,
+       "n": 14,
+       "rate": 1.0,
+       "wilson95": [
+        0.785,
+        1.0
+       ]
+      },
+      "unnecessary_calls": {
+       "k": 1,
+       "n": 16,
+       "rate": 0.062,
+       "wilson95": [
+        0.011,
+        0.283
+       ]
+      },
+      "exact_decision": {
+       "k": 28,
+       "n": 30,
+       "rate": 0.933,
+       "wilson95": [
+        0.787,
+        0.982
+       ]
+      }
+     }
+    }
+   }
+  },
+  "unnecessary_edit": {
+   "cases": 49,
+   "edit_decisions": 2,
+   "examples": [
+    {
+     "file": "evals\\decision\\cases.jsonl",
+     "id": "dc-029",
+     "decision": "edit"
+    },
+    {
+     "file": "evals\\patterns\\cases.jsonl",
+     "id": "pt-204",
+     "decision": "edit"
+    }
+   ]
+  }
+ },
+ "prospective": {
+  "before": {
+   "development": "semantic: {'positives': 31, 'flagged': 4, 'clean': 20, 'false_alarms': 7} | diagnose: {'positives': 11, 'flagged': 0, 'clean': 11, 'false_alarms': 0}",
+   "holdout": "semantic: {'positives': 18, 'flagged': 4, 'clean': 10, 'false_alarms': 1} | diagnose: {'positives': 6, 'flagged': 0, 'clean': 6, 'false_alarms': 0}"
+  },
+  "after": {
+   "development": "semantic: {'positives': 31, 'flagged': 31, 'clean': 20, 'false_alarms': 4} | diagnose: {'positives': 11, 'flagged': 11, 'clean': 11, 'false_alarms': 0}",
+   "holdout": "semantic: {'positives': 18, 'flagged': 18, 'clean': 10, 'false_alarms': 1} | diagnose: {'positives': 6, 'flagged': 6, 'clean': 6, 'false_alarms': 0}"
+  }
+ },
+ "independent": false
+}

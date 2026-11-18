@@ -1,6 +1,6 @@
-# Licenciamento: proposta e inventário de terceiros
+# Licenciamento e inventário de terceiros
 
-**Estado:** o repositório ainda **não tem licença**. Este documento é uma proposta; nada aqui aplica licença ao projeto. Até a decisão, ninguém tem permissão legal para reutilizar o código.
+**Estado:** o VozNativa é licenciado sob **MIT** ([`LICENSE`](../../LICENSE)) desde a v0.6.0, por decisão do mantenedor (§1). Este documento registra o que a licença cobre e as licenças de materiais de terceiros, que continuam valendo separadamente. Até a v0.6.0 o repositório não tinha licença; esta página nasceu como a proposta que levou à decisão.
 
 ## 1. Licença do VozNativa (decisão do mantenedor, v0.6.0)
 

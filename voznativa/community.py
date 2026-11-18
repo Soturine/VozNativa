@@ -99,8 +99,42 @@ def _load(directory: str) -> tuple[dict, ...]:
     return tuple(packs)
 
 
+@lru_cache(maxsize=4)
+def _load_external(directory: str) -> tuple[dict, ...]:
+    """User packs from ``$VOZNATIVA_PACKS_DIR`` (v0.9 CP6): the strict envelope
+    (license, provenance, no gate keys) and the community validator; any
+    problem refuses the whole directory instead of skipping a file quietly."""
+    from .packs import validate_file
+    packs, problems = [], []
+    for path in sorted(Path(directory).glob("*.yml")):
+        report = validate_file(path, external=True)
+        if report["errors"]:
+            problems += [f"{path.name}: {e}" for e in report["errors"]]
+            continue
+        if report["kind"] != "voznativa.community_pack":
+            problems.append(f"{path.name}: only community packs can be added from VOZNATIVA_PACKS_DIR")
+            continue
+        packs.append(yaml.safe_load(path.read_text(encoding="utf-8")))
+    if problems:
+        raise ValueError("invalid external packs: " + "; ".join(problems))
+    return tuple(packs)
+
+
 def load_packs(directory: Path | None = None) -> tuple[dict, ...]:
-    return _load(str(directory or PACKS_DIR))
+    if directory is not None:
+        return _load(str(directory))
+    bundled = _load(str(PACKS_DIR))
+    from .packs import external_dir
+    extra_dir = external_dir()
+    if extra_dir is None:
+        return bundled
+    if not extra_dir.is_dir():
+        raise ValueError(f"VOZNATIVA_PACKS_DIR is not a folder: {extra_dir}")
+    extra = _load_external(str(extra_dir.resolve()))
+    clash = sorted({p["id"] for p in bundled} & {p["id"] for p in extra})
+    if clash:
+        raise ValueError(f"external packs cannot replace bundled ones: {clash}")
+    return bundled + extra
 
 
 def get_pack(pack_id: str, directory: Path | None = None) -> dict | None:
