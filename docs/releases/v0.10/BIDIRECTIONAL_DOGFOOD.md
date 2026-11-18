@@ -11,7 +11,8 @@
 | B1 | B | VozNativa → README de Assertiva e de Derivanta (inglês) | `diagnose`, `plan`, `route` | **defeito do VozNativa** (V010-GAP-16): inglês lido como português — "as pytest" virou `plural_agreement`, 42 palavras inglesas planejadas como estrangeirismo, plano `edit` com 29 edições | REAL_EXECUTED → VERIFIED_FIXED |
 | B2 | B | instalação seguindo o README de Assertiva num venv novo | `pip install -e .` | falha `No module named 'setuptools'` com `PIP_NO_BUILD_ISOLATION=0` no ambiente; o README do Derivanta documenta o caso, o da Assertiva não | REAL_EXECUTED |
 | C1 | C | Derivanta: falsos candidatos achados em A1 | teste vermelho → correção → `tools/verify.py` → replay em VozNativa | ver abaixo | VERIFIED_FIXED (merge BLOCKED) |
-| C2 | C | Assertiva: causa atribuída ao projeto quando o ambiente não tem o backend de build | teste vermelho → correção → suíte → replay | ver abaixo | em andamento |
+| C2 | C | Assertiva: causa atribuída ao projeto quando o ambiente não tem o backend de build | teste vermelho → correção → suíte → replay | ver abaixo | VERIFIED_FIXED (merge pendente do mantenedor) |
+| A3 | A | Assertiva (com a correção C2) → VozNativa candidato `448f5c3` | `audit --execute` | suíte nativa **PASS, 1.495 invocações**; o achado de artefato agora traz `dominant_cause: ENVIRONMENT` e a recomendação certa | REAL_EXECUTED |
 
 ## B1 — VozNativa lia inglês como português (defeito do próprio VozNativa)
 
@@ -40,6 +41,16 @@
 - **Teste**: `tests/test_artifact_build_backend_environment_cause.py` (6 testes; o arquivo nem carregava antes da mudança; controles: módulo do projeto, backend que é o próprio projeto, falha de empacotamento real mantém a recomendação padrão; um teste passa pela função que monta o achado, onde o precedente teve um defeito de ligação).
 - **Falhas preexistentes na máquina** (não causadas pela mudança, reproduzidas no código sem a mudança): `test_install_failure_is_fail` (`StopIteration`) e `test_target_interpreter_with_inherited_site_dirs_keeps_its_dependencies`.
 
-## Pendências desta seção
+- **Suíte do dono**: 1.341 passaram, 34 pulados, 5 falharam; as mesmas 5 falham no código sem a mudança neste ambiente (Windows, CPython 3.12): `test_install_failure_is_fail`, `test_target_interpreter_with_inherited_site_dirs_keeps_its_dependencies`, `test_branch_coverage_is_compared_when_measurable`, `test_real_improvement_is_shown_dimension_by_dimension`, `test_audit_scope_shows_execution_only_when_tests_ran` (dependem de ferramentas do ambiente; não investigadas a fundo nesta rodada). `ruff check .` e `scripts/validate_repo.py` PASS.
+- **Replay (A3)**: mesmo cenário, candidato do VozNativa: o achado passa a dizer a causa e a ação certas.
+- **Integração**: branch `fix/artifact-build-backend-environment-cause`, commit `7ad77e3`, **PR #11** em `Soturine/Assertiva` (com a nota do README sobre `PIP_NO_BUILD_ISOLATION`, cenário B2). Gate de privacidade PASS no patch. Merge deixado para o mantenedor (o merge equivalente no Derivanta foi negado pelo controle de permissões; não tentei de novo). Sem versão nova.
 
-Preenchidas ao final do CP11: suíte completa da Assertiva com a correção, replay do `audit --execute` no candidato, integração (PR) e a auditoria final da Assertiva sobre o VozNativa candidato.
+## Resultado das três bases
+
+| Base | Defeitos reais achados | Corrigidos com teste vermelho→verde | Integração |
+|---|---|---|---|
+| VozNativa | inglês lido como português (B1); `plural_agreement` em texto real (CP7); fórmulas faltando (CP10); harness de mutação com bytecode velho (CP12) | 4/4 | `dev/v0.10.0` |
+| Derivanta Engine | classe de teste herdada como "não referenciada"; `SyntaxWarning` vazado | 2/2 | PR #6 aberto (merge BLOCKED pela permissão da sessão) |
+| Assertiva | backend de build ausente atribuído ao projeto; instalação sem nota sobre `PIP_NO_BUILD_ISOLATION` | 2/2 | PR #11 aberto |
+
+**Não executado:** mutação pela Assertiva (`--mutate`) no VozNativa (exige Cosmic Ray no ambiente do projeto; não instalado); Derivanta `--traceability` (o VozNativa não tem o arquivo de entrada nesse formato).
