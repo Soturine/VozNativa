@@ -7,16 +7,18 @@ Códigos de saída do `compare` (e do `rewrite` com `--judgment`): 0 `identical`
 ## `voznativa`
 
 ```text
-usage: voznativa [-h] [--version] {doctor,docx,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
+usage: voznativa [-h] [--version] {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite} ...
 
 VozNativa PT-BR voice engine
 
 positional arguments:
-  {doctor,docx,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
+  {doctor,docx,packs,pdf,config,demo,rubric,standards,evaluate,ledger,compare,review,blind-tasks,blind-review,blind-summary,judge-prompt,plan,integrity,diagnose,patterns,analyze,audit,region,regional,drift,eval,benchmark,route,refs,project,ground,profile,corpus,contract,rewrite-prompt,rewrite}
     doctor              check the installation (no network, reads no text); exit 1 when something
                         will not work
     docx                Word documents: extract the editable paragraphs, apply edits to a new
                         copy, check a copy against its original (the original is never written)
+    packs               linguistic packs: list bundled and external ones (VOZNATIVA_PACKS_DIR),
+                        validate a pack file against the contract; exit 1 when a pack is invalid
     pdf                 PDF (optional dependency pypdf): traceable text extraction with protected
                         equations/code, and annotated copies; no editing of the PDF itself
     config              effective rewrite configuration: value and source of each option (flag >
@@ -552,6 +554,42 @@ options:
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
+```
+
+## `voznativa packs`
+
+```text
+usage: voznativa packs [-h] {list,validate} ...
+
+positional arguments:
+  {list,validate}
+    list           every pack with status, errors and warnings
+    validate       validate pack files as external contributions (strict envelope)
+
+options:
+  -h, --help       show this help message and exit
+```
+
+### `voznativa packs list`
+
+```text
+usage: voznativa packs list [-h] [--json]
+
+options:
+  -h, --help  show this help message and exit
+  --json
+```
+
+### `voznativa packs validate`
+
+```text
+usage: voznativa packs validate [-h] files [files ...]
+
+positional arguments:
+  files
+
+options:
+  -h, --help  show this help message and exit
 ```
 
 ## `voznativa patterns`

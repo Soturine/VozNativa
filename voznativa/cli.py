@@ -420,6 +420,25 @@ def cmd_docx(args):
     return 0 if report["status"] == "PASS" else 1
 
 
+def cmd_packs(args):
+    from . import packs
+    if args.packs_command == "validate":
+        reports = [packs.validate_file(f, external=True) for f in args.files]
+        _emit({"kind": "voznativa.pack_validation", "envelope_version": packs.ENVELOPE_VERSION, "reports": reports})
+        return 0 if all(r["status"] == "valid" for r in reports) else 1
+    inv = packs.inventory()
+    if args.json:
+        _emit(inv)
+    else:
+        lines = [f"envelope v{inv['envelope_version']}" + (f"; externos em {inv['external_dir']}"
+                                                            if inv.get("external_dir") else "")]
+        for r in inv["packs"]:
+            lines.append(f"  [{r['status']:<7}] {r['source']:<8} {r.get('kind') or '?':<34} {r.get('id') or r['file']}")
+            lines += [f"           erro: {e}" for e in r["errors"]] + [f"           aviso: {w}" for w in r["warnings"]]
+        _emit(None, "\n".join(lines))
+    return 0 if all(r["status"] == "valid" for r in inv["packs"]) else 1
+
+
 def cmd_pdf(args):
     from . import pdf
     try:
@@ -659,6 +678,14 @@ def build_parser() -> argparse.ArgumentParser:
     q.add_argument("original")
     q.add_argument("candidate")
     p.set_defaults(func=cmd_docx)
+    p = sub.add_parser("packs", help="linguistic packs: list bundled and external ones (VOZNATIVA_PACKS_DIR), "
+                                     "validate a pack file against the contract; exit 1 when a pack is invalid")
+    ks = p.add_subparsers(dest="packs_command", required=True)
+    q = ks.add_parser("list", help="every pack with status, errors and warnings")
+    q.add_argument("--json", action="store_true")
+    q = ks.add_parser("validate", help="validate pack files as external contributions (strict envelope)")
+    q.add_argument("files", nargs="+")
+    p.set_defaults(func=cmd_packs)
     p = sub.add_parser("pdf", help="PDF (optional dependency pypdf): traceable text extraction with protected "
                                    "equations/code, and annotated copies; no editing of the PDF itself")
     ps = p.add_subparsers(dest="pdf_command", required=True)

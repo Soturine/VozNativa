@@ -185,7 +185,7 @@ A pasta instalada deve se chamar `voznativa`. O procedimento que o agente segue 
 
 ## CLI
 
-`voznativa --help` lista os 35 subcomandos. Os mais usados:
+`voznativa --help` lista os 36 subcomandos. Os mais usados:
 
 | Comando | Para quê |
 |---|---|

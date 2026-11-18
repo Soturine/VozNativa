@@ -15,7 +15,8 @@ Retome por este arquivo **e** pelo Git (`git fetch --prune; git log --oneline or
 | CP2 | Providers, relação gerador × juiz, hosts | concluído | `0118396` | provider real ponta a ponta (US$ 0,049); autojulgamento com linhas diferentes corrigido e provado com chamadas reais (GAP-24, P1); sessão agent-led real do Claude Code (US$ 0,21); adapter HTTP testado contra servidor local; modelo local real NOT_RUN (permissão); Codex/Gemini NOT_RUN; Emulate BLOCKED. [`INTEGRATIONS.md`](INTEGRATIONS.md) |
 | CP3 | Consistência editorial em documento longo, método do teste de tempo | concluído | `2d96c27` | guard `style_convergence` e memória editorial: caso real do dogfood sinalizado (3 → 11), controle real quieto; 4 execuções reais (US$ 0,65), efeito da memória inconclusivo com n = 1; R9 sem regressão (17.600 palavras 4,95 s CPU); v4 22/22, v5 36/36, predicados 17/20 e 1/18. [`EDITORIAL.md`](EDITORIAL.md) |
 | CP4 | Robustez semântica, diagnóstico gramatical, termos técnicos, siglas | concluído | `e5b134c` (conjuntos congelados antes das regras), `f81cbf1` | development 4/31 → 31/31 e 7/20 → 4/20; holdout (uma vez) 4/18 → 18/18 e 1/10 → 2/10; diagnóstico 0 → 11/11 e 6/6 sem falso alarme; predicados 19/20 e 1/18; v4 22/22, v5 36/36; testes de defeito falham em `17d1f10`. Suítes congeladas pegaram 4 falsos vermelhos de uma versão intermediária (moeda "reais", "em produção", "voltou ao"), corrigidos antes do commit; o gate de privacidade bloqueou um exemplo de comentário que coincidia com um documento privado, removido antes do push. [`SEMANTICS.md`](SEMANTICS.md) |
-| CP5 | DOCX, PDF, normas | concluído | ver `git log` | DOCX: subconjunto editável, cópia nova, `check` parte a parte; real: 27/27 partes idênticas na ida e volta, edição aberta no python-docx. PDF: extração rastreável e notas (extra `pypdf`). Renderização no Word e piloto de norma: NOT_RUN. [`DOCUMENTS.md`](DOCUMENTS.md) |
+| CP5 | DOCX, PDF, normas | concluído | `47504a5` | DOCX: subconjunto editável, cópia nova, `check` parte a parte; real: 27/27 partes idênticas na ida e volta, edição aberta no python-docx. PDF: extração rastreável e notas (extra `pypdf`). Renderização no Word e piloto de norma: NOT_RUN. [`DOCUMENTS.md`](DOCUMENTS.md) |
+| CP6 | Packs, contribuição, corpora | concluído | ver `git log` | envelope v1 e validador; packs externos com licença e proveniência; exemplo executável com efeito no plano; recusas (gate, código, regex, caminho, licença, id, tag YAML, tamanho, regional externo, id embutido); 13 corpora reverificados ao vivo, nenhum estado mudou. [`../../guide/PACKS.md`](../../guide/PACKS.md) |
 
 ## Baseline (CP0)
 
@@ -49,4 +50,4 @@ Ambiente disponível: CPython 3.12.6 e 3.11.18 (gerenciado pelo uv, fora do `py`
 
 ## Próximo passo
 
-CP6.
+CP7.

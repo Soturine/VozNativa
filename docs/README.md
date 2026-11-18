@@ -14,6 +14,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | reescrever com um provider | [guide/QUICKSTART.md](guide/QUICKSTART.md#5-com-um-provider) |
 | revisar um documento longo | [guide/QUICKSTART.md](guide/QUICKSTART.md#6-documento-longo-normas-e-avaliação) |
 | usar como Agent Skill (Claude Code, Codex, Gemini CLI) | [guide/AGENT_SKILL.md](guide/AGENT_SKILL.md) e [`SKILL.md`](../SKILL.md) |
+| criar ou validar um pack de comunidade | [guide/PACKS.md](guide/PACKS.md) e [policy/CONTRIBUTING_LINGUISTIC_DATA.md](policy/CONTRIBUTING_LINGUISTIC_DATA.md) |
 | consultar todos os comandos e opções | [guide/CLI.md](guide/CLI.md) (gerado do `--help`) |
 | resolver um erro | [guide/TROUBLESHOOTING.md](guide/TROUBLESHOOTING.md) |
 | saber o que é seguro, privado e licenciado | [LICENSING.md](policy/LICENSING.md); seção "Segurança e limites" do [README](../README.md) |

@@ -3,6 +3,11 @@ kind: voznativa.community_pack
 id: tech
 name: Engenharia de software
 status: draft
+license: MIT
+provenance:
+  authors: [VozNativa maintainers]
+  created: "2026-11-05"
+  note: "metadata added in v0.9 CP6 (pack envelope); content unchanged"
 context_of_practice: equipes de desenvolvimento de software, repositórios, documentação técnica e chats de trabalho
 locale: pt-BR
 evidence:
