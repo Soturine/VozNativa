@@ -13,7 +13,7 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 | quem revisa documentos longos | reescrita por seções com validação do documento inteiro |
 | quem pesquisa PT-BR | registro de corpora com licença por operação, benchmarks congelados, avaliação fora de distribuição |
 
-**Estado:** `0.9.0` (GitHub release com tag anotada `v0.9.0`; não publicada no PyPI). Instalação e configuração mais simples, providers por contrato (inclusive servidor local), sinais novos para mudança de sentido com valores intactos, diagnóstico gramatical, consistência editorial em documentos longos, DOCX numa cópia segura, PDF com escopo honesto e packs com contrato ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.9/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
+**Estado:** `0.10.0` (GitHub release com tag anotada `v0.10.0`; não publicada no PyPI). Contexto aberto da tarefa (atributos livres, gênero inédito sem código, misto e desconhecido declarados), conhecimento linguístico com fontes entregue ao escritor só quando o texto pede, status de diagnóstico que separa erro de variante legítima, relações discursivas no gate, juiz de modelo que só aprova com independência observável, Knowledge Watcher que propõe e nunca aplica, e dogfood recíproco com correções em Assertiva e Derivanta ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.10/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
 ## Em 30 segundos
 
@@ -80,7 +80,7 @@ Em texto: o **Router** monta o contrato de contexto; o **Ledger** extrai o que n
 
 ## Instalação
 
-Requer Python 3.11+. A v0.9.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13; o Linux local não rodou nesta versão (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
+Requer Python 3.11+. A v0.10.0 foi qualificada localmente no Windows (3.11 e 3.12) e pela CI manual em Linux e Windows com 3.11, 3.12 e 3.13 (resultado em [`RELEASE_QUALIFICATION.md`](docs/releases/v0.10/RELEASE_QUALIFICATION.md)). A única dependência obrigatória é PyYAML. O pacote não está no PyPI; instale a partir do repositório.
 
 **Windows (PowerShell)**
 
@@ -161,7 +161,7 @@ Com um servidor local no formato chat-completions (Ollama, llama.cpp `llama-serv
 voznativa rewrite texto.txt --api-url http://localhost:11434/v1 --api-model <modelo>
 ```
 
-Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada.
+Endereço que não seja local é recusado sem `--api-allow-remote`; a chave, quando houver, vem da variável indicada em `--api-key-env`. Estado: adapter testado contra servidor HTTP local com respostas fixas; execução com modelo local real ainda não registrada ([INTEGRATIONS.md](docs/releases/v0.9/INTEGRATIONS.md)). Escritor e juiz do mesmo modelo, ou do mesmo CLI de agente sem prova de modelo diferente, contam como autoavaliação e não aprovam nada; desde a v0.10, juiz de relação desconhecida também não aprova, e modelo diferente do mesmo fornecedor aprova com independência parcial registrada ([migração](docs/releases/v0.10/MIGRATION.md)).
 
 Para não repetir as opções, ponha-as no arquivo do usuário (`voznativa config` mostra o caminho e de onde vem cada valor). Precedência: flag > `.voznativa.toml` do projeto > arquivo do usuário > padrão. O arquivo do projeto **não pode** definir `cmd`, `judge_cmd` nem o ambiente do provider: um repositório clonado não escolhe o que roda na sua máquina.
 
@@ -237,7 +237,7 @@ No Windows, passe arquivos em vez de usar pipe no PowerShell 5.1 (ele troca acen
 
 | Instrumento | Resultado nesta versão | Onde |
 |---|---|---|
-| Suíte unittest e gates locais | PASS na v0.9.0; contagens por revisão e plataforma em [`docs/releases/v0.9/RELEASE_QUALIFICATION.md`](docs/releases/v0.9/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
+| Suíte unittest e gates locais | PASS na v0.10.0; contagens por revisão e plataforma em [`docs/releases/v0.10/RELEASE_QUALIFICATION.md`](docs/releases/v0.10/RELEASE_QUALIFICATION.md) | `python scripts/qualify.py` |
 | Semântica dev + 5 holdouts congelados | 77/77; holdouts sem detecção perdida | `evals/semantic/` |
 | `ptbr-bench-v4` (congelado na v0.6) | 22/22 (era 21/22) | `benchmarks/runs/` |
 | `ptbr-bench-v5` (fora de distribuição, congelado antes de rodar; 1 dos 36 casos repete um texto de desenvolvimento, ver [vazamento](docs/releases/v0.8/INDEPENDENCE_AND_LEAKAGE.md)) | 1ª execução 34/36; após 2 correções de recall 36/36 | [`docs/releases/v0.7/V07_OOD_BENCHMARK.md`](docs/releases/v0.7/V07_OOD_BENCHMARK.md) |

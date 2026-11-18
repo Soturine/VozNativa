@@ -279,6 +279,20 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [~] provider adapter para Emulate (não validado ao vivo)
 - [~] adapters para modelos locais/custom (v0.9: `--api-url` para servidores chat-completions; testado com servidor local e modelo falso, execução com modelo local real pendente)
 
+## v0.10 — Contextual Linguistic Intelligence & Continuous Knowledge (0.10.0: `docs/releases/v0.10/`)
+- [x] contexto aberto da tarefa (atributos livres com proveniência, desconhecido/misto/conflito, proposta de agente) (v0.10.0)
+- [x] registro de conhecimento linguístico com fontes e recuperação seletiva (v0.10.0)
+- [x] status de diagnóstico (erro confirmado × variante legítima × preferência × contexto × escolha literária) e regras novas (v0.10.0)
+- [x] relações discursivas por família, ação coordenada perdida, falsos alarmes do CP7 da v0.9 calibrados (v0.10.0)
+- [x] juiz de modelo só aprova com independência observável (v0.10.0; migração em `docs/releases/v0.10/MIGRATION.md`)
+- [x] Knowledge Watcher em modo report/propose (v0.10.0); agendamento local pronto, não ativo
+- [x] texto real editado lido localmente (UD-GSD) para medir falso alarme; matriz de elegibilidade por finalidade
+- [x] dogfood recíproco com correções em Assertiva (PR #11) e Derivanta (PR #6)
+- [ ] contexto aberto e conhecimento com ganho demonstrado em modelo real (n = 1: sem ganho medido)
+- [ ] correferência e troca de papéis entre orações (V09-GAP-05/V08-GAP-19)
+- [ ] `--provider-env minimal` como padrão (0.11; a 0.10 só avisa)
+- [ ] modelo local real, Codex, Gemini CLI, revisão humana cega, holdout independente
+
 ## Research track — Optional Model / Adapter
 - [x] arquitetura e gates documentados
 - [ ] candidate generation + reranking

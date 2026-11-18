@@ -59,6 +59,18 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Documento | Conteúdo | Estado |
 |---|---|---|
+| [v0.10/RELEASE_NOTES.md](releases/v0.10/RELEASE_NOTES.md) | notas da release 0.10.0 (inglês) | release 0.10.0 |
+| [v0.10/RELEASE_QUALIFICATION.md](releases/v0.10/RELEASE_QUALIFICATION.md) | qualificação da 0.10.0: R1–R15 congelados no CP0, resultados, CI, decisão | registro da v0.10.0 |
+| [v0.10/PLAN.md](releases/v0.10/PLAN.md) | plano, leitura crítica do pedido, critérios congelados | registro da v0.10.0 |
+| [v0.10/EXECUTION_STATE.md](releases/v0.10/EXECUTION_STATE.md) | checkpoints, baseline, commits e retomada | registro da v0.10.0 |
+| [v0.10/CONTEXT_AND_KNOWLEDGE.md](releases/v0.10/CONTEXT_AND_KNOWLEDGE.md) | contexto aberto da tarefa e registro de conhecimento linguístico | vigente |
+| [v0.10/LINGUISTICS_AND_DISCOURSE.md](releases/v0.10/LINGUISTICS_AND_DISCOURSE.md) | status de diagnóstico, regras novas, relações discursivas, calibração | vigente |
+| [v0.10/KNOWLEDGE_WATCHER.md](releases/v0.10/KNOWLEDGE_WATCHER.md) | Knowledge Watcher: uso, fontes, segurança, agendamento | vigente |
+| [v0.10/SOURCES_AND_CORPORA.md](releases/v0.10/SOURCES_AND_CORPORA.md) | elegibilidade por finalidade, texto real lido localmente, ENEM como perfil | vigente |
+| [v0.10/BIDIRECTIONAL_DOGFOOD.md](releases/v0.10/BIDIRECTIONAL_DOGFOOD.md) | dogfood recíproco com Assertiva e Derivanta, correções nos donos | registro do CP11 |
+| [v0.10/EVALUATION.md](releases/v0.10/EVALUATION.md) | braços com modelo real, antes × depois, holdouts, mutação | vigente |
+| [v0.10/MAINTAINABILITY.md](releases/v0.10/MAINTAINABILITY.md) | duplicação, ciclos de import, código "morto" que não é | registro do CP9 |
+| [v0.10/MIGRATION.md](releases/v0.10/MIGRATION.md) | mudanças de contrato (juiz `unknown`, diagnóstico schema 2) | vigente |
 | [v0.9/RELEASE_NOTES.md](releases/v0.9/RELEASE_NOTES.md) | notas da release 0.9.0 (inglês): destaques, evidência, integrações, migração, limitações, instalação | release 0.9.0 |
 | [v0.9/RELEASE_QUALIFICATION.md](releases/v0.9/RELEASE_QUALIFICATION.md) | qualificação da 0.9.0: critérios R1–R10 congelados no CP0, resultados, CI, decisão | registro da v0.9.0 |
 | [v0.9/EXECUTION_STATE.md](releases/v0.9/EXECUTION_STATE.md) | checkpoints da v0.9, baseline, commits e retomada | registro da v0.9.0 |

@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.10.0 — 2026-11-18 (GitHub release; not on PyPI)
+
+Contextual linguistic intelligence, continuous knowledge and reciprocal dogfood. Round plan with release criteria frozen before development, gaps, evaluation and qualification: `docs/releases/v0.10/`; release notes: `docs/releases/v0.10/RELEASE_NOTES.md`.
+
+**What passing tests mean.** They show the listed defects fixed and the frozen suites not regressed. They do not prove semantic equivalence; every dataset was written by the same agent that wrote the rules.
+
+### Added
+- **Open TaskContext** (`voznativa/task_context.py`; `--attr`, `--attrs-file`, `--context-proposal` on `route`, `context`, `rewrite-prompt`, `rewrite`; new subcommand `context` with `--interpret-prompt`): attributes with any name, provenance and confidence; unknown, mixed and conflicting context reported with the conservative choice; safety fields refused; agent proposals never override the user; standards offered, never applied without a document profile.
+- **Linguistic Knowledge Registry** (`voznativa/knowledge.py`, `data/knowledge_pt_br.yml`; `voznativa knowledge list | select`): entries tied to sources with nature, licence and access; selection by what the text needs, with budget and reason; variants marked as such; instruction-like entries refused; `rewrite` records the knowledge used.
+- **Diagnostic status** (`diagnose` schema 2: `status`, `recommend_edit`) and rules for "daqui há", "seje/esteje", "menas", "a gente + -mos", "pra mim + infinitive", existential "ter".
+- **Discourse relations** (`voznativa/discourse.py`; `relation_changed`, `relation_invented`, `relation_dropped`) and `coordinated_action_dropped` in `compare`.
+- **Knowledge Watcher** (`voznativa/watcher.py`, `data/watch_sources.yml`; `voznativa knowledge sources | check | status | proposals`): report/propose only; conditional GET; private addresses refused; proposals stored outside the repository.
+- `corpus.connectors.fetch`: request headers, 304, retry metadata, opt-in private-address guard.
+- Scripts: `v010_prospective_eval.py`, `v010_arms.py`, `corpus_false_alarms.py`, `experiments/v010_mutants.py`.
+- `ptbr.language_of`; `providers.vendor_of`; `providers.inherited_credential_warnings`.
+
+### Changed
+- **Judge relation** (decision D-02): `same_agent`, `same_model`, `same_vendor`, `different_model`, `different_provider`, `independence_verified`, `unknown`. An LLM `equivalent` accepts only with `different_model`, `different_provider`, `same_vendor` (partial independence recorded) or `independence_verified` (hand-made judgment with evidence). `unknown` and `same_model` no longer accept. Migration: `docs/releases/v0.10/MIGRATION.md`.
+- The planner plans grammar edits only for `ERROR_CONFIRMED`.
+- `--provider-env inherit` warns when credential-like variables reach the model command (names, never values).
+
+### Fixed
+- English text diagnosed and planned as Portuguese (V010-GAP-16, found in the reciprocal dogfood).
+- `plural_agreement` false alarms on edited real text: pronoun subjects, clitics, adverbs, split hyphens (V010-GAP-15, UD Portuguese-GSD).
+- Four `compare` false alarms from the v0.9 arms (scheduled present, code marking, "a tarde inteira/toda", concessive infinitive); future -> past through "foi" and "inteira" -> "parte" now flagged.
+- Courtesy formulas "venho por meio deste" and "é com grande satisfação que…".
+- Mutation harness reused stale bytecode for same-length mutants (v0.9 result re-checked: holds).
+- Import cycles `compare`/`judge` (introduced) and `diagnose`/`planner` (inherited).
+
 ## 0.9.0 — 2026-11-18 (GitHub release; not on PyPI)
 
 Packaging, integrations and editorial quality. Round plan, release criteria (frozen before development), gaps, evaluation and qualification: `docs/releases/v0.9/`; release notes: `docs/releases/v0.9/RELEASE_NOTES.md`.
