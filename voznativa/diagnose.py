@@ -223,7 +223,10 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
                       "pre-reform spelling: the text's time, not an error to modernise without a request",
                       "none", "preserve"))
 
-    out += _grammar(text, informal, artistic)
+    from .ptbr import language_of
+    language = language_of(text)
+    if language["value"] != "en":       # v0.10 CP11: Portuguese grammar is not checked on English text
+        out += _grammar(text, informal, artistic)
     out += _tense_mix(text, artistic)
     grounding = _grounding(text, facts, context)
     out += grounding["diagnostics"]
@@ -236,6 +239,8 @@ def diagnose(text: str, context: dict | None = None, facts: list[str] | None = N
             "counts": {k: v for k, v in counts.items() if v},
             "statuses": {st: n for st in STATUSES if (n := sum(d["status"] == st for d in out))},
             "grounding": grounding["status"],
+            **({"language": language, "skipped": "Portuguese grammar checks: the text is in English"}
+               if language["value"] == "en" else {}),
             "note": "diagnostics of the source; none is applied automatically except formal fixes in an "
                     "authorising mode"}
 

@@ -206,6 +206,16 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
                 r["op"] = "sentence_rewrite"
             r.pop("note", None)       # no paragraph is rewritten, so nothing changes "to fit"
 
+    # v0.10 CP11 (V010-GAP-16): an English text is not edited as Portuguese. A requested destination
+    # (target) is still honoured: translating or adapting is the user's explicit request.
+    language = ptbr.language_of(text)
+    if language["value"] == "en" and decision == "edit":
+        scope, decision = "none", "no_change"
+        for r in rows:
+            r["op"], r["reasons"], r["priority"] = "keep", [], None
+        for p in paragraphs:
+            p["op"] = "keep"
+
     tr = ptbr.treatment(text)
     names = sorted({s.text for s in led.spans if s.type == "entity"})
     consistency = {
@@ -227,6 +237,7 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
         "warnings": _weekday_conflicts(led) + _embedded_instructions(sents),
         "regional": _regional(text, context, profile),
         "literary": literary,
+        "language": language,
         "temporal": _temporal(text, context),
         "community": _community(text, context),
         "summary": {"sentences": len(rows), "keep": sum(r["op"] == "keep" for r in rows),

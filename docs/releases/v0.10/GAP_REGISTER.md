@@ -27,3 +27,4 @@
 | V08-GAP-28 | Ciclos de import | herdado | P3 | OPEN | CP9 |
 | V08-GAP-29 | Caminhos locais em registros históricos | herdado | P3 | OPEN | CP9 |
 | V010-GAP-15 | `plural_agreement` dispara com pronome sujeito, clítico, advérbio e hífen separado (texto real) | UD-GSD test: 10 de 11 `ERROR_CONFIRMED` falsos (iguais em `v0.9.0`) | P2 | FIXED (CP7) | CP7 |
+| V010-GAP-16 | Texto em inglês lido como português: `plural_agreement` em "as pytest", estrangeirismos planejados, plano `edit` | dogfood B1 (README da Assertiva): 5 `ERROR_CONFIRMED`, 29 edições planejadas | P1 | FIXED (CP11) | CP11 |
