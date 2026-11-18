@@ -82,7 +82,7 @@ def build_plan(text: str, context: dict | None = None, limits: Limits = Limits()
     words = len(text.split())
     if words > limits.max_words:
         raise PlanLimitExceeded(f"{words} words > max_words {limits.max_words}")
-    blocks = longform.dependency_map(text)
+    blocks = longform.dependency_map(text, split_over=limits.segment_words)
     units: list[dict] = []
     forced: list[dict] = []
     current: list = []
@@ -206,7 +206,7 @@ def validate_plan(plan: dict, text: str, verse_explicit: bool = False) -> list[s
     missing = [n for n, u in enumerate(units) if any(k not in u for k in required)]
     if missing:
         return problems + [f"unit(s) {missing[:10]} miss required fields"]
-    derived = longform.blocks(text)
+    derived = longform.blocks(text, split_over=(plan.get("limits") or {}).get("segment_words"))
     position, next_block = 0, 0
     for n, u in enumerate(units):
         if u["index"] != n:

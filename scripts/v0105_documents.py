@@ -87,12 +87,14 @@ class Runner:
 
 
 def summary(result: dict) -> dict:
-    report = result.get("report") or {}
-    lf = result.get("long_form") or {}
+    report = result.get("global_report") or result.get("report") or {}
+    units = [u for u in result.get("units") or [] if isinstance(u, dict)]
     return {"outcome": result.get("outcome"), "status": report.get("status"),
             "issues": dict(Counter(i["code"] for i in report.get("issues", []) if i.get("severity") != "info")),
-            "units": lf.get("units") if isinstance(lf.get("units"), int) else len(lf.get("units") or []),
-            "unit_outcomes": dict(Counter(u.get("outcome") for u in lf.get("units") or [] if isinstance(u, dict)))}
+            "units": len(units), "unit_actions": dict(Counter(u.get("action") for u in units)),
+            "unit_outcomes": dict(Counter(u.get("outcome") for u in units if u.get("action") == "rewrite")),
+            "provider_calls": result.get("provider_calls"),
+            "guards_introduced": len((result.get("guards") or {}).get("introduced") or [])}
 
 
 def flow_text(r: Runner, name: str, text: str, mode: str, request: str) -> dict:
@@ -119,7 +121,7 @@ def flow_office(r: Runner, story: str, law: str) -> dict:
     from reportlab.platypus import Paragraph, SimpleDocTemplate
     out = {"flow": "office"}
     # DOCX: heading + paragraphs + a table (table cells are protected by the engine)
-    paras = [p.strip() for p in re.split(r"\n\s*\n", story) if p.strip()][:40]
+    paras = [p.strip() for p in re.split(r"\n\s*\n", story) if p.strip()][:15]
     d = docx.Document()
     d.add_heading("Conto (domínio público)", level=1)
     for p in paras:
@@ -134,7 +136,7 @@ def flow_office(r: Runner, story: str, law: str) -> dict:
     rep = json.loads(ext) if ext.strip().startswith("{") else {}
     out["docx_extract_exit"] = code
     out["docx_summary"] = rep.get("summary")
-    run = r.rewrite(src, "PROOFREAD", "Atualize só a ortografia para a norma atual, sem mudar o texto.",
+    run = r.rewrite(src, "POLISH", "Revise para clareza, sem mudar o enredo, os nomes nem o estilo do autor.",
                     ("--docx-out", str(r.work / "story.out.docx"), "--max-calls", "80"))
     out["docx_rewrite"] = {"exit_code": run["exit_code"], "calls": run["calls"], "cost_usd": run["cost_usd"],
                            "seconds": run["seconds"], **summary(run["result"])}
