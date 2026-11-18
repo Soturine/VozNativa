@@ -360,20 +360,36 @@ class CommandProvider:
         return answer
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
-        outputs = []
-        for _ in range(n):
-            delay = self.backoff
-            for attempt in range(self.retries + 1):
-                try:
-                    outputs.append(self._once(prompt))
-                    break
-                except ProviderError as error:
-                    self.errors.append(str(error))
-                    if attempt == self.retries or not error.transient:
-                        raise
-                    time.sleep(delay)
-                    delay *= 2
-        return outputs
+        return _generate_with_retries(self, prompt, n)
+
+
+def _generate_with_retries(provider, prompt: str, n: int) -> list[str]:
+    """``n`` answers from ``provider._once``; a transient failure is retried
+    ``provider.retries`` times with doubling backoff, every failure is kept in
+    ``provider.errors``. One owner for the command and HTTP providers
+    (v0.9 CP8, Derivanta DUPLICATE_BODY)."""
+    outputs = []
+    for _ in range(n):
+        delay = provider.backoff
+        for attempt in range(provider.retries + 1):
+            try:
+                outputs.append(provider._once(prompt))
+                break
+            except ProviderError as error:
+                provider.errors.append(str(error))
+                if attempt == provider.retries or not error.transient:
+                    raise
+                time.sleep(delay)
+                delay *= 2
+    return outputs
+
+
+def _send_request(provider, req: urllib.request.Request) -> bytes:
+    """One HTTP exchange, bounded by ``provider.max_output_bytes``; a test transport replaces the network."""
+    if provider.transport:
+        return provider.transport(req)
+    with urllib.request.urlopen(req, timeout=provider.timeout) as response:
+        return response.read(provider.max_output_bytes + 1)
 
 
 # Emulate-1 (https://www.tryemulate.ai/docs/api). Mapping is based on the public
@@ -419,10 +435,7 @@ class EmulateProvider:
             "Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"})
 
     def _send(self, req: urllib.request.Request) -> bytes:
-        if self.transport:
-            return self.transport(req)
-        with urllib.request.urlopen(req, timeout=self.timeout) as response:
-            return response.read(self.max_output_bytes + 1)
+        return _send_request(self, req)
 
     def _once(self, text: str) -> str:
         payload = _http_json(self.id, lambda: self._send(self.request(text)), self.max_output_bytes)
@@ -561,10 +574,7 @@ class ChatAPIProvider:
                                       data=json.dumps(body, ensure_ascii=False).encode("utf-8"))
 
     def _send(self, req: urllib.request.Request) -> bytes:
-        if self.transport:
-            return self.transport(req)
-        with urllib.request.urlopen(req, timeout=self.timeout) as response:
-            return response.read(self.max_output_bytes + 1)
+        return _send_request(self, req)
 
     def _once(self, prompt: str) -> str:
         self.calls += 1
@@ -584,17 +594,4 @@ class ChatAPIProvider:
         return content
 
     def generate(self, prompt: str, n: int = 1) -> list[str]:
-        outputs = []
-        for _ in range(n):
-            delay = self.backoff
-            for attempt in range(self.retries + 1):
-                try:
-                    outputs.append(self._once(prompt))
-                    break
-                except ProviderError as error:
-                    self.errors.append(str(error))
-                    if attempt == self.retries or not error.transient:
-                        raise
-                    time.sleep(delay)
-                    delay *= 2
-        return outputs
+        return _generate_with_retries(self, prompt, n)
