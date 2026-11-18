@@ -37,6 +37,15 @@ class LanguageGuard(unittest.TestCase):
         self.assertEqual(p["decision"], "no_change")
         self.assertEqual(p["language"]["value"], "en")
 
+    def test_defect_english_vocabulary_is_not_planned_as_anglicisms(self):
+        text = ("The startup sends a weekly report to every stakeholder. The delivery team reviews the feedback "
+                "before each release. The dashboard shows the pipeline status, and the backlog is groomed on Monday. "
+                "The report also lists the deadline of each deliverable, and the meeting notes go to the shared "
+                "folder. When a deploy fails, the team writes a postmortem report.")
+        p = plan(text, route(text, genre="corporate"))
+        self.assertEqual(p["decision"], "no_change")
+        self.assertEqual(p["summary"]["findings_used"], 0)
+
     def test_control_portuguese_with_english_terms_is_still_checked(self):
         kinds = {d["type"] for d in diagnose(PORTUGUESE_WITH_TERMS, route(PORTUGUESE_WITH_TERMS, genre="technical"))
                  ["diagnostics"]}

@@ -105,6 +105,11 @@ class CalibratedFalseAlarms(unittest.TestCase):
     def test_control_code_content_changed_still_fails(self):
         self.assertEqual(compare("Rode `make build` antes.", "Rode `make test` antes.")["status"], "fail")
 
+    def test_control_new_code_content_added_still_fails(self):
+        # only code the source already has (as plain words) may gain the marking
+        self.assertEqual(compare("Rode o script antes de publicar.", "Rode o script `rm -rf build` antes de publicar.")
+                         ["status"], "fail")
+
     def test_defect_inteira_toda(self):
         self.assertFalse(flagged("A chuva caiu a tarde inteira.", "A chuva caiu a tarde toda."))
 
