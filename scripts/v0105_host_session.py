@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""One real host session (Claude Code, ``claude -p``) with the VozNativa Skill installed in a fresh project.
+
+The Skill is installed the way a user installs a project Skill: ``<project>/.claude/skills/voznativa/`` with
+``SKILL.md``, ``scripts/`` (CLI wrapper), the ``voznativa`` package and ``references/``. The text goes into
+``texto.txt``; the request names the goal, not the tool (unless ``--explicit``). The session's event stream is
+kept so that Skill discovery, every command the agent ran and the final answer are evidence, not claims.
+
+    python scripts/v0105_host_session.py --skill-src <checkout> --text t.txt --request "..." \
+        --model haiku --workdir <tmp> --out session.json [--explicit] [--no-skill]
+
+Tools are limited to Read, Write, Skill and ``python`` commands inside the project. Nothing outside the
+project is written; the original text never reaches the repository.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import time
+from pathlib import Path
+
+SKILL_PARTS = ("SKILL.md", "scripts/_bootstrap.py", "scripts/voznativa_cli.py", "voznativa", "references")
+
+
+def install_skill(src: Path, project: Path) -> Path:
+    dest = project / ".claude" / "skills" / "voznativa"
+    for part in SKILL_PARTS:
+        s, d = src / part, dest / part
+        d.parent.mkdir(parents=True, exist_ok=True)
+        if s.is_dir():
+            shutil.copytree(s, d, ignore=shutil.ignore_patterns("__pycache__"))
+        else:
+            shutil.copy2(s, d)
+    return dest
+
+
+def run(args) -> dict:
+    project = Path(args.workdir)
+    if project.exists():
+        shutil.rmtree(project)
+    project.mkdir(parents=True)
+    skill = install_skill(Path(args.skill_src), project) if not args.no_skill else None
+    (project / "texto.txt").write_text(Path(args.text).read_text(encoding="utf-8"), encoding="utf-8")
+    request = args.request + ("\n\nUse a skill voznativa." if args.explicit else "")
+    request += "\n\nO texto está em texto.txt. Grave a versão final em final.txt (igual ao original se não houver o que mudar)."
+    env = {k: v for k, v in os.environ.items() if not k.startswith(("CLAUDE_CODE_", "CLAUDECODE"))}
+    cmd = ["claude", "-p", request, "--model", args.model, "--output-format", "stream-json", "--verbose",
+           "--allowedTools", "Read", "Write", "Edit", "Skill", "Bash(python:*)", "Bash(python3:*)", "Bash(py:*)",
+           "--max-turns", str(args.max_turns)]
+    started = time.time()
+    done = subprocess.run(cmd, cwd=project, capture_output=True, env=env, timeout=args.timeout)
+    seconds = round(time.time() - started, 1)
+    events = []
+    for line in done.stdout.decode("utf-8", "replace").splitlines():
+        try:
+            events.append(json.loads(line))
+        except ValueError:
+            continue
+    tools, skill_invoked, final = [], False, None
+    for ev in events:
+        if ev.get("type") == "assistant":
+            for block in (ev.get("message") or {}).get("content") or []:
+                if block.get("type") == "tool_use":
+                    name, inp = block.get("name"), block.get("input") or {}
+                    if name == "Skill":
+                        skill_invoked = True
+                    tools.append({"tool": name, "input": (inp.get("command") or inp.get("skill") or
+                                                          inp.get("file_path") or "")[:300]})
+        if ev.get("type") == "result":
+            final = ev
+    out_file = project / "final.txt"
+    cli_calls = [t["input"] for t in tools if t["tool"] == "Bash" and "voznativa_cli.py" in t["input"]]
+    return {
+        "kind": "voznativa.host_session", "host": "claude-code", "host_version": subprocess.run(
+            ["claude", "--version"], capture_output=True, text=True).stdout.strip(),
+        "model": args.model, "explicit_request": args.explicit, "skill_installed": skill is not None,
+        "skill_sha256": _tree_hash(skill) if skill else None,
+        "skill_invoked": skill_invoked, "cli_calls": cli_calls, "tools": tools,
+        "exit_code": done.returncode, "seconds": seconds,
+        "cost_usd": (final or {}).get("total_cost_usd"), "turns": (final or {}).get("num_turns"),
+        "result_text": ((final or {}).get("result") or "")[:4000],
+        "final_written": out_file.exists(),
+        "final_text": out_file.read_text(encoding="utf-8") if out_file.exists() else None,
+        "stderr_tail": done.stderr.decode("utf-8", "replace")[-600:],
+    }
+
+
+def _tree_hash(path: Path) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    for p in sorted(path.rglob("*")):
+        if p.is_file():
+            h.update(str(p.relative_to(path)).encode())
+            h.update(p.read_bytes())
+    return h.hexdigest()
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--skill-src", required=True)
+    ap.add_argument("--text", required=True)
+    ap.add_argument("--request", required=True)
+    ap.add_argument("--model", default="haiku")
+    ap.add_argument("--workdir", required=True)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--explicit", action="store_true")
+    ap.add_argument("--no-skill", action="store_true")
+    ap.add_argument("--max-turns", type=int, default=30)
+    ap.add_argument("--timeout", type=int, default=900)
+    args = ap.parse_args(argv)
+    record = run(args)
+    Path(args.out).write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(json.dumps({k: record[k] for k in ("skill_invoked", "exit_code", "seconds", "cost_usd", "turns",
+                                             "final_written")} | {"cli_calls": len(record["cli_calls"])}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

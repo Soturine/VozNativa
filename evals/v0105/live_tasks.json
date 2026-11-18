@@ -1,0 +1,292 @@
+{
+ "kind": "voznativa.fire_trial_live_tasks",
+ "schema_version": 1,
+ "frozen_at": "2026-11-18",
+ "frozen_before": "any v0.10.5 product change",
+ "tasks": [
+  {
+   "task": "T01",
+   "split": "development",
+   "item": "ft-0223",
+   "item_sha256": "a06a028acf18094005d48237ee73e192816473852b4332b1ed7f1276f113a851",
+   "genre": "crônica",
+   "band": "medio",
+   "words": 691,
+   "request": "Revise este texto para um leitor de hoje, deixando-o mais claro, sem perder o estilo do autor.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "crônica",
+    "audience": "leitor contemporâneo"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "T02",
+   "split": "development",
+   "item": "ft-0326",
+   "item_sha256": "72ca34e0882ffa02918db47f338bde4e5aed8cb3b3fefd8c4481fa2f3301afec",
+   "genre": "conto (coletânea) (trecho)",
+   "band": "medio",
+   "words": 191,
+   "request": "Revise este texto.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "conto"
+   },
+   "engine_mode": null
+  },
+  {
+   "task": "T03",
+   "split": "development",
+   "item": "ft-0108",
+   "item_sha256": "fe8b37056435f97dd79f57e6c391aa548a16c384c44f79f73bc18cbe8d852e77",
+   "genre": "poema",
+   "band": "medio",
+   "words": 254,
+   "request": "Melhore este poema.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "poema"
+   },
+   "engine_mode": null
+  },
+  {
+   "task": "T04",
+   "split": "development",
+   "item": "ft-0258",
+   "item_sha256": "9b25231903398e48170b631299e5f70d2e66ded6f4980217accc20211cd68da4",
+   "genre": "romance (capítulo)",
+   "band": "medio",
+   "words": 421,
+   "request": "Atualize apenas a ortografia para o Acordo Ortográfico de 1990, sem mudar mais nada.",
+   "expect": "constrained_edit",
+   "attrs": {
+    "genre": "romance",
+    "constraint": "só ortografia"
+   },
+   "engine_mode": "PROOFREAD"
+  },
+  {
+   "task": "T05",
+   "split": "development",
+   "item": "ft-0252",
+   "item_sha256": "81ffee83f1ae07f2fe94ad6a0359aa29eb31afe8ab8035f19f23eb79f420fb76",
+   "genre": "discurso",
+   "band": "medio",
+   "words": 235,
+   "request": "Deixe este discurso mais conciso, mantendo todas as informações.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "discurso"
+   },
+   "engine_mode": "POLISH"
+  },
+  {
+   "task": "T06",
+   "split": "development",
+   "item": "ft-0329",
+   "item_sha256": "acbc440584e83491f16521aa50b78d16f8a2b6cf57e4a46be4eafc88f6045b08",
+   "genre": "lei (artigo)",
+   "band": "curto",
+   "words": 128,
+   "request": "Reescreva em linguagem simples para cidadãos leigos, sem mudar nenhuma obrigação, prazo, condição ou exceção.",
+   "expect": "edit_required",
+   "attrs": {
+    "genre": "lei",
+    "audience": "cidadãos leigos"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "T07",
+   "split": "development",
+   "item": "ft-0332",
+   "item_sha256": "7454006746708a13ec604e86d767568b20e198e2cab12f2966f01532ff8f1311",
+   "genre": "lei (artigo)",
+   "band": "curto",
+   "words": 122,
+   "request": "Reescreva em linguagem simples para cidadãos leigos, sem mudar nenhuma obrigação, prazo, condição ou exceção.",
+   "expect": "edit_required",
+   "attrs": {
+    "genre": "lei",
+    "audience": "cidadãos leigos"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "T08",
+   "split": "development",
+   "item": "ft-0091",
+   "item_sha256": "a7a25b58b4b14326e56334e9e238e4d6a1dca1ba963b16358b416aaed52a4592",
+   "genre": "resumo acadêmico (saúde)",
+   "band": "medio",
+   "words": 208,
+   "request": "Revise este resumo para clareza e concisão, mantendo os resultados e a cautela das conclusões.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "resumo acadêmico",
+    "domain": "saúde"
+   },
+   "engine_mode": "POLISH"
+  },
+  {
+   "task": "T09",
+   "split": "development",
+   "item": "ft-0080",
+   "item_sha256": "6fbf93380c74b508c05e112bfe2047908a089e0fe321f7f81c181b0ff88ca9e6",
+   "genre": "resumo acadêmico (direito)",
+   "band": "curto",
+   "words": 122,
+   "request": "Revise este resumo para clareza e concisão, mantendo os resultados e a cautela das conclusões.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "resumo acadêmico",
+    "domain": "direito"
+   },
+   "engine_mode": "POLISH"
+  },
+  {
+   "task": "T10",
+   "split": "development",
+   "item": "ft-0057",
+   "item_sha256": "34eaa13abe52ad078378b41ad97ed6ee0d6901edf83c0d35a93c2ef8779fc820",
+   "genre": "resumo acadêmico (linguística)",
+   "band": "curto",
+   "words": 146,
+   "request": "Adapte este resumo como um parágrafo de divulgação científica para o público leigo, sem inventar nada.",
+   "expect": "edit_required",
+   "attrs": {
+    "genre": "divulgação científica",
+    "audience": "público leigo"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "T11",
+   "split": "development",
+   "item": "ft-0066",
+   "item_sha256": "4ce8af455b2f6e621924bd315b6508b771530867ee02ed708dee560ae550b075",
+   "genre": "resumo acadêmico (economia)",
+   "band": "medio",
+   "words": 161,
+   "request": "Corrija apenas erros, se houver; não reescreva.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "resumo acadêmico",
+    "constraint": "só erros"
+   },
+   "engine_mode": "PROOFREAD"
+  },
+  {
+   "task": "T12",
+   "split": "development",
+   "item": "ft-0257",
+   "item_sha256": "114a408688858e5840a900d841e3df2c49dfe0c02f3d6fe8a7004e6958875e0b",
+   "genre": "romance (trecho)",
+   "band": "curto",
+   "words": 99,
+   "request": "Revise este diálogo.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "romance",
+    "structure": "diálogo"
+   },
+   "engine_mode": null
+  },
+  {
+   "task": "H01",
+   "split": "internal_holdout",
+   "item": "ft-0224",
+   "item_sha256": "3f8266977f81d35fb65e757064c6244153fcf2069fec493aab35f5eee02f167e",
+   "genre": "crônica",
+   "band": "medio",
+   "words": 627,
+   "request": "Revise este texto para um leitor de hoje, deixando-o mais claro, sem perder o estilo do autor.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "crônica",
+    "audience": "leitor contemporâneo"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "H02",
+   "split": "internal_holdout",
+   "item": "ft-0319",
+   "item_sha256": "48626fa31b901ffbbe77bde9568e49322e89c041fabf5318a6694e8bddabf43b",
+   "genre": "poema (estrofe)",
+   "band": "curto",
+   "words": 58,
+   "request": "Melhore este poema.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "poema"
+   },
+   "engine_mode": null
+  },
+  {
+   "task": "H03",
+   "split": "internal_holdout",
+   "item": "ft-0333",
+   "item_sha256": "5172fc31b9dea07823ffc0c4d30ec09c3330cc9e5118f4180dab2d17d36c6a30",
+   "genre": "lei (artigo)",
+   "band": "curto",
+   "words": 70,
+   "request": "Reescreva em linguagem simples para cidadãos leigos, sem mudar nenhuma obrigação, prazo, condição ou exceção.",
+   "expect": "edit_required",
+   "attrs": {
+    "genre": "lei",
+    "audience": "cidadãos leigos"
+   },
+   "engine_mode": "ADAPT"
+  },
+  {
+   "task": "H04",
+   "split": "internal_holdout",
+   "item": "ft-0084",
+   "item_sha256": "45aef58bf1ee5badc5f9cd32ff88d425208be8f1955cc6f000132a5ff16fe65a",
+   "genre": "resumo acadêmico (direito)",
+   "band": "curto",
+   "words": 141,
+   "request": "Revise este resumo para clareza e concisão, mantendo os resultados e a cautela das conclusões.",
+   "expect": "edit_allowed",
+   "attrs": {
+    "genre": "resumo acadêmico",
+    "domain": "direito"
+   },
+   "engine_mode": "POLISH"
+  },
+  {
+   "task": "H05",
+   "split": "internal_holdout",
+   "item": "ft-0067",
+   "item_sha256": "788ff67c45a124f411055d2b57a5fbad0688b511d951304e3820dfb122193a45",
+   "genre": "resumo acadêmico (economia)",
+   "band": "medio",
+   "words": 162,
+   "request": "Corrija apenas erros, se houver; não reescreva.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "resumo acadêmico",
+    "constraint": "só erros"
+   },
+   "engine_mode": "PROOFREAD"
+  },
+  {
+   "task": "H06",
+   "split": "internal_holdout",
+   "item": "ft-0308",
+   "item_sha256": "abc6b9b3c5e4f6f1338843bcfa4ccd621bd637b08681248304a9523efc5b2c57",
+   "genre": "romance (trecho)",
+   "band": "curto",
+   "words": 92,
+   "request": "Revise este diálogo.",
+   "expect": "no_change_expected",
+   "attrs": {
+    "genre": "romance",
+    "structure": "diálogo"
+   },
+   "engine_mode": null
+  }
+ ]
+}
