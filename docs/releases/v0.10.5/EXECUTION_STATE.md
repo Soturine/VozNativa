@@ -24,3 +24,5 @@
 | CP6–CP7 (juiz, holdout, correções) | concluído | (este commit) | juiz cego 36/36 (US$ 1,04); holdout congelado rodado uma vez; V105-GAP-15 (lei) corrigido com replay em 144 reescritas; GAP-16/17/18 abertos |
 | CP8–CP10 (dogfood recíproco) | concluído | Assertiva `5f18982` (PR #11), Engine `a9eb371` (PR #6) | ver `ASSURANCE_RECIPROCAL.md` |
 | CP11 (antes/depois) | concluído | (este commit) | campanha offline **refeita no código final**: a de 18/11 18:56 era de antes de GAP-13/14/15; desempenho remedido intercalado pelo mesmo motivo |
+| CP12b (QA do site) | concluído | `95522c9` | QA no Edge 55/55; capturas reais em `docs/observatory/screenshots/` |
+| CP13 (qualificação e entrega) | **BLOCKED** na integração | `95522c9` + este commit | `qualify` local: todos os gates locais PASS; gate de privacidade do intervalo PASS e da árvore revisado; PR #4 aberto. O merge do PR #6 (Engine) foi negado pelo controle de permissões do agente; pela regra da rodada, nenhum merge foi tentado por outro caminho. Sem merge: sem CI final na `main`, sem tag, sem release. Assertiva PR #11 `4325936` com CI verde, aberto |

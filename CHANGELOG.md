@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.10.5 — 2026-11-19 (GitHub release; not on PyPI)
+## 0.10.5 — unreleased (qualified locally 2026-11-19; integration pending; not on PyPI)
 
 PT-BR fire trial: the product run on real Portuguese text nobody wrote for the engine (427 items, 28 genre labels), real Claude Code sessions with the Skill installed, four arms with the same model, a blind judge and three whole documents. Plan, frozen criteria R1–R18, gaps and qualification: `docs/releases/v0.10.5/`; results site: `docs/observatory/index.html`; release notes: `docs/releases/v0.10.5/RELEASE_NOTES.md`.
 

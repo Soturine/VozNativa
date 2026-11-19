@@ -43,10 +43,13 @@ Detalhes e triagem em [`MAINTAINABILITY.md`](MAINTAINABILITY.md). Resumo: a prim
 
 A atribuição está certa e foi conferida: o venv usado não tem `setuptools`, e o ambiente do usuário define `PIP_NO_BUILD_ISOLATION=0`, que o pip lê como **desligar** o isolamento; o `qualify` do próprio VozNativa constrói o mesmo wheel. O status do projeto (suíte PASS) ficou separado do status do ambiente.
 
-**PR #11** refinado (`5f18982`): `ModuleNotFoundError` sozinho não prova que a culpa é do ambiente.
+**PR #11** refinado (`5f18982`, depois `4325936`): `ModuleNotFoundError` sozinho não prova que a culpa é do ambiente.
 - Backend que o build importa mas que `build-system.requires` **não declara** → `PROJECT_CONFIGURATION`, com recomendação de declarar (com isolamento, o build falharia igual); projeto sem tabela `build-system` mantém o padrão setuptools.
 - `PIP_NO_BUILD_ISOLATION` no ambiente fica registrado na evidência, e a linhagem diz "isolamento sobrescrito pelo ambiente" em vez de "build isolado".
 - 2 testes novos vermelhos sem a mudança; os 10 testes do arquivo passam.
+- **A CI do próprio PR pegou um erro meu** em `5f18982`: dois testes de contrato da Assertiva (módulo central não pode nomear ferramenta; toda frase nova do motor precisa de template pt-BR). Eu tinha rodado só o arquivo de teste do PR depois da última mudança. Corrigido em `4325936`; a CI do PR passou (Python 3.11, Windows, validate). Localmente, o "fast/core suite" tem as mesmas 9 falhas no `main` e na branch (mesma lista, ambientais nesta máquina) e 10 testes a mais passando na branch.
+
+**Merges.** O merge do PR #6 foi negado pelo controle de permissões do agente. Os PRs #6 e #11 seguem **abertos**, revisados e com controles; nenhum merge foi alegado.
 
 **As falhas herdadas da suíte da Assertiva nesta máquina.** Na v0.10 eram 5, todas ambientais (passam num venv limpo com as dependências da CI). Nesta rodada sobrou 1 na suíte completa (1362 passaram): `test_installed_artifact_context::test_self_tests_that_read_the_repository_hold_without_git_source_or_editable_install`. Ela **também falha no `main` limpo**, então não vem do PR. Causa provada, não presumida: a suíte interna roda num subprocesso que usa a pasta temporária compartilhada do pytest (`%TEMP%\pytest-of-<usuário>`), e essa pasta dá `PermissionError: Acesso negado` nesta máquina; com uma pasta temporária própria (`PYTEST_ADDOPTS=--basetemp=…`) o mesmo teste **passa no `main`**. Tirar `PIP_NO_BUILD_ISOLATION` não mudava nada, então essa hipótese foi descartada.
 
