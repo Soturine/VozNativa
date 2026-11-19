@@ -77,6 +77,9 @@ def main(argv=None) -> int:
     pub_tasks = {t["task"] for t in D["live"]["tasks"] if t["publishable"]}
     expect("texts_only_publishable", set(D["texts"]) <= pub_tasks, sorted(set(D["texts"]) - pub_tasks))
     expect("no_local_only_text", not any(i in json.dumps(D["texts"]) for i in local_ids))
+    pr = D.get("prospective") or {}
+    pr_pub = {t["task"] for t in pr.get("tasks", []) if t["publishable"]}
+    expect("prospective_texts_only_publishable", set(pr.get("texts", {})) <= pr_pub, sorted(set(pr.get("texts", {})) - pr_pub))
 
     with tempfile.TemporaryDirectory(prefix="obs-qa-") as tmp, sync_playwright() as p:
         kwargs = {"executable_path": str(EDGE)} if EDGE.exists() else {}
@@ -119,11 +122,15 @@ def main(argv=None) -> int:
         expect("tracks", count("#tracks article") == 4, count("#tracks article"))
         expect("gates", count("#gates tbody tr") == 18, count("#gates tbody tr"))
         expect("method", count("#method li") == len(P["tracks"]["method"]))
-        expect("toc", count("#toc a") == count("main section.s") == 10)
+        expect("toc", count("#toc a") == count("main section.s") == 11)
+        has_pr = bool(D.get("prospective"))
+        expect("prospective_rows", count("#pr-arms tbody tr") == (6 if has_pr else 1), count("#pr-arms tbody tr"))
+        expect("ablation_rows", count("#pr-abl tbody tr") == (3 if has_pr and D["prospective"].get("ablation") else 1),
+               count("#pr-abl tbody tr"))
         page.screenshot(path=str(shots / "desktop-light-top.png"))
         # section shots show every block: blocks below the fold of a section would still be waiting to reveal
         page.evaluate("document.querySelectorAll('.reveal').forEach(e => e.classList.add('in'))")
-        for sec in ("minuto", "corpus", "offline", "live", "docs", "gaps", "trilhas", "criterios", "metodo"):
+        for sec in ("minuto", "corpus", "offline", "live", "prospectivo", "docs", "gaps", "trilhas", "criterios", "metodo"):
             page.locator("#" + sec).scroll_into_view_if_needed()
             page.wait_for_timeout(900)
             page.locator("#" + sec).screenshot(path=str(shots / f"desktop-{sec}.png"))
@@ -252,6 +259,8 @@ def main(argv=None) -> int:
         empty["data"]["judge"] = None
         empty["data"]["documents"] = None
         empty["data"]["perf_17600_cpu_min_s"] = None
+        empty["data"]["prospective"] = None
+        empty["data"]["headline"].pop("prospective", None)
         f = Path(tmp) / "empty.html"
         f.write_text(with_payload(html, empty), encoding="utf-8")
         ctx, page = open_page(f.as_uri(), viewport={"width": 1280, "height": 800})

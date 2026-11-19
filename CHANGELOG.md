@@ -23,6 +23,14 @@ PT-BR fire trial: the product run on real Portuguese text nobody wrote for the e
 - Live, 12 tasks × 3 repetitions, same model in every arm: the Skill was activated without being named 13 → 28 of 36 and wrongly edited a text that should come back 7 → 2; the engine now edits when asked (missed edits 9 → 4) and the blind judge scores it better on the request in 6 tasks with no loss. **The Skill is not better on quality:** more faithful in 3 tasks, but worse at meeting the request in 5 and on naturalness in 4 (V105-GAP-16). Context and knowledge: no isolated gain shown.
 - `compare` on 17,600 words: 1.04× v0.10.0 CPU.
 
+### Changed (continuation, 19/11)
+- **D-03: a model judgment read from a file accepts nothing** (`compare --judgment`, `ground --judgment`, `apply_judgment` without engine observation), whatever `generator_relation` it declares; it is kept as `declared_assessment` and an independent judgment stays required. Only a judge the engine ran (`rewrite --judge-cmd`) accepts. Declared rejections still count. Migration: `docs/releases/v0.10.5/MIGRATION.md`.
+- Grounding judge: a "supported" claim needs a quote of at least two words and 8 characters (V105-GAP-21, found by a real Derivanta Framework session).
+- `SKILL.md`: direct `python …` calls (no shell variable, no `; echo $?`), never deliver an edited text without `compare`, `review_required` is not "undo", no "kept all ideas" without proof.
+
+### Measured in the continuation
+- Prospective holdout (10 new tasks, new authors and sources, frozen before measuring): engine correct edit decisions 6 → 10 of 16; Skill correct decisions 9 → 11 of 16 and fidelity 3.95 → 4.40, but **no measurable quality gain** (meets the request on edit tasks 4.38 → 3.88, inside the noise of the control). Valid ablation with the same request: attributes and knowledge show no measurable gain.
+
 ### Added
 - Fire-trial harness (`scripts/v0105_*.py`): deterministic corpus builder with rights per operation, offline metamorphic campaign, live arms (direct LLM, Skill in a real host, engine, engine without context), blind judge with an engine-independent oracle, whole-document flows. Provider failures are never written as results.
 - **VozNativa Observatory** (`scripts/v0105_observatory.py`, `docs/observatory/index.html`): static, self-contained results site with corpus map, metamorphic dumbbells with intervals, live run matrix and arm comparator, review desk with aligned diff and run timeline, gaps, four tracks, criteria and exports; browser QA in `scripts/v0105_observatory_qa.py`.

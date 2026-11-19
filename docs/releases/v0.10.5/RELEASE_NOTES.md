@@ -48,6 +48,14 @@ The direct-LLM arm does not use VozNativa and serves as the noise control. Over 
 
 The account hit its 5-hour limit mid-campaign, and 83 runs were recorded as results. Provider failures are now never results, and that campaign was discarded and rerun from scratch. A judge without an answer no longer writes empty scores. The document flow resolved a relative work path wrongly. The first Observatory page rendered empty sections and its browser QA passed it; the QA now runs 55 content, interaction, privacy and accessibility checks in Edge.
 
+## Continuation (19/11)
+
+- **Judgment files accept nothing** (D-03). In the Skill flow the agent that writes the candidate also writes the judgment file, so a relation declared there is a claim, not evidence. Only a judge the engine runs can accept. See `MIGRATION.md`.
+- **Prospective holdout:** 10 tasks frozen before measuring, with authors and sources not used in development (Lima Barreto, João do Rio, Euclides da Cunha, Júlia Lopes de Almeida, Python docs in Portuguese, Agência Brasil). It confirms the engine gain (correct edit decisions 6 → 10 of 16, no critical error). **It shows no measurable writing-quality gain for the Skill**: more faithful than v0.10.0, but not better at meeting the request. The direct LLM edited every text that should have come back unchanged and had 7 critical errors in 20 outputs.
+- **Valid ablation** (same request in every variant): attributes and knowledge show no measurable gain on their own.
+- The Skill uses the VozNativa flow more often (steps before writing 0 → 9 of 20), but the agent still sometimes edits without any gate or delivers a rejected candidate. A written instruction does not guarantee host behaviour.
+- New open findings: a verb change that alters meaning ("criam" → "criavam") passes `compare` (V105-GAP-22); the engine is still too conservative on tasks that require an edit (V105-GAP-23).
+
 ## Other tracks
 
 - **Assertiva:** PR #11 refined. A backend that `build-system.requires` does not declare is now attributed to the project's configuration, not the environment. The remaining failure of Assertiva's own suite on this machine was shown to be environmental.
@@ -55,6 +63,6 @@ The account hit its 5-hour limit mid-campaign, and 83 runs were recorded as resu
 
 ## Cost and limits
 
-The campaign used US$ 3.26 in API-equivalent cost (reported by the `claude` CLI), against a US$ 10 ceiling. The following were **not run**: blind human review, a third-party holdout, a judge from another vendor, a local model, Codex/Gemini, macOS and Word rendering. Nothing here claims "better writing for people". Passing tests show the listed defects fixed and the frozen suites not regressed; they do not prove semantic equivalence.
+The round used US$ 5.01 in API-equivalent cost (reported by the `claude` CLI), against a US$ 10 ceiling. The following were **not run**: blind human review, a third-party holdout, a judge from another vendor, a local model, Codex/Gemini, macOS and Word rendering. Nothing here claims "better writing for people". Passing tests show the listed defects fixed and the frozen suites not regressed; they do not prove semantic equivalence.
 
 Not on PyPI. Install from the GitHub release assets (wheel and sdist, with `SHA256SUMS.txt`).

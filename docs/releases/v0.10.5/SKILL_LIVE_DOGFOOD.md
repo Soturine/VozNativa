@@ -68,3 +68,33 @@ Risco observado (V105-GAP-17): no T05 a Skill entregou dizendo "mantive todas as
 ## O que não foi testado
 
 Codex, Gemini CLI e outros hosts; modelo escritor diferente de Haiku; revisão humana das saídas. Tudo `NOT_RUN`.
+
+## Continuação (19/11): causa dos pulos, `SKILL.md` revisada e holdout prospectivo
+
+**Causa dos pulos (V105-GAP-01).** 12 sessões da campanha e 6 sondagens com o resultado de cada ferramenta registrado:
+- **O host não é a causa principal.** As negações de permissão vieram de comandos compostos (`…; echo "exit=$?"`), e em 6/6 o agente refez o comando e seguiu.
+- **"Erros" do Bash** eram o código de saída do `compare` (1, 2 ou 3, que é o protocolo).
+- **Os pulos são decisão do modelo e variam entre execuções:** 6 decisões de não mudar tomadas só por leitura (poema, ortografia já atual, "corrija só erros"), 4 edições entregues sem gate e 2 com `compare` só depois de escrever. O mesmo T08 rodou o fluxo completo numa sondagem.
+- **Defeito do harness:** contava comando negado como executado (V105-HARNESS-06, corrigido).
+
+**`SKILL.md` revisada** (`69b81d8`), cada mudança ligada a uma causa observada:
+- chamada direta `python …`, sem variável de shell nem `echo $?`;
+- texto editado nunca entregue sem `compare`;
+- `review_required` não é "desfazer";
+- frases de entrega proibidas sem prova;
+- juízo em arquivo não aprova nada (D-03).
+
+**Holdout prospectivo** (10 tarefas novas × 2; detalhes em `FIRE_TRIAL_RESULTS.md` §7):
+
+| | v0.10.0 | v0.10.5 inicial | v0.10.5 final |
+|---|---|---|---|
+| Skill ativada | 5/20 | 11/20 | 12/20 |
+| Fluxo antes de escrever | 0/20 | 5/20 | 9/20 |
+| `compare` | 2/20 | 7/20 | 9/20 |
+| Decisões certas | 9/16 | 10/16 | 11/16 |
+| Fidelidade (juiz) | 3,95 | 4,45 | 4,40 |
+| Atende ao pedido, tarefas que exigem edição | 4,38 | 4,12 | 3,88 |
+| Erros críticos | 4/20 | 0/20 | 2/20 |
+
+**Conclusão honesta.** A Skill passou a ser usada de verdade com mais frequência e erra menos ao decidir não mexer. A qualidade da escrita **não** melhorou de forma mensurável, e as mudanças desta continuação não mudaram isso. O agente ainda entrega sem gate (P05) e entrega candidata reprovada com ressalvas, sem dizer que foi reprovada (P08). Uma instrução escrita não garante comportamento do host.
+

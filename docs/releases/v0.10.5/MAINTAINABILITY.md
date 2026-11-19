@@ -39,3 +39,9 @@ Os quatro ciclos herdados (`community↔packs`, `ptbr↔router`, `router↔tempo
 | Juiz sem resposta virava linha com notas vazias | revisão do juiz após o defeito acima | `JudgeUnavailable` no `v0105_judge.py`: nada é gravado e a retomada repete |
 | QA do Observatory aprovava página com seções vazias | o mantenedor abriu a página | QA reescrito: cada seção precisa ter tantos itens quanto os dados (53 verificações) |
 | Oráculo "linhas reunidas" contava lei e diálogo como benignos | revisão do harness (V105-GAP-10) | corrigido e remedido |
+
+## Continuação (19/11)
+
+Derivanta Engine na mesma pasta, v0.10.0 × `69b81d8`: `COMPARABLE`, 212 persistentes, 20 novos, 1 ausente. Os 5 novos em relação à triagem anterior estão nos scripts do Observatory: 4 de complexidade (aceitos, scripts de campanha) e 1 de duplicação **real e com divergência**. A lista de braços estava copiada do harness e não conhecia a ablação nova; o gerador passou a importá-la do harness (V105-GAP-20).
+
+Caminhos frágeis revistos: o fluxo de documentos resolvia `--work` relativo ao `cwd` do CLI (V105-HARNESS-04, corrigido com `resolve()`); `PIP_NO_BUILD_ISOLATION=0` e a pasta temporária do pytest são do ambiente desta máquina e estão documentados em `ASSURANCE_RECIPROCAL.md`; nenhum código do VozNativa depende deles.

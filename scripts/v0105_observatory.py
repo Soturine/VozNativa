@@ -37,11 +37,20 @@ DATA = ROOT / "evals" / "v0105" / "observatory_data.json"
 OUT = ROOT / "docs" / "observatory" / "index.html"
 REL = ROOT / "docs" / "releases" / "v0.10.5"
 TEMPLATE_PATH = Path(__file__).resolve().parent / "observatory_template.html"
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from v0105_live_arms import ABLATION, ARMS  # noqa: E402  (one owner for the arm list; Derivanta Engine duplication)
+
 LABELS = ("v0100", "v0105")
-VERSION_NAME = {"v0100": "v0.10.0", "v0105": "v0.10.5"}
-ARMS = ("A1_direct", "A2_skill", "A3_engine", "A3_bare")
+# prospective holdout labels: the direct LLM is version-independent; v0105a is the candidate the development
+# campaign measured (8f5ffc1), v0105b the code after the continuation fixes
+PROSPECTIVE_LABELS = ("direct", "v0100", "v0105a", "v0105b")
+VERSION_NAME = {"v0100": "v0.10.0", "v0105": "v0.10.5", "direct": "sem VozNativa", "v0105a": "v0.10.5 inicial",
+                "v0105b": "v0.10.5 final"}
 ARM_LABEL = {"A0_original": "Original", "A1_direct": "LLM direto", "A2_skill": "Skill no host",
-             "A3_engine": "Engine", "A3_bare": "Engine sem contexto"}
+             "A3_engine": "Engine", "A3_bare": "Engine sem pedido nem contexto (ablação antiga)",
+             "A3_noattrs": "Engine sem atributos", "A3_noknow": "Engine sem conhecimento",
+             "A3_neither": "Engine sem atributos nem conhecimento"}
 KIND_LABEL = {"negation_added": "Negação acrescentada", "negation_removed": "Negação removida",
               "number_changed": "Número trocado", "contrast_to_consequence": "Contraste virou consequência",
               "exception_deleted": "Exceção apagada", "sentence_deleted": "Frase do meio apagada",
@@ -136,7 +145,7 @@ def _run_record(r: dict, original: str, expect: str) -> dict:
         changed = False
     return {"label": r["label"], "task": r["task"], "rep": r["rep"], "arm": r["arm"], "order": r.get("order"),
             "exit_code": r.get("exit_code"), "outcome": r.get("outcome"), "status": r.get("status"),
-            "changed": changed, "decision": decision(expect, changed),
+            "changed": changed, "decision": decision(expect, changed), "expect": expect,
             "cost_usd": round(r.get("cost_usd") or 0, 6), "seconds": r.get("seconds"),
             "calls": r.get("calls"), "turns": r.get("turns"),
             "skill_invoked": r.get("skill_invoked"), "final_written": r.get("final_written"),
@@ -163,11 +172,11 @@ def _judge(path: Path) -> dict | None:
             "per_run": per_run}
 
 
-def _arm_summary(runs: list[dict], judge: dict | None) -> dict:
+def _arm_summary(runs: list[dict], judge: dict | None, labels=LABELS, arms=ARMS) -> dict:
     """Per (version, arm): counts over the runs that produced a result, judge means, cost."""
     out = {}
-    for label in LABELS:
-        for arm in ARMS:
+    for label in labels:
+        for arm in arms:
             rs = [r for r in runs if r["label"] == label and r["arm"] == arm]
             if not rs:
                 continue
@@ -191,6 +200,13 @@ def _arm_summary(runs: list[dict], judge: dict | None) -> dict:
                 for axis in ("fidelity", "request", "naturalness"):
                     vals = [j[axis] for j in js if isinstance(j[axis], (int, float))]
                     s[axis] = round(statistics.mean(vals), 2) if vals else None
+                # the judge reads "revise" as "change": a correct NO_CHANGE scores low on "request". The request
+                # axis is therefore also reported only over tasks whose frozen expectation requires an edit.
+                req = [j["request"] for r, j in ((r, judge["per_run"].get(f"{label}|{r['task']}|{r['rep']}|{arm}"))
+                                                 for r in rs) if j and r.get("expect") == "edit_required"
+                       and isinstance(j.get("request"), (int, float))]
+                s["request_edit_required"] = round(statistics.mean(req), 2) if req else None
+                s["request_edit_required_n"] = len(req)
                 s["critical"] = sum(1 for j in js if j["critical_error"])
             out[f"{label}|{arm}"] = s
     return out
@@ -257,6 +273,81 @@ def _headline(data: dict) -> dict:
             "live": live_cmp, "perf_ratio_17600": ratio}
 
 
+def ablation_pairs(runs: list[dict], base_arm: str = "A3_engine", label: str = "v0105b") -> dict:
+    """Paired judge differences of each ablation arm against the full engine, same task and repetition, same
+    request. Only pairs judged on both sides count; ``n`` is the number of pairs."""
+    by = {(r["task"], r["rep"], r["arm"]): (r.get("judge") or {}) for r in runs if r["label"] == label}
+    out = {}
+    for arm in ABLATION:
+        diffs = {"fidelity": [], "request": [], "naturalness": []}
+        changed = [0, 0]
+        for (task, rep, a), j in by.items():
+            if a != arm or (task, rep, base_arm) not in by:
+                continue
+            full = by[(task, rep, base_arm)]
+            for axis in diffs:
+                if isinstance(j.get(axis), (int, float)) and isinstance(full.get(axis), (int, float)):
+                    diffs[axis].append(j[axis] - full[axis])
+        for r in runs:
+            if r["label"] == label and r["arm"] in (arm, base_arm):
+                changed[0 if r["arm"] == base_arm else 1] += bool(r["changed"])
+        out[arm] = {axis: ({"n": len(v), "mean": round(statistics.mean(v), 2), "better": sum(1 for x in v if x > 0),
+                            "worse": sum(1 for x in v if x < 0)} if v else {"n": 0, "mean": None, "better": 0,
+                                                                             "worse": 0})
+                    for axis, v in diffs.items()}
+        out[arm]["changed_full_vs_arm"] = changed
+    return out
+
+
+def _prospective(work: Path) -> dict | None:
+    """The prospective holdout of the continuation: frozen before measuring, texts outside the repository."""
+    tf = ROOT / "evals" / "v0105" / "prospective_tasks.json"
+    items_path = Path.home() / ".voznativa" / "fire-trial" / "prospective.jsonl"
+    runs_dir = work / "live-prosp"
+    if not (tf.exists() and items_path.exists() and runs_dir.exists()):
+        return None
+    spec = json.loads(tf.read_text(encoding="utf-8"))
+    manifest = {i["id"]: i for i in spec["items"]}
+    texts = {json.loads(x)["id"]: json.loads(x)["text"] for x in items_path.read_text(encoding="utf-8").splitlines()
+             if x.strip()}
+    tasks = {t["task"]: t for t in spec["tasks"]}
+    runs = []
+    for label in PROSPECTIVE_LABELS:
+        for f in sorted((runs_dir / label).glob("*.json")) if (runs_dir / label).exists() else []:
+            r = json.loads(f.read_text(encoding="utf-8"))
+            t = tasks[r["task"]]
+            rec = _run_record(r, texts[t["item"]], t["expect"])
+            rec["cli_denied"] = len(r.get("cli_denied") or []) if r["arm"] == "A2_skill" else None
+            runs.append(rec)
+    judge = _judge(work / "judged-prosp.json")
+    if judge:
+        for r in runs:
+            r["judge"] = judge["per_run"].get(f"{r['label']}|{r['task']}|{r['rep']}|{r['arm']}")
+    arms_all = ARMS + tuple(ABLATION)
+    out = {"frozen_sha256": sha256_text(tf.read_text(encoding="utf-8")), "note": spec.get("note"),
+           "tasks": [{"task": t["task"], "genre": t["genre"], "words": t["words"], "request": t["request"],
+                      "expect": t["expect"], "mode": t["engine_mode"], "source": manifest[t["item"]]["work"],
+                      "rights": manifest[t["item"]]["rights"],
+                      "publishable": manifest[t["item"]]["rights_by_operation"]["publish_excerpts"]}
+                     for t in spec["tasks"]],
+           "runs": runs, "judge": ({k: v for k, v in judge.items() if k != "per_run"} if judge else None),
+           "arms": _arm_summary(runs, judge, PROSPECTIVE_LABELS, arms_all),
+           "ablation": ablation_pairs(runs) if judge else None, "texts": {}}
+    for t in spec["tasks"]:
+        m = manifest[t["item"]]
+        if not m["rights_by_operation"]["publish_excerpts"]:
+            continue
+        entry = {"original": texts[m["id"]], "outputs": {}}
+        for label in PROSPECTIVE_LABELS:
+            for f in sorted((runs_dir / label).glob(f"{t['task']}-r*-*.json")) if (runs_dir / label).exists() else []:
+                r = json.loads(f.read_text(encoding="utf-8"))
+                o = (r.get("output") or "").strip()
+                if o:
+                    entry["outputs"][f"{label}|{r['rep']}|{r['arm']}"] = o
+        out["texts"][t["task"]] = entry
+    return out
+
+
 def build_data(work: Path, items_path: Path) -> dict:
     tasks_all = json.loads((ROOT / "evals" / "v0105" / "live_tasks.json").read_text(encoding="utf-8"))["tasks"]
     manifest = {i["id"]: i for i in json.loads((ROOT / "evals" / "v0105" / "corpus_manifest.json")
@@ -316,6 +407,7 @@ def build_data(work: Path, items_path: Path) -> dict:
             hold_runs.append(rec)
     data["holdout"] = {"tasks": len(hold_tasks), "reps": 1, "runs": hold_runs,
                        "arms": _arm_summary(hold_runs, None)} if hold_runs else None
+    data["prospective"] = _prospective(work)
     # texts: only what the source allows publishing
     data["texts"] = {}
     for t in tasks:
@@ -340,6 +432,17 @@ def build_data(work: Path, items_path: Path) -> dict:
             perf[v] = mins
     data["perf_17600_cpu_min_s"] = perf or None
     data["headline"] = _headline(data)
+    pr = data.get("prospective")
+    if pr and pr.get("arms"):
+        A = pr["arms"]
+        pick = lambda k, f: (A.get(k) or {}).get(f)
+        data["headline"]["prospective"] = {
+            "engine_decision": [[pick("v0100|A3_engine", "decision_ok"), pick("v0100|A3_engine", "decided")],
+                                [pick("v0105b|A3_engine", "decision_ok"), pick("v0105b|A3_engine", "decided")]],
+            "skill_request_edit": [pick("v0100|A2_skill", "request_edit_required"),
+                                   pick("v0105b|A2_skill", "request_edit_required")],
+            "skill_fidelity": [pick("v0100|A2_skill", "fidelity"), pick("v0105b|A2_skill", "fidelity")],
+            "direct_critical": [pick("direct|A1_direct", "critical"), pick("direct|A1_direct", "judged")]}
     return data
 
 

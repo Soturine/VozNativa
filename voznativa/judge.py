@@ -195,8 +195,15 @@ def grounding_prompt(sources: list[tuple[str, str]], candidate: str, report: dic
     ])
 
 
+# v0.10.5 continuation: a quote must be specific enough to back a claim. Any substring counted, so "2" or "sim"
+# appear in almost every source; at least two words and 8 characters, otherwise the claim is unbacked (uncertain).
+_MIN_EVIDENCE_WORDS, _MIN_EVIDENCE_CHARS = 2, 8
+
+
 def _in_sources(evidence: str, sources: list[tuple[str, str]]) -> bool:
     needle = " ".join(normalize_surface(evidence).lower().split()).strip(" .,;:\"'")
+    if len(needle) < _MIN_EVIDENCE_CHARS or len(needle.split()) < _MIN_EVIDENCE_WORDS:
+        return False
     return bool(needle) and any(needle in " ".join(normalize_surface(text).lower().split())
                                 for _, text in sources)
 

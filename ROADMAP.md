@@ -299,10 +299,13 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [x] Skill testada num host real sem ser nomeada (12 × 3 + holdout); engine passa a obedecer ao modo pedido
 - [x] documentos inteiros (lei de 12 mil palavras, romance, DOCX/PDF) com oráculo independente
 - [x] VozNativa Observatory: site estático de resultados com diff, matriz, gaps e QA em navegador
-- [ ] Skill atende menos ao pedido do que a v0.10.0 nas tarefas de edição (V105-GAP-16); ainda pula o fluxo em 20/36 (V105-GAP-01)
+- [x] juízo em arquivo não aprova (D-03); evidência trivial no juiz de fundamentação (GAP-21)
+- [x] holdout prospectivo novo e ablação válida com o mesmo pedido
+- [ ] Skill sem ganho mensurável de qualidade (V105-GAP-16); ainda pula o fluxo ou entrega sem gate (V105-GAP-01/17)
+- [ ] falso verde de verbo que muda o sentido (V105-GAP-22); engine conservador demais em tarefa que exige edição (V105-GAP-23)
 - [ ] agente afirma preservação que nenhum gate provou (V105-GAP-17)
 - [ ] roteador devolve `unknown` em 260 de 427 textos reais (V105-GAP-18)
-- [ ] efeito do conhecimento isolado (a ablação desta rodada removeu também o pedido)
+- [x] ablação válida: atributos e conhecimento sem ganho mensurável (n = 20 pares)
 - [ ] herdados sem trabalho nesta rodada: correferência e troca de papéis (V09-GAP-05/V08-GAP-19), `--provider-env minimal` como padrão
 - [ ] revisão humana cega, holdout de terceiro, juiz de outro fornecedor, modelo local, Codex/Gemini, macOS, Word
 

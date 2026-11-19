@@ -123,6 +123,9 @@ h3{font:600 1.08rem/1.3 var(--sans);margin:34px 0 12px}
 .st-NOT_RUN,.st-NO_MEASURABLE_GAIN,.st-REFUTED,.st-none{color:var(--muted)}
 .st-BLOCKED{color:var(--bad)}
 .st-NOT_RUN{border-style:dashed}
+.ev{display:inline-flex;align-items:center;gap:6px;margin-left:12px;vertical-align:middle;font:600 .66rem/1 var(--mono);letter-spacing:.04em;padding:5px 8px;border-radius:5px;border:1px solid var(--rule);color:var(--ink-2);background:var(--sheet)}
+.ev.proved{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent)}
+.ev.judged{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
 .tag{display:inline-block;font:500 .74rem/1 var(--sans);padding:4px 7px;border-radius:4px;background:var(--sheet-2);color:var(--ink-2);white-space:nowrap}
 
 /* ---------- one minute ---------- */
@@ -148,7 +151,7 @@ th{font:600 .72rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-
 td{padding:10px 12px;border-bottom:1px solid var(--rule-2);vertical-align:top}
 tr:last-child td{border-bottom:0}
 td.r,th.r{text-align:right}
-.scroll-x{overflow-x:auto}
+.scroll-x{overflow-x:auto;background:linear-gradient(to right,var(--sheet) 30%,transparent),linear-gradient(to left,var(--sheet) 30%,transparent) right,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.14),transparent),radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.14),transparent) right;background-repeat:no-repeat;background-size:40px 100%,40px 100%,12px 100%,12px 100%;background-attachment:local,local,scroll,scroll}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--ink-2);align-items:center}
 .legend .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .toggle{border:1px solid var(--rule);background:var(--sheet);border-radius:999px;padding:5px 11px;font-size:.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
@@ -486,7 +489,7 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
     </section>
 
     <section class="s" id="offline" data-title="Campanha offline">
-      <div class="sh"><span class="no">03</span><div><h2>Perturbações com resposta conhecida</h2></div>
+      <div class="sh"><span class="no">03</span><div><h2>Perturbações com resposta conhecida<span class="ev proved" title="Oráculo é a própria transformação; resultado determinístico">PROVED</span></h2></div>
         <p>Cada texto real recebeu cópias alteradas de propósito: umas mudam o sentido (o <code>compare</code> deve sinalizar), outras são benignas (não deve). O ponto vazado é a v0.10.0; o cheio, a v0.10.5, no mesmo corpus e com o mesmo oráculo. As barras finas são o intervalo de 95%.</p></div>
       <div class="panel reveal">
         <div class="panel-h"><div class="legend"><span><span class="sw-b"></span>v0.10.0</span><span><span class="sw-c"></span>v0.10.5</span><span>proporção de acertos</span></div>
@@ -500,7 +503,7 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
     </section>
 
     <section class="s" id="live" data-title="Braços live">
-      <div class="sh"><span class="no">04</span><div><h2>Quatro braços, a mesma tarefa</h2></div>
+      <div class="sh"><span class="no">04</span><div><h2>Quatro braços, a mesma tarefa<span class="ev judged" title="Decisão de editar contra expectativa congelada; qualidade por juiz de modelo do mesmo fornecedor">MODEL_JUDGED</span></h2></div>
         <p>Doze tarefas congeladas antes de qualquer mudança, três repetições cada, o mesmo modelo escritor (Haiku) em todos os braços. Cada círculo é uma execução: cheio quando o texto mudou, vazado quando voltou igual. Clique em um círculo para abrir a execução na mesa de revisão.</p></div>
       <div class="panel reveal">
         <div class="panel-h">
@@ -522,10 +525,20 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
       <div class="panel reveal scroll-x"><table class="cmp" id="hold"></table></div>
       <p class="note">Seis tarefas congeladas no CP0 e nunca usadas para corrigir nada, uma execução por versão e braço (n = 1 por célula): mostra direção, não prova ganho sozinho.</p>
       <div class="warnline reveal" id="live-warn"></div>
+      <div class="warnline reveal"><b>Validade.</b><span>(1) A ablação "engine sem pedido nem contexto" desta campanha tirou também o pedido do usuário: mediu o efeito do pedido, não do conhecimento. A ablação válida está no holdout prospectivo. (2) A correção do V105-GAP-15 (lei) veio depois desta campanha, que não foi refeita com o código final; o código final foi medido no holdout prospectivo.</span></div>
+    </section>
+
+    <section class="s" id="prospectivo" data-title="Holdout prospectivo">
+      <div class="sh"><span class="no">05</span><div><h2>Holdout prospectivo<span class="ev judged" title="Juiz de modelo do mesmo fornecedor; holdout preparado pelo mesmo agente">MODEL_JUDGED · interno</span></h2></div>
+        <p>Dez tarefas congeladas antes de medir o código final, com autores, obras e fontes que não aparecem no desenvolvimento: Lima Barreto, João do Rio, Euclides da Cunha, Júlia Lopes de Almeida, documentação do Python em PT-BR e Agência Brasil. Duas repetições. Compara a Skill em três versões, o engine e o LLM direto, e traz a ablação válida, em que todas as variantes recebem o mesmo pedido.</p></div>
+      <div class="panel reveal scroll-x"><table class="cmp" id="pr-arms"></table></div>
+      <h3>Ablação válida: o mesmo pedido, com e sem atributos e conhecimento</h3>
+      <div class="panel reveal scroll-x"><table class="cmp" id="pr-abl"></table></div>
+      <p class="note" id="pr-note"></p>
     </section>
 
     <section class="s" id="mesa" data-title="Mesa de revisão">
-      <div class="sh"><span class="no">05</span><div><h2>Mesa de revisão</h2></div>
+      <div class="sh"><span class="no">06</span><div><h2>Mesa de revisão</h2></div>
         <p>Original e saídas reais lado a lado, palavra por palavra ou frase por frase. O diff é evidência visual, não veredito: o que conta como mudança de sentido vem do juiz cego e do oráculo independente, mostrados ao lado. Só aparecem textos cuja licença permite publicar trechos.</p></div>
       <div class="panel reveal">
         <div class="tools">
@@ -550,13 +563,13 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
     </section>
 
     <section class="s" id="docs" data-title="Documentos longos">
-      <div class="sh"><span class="no">06</span><div><h2>Documentos inteiros</h2></div>
+      <div class="sh"><span class="no">07</span><div><h2>Documentos inteiros<span class="ev proved" title="Oráculo independente do engine">PROVED</span></h2></div>
         <p>Três fluxos completos sobre texto real, conferidos por um oráculo que não usa o engine: sequência de artigos, números perdidos ou acrescentados, proporção de palavras. Execução sem resposta do provider é mostrada como tal, não como acerto.</p></div>
       <div class="dossiers reveal" id="dossiers"></div>
     </section>
 
     <section class="s" id="gaps" data-title="Gaps">
-      <div class="sh"><span class="no">07</span><div><h2>Gaps encontrados e reparos</h2></div>
+      <div class="sh"><span class="no">08</span><div><h2>Gaps encontrados e reparos</h2></div>
         <p>Cada gap diz qual instrumento o achou e como reproduzir. <b>FIXED</b> exige teste vermelho na v0.10.0 e verde depois, com controle; o resto aparece com o estado que tem.</p></div>
       <div class="panel reveal">
         <div class="panel-h">
@@ -569,13 +582,13 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
     </section>
 
     <section class="s" id="trilhas" data-title="Quatro trilhas">
-      <div class="sh"><span class="no">08</span><div><h2>Quatro instrumentos, quatro papéis</h2></div>
+      <div class="sh"><span class="no">09</span><div><h2>Quatro instrumentos, quatro papéis</h2></div>
         <p>Derivanta Framework orienta um agente; Derivanta Engine inspeciona código sem executar; Assertiva executa e audita testes; VozNativa é o produto sob prova. Cada trilha tem seu estado. Opinião espontânea de um agente não conta como achado do Framework.</p></div>
       <div class="tracks reveal" id="tracks"></div>
     </section>
 
     <section class="s" id="criterios" data-title="Critérios R1–R18">
-      <div class="sh"><span class="no">09</span><div><h2>Critérios de release</h2></div>
+      <div class="sh"><span class="no">10</span><div><h2>Critérios de release</h2></div>
         <p>Congelados no CP0, antes de qualquer mudança de produto. Release estável só com R1–R3, R5, R7, R9 e R12–R18 em PASS. Critério ainda não avaliado aparece como pendente, nunca como aprovado.</p></div>
       <div class="panel reveal">
         <div class="panel-h"><div style="flex:1;min-width:220px"><div class="gatebar" id="gatebar" aria-hidden="true"></div><div class="legend" id="gatelegend"></div></div></div>
@@ -584,7 +597,7 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
     </section>
 
     <section class="s" id="metodo" data-title="Método e reprodução">
-      <div class="sh"><span class="no">10</span><div><h2>Método, limites e reprodução</h2></div>
+      <div class="sh"><span class="no">11</span><div><h2>Método, limites e reprodução</h2></div>
         <p>Como os números foram feitos, o que não rodou e como gerar esta página de novo a partir do repositório.</p></div>
       <div class="two reveal">
         <div><ol class="method" id="method"></ol></div>
@@ -667,6 +680,8 @@ var runs = (D.live && D.live.runs) || [];
 var liveCost = runs.reduce(function(a, r){ return a + (r.cost_usd || 0); }, 0);
 var docCost = (D.documents || []).reduce(function(a, f){ return a + (f.cost_usd || (f.docx_rewrite && f.docx_rewrite.cost_usd) || 0); }, 0);
 var judgeCost = D.judge ? D.judge.cost_usd : 0;
+var sumRuns = function(list){ return (list || []).reduce(function(a, r){ return a + (r.cost_usd || 0); }, 0); };
+var otherCost = sumRuns((D.holdout || {}).runs) + sumRuns((D.prospective || {}).runs) + (((D.prospective || {}).judge || {}).cost_usd || 0);
 var head = P.provenance.repository_head;
 $("#m-edition").textContent = "v" + D.release + " · prova de fogo PT-BR";
 var ficha = [
@@ -674,8 +689,8 @@ var ficha = [
   ["Corpus", fmt(D.corpus.items) + " textos reais · " + fmt(D.corpus.genres) + " gêneros"],
   ["Escritor", "Haiku em todos os braços"],
   ["Juiz", D.judge ? esc(D.judge.model) + " · cego · <span class=\"mono\">" + esc(D.judge.relation) + "</span>" : chip("NOT_RUN") + " ainda não rodou"],
-  ["Execuções live", fmt(runs.length) + " (" + fmt(runs.filter(function(r){return r.label==="v0100";}).length) + " v0.10.0 · " + fmt(runs.filter(function(r){return r.label==="v0105";}).length) + " v0.10.5)"],
-  ["Custo medido", usd(liveCost + docCost + judgeCost) + " <span style=\"color:var(--ink-3)\">preço de API equivalente; teto US$ 10</span>"],
+  ["Execuções live", fmt(runs.length) + " no desenvolvimento" + (D.holdout ? " · " + fmt(D.holdout.runs.length) + " no holdout interno" : "") + (D.prospective ? " · " + fmt(D.prospective.runs.length) + " no prospectivo" : "")],
+  ["Custo medido", usd(liveCost + docCost + judgeCost + otherCost) + " <span style=\"color:var(--ink-3)\">das execuções desta página (preço de API equivalente); total da rodada, com sessões do Framework e sondagens, nos resultados; teto US$ 10</span>"],
   ["Revisão humana", chip("NOT_RUN") + " nenhum revisor humano nesta rodada"]
 ];
 $("#ficha").innerHTML = ficha.map(function(f){ return "<div><dt>" + f[0] + "</dt><dd>" + f[1] + "</dd></div>"; }).join("");
@@ -748,7 +763,7 @@ function wordsIn(tok){ return /[\p{L}\p{N}]/u.test(tok.t) ? 1 : 0; }
   var tested = '<div class="mi"><div class="kicker"><b>01</b>Testado</div><div class="big num">' + fmt(D.corpus.items) + '</div>' +
     '<p>textos reais em PT-BR, ' + fmt(D.corpus.genres) + ' rótulos de gênero e 5 faixas de tamanho.</p><ul>' +
     '<li><b class="num">' + fmt(H.offline_cases) + '</b> perturbações com resposta conhecida</li>' +
-    '<li><b class="num">' + fmt(nLive) + '</b> execuções live em 4 braços</li>' +
+    '<li><b class="num">' + fmt(nLive) + '</b> execuções live no desenvolvimento' + (D.holdout ? ', <b class="num">' + fmt(D.holdout.runs.length) + '</b> no holdout interno' : '') + (D.prospective ? ' e <b class="num">' + fmt(D.prospective.runs.length) + '</b> no holdout prospectivo' : '') + '</li>' +
     '<li><b class="num">' + fmt((D.documents||[]).length) + '</b> documentos inteiros</li></ul>' +
     '<a class="go" href="#corpus">Ver o corpus <span>→</span></a></div>';
   var om = H.offline_missed, fa = H.offline_false_alarms;
@@ -759,10 +774,12 @@ function wordsIn(tok){ return /[\p{L}\p{N}]/u.test(tok.t) ? 1 : 0; }
     (H.judge_r6 ? ["A3_engine","A2_skill"].map(function(arm){ var x = H.judge_r6[arm + "|request"], f = H.judge_r6[arm + "|fidelity"];
       return x.gain.length > x.loss.length ? '<li>' + esc(L.arm[arm]) + ', juiz (atende ao pedido): <b class="num">+' + x.gain.length + ' / −' + x.loss.length + '</b> tarefas</li>' :
         f.gain.length > f.loss.length ? '<li>' + esc(L.arm[arm]) + ', juiz (fidelidade): <b class="num">+' + f.gain.length + ' / −' + f.loss.length + '</b> tarefas</li>' : ""; }).join("") : "") +
+    (H.prospective ? '<li>Engine no holdout prospectivo, decisões certas: <b class="num">' + fmt(H.prospective.engine_decision[0][0]) + ' → ' + fmt(H.prospective.engine_decision[1][0]) + '</b> de ' + fmt(H.prospective.engine_decision[1][1]) + '</li>' : "") +
     improvedLive.map(function(x){ return '<li>' + esc(x.label) + ', decisões erradas: <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b></li>'; }).join("") +
     '</ul><a class="go" href="#offline">Ver a campanha <span>→</span></a></div>';
   var same = H.kinds_worse.map(function(k){ return '<li>Piorou: ' + esc(k.label) + ' <b class="num">' + fmt(k.base[0]) + ' → ' + fmt(k.cand[0]) + '</b></li>'; })
     .concat(worseLive.map(function(x){ return '<li>Piorou no live: ' + esc(x.label) + ' <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b> decisões erradas</li>'; }));
+  if (H.prospective) same.unshift('<li>Skill no holdout prospectivo, atende ao pedido nas tarefas de edição: <b class="num">' + fmt(H.prospective.skill_request_edit[0], 2) + ' → ' + fmt(H.prospective.skill_request_edit[1], 2) + '</b> · <span class="chip st-NO_MEASURABLE_GAIN"><i aria-hidden="true">=</i>Sem ganho medido</span></li>');
   if (control) same.push('<li>LLM direto, controle sem VozNativa: <b class="num">' + fmt(control.base_unnecessary + control.base_missed) + ' → ' + fmt(control.cand_unnecessary + control.cand_missed) + '</b> decisões erradas (variação do modelo)</li>');
   if (H.confirmed_on_real_text) same.push('<li>Erro confirmado em texto publicado: <b class="num">' + fmt(H.confirmed_on_real_text[0]) + ' → ' + fmt(H.confirmed_on_real_text[1]) + '</b> itens</li>');
   if (H.edit_plans_on_real_text) same.push('<li>Planos de edição em texto publicado: <b class="num">' + fmt(H.edit_plans_on_real_text[0]) + ' → ' + fmt(H.edit_plans_on_real_text[1]) + '</b></li>');
@@ -885,6 +902,12 @@ function tableToggle(btn, table, chart){
 /* ---------------- section: live ---------------- */
 var TASKS = D.live.tasks, TASK = {}; TASKS.forEach(function(t){ TASK[t.task] = t; });
 var RUN = {}; runs.forEach(function(r){ RUN[r.label + "|" + r.task + "|" + r.rep + "|" + r.arm] = r; });
+// the prospective holdout (P01…) joins the run index, the task index and the texts of the review desk
+var PR = D.prospective || null, PTASKS = PR ? PR.tasks : [];
+if (PR){ PR.runs.forEach(function(r){ RUN[r.label + "|" + r.task + "|" + r.rep + "|" + r.arm] = r; }); PTASKS.forEach(function(t){ TASK[t.task] = t; }); }
+var TEXTS = {}; Object.keys(D.texts || {}).forEach(function(k){ TEXTS[k] = D.texts[k]; }); if (PR) Object.keys(PR.texts || {}).forEach(function(k){ TEXTS[k] = PR.texts[k]; });
+var JUDGE_MODEL = (D.judge || {}).model || ((PR || {}).judge || {}).model || "juiz";
+function maxRep(task){ var m = 1; Object.keys(RUN).forEach(function(k){ var p = k.split("|"); if (p[1] === task) m = Math.max(m, +p[2]); }); return m; }
 var EXPECT = {no_change_expected:"devolver igual", edit_required:"editar", edit_allowed:"pode editar", constrained_edit:"edição restrita"};
 var ARMS = ["A1_direct","A2_skill","A3_engine","A3_bare"];
 var liveVer = "both";
@@ -973,12 +996,37 @@ renderLive();
     (nf ? " " + fmt(nf) + " execuções falharam por indisponibilidade do provider e foram refeitas; nenhuma entrou como resultado." : "") + '</span>';
 })();
 
+/* ---------------- section: prospective holdout ---------------- */
+(function(){
+  var el = $("#pr-arms"), ab = $("#pr-abl");
+  if (!PR){ el.innerHTML = '<tbody><tr><td>' + chip("NOT_RUN") + ' holdout prospectivo não rodado</td></tr></tbody>'; ab.innerHTML = '<tbody><tr><td>' + chip("NOT_RUN") + '</td></tr></tbody>'; return; }
+  var rows = [["direct","A1_direct"],["v0100","A2_skill"],["v0105a","A2_skill"],["v0105b","A2_skill"],["v0100","A3_engine"],["v0105b","A3_engine"]];
+  var cols = ["Execuções","Decisão certa","Edição indevida","Faltou editar","Skill ativada","Fluxo antes de escrever","Compare","Fidelidade","Pedido","Naturalidade","Erro crítico","Custo"];
+  var h = '<thead><tr><th>Braço</th><th>Versão</th>' + cols.map(function(c){ return '<th class="r">' + c + '</th>'; }).join("") + '</tr></thead><tbody>';
+  rows.forEach(function(rw){ var s = PR.arms[rw[0] + "|" + rw[1]];
+    h += '<tr class="' + (rw[0] === "v0105b" ? "v0105" : "") + '"><td class="arm">' + esc(L.arm[rw[1]]) + '</td><td class="mono">' + esc(L.version[rw[0]]) + '</td>';
+    if (!s){ h += '<td colspan="' + cols.length + '">' + chip("NOT_RUN") + '</td></tr>'; return; }
+    var sk = rw[1] === "A2_skill";
+    h += [fmt(s.runs), "<b>" + fmt(s.decision_ok) + "</b>/" + fmt(s.decided), s.unnecessary_edit ? '<span class="flag bad">' + s.unnecessary_edit + '</span>' : "0", s.missed_edit ? '<span class="flag bad">' + s.missed_edit + '</span>' : "0",
+      sk ? fmt(s.skill_invoked) + "/" + fmt(s.runs) : "—", sk ? fmt(s.ran_before_writing) + "/" + fmt(s.runs) : "—", sk ? fmt(s.ran_compare) + "/" + fmt(s.runs) : "—",
+      fmt(s.fidelity, 2), fmt(s.request, 2), fmt(s.naturalness, 2), s.judged ? fmt(s.critical) + "/" + fmt(s.judged) : "—", usd(s.cost_usd)].map(function(v){ return '<td class="r num">' + v + '</td>'; }).join("") + '</tr>'; });
+  el.innerHTML = h + '</tbody>';
+  var A = PR.ablation;
+  if (!A){ ab.innerHTML = '<tbody><tr><td>' + chip("NOT_RUN") + ' juiz ainda não rodou</td></tr></tbody>'; }
+  else {
+    var cell = function(x){ return x.n ? '<b>' + (x.mean > 0 ? "+" : "") + fmt(x.mean, 2) + '</b> <span class="flag ok">+' + x.better + '</span> <span class="flag bad">−' + x.worse + '</span> <span style="color:var(--ink-3)">n=' + x.n + '</span>' : chip("NOT_RUN"); };
+    ab.innerHTML = '<thead><tr><th>Variante (contra o engine completo)</th><th class="r">Δ fidelidade</th><th class="r">Δ atende ao pedido</th><th class="r">Δ naturalidade</th><th class="r">Textos alterados (completo / variante)</th></tr></thead><tbody>' +
+      Object.keys(A).map(function(k){ var x = A[k]; return '<tr><td class="arm">' + esc(L.arm[k]) + '</td><td class="r num">' + cell(x.fidelity) + '</td><td class="r num">' + cell(x.request) + '</td><td class="r num">' + cell(x.naturalness) + '</td><td class="r num">' + fmt(x.changed_full_vs_arm[0]) + ' / ' + fmt(x.changed_full_vs_arm[1]) + '</td></tr>'; }).join("") + '</tbody>';
+  }
+  $("#pr-note").innerHTML = 'Manifesto congelado: <span class="mono">sha256 ' + esc((PR.frozen_sha256 || "").slice(0, 16)) + '…</span>. Diferenças pareadas por tarefa e repetição; Δ positivo quer dizer nota maior na variante do que no engine completo. Juiz: ' + (PR.judge ? esc(PR.judge.model) + ', mesmo fornecedor, cego' : 'não rodou') + '. Textos da documentação do Python e da Agência Brasil não são publicados aqui; só os de domínio público aparecem na mesa de revisão.';
+})();
+
 /* ---------------- section: review desk ---------------- */
 var desk = {task:null, rep:1, left:"original", right:null, mode:(window.matchMedia && matchMedia("(max-width:760px)").matches ? "inline" : "split"), unit:"word", fold:false, cur:-1};
-var pubTasks = TASKS.filter(function(t){ return D.texts[t.task]; });
+var pubTasks = TASKS.concat(PTASKS).filter(function(t){ return TEXTS[t.task]; });
 var curGroups = [], curOps = [];
 function sourceText(key, task, rep){
-  var T = D.texts[task]; if (!T) return null;
+  var T = TEXTS[task]; if (!T) return null;
   if (key === "original") return T.original;
   var p = key.split("|"); var out = T.outputs[p[0] + "|" + rep + "|" + p[1]];
   if (out != null) return out;
@@ -986,24 +1034,30 @@ function sourceText(key, task, rep){
   if (r && r.changed === false) return T.original;
   return null;
 }
-function optionLabel(key){ if (key === "original") return "Original"; var p = key.split("|"); return L.version[p[0]] + " · " + L.arm[p[1]]; }
-function deskOptions(){
-  var keys = ["original"]; ["v0100","v0105"].forEach(function(v){ ARMS.forEach(function(a){ keys.push(v + "|" + a); }); }); return keys;
+function optionLabel(key){ if (key === "original") return "Original"; var p = key.split("|"); return (p[0] === "direct" ? "" : L.version[p[0]] + " · ") + L.arm[p[1]]; }
+function deskOptions(task){
+  // every (version, arm) that has a run for this task, in a stable order
+  var seen = {}, keys = ["original"];
+  Object.keys(RUN).forEach(function(k){ var p = k.split("|"); if (p[1] === (task || desk.task)) seen[p[0] + "|" + p[3]] = 1; });
+  var order = ["direct","v0100","v0105","v0105a","v0105b"];
+  Object.keys(seen).sort(function(a, b){ var x = a.split("|"), y = b.split("|"); return (order.indexOf(x[0]) - order.indexOf(y[0])) || (x[1] < y[1] ? -1 : 1); }).forEach(function(k){ keys.push(k); });
+  return keys;
 }
+function repButtons(){ var n = maxRep(desk.task), html = ""; for (var i = 1; i <= n; i++) html += '<button type="button" data-r="' + i + '" aria-pressed="false">' + i + '</button>'; $("#d-rep").innerHTML = html; if (desk.rep > n) desk.rep = 1; }
 function fillSelect(sel, keys, val, task, rep){
   sel.innerHTML = keys.map(function(k){ var txt = sourceText(k, task, rep); return '<option value="' + esc(k) + '"' + (k === val ? " selected" : "") + (txt == null ? " disabled" : "") + '>' + esc(optionLabel(k)) + (txt == null ? " (sem saída)" : "") + '</option>'; }).join("");
 }
 function initDesk(){
   if (!pubTasks.length){ $("#d-rows").innerHTML = '<p class="empty">Nenhum texto publicável nesta campanha.</p>'; return; }
-  $("#d-task").innerHTML = pubTasks.map(function(t){ return '<option value="' + esc(t.task) + '">' + esc(t.task + " · " + t.genre) + '</option>'; }).join("");
-  var reps = ""; for (var i = 1; i <= D.live.reps; i++) reps += '<button type="button" data-r="' + i + '" aria-pressed="false">' + i + '</button>'; $("#d-rep").innerHTML = reps;
+  var grp = function(label, list){ return list.length ? '<optgroup label="' + esc(label) + '">' + list.map(function(t){ return '<option value="' + esc(t.task) + '">' + esc(t.task + " · " + t.genre) + '</option>'; }).join("") + '</optgroup>' : ""; };
+  $("#d-task").innerHTML = grp("Desenvolvimento", pubTasks.filter(function(t){ return t.task[0] === "T"; })) + grp("Holdout prospectivo", pubTasks.filter(function(t){ return t.task[0] === "P"; }));
   readHash();
-  if (!desk.task || !D.texts[desk.task]){
+  if (!desk.task || !TEXTS[desk.task]){
     // first publishable task whose v0.10.5 skill output differs from the original, else the first task
     var pick = pubTasks.filter(function(t){ var r = RUN["v0105|" + t.task + "|1|A2_skill"] || RUN["v0100|" + t.task + "|1|A2_skill"]; return r && r.changed; })[0] || pubTasks[0];
     desk.task = pick.task; desk.right = RUN["v0105|" + pick.task + "|1|A2_skill"] ? "v0105|A2_skill" : "v0100|A2_skill";
   }
-  $("#d-task").addEventListener("change", function(){ desk.task = this.value; buildDesk(); });
+  $("#d-task").addEventListener("change", function(){ desk.task = this.value; desk.right = null; buildDesk(); });
   $("#d-rep").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; desk.rep = +b.getAttribute("data-r"); buildDesk(); });
   $("#d-left").addEventListener("change", function(){ desk.left = this.value; buildDesk(); });
   $("#d-right").addEventListener("change", function(){ desk.right = this.value; buildDesk(); });
@@ -1022,16 +1076,17 @@ function hashFor(){ return "mesa?caso=" + encodeURIComponent(desk.task) + "&rep=
 function readHash(){
   var h = decodeURIComponent(location.hash.slice(1)); if (h.indexOf("mesa?") !== 0) return;
   var q = {}; h.slice(5).split("&").forEach(function(kv){ var i = kv.indexOf("="); if (i > 0) q[kv.slice(0, i)] = kv.slice(i + 1); });
-  var keys = deskOptions();
-  if (q.caso && D.texts[q.caso]) desk.task = q.caso;
-  if (q.rep && /^[1-9]$/.test(q.rep) && +q.rep <= D.live.reps) desk.rep = +q.rep;
+  if (q.caso && TEXTS[q.caso]) desk.task = q.caso;
+  var keys = deskOptions(desk.task);
+  if (q.rep && /^[1-9]$/.test(q.rep) && desk.task && +q.rep <= maxRep(desk.task)) desk.rep = +q.rep;
   if (keys.indexOf(q.esq) >= 0) desk.left = q.esq;
   if (keys.indexOf(q.dir) >= 0) desk.right = q.dir;
   if (q.leitura === "inline" || q.leitura === "split") desk.mode = q.leitura;
   if (q.unidade === "word" || q.unidade === "sentence") desk.unit = q.unidade;
 }
 function buildDesk(keepScroll){
-  var keys = deskOptions();
+  repButtons();
+  var keys = deskOptions(desk.task);
   if (!desk.right || sourceText(desk.right, desk.task, desk.rep) == null){
     desk.right = keys.filter(function(k){ return k !== "original" && sourceText(k, desk.task, desk.rep) != null; }).reverse()[0] || "original"; }
   if (sourceText(desk.left, desk.task, desk.rep) == null) desk.left = "original";
@@ -1125,7 +1180,7 @@ function renderSide(){
   steps.push({c:dec[0], b:dec[1], s: (r.changed === null ? "sem texto" : r.changed ? "texto mudou" : "texto igual ao original") + ' · ' + fmt(r.seconds, 1) + ' s · ' + usd(r.cost_usd)});
   h += '<div><h4>Linha do tempo</h4><ol class="tl">' + steps.map(function(s){ return '<li class="' + s.c + '"><b>' + s.b + '</b><span>' + s.s + '</span></li>'; }).join("") + '</ol></div>';
   if (r.judge){ var J = r.judge;
-    h += '<div><h4>Juiz cego (' + esc(D.judge.model) + ', mesmo fornecedor)</h4><div class="score">' + [["fidelity","Fidelidade"],["request","Atende ao pedido"],["naturalness","Naturalidade"]].map(function(a){ var v = J[a[0]];
+    h += '<div><h4>Juiz cego (' + esc(JUDGE_MODEL) + ', mesmo fornecedor)</h4><div class="score">' + [["fidelity","Fidelidade"],["request","Atende ao pedido"],["naturalness","Naturalidade"]].map(function(a){ var v = J[a[0]];
       return '<span>' + a[1] + '</span><span class="num">' + (v == null ? "—" : fmt(v, 0) + "/5") + '</span><span class="bar"><i style="width:' + (v == null ? 0 : v / 5 * 100) + '%"></i></span>'; }).join("") + '</div>' +
       '<p class="note" style="margin:0">' + (J.critical_error ? '<b style="color:var(--bad)">Erro crítico apontado.</b> ' : 'Sem erro crítico apontado. ') + 'Oráculo independente: ' + fmt(J.oracle_lost) + ' valor(es) protegido(s) do original ausentes.</p></div>';
   } else h += '<div><h4>Juiz cego</h4>' + chip("NOT_RUN") + ' <span class="note">esta execução ainda não foi julgada.</span></div>';

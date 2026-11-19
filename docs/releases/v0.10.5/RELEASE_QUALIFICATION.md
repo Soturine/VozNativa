@@ -30,3 +30,16 @@ Revisão humana cega, holdout feito por terceiro, juiz de outro fornecedor, mode
 ## Decisão
 
 **Release estável: não publicada.** R15 (CI final) e R17 (publicação) dependem da integração na `main`, que exige uma ação de merge que o controle de permissões do agente negou no PR #6; pela regra da rodada, a integração não foi tentada por outro caminho. Os demais critérios obrigatórios estão em PASS. Entrega: PR #4 (`dev/v0.10.5` → `main`) pronto para merge com `--no-ff`; depois do merge, faltam a CI manual de 8 jobs na `main`, a tag anotada `v0.10.5`, wheel e sdist da revisão da tag, `SHA256SUMS.txt` conferido após download e a GitHub Release.
+
+## Continuação (19/11)
+
+Os critérios R1–R18 congelados no CP0 não foram editados nem reclassificados. A continuação acrescenta evidência a eles, sem mudar piso:
+
+- **R2/R7:** V105-GAP-11 fechado por D-03 (juízo em arquivo não aprova); V105-GAP-21 (evidência trivial no juiz de fundamentação) corrigido; testes vermelhos antes. Abertos e declarados: GAP-01 (PARTIAL), 16 (`NO_MEASURABLE_GAIN`), 17 (PARTIAL), 22, 23; GAP-18 `ACCEPTED_RISK`.
+- **R6:** holdout prospectivo novo (10 tarefas × 2, congelado no commit `69b81d8` antes de medir). Engine: ganho confirmado. Skill: `NO_MEASURABLE_GAIN` em qualidade. Ablação válida, com o mesmo pedido: atributos e conhecimento `NO_MEASURABLE_GAIN`. Nenhum critério novo de sucesso foi congelado antes dessa medição; o resultado foi lido pela mesma regra do R6 (CP0) e pelo braço de controle.
+- **R10/R11:** Framework com falha de instalação corrigida no dono (PR Soturine/Derivanta#13, aberto) e nova sessão real; Engine `COMPARABLE` na mesma pasta; Assertiva com artefato `PASS` num venv capaz de construir. Merges dos PRs #6, #11 e #13: não feitos pelo agente.
+- **R15/R17:** inalterados (PARTIAL / BLOCKED). Release estável não publicada.
+
+**Opções para o mantenedor** (a qualidade editorial da Skill não melhorou de forma mensurável):
+(a) segurar a 0.10.5 e trabalhar GAP-16/17/22/23 antes de lançar;
+(b) lançar a 0.10.5 **como release de detecção, segurança e decisão de editar**, com o "sem ganho de qualidade da Skill" visível nas notas e no Observatory, como já está escrito. A escolha é do mantenedor; nenhum critério foi afrouxado depois da medição.

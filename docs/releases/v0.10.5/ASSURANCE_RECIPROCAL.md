@@ -56,3 +56,26 @@ A atribuição está certa e foi conferida: o venv usado não tem `setuptools`, 
 ## VozNativa → as três ferramentas
 
 Os READMEs da Assertiva, do Engine e do Framework estão em inglês. A guarda de idioma do VozNativa classifica esses textos como não-português (V010-GAP-16, mantido) e não os revisa. Nenhuma documentação em PT-BR dessas ferramentas existia para revisar, e nenhuma tradução foi feita para preencher o lugar. Estado: `NOT_RUN` para revisão de conteúdo PT-BR; controle negativo de idioma `PASS`, executado: `voznativa plan` nos primeiros 3 mil caracteres de cada README devolveu `language: en` (90, 106 e 92 palavras funcionais inglesas contra 1 portuguesa) e `decision: no_change` nos três.
+
+## Continuação (19/11)
+
+### Derivanta Framework
+- **Falha de instalação reproduzida e corrigida no dono** (V105-GAP-19): copiar `skill/` para `.claude/skills/derivanta/` deixa 13 links `../` fora da pasta instalada. `scripts/install_skill.py` gera uma pasta autocontida, com teste vermelho antes. PR [Soturine/Derivanta#13](https://github.com/Soturine/Derivanta/pull/13), aberto e não integrado pelo agente.
+- **Sessão real com a Skill instalada pelo instalador novo** (Claude Code 2.1.317, Haiku, pedido explícito, US$ 0,01): Skill ativada, `workflows/AUDIT.md` lido de dentro da pasta instalada, nenhuma leitura com erro. Os documentos de `_framework/` não foram exercitados nessa sessão: a instalação está provada para descoberta e para o workflow de auditoria, não para todos os links. `REAL_HOST_EXECUTED`.
+- Achado dessa sessão, que conta como do Framework porque a Skill foi ativada e guiou a auditoria: a evidência do juiz de fundamentação aceitava qualquer trecho, inclusive "2" → **V105-GAP-21**, corrigido no VozNativa com teste vermelho.
+- Ativação implícita: segue como na rodada anterior (não ativou sem pedido explícito). Não foi repetida.
+
+### Derivanta Engine
+`inspect --maintainability` na **mesma pasta física** (`eng-target`), v0.10.0 × revisão `69b81d8`: `COMPARABLE`, 212 persistentes, 20 novos, 1 ausente. Os 5 novos em relação à triagem anterior estão nos scripts do Observatory. Um deles era duplicação real com divergência: a lista de braços copiada não conhecia a ablação nova (V105-GAP-20, corrigido). O Engine não executa testes e não recebe crédito por execução. `CLI_EXECUTED_STATIC`.
+
+### Assertiva
+`audit --execute` refeito com um venv do projeto **capaz de construir o wheel** (`setuptools` presente; `PIP_NO_BUILD_ISOLATION=0` mantido no ambiente), na v0.10.0 (`e274379`) e na revisão `69b81d8`:
+
+| | v0.10.0 | `69b81d8` |
+|---|---|---|
+| Suíte nativa | PASS | PASS |
+| Artefato: build, install, import, suíte contra o wheel instalado, fechamento de dependências | **PASS** | **PASS** |
+| Achados | só `UNCLASSIFIED_VERIFICATION` (info) | idem |
+| Limites declarados pela ferramenta | só o wheel foi verificado, não o sdist; nenhuma instalação limpa a partir de índice (offline); build sem isolamento (backend no próprio venv) | idem |
+
+Isso fecha por execução a atribuição `ENVIRONMENT` da primeira auditoria: com o backend presente, o mesmo projeto qualifica. CI do PR #11 conferida na cabeça atual (`4325936`): Python 3.11, Windows e validate verdes. `AUDIT_EXECUTED`.

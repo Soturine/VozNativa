@@ -87,6 +87,47 @@ Achada na leitura dos vermelhos do engine em T06/T07: depois de `§ 3°` ou de u
 
 US$ 3,26 medidos (preço de API equivalente informado pelo `claude` CLI; a conta usa login, sem chave de API), de um teto de US$ 10: braços live US$ 1,23 (US$ 0,20 perdidos na campanha abortada), holdout US$ 0,13, juiz US$ 1,04, documentos US$ 0,19, sessões do Derivanta Framework (Sonnet) US$ 0,65, piloto US$ 0,01.
 
+**Continuação (19/11):** US$ 1,74 a mais: holdout prospectivo (180 execuções) US$ 0,94, juiz US$ 0,72, sondagens de permissão US$ 0,08, sessão do Framework instalado US$ 0,01. **Total da rodada: US$ 5,01** de US$ 10.
+
 ## 6. O que não rodou
 
 Revisão humana cega, holdout feito por terceiro, juiz de outro fornecedor, modelo local, Codex/Gemini, macOS, Word: `NOT_RUN`. Sem eles, nenhuma afirmação aqui é sobre "escrita melhor para pessoas".
+
+## 7. Continuação: holdout prospectivo e ablação válida (19/11)
+
+**Por que existe.** As 12 tarefas live, as 6 do holdout interno e os casos T05/T06/T07/T08 orientaram correções e viraram desenvolvimento e regressão. A correção do GAP-15 e as mudanças da continuação (D-03, `SKILL.md` revisada) vieram depois da campanha de §2. Antes de medir o código final, congelei um **holdout prospectivo** novo (commit `69b81d8`, `evals/v0105/prospective_tasks.json`): 10 tarefas, 2 repetições, autores, obras e fontes disjuntos do desenvolvimento. São crônicas de Lima Barreto, conto de João do Rio, telegrama de 1897 de Euclides da Cunha e ensaio de Júlia Lopes de Almeida (domínio público, Wikisource), documentação do Python em PT-BR (PSF License; não publicada aqui) e notícia e título da Agência Brasil (termos da EBC: reprodução com fonte, sem fim comercial; não publicados aqui). Preparado pelo mesmo agente: **interno, não independente**. O hash do manifesto aparece como `2585d43c…` no registro de congelamento, calculado sobre os bytes com CRLF, e como `3094ca64…` no Observatory, calculado com fim de linha normalizado. O conteúdo é o mesmo; a prova é o commit.
+
+**Fontes que não deram.** planalto.gov.br recusou a conexão (nenhuma lei nova no holdout; não contornado). Gutenberg em manutenção. Sem fonte lícita: WhatsApp e e-mail reais, redação escolar, publicidade, descrição de produto. `NOT_RUN` para essas famílias.
+
+**Execução.** 180 execuções, nenhuma falha de provider, US$ 0,94; juiz cego Sonnet (mesmo fornecedor), 20/20 linhas, US$ 0,72.
+
+### Decisão de editar e qualidade (16 decisões com expectativa fixa; juiz em 20 execuções por linha)
+
+| Braço | Decisão certa | Edição indevida | Faltou editar | Fidelidade | Pedido (só tarefas que exigem edição, n = 8) | Naturalidade | Erro crítico |
+|---|---|---|---|---|---|---|---|
+| LLM direto (controle) | 8/16 | 8 | 0 | 3,25 | 3,88 | 4,10 | **7**/20 |
+| Skill v0.10.0 | 9/16 | 7 | 0 | 3,95 | 4,38 | 4,05 | 4/20 |
+| Skill v0.10.5 inicial (`8f5ffc1`) | 10/16 | 6 | 0 | 4,45 | 4,12 | 4,20 | 0/20 |
+| Skill v0.10.5 final (`69b81d8`) | 11/16 | 5 | 0 | 4,40 | 3,88 | 3,95 | 2/20 |
+| Engine v0.10.0 | 6/16 | 2 | 8 | 4,85 | 1,00 | 3,40 | 1/20 |
+| Engine v0.10.5 final | **10/16** | 2 | **4** | 4,85 | 1,88 | 3,50 | 0/20 |
+
+Uso do fluxo pela Skill: ativada em 5 → 11 → 12 de 20; algum passo antes de escrever em 0 → 5 → 9; `compare` em 2 → 7 → 9.
+
+**Por que o pedido só nas tarefas que exigem edição.** O juiz lê "revise" como "mude": nas tarefas cuja expectativa congelada é devolver igual, a Skill que devolve o original leva 1–2 em "atende ao pedido". Comparar esse eixo em todas as tarefas favorece quem edita.
+
+**Leitura.**
+- **Engine: ganho confirmado num conjunto novo.** Mais decisões certas, metade das edições faltantes, atendimento ao pedido maior, fidelidade igual e nenhum erro crítico. Continua conservador demais nas tarefas de edição (V105-GAP-23).
+- **Skill: sem ganho mensurável de qualidade** (`NO_MEASURABLE_GAIN`). A fidelidade melhora frente à v0.10.0 nos dois conjuntos (+0,41 e +0,45, acima do ruído do controle). O atendimento ao pedido e a naturalidade não melhoram: as quedas cabem no ruído do controle, que varia 0,56 sozinho entre rodadas. As mudanças da continuação aumentaram o uso do fluxo e não melhoraram a escrita. Os 2 críticos da final: P05 (troca "criam" → "criavam" sem rodar nenhum gate; o gate também não pegaria, V105-GAP-22) e P08 (aviso para o WhatsApp que estendeu uma condição e inventou um mês; o `compare` reprovou e o agente entregou com ressalvas, V105-GAP-17).
+- **LLM direto:** editou todas as 8 oportunidades de não mexer e teve 7 erros críticos em 20 saídas. É a referência do que acontece sem nenhum controle.
+
+### Ablação válida (mesmo pedido em todas as variantes; diferença pareada contra o engine completo, n = 20 pares)
+
+| Variante | Δ fidelidade | Δ pedido | Δ naturalidade | Textos alterados (completo / variante) |
+|---|---|---|---|---|
+| Sem atributos (só o pedido), com conhecimento | −0,15 (1 melhor, 3 piores) | +0,05 (2 / 1) | +0,10 (2 / 1) | 8 / 8 |
+| Com atributos, sem conhecimento | 0,00 (1 / 2) | +0,05 (2 / 1) | +0,15 (3 / 0) | 8 / 8 |
+| Sem atributos nem conhecimento | −0,30 (0 / 3) | −0,15 (2 / 4) | 0,00 (2 / 1) | 8 / 8 |
+
+**Atributos e conhecimento: `NO_MEASURABLE_GAIN`** isoladamente. Tirar os dois juntos tende a piorar a fidelidade (0 melhores, 3 piores), mas com n = 20 pares e diferenças pequenas é `INCONCLUSIVE`. As variantes alteraram exatamente os mesmos 8 textos: o que decide se o engine edita é o pedido e o modo, não os atributos nem o conhecimento.
+
