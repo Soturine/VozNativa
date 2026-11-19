@@ -1,0 +1,59 @@
+{
+ "kind": "voznativa.observatory_tracks",
+ "schema_version": 1,
+ "tracks": [
+  {
+   "tool": "VozNativa",
+   "title": "O produto em texto real",
+   "state": "PASS",
+   "what": "Campanha offline em 427 textos reais (oráculo metamórfico), 144 execuções live por versão em 12 tarefas × 3 repetições, sessões reais da Skill no Claude Code e 3 fluxos de documento longo.",
+   "findings": [
+    "Falsos verdes de negação e de frase apagada em texto real (V105-GAP-05/06) e falso vermelho por quebra de linha (GAP-07)",
+    "O engine ignorava o modo pedido: POLISH/ADAPT sem achado do detector não chamava o modelo (GAP-08)",
+    "Documento sem linha em branco virava uma unidade de 12 mil palavras (GAP-14)",
+    "Dígito colado a letras (\"7a\", \"L1\", \"#petr4\") não era valor protegido (GAP-13)"
+   ]
+  },
+  {
+   "tool": "Assertiva",
+   "title": "audit --execute no VozNativa",
+   "state": "PENDING",
+   "what": "Replay de audit --execute no VozNativa v0.10.0 e v0.10.5 com o ambiente real (PIP_NO_BUILD_ISOLATION=0); revisão do PR #11.",
+   "findings": [
+    "As 5 falhas históricas passam 5/5 num venv limpo com as dependências da CI: causa ambiental",
+    "PR #11 refinado: backend que build-system.requires não declara é configuração do projeto, não ambiente"
+   ]
+  },
+  {
+   "tool": "Derivanta Engine",
+   "title": "CLI estática no VozNativa",
+   "state": "PASS",
+   "what": "Análise estática do repositório (referências, ciclos, testes) e revisão do PR #6.",
+   "findings": [
+    "0 candidatos falsos de código não referenciado no replay do VozNativa",
+    "4 ciclos de import: todos fechados só por import dentro de função; teste novo impede ciclo em nível de módulo",
+    "PR #6 refinado: classe local com nome terminado em TestCase que não herda de TestCase não é teste; alias importado de TestCase é"
+   ]
+  },
+  {
+   "tool": "Derivanta Framework",
+   "title": "Sessão real de agente com a Skill",
+   "state": "PASS",
+   "what": "Claude Code (Sonnet) com a Skill do Framework instalada no projeto, auditando uma cópia só-leitura do VozNativa.",
+   "findings": [
+    "Sem pedido explícito, a Skill não foi ativada e nenhum arquivo do Framework foi lido: a auditoria daquela sessão não conta como do Framework",
+    "Com pedido explícito: Skill ativada, workflows/AUDIT.md seguido; achado 1 (independência do juiz declarada parecia observada) confirmado por leitura e teste → V105-GAP-11",
+    "Achado 2: o registro de gaps citava SKILL_LIVE_DOGFOOD.md inexistente → V105-GAP-12",
+    "Retorno ao Framework: faltam instruções para instalar como Skill de projeto; os links ../ exigem as pastas irmãs ao lado da Skill"
+   ]
+  }
+ ],
+ "method": [
+  "Escritor: Haiku em todos os braços. Juiz: Sonnet, cego (sem braço, sem versão, original incluído como candidata anônima). Mesmo fornecedor: relação same_vendor, evidência MODEL_JUDGED, nunca revisão humana.",
+  "Ganho só é afirmado se aparecer em pelo menos 2 de 3 repetições e no juiz; caso contrário, NO_MEASURABLE_GAIN.",
+  "Oráculo independente: números, nomes e citações do original procurados na saída, sem usar o engine.",
+  "Textos fora do Git. A página só mostra textos cuja licença permite publicar trechos: domínio público (Machado de Assis, leis federais) e CC BY 4.0 (resumos com DOI; saídas marcadas como alteradas por modelo). Itens de uso só local (UD, B2W) nunca entram aqui.",
+  "Lacunas de família sem fonte lícita nesta rodada: mensagens e WhatsApp reais, e-mail, documentação técnica PT-BR, saúde, criativo, fala regional. Nenhuma afirmação de qualidade vale para elas.",
+  "NOT_RUN: revisão humana cega, holdout de terceiro, juiz de outro fornecedor, modelo local, Codex/Gemini, macOS, Word."
+ ]
+}

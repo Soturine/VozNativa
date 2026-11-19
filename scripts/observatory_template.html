@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>VozNativa Observatory</title>
+<meta name="description" content="Prova de fogo da v0.10.5 em português real: corpus, campanha offline, braços live, mesa de revisão, gaps e critérios de release.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1b18'/%3E%3Cpath d='M9 10l7 13 7-13' fill='none' stroke='%23f5f2ea' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='23' r='2.4' fill='%23e0705a'/%3E%3C/svg%3E">
+<style>
+:root{
+  --serif:"Sitka Heading","Sitka Text","Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --serif-text:"Sitka Text","Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --sans:"Bahnschrift","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Cascadia Mono","Cascadia Code",Consolas,"SFMono-Regular",Menlo,monospace;
+  --paper:#f4f1e9; --sheet:#fbf9f4; --sheet-2:#f0ece2; --ink:#1c1b18; --ink-2:#4b4840; --ink-3:#77736a;
+  --rule:#d6d0c2; --rule-2:#e6e1d5; --accent:#b5402a; --accent-soft:rgba(181,64,42,.09);
+  --ins:#17704a; --ins-bg:rgba(23,112,74,.13); --del:#ad3326; --del-bg:rgba(173,51,38,.11);
+  --v100:#8a857a; --v105:#2a78d6; --cc:#eb6834; --pd:#3c3a35;
+  --good:#1b7f3b; --warn:#a86b00; --bad:#c0362f; --muted:#77736a;
+  --focus:#2a78d6; --shadow:0 1px 0 rgba(28,27,24,.04),0 12px 32px -18px rgba(28,27,24,.28);
+  --ease:cubic-bezier(.2,.7,.2,1); --t-fast:160ms; --t:420ms; --t-slow:720ms;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --sheet:#1a1917; --sheet-2:#211f1c; --ink:#efebe2; --ink-2:#bdb8ab; --ink-3:#8c877c;
+    --rule:#36332e; --rule-2:#28261f; --accent:#e0705a; --accent-soft:rgba(224,112,90,.12);
+    --ins:#57c995; --ins-bg:rgba(87,201,149,.14); --del:#f08374; --del-bg:rgba(240,131,116,.13);
+    --v100:#8f8a7e; --v105:#4b93ea; --cc:#e0682f; --pd:#d9d4c7;
+    --good:#48bf6a; --warn:#e0a630; --bad:#f06a5e; --muted:#8c877c; --focus:#6aa7f0;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 14px 34px -18px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --sheet:#1a1917; --sheet-2:#211f1c; --ink:#efebe2; --ink-2:#bdb8ab; --ink-3:#8c877c;
+  --rule:#36332e; --rule-2:#28261f; --accent:#e0705a; --accent-soft:rgba(224,112,90,.12);
+  --ins:#57c995; --ins-bg:rgba(87,201,149,.14); --del:#f08374; --del-bg:rgba(240,131,116,.13);
+  --v100:#8f8a7e; --v105:#4b93ea; --cc:#e0682f; --pd:#d9d4c7;
+  --good:#48bf6a; --warn:#e0a630; --bad:#f06a5e; --muted:#8c877c; --focus:#6aa7f0;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 14px 34px -18px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);font-feature-settings:"tnum" 0;
+  transition:background-color var(--t) var(--ease),color var(--t) var(--ease)}
+a{color:inherit;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent);text-underline-offset:.18em}
+a:hover{text-decoration-color:currentColor}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--ink);color:var(--paper);padding:10px 14px;border-radius:6px;text-decoration:none}
+.skip:focus{top:12px}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--sheet-2);padding:.08em .35em;border-radius:4px}
+.num{font-variant-numeric:tabular-nums}
+.kicker{font:600 .72rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- masthead ---------- */
+.mast{border-bottom:1px solid var(--ink);position:relative}
+.mast::after{content:"";position:absolute;left:0;right:0;bottom:3px;border-bottom:1px solid var(--rule)}
+.mast-in{max-width:1320px;margin:0 auto;padding:22px 24px 34px}
+.mast-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--rule-2)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:26px;height:26px}
+.brand b{font:600 1rem/1 var(--sans);letter-spacing:.01em}
+.brand span{color:var(--ink-3);font-size:.86rem}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:999px;padding:2px;background:var(--sheet)}
+.seg button{white-space:nowrap;border:0;background:transparent;padding:5px 11px;border-radius:999px;font-size:.8rem;cursor:pointer;color:var(--ink-2);
+  transition:background-color var(--t-fast) var(--ease),color var(--t-fast) var(--ease)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:hover:not([aria-pressed="true"]){background:var(--sheet-2)}
+.mast-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:48px;padding-top:34px;align-items:end}
+h1{font:600 clamp(2.3rem,5.2vw,4.4rem)/.98 var(--serif);font-variant-numeric:lining-nums;letter-spacing:-.018em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--accent);font-weight:500}
+.dek{font:400 1.18rem/1.55 var(--serif-text);color:var(--ink-2);max-width:62ch;margin:0}
+.ficha{border-top:2px solid var(--ink);padding-top:12px;margin:0}
+.ficha div{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--rule-2);font-size:.88rem}
+.ficha dt{color:var(--ink-3)}
+.ficha dd{margin:0;overflow-wrap:anywhere}
+.galley{margin-top:30px;padding:16px 18px;border:1px solid var(--rule);background:var(--sheet);border-radius:10px;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:baseline}
+.galley .kicker{grid-column:1/-1}
+.galley p{margin:0;font:1.08rem/1.7 var(--serif-text);grid-column:1/-1}
+.galley small{grid-column:1/-1;color:var(--ink-3);font-size:.8rem}
+
+/* ---------- frame ---------- */
+.frame{max-width:1320px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:212px minmax(0,1fr);gap:48px}
+.rail{position:sticky;top:0;align-self:start;height:100vh;padding:34px 0 24px;display:flex;flex-direction:column}
+.rail ol{list-style:none;margin:0;padding:0;position:relative;border-left:1px solid var(--rule)}
+.rail li a{display:grid;grid-template-columns:30px 1fr;padding:6px 0 6px 14px;text-decoration:none;color:var(--ink-3);font-size:.88rem;position:relative;
+  transition:color var(--t-fast) var(--ease)}
+.rail li a .n{font:500 .74rem/1.9 var(--mono);color:var(--ink-3)}
+.rail li a:hover{color:var(--ink)}
+.rail li a[aria-current="true"]{color:var(--ink);font-weight:600}
+.rail li a[aria-current="true"] .n{color:var(--accent)}
+.rail .ind{position:absolute;left:-1.5px;width:2px;background:var(--accent);border-radius:2px;transition:transform var(--t) var(--ease),height var(--t) var(--ease)}
+.rail .foot{margin-top:auto;font-size:.76rem;color:var(--ink-3);line-height:1.5}
+.rail .foot kbd{font:500 .72rem var(--mono);border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--sheet)}
+.mobilebar{display:none}
+main{min-width:0;padding-bottom:120px}
+
+/* ---------- sections ---------- */
+section.s{padding:72px 0 8px;border-bottom:1px solid var(--rule-2);scroll-margin-top:8px}
+section.s:last-of-type{border-bottom:0}
+.sh{display:grid;grid-template-columns:64px minmax(0,1fr);gap:0 8px;margin-bottom:28px}
+.sh .no{font:500 .8rem/2.9 var(--mono);color:var(--accent)}
+h2{font:600 clamp(1.7rem,3vw,2.35rem)/1.1 var(--serif);letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}
+.sh p{font-variant-numeric:lining-nums;grid-column:2;margin:0;max-width:70ch;color:var(--ink-2);font:1.04rem/1.6 var(--serif-text)}
+h3{font:600 1.08rem/1.3 var(--sans);margin:34px 0 12px}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 .7rem/1 var(--sans);font-stretch:87.5%;letter-spacing:.07em;text-transform:uppercase;
+  padding:5px 8px 5px 7px;border-radius:5px;border:1px solid currentColor;white-space:nowrap}
+.chip i{font-style:normal;font-size:.8rem;line-height:0}
+.st-PASS,.st-FIXED,.st-ok{color:var(--good)}
+.st-FAIL,.st-OPEN{color:var(--bad)}
+.st-PARTIAL,.st-INCONCLUSIVE,.st-PENDING,.st-ACCEPTED_RISK{color:var(--warn)}
+.st-NOT_RUN,.st-NO_MEASURABLE_GAIN,.st-REFUTED,.st-none{color:var(--muted)}
+.st-BLOCKED{color:var(--bad)}
+.st-NOT_RUN{border-style:dashed}
+.tag{display:inline-block;font:500 .74rem/1 var(--sans);padding:4px 7px;border-radius:4px;background:var(--sheet-2);color:var(--ink-2);white-space:nowrap}
+
+/* ---------- one minute ---------- */
+.minute{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--ink)}
+.mi{padding:20px 22px 22px 0;border-right:1px solid var(--rule);margin-right:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mi:last-child{border-right:0;margin-right:0;padding-right:0}
+.mi .kicker b{color:var(--accent);font-family:var(--mono);font-weight:500;margin-right:8px}
+.big{font:600 clamp(2rem,3.6vw,3rem)/1 var(--serif);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.02em}
+.big .arrow{color:var(--ink-3);font-weight:400;margin:0 .12em}
+.mi p{margin:0;color:var(--ink-2);font-size:.93rem}
+.mi ul{margin:0;padding:0;list-style:none;font-size:.88rem;color:var(--ink-2)}
+.mi li{padding:6px 0;border-top:1px dotted var(--rule)}
+.mi a.go{margin-top:auto;font-size:.84rem;font-weight:600;text-decoration:none;color:var(--ink)}
+.mi a.go:hover span{transform:translateX(3px)}
+.mi a.go span{display:inline-block;transition:transform var(--t-fast) var(--ease)}
+
+/* ---------- panel & tables ---------- */
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;box-shadow:var(--shadow)}
+.panel-h{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule-2)}
+.panel-b{padding:18px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th{font:600 .72rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule)}
+td{padding:10px 12px;border-bottom:1px solid var(--rule-2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.scroll-x{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--ink-2);align-items:center}
+.legend .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.toggle{border:1px solid var(--rule);background:var(--sheet);border-radius:999px;padding:5px 11px;font-size:.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  transition:border-color var(--t-fast) var(--ease),background-color var(--t-fast) var(--ease),opacity var(--t-fast)}
+.toggle:hover{border-color:var(--ink-3)}
+.toggle[aria-pressed="false"]{opacity:.55}
+.toggle[aria-pressed="true"]{border-color:var(--ink)}
+.linkbtn{white-space:nowrap;border:0;background:none;padding:0;font-size:.82rem;color:var(--ink-2);text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+.note{font-size:.84rem;color:var(--ink-3);margin:12px 0 0}
+.warnline{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;background:var(--accent-soft);color:var(--ink-2);font-size:.86rem;margin-top:14px}
+.warnline b{color:var(--accent)}
+
+/* ---------- corpus ---------- */
+.units{display:grid;grid-template-columns:190px repeat(5,minmax(0,1fr));gap:0;font-size:.84rem}
+.units .hd{padding:0 10px 10px;color:var(--ink-3);font:600 .7rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--rule)}
+.units .fam{padding:12px 10px 12px 0;border-bottom:1px solid var(--rule-2);display:flex;flex-direction:column;gap:2px}
+.units .fam b{font-weight:600}
+.units .fam span{color:var(--ink-3);font-size:.78rem}
+.units .cell{padding:12px 10px;border-bottom:1px solid var(--rule-2);border-left:1px solid var(--rule-2);display:flex;flex-wrap:wrap;gap:2px;align-content:flex-start;min-height:44px}
+.u{width:9px;height:9px;border-radius:2px;background:var(--pd);transition:opacity var(--t-fast) var(--ease),transform var(--t-fast) var(--ease)}
+.u.cc{background:var(--cc)}
+.u.lo{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-3)}
+.u:hover{transform:scale(1.6)}
+.units.dim-pd .u.pd,.units.dim-cc .u.cc,.units.dim-lo .u.lo{opacity:.12}
+.units .missing{color:var(--ink-3);font-style:italic}
+.units .missing.cell{background:repeating-linear-gradient(135deg,transparent 0 6px,var(--rule-2) 6px 7px)}
+.units .cell .c{margin-left:auto;align-self:flex-end;font:.72rem var(--mono);color:var(--ink-3);width:100%;text-align:right;margin-top:4px}
+.tip{position:fixed;z-index:60;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.8rem;line-height:1.45;padding:8px 10px;border-radius:7px;max-width:290px;
+  opacity:0;transform:translateY(4px);transition:opacity var(--t-fast) var(--ease),transform var(--t-fast) var(--ease);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.tip.on{opacity:1;transform:none}
+.tip b{font-weight:600}
+.tip .m{font-family:var(--mono);font-size:.74rem;opacity:.75}
+
+/* ---------- dumbbells ---------- */
+.db{display:grid;grid-template-columns:minmax(150px,230px) minmax(0,1fr) 190px;gap:0 18px;align-items:center}
+.db .grp{grid-column:1/-1;padding:18px 0 8px;font:600 .72rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.db .lab{padding:12px 0;font-size:.9rem;border-bottom:1px solid var(--rule-2)}
+.db .lab small{display:block;color:var(--ink-3);font-size:.76rem}
+.db .trk{position:relative;height:100%;min-height:46px;border-bottom:1px solid var(--rule-2)}
+.db .val{padding:12px 0;font:.8rem/1.45 var(--mono);color:var(--ink-2);border-bottom:1px solid var(--rule-2);text-align:right}
+.db .val b{color:var(--ink);font-weight:600}
+.trk .grid{position:absolute;top:0;bottom:0;width:1px;background:var(--rule-2)}
+.trk .ci{position:absolute;height:2px;top:50%;margin-top:-1px;border-radius:2px;opacity:.55}
+.trk .ci.b{background:var(--v100);margin-top:-6px}
+.trk .ci.c{background:var(--v105);margin-top:4px}
+.trk .conn{position:absolute;top:50%;height:2px;margin-top:-1px;background:var(--ink-3);opacity:.35;transition:width var(--t-slow) var(--ease) .1s}
+.trk .dot{position:absolute;top:50%;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;transition:left var(--t-slow) var(--ease) .1s}
+.trk .dot.b{background:var(--sheet);box-shadow:inset 0 0 0 2px var(--v100),0 0 0 2px var(--sheet)}
+.trk .dot.c{background:var(--v105);box-shadow:0 0 0 2px var(--sheet)}
+.axis{display:grid;grid-template-columns:minmax(150px,230px) minmax(0,1fr) 190px;gap:0 18px}
+.axis .ax{position:relative;height:22px;font:.7rem var(--mono);color:var(--ink-3)}
+.axis .ax span{position:absolute;top:4px;transform:translateX(-50%)}
+.sw-b{display:inline-block;width:11px;height:11px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--v100);margin-right:6px;vertical-align:-1px}
+.sw-c{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--v105);margin-right:6px;vertical-align:-1px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;border-top:1px solid var(--rule);margin-top:18px}
+.facts div{padding:14px 16px 14px 0;border-bottom:1px solid var(--rule-2)}
+.facts dt{font-size:.8rem;color:var(--ink-3)}
+.facts dd{margin:4px 0 0;font:600 1.3rem/1.2 var(--serif);font-variant-numeric:lining-nums tabular-nums}
+.facts dd small{font:400 .78rem var(--sans);color:var(--ink-3);display:block;margin-top:3px}
+
+/* ---------- live matrix ---------- */
+.mx{width:100%;border-collapse:separate;border-spacing:0}
+.mx th,.mx td{border-bottom:1px solid var(--rule-2)}
+.mx td.task{min-width:220px}
+.mx td.task b{font-family:var(--mono);font-weight:500;color:var(--accent);margin-right:8px}
+.mx td.task small{display:block;color:var(--ink-3);font-size:.78rem;margin-top:3px}
+.mx td.cellm{border-left:1px solid var(--rule-2);min-width:150px}
+.pips{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:3px 0}
+.pips .vl{font:.68rem var(--mono);color:var(--ink-3);width:40px}
+.pip{width:22px;height:22px;border-radius:50%;border:0;padding:0;cursor:pointer;display:inline-grid;place-items:center;font:600 .66rem var(--mono);
+  transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease)}
+.pip:hover{transform:scale(1.15)}
+.pip.chg{background:var(--ink);color:var(--paper)}
+.pip.same{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-3);color:var(--ink-3)}
+.pip.fail{background:transparent;color:var(--bad);box-shadow:inset 0 0 0 1.5px var(--bad)}
+.pip.bad{box-shadow:0 0 0 1.5px var(--sheet),0 0 0 3px var(--bad)}
+.pip.sel{box-shadow:0 0 0 1.5px var(--sheet),0 0 0 3.5px var(--focus)}
+.pip.missing{background:repeating-linear-gradient(135deg,transparent 0 3px,var(--rule) 3px 4px);cursor:default}
+.mx .flags{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.flag{font:600 .66rem/1 var(--sans);letter-spacing:.03em;padding:3px 6px;border-radius:4px;background:var(--sheet-2);color:var(--ink-2);white-space:nowrap}
+.flag.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.flag.ok{color:var(--good);background:color-mix(in srgb,var(--good) 10%,transparent)}
+.cmp td,.cmp th{white-space:nowrap}
+.cmp td.arm{font-weight:600}
+.cmp tr.v0105 td{background:color-mix(in srgb,var(--v105) 6%,transparent)}
+.cmp tbody tr.first td{border-top:1px solid var(--rule)}
+.mx tfoot td{font-size:.8rem;color:var(--ink-2);background:var(--sheet-2);vertical-align:top}
+.mx tfoot td b{color:var(--ink)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.kv span:nth-child(odd){color:var(--ink-3)}
+
+/* ---------- review desk ---------- */
+.desk{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0}
+.tools{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;padding:14px 18px;border-bottom:1px solid var(--rule-2)}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:.74rem;color:var(--ink-3)}
+.fld select{appearance:none;border:1px solid var(--rule);border-radius:7px;background:var(--sheet) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2377736a' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;
+  padding:7px 28px 7px 10px;font-size:.86rem;color:var(--ink);min-width:150px;max-width:100%}
+.statline{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--rule-2);font-size:.84rem;color:var(--ink-2)}
+.nav{display:inline-flex;align-items:center;gap:6px}
+.nav button{border:1px solid var(--rule);background:var(--sheet);border-radius:6px;width:30px;height:28px;cursor:pointer}
+.nav button:hover{border-color:var(--ink-3)}
+.page{position:relative;max-height:620px;overflow:auto;scroll-behavior:smooth}
+.rows{display:grid;grid-template-columns:1fr 1fr}
+.rows .hdr{position:sticky;top:0;z-index:2;background:var(--sheet);padding:10px 22px;border-bottom:1px solid var(--rule);font:600 .72rem/1.3 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.rows .hdr+.hdr{border-left:1px solid var(--rule)}
+.rows .p{padding:12px 22px;font:1.02rem/1.75 var(--serif-text);white-space:pre-wrap;overflow-wrap:anywhere;border-bottom:1px dashed var(--rule-2)}
+.rows .p.r{border-left:1px solid var(--rule)}
+.rows .p.eq{color:var(--ink-2)}
+.rows.inline{grid-template-columns:1fr}
+.rows.inline .p.r{border-left:0}
+.fold{grid-column:1/-1;border:0;border-bottom:1px dashed var(--rule-2);background:repeating-linear-gradient(135deg,transparent 0 6px,var(--rule-2) 6px 7px);padding:8px 22px;font-size:.8rem;color:var(--ink-3);cursor:pointer;text-align:left}
+.fold:hover{color:var(--ink)}
+del.d,ins.i{text-decoration:none;border-radius:3px;padding:0 .08em;cursor:pointer;transition:outline-color var(--t-fast),background-color var(--t-fast)}
+del.d{background:var(--del-bg);color:var(--del);text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:color-mix(in srgb,var(--del) 70%,transparent)}
+ins.i{background:var(--ins-bg);color:var(--ins);box-shadow:inset 0 -1.5px 0 color-mix(in srgb,var(--ins) 70%,transparent)}
+.mk{font:600 .62rem/1 var(--mono);vertical-align:super;margin-right:1px;color:var(--ink-3);user-select:none}
+.grp-on del.d,.grp-on ins.i{outline:2px solid var(--focus);outline-offset:1px}
+@keyframes flash{0%{outline-color:var(--focus)}100%{outline-color:transparent}}
+.minimap{position:absolute;right:2px;top:44px;bottom:6px;width:8px;border-radius:4px;background:var(--rule-2);z-index:3}
+.minimap button{position:absolute;left:0;width:8px;height:4px;border:0;padding:0;border-radius:2px;cursor:pointer}
+.minimap .t-ins{background:var(--ins)}
+.minimap .t-del{background:var(--del)}
+.minimap .t-rep{background:var(--warn)}
+.side{border-left:1px solid var(--rule-2);padding:16px 18px;font-size:.86rem;display:flex;flex-direction:column;gap:16px;min-width:0}
+.side h4{margin:0 0 8px;font:600 .72rem/1.2 var(--sans);font-stretch:87.5%;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1px;background:var(--rule)}
+.tl li{position:relative;padding:0 0 12px 24px}
+.tl li::before{content:"";position:absolute;left:1px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--sheet);box-shadow:inset 0 0 0 2px var(--ink-3)}
+.tl li.ok::before{box-shadow:inset 0 0 0 2px var(--good);background:var(--good)}
+.tl li.no::before{box-shadow:inset 0 0 0 2px var(--bad)}
+.tl li b{display:block;font-weight:600}
+.tl li span{color:var(--ink-3);font-size:.8rem}
+.steps{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.steps code{font-size:.74rem}
+.score{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+.score .bar{grid-column:1/-1;height:4px;border-radius:2px;background:var(--rule-2);overflow:hidden;margin-bottom:6px}
+.score .bar i{display:block;height:100%;background:var(--ink-2);border-radius:2px;transition:width var(--t) var(--ease)}
+.evid{border:1px solid var(--rule);border-radius:9px;padding:10px 12px;background:var(--sheet-2)}
+.evid p{margin:4px 0 0}
+.empty{padding:28px 22px;color:var(--ink-3);font-style:italic}
+
+/* ---------- documents ---------- */
+.dossiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.dossier{padding:18px;display:flex;flex-direction:column;gap:12px}
+.dossier h3{margin:0;font:600 1.15rem/1.25 var(--serif)}
+.dossier .req{font:italic .94rem/1.5 var(--serif-text);color:var(--ink-2);margin:0}
+.stack{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;background:var(--rule-2)}
+.stack i{display:block;height:100%}
+.checks{list-style:none;margin:0;padding:0;font-size:.86rem}
+.checks li{display:grid;grid-template-columns:20px 1fr;gap:6px;padding:6px 0;border-top:1px dotted var(--rule)}
+.checks li .y{color:var(--good)}
+.checks li .n{color:var(--bad)}
+.checks li .q{color:var(--warn)}
+
+/* ---------- gaps ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{border:1px solid var(--rule);border-radius:999px;background:var(--sheet);padding:7px 14px;min-width:240px;font-size:.88rem}
+.gaps{list-style:none;margin:0;padding:0}
+.gaps details{border-bottom:1px solid var(--rule-2)}
+.gaps summary{display:grid;grid-template-columns:132px minmax(0,1fr) 54px 118px;gap:14px;align-items:baseline;padding:14px 18px;cursor:pointer;list-style:none}
+.gaps summary::-webkit-details-marker{display:none}
+.gaps summary:hover{background:var(--sheet-2)}
+.gaps summary .id{font:500 .8rem var(--mono);color:var(--accent)}
+.gaps summary .t{font-size:.92rem}
+.gaps summary .sev{font:600 .78rem var(--mono);color:var(--ink-2)}
+.gaps .body{padding:0 18px 18px 164px;display:grid;gap:10px;font-size:.88rem;color:var(--ink-2)}
+.gaps .body dt{font-size:.74rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.gaps .body dd{margin:2px 0 0}
+details[open] summary .t{font-weight:600}
+.count{font-size:.82rem;color:var(--ink-3)}
+
+/* ---------- tracks ---------- */
+.tracks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.track{padding:20px;display:flex;flex-direction:column;gap:12px}
+.track .role{font-size:.8rem;color:var(--ink-3)}
+.track h3{margin:0;font:600 1.25rem/1.2 var(--serif)}
+.track ol{margin:0;padding-left:20px;font-size:.88rem;color:var(--ink-2)}
+.track ol li{padding:3px 0}
+.track .what{font-size:.88rem;margin:0}
+
+/* ---------- gates ---------- */
+.gatebar{display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px;margin:6px 0 10px}
+.gatebar i{display:block;height:100%;background:currentColor;transition:flex-grow var(--t-slow) var(--ease)}
+.gates td:first-child{font:500 .82rem var(--mono);color:var(--accent);white-space:nowrap}
+.gates td .floor{color:var(--ink-3);font-size:.8rem;margin-top:4px}
+
+/* ---------- method ---------- */
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px}
+.method{margin:0;padding:0;list-style:none;counter-reset:m}
+.method li{counter-increment:m;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:10px 0;border-top:1px solid var(--rule-2);font-size:.9rem;color:var(--ink-2)}
+.method li::before{content:counter(m,decimal-leading-zero);font:500 .76rem/1.9 var(--mono);color:var(--accent)}
+pre.cmd{margin:0;padding:14px 16px;background:var(--sheet-2);border-radius:9px;font:.78rem/1.6 var(--mono);overflow:auto;white-space:pre}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:8px;padding:8px 13px;font-size:.84rem;font-weight:600;cursor:pointer;
+  transition:transform var(--t-fast) var(--ease),opacity var(--t-fast)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+footer{max-width:1320px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);font-size:.8rem;border-top:1px solid var(--rule)}
+
+/* ---------- toast & dialog ---------- */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;font-size:.86rem;
+  opacity:0;pointer-events:none;transition:opacity var(--t-fast) var(--ease),transform var(--t) var(--ease);z-index:70}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+dialog{border:1px solid var(--rule);border-radius:14px;background:var(--sheet);color:var(--ink);padding:0;max-width:480px;width:calc(100% - 32px);box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(18,17,16,.45)}
+dialog .dh{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--rule-2)}
+dialog .dh h2{font-size:1.2rem;margin:0}
+dialog table td:first-child{width:90px}
+dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--paper)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .frame{grid-template-columns:1fr;gap:0}
+  .rail{display:none}
+  .mobilebar{display:flex;position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);padding:10px 16px;justify-content:space-between;align-items:center;gap:10px}
+  .mobilebar select{appearance:none;border:1px solid var(--rule);border-radius:8px;background:var(--sheet);padding:7px 10px;font-size:.88rem;max-width:70vw}
+  .mobilebar .kicker{white-space:nowrap}
+  .minute{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mi:nth-child(2){border-right:0;margin-right:0}
+  .mi:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  .dossiers{grid-template-columns:1fr}
+  .desk{grid-template-columns:1fr}
+  .side{border-left:0;border-top:1px solid var(--rule-2)}
+}
+@media (max-width:760px){
+  .mast-in,.frame,footer{padding-left:16px;padding-right:16px}
+  .mast-grid{grid-template-columns:1fr;gap:26px}
+  .minute{grid-template-columns:1fr}
+  .mi{border-right:0;margin-right:0;padding-right:0;border-bottom:1px solid var(--rule)}
+  .sh{grid-template-columns:1fr}
+  .sh .no{line-height:1.6}
+  .sh p{grid-column:1}
+  section.s{padding-top:52px}
+  .units{grid-template-columns:110px repeat(5,minmax(0,1fr))}
+  .units .cell{padding:8px 4px}
+  .u{width:6px;height:6px;border-radius:1.5px}
+  .db,.axis{grid-template-columns:minmax(0,1fr) 116px}
+  .db .lab{grid-column:1/-1;border-bottom:0;padding-bottom:0}
+  .axis .sp{display:none}
+  .db .trk{min-height:38px}
+  .tracks{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .gaps summary{grid-template-columns:1fr auto;gap:6px 10px}
+  .gaps summary .t{grid-column:1/-1;order:3}
+  .gaps summary .sev{display:none}
+  .gaps .body{padding:0 18px 18px}
+  .rows{grid-template-columns:1fr}
+  .rows .hdr+.hdr{display:none}
+  .rows .p.r{border-left:0;border-top:0;background:color-mix(in srgb,var(--sheet-2) 50%,transparent)}
+  .rows .p.l::before,.rows .p.r::before{display:block;font:600 .64rem/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+  .rows:not(.inline) .p.l::before{content:"Esquerda"}
+  .rows:not(.inline) .p.r::before{content:"Direita"}
+  .search{min-width:0;width:100%}
+  .brand span{display:none}
+  .seg button{padding:5px 9px}
+  .fld select{min-width:0;width:100%}
+  .fld{flex:1 1 140px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .reveal{opacity:1;transform:none}
+  .page{scroll-behavior:auto}
+}
+@media print{.rail,.mobilebar,.tools,.btnrow,.seg{display:none}.frame{display:block}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="mast">
+  <div class="mast-in">
+    <div class="mast-top">
+      <a class="brand" href="#conteudo" aria-label="VozNativa Observatory, início">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 10l7 13 7-13" fill="none" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="23" r="2.4" fill="var(--accent)"/></svg>
+        <b>VozNativa Observatory</b><span id="m-edition"></span>
+      </a>
+      <div class="seg" role="group" aria-label="Tema">
+        <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-set="light" aria-pressed="false">Claro</button>
+        <button type="button" data-theme-set="dark" aria-pressed="false">Escuro</button>
+      </div>
+    </div>
+    <div class="mast-grid">
+      <div>
+        <div class="kicker">Caderno de prova · português brasileiro real</div>
+        <h1>A prova de fogo da v0.10.5, <em>com cada número</em> ligado à sua evidência</h1>
+        <p class="dek">Textos que ninguém escreveu para o motor: Machado de Assis, leis federais, resumos acadêmicos com licença aberta. Perturbações com resposta conhecida, sessões reais da Skill num agente, o mesmo modelo em quatro braços e um juiz cego. O que melhorou, o que ficou igual e o que segue aberto.</p>
+        <div class="galley reveal" id="galley" hidden></div>
+      </div>
+      <dl class="ficha" id="ficha"></dl>
+    </div>
+  </div>
+</header>
+
+<div class="mobilebar" aria-label="Navegação da página">
+  <span class="kicker" id="mb-no">01</span>
+  <label class="sr" for="mb-sel">Ir para a seção</label>
+  <select id="mb-sel"></select>
+  <button type="button" class="linkbtn" data-help>Atalhos</button>
+</div>
+
+<div class="frame">
+  <nav class="rail" aria-label="Seções">
+    <div class="kicker" style="margin-bottom:14px">Sumário</div>
+    <ol id="toc"><span class="ind" aria-hidden="true"></span></ol>
+    <div class="foot">Tecle <kbd>?</kbd> para ver os atalhos.<br>Dados: <span class="mono" id="foot-sha"></span></div>
+  </nav>
+
+  <main id="conteudo" tabindex="-1">
+    <section class="s" id="minuto" data-title="Em um minuto">
+      <div class="sh"><span class="no">01</span><div><h2>Em um minuto</h2></div>
+        <p>O que foi testado, o que melhorou de fato, o que ficou igual ou piorou e o que continua aberto. Cada bloco leva à evidência.</p></div>
+      <div class="minute reveal" id="minute"></div>
+    </section>
+
+    <section class="s" id="corpus" data-title="Corpus">
+      <div class="sh"><span class="no">02</span><div><h2>O que entrou na prova</h2></div>
+        <p>Cada quadrado é um texto real. Linhas são famílias de gênero; colunas, faixas de tamanho. As famílias tracejadas não tiveram fonte lícita nesta rodada, e nenhum texto inventado ocupou o lugar delas.</p></div>
+      <div class="panel reveal">
+        <div class="panel-h">
+          <div class="legend" role="group" aria-label="Destacar por direito de uso">
+            <button type="button" class="toggle" data-right="pd" aria-pressed="true"><span class="sw" style="background:var(--pd)"></span>Domínio público</button>
+            <button type="button" class="toggle" data-right="cc" aria-pressed="true"><span class="sw" style="background:var(--cc)"></span>CC BY 4.0</button>
+            <button type="button" class="toggle" data-right="lo" aria-pressed="true"><span class="sw" style="box-shadow:inset 0 0 0 1.5px var(--ink-3)"></span>Só análise local</button>
+          </div>
+          <button type="button" class="linkbtn" id="corpus-table-btn" aria-expanded="false" aria-controls="corpus-table">Ver como tabela</button>
+        </div>
+        <div class="panel-b scroll-x"><div class="units" id="units" aria-hidden="true"></div>
+          <div id="corpus-table" hidden></div>
+          <p class="note" id="corpus-note"></p></div>
+      </div>
+    </section>
+
+    <section class="s" id="offline" data-title="Campanha offline">
+      <div class="sh"><span class="no">03</span><div><h2>Perturbações com resposta conhecida</h2></div>
+        <p>Cada texto real recebeu cópias alteradas de propósito: umas mudam o sentido (o <code>compare</code> deve sinalizar), outras são benignas (não deve). O ponto vazado é a v0.10.0; o cheio, a v0.10.5, no mesmo corpus e com o mesmo oráculo. As barras finas são o intervalo de 95%.</p></div>
+      <div class="panel reveal">
+        <div class="panel-h"><div class="legend"><span><span class="sw-b"></span>v0.10.0</span><span><span class="sw-c"></span>v0.10.5</span><span>proporção de acertos</span></div>
+          <button type="button" class="linkbtn" id="db-table-btn" aria-expanded="false" aria-controls="db-table">Ver como tabela</button></div>
+        <div class="panel-b"><div id="db"></div><div id="db-table" hidden></div></div>
+      </div>
+      <h3>Por família textual</h3>
+      <div class="panel reveal scroll-x"><table id="fam"></table></div>
+      <h3>Falso alarme em texto publicado</h3>
+      <dl class="facts reveal" id="realfacts"></dl>
+    </section>
+
+    <section class="s" id="live" data-title="Braços live">
+      <div class="sh"><span class="no">04</span><div><h2>Quatro braços, a mesma tarefa</h2></div>
+        <p>Doze tarefas congeladas antes de qualquer mudança, três repetições cada, o mesmo modelo escritor (Haiku) em todos os braços. Cada círculo é uma execução: cheio quando o texto mudou, vazado quando voltou igual. Clique em um círculo para abrir a execução na mesa de revisão.</p></div>
+      <div class="panel reveal">
+        <div class="panel-h">
+          <div class="seg" role="group" aria-label="Versão" id="live-ver">
+            <button type="button" data-v="v0100" aria-pressed="false">v0.10.0</button>
+            <button type="button" data-v="v0105" aria-pressed="false">v0.10.5</button>
+            <button type="button" data-v="both" aria-pressed="true">Lado a lado</button>
+          </div>
+          <div class="legend"><span><span class="pip chg" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px"></span>mudou</span><span><span class="pip same" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px"></span>igual</span><span><span class="pip" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px;box-shadow:0 0 0 2px var(--sheet),0 0 0 3.5px var(--bad)"></span>decisão errada</span><span><span class="pip missing" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px"></span>sem execução</span></div>
+        </div>
+        <div class="scroll-x"><table class="mx" id="mx"></table></div>
+      </div>
+      <h3>Comparador de braços</h3>
+      <div class="panel reveal scroll-x"><table class="cmp" id="cmp"></table></div>
+      <div class="warnline reveal" id="live-warn"></div>
+    </section>
+
+    <section class="s" id="mesa" data-title="Mesa de revisão">
+      <div class="sh"><span class="no">05</span><div><h2>Mesa de revisão</h2></div>
+        <p>Original e saídas reais lado a lado, palavra por palavra ou frase por frase. O diff é evidência visual, não veredito: o que conta como mudança de sentido vem do juiz cego e do oráculo independente, mostrados ao lado. Só aparecem textos cuja licença permite publicar trechos.</p></div>
+      <div class="panel reveal">
+        <div class="tools">
+          <label class="fld">Caso<select id="d-task"></select></label>
+          <div class="fld"><span id="d-rep-l">Repetição</span><div class="seg" role="group" aria-labelledby="d-rep-l" id="d-rep"></div></div>
+          <label class="fld">Esquerda<select id="d-left"></select></label>
+          <label class="fld">Direita<select id="d-right"></select></label>
+          <div class="fld"><span id="d-mode-l">Leitura</span><div class="seg" role="group" aria-labelledby="d-mode-l" id="d-mode">
+            <button type="button" data-m="split" aria-pressed="true">Lado a lado</button><button type="button" data-m="inline" aria-pressed="false">Em linha</button></div></div>
+          <div class="fld"><span id="d-unit-l">Unidade</span><div class="seg" role="group" aria-labelledby="d-unit-l" id="d-unit">
+            <button type="button" data-u="word" aria-pressed="true">Palavra</button><button type="button" data-u="sentence" aria-pressed="false">Frase</button></div></div>
+          <button type="button" class="toggle" id="d-fold" aria-pressed="false">Só trechos alterados</button>
+        </div>
+        <div class="statline"><span id="d-stats" aria-live="polite"></span>
+          <span class="nav"><button type="button" id="d-prev" aria-label="Mudança anterior (k)">‹</button><span id="d-pos" class="num">–</span><button type="button" id="d-next" aria-label="Próxima mudança (j)">›</button>
+          <button type="button" class="linkbtn" id="d-copy" style="margin-left:10px">Copiar link</button></span></div>
+        <div class="desk">
+          <div class="page" id="d-page"><div class="minimap" id="d-map" aria-hidden="true"></div><div class="rows" id="d-rows"></div></div>
+          <aside class="side" id="d-side" aria-label="Ficha da execução"></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="s" id="docs" data-title="Documentos longos">
+      <div class="sh"><span class="no">06</span><div><h2>Documentos inteiros</h2></div>
+        <p>Três fluxos completos sobre texto real, conferidos por um oráculo que não usa o engine: sequência de artigos, números perdidos ou acrescentados, proporção de palavras. Execução sem resposta do provider é mostrada como tal, não como acerto.</p></div>
+      <div class="dossiers reveal" id="dossiers"></div>
+    </section>
+
+    <section class="s" id="gaps" data-title="Gaps">
+      <div class="sh"><span class="no">07</span><div><h2>Gaps encontrados e reparos</h2></div>
+        <p>Cada gap diz qual instrumento o achou e como reproduzir. <b>FIXED</b> exige teste vermelho na v0.10.0 e verde depois, com controle; o resto aparece com o estado que tem.</p></div>
+      <div class="panel reveal">
+        <div class="panel-h">
+          <div class="filters" id="gap-filter" role="group" aria-label="Filtrar por estado"></div>
+          <div class="filters"><label class="sr" for="gap-q">Buscar nos gaps</label><input id="gap-q" class="search" type="search" placeholder="Buscar: negação, Skill, long-form…  ( / )" autocomplete="off"></div>
+        </div>
+        <div class="statline"><span class="count" id="gap-count" aria-live="polite"></span><span class="filters" id="gap-sev" role="group" aria-label="Filtrar por severidade"></span></div>
+        <ul class="gaps" id="gap-list"></ul>
+      </div>
+    </section>
+
+    <section class="s" id="trilhas" data-title="Quatro trilhas">
+      <div class="sh"><span class="no">08</span><div><h2>Quatro instrumentos, quatro papéis</h2></div>
+        <p>Derivanta Framework orienta um agente; Derivanta Engine inspeciona código sem executar; Assertiva executa e audita testes; VozNativa é o produto sob prova. Cada trilha tem seu estado. Opinião espontânea de um agente não conta como achado do Framework.</p></div>
+      <div class="tracks reveal" id="tracks"></div>
+    </section>
+
+    <section class="s" id="criterios" data-title="Critérios R1–R18">
+      <div class="sh"><span class="no">09</span><div><h2>Critérios de release</h2></div>
+        <p>Congelados no CP0, antes de qualquer mudança de produto. Release estável só com R1–R3, R5, R7, R9 e R12–R18 em PASS. Critério ainda não avaliado aparece como pendente, nunca como aprovado.</p></div>
+      <div class="panel reveal">
+        <div class="panel-h"><div style="flex:1;min-width:220px"><div class="gatebar" id="gatebar" aria-hidden="true"></div><div class="legend" id="gatelegend"></div></div></div>
+        <div class="scroll-x"><table class="gates" id="gates"></table></div>
+      </div>
+    </section>
+
+    <section class="s" id="metodo" data-title="Método e reprodução">
+      <div class="sh"><span class="no">10</span><div><h2>Método, limites e reprodução</h2></div>
+        <p>Como os números foram feitos, o que não rodou e como gerar esta página de novo a partir do repositório.</p></div>
+      <div class="two reveal">
+        <div><ol class="method" id="method"></ol></div>
+        <div>
+          <h3 style="margin-top:0">Proveniência</h3>
+          <dl class="ficha" id="prov"></dl>
+          <h3>Reproduzir</h3>
+          <pre class="cmd" id="cmd">python scripts/v0105_observatory.py data --work &lt;pasta das execuções&gt; --items &lt;itens do corpus, fora do Git&gt;
+python scripts/v0105_observatory.py render
+python scripts/v0105_observatory_qa.py --shots &lt;pasta&gt; --out qa.json</pre>
+          <div class="btnrow">
+            <button type="button" class="btn ghost" id="copy-cmd">Copiar comandos</button>
+            <button type="button" class="btn" data-export="json">Baixar dados (JSON)</button>
+            <button type="button" class="btn ghost" data-export="runs">Execuções live (CSV)</button>
+            <button type="button" class="btn ghost" data-export="gaps">Gaps (CSV)</button>
+          </div>
+          <p class="note">As exportações levam só o que esta página já mostra: metadados, contagens e textos de fonte publicável. Nenhum texto de uso só local, caminho de disco ou resposta bruta de provider.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<footer><span id="foot"></span></footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="help" aria-labelledby="help-h">
+  <div class="dh"><h2 id="help-h">Atalhos de teclado</h2><button type="button" class="linkbtn" data-close>Fechar</button></div>
+  <div style="padding:8px 18px 18px"><table>
+    <tr><td><kbd>j</kbd> <kbd>k</kbd></td><td>Próxima / anterior mudança na mesa de revisão</td></tr>
+    <tr><td><kbd>s</kbd></td><td>Alternar lado a lado / em linha</td></tr>
+    <tr><td><kbd>u</kbd></td><td>Alternar palavra / frase</td></tr>
+    <tr><td><kbd>/</kbd></td><td>Buscar nos gaps</td></tr>
+    <tr><td><kbd>t</kbd></td><td>Trocar o tema</td></tr>
+    <tr><td><kbd>?</kbd></td><td>Abrir esta lista</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Fechar</td></tr>
+  </table><p class="note">Os atalhos não agem enquanto você digita num campo.</p></div>
+</dialog>
+
+<script type="application/json" id="payload">__PAYLOAD__</script>
+<script>
+(function(){
+"use strict";
+var P = JSON.parse(document.getElementById("payload").textContent);
+var D = P.data, L = P.labels;
+var $ = function(s, r){ return (r||document).querySelector(s); };
+var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function fmt(n, d){ if (n == null || isNaN(n)) return "—"; return Number(n).toLocaleString("pt-BR", {minimumFractionDigits:d||0, maximumFractionDigits:d||0}); }
+function pct(k, n, d){ return n ? fmt(100*k/n, d==null?1:d) + "%" : "—"; }
+function usd(n){ return n == null ? "—" : "US$ " + Number(n).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:n<0.1?3:2}); }
+var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+var STATUS_GLYPH = {PASS:"✓",FIXED:"✓",FAIL:"✕",OPEN:"●",PARTIAL:"◐",PENDING:"○",NOT_RUN:"–",BLOCKED:"■",NO_MEASURABLE_GAIN:"=",INCONCLUSIVE:"?",REFUTED:"⊘",ACCEPTED_RISK:"!"};
+var STATUS_PT = {PASS:"Pass",FIXED:"Fixed",FAIL:"Fail",OPEN:"Open",PARTIAL:"Partial",PENDING:"Pendente",NOT_RUN:"Not run",BLOCKED:"Blocked",NO_MEASURABLE_GAIN:"Sem ganho medido",INCONCLUSIVE:"Inconclusivo",REFUTED:"Refutado",ACCEPTED_RISK:"Risco aceito"};
+function chip(st){ st = st || "PENDING"; return '<span class="chip st-' + esc(st) + '"><i aria-hidden="true">' + (STATUS_GLYPH[st]||"○") + '</i>' + esc(STATUS_PT[st]||st) + '</span>'; }
+var toastT;
+function toast(msg){ var t = $("#toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove("on"); }, 2200); }
+function copy(text, msg){
+  var done = function(){ toast(msg || "Copiado"); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function(){ fallback(); });
+  else fallback();
+  function fallback(){ var ta = document.createElement("textarea"); ta.value = text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch(e) { toast("Não foi possível copiar"); } document.body.removeChild(ta); }
+}
+var tip = $("#tip");
+function showTip(html, x, y){ tip.innerHTML = html; tip.classList.add("on"); var w = tip.offsetWidth, h = tip.offsetHeight;
+  var left = Math.min(window.innerWidth - w - 10, Math.max(10, x + 14)), top = y + 16; if (top + h > window.innerHeight - 10) top = y - h - 12; tip.style.left = left + "px"; tip.style.top = top + "px"; }
+function hideTip(){ tip.classList.remove("on"); }
+
+/* ---------------- theme ---------------- */
+var root = document.documentElement;
+function setTheme(t){ if (t === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", t);
+  $$("[data-theme-set]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-set") === t)); });
+  try { localStorage.setItem("vn-obs-theme", t); } catch(e) {} }
+try { var saved = localStorage.getItem("vn-obs-theme"); if (saved) setTheme(saved); } catch(e) {}
+$$("[data-theme-set]").forEach(function(b){ b.addEventListener("click", function(){ setTheme(b.getAttribute("data-theme-set")); }); });
+
+/* ---------------- masthead ---------------- */
+var runs = (D.live && D.live.runs) || [];
+var liveCost = runs.reduce(function(a, r){ return a + (r.cost_usd || 0); }, 0);
+var docCost = (D.documents || []).reduce(function(a, f){ return a + (f.cost_usd || (f.docx_rewrite && f.docx_rewrite.cost_usd) || 0); }, 0);
+var judgeCost = D.judge ? D.judge.cost_usd : 0;
+var head = P.provenance.repository_head;
+$("#m-edition").textContent = "v" + D.release + " · prova de fogo PT-BR";
+var ficha = [
+  ["Revisão", head ? '<span class="mono">' + esc(head.slice(0, 10)) + '</span>' : "—"],
+  ["Corpus", fmt(D.corpus.items) + " textos reais · " + fmt(D.corpus.genres) + " gêneros"],
+  ["Escritor", "Haiku em todos os braços"],
+  ["Juiz", D.judge ? esc(D.judge.model) + " · cego · <span class=\"mono\">" + esc(D.judge.relation) + "</span>" : chip("NOT_RUN") + " ainda não rodou"],
+  ["Execuções live", fmt(runs.length) + " (" + fmt(runs.filter(function(r){return r.label==="v0100";}).length) + " v0.10.0 · " + fmt(runs.filter(function(r){return r.label==="v0105";}).length) + " v0.10.5)"],
+  ["Custo medido", usd(liveCost + docCost + judgeCost) + " <span style=\"color:var(--ink-3)\">preço de API equivalente; teto US$ 10</span>"],
+  ["Revisão humana", chip("NOT_RUN") + " nenhum revisor humano nesta rodada"]
+];
+$("#ficha").innerHTML = ficha.map(function(f){ return "<div><dt>" + f[0] + "</dt><dd>" + f[1] + "</dd></div>"; }).join("");
+$("#foot-sha").textContent = P.provenance.data_sha256.slice(0, 12);
+$("#foot").innerHTML = "VozNativa " + esc(D.release) + " · gerado por <span class=\"mono\">" + esc(P.provenance.generator) + "</span> · dados <span class=\"mono\">sha256 " + esc(P.provenance.data_sha256.slice(0,16)) + "…</span> · página estática, sem rede, sem cookies, sem telemetria.";
+
+/* ---------------- tokenizer & diff ---------------- */
+var WORD_RE = /\n{2,}|\n|[\p{L}\p{N}]+(?:[-'’][\p{L}\p{N}]+)*|[^\s\p{L}\p{N}]/gu;
+function tokens(text, unit){
+  var out = [];
+  if (unit === "sentence"){
+    var re = /[^.!?…\n]+(?:[.!?…]+["'»”)]*)?|\n{2,}|\n/g, m;
+    while ((m = re.exec(text))){ var s = m[0]; if (/^\n+$/.test(s)) { out.push({t:s, k:s, ws:""}); continue; }
+      var lead = s.match(/^\s*/)[0]; var body = s.slice(lead.length); if (!body) continue;
+      if (lead && out.length) out[out.length-1].ws += lead;
+      out.push({t:body.replace(/\s+$/, ""), k:body.trim().replace(/\s+/g, " "), ws:body.match(/\s*$/)[0]}); }
+    return out;
+  }
+  var m2, last = 0; WORD_RE.lastIndex = 0;
+  while ((m2 = WORD_RE.exec(text))){
+    var gap = text.slice(last, m2.index); if (gap && out.length) out[out.length-1].ws += gap;
+    out.push({t:m2[0], k:m2[0], ws:""}); last = m2.index + m2[0].length; }
+  if (out.length) out[out.length-1].ws += text.slice(last);
+  return out;
+}
+function lcsDiff(a, b){
+  var n = a.length, m = b.length, ops = [];
+  var pre = 0; while (pre < n && pre < m && a[pre].k === b[pre].k) pre++;
+  var suf = 0; while (suf < n - pre && suf < m - pre && a[n-1-suf].k === b[m-1-suf].k) suf++;
+  var A = a.slice(pre, n - suf), B = b.slice(pre, m - suf), N = A.length, M = B.length, i, j;
+  for (i = 0; i < pre; i++) ops.push({o:"=", a:a[i], b:b[i]});
+  if (N * M > 6e6){ for (i = 0; i < N; i++) ops.push({o:"-", a:A[i]}); for (j = 0; j < M; j++) ops.push({o:"+", b:B[j]}); }
+  else {
+    var W = M + 1, dp = new Uint16Array((N + 1) * W);
+    for (i = N - 1; i >= 0; i--) for (j = M - 1; j >= 0; j--)
+      dp[i*W+j] = A[i].k === B[j].k ? dp[(i+1)*W+j+1] + 1 : Math.max(dp[(i+1)*W+j], dp[i*W+j+1]);
+    i = 0; j = 0;
+    while (i < N && j < M){
+      if (A[i].k === B[j].k){ ops.push({o:"=", a:A[i], b:B[j]}); i++; j++; }
+      else if (dp[(i+1)*W+j] >= dp[i*W+j+1]) ops.push({o:"-", a:A[i++]});
+      else ops.push({o:"+", b:B[j++]});
+    }
+    while (i < N) ops.push({o:"-", a:A[i++]}); while (j < M) ops.push({o:"+", b:B[j++]});
+  }
+  for (i = 0; i < suf; i++) ops.push({o:"=", a:a[n-suf+i], b:b[m-suf+i]});
+  return ops;
+}
+/* group consecutive changes; a single equal whitespace-only token between two changes stays inside the group */
+function groupOps(ops){
+  var g = -1, inG = false, groups = [];
+  ops.forEach(function(op, idx){
+    if (op.o === "="){ inG = false; return; }
+    if (!inG){ g++; groups.push({id:g, ins:0, del:0, at:idx}); inG = true; }
+    op.g = g; if (op.o === "+") groups[g].ins++; else groups[g].del++;
+  });
+  return groups;
+}
+function wordsIn(tok){ return /[\p{L}\p{N}]/u.test(tok.t) ? 1 : 0; }
+
+/* ---------------- section: one minute ---------------- */
+(function(){
+  var H = D.headline, el = $("#minute"), live = H.live || [];
+  var nLive = runs.length;
+  var gapsOpen = P.gaps.filter(function(g){ return g.status !== "FIXED"; });
+  var gatesNot = P.gates.filter(function(g){ return g.status !== "PASS"; });
+  var improvedLive = live.filter(function(x){ return x.cand_decided && (x.cand_unnecessary + x.cand_missed) < (x.base_unnecessary + x.base_missed); });
+  var worseLive = live.filter(function(x){ return x.cand_decided && (x.cand_unnecessary + x.cand_missed) > (x.base_unnecessary + x.base_missed); });
+  var tested = '<div class="mi"><div class="kicker"><b>01</b>Testado</div><div class="big num">' + fmt(D.corpus.items) + '</div>' +
+    '<p>textos reais em PT-BR, ' + fmt(D.corpus.genres) + ' rótulos de gênero e 5 faixas de tamanho.</p><ul>' +
+    '<li><b class="num">' + fmt(H.offline_cases) + '</b> perturbações com resposta conhecida</li>' +
+    '<li><b class="num">' + fmt(nLive) + '</b> execuções live em 4 braços</li>' +
+    '<li><b class="num">' + fmt((D.documents||[]).length) + '</b> documentos inteiros</li></ul>' +
+    '<a class="go" href="#corpus">Ver o corpus <span>→</span></a></div>';
+  var om = H.offline_missed, fa = H.offline_false_alarms;
+  var imp = '<div class="mi"><div class="kicker"><b>02</b>Melhorou</div><div class="big num">' + (om ? fmt(om[0]) + '<span class="arrow">→</span>' + fmt(om[1]) : "—") + '</div>' +
+    '<p>mudanças de sentido que passavam sem sinal no <code>compare</code> (v0.10.0 → v0.10.5).</p><ul>' +
+    (fa ? '<li>Falso alarme em mudança benigna: <b class="num">' + fmt(fa[0]) + ' → ' + fmt(fa[1]) + '</b></li>' : "") +
+    H.kinds_improved.slice(0, 3).map(function(k){ return '<li>' + esc(k.label) + ': <b class="num">' + fmt(k.base[0]) + ' → ' + fmt(k.cand[0]) + '</b> de ' + fmt(k.cand[1]) + '</li>'; }).join("") +
+    improvedLive.map(function(x){ return '<li>' + esc(x.label) + ', decisões erradas: <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b></li>'; }).join("") +
+    '</ul><a class="go" href="#offline">Ver a campanha <span>→</span></a></div>';
+  var same = H.kinds_worse.map(function(k){ return '<li>Piorou: ' + esc(k.label) + ' <b class="num">' + fmt(k.base[0]) + ' → ' + fmt(k.cand[0]) + '</b></li>'; })
+    .concat(worseLive.map(function(x){ return '<li>Piorou no live: ' + esc(x.label) + ' <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b> decisões erradas</li>'; }));
+  if (H.confirmed_on_real_text) same.push('<li>Erro confirmado em texto publicado: <b class="num">' + fmt(H.confirmed_on_real_text[0]) + ' → ' + fmt(H.confirmed_on_real_text[1]) + '</b> itens</li>');
+  if (H.edit_plans_on_real_text) same.push('<li>Planos de edição em texto publicado: <b class="num">' + fmt(H.edit_plans_on_real_text[0]) + ' → ' + fmt(H.edit_plans_on_real_text[1]) + '</b></li>');
+  if (H.perf_ratio_17600 != null) same.push('<li>CPU do <code>compare</code> em 17,6 mil palavras: <b class="num">' + fmt(H.perf_ratio_17600, 2) + '×</b> a v0.10.0</li>');
+  if (!D.judge) same.push('<li>Qualidade pelo juiz cego: ' + chip("NOT_RUN") + '</li>');
+  var worse = '<div class="mi"><div class="kicker"><b>03</b>Igual ou pior</div><div class="big num">' + fmt(H.kinds_worse.length + worseLive.length) + '</div>' +
+    '<p>' + (H.kinds_worse.length + worseLive.length ? "medidas que pioraram (listadas abaixo)." : "medidas que pioraram no mesmo corpus. O que ficou igual:") + '</p><ul>' + same.join("") + '</ul>' +
+    '<a class="go" href="#live">Ver os braços live <span>→</span></a></div>';
+  var open = '<div class="mi"><div class="kicker"><b>04</b>Em aberto</div><div class="big num">' + fmt(gapsOpen.length) + '</div>' +
+    '<p>gaps sem correção comprovada, e ' + fmt(gatesNot.length) + ' de ' + fmt(P.gates.length) + ' critérios de release ainda não aprovados.</p><ul>' +
+    gapsOpen.slice(0, 3).map(function(g){ return '<li><span class="mono">' + esc(g.id) + '</span> ' + chip(g.status) + '</li>'; }).join("") +
+    '<li>Sem revisor humano, sem juiz de outro fornecedor ' + chip("NOT_RUN") + '</li></ul>' +
+    '<a class="go" href="#gaps">Ver os gaps <span>→</span></a></div>';
+  el.innerHTML = tested + imp + worse + open;
+})();
+
+/* ---------------- section: corpus ---------------- */
+(function(){
+  var famOrder = Object.keys(D.corpus.families).sort(function(a, b){ return D.corpus.families[b] - D.corpus.families[a]; });
+  var bands = L.bands, bandName = {micro:"Micro", curto:"Curto", medio:"Médio", longo:"Longo", documento:"Documento"};
+  var bandRange = {micro:"1–20", curto:"21–150", medio:"151–800", longo:"801–4.000", documento:"4.001+"};
+  var cls = {public_domain:"pd", cc_by:"cc", local_only:"lo"};
+  var rightName = {public_domain:"domínio público", cc_by:"CC BY 4.0", local_only:"só análise local"};
+  var byCell = {};
+  D.corpus.list.forEach(function(it){ var k = it.family + "|" + it.band; (byCell[k] = byCell[k] || []).push(it); });
+  var h = '<div class="hd"></div>' + bands.map(function(b){ return '<div class="hd">' + bandName[b] + '<br><span style="text-transform:none;letter-spacing:0;font-weight:400">' + bandRange[b] + ' palavras</span></div>'; }).join("");
+  famOrder.forEach(function(f){
+    h += '<div class="fam"><b>' + esc(L.family[f] || f) + '</b><span class="num">' + fmt(D.corpus.families[f]) + ' textos</span></div>';
+    bands.forEach(function(b){
+      var its = (byCell[f + "|" + b] || []).slice().sort(function(x, y){ return x.rights < y.rights ? -1 : x.rights > y.rights ? 1 : x.words - y.words; });
+      h += '<div class="cell">' + its.map(function(it){ return '<span class="u ' + cls[it.rights] + '" data-i="' + esc(it.id) + '"></span>'; }).join("") +
+        (its.length ? '<span class="c">' + its.length + '</span>' : "") + '</div>';
+    });
+  });
+  D.corpus.missing_families.forEach(function(f){
+    h += '<div class="fam missing"><b>' + esc(f) + '</b><span>0 · sem fonte lícita</span></div>' + bands.map(function(){ return '<div class="cell missing"></div>'; }).join("");
+  });
+  var u = $("#units"); u.innerHTML = h;
+  var index = {}; D.corpus.list.forEach(function(it){ index[it.id] = it; });
+  u.addEventListener("mousemove", function(e){ var t = e.target.closest(".u"); if (!t) return hideTip(); var it = index[t.getAttribute("data-i")];
+    showTip('<b>' + esc(it.genre) + '</b><br>' + fmt(it.words) + ' palavras · ' + esc(rightName[it.rights]) + '<br><span class="m">' + esc(it.id) + '</span>', e.clientX, e.clientY); });
+  u.addEventListener("mouseleave", hideTip);
+  $$("[data-right]").forEach(function(b){ b.addEventListener("click", function(){ var on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on));
+    u.classList.toggle("dim-" + b.getAttribute("data-right"), !on); }); });
+  var r = D.corpus.rights;
+  $("#corpus-note").innerHTML = fmt(r.public_domain) + " em domínio público (Machado de Assis, leis federais), " + fmt(r.cc_by) + " resumos CC BY 4.0 e " + fmt(r.local_only) +
+    " de uso só local (UD e B2W: a licença da anotação não cobre o texto, então nada deles sai daqui, nem para um provider). Textos fora do Git; no repositório só ids e hashes.";
+  // table view
+  var t = '<table><thead><tr><th>Família</th>' + bands.map(function(b){ return '<th class="r">' + bandName[b] + '</th>'; }).join("") + '<th class="r">Total</th></tr></thead><tbody>';
+  famOrder.forEach(function(f){ t += '<tr><td>' + esc(L.family[f] || f) + '</td>' + bands.map(function(b){ return '<td class="r num">' + fmt((byCell[f+"|"+b]||[]).length) + '</td>'; }).join("") + '<td class="r num"><b>' + fmt(D.corpus.families[f]) + '</b></td></tr>'; });
+  D.corpus.missing_families.forEach(function(f){ t += '<tr><td><i>' + esc(f) + '</i></td>' + bands.map(function(){ return '<td class="r">—</td>'; }).join("") + '<td class="r">0</td></tr>'; });
+  $("#corpus-table").innerHTML = t + '</tbody></table>';
+  tableToggle("#corpus-table-btn", "#corpus-table", "#units");
+})();
+function tableToggle(btn, table, chart){
+  $(btn).addEventListener("click", function(){ var open = $(table).hidden; $(table).hidden = !open; if (chart) $(chart).hidden = open;
+    $(btn).setAttribute("aria-expanded", String(open)); $(btn).textContent = open ? "Ver como gráfico" : "Ver como tabela"; });
+}
+
+/* ---------------- section: offline ---------------- */
+(function(){
+  var b = D.offline["v0.10.0"], c = D.offline["v0.10.5"];
+  if (!b || !c){ $("#db").innerHTML = '<p class="empty">Campanha offline sem resultado registrado.</p>'; return; }
+  var kinds = Object.keys(c.kinds);
+  var lo = 1; kinds.forEach(function(k){ [b.kinds[k], c.kinds[k]].forEach(function(x){ if (x && x.ci) lo = Math.min(lo, x.ci[0]); }); });
+  lo = Math.max(0, Math.floor(lo * 20) / 20 - 0.05);
+  var X = function(v){ return ((v - lo) / (1 - lo) * 100).toFixed(2) + "%"; };
+  var ticks = []; for (var v = lo; v <= 1.0001; v += (1 - lo) > 0.3 ? 0.1 : 0.05) ticks.push(v);
+  var axis = '<div class="axis"><div class="sp"></div><div class="ax">' + ticks.map(function(t){ return '<span style="left:' + X(t) + '">' + Math.round(t*100) + '%</span>'; }).join("") + '</div><div class="sp"></div></div>';
+  var h = axis;
+  [["flag","Mudança de sentido · o gate deve sinalizar"],["clean","Mudança benigna · o gate não deve sinalizar"]].forEach(function(grp){
+    h += '<div class="db"><div class="grp">' + grp[1] + '</div>';
+    kinds.filter(function(k){ return c.kinds[k].expected === grp[0]; }).sort(function(x, y){ return c.kinds[x].total - c.kinds[y].total; }).reverse().forEach(function(k){
+      var kb = b.kinds[k], kc = c.kinds[k], pb = kb.correct/kb.total, pc = kc.correct/kc.total;
+      var missB = kb.total - kb.correct, missC = kc.total - kc.correct;
+      var grid = ticks.map(function(t){ return '<span class="grid" style="left:' + X(t) + '"></span>'; }).join("");
+      h += '<div class="lab">' + esc(L.kind[k] || k) + '<small>' + fmt(kc.total) + ' casos</small></div>' +
+        '<div class="trk" data-k="' + esc(k) + '">' + grid +
+        '<span class="ci b" style="left:' + X(kb.ci[0]) + ';width:calc(' + X(kb.ci[1]) + ' - ' + X(kb.ci[0]) + ')"></span>' +
+        '<span class="ci c" style="left:' + X(kc.ci[0]) + ';width:calc(' + X(kc.ci[1]) + ' - ' + X(kc.ci[0]) + ')"></span>' +
+        '<span class="conn" style="left:' + X(Math.min(pb, pc)) + ';width:0" data-w="calc(' + X(Math.max(pb, pc)) + ' - ' + X(Math.min(pb, pc)) + ')"></span>' +
+        '<span class="dot b" style="left:' + X(pb) + '"></span><span class="dot c" style="left:' + X(pb) + '" data-x="' + X(pc) + '"></span></div>' +
+        '<div class="val"><b>' + fmt(kb.correct) + ' → ' + fmt(kc.correct) + '</b> de ' + fmt(kc.total) + '<br>' + (grp[0] === "flag" ? "sem sinal" : "falso alarme") + ': ' + fmt(missB) + ' → ' + fmt(missC) + '</div>';
+    });
+    h += '</div>';
+  });
+  $("#db").innerHTML = h;
+  var tracks = $$("#db .trk");
+  tracks.forEach(function(t){ var k = t.getAttribute("data-k"), kb = b.kinds[k], kc = c.kinds[k];
+    t.addEventListener("mousemove", function(e){ showTip('<b>' + esc(L.kind[k]||k) + '</b><br>v0.10.0: ' + fmt(kb.correct) + '/' + fmt(kb.total) + ' (' + pct(kb.correct, kb.total) + '), IC95 ' + Math.round(kb.ci[0]*1000)/10 + '–' + Math.round(kb.ci[1]*1000)/10 + '%<br>v0.10.5: ' + fmt(kc.correct) + '/' + fmt(kc.total) + ' (' + pct(kc.correct, kc.total) + '), IC95 ' + Math.round(kc.ci[0]*1000)/10 + '–' + Math.round(kc.ci[1]*1000)/10 + '%', e.clientX, e.clientY); });
+    t.addEventListener("mouseleave", hideTip); });
+  var play = function(){ $$("#db .dot.c").forEach(function(d){ d.style.left = d.getAttribute("data-x"); }); $$("#db .conn").forEach(function(d){ d.style.width = d.getAttribute("data-w"); }); };
+  if (REDUCED || !("IntersectionObserver" in window)) play();
+  else { var io = new IntersectionObserver(function(es){ if (es.some(function(e){ return e.isIntersecting; })){ setTimeout(play, 250); io.disconnect(); } }, {threshold:.35}); io.observe($("#db")); }
+  // table
+  var t = '<table><thead><tr><th>Perturbação</th><th>Esperado</th><th class="r">v0.10.0</th><th class="r">IC 95%</th><th class="r">v0.10.5</th><th class="r">IC 95%</th></tr></thead><tbody>' +
+    kinds.map(function(k){ var kb = b.kinds[k], kc = c.kinds[k]; return '<tr><td>' + esc(L.kind[k]||k) + '</td><td>' + (kc.expected === "flag" ? "sinalizar" : "não sinalizar") + '</td><td class="r num">' + fmt(kb.correct) + '/' + fmt(kb.total) + '</td><td class="r num">' + Math.round(kb.ci[0]*1000)/10 + '–' + Math.round(kb.ci[1]*1000)/10 + '%</td><td class="r num">' + fmt(kc.correct) + '/' + fmt(kc.total) + '</td><td class="r num">' + Math.round(kc.ci[0]*1000)/10 + '–' + Math.round(kc.ci[1]*1000)/10 + '%</td></tr>'; }).join("") + '</tbody></table>';
+  $("#db-table").innerHTML = '<div class="scroll-x">' + t + '</div>';
+  tableToggle("#db-table-btn", "#db-table", "#db");
+  // families
+  var fams = Object.keys(c.families).sort(function(x, y){ return c.families[y].total - c.families[x].total; });
+  $("#fam").innerHTML = '<thead><tr><th>Família</th><th class="r">Casos</th><th class="r">v0.10.0</th><th class="r">v0.10.5</th><th class="r">Sem acerto</th></tr></thead><tbody>' +
+    fams.map(function(f){ var fb = b.families[f], fc = c.families[f]; var d = (fc.total - fc.correct) - (fb.total - fb.correct);
+      return '<tr><td>' + esc(L.family[f] || f) + '</td><td class="r num">' + fmt(fc.total) + '</td><td class="r num">' + pct(fb.correct, fb.total) + '</td><td class="r num">' + pct(fc.correct, fc.total) + '</td><td class="r num">' + fmt(fb.total - fb.correct) + ' → <b>' + fmt(fc.total - fc.correct) + '</b>' + (d < 0 ? ' <span class="flag ok">−' + fmt(-d) + '</span>' : d > 0 ? ' <span class="flag bad">+' + fmt(d) + '</span>' : ' <span class="flag">igual</span>') + '</td></tr>'; }).join("") + '</tbody>';
+  var H = D.headline;
+  var perf = D.perf_17600_cpu_min_s;
+  $("#realfacts").innerHTML = [
+    ["Itens com erro confirmado", H.confirmed_on_real_text, "em " + fmt(c.items) + " textos publicados; tipo: " + Object.keys(c.confirmed_types).join(", ")],
+    ["Planos de edição", H.edit_plans_on_real_text, "o planner pede edição; o resto fica sem mudança"],
+    ["CPU da campanha (s)", [Math.round(b.cpu_s), Math.round(c.cpu_s)], "route, idioma, diagnose, plan e compare em todos os itens"],
+    ["compare em 17,6 mil palavras", perf ? [perf.base ? Math.min.apply(null, perf.base) : null, perf.cand ? Math.min.apply(null, perf.cand) : null] : null, "melhor de 2 medições intercaladas, em segundos de CPU; teto do R13: 1,15×"]
+  ].map(function(f){ return '<div><dt>' + f[0] + '</dt><dd class="num">' + (f[1] ? fmt(f[1][0], f[1][0] % 1 ? 2 : 0) + ' <span style="color:var(--ink-3);font-weight:400">→</span> ' + fmt(f[1][1], f[1][1] % 1 ? 2 : 0) : "—") + '<small>' + esc(f[2]) + '</small></dd></div>'; }).join("");
+})();
+
+/* ---------------- section: live ---------------- */
+var TASKS = D.live.tasks, TASK = {}; TASKS.forEach(function(t){ TASK[t.task] = t; });
+var RUN = {}; runs.forEach(function(r){ RUN[r.label + "|" + r.task + "|" + r.rep + "|" + r.arm] = r; });
+var EXPECT = {no_change_expected:"devolver igual", edit_required:"editar", edit_allowed:"pode editar", constrained_edit:"edição restrita"};
+var ARMS = ["A1_direct","A2_skill","A3_engine","A3_bare"];
+var liveVer = "both";
+function renderLive(){
+  var vers = liveVer === "both" ? ["v0100","v0105"] : [liveVer];
+  var h = '<thead><tr><th>Tarefa</th>' + ARMS.map(function(a){ return '<th>' + esc(L.arm[a]) + '</th>'; }).join("") + '</tr></thead><tbody>';
+  TASKS.forEach(function(t){
+    h += '<tr><td class="task"><b>' + esc(t.task) + '</b>' + esc(t.genre) + '<small>' + fmt(t.words) + ' palavras · esperado: ' + esc(EXPECT[t.expect] || t.expect) + (t.mode ? ' · modo ' + esc(t.mode) : "") + '</small></td>';
+    ARMS.forEach(function(a){
+      h += '<td class="cellm">';
+      vers.forEach(function(v){
+        h += '<div class="pips">' + (vers.length > 1 ? '<span class="vl">' + (v === "v0100" ? "0.10.0" : "0.10.5") + '</span>' : "");
+        var flags = [];
+        for (var rep = 1; rep <= D.live.reps; rep++){
+          var r = RUN[v + "|" + t.task + "|" + rep + "|" + a];
+          if (!r){ h += '<span class="pip missing" title="sem execução registrada"></span>'; continue; }
+          var c = r.changed === null ? "fail" : r.changed ? "chg" : "same";
+          var bad = r.decision === "unnecessary_edit" || r.decision === "missed_edit";
+          if (bad) flags.push(r.decision);
+          h += '<button type="button" class="pip ' + c + (bad ? " bad" : "") + '" data-run="' + esc(v + "|" + t.task + "|" + rep + "|" + a) + '" aria-label="' + esc(t.task + ", " + L.arm[a] + ", " + L.version[v] + ", repetição " + rep + ": " + (r.changed === null ? "sem saída" : r.changed ? "texto mudou" : "texto igual") + (bad ? ", decisão errada" : "")) + '">' + rep + '</button>';
+        }
+        var fl = [];
+        var un = flags.filter(function(f){ return f === "unnecessary_edit"; }).length, mi = flags.filter(function(f){ return f === "missed_edit"; }).length;
+        if (un) fl.push('<span class="flag bad">' + un + ' edição indevida</span>');
+        if (mi) fl.push('<span class="flag bad">' + mi + ' faltou editar</span>');
+        if (a === "A2_skill"){ var inv = 0, n = 0; for (var k = 1; k <= D.live.reps; k++){ var rr = RUN[v + "|" + t.task + "|" + k + "|" + a]; if (rr){ n++; inv += rr.skill_invoked ? 1 : 0; } }
+          if (n) fl.push('<span class="flag' + (inv === n ? " ok" : "") + '">Skill ' + inv + '/' + n + '</span>'); }
+        h += fl.join("") + '</div>';
+      });
+      h += '</td>';
+    });
+    h += '</tr>';
+  });
+  $("#mx").innerHTML = h + '</tbody>';
+  renderCmp(vers);
+}
+function renderCmp(vers){
+  var J = !!D.judge, cols = [["Execuções","runs"],["Decisão certa","dec"],["Edição indevida","unnecessary_edit"],["Faltou editar","missed_edit"],["Skill ativada","skill"],["Rodou compare","cmp"],["Antes de escrever","before"],["Custo","cost"],["Mediana","sec"]];
+  if (J) cols = cols.concat([["Fidelidade","fidelity"],["Pedido","request"],["Naturalidade","naturalness"],["Erro crítico","critical"]]);
+  var h = '<thead><tr><th>Braço</th><th>Versão</th>' + cols.map(function(c){ return '<th class="r">' + c[0] + '</th>'; }).join("") + '</tr></thead><tbody>';
+  ARMS.forEach(function(a){ vers.forEach(function(v, vi){ var s = D.live.arms[v + "|" + a];
+    h += '<tr class="' + v + (vi === 0 ? " first" : "") + '"><td class="arm">' + (vi === 0 ? esc(L.arm[a]) : "") + '</td><td class="mono">' + L.version[v] + '</td>';
+    if (!s){ h += '<td colspan="' + cols.length + '">' + chip("NOT_RUN") + '</td></tr>'; return; }
+    var val = {runs: fmt(s.runs) + (s.failed ? ' <span class="flag bad">' + s.failed + ' sem saída</span>' : ""), dec: "<b>" + fmt(s.decision_ok) + "</b>/" + fmt(s.decided),
+      unnecessary_edit: s.unnecessary_edit ? '<span class="flag bad">' + fmt(s.unnecessary_edit) + '</span>' : "0", missed_edit: s.missed_edit ? '<span class="flag bad">' + fmt(s.missed_edit) + '</span>' : "0",
+      skill: a === "A2_skill" ? fmt(s.skill_invoked) + "/" + fmt(s.runs) : "—", cmp: a === "A2_skill" ? fmt(s.ran_compare) + "/" + fmt(s.runs) : "—", before: a === "A2_skill" ? fmt(s.ran_before_writing) + "/" + fmt(s.runs) : "—",
+      cost: usd(s.cost_usd), sec: fmt(s.seconds_median, 1) + " s", fidelity: fmt(s.fidelity, 2), request: fmt(s.request, 2), naturalness: fmt(s.naturalness, 2), critical: s.judged ? fmt(s.critical) + "/" + fmt(s.judged) : "—"};
+    h += cols.map(function(c){ return '<td class="r num">' + val[c[1]] + '</td>'; }).join("") + '</tr>'; }); });
+  $("#cmp").innerHTML = h + '</tbody>';
+
+}
+$$("#live-ver button").forEach(function(b){ b.addEventListener("click", function(){ liveVer = b.getAttribute("data-v"); $$("#live-ver button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); }); renderLive(); markSelectedPip(); }); });
+$("#mx").addEventListener("click", function(e){ var p = e.target.closest("button.pip"); if (!p) return; var k = p.getAttribute("data-run").split("|");
+  desk.task = k[1]; desk.rep = +k[2]; desk.left = "original"; desk.right = k[0] + "|" + k[3]; buildDesk(); document.getElementById("mesa").scrollIntoView({behavior: REDUCED ? "auto" : "smooth"}); });
+renderLive();
+(function(){
+  var j = D.judge, fails = D.live.provider_failures_retried || {};
+  var nf = (fails.v0100 || 0) + (fails.v0105 || 0);
+  $("#live-warn").innerHTML = '<b>Comparabilidade.</b><span>Mesmo modelo, mesmas tarefas e ordem dos braços sorteada por repetição; n = 12 tarefas × 3 repetições por braço e versão, em três famílias (literário, jurídico, acadêmico). A Skill no host gasta mais chamadas e tempo que os outros braços: o custo está no resumo. ' +
+    (j ? "Juiz " + esc(j.model) + ", mesmo fornecedor (" + esc(j.relation) + "): julgamento dependente, nunca revisão humana." : "Juiz cego ainda não rodou: nada aqui afirma qualidade, só decisões de editar e custo.") +
+    (nf ? " " + fmt(nf) + " execuções falharam por indisponibilidade do provider e foram refeitas; nenhuma entrou como resultado." : "") + '</span>';
+})();
+
+/* ---------------- section: review desk ---------------- */
+var desk = {task:null, rep:1, left:"original", right:null, mode:(window.matchMedia && matchMedia("(max-width:760px)").matches ? "inline" : "split"), unit:"word", fold:false, cur:-1};
+var pubTasks = TASKS.filter(function(t){ return D.texts[t.task]; });
+var curGroups = [], curOps = [];
+function sourceText(key, task, rep){
+  var T = D.texts[task]; if (!T) return null;
+  if (key === "original") return T.original;
+  var p = key.split("|"); var out = T.outputs[p[0] + "|" + rep + "|" + p[1]];
+  if (out != null) return out;
+  var r = RUN[p[0] + "|" + task + "|" + rep + "|" + p[1]];
+  if (r && r.changed === false) return T.original;
+  return null;
+}
+function optionLabel(key){ if (key === "original") return "Original"; var p = key.split("|"); return L.version[p[0]] + " · " + L.arm[p[1]]; }
+function deskOptions(){
+  var keys = ["original"]; ["v0100","v0105"].forEach(function(v){ ARMS.forEach(function(a){ keys.push(v + "|" + a); }); }); return keys;
+}
+function fillSelect(sel, keys, val, task, rep){
+  sel.innerHTML = keys.map(function(k){ var txt = sourceText(k, task, rep); return '<option value="' + esc(k) + '"' + (k === val ? " selected" : "") + (txt == null ? " disabled" : "") + '>' + esc(optionLabel(k)) + (txt == null ? " (sem saída)" : "") + '</option>'; }).join("");
+}
+function initDesk(){
+  if (!pubTasks.length){ $("#d-rows").innerHTML = '<p class="empty">Nenhum texto publicável nesta campanha.</p>'; return; }
+  $("#d-task").innerHTML = pubTasks.map(function(t){ return '<option value="' + esc(t.task) + '">' + esc(t.task + " · " + t.genre) + '</option>'; }).join("");
+  var reps = ""; for (var i = 1; i <= D.live.reps; i++) reps += '<button type="button" data-r="' + i + '" aria-pressed="false">' + i + '</button>'; $("#d-rep").innerHTML = reps;
+  readHash();
+  if (!desk.task || !D.texts[desk.task]){
+    // first publishable task whose v0.10.5 skill output differs from the original, else the first task
+    var pick = pubTasks.filter(function(t){ var r = RUN["v0105|" + t.task + "|1|A2_skill"] || RUN["v0100|" + t.task + "|1|A2_skill"]; return r && r.changed; })[0] || pubTasks[0];
+    desk.task = pick.task; desk.right = RUN["v0105|" + pick.task + "|1|A2_skill"] ? "v0105|A2_skill" : "v0100|A2_skill";
+  }
+  $("#d-task").addEventListener("change", function(){ desk.task = this.value; buildDesk(); });
+  $("#d-rep").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; desk.rep = +b.getAttribute("data-r"); buildDesk(); });
+  $("#d-left").addEventListener("change", function(){ desk.left = this.value; buildDesk(); });
+  $("#d-right").addEventListener("change", function(){ desk.right = this.value; buildDesk(); });
+  $$("#d-mode button").forEach(function(b){ b.addEventListener("click", function(){ desk.mode = b.getAttribute("data-m"); buildDesk(true); }); });
+  $$("#d-unit button").forEach(function(b){ b.addEventListener("click", function(){ desk.unit = b.getAttribute("data-u"); buildDesk(); }); });
+  $("#d-fold").addEventListener("click", function(){ desk.fold = !desk.fold; buildDesk(true); });
+  $("#d-next").addEventListener("click", function(){ go(1); });
+  $("#d-prev").addEventListener("click", function(){ go(-1); });
+  $("#d-copy").addEventListener("click", function(){ copy(location.href.split("#")[0] + "#" + hashFor(), "Referência copiada: " + desk.task + " · " + optionLabel(desk.right) + " · rep. " + desk.rep); });
+  $("#d-rows").addEventListener("click", function(e){ var m = e.target.closest("[data-g]"); if (m){ select(+m.getAttribute("data-g"), true); return; }
+    var f = e.target.closest(".fold"); if (f){ $$('[data-fold="' + f.getAttribute("data-fid") + '"]').forEach(function(x){ x.hidden = false; }); f.remove(); } });
+  $("#d-map").addEventListener("click", function(e){ var m = e.target.closest("button"); if (m) select(+m.getAttribute("data-g"), true); });
+  buildDesk();
+}
+function hashFor(){ return "mesa?caso=" + encodeURIComponent(desk.task) + "&rep=" + desk.rep + "&esq=" + encodeURIComponent(desk.left) + "&dir=" + encodeURIComponent(desk.right) + "&leitura=" + desk.mode + "&unidade=" + desk.unit; }
+function readHash(){
+  var h = decodeURIComponent(location.hash.slice(1)); if (h.indexOf("mesa?") !== 0) return;
+  var q = {}; h.slice(5).split("&").forEach(function(kv){ var i = kv.indexOf("="); if (i > 0) q[kv.slice(0, i)] = kv.slice(i + 1); });
+  var keys = deskOptions();
+  if (q.caso && D.texts[q.caso]) desk.task = q.caso;
+  if (q.rep && /^[1-9]$/.test(q.rep) && +q.rep <= D.live.reps) desk.rep = +q.rep;
+  if (keys.indexOf(q.esq) >= 0) desk.left = q.esq;
+  if (keys.indexOf(q.dir) >= 0) desk.right = q.dir;
+  if (q.leitura === "inline" || q.leitura === "split") desk.mode = q.leitura;
+  if (q.unidade === "word" || q.unidade === "sentence") desk.unit = q.unidade;
+}
+function buildDesk(keepScroll){
+  var keys = deskOptions();
+  if (!desk.right || sourceText(desk.right, desk.task, desk.rep) == null){
+    desk.right = keys.filter(function(k){ return k !== "original" && sourceText(k, desk.task, desk.rep) != null; }).reverse()[0] || "original"; }
+  if (sourceText(desk.left, desk.task, desk.rep) == null) desk.left = "original";
+  $("#d-task").value = desk.task;
+  fillSelect($("#d-left"), keys, desk.left, desk.task, desk.rep);
+  fillSelect($("#d-right"), keys, desk.right, desk.task, desk.rep);
+  $$("#d-rep button").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.getAttribute("data-r") === desk.rep)); });
+  $$("#d-mode button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === desk.mode)); });
+  $$("#d-unit button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-u") === desk.unit)); });
+  $("#d-fold").setAttribute("aria-pressed", String(desk.fold));
+  var A = sourceText(desk.left, desk.task, desk.rep), B = sourceText(desk.right, desk.task, desk.rep);
+  var ta = tokens(A, desk.unit), tb = tokens(B, desk.unit);
+  curOps = lcsDiff(ta, tb); curGroups = groupOps(curOps); desk.cur = -1;
+  renderRows(); renderSide(); markSelectedPip();
+  var insW = 0, delW = 0; curOps.forEach(function(o){ if (o.o === "+") insW += desk.unit === "word" ? wordsIn(o.b) : 1; if (o.o === "-") delW += desk.unit === "word" ? wordsIn(o.a) : 1; });
+  var u = desk.unit === "word" ? ["palavra inserida","palavras inseridas","palavra removida","palavras removidas"] : ["frase inserida","frases inseridas","frase removida","frases removidas"];
+  $("#d-stats").innerHTML = A === B ? "<b>Textos idênticos.</b> A execução devolveu o original." :
+    '<b class="num">' + fmt(curGroups.length) + '</b> trechos alterados · <span style="color:var(--ins)">+' + fmt(insW) + " " + (insW === 1 ? u[0] : u[1]) + '</span> · <span style="color:var(--del)">−' + fmt(delW) + " " + (delW === 1 ? u[2] : u[3]) + '</span>';
+  $("#d-pos").textContent = curGroups.length ? "– / " + curGroups.length : "0 / 0";
+  try { history.replaceState(null, "", "#" + hashFor()); } catch(e) {}
+  if (!keepScroll) $("#d-page").scrollTop = 0;
+}
+function seg(tok, side, op){
+  var text = esc(tok.t + tok.ws);
+  if (op.o === "=") return text;
+  var tag = side === "a" ? "del" : "ins", cls = side === "a" ? "d" : "i";
+  return '<' + tag + ' class="' + cls + '" data-g="' + op.g + '">' + text + '</' + tag + '>';
+}
+function renderRows(){
+  var rows = [], cur = {l:"", r:"", changed:false}, startedG = {};
+  var marker = function(op){ if (startedG[op.g]) return ""; startedG[op.g] = 1; var g = curGroups[op.g]; var s = g.ins && g.del ? "±" : g.ins ? "+" : "−";
+    return '<span class="mk" aria-hidden="true">' + s + '</span><span class="sr">' + (g.ins && g.del ? "substituição: " : g.ins ? "inserção: " : "remoção: ") + '</span>'; };
+  curOps.forEach(function(op){
+    if (op.o === "=" && /\n\n/.test(op.a.t + op.a.ws) && /\n\n/.test(op.b.t + op.b.ws)){
+      cur.l += esc(op.a.t + op.a.ws); cur.r += esc(op.b.t + op.b.ws); rows.push(cur); cur = {l:"", r:"", changed:false}; return; }
+    if (op.o === "=") { cur.l += esc(op.a.t + op.a.ws); cur.r += esc(op.b.t + op.b.ws); if (desk.mode === "inline") cur.r = cur.r; return; }
+    cur.changed = true;
+    var mk = marker(op);
+    if (op.o === "-"){ cur.l += mk + seg(op.a, "a", op); if (desk.mode === "inline") cur.r += mk + seg(op.a, "a", op); }
+    else { cur.r += (desk.mode === "inline" && startedG[op.g] === 1 && mk === "" ? "" : mk) + seg(op.b, "b", op); }
+  });
+  if (cur.l || cur.r) rows.push(cur);
+  var h = desk.mode === "split" ? '<div class="hdr">' + esc(optionLabel(desk.left)) + '</div><div class="hdr">' + esc(optionLabel(desk.right)) + '</div>' :
+    '<div class="hdr">' + esc(optionLabel(desk.left)) + ' → ' + esc(optionLabel(desk.right)) + '</div>';
+  var fid = 0, run = [];
+  var flush = function(){ if (!run.length) return; if (desk.fold && run.length > 0){ fid++; h += '<button type="button" class="fold" data-fid="' + fid + '">⋯ ' + run.length + (run.length === 1 ? " parágrafo igual" : " parágrafos iguais") + ' (mostrar)</button>';
+      run.forEach(function(x){ h += x.replace(/^<div /, '<div hidden data-fold="' + fid + '" ').replace(/(<\/div>)(<div )/, '$1$2hidden data-fold="' + fid + '" '); }); }
+    else run.forEach(function(x){ h += x; }); run = []; };
+  rows.forEach(function(r){
+    var html = desk.mode === "split" ? '<div class="p l' + (r.changed ? "" : " eq") + '">' + (r.l || "&nbsp;") + '</div><div class="p r' + (r.changed ? "" : " eq") + '">' + (r.r || "&nbsp;") + '</div>' :
+      '<div class="p r' + (r.changed ? "" : " eq") + '">' + (r.r || "&nbsp;") + '</div>';
+    if (!r.changed) run.push(html); else { flush(); h += html; }
+  });
+  flush();
+  var box = $("#d-rows"); box.className = "rows" + (desk.mode === "inline" ? " inline" : ""); box.innerHTML = h;
+  // minimap
+  var total = curOps.length || 1, map = "";
+  curGroups.forEach(function(g){ var t = g.ins && g.del ? "t-rep" : g.ins ? "t-ins" : "t-del"; map += '<button type="button" tabindex="-1" aria-label="Ir para o trecho ' + (g.id + 1) + '" class="' + t + '" data-g="' + g.id + '" style="top:' + (g.at / total * 100).toFixed(2) + '%"></button>'; });
+  $("#d-map").innerHTML = map;
+}
+function select(g, scroll){
+  $$(".grp-on").forEach(function(x){ x.classList.remove("grp-on"); });
+  desk.cur = g; if (g < 0 || !curGroups.length) return;
+  var els = $$('#d-rows [data-g="' + g + '"]');
+  els.forEach(function(x){ x.classList.add("grp-on"); var p = x.closest(".p"); if (p && p.hidden){ $$('[data-fold="' + p.getAttribute("data-fold") + '"]').forEach(function(y){ y.hidden = false; }); var f = $('.fold[data-fid="' + p.getAttribute("data-fold") + '"]'); if (f) f.remove(); } });
+  $("#d-pos").textContent = (g + 1) + " / " + curGroups.length;
+  if (scroll && els[0]){ var page = $("#d-page"); var top = els[0].getBoundingClientRect().top - page.getBoundingClientRect().top + page.scrollTop - 90; page.scrollTo({top: Math.max(0, top), behavior: REDUCED ? "auto" : "smooth"}); }
+  var del = "", ins = ""; curOps.forEach(function(o){ if (o.g === g){ if (o.o === "-") del += o.a.t + o.a.ws; else ins += o.b.t + o.b.ws; } });
+  var kind = del && ins ? "Substituição" : ins ? "Inserção" : "Remoção";
+  $("#d-evid").innerHTML = '<h4>Trecho ' + (g + 1) + ' · ' + kind + '</h4>' + (del ? '<p><span style="color:var(--del)">− </span><del class="d">' + esc(del.trim()) + '</del></p>' : "") + (ins ? '<p><span style="color:var(--ins)">+ </span><ins class="i">' + esc(ins.trim()) + '</ins></p>' : "") +
+    '<p class="note" style="margin-top:8px">Diferença textual, não julgamento de sentido. Veja o juiz e o oráculo acima.</p>';
+}
+function go(d){ if (!curGroups.length) return; var n = desk.cur < 0 ? (d > 0 ? 0 : curGroups.length - 1) : (desk.cur + d + curGroups.length) % curGroups.length; select(n, true); }
+function markSelectedPip(){ $$("#mx .pip.sel").forEach(function(p){ p.classList.remove("sel"); }); if (!desk.right || desk.right === "original") return;
+  var k = desk.right.split("|"); var p = $('#mx .pip[data-run="' + k[0] + "|" + desk.task + "|" + desk.rep + "|" + k[1] + '"]'); if (p) p.classList.add("sel"); }
+function renderSide(){
+  var side = $("#d-side"), t = TASK[desk.task];
+  if (desk.right === "original"){ side.innerHTML = '<div><h4>Ficha</h4><p>O original, sem execução.</p></div><div class="evid" id="d-evid"><h4>Trecho</h4><p class="note">Clique num trecho marcado.</p></div>'; return; }
+  var k = desk.right.split("|"), r = RUN[k[0] + "|" + desk.task + "|" + desk.rep + "|" + k[1]];
+  var h = '<div><h4>Pedido · ' + esc(desk.task) + '</h4><p style="margin:0;font:italic .95rem/1.5 var(--serif-text)">“' + esc(t.request) + '”</p><p class="note" style="margin-top:6px">Esperado: ' + esc(EXPECT[t.expect]||t.expect) + (t.source ? ' · fonte: ' + esc(t.source) : "") + (t.rights === "cc_by" ? ' · CC BY 4.0, saída alterada por modelo' : "") + '</p></div>';
+  if (!r){ side.innerHTML = h + '<div>' + chip("NOT_RUN") + ' sem execução registrada.</div><div class="evid" id="d-evid"></div>'; return; }
+  var steps = [];
+  steps.push({c:"", b:"Pedido entregue", s:(k[1] === "A2_skill" ? "sessão do Claude Code num projeto novo; o pedido não nomeia a Skill" : k[1] === "A1_direct" ? "uma chamada ao modelo, pedido e texto" : "voznativa rewrite" + (t.mode && k[1] === "A3_engine" ? " --mode " + t.mode : "") + (k[1] === "A3_engine" ? " com atributos e conhecimento" : " sem atributos nem conhecimento"))});
+  if (k[1] === "A2_skill"){
+    steps.push({c: r.skill_invoked ? "ok" : "no", b: r.skill_invoked ? "Skill ativada pelo agente" : "Skill não ativada", s: fmt((r.tools||[]).length) + " chamadas de ferramenta em " + fmt(r.turns) + " turnos"});
+    steps.push({c: (r.cli_steps||[]).length ? "ok" : "no", b: "Comandos do VozNativa", s: (r.cli_steps||[]).length ? '<span class="steps">' + r.cli_steps.map(function(x){ return "<code>" + esc(x) + "</code>"; }).join(" → ") + '</span>' : "nenhum"});
+  } else if (k[1] !== "A1_direct"){
+    steps.push({c:"", b:"Resultado do engine", s:'<code>' + esc(r.outcome || "—") + '</code>' + (r.status ? ' · ' + esc(r.status) : "") + ' · ' + fmt(r.calls) + ' chamadas ao modelo' + ((r.knowledge||[]).length ? ' · conhecimento: ' + r.knowledge.map(esc).join(", ") : "")});
+  }
+  var dec = {ok:["ok","Decisão de editar coerente com o esperado"], unnecessary_edit:["no","Editou um texto que devia voltar igual"], missed_edit:["no","Devolveu igual quando devia editar"], open:["","Expectativa permite editar ou não"], failed:["no","Sem saída"]}[r.decision];
+  steps.push({c:dec[0], b:dec[1], s: (r.changed === null ? "sem texto" : r.changed ? "texto mudou" : "texto igual ao original") + ' · ' + fmt(r.seconds, 1) + ' s · ' + usd(r.cost_usd)});
+  h += '<div><h4>Linha do tempo</h4><ol class="tl">' + steps.map(function(s){ return '<li class="' + s.c + '"><b>' + s.b + '</b><span>' + s.s + '</span></li>'; }).join("") + '</ol></div>';
+  if (r.judge){ var J = r.judge;
+    h += '<div><h4>Juiz cego (' + esc(D.judge.model) + ', mesmo fornecedor)</h4><div class="score">' + [["fidelity","Fidelidade"],["request","Atende ao pedido"],["naturalness","Naturalidade"]].map(function(a){ var v = J[a[0]];
+      return '<span>' + a[1] + '</span><span class="num">' + (v == null ? "—" : fmt(v, 0) + "/5") + '</span><span class="bar"><i style="width:' + (v == null ? 0 : v / 5 * 100) + '%"></i></span>'; }).join("") + '</div>' +
+      '<p class="note" style="margin:0">' + (J.critical_error ? '<b style="color:var(--bad)">Erro crítico apontado.</b> ' : 'Sem erro crítico apontado. ') + 'Oráculo independente: ' + fmt(J.oracle_lost) + ' valor(es) protegido(s) do original ausentes.</p></div>';
+  } else h += '<div><h4>Juiz cego</h4>' + chip("NOT_RUN") + ' <span class="note">esta execução ainda não foi julgada.</span></div>';
+  side.innerHTML = h + '<div class="evid" id="d-evid"><h4>Trecho</h4><p class="note" style="margin:0">Clique num trecho marcado ou use <kbd>j</kbd>/<kbd>k</kbd>.</p></div>';
+}
+initDesk();
+
+/* ---------------- section: documents ---------------- */
+(function(){
+  var el = $("#dossiers"), F = D.documents;
+  if (!F || !F.length){ el.innerHTML = '<div class="panel dossier">' + chip("NOT_RUN") + '<p>Nenhum fluxo de documento registrado.</p></div>'; return; }
+  var title = {lgpd:"Lei inteira (LGPD)", romance:"Capítulos de romance", office:"DOCX e PDF"};
+  var outColor = {no_change:"var(--ink-3)", needs_judgment:"var(--warn)", returned_original:"var(--v100)", provider_error:"var(--bad)", accepted:"var(--good)", rewritten:"var(--good)", needs_review:"var(--warn)"};
+  el.innerHTML = F.map(function(f){
+    var w = f.docx_rewrite || f; var uo = w.unit_outcomes || {}; var tot = Object.keys(uo).reduce(function(a, k){ return a + uo[k]; }, 0);
+    var pe = uo.provider_error || 0;
+    var st = pe ? "INCONCLUSIVE" : (f.exit_code === 0 || f.exit_code === 2 || f.flow === "office") ? "PASS" : "PARTIAL";
+    var checks = [];
+    if (f.oracle){ checks.push([f.oracle.numbers_lost === 0, "Números perdidos: " + fmt(f.oracle.numbers_lost)], [f.oracle.numbers_added === 0, "Números acrescentados: " + fmt(f.oracle.numbers_added)],
+      [f.oracle.articles_same_sequence, f.oracle.articles ? "Sequência de " + fmt(f.oracle.articles) + " artigos mantida" : "Sem artigos numerados"], [Math.abs(f.oracle.words_ratio - 1) < .25, "Proporção de palavras: " + fmt(f.oracle.words_ratio, 2)]); }
+    if (f.flow === "office"){ checks.push([f.docx_original_unchanged, "DOCX original intocado"], [f.pdf_word_recall >= .99, "PDF: recall de palavras " + fmt(f.pdf_word_recall * 100, 0) + "%"], [f.pdf_annotated_written, "PDF anotado gravado (o PDF não é editado)"], [f.pdf_original_unchanged, "PDF original intocado"]); }
+    if (pe) checks.push([null, fmt(pe) + " de " + fmt(tot) + " unidades sem resposta do provider: execução incompleta"]);
+    return '<article class="panel dossier"><div class="kicker">' + (f.words ? fmt(f.words) + " palavras · " : "") + esc(f.mode || "POLISH") + '</div><h3>' + esc(title[f.flow] || f.flow) + '</h3>' +
+      (f.request ? '<p class="req">“' + esc(f.request) + '”</p>' : "") + '<div>' + chip(st) + '</div>' +
+      (tot ? '<div><div class="stack" role="img" aria-label="' + esc(Object.keys(uo).map(function(k){ return uo[k] + " " + k; }).join(", ")) + '">' + Object.keys(uo).map(function(k){ return '<i style="flex:' + uo[k] + ';background:' + (outColor[k] || "var(--ink-3)") + '"></i>'; }).join("") + '</div>' +
+        '<div class="legend" style="margin-top:6px">' + Object.keys(uo).map(function(k){ return '<span><span class="sw" style="background:' + (outColor[k] || "var(--ink-3)") + '"></span><code>' + esc(k) + '</code> ' + uo[k] + '</span>'; }).join("") + '</div></div>' : "") +
+      '<div class="kv" style="font-size:.84rem"><span>unidades</span><span>' + fmt(w.units) + '</span><span>chamadas</span><span>' + fmt(w.calls) + '</span><span>tempo</span><span>' + fmt(w.seconds, 0) + ' s</span><span>custo</span><span>' + usd(w.cost_usd) + '</span></div>' +
+      '<ul class="checks">' + checks.map(function(c){ return '<li><span class="' + (c[0] === true ? "y" : c[0] === false ? "n" : "q") + '" aria-hidden="true">' + (c[0] === true ? "✓" : c[0] === false ? "✕" : "!") + '</span><span>' + esc(c[1]) + '</span></li>'; }).join("") + '</ul></article>';
+  }).join("");
+})();
+
+/* ---------------- section: gaps ---------------- */
+var gapState = {status:{}, sev:{}, q:""};
+(function(){
+  var sts = {}, sevs = {}; P.gaps.forEach(function(g){ sts[g.status] = (sts[g.status]||0) + 1; sevs[g.sev] = (sevs[g.sev]||0) + 1; });
+  $("#gap-filter").innerHTML = Object.keys(sts).map(function(s){ return '<button type="button" class="toggle st-' + esc(s) + '" data-st="' + esc(s) + '" aria-pressed="true"><i aria-hidden="true" style="font-style:normal">' + (STATUS_GLYPH[s]||"○") + '</i>' + esc(STATUS_PT[s]||s) + ' <span class="num" style="color:var(--ink-3)">' + sts[s] + '</span></button>'; }).join("");
+  $("#gap-sev").innerHTML = Object.keys(sevs).sort().map(function(s){ return '<button type="button" class="toggle" data-sev="' + esc(s) + '" aria-pressed="true">' + esc(s === "—" ? "harness" : s) + ' <span class="num" style="color:var(--ink-3)">' + sevs[s] + '</span></button>'; }).join("");
+  $("#gap-list").innerHTML = P.gaps.map(function(g){
+    return '<li data-id="' + esc(g.id) + '" data-st="' + esc(g.status) + '" data-sev="' + esc(g.sev) + '"><details id="gap-' + esc(g.id) + '"><summary><span class="id">' + esc(g.id) + '</span><span class="t">' + g.gap + '</span><span class="sev">' + esc(g.sev) + '</span><span>' + chip(g.status) + '</span></summary>' +
+      '<div class="body"><dl><dt>Instrumento que achou</dt><dd>' + g.found + '</dd></dl><dl><dt>Reprodução</dt><dd>' + g.repro + '</dd></dl><dl><dt>Estado</dt><dd>' + g.state + '</dd></dl>' +
+      '<div><button type="button" class="linkbtn" data-copy-gap="' + esc(g.id) + '">Copiar link deste gap</button></div></div></details></li>'; }).join("");
+  function apply(){
+    var q = gapState.q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""), n = 0;
+    $$("#gap-list > li").forEach(function(li){
+      var okS = !gapState.status[li.getAttribute("data-st")], okV = !gapState.sev[li.getAttribute("data-sev")];
+      var text = li.textContent.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+      var ok = okS && okV && (!q || text.indexOf(q) >= 0); li.hidden = !ok; if (ok) n++; });
+    $("#gap-count").textContent = "Mostrando " + n + " de " + P.gaps.length + " gaps";
+    if (!n) $("#gap-count").textContent += ". Nenhum gap com esses filtros.";
+  }
+  $("#gap-filter").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; var on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on)); gapState.status[b.getAttribute("data-st")] = !on; apply(); });
+  $("#gap-sev").addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; var on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on)); gapState.sev[b.getAttribute("data-sev")] = !on; apply(); });
+  $("#gap-q").addEventListener("input", function(){ gapState.q = this.value; apply(); });
+  $("#gap-list").addEventListener("click", function(e){ var b = e.target.closest("[data-copy-gap]"); if (b) copy(location.href.split("#")[0] + "#gap-" + b.getAttribute("data-copy-gap"), "Link copiado: " + b.getAttribute("data-copy-gap")); });
+  apply();
+  var m = location.hash.match(/^#gap-([\w-]+)$/); if (m){ var d = document.getElementById("gap-" + m[1]); if (d){ d.open = true; setTimeout(function(){ d.scrollIntoView(); }, 50); } }
+})();
+
+/* ---------------- section: tracks ---------------- */
+(function(){
+  var role = {"VozNativa":"Produto sob prova · Skill + CLI", "Assertiva":"Auditoria executável de testes · audit --execute", "Derivanta Engine":"Inspeção estática, sem executar · CLI", "Derivanta Framework":"Orientação de agente host · sessão real"};
+  var kind = {"VozNativa":"REAL_HOST_EXECUTED", "Assertiva":"AUDIT_EXECUTED", "Derivanta Engine":"CLI_EXECUTED_STATIC", "Derivanta Framework":"REAL_HOST_EXECUTED"};
+  $("#tracks").innerHTML = P.tracks.tracks.map(function(t){
+    return '<article class="panel track"><div class="role">' + esc(role[t.tool] || "") + '</div><h3>' + esc(t.tool) + '</h3><div style="display:flex;gap:8px;flex-wrap:wrap">' + chip(t.state) + '<span class="tag mono">' + esc(kind[t.tool] || "") + '</span></div>' +
+      '<p class="what">' + esc(t.what) + '</p><ol>' + t.findings.map(function(f){ return '<li>' + esc(f) + '</li>'; }).join("") + '</ol></article>'; }).join("");
+})();
+
+/* ---------------- section: gates ---------------- */
+(function(){
+  var order = ["PASS","PARTIAL","PENDING","NOT_RUN","NO_MEASURABLE_GAIN","FAIL","BLOCKED"], cnt = {};
+  P.gates.forEach(function(g){ cnt[g.status] = (cnt[g.status]||0) + 1; });
+  var present = order.filter(function(s){ return cnt[s]; });
+  $("#gatebar").innerHTML = present.map(function(s){ return '<i class="st-' + s + '" style="flex-grow:' + cnt[s] + '"></i>'; }).join("");
+  $("#gatelegend").innerHTML = present.map(function(s){ return chip(s) + ' <span class="num">' + cnt[s] + '</span>'; }).join("&ensp;");
+  $("#gates").innerHTML = '<thead><tr><th>#</th><th>Critério e piso</th><th>Estado</th><th>Resultado</th></tr></thead><tbody>' +
+    P.gates.map(function(g){ return '<tr><td>' + esc(g.id) + '</td><td>' + g.criterion + '<div class="floor">' + g.floor + '</div></td><td>' + chip(g.status) + '</td><td>' + (g.result || '<span style="color:var(--ink-3)">ainda não avaliado</span>') + '</td></tr>'; }).join("") + '</tbody>';
+})();
+
+/* ---------------- section: method ---------------- */
+(function(){
+  $("#method").innerHTML = P.tracks.method.map(function(m){ return '<li><span>' + esc(m) + '</span></li>'; }).join("");
+  var pv = P.provenance;
+  $("#prov").innerHTML = [["Gerador", '<span class="mono">' + esc(pv.generator) + '</span>'], ["Dados", '<span class="mono">' + esc(pv.data_file) + '</span>'], ["sha256", '<span class="mono">' + esc(pv.data_sha256) + '</span>'],
+    ["Revisão", '<span class="mono">' + esc(pv.repository_head || "—") + '</span>'], ["Esquema", "versão " + esc(pv.schema_version)]].map(function(f){ return "<div><dt>" + f[0] + "</dt><dd>" + f[1] + "</dd></div>"; }).join("");
+  $("#copy-cmd").addEventListener("click", function(){ copy($("#cmd").textContent, "Comandos copiados"); });
+  function download(name, text, type){ var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type:type})); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500); toast("Baixando " + name); }
+  function csv(rows){ return rows.map(function(r){ return r.map(function(v){ v = v == null ? "" : String(v); return /[",\n;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(","); }).join("\n") + "\n"; }
+  $$("[data-export]").forEach(function(b){ b.addEventListener("click", function(){
+    var k = b.getAttribute("data-export");
+    if (k === "json") download("voznativa-observatory-0.10.5.json", JSON.stringify({provenance:P.provenance, data:D, gaps:P.gaps, gates:P.gates}, null, 1), "application/json");
+    if (k === "runs") download("voznativa-live-runs-0.10.5.csv", csv([["versao","tarefa","repeticao","braco","mudou","decisao","resultado","skill_ativada","passos_cli","custo_usd","segundos","output_sha256"]].concat(runs.map(function(r){
+      return [L.version[r.label], r.task, r.rep, r.arm, r.changed, r.decision, r.outcome, r.skill_invoked, (r.cli_steps||[]).join(" > "), r.cost_usd, r.seconds, r.output_sha256]; }))), "text/csv");
+    if (k === "gaps") { var tmp = document.createElement("div"); var plain = function(h){ tmp.innerHTML = h; return tmp.textContent; };
+      download("voznativa-gaps-0.10.5.csv", csv([["id","gap","instrumento","reproducao","severidade","estado"]].concat(P.gaps.map(function(g){ return [g.id, plain(g.gap), plain(g.found), plain(g.repro), g.sev, plain(g.state)]; }))), "text/csv"); }
+  }); });
+})();
+
+/* ---------------- galley: one real change, picked from the data ---------------- */
+(function(){
+  var best = null;
+  pubTasks.some(function(t){ return ["v0105|A2_skill","v0105|A3_engine","v0100|A2_skill"].some(function(key){
+    var A = sourceText("original", t.task, 1), B = sourceText(key, t.task, 1); if (!B || A === B) return false;
+    var ops = lcsDiff(tokens(A, "word"), tokens(B, "word")); var gs = groupOps(ops);
+    var g = gs.filter(function(x){ return x.ins && x.del && x.ins <= 6 && x.del <= 6; })[0]; if (!g) return false;
+    best = {t:t, key:key, ops:ops, g:g}; return true; }); });
+  if (!best) return;
+  var i0 = Math.max(0, best.g.at - 14), i1 = Math.min(best.ops.length, best.g.at + best.g.ins + best.g.del + 14), h = "";
+  for (var i = i0; i < i1; i++){ var o = best.ops[i]; if (o.o === "=") h += esc(o.a.t + o.a.ws).replace(/\n+/g, " ");
+    else if (o.g === best.g.id) h += o.o === "-" ? '<del class="d">' + esc(o.a.t + o.a.ws) + '</del>' : '<ins class="i">' + esc(o.b.t + o.b.ws) + '</ins>';
+    else h += o.o === "+" ? esc(o.b.t + o.b.ws) : ""; }
+  var k = best.key.split("|");
+  var g = $("#galley"); g.hidden = false;
+  g.innerHTML = '<span class="kicker">Prova tipográfica · trecho real</span><p>' + (i0 > 0 ? "… " : "") + h.trim() + (i1 < best.ops.length ? " …" : "") + '</p><small>' + esc(best.t.task + " · " + best.t.genre + " · " + L.version[k[0]] + " · " + L.arm[k[1]] + " · repetição 1") + ' · <a href="#mesa" data-open="' + esc(best.t.task + "|" + best.key) + '">abrir na mesa de revisão</a></small>';
+  g.querySelector("[data-open]").addEventListener("click", function(){ desk.task = best.t.task; desk.rep = 1; desk.left = "original"; desk.right = best.key; buildDesk(); });
+})();
+
+/* ---------------- navigation: toc, scrollspy, reveal ---------------- */
+var sections = $$("main section.s");
+$("#toc").insertAdjacentHTML("beforeend", sections.map(function(s, i){ return '<li><a href="#' + s.id + '"><span class="n">' + String(i + 1).padStart(2, "0") + '</span><span>' + esc(s.getAttribute("data-title")) + '</span></a></li>'; }).join(""));
+$("#mb-sel").innerHTML = sections.map(function(s, i){ return '<option value="' + s.id + '">' + String(i + 1).padStart(2, "0") + " · " + esc(s.getAttribute("data-title")) + '</option>'; }).join("");
+$("#mb-sel").addEventListener("change", function(){ document.getElementById(this.value).scrollIntoView({behavior: REDUCED ? "auto" : "smooth"}); });
+var ind = $("#toc .ind");
+function setActive(id){
+  $$("#toc a").forEach(function(a){ var on = a.getAttribute("href") === "#" + id; a.setAttribute("aria-current", String(on)); if (on && ind){ ind.style.transform = "translateY(" + a.parentNode.offsetTop + "px)"; ind.style.height = a.offsetHeight + "px"; } });
+  var idx = sections.findIndex(function(s){ return s.id === id; }); $("#mb-no").textContent = String(idx + 1).padStart(2, "0"); $("#mb-sel").value = id;
+}
+setActive(sections[0].id);
+if ("IntersectionObserver" in window){
+  var spy = new IntersectionObserver(function(es){ var vis = es.filter(function(e){ return e.isIntersecting; }); if (vis.length) setActive(vis[0].target.id); }, {rootMargin:"-30% 0px -65% 0px"});
+  sections.forEach(function(s){ spy.observe(s); });
+  if (!REDUCED){ var rv = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("in"); rv.unobserve(e.target); } }); }, {rootMargin:"0px 0px -8% 0px"});
+    $$(".reveal").forEach(function(r){ rv.observe(r); }); }
+  else $$(".reveal").forEach(function(r){ r.classList.add("in"); });
+} else $$(".reveal").forEach(function(r){ r.classList.add("in"); });
+
+/* ---------------- keyboard ---------------- */
+var help = $("#help");
+$$("[data-help]").forEach(function(b){ b.addEventListener("click", function(){ help.showModal(); }); });
+help.querySelector("[data-close]").addEventListener("click", function(){ help.close(); });
+document.addEventListener("keydown", function(e){
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  var tag = (e.target.tagName || "").toLowerCase(); if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) { if (e.key === "Escape") e.target.blur(); return; }
+  if (help.open) return;
+  if (e.key === "?"){ e.preventDefault(); help.showModal(); }
+  else if (e.key === "j"){ go(1); } else if (e.key === "k"){ go(-1); }
+  else if (e.key === "s"){ desk.mode = desk.mode === "split" ? "inline" : "split"; buildDesk(true); toast(desk.mode === "split" ? "Lado a lado" : "Em linha"); }
+  else if (e.key === "u"){ desk.unit = desk.unit === "word" ? "sentence" : "word"; buildDesk(true); toast(desk.unit === "word" ? "Por palavra" : "Por frase"); }
+  else if (e.key === "/"){ e.preventDefault(); $("#gap-q").focus(); $("#gaps").scrollIntoView({behavior: REDUCED ? "auto" : "smooth"}); }
+  else if (e.key === "t"){ var cur = root.getAttribute("data-theme") || "auto"; setTheme(cur === "auto" ? "light" : cur === "light" ? "dark" : "auto"); }
+});
+document.documentElement.setAttribute("data-ready", "1");
+})();
+</script>
+</body>
+</html>

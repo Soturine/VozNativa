@@ -78,10 +78,20 @@ def ask(prompt: str, model: str) -> tuple[dict, float]:
     with tempfile.TemporaryDirectory() as cwd:
         done = subprocess.run(["claude", "-p", "--model", model, "--output-format", "json", "--tools", ""],
                               input=prompt.encode("utf-8"), capture_output=True, env=env, cwd=cwd, timeout=900)
-    outer = json.loads(done.stdout.decode("utf-8", "replace"))
+    try:
+        outer = json.loads(done.stdout.decode("utf-8", "replace"))
+    except ValueError:
+        raise JudgeUnavailable(f"exit {done.returncode}, no JSON from the judge") from None
     body = outer.get("result") or ""
     m = re.search(r"\{.*\}", body, re.S)
-    return (json.loads(m.group(0)) if m else {}), float(outer.get("total_cost_usd") or 0.0)
+    if done.returncode != 0 or outer.get("is_error") or not m:
+        # quota, auth or a non-JSON answer: not a judgment; the row is not written and resume retries it
+        raise JudgeUnavailable(f"exit {done.returncode}: {body[:120]!r}")
+    return json.loads(m.group(0)), float(outer.get("total_cost_usd") or 0.0)
+
+
+class JudgeUnavailable(RuntimeError):
+    pass
 
 
 def main(argv=None) -> int:
@@ -122,7 +132,11 @@ def main(argv=None) -> int:
             names = {k: f"X{i + 1}" for i, k in enumerate(keys)}
             prompt = RUBRIC.replace("{request}", task["request"]).replace("{original}", original) + "".join(
                 f"\nCANDIDATA {names[k]}:\n<<<\n{cands[k]['text']}\n>>>\n" for k in keys)
-            scores, cost = ask(prompt, args.model)
+            try:
+                scores, cost = ask(prompt, args.model)
+            except JudgeUnavailable as exc:
+                print(task["task"], rep, "JUDGE_UNAVAILABLE (not written; retried on resume):", exc, flush=True)
+                return 75
             rows = []
             for k in keys:
                 s = scores.get(names[k]) or {}

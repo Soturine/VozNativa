@@ -38,6 +38,21 @@ BARE = ("import sys; from voznativa import knowledge as k; "
         "k.for_text = lambda *a, **kw: {'selected': [], 'skipped': [], 'used_chars': 0, 'budget_chars': 0, "
         "'registry_errors': []}; from voznativa.cli import main; sys.exit(main(sys.argv[1:]))")
 ARMS = ("A1_direct", "A2_skill", "A3_engine", "A3_bare")
+MAX_PROVIDER_FAILURES = 3
+
+
+def provider_failed(rec: dict) -> bool:
+    """True when the run never reached the model (quota, auth, network): not a result of the arm.
+
+    Such a run is kept under ``failed/`` for the record and is retried on resume; it never becomes an output.
+    """
+    if rec.get("outcome") == "provider_error":
+        return True
+    if rec["arm"] == "A1_direct":
+        return rec.get("exit_code") != 0 or not rec.get("output")
+    if rec["arm"] == "A2_skill":
+        return not rec.get("final_written") and not rec.get("tools") and not rec.get("cost_usd")
+    return False
 
 
 def _env(cost_log: Path) -> dict:
@@ -126,6 +141,7 @@ def main(argv=None) -> int:
     out_dir = Path(args.out_dir).expanduser() / args.label
     out_dir.mkdir(parents=True, exist_ok=True)
     arms = [a for a in ARMS if a in args.arms.split(",")]
+    failures = 0
     for task in tasks:
         item = items[task["item"]]
         assert item["rights"] in ("public_domain", "cc_by"), "only API-eligible texts go to a provider"
@@ -148,6 +164,17 @@ def main(argv=None) -> int:
                         rec = engine(task, text_file, args.model, root, work, bare=arm == "A3_bare")
                 rec.update({"task": task["task"], "rep": rep, "arm": arm, "label": args.label, "model": args.model,
                             "item": task["item"], "order": order.index(arm)})
+                if provider_failed(rec):
+                    failures += 1
+                    (out_dir / "failed").mkdir(exist_ok=True)
+                    (out_dir / "failed" / f"{target.stem}-{int(time.time())}.json").write_text(
+                        json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
+                    print(task["task"], rep, arm, "PROVIDER_FAILED (not a result; retried on resume)", flush=True)
+                    if failures >= MAX_PROVIDER_FAILURES:
+                        print("stopping: provider unavailable", flush=True)
+                        return 75
+                    continue
+                failures = 0
                 target.write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
                 print(task["task"], rep, arm, {k: rec.get(k) for k in ("exit_code", "outcome", "cost_usd", "calls",
                                                                           "skill_invoked", "seconds")}, flush=True)
