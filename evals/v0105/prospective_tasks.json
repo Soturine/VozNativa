@@ -1,0 +1,305 @@
+{
+ "kind": "voznativa.prospective_holdout",
+ "frozen_at": "2026-11-19",
+ "note": "frozen before running any arm and before the v0.10.5 continuation changes are measured; authors, works and sources disjoint from the development tasks; internal (prepared by the same agent), not independent",
+ "items": [
+  {
+   "id": "pr-p01",
+   "work": "Lima Barreto, \"A lei\" (Vida Urbana, 1915)",
+   "source": "wikisource",
+   "genre": "crônica",
+   "band": "medio",
+   "words": 280,
+   "sha256": "4c05a8c2866b4d38541576d784da0693f37b0c46875bea8217450f244d831add",
+   "rights": "public_domain",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true,
+    "basis": "domínio público (autor morto há mais de 70 anos)"
+   }
+  },
+  {
+   "id": "pr-p02",
+   "work": "Lima Barreto, \"A biblioteca\" (Marginália, 1915)",
+   "source": "wikisource",
+   "genre": "crônica",
+   "band": "medio",
+   "words": 455,
+   "sha256": "05265bb5a5cbae3ff2b6b52a412b82085f128544d03b7a3bef9753cfdc3ecb85",
+   "rights": "public_domain",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true,
+    "basis": "domínio público (autor morto há mais de 70 anos)"
+   }
+  },
+  {
+   "id": "pr-p03",
+   "work": "João do Rio, \"O Monstro\" (Contos), trecho inicial",
+   "source": "wikisource",
+   "genre": "conto (diálogo)",
+   "band": "medio",
+   "words": 462,
+   "sha256": "bc2adf430decfbf99eb99cbafcef860b7b12b7c7341a5de98da630c16db6a476",
+   "rights": "public_domain",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true,
+    "basis": "domínio público (autor morto há mais de 70 anos)"
+   }
+  },
+  {
+   "id": "pr-p04",
+   "work": "Euclides da Cunha, telegrama de 19/08/1897",
+   "source": "wikisource",
+   "genre": "telegrama jornalístico (1897)",
+   "band": "medio",
+   "words": 169,
+   "sha256": "b92b9aa665d3d95f4ee3a5ad8b0222716612eaed8952aeb2373abc3d0bcf1066",
+   "rights": "public_domain",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true,
+    "basis": "domínio público (autor morto há mais de 70 anos)"
+   }
+  },
+  {
+   "id": "pr-p05",
+   "work": "Júlia Lopes de Almeida, \"As Árvores\" (Livro das Donas e Donzelas)",
+   "source": "wikisource",
+   "genre": "ensaio/crônica",
+   "band": "medio",
+   "words": 364,
+   "sha256": "83efdf921cd2b528d92917bf0b92e6c3a96c8281e401980cac3796996b5ece3e",
+   "rights": "public_domain",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true,
+    "basis": "domínio público (autor morto há mais de 70 anos)"
+   }
+  },
+  {
+   "id": "pr-p06",
+   "work": "Documentação do Python em PT-BR, tutorial \"Abrindo o apetite\"",
+   "source": "docs.python.org/pt-br",
+   "genre": "documentação técnica",
+   "band": "medio",
+   "words": 217,
+   "sha256": "8e37b442e57340cbe672b9c9c1a2cb5625d8ebc647cec6fc921c0d74dc001188",
+   "rights": "psf_license",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": false,
+    "basis": "PSF License v2 (reprodução e obras derivadas com aviso); não publicado por cautela"
+   }
+  },
+  {
+   "id": "pr-p07",
+   "work": "Documentação do Python em PT-BR, tutorial \"Ambientes virtuais e pacotes\"",
+   "source": "docs.python.org/pt-br",
+   "genre": "documentação técnica",
+   "band": "medio",
+   "words": 281,
+   "sha256": "7939db4c2b6013fe595ca8f234ea01a0df6acda728c67bc808627410f535a76e",
+   "rights": "psf_license",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": false,
+    "basis": "PSF License v2 (reprodução e obras derivadas com aviso); não publicado por cautela"
+   }
+  },
+  {
+   "id": "pr-p08",
+   "work": "Agência Brasil, notícia sobre reaplicação do Enem 2026",
+   "source": "agenciabrasil.ebc.com.br",
+   "genre": "notícia",
+   "band": "medio",
+   "words": 305,
+   "sha256": "86cbeb8b388f2040e62737cf7ca00c4944989eb169e5a810f2823350abc8855c",
+   "rights": "attribution_noncommercial",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": false,
+    "basis": "Termos de uso da EBC: reprodução com indicação da fonte, uso pessoal sem fim comercial; avaliação não comercial, não publicado no repositório MIT"
+   }
+  },
+  {
+   "id": "pr-p09",
+   "work": "Agência Brasil, título de notícia sobre o Enem 2026",
+   "source": "agenciabrasil.ebc.com.br",
+   "genre": "título de notícia",
+   "band": "micro",
+   "words": 12,
+   "sha256": "3c7af3920b50810f9c3edb5ee9629930689d4f617b97905b807b76f4e3bb8f92",
+   "rights": "attribution_noncommercial",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": false,
+    "basis": "Termos de uso da EBC: reprodução com indicação da fonte, uso pessoal sem fim comercial; avaliação não comercial, não publicado no repositório MIT"
+   }
+  },
+  {
+   "id": "pr-p10",
+   "work": "Documentação do Python em PT-BR, tutorial \"Ambientes virtuais e pacotes\", parágrafo",
+   "source": "docs.python.org/pt-br",
+   "genre": "documentação técnica",
+   "band": "curto",
+   "words": 61,
+   "sha256": "1889b889e24f86c10ee3fa74de0f7a3683fb7351a5c55d6c07dd6f4b47254b9f",
+   "rights": "psf_license",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": false,
+    "basis": "PSF License v2 (reprodução e obras derivadas com aviso); não publicado por cautela"
+   }
+  }
+ ],
+ "tasks": [
+  {
+   "task": "P01",
+   "split": "prospective_holdout",
+   "item": "pr-p01",
+   "genre": "crônica",
+   "words": 280,
+   "request": "Deixe esta crônica com mais ou menos metade do tamanho, sem perder o argumento do autor.",
+   "expect": "edit_required",
+   "engine_mode": "POLISH",
+   "attrs": {
+    "genre": "crônica",
+    "audience": "leitor de hoje"
+   }
+  },
+  {
+   "task": "P02",
+   "split": "prospective_holdout",
+   "item": "pr-p02",
+   "genre": "crônica",
+   "words": 455,
+   "request": "Revise este texto.",
+   "expect": "edit_allowed",
+   "engine_mode": null,
+   "attrs": {
+    "genre": "crônica"
+   }
+  },
+  {
+   "task": "P03",
+   "split": "prospective_holdout",
+   "item": "pr-p03",
+   "genre": "conto (diálogo)",
+   "words": 462,
+   "request": "Revise este diálogo.",
+   "expect": "no_change_expected",
+   "engine_mode": null,
+   "attrs": {
+    "genre": "conto"
+   }
+  },
+  {
+   "task": "P04",
+   "split": "prospective_holdout",
+   "item": "pr-p04",
+   "genre": "telegrama jornalístico (1897)",
+   "words": 169,
+   "request": "Transforme este telegrama numa nota de notícia escrita hoje, mantendo todas as informações.",
+   "expect": "edit_required",
+   "engine_mode": "ADAPT",
+   "attrs": {
+    "genre": "notícia",
+    "audience": "leitor de jornal hoje"
+   }
+  },
+  {
+   "task": "P05",
+   "split": "prospective_holdout",
+   "item": "pr-p05",
+   "genre": "ensaio/crônica",
+   "words": 364,
+   "request": "Corrija apenas erros de português, se houver; não reescreva.",
+   "expect": "no_change_expected",
+   "engine_mode": "PROOFREAD",
+   "attrs": {
+    "genre": "ensaio"
+   }
+  },
+  {
+   "task": "P06",
+   "split": "prospective_holdout",
+   "item": "pr-p06",
+   "genre": "documentação técnica",
+   "words": 217,
+   "request": "Revise para clareza e concisão, mantendo os termos técnicos.",
+   "expect": "edit_allowed",
+   "engine_mode": "POLISH",
+   "attrs": {
+    "genre": "documentação técnica",
+    "audience": "programadores"
+   }
+  },
+  {
+   "task": "P07",
+   "split": "prospective_holdout",
+   "item": "pr-p07",
+   "genre": "documentação técnica",
+   "words": 281,
+   "request": "Reescreva para quem nunca programou, mantendo os comandos exatamente como estão.",
+   "expect": "edit_required",
+   "engine_mode": "ADAPT",
+   "attrs": {
+    "genre": "documentação técnica",
+    "audience": "iniciante que nunca programou"
+   }
+  },
+  {
+   "task": "P08",
+   "split": "prospective_holdout",
+   "item": "pr-p08",
+   "genre": "notícia",
+   "words": 305,
+   "request": "Transforme esta notícia num aviso curto para o grupo de WhatsApp da escola, sem perder datas, prazos e condições.",
+   "expect": "edit_required",
+   "engine_mode": "ADAPT",
+   "attrs": {
+    "genre": "aviso",
+    "channel": "whatsapp",
+    "audience": "pais e alunos"
+   }
+  },
+  {
+   "task": "P09",
+   "split": "prospective_holdout",
+   "item": "pr-p09",
+   "genre": "título de notícia",
+   "words": 12,
+   "request": "Revise este título.",
+   "expect": "no_change_expected",
+   "engine_mode": null,
+   "attrs": {
+    "genre": "título de notícia"
+   }
+  },
+  {
+   "task": "P10",
+   "split": "prospective_holdout",
+   "item": "pr-p10",
+   "genre": "documentação técnica",
+   "words": 61,
+   "request": "Corrija apenas erros, se houver; não reescreva.",
+   "expect": "no_change_expected",
+   "engine_mode": "PROOFREAD",
+   "attrs": {
+    "genre": "documentação técnica"
+   }
+  }
+ ]
+}

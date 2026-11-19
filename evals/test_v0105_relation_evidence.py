@@ -35,12 +35,32 @@ class RelationEvidence(unittest.TestCase):
                 code = cli.main(["compare", paths[0], paths[1], "--judgment", paths[2]])
         return code, json.loads(out.getvalue())
 
-    def test_a_file_relation_is_declared_even_when_the_file_claims_otherwise(self):
-        # defect: before v0.10.5 the report showed level "provider" with nothing saying nobody observed it
-        code, report = self._cli(answer("different_model", relation_evidence="ENGINE_OBSERVED"))
-        self.assertEqual(report["status"], "accepted_by_llm")
-        self.assertEqual(report["judge_independence"]["relation_evidence"], "DECLARED")
-        self.assertEqual(code, 0)
+    def test_a_declared_relation_accepts_nothing(self):
+        # defect (continuation of V105-GAP-11): the agent that wrote the candidate could write a judgment file
+        # declaring different_model and get accepted_by_llm, exit 0, safe_to_auto_accept
+        for relation, extra in (("different_model", {}), ("different_provider", {}), ("same_vendor", {}),
+                                ("independence_verified", {"independence_evidence": "outro modelo, confie"}),
+                                ("different_model", {"relation_evidence": "ENGINE_OBSERVED"})):
+            code, report = self._cli(answer(relation, **extra))
+            self.assertEqual(report["status"], "no_deterministic_issues", relation)
+            self.assertFalse(report["safe_to_auto_accept"], relation)
+            self.assertIn("independent_judgment", report["requires"], relation)
+            self.assertEqual(report["declared_assessment"]["relation_evidence"], "DECLARED", relation)
+            self.assertNotIn("judge_independence", report, relation)
+            self.assertNotEqual(code, 0, relation)
+
+    def test_declared_judgment_through_the_api_is_conservative_too(self):
+        # a dict without relation_evidence (library users, benchmark files) is declared, not observed
+        report = apply_judgment(compare(ORIGINAL, CANDIDATE),
+                                judge.validate(answer("different_provider"), ORIGINAL, CANDIDATE))
+        self.assertEqual(report["status"], "no_deterministic_issues")
+        self.assertFalse(report["safe_to_auto_accept"])
+
+    def test_control_a_declared_rejection_still_counts(self):
+        # rejections only make the result safer, whoever declares them
+        bad = dict(answer("different_model"), verdict="not_equivalent")
+        code, report = self._cli(bad)
+        self.assertEqual(report["status"], "fail")
 
     def test_engine_observed_relation_is_kept(self):
         observed = judge.validate(answer("different_provider", relation_evidence="ENGINE_OBSERVED"),

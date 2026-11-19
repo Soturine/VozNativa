@@ -17,7 +17,8 @@ Com o texto gravado em `texto.txt` e o pedido do usuário em mãos:
 
 1. **Antes de escrever:** `$VN plan texto.txt --attr "pedido=<o pedido do usuário>" [--attr genre=… --attr audience=… --attr tone=…]` (atributos livres, inclusive gênero que não está em lista nenhuma). Leia `decision`, as frases marcadas e `language`. Poema, diálogo literário ou texto que já atende ao pedido: o mais provável é **não mudar**; diga por quê. Texto que não está em português: não revise como português.
 2. **Escreva** a candidata em `candidata.txt` seguindo o plano (frase marcada "manter" fica como está) — ou use `$VN rewrite-prompt texto.txt` com os mesmos `--attr` para receber o plano, o conhecimento pertinente e as proteções num prompt só.
-3. **Confira:** `$VN compare texto.txt candidata.txt` e aja pelo código de saída (tabela abaixo). Não entregue antes desse passo; um item `major` ou `critical` vai junto com a entrega ou é corrigido.
+3. **Confira:** `$VN compare texto.txt candidata.txt` e aja pelo `status` (tabela abaixo). **Texto editado nunca é entregue sem este passo**, nem quando a mudança parece pequena. Só a decisão de não mudar dispensa o `compare` (o arquivo final é o original).
+4. **Entregue com a palavra certa.** O que os gates não provam, você não afirma. Com `no_deterministic_issues`, diga "os gates não acharam problema; isso não prova que o sentido foi mantido". **Não escreva** "mantive todas as ideias", "sem mudar o sentido", "nenhuma informação foi perdida" ou equivalentes como fato: diga o que mudou e o que os gates conferiram (números, nomes, negações, condições).
 
 Os passos detalhados estão em "Rewrite (padrão)".
 
@@ -33,11 +34,13 @@ Os passos detalhados estão em "Rewrite (padrão)".
 
 ## Ferramentas
 
-Defina `VN` com o diretório desta skill:
+Chame o CLI desta skill direto, um comando por vez:
 
 ```bash
-VN="python <diretório-da-skill>/scripts/voznativa_cli.py"
+python <diretório-da-skill>/scripts/voznativa_cli.py plan texto.txt --attr "pedido=…"
 ```
+
+Nos exemplos, `$VN` abrevia `python <diretório-da-skill>/scripts/voznativa_cli.py`; escreva o comando por extenso. Não encadeie `; echo $?` nem defina variável de shell antes: hosts com lista de permissões aprovam um comando `python …` e pedem aprovação para comandos compostos (observado no Claude Code). O código de saída não precisa ser impresso: o `status` vem no JSON.
 
 Requer Python 3.11+. `compare`, `ledger`, `judge-prompt`, `analyze` e `ground` usam só a biblioteca padrão; `route`, `refs`, `contract`, `profile` e `rewrite-prompt` precisam de PyYAML (`pip install pyyaml`). Se o Python não estiver disponível, siga o procedimento manualmente com as referências da tabela final **e diga ao usuário que os gates não rodaram**.
 
@@ -56,16 +59,16 @@ Grave textos em arquivos UTF-8 e passe o caminho. No PowerShell 5.1, não use pi
 |---|---|---|
 | 0 | `identical` / `accepted_*` | Entregar. |
 | 1 | `fail` | Corrija exatamente os itens `critical` e repita. Depois de 3 tentativas, entregue o **original** e explique o que não foi possível preservar. |
-| 2 | `review_required` | Entregue a candidata **junto com** os itens `major` para o usuário revisar. Não diga que o sentido está garantido. |
+| 2 | `review_required` | Leia cada item `major`. Se ele aponta perda real (uma ação, condição ou restrição sumiu), **reformule só aquele trecho** preservando o que o item aponta e rode `compare` de novo. Se o item é consequência do próprio pedido (linguagem simples exige reformular; conciso exige cortar redundância) ou um falso alarme, entregue a candidata **com o item explicado** para o usuário decidir. Não desfaça a edição inteira por causa de um `major`: devolver o original é para quando nenhuma reformulação preserva o sentido. Nunca diga que o sentido está garantido. |
 | 2 | `human_review_claimed` | Há um julgamento humano sem assinatura válida. Trate como revisão pendente. |
 | 3 | `no_deterministic_issues` | Os gates não acharam problema, o que não prova equivalência. Faça a etapa 6. |
 
 `predicate_missing` (major) indica que a ação ou o compromisso da frase original sumiu e restou só um verbo leve ("será enviado" → "vai até"): devolva a ação em vez de argumentar. `predicate_replaced` (info) não reprova, mas na etapa 6 confira se o verbo novo é a mesma ação. `recipient_dropped`/`recipient_changed` (major): quem recebe ("ao cliente", "para a diretoria") sumiu ou mudou; `agent_recipient_swapped` (major): quem dá e quem recebe trocaram; `event_converted` (major): o verbo virou o inverso com o mesmo sujeito ("comprou" → "vendeu"). Restaure em vez de argumentar. `qualifier_dropped`/`qualifier_changed`/`qualifier_added` (major): um qualificador operacional sumiu, virou o contrário ou apareceu ("envio automático" → "envio", "presencial" → "online", "custo" → "custo estimado"); `event_changed` (major): o verbo virou outra ação ("assinou" → "leu"); `fact_status_changed` (major): o que aconteceu virou intenção, tentativa, pedido ou proposta ("concluiu" → "pretende concluir", "pagou" → "solicitou o pagamento"); `aspect_changed` (major): "passou a", "voltou a" apareceram ou sumiram. Restaure também nesses casos. Nenhum desses sinais aparecer não prova que o evento foi mantido.
 
-6. **Juiz.** Rode `$VN judge-prompt texto.txt candidata.txt`, responda o JSON pedido com honestidade em `juizo.json` (`"kind": "llm"`, `"judge_id"` com o seu modelo, e os dois hashes do bloco BINDING) e rode `$VN compare texto.txt candidata.txt --judgment juizo.json`. Como juiz LLM você só aprova resultados limpos; `fail` e `review_required` continuam como estão.
-   **Se foi você quem escreveu a candidata, ponha `"generator_relation": "same_agent"`.** Esse juízo é autoavaliação: o relatório o guarda como `agent_assessment` e não aprova nada (o estado fica `no_deterministic_issues`, com `independent_judgment` pendente). Diga ao usuário que a candidata foi verificada pelos gates e avaliada por você, não por um juiz independente. Um `not_equivalent` seu reprova normalmente. Desde a v0.10, um juízo com relação `unknown` (ou sem o campo) também não aprova: só aprova um juiz cuja independência se observa (`different_model`, `different_provider`, `same_vendor` com independência parcial registrada). Uma relação escrita num arquivo de juízo é **declarada**, não observada (o relatório marca `relation_evidence: DECLARED`): declare só o que for verdade e não diga ao usuário que a independência foi verificada; só o `rewrite` com `--judge-cmd`/`--judge-api-model` observa a relação (`ENGINE_OBSERVED`).
+6. **Juiz.** Rode `$VN judge-prompt texto.txt candidata.txt`, responda o JSON pedido com honestidade em `juizo.json` (`"kind": "llm"`, `"judge_id"` com o seu modelo, e os dois hashes do bloco BINDING) e rode `$VN compare texto.txt candidata.txt --judgment juizo.json`. **Desde a v0.10.5, um juízo lido de arquivo não aprova nada**, qualquer que seja a relação declarada: o relatório o guarda como `declared_assessment` e o estado continua `no_deterministic_issues`. Ele serve para registrar a sua avaliação e para reprovar (`not_equivalent` reprova normalmente). Só o `rewrite` com `--judge-cmd`/`--judge-api-model` aprova, porque o engine roda o juiz e observa a relação.
+   **Se foi você quem escreveu a candidata, ponha `"generator_relation": "same_agent"`** (autoavaliação, `agent_assessment`). Declare só o que for verdade. Diga ao usuário que a candidata foi verificada pelos gates e avaliada por você, não por um juiz independente.
    **Nunca escreva um julgamento `"kind": "human"`.** Um arquivo assim, sem assinatura, vira `human_review_claimed` e não aprova nada. Para resolver uma revisão, peça ao usuário que rode no terminal dele `$VN review texto.txt candidata.txt --reviewer <nome> --out revisao.json` e depois use `--judgment revisao.json`. Uma revisão assinada com a chave local prova integridade, não identidade nem independência: não a apresente como avaliação independente.
-7. **Entrega.** O texto primeiro. Depois, uma linha com o status final e, se houver, os itens pendentes. Relatório completo só quando pedido.
+7. **Entrega.** O texto primeiro. Depois, uma linha com o status final nas palavras do passo 4 do fluxo mínimo e, se houver, os itens pendentes. Relatório completo só quando pedido.
 
 ## Outros modos
 

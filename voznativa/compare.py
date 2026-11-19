@@ -1545,6 +1545,20 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
         merged["safe_to_auto_accept"] = False
         merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
         return merged
+    # v0.10.5 (continuation of V105-GAP-11, decision D-03): a relation that only a file declares cannot accept.
+    # In the Skill flow the agent that wrote the candidate also writes the judgment file, so "different_model" or
+    # "independence_verified" there is a claim, not evidence. Only a judge the engine ran itself (relation derived
+    # from the commands it executed) accepts. A declared rejection still counts below: it can only make it safer.
+    if kind == "llm" and verdict == "equivalent" and judgment.get("relation_evidence") != "ENGINE_OBSERVED":
+        merged["declared_assessment"] = {
+            "verdict": verdict, "judge_id": judgment.get("judge_id"), "generator_relation": relation,
+            "relation_evidence": "DECLARED",
+            "note": "a judgment file declares who judged; nothing observed that the judge is independent of the "
+                    "writer, so nothing is accepted on it. Use `voznativa rewrite --judge-cmd` (the engine runs "
+                    "the judge and observes the relation) or a signed human review"}
+        merged["safe_to_auto_accept"] = False
+        merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
+        return merged
     if verdict == "not_equivalent":
         # Rejections are accepted from any source: they can only make the result safer.
         merged.update(status="fail", semantic_equivalence="violated", safe_to_auto_accept=False, requires=[])

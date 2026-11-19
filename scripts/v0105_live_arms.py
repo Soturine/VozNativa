@@ -38,6 +38,14 @@ BARE = ("import sys; from voznativa import knowledge as k; "
         "k.for_text = lambda *a, **kw: {'selected': [], 'skipped': [], 'used_chars': 0, 'budget_chars': 0, "
         "'registry_errors': []}; from voznativa.cli import main; sys.exit(main(sys.argv[1:]))")
 ARMS = ("A1_direct", "A2_skill", "A3_engine", "A3_bare")
+# v0.10.5 continuation: a valid factorial ablation. Every variant gets the SAME request (the user's words as the
+# open attribute ``pedido``) and the same mode; only the other attributes and the knowledge block change.
+# (A3_bare, kept for the frozen development data, removed the request too, so it measured the request.)
+ABLATION = {"A3_noattrs": (False, True), "A3_noknow": (True, False), "A3_neither": (False, False)}
+ALL_ARMS = ARMS + tuple(ABLATION)
+NO_KNOWLEDGE = ("import sys; from voznativa import knowledge as k; "
+                "k.for_text = lambda *a, **kw: {'selected': [], 'skipped': [], 'used_chars': 0, 'budget_chars': 0, "
+                "'registry_errors': []}; from voznativa.cli import main; sys.exit(main(sys.argv[1:]))")
 MAX_PROVIDER_FAILURES = 3
 
 
@@ -79,7 +87,8 @@ def direct(task, text, model, work: Path) -> dict:
             "cost_usd": cost, "calls": calls, "seconds": round(time.time() - started, 1)}
 
 
-def engine(task, text_file: Path, model, root: Path, work: Path, bare: bool) -> dict:
+def engine(task, text_file: Path, model, root: Path, work: Path, bare: bool, attrs_on: bool = True,
+           knowledge_on: bool = True) -> dict:
     log = work / "cost.jsonl"
     cmd = json.dumps([sys.executable, str(PROVIDER), model])
     args = ["rewrite", str(text_file), "--cmd", cmd, "--provider-env", "minimal", "--provider-env-allow",
@@ -87,10 +96,11 @@ def engine(task, text_file: Path, model, root: Path, work: Path, bare: bool) -> 
     if task.get("engine_mode"):
         args += ["--mode", task["engine_mode"]]
     if not bare:
-        attrs = dict(task["attrs"], pedido=task["request"])
+        attrs = dict(task["attrs"] if attrs_on else {}, pedido=task["request"])
         for key, value in attrs.items():
             args += ["--attr", f"{key}={value}"]
-    head = [sys.executable, "-c", BARE] if bare else [sys.executable, "-m", "voznativa"]
+    head = ([sys.executable, "-c", BARE] if bare else [sys.executable, "-c", NO_KNOWLEDGE] if not knowledge_on
+            else [sys.executable, "-m", "voznativa"])
     started = time.time()
     done = subprocess.run(head + args, cwd=root, capture_output=True, env=_env(log), timeout=1800)
     cost, calls = _costs(log)
@@ -132,19 +142,20 @@ def main(argv=None) -> int:
     ap.add_argument("--only", action="append")
     ap.add_argument("--arms", default=",".join(ARMS))
     ap.add_argument("--model", default="haiku")
+    ap.add_argument("--tasks-file", default=str(ROOT / "evals/v0105/live_tasks.json"))
     args = ap.parse_args(argv)
     root = Path(args.version_root).resolve()
     items = {json.loads(x)["id"]: json.loads(x) for x in Path(args.items).expanduser().read_text(
         encoding="utf-8").splitlines() if x.strip()}
-    tasks = [t for t in json.loads((ROOT / "evals/v0105/live_tasks.json").read_text(encoding="utf-8"))["tasks"]
+    tasks = [t for t in json.loads(Path(args.tasks_file).read_text(encoding="utf-8"))["tasks"]
              if t["split"] == args.split and (not args.only or t["task"] in args.only)]
     out_dir = Path(args.out_dir).expanduser() / args.label
     out_dir.mkdir(parents=True, exist_ok=True)
-    arms = [a for a in ARMS if a in args.arms.split(",")]
+    arms = [a for a in ALL_ARMS if a in args.arms.split(",")]
     failures = 0
     for task in tasks:
         item = items[task["item"]]
-        assert item["rights"] in ("public_domain", "cc_by"), "only API-eligible texts go to a provider"
+        assert item["rights"] in ("public_domain", "cc_by", "model_api_ok"), "only API-eligible texts go to a provider"
         for rep in range(1, args.reps + 1):
             order = arms[:]
             random.Random(f"{task['task']}-{rep}").shuffle(order)
@@ -160,6 +171,9 @@ def main(argv=None) -> int:
                         rec = direct(task, item["text"], args.model, work)
                     elif arm == "A2_skill":
                         rec = skill(task, text_file, args.model, root, work)
+                    elif arm in ABLATION:
+                        rec = engine(task, text_file, args.model, root, work, bare=False,
+                                     attrs_on=ABLATION[arm][0], knowledge_on=ABLATION[arm][1])
                     else:
                         rec = engine(task, text_file, args.model, root, work, bare=arm == "A3_bare")
                 rec.update({"task": task["task"], "rep": rep, "arm": arm, "label": args.label, "model": args.model,
