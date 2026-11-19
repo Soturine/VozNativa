@@ -393,7 +393,18 @@ def _sentence_start(text: str, start: int) -> bool:
     low = start
     while low > 0 and _SENTENCE_START_CHAR.match(text, low - 1):
         low -= 1
-    return _SENTENCE_START_RE.search(text, low, start) is not None
+    if _SENTENCE_START_RE.search(text, low, start) is not None:
+        return True
+    # v0.10.5 (V105-GAP-15): a provision of a legal text starts its sentence after the paragraph sign or an item
+    # marker with no period ("§ 3° Pendendo…", "I - Enquanto…", "a) Quando…"). Only the head of the current line
+    # is read, bounded, so the check stays linear.
+    line = text.rfind("\n", max(0, start - 24), start) + 1
+    if line == 0 and start > 24:
+        return False
+    return _LEGAL_LEAD_RE.fullmatch(text, line, start) is not None
+
+
+_LEGAL_LEAD_RE = re.compile(r"[ \t]*(?:§{1,2}[ \t]*\d+[ \t]*[°ºo.]?|[IVXLCDM]{1,6}[ \t]*[-–—]|[a-z]\))[ \t]+")
 
 
 def _entities(text: str, occupied: _Occupied) -> list[Span]:

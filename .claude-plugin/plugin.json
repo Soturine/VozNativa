@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "voznativa",
   "description": "Revisa, corrige, simplifica, reescreve, adapta, audita e cria textos em português brasileiro sem mudar fatos, negação, condições, exceções, prazos ou compromissos, respeitando o gênero, o público e a voz do autor.",
-  "version": "0.10.0",
+  "version": "0.10.5",
   "author": {
     "name": "Soturine",
     "url": "https://github.com/Soturine"

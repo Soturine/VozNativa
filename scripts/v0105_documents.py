@@ -109,7 +109,7 @@ def flow_text(r: Runner, name: str, text: str, mode: str, request: str) -> dict:
     rep = json.loads(out) if out.strip().startswith("{") else {}
     return {"flow": name, "words": len(text.split()), "mode": mode, "request": request,
             "exit_code": run["exit_code"], "seconds": run["seconds"], "calls": run["calls"],
-            "cost_usd": run["cost_usd"], **summary(run["result"]), "changed": cand.strip() != text.strip(),
+            "cost_usd": run["cost_usd"], **summary(run["result"]), "changed": (cand.strip() != text.strip()) if cand.strip() else None,
             "recompare_status": rep.get("status"), "oracle": oracle(text, cand) if cand else None,
             "source_sha256": sha(text.encode("utf-8")), "compare_cli_cpu_s": compare_cpu}
 
@@ -184,7 +184,7 @@ def main(argv=None) -> int:
     for line in Path(args.items).expanduser().read_text(encoding="utf-8").splitlines():
         it = json.loads(line)
         texts[it["id"]] = it["text"]
-    work = Path(args.work)
+    work = Path(args.work).resolve()      # the CLI runs with cwd=work: a relative path would not resolve there
     work.mkdir(parents=True, exist_ok=True)
     r = Runner(Path(args.root).resolve(), work, args.model)
     report = {"kind": "voznativa.fire_trial_documents", "model": args.model, "text_stored": False, "flows": []}
@@ -197,8 +197,14 @@ def main(argv=None) -> int:
                                          "Adapte estes capítulos para um leitor de hoje, mantendo enredo e estilo."))
     if "office" in flows:
         report["flows"].append(flow_office(r, texts[ITEMS["story"]], texts[ITEMS["lgpd"]]))
+    # units the provider never answered (quota, network): the flow is incomplete, not a result about the engine
+    report["provider_failures"] = sum(((f.get("docx_rewrite") or f).get("unit_outcomes") or {}).get("provider_error", 0)
+                                      for f in report["flows"])
     Path(args.out).write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False)[:3000])
+    if report["provider_failures"]:
+        print(f"INCOMPLETE: {report['provider_failures']} unit(s) without a provider answer; rerun", flush=True)
+        return 75
     return 0
 
 

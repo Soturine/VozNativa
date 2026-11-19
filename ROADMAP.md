@@ -293,6 +293,19 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [ ] `--provider-env minimal` como padrão (0.11; a 0.10 só avisa)
 - [ ] modelo local real, Codex, Gemini CLI, revisão humana cega, holdout independente
 
+## v0.10.5 — Prova de fogo PT-BR (`docs/releases/v0.10.5/`)
+- [x] corpus real de 427 textos PT-BR com direitos por operação; lacunas de família declaradas, sem texto sintético no lugar
+- [x] campanha offline com oráculo metamórfico: mudanças de sentido sem sinal 46 → 7, falsos alarmes em mudança benigna 10 → 1
+- [x] Skill testada num host real sem ser nomeada (12 × 3 + holdout); engine passa a obedecer ao modo pedido
+- [x] documentos inteiros (lei de 12 mil palavras, romance, DOCX/PDF) com oráculo independente
+- [x] VozNativa Observatory: site estático de resultados com diff, matriz, gaps e QA em navegador
+- [ ] Skill atende menos ao pedido do que a v0.10.0 nas tarefas de edição (V105-GAP-16); ainda pula o fluxo em 20/36 (V105-GAP-01)
+- [ ] agente afirma preservação que nenhum gate provou (V105-GAP-17)
+- [ ] roteador devolve `unknown` em 260 de 427 textos reais (V105-GAP-18)
+- [ ] efeito do conhecimento isolado (a ablação desta rodada removeu também o pedido)
+- [ ] herdados sem trabalho nesta rodada: correferência e troca de papéis (V09-GAP-05/V08-GAP-19), `--provider-env minimal` como padrão
+- [ ] revisão humana cega, holdout de terceiro, juiz de outro fornecedor, modelo local, Codex/Gemini, macOS, Word
+
 ## Research track — Optional Model / Adapter
 - [x] arquitetura e gates documentados
 - [ ] candidate generation + reranking

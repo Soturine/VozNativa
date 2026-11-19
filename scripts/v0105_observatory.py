@@ -196,6 +196,29 @@ def _arm_summary(runs: list[dict], judge: dict | None) -> dict:
     return out
 
 
+def judge_r6(runs: list[dict], reps: int = 3) -> dict:
+    """R6 per arm and axis: a task counts as GAIN (LOSS) when v0.10.5 scores above (below) v0.10.0 in at least two
+    of the repetitions judged for both; otherwise TIE. Tasks without both judgments are left out (not ties)."""
+    by = {(r["label"], r["task"], r["rep"], r["arm"]): (r.get("judge") or {}) for r in runs}
+    out = {}
+    for arm in ARMS:
+        tasks = sorted({r["task"] for r in runs if r["arm"] == arm})
+        for axis in ("fidelity", "request", "naturalness"):
+            res = {"gain": [], "loss": [], "tie": []}
+            for t in tasks:
+                win = loss = n = 0
+                for rep in range(1, reps + 1):
+                    a, b = by.get(("v0100", t, rep, arm), {}).get(axis), by.get(("v0105", t, rep, arm), {}).get(axis)
+                    if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
+                        continue
+                    n += 1
+                    win, loss = win + (b > a), loss + (b < a)
+                if n:
+                    res["gain" if win >= 2 else "loss" if loss >= 2 else "tie"].append(t)
+            out[f"{arm}|{axis}"] = res
+    return out
+
+
 def _headline(data: dict) -> dict:
     """The four statements of the 'in one minute' block, each a list of facts with numbers, computed here."""
     off = data["offline"]
@@ -223,7 +246,9 @@ def _headline(data: dict) -> dict:
                              "base_failed": x["failed"], "cand_failed": y["failed"]})
     perf = data.get("perf_17600_cpu_min_s") or {}
     ratio = (round(min(perf["cand"]) / min(perf["base"]), 3) if perf.get("base") and perf.get("cand") else None)
-    return {"offline_missed": [miss(b), miss(c)] if b and c else None,
+    r6 = judge_r6(data["live"]["runs"]) if data.get("judge") else None
+    return {"judge_r6": r6,
+            "offline_missed": [miss(b), miss(c)] if b and c else None,
             "offline_false_alarms": [alarm(b), alarm(c)] if b and c else None,
             "offline_cases": sum(k["total"] for k in c["kinds"].values()) if c else None,
             "kinds_improved": improved, "kinds_worse": worse, "kinds_same": same,
@@ -251,7 +276,7 @@ def build_data(work: Path, items_path: Path) -> dict:
                       "list": [{"id": i["id"], "family": i["family"], "genre": i["genre"], "band": i["band"],
                                 "words": i["words"], "rights": i["rights"]} for i in items]}
     data["offline"] = {}
-    for label, name in (("v0.10.0", "offline-base3.json"), ("v0.10.5", "offline-cand2.json")):
+    for label, name in (("v0.10.0", "offline-base3.json"), ("v0.10.5", "offline-final.json")):
         f = work / name
         if f.exists():
             data["offline"][label] = _offline(json.loads(f.read_text(encoding="utf-8")))
@@ -279,6 +304,18 @@ def build_data(work: Path, items_path: Path) -> dict:
                    "publishable": bool((manifest[t["item"]].get("rights_by_operation") or {}).get("publish_excerpts"))}
                   for t in tasks],
         "runs": runs, "provider_failures_retried": dict(failed), "arms": _arm_summary(runs, judge)}
+    # frozen internal holdout: run once per version at the end (A2, A3), never used to repair anything
+    hold_tasks = {t["task"]: t for t in tasks_all if t["split"] == "internal_holdout"}
+    hold_runs = []
+    for label in LABELS:
+        for f in sorted((work / "live-holdout" / label).glob("*.json")) if (work / "live-holdout" / label).exists() else []:
+            r = json.loads(f.read_text(encoding="utf-8"))
+            t = hold_tasks[r["task"]]
+            rec = _run_record(r, texts[t["item"]], t["expect"])
+            rec.update({"genre": t["genre"], "expect": t["expect"]})
+            hold_runs.append(rec)
+    data["holdout"] = {"tasks": len(hold_tasks), "reps": 1, "runs": hold_runs,
+                       "arms": _arm_summary(hold_runs, None)} if hold_runs else None
     # texts: only what the source allows publishing
     data["texts"] = {}
     for t in tasks:

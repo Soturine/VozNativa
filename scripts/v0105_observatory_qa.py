@@ -110,6 +110,9 @@ def main(argv=None) -> int:
         expect("live_task_rows", count("#mx tbody tr") == len(D["live"]["tasks"]), count("#mx tbody tr"))
         expect("live_run_buttons", count("#mx button.pip") == len(D["live"]["runs"]), [count("#mx button.pip"), len(D["live"]["runs"])])
         expect("comparator_rows", count("#cmp tbody tr") == 8, count("#cmp tbody tr"))
+        expect("judge_r6_rows", count("#r6 tbody tr") == (4 if D.get("judge") else 1), count("#r6 tbody tr"))
+        n_hold = len({r["task"] for r in (D.get("holdout") or {}).get("runs", [])}) or 1
+        expect("holdout_rows", count("#hold tbody tr") == n_hold, count("#hold tbody tr"))
         expect("desk_rows", count("#d-rows .p") >= 1, count("#d-rows .p"))
         expect("documents", count("#dossiers article") == max(n_docs, 1), count("#dossiers article"))
         expect("gaps", count("#gap-list > li") == len(P["gaps"]) and len(P["gaps"]) > 0, count("#gap-list > li"))
@@ -118,6 +121,8 @@ def main(argv=None) -> int:
         expect("method", count("#method li") == len(P["tracks"]["method"]))
         expect("toc", count("#toc a") == count("main section.s") == 10)
         page.screenshot(path=str(shots / "desktop-light-top.png"))
+        # section shots show every block: blocks below the fold of a section would still be waiting to reveal
+        page.evaluate("document.querySelectorAll('.reveal').forEach(e => e.classList.add('in'))")
         for sec in ("minuto", "corpus", "offline", "live", "docs", "gaps", "trilhas", "criterios", "metodo"):
             page.locator("#" + sec).scroll_into_view_if_needed()
             page.wait_for_timeout(900)

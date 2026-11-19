@@ -15,4 +15,12 @@
 
 | CP | Estado | Commit | Evidência |
 |---|---|---|---|
-| CP0 + CP1 | concluído | (este commit) | plano e R1–R18 congelados; corpus real de 427 itens com direitos por operação; 18 tarefas live congeladas; piloto de host real (Skill ativada sem ser nomeada) |
+| CP0 + CP1 | concluído | `69e1313` | plano e R1–R18 congelados; corpus real de 427 itens com direitos por operação; 18 tarefas live congeladas; piloto de host real (Skill ativada sem ser nomeada) |
+| CP0 (gate de privacidade) | concluído | `441bf79` | V105-GAP-03/04; anotação de tipo não é credencial |
+| CP2 + CP3 | concluído | `167c855`, `3ee45c5`, `1082b07`, `05f4ab7`, `8f5ffc1` | campanha offline; falsos verdes de negação e frase apagada; modo explícito; descoberta da Skill; juiz declarado; dígitos colados; ciclos travados; documento longo segmentado |
+| CP4 (braços live) | concluído com retrabalho | — | **18/11 19:14**: a conta atingiu o limite de 5 h no meio da campanha do candidato; 83 execuções (T05–T12) foram gravadas como resultado e a retomada as pulava (V105-HARNESS-02). **19/11**: harness corrigido, campanha arquivada fora do repositório e refeita do zero em `8f5ffc1`: 144/144, nenhuma falha de provider |
+| CP12a (Observatory) | concluído com retrabalho | `3bedfe5` | a primeira página tinha seções vazias e o QA a aprovava; refeita e QA reescrito (V105-HARNESS-05). **Push**: o remoto estava em `167c855`, então esse push levou 5 commits; o gate de privacidade foi rodado no intervalo inteiro **depois** do envio: PASS (5 commits, 12.109 linhas) |
+| CP5 (documentos) | concluído com retrabalho | — | os fluxos de 18/11 19:15 também bateram na cota; replay de 19/11 falhou por caminho relativo no harness (V105-HARNESS-04); terceiro replay completo, sem falha de provider |
+| CP6–CP7 (juiz, holdout, correções) | concluído | (este commit) | juiz cego 36/36 (US$ 1,04); holdout congelado rodado uma vez; V105-GAP-15 (lei) corrigido com replay em 144 reescritas; GAP-16/17/18 abertos |
+| CP8–CP10 (dogfood recíproco) | concluído | Assertiva `5f18982` (PR #11), Engine `a9eb371` (PR #6) | ver `ASSURANCE_RECIPROCAL.md` |
+| CP11 (antes/depois) | concluído | (este commit) | campanha offline **refeita no código final**: a de 18/11 18:56 era de antes de GAP-13/14/15; desempenho remedido intercalado pelo mesmo motivo |

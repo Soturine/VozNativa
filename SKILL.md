@@ -3,7 +3,7 @@ name: voznativa
 description: Revisa, corrige, simplifica, reescreve, adapta, audita e cria textos em português brasileiro sem mudar fatos, negação, condições, exceções, prazos ou compromissos, respeitando o gênero, o público e a voz do autor. Use sempre que o usuário pedir para revisar, melhorar, deixar mais claro ou conciso, corrigir erros, atualizar a ortografia, simplificar para leigos, adaptar a um canal (WhatsApp, e-mail, rede social, documentação, acadêmico, jurídico) ou a um público, humanizar texto de IA, escrever a partir de notas ou de um repositório, ou verificar se uma reescrita mudou o significado de um texto em PT-BR. Também decide quando a resposta certa é não mudar (poema, texto já bom).
 license: MIT
 metadata:
-  version: "0.10.0"
+  version: "0.10.5"
   language: pt-BR
 ---
 

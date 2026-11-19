@@ -1,2 +1,2 @@
 """VozNativa: Brazilian Portuguese voice engine with semantic preservation gates."""
-__version__ = "0.10.0"
+__version__ = "0.10.5"

@@ -70,6 +70,21 @@ class DerivedMetrics(unittest.TestCase):
         self.assertEqual(h["perf_ratio_17600"], 1.05)
 
 
+    def test_judge_r6_needs_two_of_three_and_skips_unjudged(self):
+        def run(label, rep, score):
+            return {"label": label, "task": "T01", "rep": rep, "arm": "A2_skill",
+                    "judge": None if score is None else {"fidelity": score, "request": 3, "naturalness": 3}}
+        runs = [run("v0100", 1, 3), run("v0105", 1, 4), run("v0100", 2, 3), run("v0105", 2, 4),
+                run("v0100", 3, 4), run("v0105", 3, 3)]
+        r6 = obs.judge_r6(runs)
+        self.assertEqual(r6["A2_skill|fidelity"]["gain"], ["T01"])          # better in 2 of 3
+        self.assertEqual(r6["A2_skill|request"]["tie"], ["T01"])
+        one = [run("v0100", 1, 3), run("v0105", 1, 5), run("v0100", 2, None), run("v0105", 2, 5)]
+        self.assertEqual(obs.judge_r6(one)["A2_skill|fidelity"]["tie"], ["T01"])   # one judged pair is not a gain
+        self.assertEqual(obs.judge_r6([run("v0100", 1, None)])["A2_skill|fidelity"],
+                         {"gain": [], "loss": [], "tie": []})               # never judged: left out
+
+
 class PayloadEscaping(unittest.TestCase):
     def test_payload_cannot_close_its_script_tag(self):
         template = obs.TEMPLATE_PATH.read_text(encoding="utf-8")

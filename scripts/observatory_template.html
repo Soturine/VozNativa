@@ -515,6 +515,12 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
       </div>
       <h3>Comparador de braços</h3>
       <div class="panel reveal scroll-x"><table class="cmp" id="cmp"></table></div>
+      <h3>Juiz cego, tarefa por tarefa</h3>
+      <div class="panel reveal scroll-x"><table class="cmp" id="r6"></table></div>
+      <p class="note">Critério R6, congelado no CP0: uma tarefa conta como ganho (ou perda) quando a v0.10.5 recebe nota maior (ou menor) que a v0.10.0 em pelo menos 2 das 3 repetições. O LLM direto não usa o VozNativa: o que muda nele é só variação do modelo e mede o ruído do próprio critério.</p>
+      <h3>Holdout congelado, rodado uma vez</h3>
+      <div class="panel reveal scroll-x"><table class="cmp" id="hold"></table></div>
+      <p class="note">Seis tarefas congeladas no CP0 e nunca usadas para corrigir nada, uma execução por versão e braço (n = 1 por célula): mostra direção, não prova ganho sozinho.</p>
       <div class="warnline reveal" id="live-warn"></div>
     </section>
 
@@ -735,6 +741,8 @@ function wordsIn(tok){ return /[\p{L}\p{N}]/u.test(tok.t) ? 1 : 0; }
   var nLive = runs.length;
   var gapsOpen = P.gaps.filter(function(g){ return g.status !== "FIXED"; });
   var gatesNot = P.gates.filter(function(g){ return g.status !== "PASS"; });
+  var control = live.filter(function(x){ return x.arm === "A1_direct"; })[0];
+  live = live.filter(function(x){ return x.arm !== "A1_direct"; });
   var improvedLive = live.filter(function(x){ return x.cand_decided && (x.cand_unnecessary + x.cand_missed) < (x.base_unnecessary + x.base_missed); });
   var worseLive = live.filter(function(x){ return x.cand_decided && (x.cand_unnecessary + x.cand_missed) > (x.base_unnecessary + x.base_missed); });
   var tested = '<div class="mi"><div class="kicker"><b>01</b>Testado</div><div class="big num">' + fmt(D.corpus.items) + '</div>' +
@@ -748,16 +756,25 @@ function wordsIn(tok){ return /[\p{L}\p{N}]/u.test(tok.t) ? 1 : 0; }
     '<p>mudanças de sentido que passavam sem sinal no <code>compare</code> (v0.10.0 → v0.10.5).</p><ul>' +
     (fa ? '<li>Falso alarme em mudança benigna: <b class="num">' + fmt(fa[0]) + ' → ' + fmt(fa[1]) + '</b></li>' : "") +
     H.kinds_improved.slice(0, 3).map(function(k){ return '<li>' + esc(k.label) + ': <b class="num">' + fmt(k.base[0]) + ' → ' + fmt(k.cand[0]) + '</b> de ' + fmt(k.cand[1]) + '</li>'; }).join("") +
+    (H.judge_r6 ? ["A3_engine","A2_skill"].map(function(arm){ var x = H.judge_r6[arm + "|request"], f = H.judge_r6[arm + "|fidelity"];
+      return x.gain.length > x.loss.length ? '<li>' + esc(L.arm[arm]) + ', juiz (atende ao pedido): <b class="num">+' + x.gain.length + ' / −' + x.loss.length + '</b> tarefas</li>' :
+        f.gain.length > f.loss.length ? '<li>' + esc(L.arm[arm]) + ', juiz (fidelidade): <b class="num">+' + f.gain.length + ' / −' + f.loss.length + '</b> tarefas</li>' : ""; }).join("") : "") +
     improvedLive.map(function(x){ return '<li>' + esc(x.label) + ', decisões erradas: <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b></li>'; }).join("") +
     '</ul><a class="go" href="#offline">Ver a campanha <span>→</span></a></div>';
   var same = H.kinds_worse.map(function(k){ return '<li>Piorou: ' + esc(k.label) + ' <b class="num">' + fmt(k.base[0]) + ' → ' + fmt(k.cand[0]) + '</b></li>'; })
     .concat(worseLive.map(function(x){ return '<li>Piorou no live: ' + esc(x.label) + ' <b class="num">' + fmt(x.base_unnecessary + x.base_missed) + ' → ' + fmt(x.cand_unnecessary + x.cand_missed) + '</b> decisões erradas</li>'; }));
+  if (control) same.push('<li>LLM direto, controle sem VozNativa: <b class="num">' + fmt(control.base_unnecessary + control.base_missed) + ' → ' + fmt(control.cand_unnecessary + control.cand_missed) + '</b> decisões erradas (variação do modelo)</li>');
   if (H.confirmed_on_real_text) same.push('<li>Erro confirmado em texto publicado: <b class="num">' + fmt(H.confirmed_on_real_text[0]) + ' → ' + fmt(H.confirmed_on_real_text[1]) + '</b> itens</li>');
   if (H.edit_plans_on_real_text) same.push('<li>Planos de edição em texto publicado: <b class="num">' + fmt(H.edit_plans_on_real_text[0]) + ' → ' + fmt(H.edit_plans_on_real_text[1]) + '</b></li>');
   if (H.perf_ratio_17600 != null) same.push('<li>CPU do <code>compare</code> em 17,6 mil palavras: <b class="num">' + fmt(H.perf_ratio_17600, 2) + '×</b> a v0.10.0</li>');
   if (!D.judge) same.push('<li>Qualidade pelo juiz cego: ' + chip("NOT_RUN") + '</li>');
-  var worse = '<div class="mi"><div class="kicker"><b>03</b>Igual ou pior</div><div class="big num">' + fmt(H.kinds_worse.length + worseLive.length) + '</div>' +
-    '<p>' + (H.kinds_worse.length + worseLive.length ? "medidas que pioraram (listadas abaixo)." : "medidas que pioraram no mesmo corpus. O que ficou igual:") + '</p><ul>' + same.join("") + '</ul>' +
+  var judgeWorse = H.judge_r6 ? ["A2_skill","A3_engine","A3_bare"].map(function(arm){ return ["request","naturalness","fidelity"].map(function(ax){ var x = H.judge_r6[arm + "|" + ax];
+      return x.loss.length > x.gain.length ? {arm:arm, ax:ax, x:x} : null; }).filter(Boolean); }).reduce(function(a, b){ return a.concat(b); }, []) : [];
+  var axName = {request:"atende ao pedido", naturalness:"naturalidade", fidelity:"fidelidade"};
+  same = judgeWorse.map(function(w){ return '<li>Piorou no juiz: ' + esc(L.arm[w.arm]) + ', ' + axName[w.ax] + ' <b class="num">+' + w.x.gain.length + ' / −' + w.x.loss.length + '</b> tarefas</li>'; }).concat(same);
+  var nWorse = H.kinds_worse.length + worseLive.length + judgeWorse.length;
+  var worse = '<div class="mi"><div class="kicker"><b>03</b>Igual ou pior</div><div class="big num">' + fmt(nWorse) + '</div>' +
+    '<p>' + (nWorse ? "medidas que pioraram, e o que ficou igual:" : "medidas que pioraram no mesmo corpus. O que ficou igual:") + '</p><ul>' + same.join("") + '</ul>' +
     '<a class="go" href="#live">Ver os braços live <span>→</span></a></div>';
   var open = '<div class="mi"><div class="kicker"><b>04</b>Em aberto</div><div class="big num">' + fmt(gapsOpen.length) + '</div>' +
     '<p>gaps sem correção comprovada, e ' + fmt(gatesNot.length) + ' de ' + fmt(P.gates.length) + ' critérios de release ainda não aprovados.</p><ul>' +
@@ -923,6 +940,31 @@ $$("#live-ver button").forEach(function(b){ b.addEventListener("click", function
 $("#mx").addEventListener("click", function(e){ var p = e.target.closest("button.pip"); if (!p) return; var k = p.getAttribute("data-run").split("|");
   desk.task = k[1]; desk.rep = +k[2]; desk.left = "original"; desk.right = k[0] + "|" + k[3]; buildDesk(); document.getElementById("mesa").scrollIntoView({behavior: REDUCED ? "auto" : "smooth"}); });
 renderLive();
+(function(){
+  var R = D.headline.judge_r6, el = $("#r6");
+  if (!R){ el.innerHTML = '<tbody><tr><td>' + chip("NOT_RUN") + ' juiz cego ainda não rodou</td></tr></tbody>'; return; }
+  var axes = [["fidelity","Fidelidade"],["request","Atende ao pedido"],["naturalness","Naturalidade"]];
+  var h = '<thead><tr><th>Braço</th>' + axes.map(function(a){ return '<th class="r">' + a[1] + '</th>'; }).join("") + '</tr></thead><tbody>';
+  ARMS.forEach(function(arm){ h += '<tr><td class="arm">' + esc(L.arm[arm]) + (arm === "A1_direct" ? ' <span class="flag">controle</span>' : "") + '</td>' + axes.map(function(a){ var x = R[arm + "|" + a[0]];
+      var tip = "ganho: " + (x.gain.join(", ") || "—") + " · perda: " + (x.loss.join(", ") || "—");
+      return '<td class="r num" title="' + esc(tip) + '"><span class="flag ok">+' + x.gain.length + '</span> <span class="flag bad">−' + x.loss.length + '</span> <span class="flag">=' + x.tie.length + '</span></td>'; }).join("") + '</tr>'; });
+  el.innerHTML = h + '</tbody>';
+})();
+(function(){
+  var H = D.holdout, el = $("#hold");
+  if (!H){ el.innerHTML = '<tbody><tr><td>' + chip("NOT_RUN") + ' holdout ainda não rodado</td></tr></tbody>'; return; }
+  var ids = []; H.runs.forEach(function(r){ if (ids.indexOf(r.task) < 0) ids.push(r.task); });
+  var by = {}; H.runs.forEach(function(r){ by[r.label + "|" + r.task + "|" + r.arm] = r; });
+  var cell = function(r){ if (!r) return '<td>' + chip("NOT_RUN") + '</td>';
+    var bad = r.decision === "unnecessary_edit" || r.decision === "missed_edit";
+    return '<td>' + (r.changed === null ? "sem saída" : r.changed ? "mudou" : "igual") + (bad ? ' <span class="flag bad">' + (r.decision === "missed_edit" ? "faltou editar" : "edição indevida") + '</span>' : r.decision === "ok" ? ' <span class="flag ok">certo</span>' : "") +
+      (r.arm === "A2_skill" ? ' <span class="flag' + (r.skill_invoked ? " ok" : "") + '">Skill ' + (r.skill_invoked ? "ativada" : "não ativada") + '</span>' : "") + '</td>'; };
+  var h = '<thead><tr><th>Tarefa</th><th>Esperado</th>' + ["A2_skill","A3_engine"].map(function(a){ return ["v0100","v0105"].map(function(v){ return '<th>' + esc(L.arm[a]) + ' · ' + L.version[v] + '</th>'; }).join(""); }).join("") + '</tr></thead><tbody>';
+  ids.forEach(function(id){ var any = H.runs.filter(function(r){ return r.task === id; })[0];
+    h += '<tr><td><b class="mono" style="color:var(--accent)">' + esc(id) + '</b> ' + esc(any.genre) + '</td><td>' + esc(EXPECT[any.expect] || any.expect) + '</td>' +
+      ["A2_skill","A3_engine"].map(function(a){ return ["v0100","v0105"].map(function(v){ return cell(by[v + "|" + id + "|" + a]); }).join(""); }).join("") + '</tr>'; });
+  el.innerHTML = h + '</tbody>';
+})();
 (function(){
   var j = D.judge, fails = D.live.provider_failures_retried || {};
   var nf = (fails.v0100 || 0) + (fails.v0105 || 0);

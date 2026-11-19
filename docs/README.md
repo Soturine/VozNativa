@@ -59,6 +59,17 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 
 | Documento | Conteúdo | Estado |
 |---|---|---|
+| [observatory/index.html](observatory/index.html) | VozNativa Observatory: resultados navegáveis da prova de fogo (abre offline) | release 0.10.5 |
+| [v0.10.5/RELEASE_NOTES.md](releases/v0.10.5/RELEASE_NOTES.md) | notas da release 0.10.5 (inglês) | release 0.10.5 |
+| [v0.10.5/RELEASE_QUALIFICATION.md](releases/v0.10.5/RELEASE_QUALIFICATION.md) | qualificação da 0.10.5: R1–R18 congelados no CP0 | registro da v0.10.5 |
+| [v0.10.5/PLAN.md](releases/v0.10.5/PLAN.md) | plano, corpus, campanhas, orçamento, critérios congelados | registro da v0.10.5 |
+| [v0.10.5/FIRE_TRIAL_RESULTS.md](releases/v0.10.5/FIRE_TRIAL_RESULTS.md) | resultados: offline, braços live, juiz, holdout, documentos, custo | vigente |
+| [v0.10.5/SKILL_LIVE_DOGFOOD.md](releases/v0.10.5/SKILL_LIVE_DOGFOOD.md) | a Skill usada por um agente real: ativação, fluxo, decisões, qualidade | vigente |
+| [v0.10.5/ASSURANCE_RECIPROCAL.md](releases/v0.10.5/ASSURANCE_RECIPROCAL.md) | quatro trilhas: Framework, Engine, Assertiva, VozNativa | registro da v0.10.5 |
+| [v0.10.5/CORPUS_AND_LICENSES.md](releases/v0.10.5/CORPUS_AND_LICENSES.md) | corpus real e direitos por operação | vigente |
+| [v0.10.5/GAP_REGISTER.md](releases/v0.10.5/GAP_REGISTER.md) | gaps achados, instrumento, reprodução e estado | registro da v0.10.5 |
+| [v0.10.5/MAINTAINABILITY.md](releases/v0.10.5/MAINTAINABILITY.md) | Derivanta Engine base × candidato, ciclos, harness | registro da v0.10.5 |
+| [v0.10.5/EXECUTION_STATE.md](releases/v0.10.5/EXECUTION_STATE.md) | checkpoints, retrabalho e commits | registro da v0.10.5 |
 | [v0.10/RELEASE_NOTES.md](releases/v0.10/RELEASE_NOTES.md) | notas da release 0.10.0 (inglês) | release 0.10.0 |
 | [v0.10/RELEASE_QUALIFICATION.md](releases/v0.10/RELEASE_QUALIFICATION.md) | qualificação da 0.10.0: R1–R15 congelados no CP0, resultados, CI, decisão | registro da v0.10.0 |
 | [v0.10/PLAN.md](releases/v0.10/PLAN.md) | plano, leitura crítica do pedido, critérios congelados | registro da v0.10.0 |

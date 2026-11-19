@@ -99,3 +99,26 @@ class DigitsGluedToLetters(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LegalProvisionHead(unittest.TestCase):
+    """V105-GAP-15: after the paragraph sign or an item marker with no period ("§ 3° Pendendo…", "I - Enquanto…"),
+    the first word of a legal provision was read as a proper name, so any plain-language rewrite of a paragraph
+    or item that changed its first word was a critical span loss. Found in the fire trial (law, plain language);
+    red on v0.10.0. The regulation below is invented."""
+
+    BASE = "Art. 4. O sócio paga a taxa anual.\n"
+
+    def spans(self, a, b):
+        return {i["code"] for i in compare(a, b)["issues"] if i["code"].startswith("span_")}
+
+    def test_defect_first_word_after_markers_is_not_an_entity(self):
+        for lead in ("§ 2° ", "§ 2º ", "§2. ", "§§ 3 ", "II - ", "IV – ", "c) "):
+            a = self.BASE + lead + "Havendo atraso, a carteirinha fica suspensa.\n"
+            b = self.BASE + lead + "Quando houver atraso, a carteirinha fica suspensa.\n"
+            self.assertEqual(self.spans(a, b), set(), lead)
+
+    def test_control_entity_inside_the_provision_is_still_protected(self):
+        a = self.BASE + "§ 2° Havendo atraso, a Federação Paulista suspende a carteirinha.\n"
+        b = self.BASE + "§ 2° Havendo atraso, a Federação suspende a carteirinha.\n"
+        self.assertIn("span_missing", self.spans(a, b))
