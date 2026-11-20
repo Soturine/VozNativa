@@ -165,7 +165,7 @@ options:
 ## `voznativa compare`
 
 ```text
-usage: voznativa compare [-h] [--judgment JUDGMENT] [--protect PROTECT] [--protect-file PROTECT_FILE] original candidate
+usage: voznativa compare [-h] [--judgment JUDGMENT] [--protect PROTECT] [--protect-file PROTECT_FILE] [--html-out HTML_OUT] [--editorial-notes EDITORIAL_NOTES] [--delivery-reason DELIVERY_REASON] [--kept-original] original candidate
 
 positional arguments:
   original
@@ -177,6 +177,12 @@ options:
   --protect PROTECT     term that must survive verbatim (repeatable)
   --protect-file PROTECT_FILE
                         file with one protected term per line
+  --html-out HTML_OUT   write a new standalone editorial report (.html)
+  --editorial-notes EDITORIAL_NOTES
+                        JSON list of literal before/after excerpts and a reason
+  --delivery-reason DELIVERY_REASON
+                        editorial decision or reason for keeping the original
+  --kept-original       state in the HTML that the original was delivered
 ```
 
 ## `voznativa config`
@@ -561,18 +567,23 @@ options:
 ## `voznativa ground`
 
 ```text
-usage: voznativa ground [-h] [--original ORIGINAL] [--fact FACT] [--repo REPO] [--request REQUEST] [--judgment JUDGMENT] candidate
+usage: voznativa ground [-h] [--original ORIGINAL] [--fact FACT] [--repo REPO] [--request REQUEST] [--judgment JUDGMENT] [--html-out HTML_OUT] [--editorial-notes EDITORIAL_NOTES] [--delivery-reason DELIVERY_REASON] candidate
 
 positional arguments:
   candidate
 
 options:
-  -h, --help           show this help message and exit
+  -h, --help            show this help message and exit
   --original ORIGINAL
   --fact FACT
   --repo REPO
-  --request REQUEST    the request the text was written for; a source only for facts it states
-  --judgment JUDGMENT  grounding judgment JSON (from judge-prompt --fact)
+  --request REQUEST     the request the text was written for; a source only for facts it states
+  --judgment JUDGMENT   grounding judgment JSON (from judge-prompt --fact)
+  --html-out HTML_OUT   write a new standalone editorial report (.html)
+  --editorial-notes EDITORIAL_NOTES
+                        JSON list of literal before/after excerpts and a reason
+  --delivery-reason DELIVERY_REASON
+                        editorial decision or reason for keeping the original
 ```
 
 ## `voznativa integrity`
@@ -987,7 +998,7 @@ options:
 ## `voznativa rewrite`
 
 ```text
-usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--docx-out DOCX_OUT] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] text
+usage: voznativa rewrite [-h] [--profile PROFILE] [--set SET] [--budget BUDGET] [--task {rewrite,audit,create,profile,compare}] [--genre GENRE] [--channel CHANNEL] [--register REGISTER] [--audience AUDIENCE] [--region REGION] [--region-strength REGION_STRENGTH] [--community COMMUNITY] [--slang-strength SLANG_STRENGTH] [--epoch EPOCH] [--fact FACT] [--voice-sample VOICE_SAMPLE] [--voice-channel VOICE_CHANNEL] [--repo REPO] [--document-profile DOCUMENT_PROFILE] [--attr NAME=VALUE] [--attrs-file ATTRS_FILE] [--context-proposal CONTEXT_PROPOSAL] [--protect PROTECT] [--protect-file PROTECT_FILE] [--cmd CMD] [--emulate] [--candidate CANDIDATE] [--judge-cmd JUDGE_CMD] [--api-url API_URL] [--api-model API_MODEL] [--api-key-env API_KEY_ENV] [--api-allow-remote] [--judge-api-url JUDGE_API_URL] [--judge-api-model JUDGE_API_MODEL] [--attempts ATTEMPTS] [--candidates CANDIDATES] [--timeout TIMEOUT] [--provider-env {inherit,minimal}] [--provider-env-allow PROVIDER_ENV_ALLOW] [--text-only] [--judge-votes JUDGE_VOTES] [--force] [--long-form {auto,on,off}] [--segment-words SEGMENT_WORDS] [--max-calls MAX_CALLS] [--docx-out DOCX_OUT] [--dry-run] [--mode {PRESERVE,REVIEW,PROOFREAD,POLISH,ADAPT}] [--rewrite-verse] [--html-out HTML_OUT] text
 
 positional arguments:
   text                  text to rewrite (or the request, with --task create)
@@ -1076,6 +1087,7 @@ options:
                         editorial mode: PRESERVE/REVIEW never change the text and call no model;
                         PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite
   --rewrite-verse       allow verse blocks to be rewritten (otherwise they are protected)
+  --html-out HTML_OUT   write a new standalone editorial report (.html)
 ```
 
 ## `voznativa rewrite-prompt`

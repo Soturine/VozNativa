@@ -15,6 +15,8 @@ VozNativa ajusta um texto à voz do autor, ao canal e ao público e confere com 
 
 **Estado:** `0.10.5` na branch `dev/v0.10.5`, qualificada localmente e **ainda não lançada**: o PR #4 aguarda integração na `main`, sem tag nem GitHub Release por enquanto (a última release é a `v0.10.0`); não publicada no PyPI. Prova de fogo em português real: 427 textos que ninguém escreveu para o motor (Machado de Assis, leis federais, resumos CC BY), sessões reais da Skill no Claude Code, o mesmo modelo em quatro braços, juiz cego e documentos inteiros; correções de falsos verdes de negação, de frase apagada e de valores alfanuméricos, do modo explícito ignorado pelo engine e de documentos longos sem linha em branco. Resultados navegáveis no [VozNativa Observatory](docs/observatory/index.html) ([`CHANGELOG.md`](CHANGELOG.md), [notas](docs/releases/v0.10.5/RELEASE_NOTES.md)). Testes aprovados não comprovam equivalência semântica: nenhum verificador determinístico prova que uma reescrita preserva o sentido, e a ferramenta pede julgamento ou revisão humana sempre que não há identidade. O que é implementado, parcial ou não executado está na tabela [Funcionalidades](#funcionalidades).
 
+A Skill entrega o texto acompanhado de um relatório HTML local. Ele mostra o antes e o depois, liga cada justificativa ao trecho correspondente e expõe o resultado das checagens. [Exemplo de relatório](docs/observatory/relatorio-exemplo.html) · [Como gerar pela CLI](docs/guide/AGENT_SKILL.md#relatório-local-de-revisão).
+
 ## Em 30 segundos
 
 Um texto com duas fórmulas vazias e uma restrição de orçamento ([`examples/quickstart/original.txt`](examples/quickstart/original.txt)):

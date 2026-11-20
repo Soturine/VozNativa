@@ -206,6 +206,10 @@ def doctor(probe_provider: bool = False) -> dict:
     checks.append(_check("dados do pacote", "OK" if packs else "FAIL", f"{len(packs)} packs regionais",
                          None if packs else "o pacote foi instalado sem os dados; reinstale com pip install .",
                          "package_data"))
+    html_template = (data / "editorial_report.html").is_file()
+    checks.append(_check("modelo do relatório HTML", "OK" if html_template else "FAIL",
+                         "disponível" if html_template else "arquivo ausente no pacote",
+                         None if html_template else "reinstale o VozNativa", "package_data"))
     try:
         with tempfile.TemporaryDirectory(prefix="vn-doctor-") as tmp:
             (Path(tmp) / "probe").write_text("ok", encoding="utf-8")

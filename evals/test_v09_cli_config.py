@@ -147,6 +147,22 @@ class ProjectFileTrustBoundary(unittest.TestCase):
 
 class DryRun(unittest.TestCase):
 
+    def test_deterministic_mode_has_no_call_budget(self):
+        e = Env()
+        code, out, err = e.cli("rewrite", "texto.txt", "--dry-run", "--mode", "PROOFREAD", "--force")
+        self.assertEqual(code, 0, err)
+        report = json.loads(out)
+        self.assertFalse(report["would_call_model"])
+        self.assertEqual(report["budget"]["max_provider_calls"], 0)
+        self.assertNotIn("note", report)
+
+    def test_budget_accounts_for_judge_retries_on_each_attempt(self):
+        e = Env()
+        code, out, err = e.cli("rewrite", "texto.txt", "--dry-run", "--attempts", "2",
+                               "--candidates", "2", "--judge-cmd", e.cmd, "--judge-votes", "3")
+        self.assertEqual(code, 0, err)
+        self.assertEqual(json.loads(out)["budget"]["max_provider_calls"], 16)
+
     def test_dry_run_starts_no_provider_even_when_configured(self):
         e = Env()
         e.user.write_text(f"[rewrite]\ncmd = {toml_str(e.cmd)}\n", encoding="utf-8")
