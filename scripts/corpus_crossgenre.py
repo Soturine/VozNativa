@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from voznativa.corpus.connectors import LocalFilesConnector, cache_dir  # noqa: E402
-from voznativa.corpus.evaluate import (documents, pattern_eval, router_eval, slang_eval, split_records,  # noqa: E402
+from voznativa.corpus.evaluate import (pattern_eval, router_eval, slang_eval, split_records,  # noqa: E402
                                        variant_false_positives, windows)
 from voznativa.corpus.policy import require  # noqa: E402
 from voznativa.corpus.processing import assign_splits, cluster, provenance  # noqa: E402

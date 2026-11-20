@@ -33,7 +33,9 @@ SECRET_VALUES = [
     re.compile(r"\bAIza[0-9A-Za-z_-]{30,}"),                    # Google API key
     re.compile(r"\bxox[abprs]-[A-Za-z0-9-]{10,}"),              # Slack
     re.compile(r"(?i)\bbearer\s+[A-Za-z0-9._~+/=-]{8,}"),
-    re.compile(r"(?i)\b(?:api[-_]?key|token|secret|password)\s*[:=]\s*\S+"),
+    # v0.10.5: a Python type annotation (a type name, then the end of the annotation) is not a value
+    re.compile(r"(?i)\b(?:api[-_]?key|token|secret|password)\s*[:=]\s*"
+               r"(?!(?:str|int|bool|float|bytes|dict|list|tuple|Any|None)(?:\s*(?:\||\)|,|=|$)))\S+"),
 ]
 _QUOTED = re.compile(r"\"[^\"\n]{4,}\"|'[^'\n]{4,}'|“[^”\n]{4,}”")
 

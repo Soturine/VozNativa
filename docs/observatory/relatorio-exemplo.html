@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Relatório de revisão · VozNativa</title>
+<style>
+:root{color-scheme:light dark;--bg:#f0efe9;--paper:#fffcf6;--ink:#172525;--soft:#4e5f5a;--line:#d5dcd3;--accent:#176653;--hero:#142d2b;--hero-ink:#fffaf0;--hero-soft:#bfd6cd;--hero-line:#45625b;--bad:#852f38;--bad-bg:#f9dce0;--good:#115c44;--good-bg:#d7eee0;--review:#654800;--review-bg:#f6e8bd;--active:#e2f0e7;--shadow:0 22px 60px #182f2610}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--bg:#111d1b;--paper:#1a2a27;--ink:#eef2e8;--soft:#b7c9c0;--line:#3d534c;--accent:#86ddba;--bad:#ffcbcf;--bad-bg:#632f3b;--good:#b6f3d7;--good-bg:#244b3d;--review:#fae7a9;--review-bg:#514526;--active:#2a4b3e;--shadow:0 22px 60px #0004}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111d1b;--paper:#1a2a27;--ink:#eef2e8;--soft:#b7c9c0;--line:#3d534c;--accent:#86ddba;--bad:#ffcbcf;--bad-bg:#632f3b;--good:#b6f3d7;--good-bg:#244b3d;--review:#fae7a9;--review-bg:#514526;--active:#2a4b3e;--shadow:0 22px 60px #0004}
+:root[data-theme="light"]{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-padding-top:5.5rem;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.55 system-ui,sans-serif}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);border-radius:8px;background:var(--paper);min-height:42px;padding:6px 12px}
+button:hover,button[aria-pressed="true"]{background:var(--active);color:var(--accent)}
+button:disabled{opacity:.47;cursor:default}
+a{text-underline-offset:.25em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+[hidden]{display:none!important}
+.wrap{width:min(1192px,calc(100% - 64px));margin-inline:auto}
+.hero{background:radial-gradient(ellipse at 90% 0,#28554b 0,transparent 50%),var(--hero);color:var(--hero-ink);padding-bottom:88px}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--hero-line);padding:17px 0}
+.brand{display:flex;align-items:center;gap:9px;font-weight:750;letter-spacing:-.025em}
+.brand-mark{display:inline-grid;place-items:center;width:29px;height:29px;border-radius:7px;background:#bde7cf;color:#193b33;font:700 17px Georgia,serif}
+.mast button{background:transparent;color:var(--hero-ink);border-color:#75968a;font-size:.83rem}
+.mast button:hover{background:#30584f}
+.hero-copy{padding-top:35px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(24px,6vw,85px);align-items:end}
+.eyebrow,.section-label,.change-id,.mobile-label{font-size:.72rem;font-weight:750;letter-spacing:.11em;text-transform:uppercase}
+.eyebrow{color:var(--hero-soft)}
+h1,h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.045em;line-height:1.04}
+h1{font-size:clamp(2.8rem,6.7vw,5.75rem);margin:9px 0 0;text-wrap:balance}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin:0 0 17px}
+.verdict{border-left:1px solid var(--hero-line);padding-left:25px;overflow-wrap:anywhere}
+.verdict p{color:var(--hero-soft);margin:8px 0 0;font-size:.93rem}
+.anchors{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:24px;font-size:.85rem;color:var(--hero-soft)}
+.anchors a{text-decoration:none}
+.anchors a:hover{text-decoration:underline}
+.hero :focus-visible{outline-color:#bde7cf}
+.badge{display:inline-block;background:var(--bg);color:var(--ink);padding:4px 10px;border-radius:7px;font-size:.8rem;font-weight:750}
+.badge[data-tone=review]{background:var(--review-bg);color:var(--review)}
+.badge[data-tone=bad]{background:var(--bad-bg);color:var(--bad)}
+.badge[data-tone=good]{background:var(--good-bg);color:var(--good)}
+main.wrap{margin-top:-50px;padding-bottom:56px}
+.desk,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.desk-top{position:sticky;top:0;z-index:2;background:var(--paper);border-radius:16px 16px 0 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding:14px 22px}
+.desk-meta{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:baseline;font-size:.85rem}
+.desk-meta strong{font-size:1rem}
+.length{font-size:.76rem;color:var(--soft);font-variant-numeric:tabular-nums}
+.toolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.toolbar button{font-size:.82rem}
+#progress{min-width:4ch;text-align:center;font-size:.8rem;font-variant-numeric:tabular-nums}
+.headings,.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.headings>span{padding:10px 22px;background:var(--bg);border-bottom:1px solid var(--line)}
+.headings>span+span,.after{border-left:1px solid var(--line)}
+.pair+.pair{border-top:1px solid var(--line)}
+.pair.current,.pair:target{background:var(--active);box-shadow:inset 3px 0 var(--accent)}
+.change-id{display:flex;align-items:baseline;justify-content:space-between;gap:12px;grid-column:1/-1;padding:7px 22px 0;color:var(--accent)}
+.change-id .jump{font-weight:650;letter-spacing:0;text-transform:none;margin:0}
+.pane{position:relative;min-width:0;padding:16px 22px}
+.same pre,.muted,.blank{color:var(--soft)}
+.pane pre{font:clamp(1rem,1.5vw,1.16rem)/1.75 Georgia,serif;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;tab-size:4;unicode-bidi:plaintext}
+.blank{font-size:.86em;font-style:italic}
+del,ins{box-decoration-break:clone;-webkit-box-decoration-break:clone;border-radius:3px;padding-block:.1em}
+del{background:var(--bad-bg);color:var(--bad);text-decoration-thickness:1px}
+ins{background:var(--good-bg);color:var(--good);text-decoration-thickness:1px;text-underline-offset:.16em}
+.mobile-label{display:none;color:var(--soft)}
+.below{display:grid;align-items:start;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;margin-top:18px}
+.panel{padding:clamp(18px,3vw,28px);overflow-wrap:anywhere}
+.panel>p,.panel li p{margin:0}
+.reasons,.signals{list-style:none;padding:0;margin:0}
+.panel>p+.reasons{margin-top:14px}
+.panel li{padding:12px 0;border-top:1px solid var(--line)}
+.reasons li:target{background:var(--active);border-radius:8px;padding-inline:10px}
+.excerpts{font-family:Georgia,serif;display:flex;gap:6px 12px;flex-wrap:wrap;margin-top:7px;white-space:pre-wrap}
+.jump{display:inline-block;margin-top:8px;color:var(--accent);font-size:.79rem}
+.coverage{font-size:.83rem;color:var(--soft);padding-bottom:10px}
+.signals b,.signals code{font-size:.79rem}
+.signals code{color:var(--accent)}
+.signals p{font-size:.9rem;color:var(--soft)}
+.activity{margin-top:15px;border-top:1px solid var(--line);font-size:.86rem}
+.activity summary{cursor:pointer;padding-block:10px;color:var(--accent)}
+.reading .headings,.reading .pair{grid-template-columns:1fr}
+.reading .before,.reading .headings>span:first-child{display:none}
+.reading .after,.reading .headings>span+span{display:block;border:0}
+.reading .headings>span+span{border-bottom:1px solid var(--line)}
+.reading .pane{padding-inline:clamp(16px,5vw,72px)}
+.reading pre{max-width:78ch;margin-inline:auto}
+.reading ins{color:inherit;background:none;text-decoration:none}
+#copy-note{min-height:1.4em;color:var(--accent);font-size:.78rem}
+footer{color:var(--soft);display:flex;justify-content:space-between;align-items:baseline;gap:8px 22px;flex-wrap:wrap;padding-top:20px;font-size:.8rem}
+@media(prefers-reduced-motion:no-preference){
+  button,.pair{transition:background-color .18s,color .18s,box-shadow .18s}
+  .hero-copy,.desk{animation:arrive .42s ease-out both}
+  .desk{animation-delay:.08s}
+  @keyframes arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:690px){
+  .wrap{width:calc(100% - 28px)}
+  .hero{padding-bottom:70px}
+  .hero-copy,.below{grid-template-columns:1fr;gap:16px}
+  .hero-copy{padding-top:24px}
+  .verdict{padding-left:13px}
+  .desk-top{padding:10px 13px}
+  .headings,.pair{grid-template-columns:1fr}
+  .headings,.same .after{display:none}
+  .pane{padding:9px 13px 13px}
+  .after{border-left:0;border-top:1px dashed var(--line)}
+  .mobile-label{display:block;margin-bottom:2px}
+  .same .mobile-label{display:none}
+  .change-id{padding:8px 13px 0}
+  html{scroll-padding-top:9rem}
+}
+@media print{.toolbar,.mast button,footer a{display:none!important}.desk-top{position:static}.same[hidden]{display:grid!important}.hero{background:white;color:#111;padding-bottom:24px}.hero p,.eyebrow{color:#222}main.wrap{margin-top:0}.panel,.desk{box-shadow:none}}
+</style>
+</head>
+<body id="topo">
+<header class="hero">
+  <div class="wrap">
+    <div class="mast">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">V</span> VozNativa</div>
+      <button type="button" id="theme" hidden>Alternar tema</button>
+    </div>
+    <div class="hero-copy">
+      <div><div class="eyebrow">Edição em português brasileiro</div><h1>Relatório de revisão</h1></div>
+      <div class="verdict">
+        <span class="badge" data-tone="review">Equivalência a verificar</span>
+        <p>As checagens automáticas não apontaram impeditivos. O resultado não comprova equivalência de sentido nem fundamentação.</p>
+      </div>
+    </div>
+    <nav class="anchors" aria-label="Neste relatório"><a href="#comparison">Comparação ↓</a><a href="#why">Por que mudou ↓</a><a href="#checks">Checagens ↓</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="desk" aria-labelledby="comparison">
+    <div class="desk-top">
+      <div class="desk-meta"><strong id="comparison">Comparação</strong><span>2 blocos alterados</span><span class="length">51 → 42 palavras</span></div>
+      <div class="toolbar" id="toolbar" hidden><button type="button" id="changes" aria-pressed="false">Só mudanças</button><button type="button" id="reading" aria-pressed="false">Só depois</button><button type="button" id="previous" aria-label="Alteração anterior" disabled>←</button><button type="button" id="next" aria-label="Próxima alteração">→</button><span id="progress" aria-live="polite" hidden></span>
+        <button type="button" id="copy" data-side="after" data-allowed="true" hidden>Copiar texto</button></div>
+    </div>
+    <div class="headings section-label" aria-hidden="true"><span>− Antes</span><span>+ Depois</span></div>
+    <div class="pair change" id="mudanca-1" tabindex="-1"><div class="change-id"><span>Alteração 01</span><a class="jump" href="#motivo-1">2 motivos ↓</a></div><div class="pane before" role="group" aria-label="Antes"><div class="mobile-label" aria-hidden="true">Antes</div><pre><span class="text"><del>É importante destacar que as</del> inscrições para a oficina encerram na sexta-feira, às 18h. <del>O formulário</del> deve <del>ser</del> <del>enviado</del> antes desse horário.
+</span></pre></div><div class="pane after" role="group" aria-label="Depois"><div class="mobile-label" aria-hidden="true">Depois</div><pre><span class="text"><ins>As</ins> inscrições para a oficina encerram na sexta-feira, às 18h. <ins>Você</ins> deve <ins>enviar</ins> <ins>o formulário</ins> antes desse horário.
+</span></pre></div></div><div class="pair same"><div class="pane before" role="group" aria-label="Antes"><div class="mobile-label" aria-hidden="true">Antes</div><pre><span class="text">
+A confirmação chega por e-mail.
+
+</span></pre></div><div class="pane after" role="group" aria-label="Depois"><div class="mobile-label" aria-hidden="true">Depois</div><pre><span class="text">
+A confirmação chega por e-mail.
+
+</span></pre></div></div><div class="pair change" id="mudanca-2" tabindex="-1"><div class="change-id"><span>Alteração 02</span><a class="jump" href="#motivo-3">2 motivos ↓</a></div><div class="pane before" role="group" aria-label="Antes"><div class="mobile-label" aria-hidden="true">Antes</div><pre><span class="text"><del>Vale ressaltar que a</del> vaga só é reservada após o envio do formulário. <del>Caso não receba</del> a confirmação, <del>entre em contato</del> com a organização.
+</span></pre></div><div class="pane after" role="group" aria-label="Depois"><div class="mobile-label" aria-hidden="true">Depois</div><pre><span class="text"><ins>A</ins> vaga só é reservada após o envio do formulário. <ins>Se</ins> a confirmação<ins> não chegar</ins>, <ins>fale</ins> com a organização.
+</span></pre></div></div>
+  </section>
+  <div class="below">
+    <section class="panel" aria-labelledby="why"><h2 id="why">Por que mudou</h2><ol class="reasons"><li id="motivo-1"><p>Abre com a informação que o leitor precisa localizar primeiro, o prazo de inscrição.</p><div class="excerpts"><del>É importante destacar que</del></div><a class="jump" href="#mudanca-1">Ir à alteração 01 ↑</a></li><li id="motivo-2"><p>Diz diretamente qual ação a pessoa precisa tomar, mantendo a obrigação e o limite de horário.</p><div class="excerpts"><del>O formulário deve ser enviado</del><ins>Você deve enviar o formulário</ins></div><a class="jump" href="#mudanca-1">Ir à alteração 01 ↑</a></li><li id="motivo-3"><p>Corta a abertura de ênfase e deixa a condição da reserva em primeiro plano.</p><div class="excerpts"><del>Vale ressaltar que</del></div><a class="jump" href="#mudanca-2">Ir à alteração 02 ↑</a></li><li id="motivo-4"><p>Usa uma condição curta e aproxima a instrução da linguagem de um aviso.</p><div class="excerpts"><del>Caso não receba a confirmação, entre em contato com a organização.</del><ins>Se a confirmação não chegar, fale com a organização.</ins></div><a class="jump" href="#mudanca-2">Ir à alteração 02 ↑</a></li></ol></section>
+    <section class="panel" aria-labelledby="checks"><h2 id="checks">Checagens</h2><p class="coverage">2 ocorrências protegidas no original</p><ul class="signals"><li><b>Informativo</b> <code>metadiscourse_changed</code><p>metadiscourse.framing marker removed (2 -&gt; 0)</p></li></ul></section>
+  </div>
+  <footer><span>VozNativa 0.10.5 · <code>no_deterministic_issues</code></span><span id="copy-note" role="status"></span><a href="#topo">Voltar ao topo ↑</a></footer>
+</main>
+<script>
+const theme = document.getElementById("theme");
+theme.hidden = false;
+theme.addEventListener("click", () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme === "dark" ||
+    (!root.dataset.theme && matchMedia("(prefers-color-scheme:dark)").matches);
+  root.dataset.theme = dark ? "light" : "dark";
+});
+const changes = [...document.querySelectorAll(".pair.change")];
+const toolbar = document.getElementById("toolbar");
+const copy = document.getElementById("copy");
+if (copy.dataset.allowed === "true" && navigator.clipboard) {
+  toolbar.hidden = false;
+  copy.hidden = false;
+  if (copy.dataset.side === "before") copy.textContent = "Copiar original";
+  copy.addEventListener("click", async () => {
+    const text = [...document.querySelectorAll("." + copy.dataset.side + " .text")]
+      .map(part => part.textContent).join("");
+    const note = document.getElementById("copy-note");
+    try {
+      await navigator.clipboard.writeText(text);
+      note.textContent = "Texto copiado";
+      const label = copy.textContent;
+      copy.textContent = "Copiado";
+      copy.disabled = true;
+      setTimeout(() => { copy.textContent = label; copy.disabled = false; note.textContent = ""; }, 1600);
+    } catch {
+      note.textContent = "A área de transferência está indisponível. Selecione o texto para copiar.";
+      copy.textContent = "Cópia indisponível";
+    }
+  });
+}
+const filter = document.getElementById("changes");
+if (filter && changes.length) {
+  const reading = document.getElementById("reading");
+  const previous = document.getElementById("previous");
+  const next = document.getElementById("next");
+  const progress = document.getElementById("progress");
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const desk = document.querySelector(".desk");
+  let current = -1;
+  toolbar.hidden = false;
+  progress.hidden = false;
+  progress.textContent = "0/" + changes.length;
+  function showChanges(active) {
+    filter.setAttribute("aria-pressed", String(active));
+    document.querySelectorAll(".pair.same").forEach(row => { row.hidden = active; });
+  }
+  function showReading(active) {
+    reading.setAttribute("aria-pressed", String(active));
+    desk.classList.toggle("reading", active);
+  }
+  filter.addEventListener("click", () => {
+    showReading(false);
+    showChanges(filter.getAttribute("aria-pressed") !== "true");
+  });
+  reading.addEventListener("click", () => {
+    showChanges(false);
+    showReading(reading.getAttribute("aria-pressed") !== "true");
+  });
+  function go(index) {
+    if (index < 0 || index >= changes.length) return;
+    changes[current]?.classList.remove("current");
+    current = index;
+    const row = changes[current];
+    row.classList.add("current");
+    row.focus({preventScroll: true});
+    row.scrollIntoView({behavior: motion.matches ? "auto" : "smooth", block: "start"});
+    progress.textContent = (current + 1) + "/" + changes.length;
+    previous.disabled = current === 0;
+    next.disabled = current === changes.length - 1;
+  }
+  previous.addEventListener("click", () => go(current - 1));
+  next.addEventListener("click", () => go(current + 1));
+  changes.forEach(row => row.addEventListener("keydown", event => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    go(current + (event.key === "ArrowLeft" ? -1 : 1));
+  }));
+}
+</script>
+</body>
+</html>

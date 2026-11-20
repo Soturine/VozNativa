@@ -53,9 +53,11 @@ class Contract(unittest.TestCase):
 
     def test_independent_relations_accept_and_unknown_no_longer_does(self):
         # v0.10 CP6 (V010-GAP-01, decision D-02): before, None/"unknown" accepted like different_model.
+        # v0.10.5 (D-03): only a relation the engine observed accepts; a declared one is in test_v0105_relation_evidence
         for relation in ("different_model", "different_provider", "same_vendor"):
             with self.subTest(relation=relation):
-                self.assertEqual(apply_judgment(self.report, judgment(relation=relation))["status"], "accepted_by_llm")
+                observed = dict(judgment(relation=relation), relation_evidence="ENGINE_OBSERVED")
+                self.assertEqual(apply_judgment(self.report, observed)["status"], "accepted_by_llm")
         for relation in (None, "unknown", "same_model", "same_agent"):
             with self.subTest(relation=relation):
                 report = apply_judgment(self.report, judgment(relation=relation))

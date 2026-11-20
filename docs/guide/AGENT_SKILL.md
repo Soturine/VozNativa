@@ -4,11 +4,23 @@ O VozNativa funciona em três modos ([arquitetura](../releases/v0.8/ARCHITECTURE
 
 ## Instalar
 
+Na raiz do VozNativa, instale a Skill no projeto em que você vai usá-la.
+
+```bash
+python scripts/install_skill.py --host codex --project /caminho/do/projeto
+python scripts/install_skill.py --host claude --project /caminho/do/projeto
+python scripts/install_skill.py --host gemini --project /caminho/do/projeto
+```
+
+Escolha a linha do seu host. O instalador copia o mesmo `SKILL.md`, a CLI, as referências e o modelo HTML. Para outro host compatível, indique o diretório com `--skills-dir`. A instalação exige um destino novo e a CLI da Skill precisa de Python 3.11+ e PyYAML.
+
+No Codex, o destino de projeto é `.agents/skills/voznativa`. Abra uma conversa no projeto e invoque `$voznativa` ou faça um pedido que corresponda à descrição da Skill. O arquivo `agents/openai.yaml` fornece a interface. Configuração adicional em `.codex/config.toml` é opcional e atende a preferências do host. [Guia oficial de Skills](https://learn.chatgpt.com/docs/build-skills).
+
 | Host | Como | Estado (v0.9, 2026-11-18) |
 |---|---|---|
 | Claude Code | pasta do repositório copiada para `.claude/skills/voznativa` (projeto) ou `~/.claude/skills/voznativa` (usuário); ou plugin pela marketplace do repositório (`.claude-plugin/`) | **instalação no projeto verificada**: Claude Code 2.1.317 em modo headless descobriu e invocou a Skill e operou a CLI real (`route`, `patterns`, `diagnose`, `compare`, `judge-prompt`, `compare --judgment`), com NO_CHANGE num texto já bom e autoavaliação registrada sem aprovação ([registro](../releases/v0.9/INTEGRATIONS.md)). Instalação por plugin: DOCUMENTED_NOT_VERIFIED (alteraria a configuração global do Claude Code do mantenedor) |
-| Codex | `.agents/skills/voznativa` no repositório ou `~/.agents/skills/voznativa`; invocação explícita com `$voznativa` | caminhos conferidos na documentação oficial; execução **NOT_RUN** (Codex não instalado nesta máquina) |
-| Gemini CLI | `gemini skills install <url-do-repositório>` (escopo de usuário; `--scope workspace` para um projeto) ou cópia para `.gemini/skills/voznativa`; conferir com `/skills list` | caminhos conferidos na documentação oficial; execução **NOT_RUN** (Gemini CLI não instalado nesta máquina) |
+| Codex | `.agents/skills/voznativa` no projeto, com invocação explícita por `$voznativa` | instalação e CLI verificadas em 20/11; veja a separação entre sondagem do host e geração com modelo no [piloto online](../releases/v0.10.5/ONLINE_PILOT.md) |
+| Gemini CLI | `.gemini/skills/voznativa` no projeto, com conferência em `/skills list` | instalação de arquivos verificada; sessão live `NOT_RUN` nesta máquina. [Agent Skills do Gemini CLI](https://geminicli.com/docs/cli/skills/) |
 | Outros | qualquer host que leia `SKILL.md` | — |
 
 A pasta instalada precisa se chamar `voznativa`. A Skill usa `python <pasta>/scripts/voznativa_cli.py`; Python 3.11+ e PyYAML precisam estar no ambiente do host. Remover é apagar a pasta copiada (ou desinstalar o plugin): a Skill não altera configuração do host.
@@ -20,7 +32,18 @@ A pasta instalada precisa se chamar `voznativa`. A Skill usa `python <pasta>/scr
 3. `rewrite-prompt`: contrato de voz, ledger, plano por frase, referências a ler.
 4. Escreve a candidata seguindo o plano.
 5. `compare`: `fail` → corrige os itens críticos e repete (3 tentativas, depois devolve o original); `review_required` → entrega com os itens para revisão.
-6. Sem achado determinístico: `judge-prompt` e um juízo vinculado aos dois textos. **Se o agente escreveu a candidata, declara `"generator_relation": "same_agent"`**: o juízo vira `agent_assessment` e não aprova nada. Relação `unknown` (ou ausente) também não aprova desde a v0.10; `same_vendor` aprova com independência parcial registrada no relatório.
+6. Sem achado determinístico: `judge-prompt` e um juízo vinculado aos dois textos. **Se o agente escreveu a candidata, declara `"generator_relation": "same_agent"`**. Desde a v0.10.5, um juízo vindo de arquivo registra a relação declarada. A aceitação por modelo exige um juiz executado pelo motor com relação observada e elegível. [Migração da v0.10.5](../releases/v0.10.5/MIGRATION.md).
+7. O agente gera e entrega um HTML local com o diff, as justificativas editoriais e as checagens do texto. A decisão de manter o original também gera relatório.
+
+### Relatório local de revisão
+
+```bash
+voznativa compare original.txt candidata.txt --html-out revisao.html --editorial-notes edicoes.json
+```
+
+O HTML abre no navegador e funciona offline. Tem comparação lado a lado, foco nas mudanças, modo de leitura, navegação entre alterações e temas claro e escuro. `edicoes.json` é uma lista de objetos com `before`, `after` (trechos literais, com um lado vazio para inserção ou remoção) e `reason` (decisão editorial). Use `--delivery-reason` para registrar a decisão geral e `--kept-original` quando a candidata foi avaliada e o original voltou ao usuário. O HTML mantém o JSON e o código do gate disponíveis pela CLI. Escolha um arquivo `.html` novo a cada execução, pois a CLI protege arquivos existentes.
+
+`rewrite --html-out` registra o resultado real do motor em textos, Markdown e DOCX. Para criação a partir de fontes, use `ground --html-out`. Os relatórios incluem os textos avaliados. O [exemplo de relatório](../observatory/relatorio-exemplo.html) usa texto criado apenas para demonstrar a interface.
 
 ## O que ninguém deve confundir
 

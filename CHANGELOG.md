@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.10.5 — unreleased (qualified locally 2026-11-19; integration pending; not on PyPI)
+
+PT-BR fire trial: the product run on real Portuguese text nobody wrote for the engine (427 items, 28 genre labels), real Claude Code sessions with the Skill installed, four arms with the same model, a blind judge and three whole documents. Plan, frozen criteria R1–R18, gaps and qualification: `docs/releases/v0.10.5/`; results site: `docs/observatory/index.html`; release notes: `docs/releases/v0.10.5/RELEASE_NOTES.md`.
+
+**What passing tests mean.** Each fix below has a test that is red on v0.10.0 and a control. The fire trial measures the `compare` gate against a known oracle and the edit decisions of each arm; it does not prove semantic equivalence, and no human reviewer took part.
+
+### Fixed
+- **Negation false green** (V105-GAP-05): removing "não" in negative concord ("não tinha nenhum" → "tinha nenhum") or adding it before an inner negative word kept the count and was only `info`; now `negation_head_changed` (major).
+- **Dropped-sentence false green** (V105-GAP-06): a whole sentence deleted passed when its words occurred elsewhere; now `sentence_dropped` / `sentence_not_carried`.
+- **Line-wrap false red** (V105-GAP-07): joining hard-wrapped lines inside a paragraph (PDF, Gutenberg) raised `span_added` and `relation_invented`.
+- **Digits glued to letters** (V105-GAP-13): "7a" (old ordinal), "L1", "#petr4", "@perfil10" are protected values; "3o" → "3º" is no longer a false red.
+- **Explicit mode ignored** (V105-GAP-08): `rewrite --mode POLISH/ADAPT` returned `no_change` without calling the model when the detector found nothing; on v0.10.0 the engine never edited the three tasks that required an edit.
+- **Long document as one unit** (V105-GAP-14): a document with one article per line and no blank line (a full law, 12 thousand words) became a single long-form unit; paragraphs over the unit limit are split at line breaks that close a sentence or clause; tables, quotes, code and verse are never split.
+- **Skill discovery** (V105-GAP-09): the Skill description now covers ordinary revision requests ("revise para clareza"), not only humanising; the minimal flow is `plan` (with `--attr`) → candidate → `compare` (V105-GAP-01/02).
+- **Declared judge relation shown as observed** (V105-GAP-11, found by a real Derivanta Framework audit session): a judgment read from a file reports `relation_evidence: DECLARED`; only a judge the engine ran is `ENGINE_OBSERVED`.
+- **Legal provision head read as a name** (V105-GAP-15): after "§ 3°" or an item marker without a period ("I -"), the first word of a provision was a proper name, so any plain-language rewrite that changed it was a critical span loss.
+- **Privacy gate** (V105-GAP-04): a bare number shared with a private document counts only next to the same neighbouring word; the Watcher regex returns to `{2,60}`. `redact.SECRET_VALUES` no longer reads a type annotation as a credential.
+
+### Measured (details in `docs/releases/v0.10.5/FIRE_TRIAL_RESULTS.md`)
+- Offline, 427 real texts, 1,632 perturbations with a known answer: meaning changes that passed without a signal 46 → 7; false alarms on benign changes 10 → 1; `ERROR_CONFIRMED` and `edit` plans on published text unchanged (2 and 18).
+- Live, 12 tasks × 3 repetitions, same model in every arm: the Skill was activated without being named 13 → 28 of 36 and wrongly edited a text that should come back 7 → 2; the engine now edits when asked (missed edits 9 → 4) and the blind judge scores it better on the request in 6 tasks with no loss. **The Skill is not better on quality:** more faithful in 3 tasks, but worse at meeting the request in 5 and on naturalness in 4 (V105-GAP-16). Context and knowledge: no isolated gain shown.
+- `compare` on 17,600 words: 1.04× v0.10.0 CPU.
+
+### Changed (continuation, 19/11)
+- **D-03: a model judgment read from a file accepts nothing** (`compare --judgment`, `ground --judgment`, `apply_judgment` without engine observation), whatever `generator_relation` it declares; it is kept as `declared_assessment` and an independent judgment stays required. Only a judge the engine ran (`rewrite --judge-cmd`) accepts. Declared rejections still count. Migration: `docs/releases/v0.10.5/MIGRATION.md`.
+- Grounding judge: a "supported" claim needs a quote of at least two words and 8 characters (V105-GAP-21, found by a real Derivanta Framework session).
+- `SKILL.md`: direct `python …` calls (no shell variable, no `; echo $?`), never deliver an edited text without `compare`, `review_required` is not "undo", no "kept all ideas" without proof.
+
+### Measured in the continuation
+- Prospective holdout (10 new tasks, new authors and sources, frozen before measuring): engine correct edit decisions 6 → 10 of 16; Skill correct decisions 9 → 11 of 16 and fidelity 3.95 → 4.40, but **no measurable quality gain** (meets the request on edit tasks 4.38 → 3.88, inside the noise of the control). Valid ablation with the same request: attributes and knowledge show no measurable gain.
+
+### Added
+- **Editorial HTML per delivery.** The Skill saves a local report with a word diff, linked before/after rationales, review status, and findings. `compare`, `ground` and `rewrite` expose `--html-out`. Includes changed-only and reading views, keyboard navigation, mobile layout, and reduced motion.
+- Fire-trial harness (`scripts/v0105_*.py`): deterministic corpus builder with rights per operation, offline metamorphic campaign, live arms (direct LLM, Skill in a real host, engine, engine without context), blind judge with an engine-independent oracle, whole-document flows. Provider failures are never written as results.
+- **VozNativa Observatory** (`scripts/v0105_observatory.py`, `docs/observatory/index.html`): static, self-contained results site with corpus map, metamorphic dumbbells with intervals, live run matrix and arm comparator, review desk with aligned diff and run timeline, gaps, four tracks, criteria and exports; browser QA in `scripts/v0105_observatory_qa.py`.
+- `evals/test_v0105_import_graph.py`: the four inherited import cycles close only inside functions; a module-level cycle fails the suite.
+
+### Final local pass (20/11)
+- GAP-22 flags locally aligned changes such as `criam` → `criavam`. The replay adds review to five saved P05 outputs. All 1,632 offline verdicts match the previous candidate.
+- Fixed repeated stdin reads, protected terms in `PROOFREAD`, judge attribution in best-of-N runs, dry-run call estimates, and Observatory deep links. Indexed planner findings and documentation links to avoid repeated scans.
+- An online PT-BR pilot ran on five sources with a live Codex writer and a separate Skill-host check. It found and corrected redundant privative negation counts (GAP-29). The shared installer supports Codex, Claude Code and Gemini CLI layouts.
+
 ## 0.10.0 — 2026-11-18 (GitHub release; not on PyPI)
 
 Contextual linguistic intelligence, continuous knowledge and reciprocal dogfood. Round plan with release criteria frozen before development, gaps, evaluation and qualification: `docs/releases/v0.10/`; release notes: `docs/releases/v0.10/RELEASE_NOTES.md`.

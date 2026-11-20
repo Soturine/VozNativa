@@ -47,7 +47,11 @@ EVIDENCE_PATHS = ("evals/qualification/external.json", "evals/assurance/runs/",
                   "docs/releases/v0.7/V07_EXECUTION_STATE.md", "docs/releases/v0.7/V07_RELEASE_QUALIFICATION.md",
                   "docs/releases/v0.8/EXECUTION_STATE.md", "docs/releases/v0.8/RELEASE_QUALIFICATION.md",
                   # v0.9 CP9: the round's state and qualification records, written after its final CI run.
-                  "docs/releases/v0.9/EXECUTION_STATE.md", "docs/releases/v0.9/RELEASE_QUALIFICATION.md")
+                  "docs/releases/v0.9/EXECUTION_STATE.md", "docs/releases/v0.9/RELEASE_QUALIFICATION.md",
+                  # v0.10.5 (V105-GAP-03): registered before the final CI, so the post-CI record of a round can
+                  # live in its own state file instead of only in external.json.
+                  "docs/releases/v0.10/EXECUTION_STATE.md", "docs/releases/v0.10/RELEASE_QUALIFICATION.md",
+                  "docs/releases/v0.10.5/EXECUTION_STATE.md", "docs/releases/v0.10.5/RELEASE_QUALIFICATION.md")
 # Under a directory prefix only non-executable records count as evidence
 # (v0.7.0.dev1, H07-NEW-02): a harness such as replay_survivors.py, a
 # conftest.py or a pyproject.toml placed in a run folder is code, so changing it

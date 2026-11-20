@@ -57,6 +57,15 @@ class Loop(unittest.TestCase):
         result = rewrite(SOURCE, context(), StaticProvider([review, CLEAN]), candidates=2)
         self.assertEqual(result["text"], CLEAN[7:-8])
 
+    def test_judge_is_logged_on_the_selected_candidate(self):
+        verdict = json.dumps({"kind": "llm", "judge_id": "fake", "verdict": "equivalent",
+                              "claims": [{"source": "18h", "status": "preserved"}], "added_claims": []})
+        provider = _declared(StaticProvider([CLEAN, FLIPPED]), "writer-model")
+        judge = _declared(StaticProvider([verdict]), "judge-model")
+        result = rewrite(SOURCE, context(), provider, candidates=2, judge_provider=judge, judge_votes=1)
+        self.assertEqual(result["attempts"][0]["judge"], "accepted_by_llm")
+        self.assertNotIn("judge", result["attempts"][1])
+
     def test_judge_can_accept_or_reject(self):
         accept = json.dumps({"kind": "llm", "judge_id": "fake", "verdict": "equivalent",
                              "claims": [{"source": "não deve antes das 18h", "status": "preserved"}],

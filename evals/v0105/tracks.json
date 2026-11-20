@@ -1,0 +1,63 @@
+{
+ "kind": "voznativa.observatory_tracks",
+ "schema_version": 1,
+ "tracks": [
+  {
+   "tool": "VozNativa",
+   "title": "O produto em texto real",
+   "state": "PASS",
+   "what": "Campanha offline em 427 textos reais (1.632 perturbações com oráculo), 288 execuções live em 12 tarefas × 3 repetições × 4 braços × 2 versões, holdout congelado rodado uma vez, juiz cego, sessões reais da Skill no Claude Code e 3 documentos inteiros.",
+   "findings": [
+    "Falsos verdes de negação e de frase apagada em texto real (V105-GAP-05/06): 46 → 11 mudanças de sentido sem sinal; falso vermelho por quebra de linha (GAP-07)",
+    "O engine ignorava o modo pedido: na v0.10.0 nunca chamou o modelo nas 12 tarefas (GAP-08); na v0.10.5, ganho no juiz em 6 tarefas sem perda",
+    "Skill ativada 13 → 28 de 36 sem ser nomeada; edições indevidas 7 → 2; mas atende menos ao pedido (GAP-16) e ainda pula o fluxo em 20/36 (GAP-01)",
+    "Documento sem linha em branco virava uma unidade de 12 mil palavras (GAP-14); primeira palavra de parágrafo de lei lida como nome próprio (GAP-15)",
+    "O roteador devolve unknown em 260 de 427 textos reais (GAP-18, aberto)"
+   ]
+  },
+  {
+   "tool": "Assertiva",
+   "title": "audit --execute no VozNativa",
+   "state": "PASS",
+   "what": "audit --execute no VozNativa v0.10.0 e no candidato; revisão do PR #11 e das falhas herdadas da suíte da Assertiva.",
+   "findings": [
+    "Suíte do VozNativa executada: PASS na base e no candidato; artefato FAIL atribuído ao ENVIRONMENT (setuptools ausente; PIP_NO_BUILD_ISOLATION=0 no ambiente), atribuição conferida",
+    "PR #11 refinado: backend que build-system.requires não declara é PROJECT_CONFIGURATION; isolamento sobrescrito pelo ambiente fica registrado (2 testes vermelhos sem a mudança)",
+    "Falha herdada test_installed_artifact_context: falha também no main; causa provada (pasta temporária compartilhada do pytest com acesso negado); passa no main com --basetemp próprio"
+   ]
+  },
+  {
+   "tool": "Derivanta Engine",
+   "title": "CLI estática no VozNativa",
+   "state": "PASS",
+   "what": "Análise estática do repositório (referências, ciclos, testes) e revisão do PR #6.",
+   "findings": [
+    "Comparação entre pastas de nomes diferentes: DIFFERENT_TARGET com zero achados; na mesma pasta: COMPARABLE, 212 persistentes, 15 novos (14 no harness), 1 ausente",
+    "0 candidatos falsos de código não referenciado no VozNativa",
+    "4 ciclos de import: todos só dentro de funções; teste novo impede ciclo em nível de módulo",
+    "PR #6 refinado: classe cujo nome termina em TestCase e não herda de TestCase não é teste; alias importado de TestCase é; tools/verify.py GATE PASSED"
+   ]
+  },
+  {
+   "tool": "Derivanta Framework",
+   "title": "Sessão real de agente com a Skill",
+   "state": "PASS",
+   "what": "Claude Code (Sonnet) com a Skill do Framework instalada no projeto, auditando uma cópia só-leitura do VozNativa.",
+   "findings": [
+    "Sem pedido explícito, a Skill não foi ativada e nenhum arquivo do Framework foi lido: a auditoria daquela sessão não conta como do Framework",
+    "Com pedido explícito: Skill ativada, workflows/AUDIT.md seguido; achado 1 (independência do juiz declarada parecia observada) confirmado por leitura e teste → V105-GAP-11",
+    "Achado 2: o registro de gaps citava SKILL_LIVE_DOGFOOD.md inexistente → V105-GAP-12",
+    "Retorno ao Framework: faltam instruções para instalar como Skill de projeto; os links ../ exigem as pastas irmãs ao lado da Skill"
+   ]
+  }
+ ],
+ "method": [
+  "Escritor: Haiku em todos os braços. Juiz: Sonnet, cego (sem braço, sem versão, original incluído como candidata anônima). Mesmo fornecedor: relação same_vendor, evidência MODEL_JUDGED, nunca revisão humana.",
+  "Ganho só é afirmado se aparecer em pelo menos 2 de 3 repetições e no juiz; o LLM direto, que não usa o VozNativa, mede o ruído desse critério. Sem isso: NO_MEASURABLE_GAIN.",
+  "Oráculos independentes do engine: a própria transformação na campanha offline; números, nomes e citações do original procurados na saída; sequência de artigos nos documentos.",
+  "Falha do provider nunca vira resultado: a campanha abortada pelo limite de cota foi descartada e refeita do zero.",
+  "Textos fora do Git. A página só mostra textos cuja licença permite publicar trechos: domínio público (Machado de Assis, leis federais) e CC BY 4.0 (resumos com DOI; saídas marcadas como alteradas por modelo). Itens de uso só local (UD, B2W) nunca entram aqui.",
+  "Lacunas de família sem fonte lícita nesta rodada: mensagens e WhatsApp reais, e-mail, documentação técnica PT-BR, saúde, criativo, fala regional. Nenhuma afirmação de qualidade vale para elas.",
+  "NOT_RUN: revisão humana cega, holdout de terceiro, juiz de outro fornecedor, modelo local, Codex/Gemini, macOS, Word."
+ ]
+}

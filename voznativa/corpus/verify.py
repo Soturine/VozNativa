@@ -15,7 +15,7 @@ import json
 import urllib.parse
 from datetime import date
 
-from .connectors import AccessError, HttpLimits, allowed_hosts, fetch, page_identifies
+from .connectors import AccessError, allowed_hosts, fetch, page_identifies
 
 PROBE_BYTES = 65_536
 

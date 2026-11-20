@@ -67,7 +67,7 @@ def load_sources(path: Path | None = None) -> list[dict]:
     out, seen = [], set()
     for src in data.get("sources") or []:
         sid = str(src.get("id", ""))
-        if not re.fullmatch(r"[a-z0-9][a-z0-9-]{2,63}", sid) or sid in seen:
+        if not re.fullmatch(r"[a-z0-9][a-z0-9-]{2,60}", sid) or sid in seen:
             raise WatchError(f"bad or repeated source id: {sid!r}")
         if src.get("kind") not in SOURCE_KINDS:
             raise WatchError(f"{sid}: kind must be one of {SOURCE_KINDS}")

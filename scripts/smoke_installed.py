@@ -76,7 +76,8 @@ def main() -> int:
             Path("c.txt").write_text(TEXT.replace("não deve", "deve"), encoding="utf-8")
             Path("s1.txt").write_text("vc viu o deploy? nn subiu ainda kkk " * 20, encoding="utf-8")
             checks = {
-                "compare": run("compare", "t.txt", "c.txt")["status"] == "fail",
+                "compare": run("compare", "t.txt", "c.txt", "--html-out", "revisao.html")["status"] == "fail",
+                "html-report": "Candidata reprovada" in Path("revisao.html").read_text(encoding="utf-8"),
                 "ledger": run("ledger", "t.txt")["kind"] == "voznativa.semantic_ledger",
                 "route": run("route", "t.txt")["kind"] == "voznativa.context_contract",
                 "refs": bool(run("refs", "t.txt")["selected"]),

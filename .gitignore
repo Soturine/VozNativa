@@ -11,3 +11,6 @@ benchmarks/outputs/*/
 .voznativa/
 voznativa/_bundled/
 benchmarks/.cache/
+.agents/skills/voznativa/
+.claude/skills/voznativa/
+.gemini/skills/voznativa/

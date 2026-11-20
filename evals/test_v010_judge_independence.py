@@ -24,16 +24,16 @@ class Independence(unittest.TestCase):
         ok = judge.validate(answer("independence_verified", independence_evidence="revisora externa, modelo X"),
                             ORIGINAL, CANDIDATE)
         report = apply_judgment(compare(ORIGINAL, CANDIDATE), ok)
-        self.assertEqual(report["status"], "accepted_by_llm")
-        self.assertEqual(report["judge_independence"]["level"], "declared")
+        # v0.10.5 (D-03): "independence_verified" is written by hand, never observed: validated, but it accepts nothing
+        self.assertEqual(report["status"], "no_deterministic_issues")
+        self.assertEqual(report["declared_assessment"]["generator_relation"], "independence_verified")
 
     def test_same_vendor_accepts_with_partial_independence_stated(self):
-        report = apply_judgment(compare(ORIGINAL, CANDIDATE),
-                                judge.validate(answer("same_vendor"), ORIGINAL, CANDIDATE))
+        observed = lambda rel: dict(judge.validate(answer(rel), ORIGINAL, CANDIDATE), relation_evidence="ENGINE_OBSERVED")
+        report = apply_judgment(compare(ORIGINAL, CANDIDATE), observed("same_vendor"))
         self.assertEqual(report["status"], "accepted_by_llm")
         self.assertEqual(report["judge_independence"]["level"], "partial")
-        provider = apply_judgment(compare(ORIGINAL, CANDIDATE),
-                                  judge.validate(answer("different_provider"), ORIGINAL, CANDIDATE))
+        provider = apply_judgment(compare(ORIGINAL, CANDIDATE), observed("different_provider"))
         self.assertEqual(provider["judge_independence"]["level"], "provider")
 
     def test_vendor_comes_only_from_declared_configuration(self):

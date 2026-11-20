@@ -72,6 +72,26 @@ def _protect_args(p):
     p.add_argument("--protect-file", help="file with one protected term per line")
 
 
+def _html_args(parser, *, editorial=False):
+    parser.add_argument("--html-out", help="write a new standalone editorial report (.html)")
+    if editorial:
+        parser.add_argument("--editorial-notes", help="JSON list of literal before/after excerpts and a reason")
+        parser.add_argument("--delivery-reason", default="", help="editorial decision or reason for keeping the original")
+
+
+def _write_editorial_html(args, original, candidate, report, *, notes=None, **delivery):
+    if not args.html_out:
+        return
+    from .editorial_report import render, write
+    notes_path = getattr(args, "editorial_notes", None)
+    if notes_path:
+        notes = json.loads(_read(notes_path))
+        if notes is None:
+            raise ValueError("--editorial-notes exige uma lista JSON")
+    reason = delivery.pop("reason", "") or getattr(args, "delivery_reason", "")
+    write(args.html_out, render(original, candidate, report, notes=notes, reason=reason, **delivery))
+
+
 def cmd_ledger(args):
     from .ledger import build
     _emit(build(_read(args.text), _protected(args)).as_dict())
@@ -89,6 +109,15 @@ def _within_compare_limit(*texts: str) -> None:
                              "Divida o documento ou use `rewrite --long-form`, que valida por unidades.")
 
 
+def _declared_judgment(raw: str) -> dict:
+    """A judgment read from a file: its generator_relation is what its author wrote, never observed by the engine
+    (v0.10.5 V105-GAP-11, found by the Derivanta Framework audit). The file cannot claim otherwise."""
+    judgment = json.loads(raw)
+    if isinstance(judgment, dict):
+        judgment["relation_evidence"] = "DECLARED"
+    return judgment
+
+
 def cmd_compare(args):
     from .compare import apply_judgment, compare
     from .judge import validate
@@ -96,7 +125,8 @@ def cmd_compare(args):
     _within_compare_limit(original, candidate)
     report = compare(original, candidate, _protected(args))
     for path in args.judgment or []:
-        report = apply_judgment(report, validate(json.loads(_read(path)), original, candidate))
+        report = apply_judgment(report, validate(_declared_judgment(_read(path)), original, candidate))
+    _write_editorial_html(args, original, candidate, report, kept_original=args.kept_original)
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -214,9 +244,10 @@ def _task_attributes(args) -> tuple[dict, dict | None]:
     return attrs, proposal
 
 
-def _route(args):
+def _route(args, text: str | None = None):
     from .router import route
-    contract = route(_read(args.text), task=args.task, genre=args.genre, channel=args.channel,
+    text = _read(args.text) if text is None else text
+    contract = route(text, task=args.task, genre=args.genre, channel=args.channel,
                      register=args.register, audience=args.audience, region=args.region,
                      region_strength=args.region_strength, community=args.community,
                      slang_strength=args.slang_strength, epoch=args.epoch, fact_sources=args.fact,
@@ -227,19 +258,18 @@ def _route(args):
     if attrs or proposal:
         # v0.10 CP2: open attributes travel with the contract; without them the contract is unchanged.
         from .task_context import build
-        contract["task_context"] = build(_read(args.text), contract, attributes=attrs, agent_proposal=proposal)
+        contract["task_context"] = build(text, contract, attributes=attrs, agent_proposal=proposal)
     return contract
 
 
 def cmd_context(args):
     from .task_context import build, interpret_prompt
-    contract = _route(args)
+    text = _read(args.text)
+    contract = _route(args, text)
     if args.interpret_prompt:
-        _emit(None, interpret_prompt(_read(args.text), contract))
+        _emit(None, interpret_prompt(text, contract))
         return
-    attrs, proposal = _task_attributes(args)
-    _emit(contract.get("task_context") or build(_read(args.text), contract, attributes=attrs,
-                                                agent_proposal=proposal))
+    _emit(contract.get("task_context") or build(text, contract))
 
 
 def cmd_route(args):
@@ -270,7 +300,8 @@ def cmd_ground(args):
         from .judge import validate_grounding
         sources = authorized_sources(request, facts, project, original=original)
         for path in args.judgment:
-            report = apply_judgment(report, validate_grounding(json.loads(_read(path)), sources, candidate))
+            report = apply_judgment(report, validate_grounding(_declared_judgment(_read(path)), sources, candidate))
+    _write_editorial_html(args, original, candidate, report)
     _emit(report)
     return EXIT_BY_STATUS.get(report["status"], 2)
 
@@ -284,14 +315,15 @@ def cmd_profile(args):
 def cmd_contract(args):
     from .contract import compact, resolve
     from .profile import validate
-    context = json.loads(_read(args.context)) if args.context else _route(args)
+    text = _read(args.text) if args.text is not None else None
+    context = json.loads(_read(args.context)) if args.context else _route(args, text)
     profile = json.loads(_read(args.profile)) if args.profile else None
     if profile:
         errors = validate(profile)
         if errors:
             raise ValueError("invalid voice profile: " + "; ".join(errors))
     explicit = json.loads(args.set) if args.set else None
-    contract = resolve(context, profile, explicit, _read(args.text) if getattr(args, "text", None) else None)
+    contract = resolve(context, profile, explicit, text)
     _emit(compact(contract) if args.compact else contract)
 
 
@@ -307,10 +339,10 @@ def _voice_inputs(args):
 def cmd_rewrite_prompt(args):
     from .engine import skill_prompt
     from .project import scan
-    context = _route(args)
+    text = _read(args.text)
+    context = _route(args, text)
     profile, explicit = _voice_inputs(args)
     facts = [_read(f) for f in args.fact or []]
-    text = _read(args.text)
     _emit(None, skill_prompt(text, context, profile, explicit, protect=_protected(args), facts=facts,
                              budget_words=args.budget, inline_references=args.inline_refs,
                              project=scan(args.repo) if args.repo else None))
@@ -349,13 +381,19 @@ def _apply_config(args) -> dict:
     return resolved
 
 
+_DETERMINISTIC_MODES = ("PRESERVE", "REVIEW", "PROOFREAD")
+
+
 def _call_budget(args, long_form: bool) -> dict:
     """Upper bound of provider calls this rewrite may make (generation, retries and judge)."""
-    judge = args.judge_votes if (args.judge_cmd or args.judge_api_url or args.judge_api_model) else 0
-    per_text = args.attempts * args.candidates + judge
+    if args.mode in _DETERMINISTIC_MODES:
+        return {"max_provider_calls": 0, "counted": "deterministic mode"}
+    from .engine import JUDGE_TRIES
+    judge = args.judge_votes * JUDGE_TRIES if (args.judge_cmd or args.judge_api_url or args.judge_api_model) else 0
     if long_form:
         return {"max_provider_calls": args.max_calls, "counted": "generation + judge, all units (DF-01)"}
-    return {"max_provider_calls": per_text, "counted": "attempts x candidates + judge votes"}
+    return {"max_provider_calls": args.attempts * (args.candidates + judge),
+            "counted": "attempts x (candidates + maximum judge calls per attempt)"}
 
 
 def _providers(args):
@@ -388,6 +426,8 @@ def _providers(args):
 
 
 def cmd_rewrite(args):
+    if args.html_out and args.dry_run:
+        raise ValueError("--html-out exige uma execução de rewrite sem --dry-run")
     if str(args.text).lower().endswith(".docx"):
         return _rewrite_docx(args)
     return _rewrite_text(args)
@@ -414,7 +454,7 @@ def _rewrite_docx(args):
             args.long_form = "on"
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):
-            code = _rewrite_text(args, text_only=False)
+            code = _rewrite_text(args, text_only=False, render_html=False)
     result = json.loads(buffer.getvalue())
     report = {"input": source.name, "elements": ir["summary"], "applied": False, "output": None}
     if result.get("outcome") in ("accepted", "needs_judgment", "needs_review") and result["text"] != text:
@@ -428,6 +468,12 @@ def _rewrite_docx(args):
     else:
         report["reason"] = f"nothing to apply (outcome {result.get('outcome')})"
     result["docx"] = report
+    if args.html_out:
+        if result["text"] != text and not report["applied"]:
+            _write_editorial_html(args, text, result["text"], result.get("report") or result.get("global_report") or {},
+                                  kept_original=True, reason=report["reason"])
+        else:
+            _rewrite_html(args, text, result)
     if args.text_only:
         _emit(None, result["text"])
     else:
@@ -495,7 +541,8 @@ def cmd_knowledge(args):
         _emit(report)
         return 1 if any(r["status"] == "error" for r in report["results"]) else 0
     if args.knowledge_command == "select":
-        _emit(knowledge.for_text(_read(args.text), _route(args), budget_chars=args.budget))
+        text = _read(args.text)
+        _emit(knowledge.for_text(text, _route(args, text), budget_chars=args.budget))
         return 0
     registry, errors = knowledge.load()
     if args.json:
@@ -532,28 +579,57 @@ def cmd_pdf(args):
         return 69                       # sysexits EX_UNAVAILABLE: an optional component is missing
 
 
-def _rewrite_text(args, text_only: bool | None = None):
+def _rewrite_html(args, original: str | None, result: dict) -> None:
+    if not args.html_out:
+        return
+    outcome = result["outcome"]
+    if outcome in ("provider_error", "returned_original", "no_change") and original is None:
+        candidate = ""
+    else:
+        candidate = result["text"]
+    notes = []
+    for fix in result.get("applied", [])[:30]:
+        before, after = fix["before"], fix["after"]
+        if original is not None and before in original and after in candidate and before != after:
+            notes.append({"before": before, "after": after,
+                          "reason": f"Correção formal detectada pelo PROOFREAD ({fix['type']})."})
+    _write_editorial_html(
+        args, original, candidate, result.get("report") or result.get("global_report") or {}, outcome=outcome,
+        kept_original=original is not None and outcome == "returned_original", reason=result.get("reason", ""),
+        attempts=result.get("attempts") or [], units=result.get("units") or [], notes=notes,
+    )
+
+
+def _rewrite_text(args, text_only: bool | None = None, *, render_html: bool = True):
     from .engine import rewrite
     from .project import scan
     resolved = _apply_config(args)
     text_only = args.text_only if text_only is None else text_only
-    context = _route(args)
+    text = _read(args.text)
+    context = _route(args, text)
     if args.dry_run:
-        return _rewrite_dry_run(args, context, resolved)
+        return _rewrite_dry_run(args, text, context, resolved)
     profile, explicit = _voice_inputs(args)
+    original = None if context["task"] == "create" else text
+    facts, protect = [_read(f) for f in args.fact or []], _protected(args)
     if args.mode:
-        moded = _mode_result(_read(args.text), context, args.mode, [_read(f) for f in args.fact or []])
+        moded = _mode_result(text, context, args.mode, facts, protect)
         if moded is not None:
+            if render_html:
+                _rewrite_html(args, original, moded)
             _emit(None, moded["text"]) if text_only else _emit(moded)
             return {"accepted": 0, "no_change": 0, "needs_judgment": 3, "needs_review": 2,
                     "returned_original": 1}[moded["outcome"]]
     provider, judge = _providers(args)
     for warning in (getattr(provider, "warnings", []) or []) + (getattr(judge, "warnings", []) or []):
         sys.stderr.write(f"voznativa: warning: {warning}\n")
-    text = _read(args.text)
-    common = dict(candidates=args.candidates, judge_provider=judge, facts=[_read(f) for f in args.fact or []],
+    # v0.10.5 (V105-GAP-08, fire trial): an explicit POLISH or ADAPT is the user asking for an edit. Before,
+    # a text without detector findings and without a destination came back as no_change and the model was
+    # never asked ("revise este resumo para clareza" with --mode POLISH). The model may still answer NO_CHANGE.
+    force = bool(args.force) or (args.mode or "").upper() in ("POLISH", "ADAPT")
+    common = dict(candidates=args.candidates, judge_provider=judge, facts=facts,
                   project=scan(args.repo) if args.repo else None, budget_words=args.budget,
-                  protect=_protected(args), force=args.force, judge_votes=args.judge_votes)
+                  protect=protect, force=force, judge_votes=args.judge_votes)
     long_form = context["task"] != "create" and (
         args.long_form == "on" or (args.long_form == "auto" and len(text.split()) > 1.5 * args.segment_words))
     if long_form:
@@ -577,6 +653,8 @@ def _rewrite_text(args, text_only: bool | None = None):
                                                                                     dict) else {})}
              for role, p in (("writer", provider), ("judge", judge)) if p is not None}
     result["provider_identity"] = usage   # program and model as configured, tokens only when the server reports them
+    if render_html:
+        _rewrite_html(args, original, result)
     if text_only:
         _emit(None, result["text"])
     else:
@@ -586,18 +664,19 @@ def _rewrite_text(args, text_only: bool | None = None):
         result["outcome"]]
 
 
-def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
+def _rewrite_dry_run(args, text: str, context: dict, resolved: dict) -> int:
     """What ``rewrite`` would do, without starting any provider (v0.9 CP1):
     the plan, the units of a long document, the call budget and the
     effective configuration. Nothing is sent anywhere."""
     from .planner import plan
-    text = _read(args.text)
-    long_form = context["task"] != "create" and (
+    deterministic = args.mode in _DETERMINISTIC_MODES
+    long_form = not deterministic and context["task"] != "create" and (
         args.long_form == "on" or (args.long_form == "auto" and len(text.split()) > 1.5 * args.segment_words))
     the_plan = plan(text, context)
     report = {"kind": "voznativa.rewrite.dry_run", "schema_version": 1, "provider_called": False,
               "decision": the_plan["decision"], "summary": the_plan.get("summary"),
-              "would_call_model": the_plan["decision"] != "no_change" or bool(args.force),
+              "would_call_model": not deterministic and (context["task"] == "create" or
+                  the_plan["decision"] != "no_change" or bool(args.force) or args.mode in ("POLISH", "ADAPT")),
               "long_form": long_form, "budget": _call_budget(args, long_form),
               "provider": {"cmd": bool(args.cmd), "api": bool(args.api_url), "emulate": bool(args.emulate),
                            "judge": bool(args.judge_cmd or args.judge_api_url or args.judge_api_model),
@@ -612,7 +691,7 @@ def _rewrite_dry_run(args, context: dict, resolved: dict) -> int:
         report["units"] = {"total": len(units),
                            "rewritable": sum(1 for u in units if u.get("action") == "rewrite"),
                            "protected": sum(1 for u in units if u.get("action") != "rewrite")}
-    if not (args.cmd or args.api_url or args.emulate or args.candidate):
+    if not deterministic and not (args.cmd or args.api_url or args.emulate or args.candidate):
         report["note"] = "no provider configured: a real run needs --cmd, --api-url/--api-model, --emulate or --candidate"
     _emit(report)
     return 0
@@ -638,17 +717,17 @@ def cmd_integrity(args):
 def cmd_diagnose(args):
     from .diagnose import diagnose, mode_policy
     text = _read(args.text)
-    report = diagnose(text, _route(args), [_read(f) for f in args.fact or []])
+    report = diagnose(text, _route(args, text), [_read(f) for f in args.fact or []])
     report["mode"] = mode_policy(args.mode)
     _emit(report)
 
 
-def _mode_result(text: str, context: dict, mode: str, facts: list[str]) -> dict | None:
+def _mode_result(text: str, context: dict, mode: str, facts: list[str], protect: list[str]) -> dict | None:
     """PRESERVE/REVIEW never change the text; PROOFREAD applies only
     authorised formal fixes, checked by compare. Other modes: None."""
     from .compare import compare
     from .diagnose import diagnose, mode_policy, proofread
-    if mode not in ("PRESERVE", "REVIEW", "PROOFREAD"):
+    if mode not in _DETERMINISTIC_MODES:
         return None
     diagnosis = diagnose(text, context, facts)
     base = {"kind": "voznativa.rewrite_result", "mode": mode_policy(mode), "diagnosis": diagnosis,
@@ -658,7 +737,7 @@ def _mode_result(text: str, context: dict, mode: str, facts: list[str]) -> dict 
     fixed = proofread(text, diagnosis, mode)
     if not fixed["applied"]:
         return dict(base, outcome="no_change", text=text, reason="no authorised formal fix")
-    report = compare(text, fixed["text"])
+    report = compare(text, fixed["text"], protect)
     if report["status"] == "fail":
         return dict(base, outcome="returned_original", text=text, report=report,
                     reason="a formal fix failed the semantic gate; nothing applied")
@@ -669,7 +748,8 @@ def _mode_result(text: str, context: dict, mode: str, facts: list[str]) -> dict 
 def cmd_plan(args):
     from .planner import plan
     profile, explicit = _voice_inputs(args)
-    _emit(plan(_read(args.text), _route(args), profile, explicit, _protected(args)))
+    text = _read(args.text)
+    _emit(plan(text, _route(args, text), profile, explicit, _protected(args)))
 
 
 def cmd_patterns(args):
@@ -841,6 +921,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("candidate")
     p.add_argument("--judgment", action="append", help="judgment JSON from an LLM or human (repeatable)")
     _protect_args(p)
+    _html_args(p, editorial=True)
+    p.add_argument("--kept-original", action="store_true", help="state in the HTML that the original was delivered")
     p.set_defaults(func=cmd_compare)
 
     p = sub.add_parser("review", help="record a signed human review (interactive terminal only)")
@@ -987,6 +1069,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--repo")
     p.add_argument("--request", help="the request the text was written for; a source only for facts it states")
     p.add_argument("--judgment", action="append", help="grounding judgment JSON (from judge-prompt --fact)")
+    _html_args(p, editorial=True)
     p.set_defaults(func=cmd_ground)
 
     p = sub.add_parser("profile", help="build a Voice Profile v2 from authorized samples (no raw text stored)")
@@ -1063,6 +1146,7 @@ def build_parser() -> argparse.ArgumentParser:
                                 "PROOFREAD applies only high-confidence formal fixes; POLISH/ADAPT rewrite")
             p.add_argument("--rewrite-verse", action="store_true",
                            help="allow verse blocks to be rewritten (otherwise they are protected)")
+            _html_args(p)
             p.set_defaults(func=cmd_rewrite)
     return parser
 
@@ -1075,6 +1159,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     from .corpus.policy import GuardRefused, PolicyDenied
     try:
+        if getattr(args, "html_out", None):
+            from .editorial_report import check_destination
+            check_destination(args.html_out)
         code = args.func(args)
     except (PolicyDenied, GuardRefused) as error:
         # The data policy (or a personal-data guard) refused: not a usage error.

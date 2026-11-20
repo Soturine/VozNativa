@@ -19,6 +19,8 @@ voznativa compare examples/quickstart/original.txt examples/quickstart/candidata
 voznativa compare examples/quickstart/original.txt examples/quickstart/candidata-perde-acao.txt  # exit 2
 ```
 
+Para salvar o diff em HTML, acrescente `--html-out revisao.html` ao comando. O JSON e o código do gate continuam saindo pela CLI. [Exemplo navegável](../observatory/relatorio-exemplo.html).
+
 | Saída | Status | O que significa |
 |---|---|---|
 | 0 | `identical`, `accepted_*` | igual, ou aceito por um juiz independente ou revisão humana assinada |

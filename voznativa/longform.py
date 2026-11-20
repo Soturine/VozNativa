@@ -113,8 +113,32 @@ def _is_verse(lines: list[str]) -> bool:
     return median <= 40 and unpunctuated >= 0.4 and upper < 0.7 and len(body) >= 3
 
 
-def blocks(text: str) -> list[Block]:
-    """Paragraphs (blank-line separated; a fenced code block is one paragraph)."""
+_LINE_CLOSES = re.compile(r"[.;:!?…)\]»”\"]\s*$")
+
+
+def _line_pieces(chunk: str) -> list[tuple[int, str]]:
+    """Split one oversized paragraph at single line breaks that close a sentence or clause (the line ends in
+    . ; : ! ?) or follow a heading-like line ("CAPÍTULO I", "Seção II"). Laws, regulations and plain-text
+    exports put one article or item per line with no blank line between them; hard-wrapped prose rarely ends a
+    line on a full stop, and never splits mid-sentence here. Offsets are relative to the chunk."""
+    cuts, pos = [0], 0
+    lines = chunk.split("\n")
+    for line in lines[:-1]:
+        pos += len(line) + 1
+        bare = line.strip()
+        heading_like = bare and len(bare.split()) <= 8 and not bare.endswith((",", "-", "–"))
+        if _LINE_CLOSES.search(line) or heading_like:
+            cuts.append(pos - 1)        # the piece after starts with its newline, like every later block
+    cuts.append(len(chunk))
+    return [(a, chunk[a:b]) for a, b in zip(cuts, cuts[1:]) if chunk[a:b].strip()]
+
+
+def blocks(text: str, split_over: int | None = None) -> list[Block]:
+    """Paragraphs (blank-line separated; a fenced code block is one paragraph).
+
+    ``split_over``: a paragraph longer than this many words is split at the single line breaks that close a
+    sentence or clause (v0.10.5 V105-GAP-14: the full text of a law, 12 thousand words with no blank line, was
+    one long-form unit)."""
     out, i = [], 0
     # \r?\n: CRLF text was a single block (v0.7.0 CP5 metamorphic test); offsets are unchanged.
     pattern = re.compile(r"```.*?(?:```|\Z)|(?:(?!\r?\n[ \t]*\r?\n).)+", re.S)
@@ -122,13 +146,20 @@ def blocks(text: str) -> list[Block]:
         chunk = m.group(0)
         if not chunk.strip():
             continue
-        out.append(Block(i, m.start(), m.end(), chunk, _kind(chunk), len(chunk.split())))
-        i += 1
+        pieces = [(0, chunk)]
+        # Only rewritable kinds are split: a table, quote, code or verse block cut into lines would lose the
+        # kind that protects it.
+        if split_over and len(chunk.split()) > split_over and _kind(chunk) in ("prose", "list", "dialogue"):
+            pieces = _line_pieces(chunk)
+        for offset, piece in pieces:
+            start = m.start() + offset
+            out.append(Block(i, start, start + len(piece), piece, _kind(piece), len(piece.split())))
+            i += 1
     return out
 
 
-def dependency_map(text: str) -> list[Block]:
-    out = blocks(text)
+def dependency_map(text: str, split_over: int | None = None) -> list[Block]:
+    out = blocks(text, split_over)
     seen_names: dict[str, int] = {}
     seen_acronyms: dict[str, int] = {}
     for b in out:
@@ -180,7 +211,7 @@ def segment(text: str, max_words: int = 900) -> dict:
     travels in ``carry``. Only adjacent dependencies decide where to cut."""
     if max_words < 50:
         raise ValueError("max_words must be at least 50")
-    bs = dependency_map(text)
+    bs = dependency_map(text, split_over=max_words)
     segments, forced, current, words = [], [], [], 0
 
     def close():

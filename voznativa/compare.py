@@ -84,6 +84,7 @@ def compare(original: str, candidate: str, protect: list[str] | tuple = ()) -> d
     alignment = _align(src, out)
     issues += _signal_issues(src, out, alignment)
     issues += _causal_direction_issues(src, out, alignment)
+    issues += _negation_head_issues(src, out, alignment)
     issues += _crossing_issues(src, out, alignment)
     issues += _order_issues(src, out, alignment)
     issues += _tense_issues(src, out, alignment)
@@ -169,6 +170,55 @@ def _discourse_issues(original: str, candidate: str, issues: list[dict]) -> list
                 out[i] = dict(item, severity="info", demoted="causal relation kept with another connective "
                                                              "(voznativa.discourse)")
     return out
+
+
+# v0.10.5 (V105-GAP-05, fire trial on real text): negative concord let a polarity change pass as info.
+# "Atualmente não tinha nenhum" -> "Atualmente tinha nenhum" and "Eu era apenas um servo" -> "Eu não era
+# apenas um servo" (with a later "nem" in the sentence) kept the negation count: the head "não" and the
+# n-word trade labels. A head added that absorbs an n-word, or a head removed that leaves an n-word after
+# the verb, is a change of what is negated. Moving the n-word before the verb ("Nenhum cliente foi afetado")
+# is the usual paraphrase and is not reported.
+_NEG_HEADS = frozenset({"nao", "nn"})
+_CLAUSE_BREAK = re.compile(r"[,;:—–()\[\]\n]|\s-\s")
+
+
+def _negation_shape(entry) -> tuple[int, int, list[int], bool]:
+    """(heads, concord n-words, standalone n-words after something in their clause, a standalone n-word that
+    does not open the sentence)."""
+    from .text import fold
+    heads = sum(1 for m in entry.markers if m.category == "negation" and fold(m.phrase) in _NEG_HEADS)
+    concord = sum(1 for m in entry.markers if m.category == "negation_concord")
+    text = entry.sentence.text
+    late, inner = [], False
+    for m in entry.markers:
+        if m.category == "negation" and fold(m.phrase) not in _NEG_HEADS:
+            clause = _CLAUSE_BREAK.split(text[:m.start])[-1]
+            if clause.strip():            # something (a verb, a subject) comes before it in its clause
+                late.append(m.start)
+            if text[:m.start].strip(" \"'“«(—-"):
+                inner = True              # the sentence does not open with it ("Nunca vi" opens with it)
+    return heads, concord, late, inner
+
+
+def _negation_head_issues(src, out, alignment) -> list[dict]:
+    issues = []
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY:
+            continue
+        sh, sc, _, src_inner = _negation_shape(src.entries[i])
+        oh, oc, late, _ = _negation_shape(out.entries[j])
+        # added: the new head absorbs an n-word that negated on its own inside the sentence; when the n-word
+        # opened the sentence ("Nunca vi isso" -> "Não vi isso nunca") it is the usual paraphrase
+        added = oh > sh and oc > sc and src_inner
+        removed = oh < sh and oc < sc and late
+        if added or removed:
+            issues.append(_issue("negation_head_changed", "major",
+                                 "a negation head ('não') was " + ("added" if added else "removed") +
+                                 " next to a negative word that " + ("negated on its own before" if added else
+                                                                    "is now left after the verb without it"),
+                                 source_sentence=src.entries[i].sentence.text,
+                                 candidate_sentence=out.entries[j].sentence.text))
+    return issues
 
 
 def _report(status, issues, original, candidate, src=None, out=None) -> dict:
@@ -655,9 +705,46 @@ def _bucket(counts: Counter) -> Counter:
     return merged
 
 
+_EMPHATIC_PRIVATIVE = re.compile(r"\b(sem)[ \t]+(nenhum(?:a?s?))[ \t]+(?=[^\W\d_])", re.I)
+
+
+def _privative_form(entry):
+    text = entry.sentence.text
+    positions = {m.start(2) for m in _EMPHATIC_PRIVATIVE.finditer(text)}
+    count = sum(m.category == "negation" and m.start in positions for m in entry.markers)
+    return normalize_surface(_EMPHATIC_PRIVATIVE.sub(r"\1 ", text)), count
+
+
+def _privative_offsets(src, out, alignment) -> dict[tuple[int, int], int]:
+    """Discount the emphatic determiner only when the rest of an aligned sentence agrees."""
+    targets = Counter(j for _, j, sim in alignment if j is not None and sim >= ALIGN_MIN_SIMILARITY)
+    offsets = {}
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY or targets[j] != 1:
+            continue
+        left, right = src.entries[i], out.entries[j]
+        if left.sentence.text == right.sentence.text:
+            continue
+        if not (_EMPHATIC_PRIVATIVE.search(left.sentence.text) or _EMPHATIC_PRIVATIVE.search(right.sentence.text)):
+            continue
+        a, old = _privative_form(left)
+        b, new = _privative_form(right)
+        if a == b and old != new:
+            offsets[i, j] = new - old
+    return offsets
+
+
 def _signal_issues(src, out, alignment) -> list[dict]:
     issues = []
     before, after = _bucket(src.signal_counts()), _bucket(out.signal_counts())
+    # GAP-29: "sem nenhum argumento" and "sem argumento" express the same absence.
+    offsets = {}
+    if (before["negation"] and after["negation"]
+            and (_EMPHATIC_PRIVATIVE.search(src.text) or _EMPHATIC_PRIVATIVE.search(out.text))):
+        offsets = _privative_offsets(src, out, alignment)
+    if offsets:
+        before["negation"] -= sum(-n for n in offsets.values() if n < 0)
+        after["negation"] -= sum(n for n in offsets.values() if n > 0)
     for label in sorted(set(before) | set(after)):
         delta = after.get(label, 0) - before.get(label, 0)
         if delta == 0:
@@ -669,7 +756,10 @@ def _signal_issues(src, out, alignment) -> list[dict]:
                 continue
             s_count = _bucket(src.entries[i].signal_counts()).get(label, 0)
             c_count = _bucket(out.entries[j].signal_counts()).get(label, 0)
-            if (c_count - s_count) * delta > 0:
+            local_delta = c_count - s_count
+            if label == "negation":
+                local_delta -= offsets.get((i, j), 0)
+            if local_delta * delta > 0:
                 located = {"source_sentence": src.entries[i].sentence.text,
                            "candidate_sentence": out.entries[j].sentence.text, "similarity": sim}
                 break
@@ -688,15 +778,16 @@ def _signal_issues(src, out, alignment) -> list[dict]:
             label=label, before=before.get(label, 0), after=after.get(label, 0),
             location=located,
             examples=_marker_examples(src if delta < 0 else out, label)))
-    issues += _moved_signal_issues(src, out, alignment, before, after)
+    issues += _moved_signal_issues(src, out, alignment, before, after, offsets)
     return issues
 
 
-def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
+def _moved_signal_issues(src, out, alignment, before, after, offsets=None) -> list[dict]:
     """A marker removed from one aligned sentence and added to another keeps
     the document's total unchanged ("A não contratou... O contrato prevê"):
     v0.7.0 CP9 found it passing as no_deterministic_issues."""
     issues = []
+    offsets = offsets or {}
     rules = signals.severity_rules()
     # v0.8.1 DF-09: two artefacts made legitimate edits far apart in a long document
     # look like one marker moved between sentences: (a) a source "sentence" with no
@@ -730,6 +821,8 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
             extra = absorbed.get(j, []) if first_pair[j] == i else []
             delta = sum(_bucket(out.entries[k].signal_counts()).get(label, 0) for k in [j, *extra]) \
                 - _bucket(src.entries[i].signal_counts()).get(label, 0)
+            if label == "negation":
+                delta -= offsets.get((i, j), 0)
             (lost if delta < 0 else gained if delta > 0 else []).append((i, j))
         if lost and gained:
             critical = category in rules["critical_when_localized"]
@@ -770,6 +863,36 @@ _FUTURES = {"fut_pres", "periphrastic_future@pres_ind"}
 _SER_IR_PRETERITE = re.compile(r"\b(?:foi|foram|fui|fomos|fora|foras)\b", re.I)
 
 
+_PLURAL_FORMS = (("avam", "am"), ("iam", "em"), ("iam", "am"))
+
+
+def _plural_verb_changes(source: str, candidate: str):
+    """Require a shared adjacent token to anchor a related form in the same local context."""
+    before, after = re.findall(r"\w+", source.lower()), re.findall(r"\w+", candidate.lower())
+    if before == after:
+        return
+    gone, added = set(before) - set(after), set(after) - set(before)
+    if not gone or not added:
+        return
+    left = {(word, before[i - 1] if i else "", before[i + 1] if i + 1 < len(before) else "")
+            for i, word in enumerate(before) if word in gone}
+    previous = {(word, prev) for word, prev, _ in left if prev}
+    following = {(word, nxt) for word, _, nxt in left if nxt}
+    seen = set()
+    for i, word in enumerate(after):
+        if word not in added or word in seen:
+            continue
+        for suffix, short in _PLURAL_FORMS:
+            if not word.endswith(suffix) or len(word) < len(suffix) + 2:
+                continue
+            base = word[:-len(suffix)] + short
+            if ((i and (base, after[i - 1]) in previous)
+                    or (i + 1 < len(after) and (base, after[i + 1]) in following)):
+                seen.add(word)
+                yield base, word
+                break
+
+
 def _tense_issues(src, out, alignment) -> list[dict]:
     """Tense, mood or periphrasis of the same verb changed between aligned
     sentences ("contratou" -> "contratará", "terminou" -> "está terminando").
@@ -781,8 +904,15 @@ def _tense_issues(src, out, alignment) -> list[dict]:
     for i, j, sim in alignment:
         if j is None or sim < ALIGN_MIN_SIMILARITY:
             continue
-        before = tense_profile(src.entries[i].sentence.text)
-        after = tense_profile(out.entries[j].sentence.text)
+        source_text, candidate_text = src.entries[i].sentence.text, out.entries[j].sentence.text
+        if source_text == candidate_text:
+            continue
+        before, after = tense_profile(source_text), tense_profile(candidate_text)
+        # GAP-22: the short form may be present ("falam") or a homograph ("criam", from crer).
+        for short, long in _plural_verb_changes(source_text, candidate_text):
+            issues.append(_issue("verb_form_changed", "major",
+                                 f"'{short}' -> '{long}': check tense and verb sense",
+                                 before=short, after=long, source_sentence=source_text))
         for lemma in sorted(set(before) - set(after)):
             a = before[lemma]
             if lemma in ("ser", "ir") and len(a) == 1 and next(iter(a)) in _FUTURES | {"pres_ind"} and \
@@ -1260,9 +1390,51 @@ def _marker_examples(led, label) -> list[str]:
             if m.label == label or m.category == label][:3]
 
 
+LOCAL_MIN_STEMS = 5            # v0.10.5: sentences this rich in content are checked locally too
+LOCAL_MIN_CONTAINMENT = 0.4    # share of its content words one candidate sentence (or two adjacent) must carry
+
+
+def _local_containment(stems: set, out, index: dict) -> float:
+    """Largest share of ``stems`` carried by one candidate sentence or two adjacent ones."""
+    counts: dict[int, int] = {}
+    for stem in stems:
+        for j in index.get(stem, ()):
+            counts[j] = counts.get(j, 0) + 1
+    best = 0.0
+    for j in sorted(counts, key=counts.get, reverse=True)[:3]:
+        for k in (j - 1, j, j + 1):
+            window = set(out.entries[j].stems)
+            if 0 <= k < len(out.entries) and k != j:
+                window |= set(out.entries[k].stems)
+            best = max(best, len(stems & window) / len(stems))
+    return best
+
+
+def _norm_sentence(text: str) -> str:
+    return " ".join(text.lower().split())
+
+
+def _dropped_between_kept(entry, src, adjacent: set, kept: set) -> bool:
+    """v0.10.5 (V105-GAP-06): a sentence removed by a light edit. Its neighbours survive word for word and
+    become adjacent in the candidate. A paraphrase changes the neighbours too, so it is not reported."""
+    i = src.entries.index(entry) if src.entries[entry.sentence.index:entry.sentence.index + 1] != [entry]         else entry.sentence.index
+    if i == 0 or i + 1 >= len(src.entries) or len(entry.sentence.text.split()) < 3:
+        return False
+    if _norm_sentence(entry.sentence.text) in kept:
+        return False
+    pair = (_norm_sentence(src.entries[i - 1].sentence.text), _norm_sentence(src.entries[i + 1].sentence.text))
+    return pair in adjacent
+
+
 def _coverage_issues(src, out) -> list[dict]:
     issues = []
     out_stems, src_stems = out.stems(), src.stems()
+    index: dict[str, list[int]] = {}
+    for j, entry in enumerate(out.entries):
+        for stem in set(entry.stems):
+            index.setdefault(stem, []).append(j)
+    norm = [_norm_sentence(e.sentence.text) for e in out.entries]
+    kept, adjacent = set(norm), {(norm[k], norm[k + 1]) for k in range(len(norm) - 1)}
     for entry in src.entries:
         stems = set(entry.stems)
         if len(stems) < MIN_STEMS_FOR_COVERAGE:
@@ -1271,6 +1443,17 @@ def _coverage_issues(src, out) -> list[dict]:
         if coverage < OMISSION_MAX_COVERAGE:
             issues.append(_issue("possible_omission", "major",
                                  "most content words of a source sentence are absent",
+                                 sentence=entry.sentence.text, coverage=round(coverage, 3)))
+        elif _dropped_between_kept(entry, src, adjacent, kept):
+            issues.append(_issue("sentence_dropped", "major",
+                                 "the sentences before and after it are kept word for word and are now adjacent: "
+                                 "this sentence was removed", sentence=entry.sentence.text))
+        elif len(stems) >= LOCAL_MIN_STEMS and _local_containment(stems, out, index) < LOCAL_MIN_CONTAINMENT:
+            # v0.10.5 (V105-GAP-06, fire trial): a whole sentence deleted from a real text passed when its
+            # words occurred elsewhere in the document (the global check above found them all).
+            issues.append(_issue("sentence_not_carried", "major",
+                                 "no candidate sentence (or two adjacent ones) carries most of the content words "
+                                 "of this source sentence; it may have been dropped",
                                  sentence=entry.sentence.text, coverage=round(coverage, 3)))
     for entry in out.entries:
         stems = set(entry.stems)
@@ -1442,6 +1625,20 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
         merged["safe_to_auto_accept"] = False
         merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
         return merged
+    # v0.10.5 (continuation of V105-GAP-11, decision D-03): a relation that only a file declares cannot accept.
+    # In the Skill flow the agent that wrote the candidate also writes the judgment file, so "different_model" or
+    # "independence_verified" there is a claim, not evidence. Only a judge the engine ran itself (relation derived
+    # from the commands it executed) accepts. A declared rejection still counts below: it can only make it safer.
+    if kind == "llm" and verdict == "equivalent" and judgment.get("relation_evidence") != "ENGINE_OBSERVED":
+        merged["declared_assessment"] = {
+            "verdict": verdict, "judge_id": judgment.get("judge_id"), "generator_relation": relation,
+            "relation_evidence": "DECLARED",
+            "note": "a judgment file declares who judged; nothing observed that the judge is independent of the "
+                    "writer, so nothing is accepted on it. Use `voznativa rewrite --judge-cmd` (the engine runs "
+                    "the judge and observes the relation) or a signed human review"}
+        merged["safe_to_auto_accept"] = False
+        merged["requires"] = sorted(set(report.get("requires") or []) | {"independent_judgment"})
+        return merged
     if verdict == "not_equivalent":
         # Rejections are accepted from any source: they can only make the result safer.
         merged.update(status="fail", semantic_equivalence="violated", safe_to_auto_accept=False, requires=[])
@@ -1467,6 +1664,10 @@ def apply_judgment(report: dict, judgment: dict) -> dict:
                 "relation": relation,
                 "level": "partial" if relation in PARTIAL_INDEPENDENCE else "declared" if relation ==
                 "independence_verified" else "provider",
+                # v0.10.5 V105-GAP-11: who established the relation. Only the engine, which ran both models,
+                # observes it; a judgment file (written by the agent itself, possibly) only declares it.
+                "relation_evidence": "ENGINE_OBSERVED" if judgment.get("relation_evidence") == "ENGINE_OBSERVED"
+                else "DECLARED",
                 "note": "a model judge is evidence, not a human review; same vendor or an undeclared vendor means "
                         "shared training and blind spots are possible"}
     return merged

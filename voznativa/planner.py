@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import difflib
 import re
+from collections import defaultdict
 
 from . import ledger as ledger_mod
 from . import patterns as patterns_mod
@@ -132,13 +133,16 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
     act_on_weak = report["decision"] == "edit"
     grammar = _grammar_reasons(text, context, sents)
 
+    findings_by_sentence = defaultdict(list)
+    for finding in report["findings"]:
+        if not finding.get("note_only"):
+            findings_by_sentence[finding["sentence"]].append(finding)
+    rows_by_paragraph = defaultdict(list)
     rows = []
     for sent in sents:
         entry = entries.get(sent.index)
         reasons = list(grammar.get(sent.index, []))
-        for f in report["findings"]:
-            if f["sentence"] != sent.index or f.get("note_only"):
-                continue  # a note (e.g. a period spelling in literature) is reported, never acted on
+        for f in findings_by_sentence[sent.index]:
             priority = "P1" if f["id"] in P1_FINDINGS else "P2" if f["strength"] == "strong" else "P3"
             if priority == "P3" and not act_on_weak:
                 continue  # weak and alone: noted by the detector, not acted on
@@ -158,10 +162,11 @@ def plan(text: str, context: dict, profile: dict | None = None, explicit: dict |
                      "depends_on_previous": bool(sent.index and sent.kind == "prose"
                                                  and _DEPENDENT_OPENER.match(sent.text.lstrip("\"'“(- "))),
                      "preview": sent.text[:80]})
+        rows_by_paragraph[sent.paragraph].append(rows[-1])
 
     paragraphs = []
-    for p in sorted({r["paragraph"] for r in rows}):
-        members = [r for r in rows if r["paragraph"] == p and r["kind"] in {"prose", "list_item"}]
+    for p, group in sorted(rows_by_paragraph.items()):
+        members = [r for r in group if r["kind"] in {"prose", "list_item"}]
         rewrites = [r for r in members if OP_RANK[r["op"]] >= OP_RANK["sentence_rewrite"]]
         wide = any(r["op"] == "paragraph_rewrite" for r in members)
         if wide or (len(rewrites) >= 2 and len(rewrites) * 2 >= len(members)):

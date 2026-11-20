@@ -1,0 +1,7301 @@
+{
+ "kind": "voznativa.fire_trial_corpus",
+ "schema_version": 1,
+ "text_stored_in_repository": false,
+ "summary": {
+  "items": 427,
+  "genres": 28,
+  "families": {
+   "literario": 219,
+   "institucional_juridico": 35,
+   "academico": 90,
+   "jornalistico_blog": 20,
+   "jornalistico": 19,
+   "redes_sociais": 20,
+   "comercial_consumidor": 24
+  },
+  "bands": {
+   "curto": 145,
+   "medio": 122,
+   "longo": 108,
+   "micro": 44,
+   "documento": 8
+  },
+  "rights": {
+   "public_domain": 254,
+   "cc_by": 84,
+   "local_only": 89
+  },
+  "sources": {
+   "machado": 219,
+   "planalto": 35,
+   "crossref": 84,
+   "ud-gsd": 20,
+   "ud-bosque": 19,
+   "ud-petrogold": 6,
+   "ud-dantestocks": 20,
+   "b2w": 24
+  }
+ },
+ "items": [
+  {
+   "id": "ft-0000",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-01 00:11:28",
+   "rights": "local_only",
+   "words": 27,
+   "band": "curto",
+   "sha256": "4d4c4c55cda924bf96b08c8e4e0fc223a4a1d85a01b768c154db11e8b8fe1707",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0001",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-01 02:16:06",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "ba1caa66a28cf653bebc86114d20894a4d6ac0ae598052822c79c3817155fb4d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0002",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-02 10:50:48",
+   "rights": "local_only",
+   "words": 20,
+   "band": "micro",
+   "sha256": "c939cb19dcbf4436a3dcba8a91df153356f829d51683e8656ff0fc0a65a58dad",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0003",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-02 11:33:33",
+   "rights": "local_only",
+   "words": 35,
+   "band": "curto",
+   "sha256": "2485cfce211f69b0f994e9666be7125de9828cb757cb0e179b8da724922519d7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0004",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-03 08:40:03",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "be6008fb122a4ccabb6f0bf4647b85a9aa65ac38fe565d4d5c01bca8d63c9a31",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0005",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-03 12:37:50",
+   "rights": "local_only",
+   "words": 40,
+   "band": "curto",
+   "sha256": "b81f2158e8f204d6d0bde76bedefedde60e9674fb2684b1f82fa37511dca9b5c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0006",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-04 09:32:59",
+   "rights": "local_only",
+   "words": 14,
+   "band": "micro",
+   "sha256": "6a43146f2e0396baf6a8afd3bd6254bdd271b30869bfa7f72972361177ffff21",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0007",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-04 17:55:31",
+   "rights": "local_only",
+   "words": 32,
+   "band": "curto",
+   "sha256": "30f5f2f55296423995e4ed3521e4b8e5b5edae5aa457fef02baa493a32066fd3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0008",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-05 11:08:48",
+   "rights": "local_only",
+   "words": 27,
+   "band": "curto",
+   "sha256": "c8d100f2911332738dec48f657807176ad67615514182891f792cf1cbd52c52f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0009",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-06 06:30:51",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "11668fc35070f86e4544fde430ec12512aa5897bf15f279ec47e2f18d14d0234",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0010",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-07 08:22:05",
+   "rights": "local_only",
+   "words": 30,
+   "band": "curto",
+   "sha256": "3ebaf895671767e2ee5cc24659cfa86f2b5401e75afb0fe4337e2a61ae94e506",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0011",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-07 16:03:49",
+   "rights": "local_only",
+   "words": 10,
+   "band": "micro",
+   "sha256": "1ec3f520dc0bcf4a8a29238c0609af3c91ed3aa49d6be23fcd12658cba6802a8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0012",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-08 13:45:35",
+   "rights": "local_only",
+   "words": 75,
+   "band": "curto",
+   "sha256": "f3dd9558e49d6ede2aa830ee0abc7b8b49b4a99cf1f79e255dad05c43c9894dc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0013",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-09 06:07:13",
+   "rights": "local_only",
+   "words": 11,
+   "band": "micro",
+   "sha256": "b972101483890701cacfc681445cabd2b1d7d8b18e65922c0e102b4988c0caeb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0014",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-10 04:56:29",
+   "rights": "local_only",
+   "words": 63,
+   "band": "curto",
+   "sha256": "b8c1367576016f9896ba1688ca3fd0ea1872371b26a95415729164758fd88e92",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0015",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-10 10:02:29",
+   "rights": "local_only",
+   "words": 9,
+   "band": "micro",
+   "sha256": "3dbd094dced825165db89225d92ab931f2e27755d9c31226ca93788225960e8c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0016",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-11 06:34:15",
+   "rights": "local_only",
+   "words": 58,
+   "band": "curto",
+   "sha256": "c58e6411df90e321e719f2f9c4d1c63dc1ccbf609f65adae0414dbaefd3ecd04",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0017",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-11 13:31:43",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "e8c42116f5a6f7cfccc5f180986bccebe75e936d13e5cd5d76bfd2d1fca29ba6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0018",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-12 07:28:27",
+   "rights": "local_only",
+   "words": 17,
+   "band": "micro",
+   "sha256": "691fb97445e53371916c68cafcfe81f389b30a62837f2702888a4aa9cb035219",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0019",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-12 16:37:21",
+   "rights": "local_only",
+   "words": 110,
+   "band": "curto",
+   "sha256": "d006c809b1168f8ab7e9fc7e5bb0d49054007b6ea7900f511f2bb52061e524ff",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0020",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-14 06:08:35",
+   "rights": "local_only",
+   "words": 26,
+   "band": "curto",
+   "sha256": "a161a7099314ec649e91f84278ebc54d7db20c082bebc78ab6ab69fbc16903a2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0021",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-14 11:02:10",
+   "rights": "local_only",
+   "words": 16,
+   "band": "micro",
+   "sha256": "a8157c70c80b0344720c0abcbef420f5b9badfd58fbce09eb6c6fa38f8f49359",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0022",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto negativa",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-15 15:00:04",
+   "rights": "local_only",
+   "words": 10,
+   "band": "micro",
+   "sha256": "520d74de1b2f0d9a6c3d6e59e88d9a1ab7808ddffa000eecfe1d05fe68726b0a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0023",
+   "source": "b2w",
+   "family": "comercial_consumidor",
+   "genre": "avaliação de produto positiva",
+   "work": "B2W-Reviews01",
+   "ref": "b2w 2018-01-15 22:32:42",
+   "rights": "local_only",
+   "words": 54,
+   "band": "curto",
+   "sha256": "9b639105f636bcf9e8dc1354b9d2abdd923602e88a906e98a24a403bf253886b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0024",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Dados",
+   "ref": "doi:10.1590/001152582018162",
+   "rights": "cc_by",
+   "words": 150,
+   "band": "curto",
+   "sha256": "8d2163968bd3beeb1fe09a9602adad607848abded33e466f32d3d01caae49082",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0025",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Cadernos de Saúde Pública",
+   "ref": "doi:10.1590/0102-311x00087019",
+   "rights": "cc_by",
+   "words": 234,
+   "band": "medio",
+   "sha256": "67da4203da6bfb5b9633500100aec99bbdaf366b12db10c78a938e01083f27da",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0026",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação em Revista",
+   "ref": "doi:10.1590/0102-469840140",
+   "rights": "cc_by",
+   "words": 158,
+   "band": "medio",
+   "sha256": "f05ccdf4945083d0a0892b874ed69e44fb88834a592246fb625bc29ca6dc3267",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0027",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação em Revista",
+   "ref": "doi:10.1590/0102-469841278",
+   "rights": "cc_by",
+   "words": 261,
+   "band": "medio",
+   "sha256": "69df3f3a7e5f2a143ce9279171c125522218199c622d19c7a53d52b3b4bbb68b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0028",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Psicologia: Teoria e Pesquisa",
+   "ref": "doi:10.1590/0102.3772e3642",
+   "rights": "cc_by",
+   "words": 114,
+   "band": "curto",
+   "sha256": "ac12bdbe44d01733f9711868cc35254e84efdd22b0ae5c433ef4dd04cb73eadc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0029",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde em Debate",
+   "ref": "doi:10.1590/0103-11042019s420",
+   "rights": "cc_by",
+   "words": 138,
+   "band": "curto",
+   "sha256": "bf2aeb4de7be3edcb0c729ddd9653c9b0023ae8510905dc10c5c1fcff54c193a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0030",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde em Debate",
+   "ref": "doi:10.1590/0103-1104202012509",
+   "rights": "cc_by",
+   "words": 172,
+   "band": "medio",
+   "sha256": "27aefa50d9efbf8eaf24350e721366aaea2b673e51aee46aec7f260621b11f5e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0031",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Nova Economia",
+   "ref": "doi:10.1590/0103-6351/7434",
+   "rights": "cc_by",
+   "words": 101,
+   "band": "curto",
+   "sha256": "e369ad7daadadc8b5e117074f45b7cdf606e22fc7fbccdc1a42315fd8bce5575",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0032",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educar em Revista",
+   "ref": "doi:10.1590/0104-4060.62199",
+   "rights": "cc_by",
+   "words": 156,
+   "band": "medio",
+   "sha256": "74528623ee9a993078bb06df65ab5cc76934b53fbb58e412a316472c69b0691c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0033",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (agricultura)",
+   "work": "Revista de Economia e Sociologia Rural",
+   "ref": "doi:10.1590/1234-56781806-94790560401",
+   "rights": "cc_by",
+   "words": 147,
+   "band": "curto",
+   "sha256": "a06c608434d85ecbd0f9f307447f39835e628757419151402970fc217c601d1f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0034",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Ciência &amp; Saúde Coletiva",
+   "ref": "doi:10.1590/1413-81232021264.18022019",
+   "rights": "cc_by",
+   "words": 132,
+   "band": "curto",
+   "sha256": "bad61050a0ac80144309c159706953ce2c97379e2e163a4b2137198750defe93",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0035",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Ciência &amp; Saúde Coletiva",
+   "ref": "doi:10.1590/1413-81232022273.46912020",
+   "rights": "cc_by",
+   "words": 191,
+   "band": "medio",
+   "sha256": "d35781c365f266ae9ed1abd09a563a5958d99b3509c766fc6d9eaec57e445019",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0036",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Ciência &amp; Educação (Bauru)",
+   "ref": "doi:10.1590/1516-731320200013",
+   "rights": "cc_by",
+   "words": 148,
+   "band": "curto",
+   "sha256": "bbce31dfa76ee85311cab6f2399dde647b78620b693ff7b3e49ddabfa27ac90c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0037",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Ciência &amp; Educação (Bauru)",
+   "ref": "doi:10.1590/1516-731320210022",
+   "rights": "cc_by",
+   "words": 100,
+   "band": "curto",
+   "sha256": "ae6eb3065fff3915352db1c78a81b92bfe4d6b14705ea094b5fe4022f58c8bfc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0038",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "Revista Brasileira de História",
+   "ref": "doi:10.1590/1806-93472019v39n80-03",
+   "rights": "cc_by",
+   "words": 126,
+   "band": "curto",
+   "sha256": "63aa68866f9e0623f99e5705353801cfdc1c9aa2f4295d928f4420c96c950d47",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0039",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "Revista Brasileira de História",
+   "ref": "doi:10.1590/1806-93472024v44n96-03",
+   "rights": "cc_by",
+   "words": 138,
+   "band": "curto",
+   "sha256": "7f9435d07295cadc3ebe30e0c8906d572d4999249c5bc48922b5ce65e4a01d8f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0040",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista de Economia e Sociologia Rural",
+   "ref": "doi:10.1590/1806-9479.2020.218845",
+   "rights": "cc_by",
+   "words": 192,
+   "band": "medio",
+   "sha256": "d3a55a3cdf07c541347a9d1ff083eee6cc3bd1f9ac42b35f5ae5104642e572cf",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0041",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2018025",
+   "rights": "cc_by",
+   "words": 189,
+   "band": "medio",
+   "sha256": "dc153b38b1d4c1c153e7566ed83d438af0436d59feea3dc9c229c870b24a8110",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0042",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2019019",
+   "rights": "cc_by",
+   "words": 64,
+   "band": "curto",
+   "sha256": "d4672fc82cbe25df7d7e95e7e21d8512ff74a23a5e1375ee55bc10e34a364bef",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0043",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2019023",
+   "rights": "cc_by",
+   "words": 201,
+   "band": "medio",
+   "sha256": "8fc9f1121aa3516d38313e39cdd2fd81ebe70e30d6e532f7b7d5f6bc1563253e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0044",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2021037",
+   "rights": "cc_by",
+   "words": 160,
+   "band": "medio",
+   "sha256": "bf386acc889e940312b50e78be543bf5da52437269e6962379476f42de0ea6ad",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0045",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2021050",
+   "rights": "cc_by",
+   "words": 182,
+   "band": "medio",
+   "sha256": "3d48d4ef18ac9ccc7764c27b9926b95dbef5290271dbbb38a4a36000505f4f3a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0046",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2022002",
+   "rights": "cc_by",
+   "words": 117,
+   "band": "curto",
+   "sha256": "eba998f343409cfaaafff0d3ab1ea9858b77833fad8eeae63ab266a1e5c52918",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0047",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2022016",
+   "rights": "cc_by",
+   "words": 190,
+   "band": "medio",
+   "sha256": "aa417e30cf8e400c5e9fcb74c1211b6da9f4d0ed34fa013429a910080a4cf7df",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0048",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e2023002",
+   "rights": "cc_by",
+   "words": 73,
+   "band": "curto",
+   "sha256": "a90d944832cef1fdc5f8e84893365693957f1ae3fa13fc4d5fd46867def977b2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0049",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História (São Paulo)",
+   "ref": "doi:10.1590/1980-4369e295603",
+   "rights": "cc_by",
+   "words": 85,
+   "band": "curto",
+   "sha256": "a23407128fdddde7159b1d8a268201fdb654d6c63694a2123920493a758b243a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0050",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Bolema: Boletim de Educação Matemática",
+   "ref": "doi:10.1590/1980-4415v35n69a23",
+   "rights": "cc_by",
+   "words": 144,
+   "band": "curto",
+   "sha256": "eb9e7a195e521814a3c4a2c27ac852e4596767d8529bef72503ae61de2ca339b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0051",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (agricultura)",
+   "work": "Estudos Econômicos (São Paulo)",
+   "ref": "doi:10.1590/1980-53575532jljcw",
+   "rights": "cc_by",
+   "words": 154,
+   "band": "medio",
+   "sha256": "6bb1eb2971319886687489fb19a3f3d0b11d841c2f60a8b8cf2a364f34abaa7b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0052",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista de Economia Contemporânea",
+   "ref": "doi:10.1590/198055272412",
+   "rights": "cc_by",
+   "words": 139,
+   "band": "curto",
+   "sha256": "ee83d0848b593c85756af186f20b7dbc3ddfcf58da985a8cb435b1f40f0877ac",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0053",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista de Economia Contemporânea",
+   "ref": "doi:10.1590/19805527242813",
+   "rights": "cc_by",
+   "words": 126,
+   "band": "curto",
+   "sha256": "6cb6f4a90c06941f7e8a6a79146f7f0519ef348a3f20a2fd1c6a84710e49a40d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0054",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista de Economia Contemporânea",
+   "ref": "doi:10.1590/198055272516",
+   "rights": "cc_by",
+   "words": 102,
+   "band": "curto",
+   "sha256": "84c589632f27b33b9bf201a36a21346bbc1aa5956937fe492183fb396576b458",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0055",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista de Economia Contemporânea",
+   "ref": "doi:10.1590/198055272606",
+   "rights": "cc_by",
+   "words": 185,
+   "band": "medio",
+   "sha256": "f58c6e895576baa5f008e12ded845682d4dac47c07fc4997b817c5a3ae0d1620",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0056",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-13711",
+   "rights": "cc_by",
+   "words": 197,
+   "band": "medio",
+   "sha256": "806fde738947c2cfaf9e2869eb716df745c8fddacb404e5125060b6e0984fa78",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0057",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e11584",
+   "rights": "cc_by",
+   "words": 146,
+   "band": "curto",
+   "sha256": "34eaa13abe52ad078378b41ad97ed6ee0d6901edf83c0d35a93c2ef8779fc820",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0058",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e11797",
+   "rights": "cc_by",
+   "words": 147,
+   "band": "curto",
+   "sha256": "99165ba0250badffccb4152a4f8a05447c27a32995e4e40af72a6da0db523b31",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0059",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e12308",
+   "rights": "cc_by",
+   "words": 170,
+   "band": "medio",
+   "sha256": "f927497b3512020f7adb4aa4d311f96bee6f74eae2a894f41fca5e2970aa80d6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0060",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e12362",
+   "rights": "cc_by",
+   "words": 210,
+   "band": "medio",
+   "sha256": "6849f8c0d06d7bbb1d1fe390872991623a0803bf38ed0973632759a159e0fb0e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0061",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e12798",
+   "rights": "cc_by",
+   "words": 174,
+   "band": "medio",
+   "sha256": "581e6252b22bc2e2bfcb861a5385b2ec701660986d99a0ed4dbb0e7a0d45d10d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0062",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Alfa: Revista de Linguística (São José do Rio Preto)",
+   "ref": "doi:10.1590/1981-5794-e13654",
+   "rights": "cc_by",
+   "words": 165,
+   "band": "medio",
+   "sha256": "61bb91e6ba7aaa51ee2a390bb66965b533b2c293ee1be60a09b1c18badd0973d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0063",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Trabalho, Educação e Saúde",
+   "ref": "doi:10.1590/1981-7746-sol00207",
+   "rights": "cc_by",
+   "words": 171,
+   "band": "medio",
+   "sha256": "be3498db76eef177884958746d489bfa8364c1e72f6af3620c15d26eea6c57cc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0064",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "Anais do Museu Paulista: História e Cultura Material",
+   "ref": "doi:10.1590/1982-02672021v29e56",
+   "rights": "cc_by",
+   "words": 98,
+   "band": "curto",
+   "sha256": "a490f2eb349e2611fc1276e54f56696aa832f40b06913134e8a569b7b9edc0a4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0065",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Economia e Sociedade",
+   "ref": "doi:10.1590/1982-3533.2019v28n2art07",
+   "rights": "cc_by",
+   "words": 144,
+   "band": "curto",
+   "sha256": "f91d04903c6b01e217a55d5b81967b9219c1b3a9770a6c797e33fb868d7b7a51",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0066",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Economia e Sociedade",
+   "ref": "doi:10.1590/1982-3533.2019v28n3art09",
+   "rights": "cc_by",
+   "words": 161,
+   "band": "medio",
+   "sha256": "4ce8af455b2f6e621924bd315b6508b771530867ee02ed708dee560ae550b075",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0067",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Economia e Sociedade",
+   "ref": "doi:10.1590/1982-3533.2025v34n2.269702",
+   "rights": "cc_by",
+   "words": 162,
+   "band": "medio",
+   "sha256": "788ff67c45a124f411055d2b57a5fbad0688b511d951304e3820dfb122193a45",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0068",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Economia e Sociedade",
+   "ref": "doi:10.1590/1982-3533.2026v35n3.290591",
+   "rights": "cc_by",
+   "words": 179,
+   "band": "medio",
+   "sha256": "779c4676301bf295962cdd6d7e305990878b9710093223cda940ada1e901c8a3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0069",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (agricultura)",
+   "work": "Revista de Administração Contemporânea",
+   "ref": "doi:10.1590/1982-7849rac2026250068.por",
+   "rights": "cc_by",
+   "words": 245,
+   "band": "medio",
+   "sha256": "9ba71e41b4ebdfa66ab504d4df1fc0a8fa56a7319a002a52469ad74ac28c02ca",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0070",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "Revista Brasileira de Linguística Aplicada",
+   "ref": "doi:10.1590/1984-6398202116739",
+   "rights": "cc_by",
+   "words": 127,
+   "band": "curto",
+   "sha256": "d4d6c97687fbebe42354eb52634e1aa836f1b8f1fc0d1b2d3dc5e96c479c04be",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0071",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Ensaio Pesquisa em Educação em Ciências (Belo Horizonte)",
+   "ref": "doi:10.1590/21172020210122",
+   "rights": "cc_by",
+   "words": 150,
+   "band": "curto",
+   "sha256": "15aa2277b0fe6ede92c1582930518a9fa61d56912c723fd6b775111b9c4d8710",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0072",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação &amp; Realidade",
+   "ref": "doi:10.1590/2175-6236116977",
+   "rights": "cc_by",
+   "words": 111,
+   "band": "curto",
+   "sha256": "5436ee6001fd49f28420b6c999591c3e6d3a810786b012d72584dcc586313ab7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0073",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação &amp; Realidade",
+   "ref": "doi:10.1590/2175-623688923",
+   "rights": "cc_by",
+   "words": 99,
+   "band": "curto",
+   "sha256": "8d66d6b3cd1ec68c9c2723fe862f9c7d1349a4b9405758f5725bcced98401fde",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0074",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2019/39502",
+   "rights": "cc_by",
+   "words": 80,
+   "band": "curto",
+   "sha256": "62c650ebb3a7538e60682b62c185d872b2c0ff3e9f1ae1ea83708f1c585bf8d9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0075",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/48005",
+   "rights": "cc_by",
+   "words": 52,
+   "band": "curto",
+   "sha256": "d43f834b6ee965dfb361e1bc4b944675bf0c6420143b7727c03c68270f8765d0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0076",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/49702",
+   "rights": "cc_by",
+   "words": 97,
+   "band": "curto",
+   "sha256": "026d3d5ecf0717a88934462bd1331f20619a813b88e9e9634e4b01c90a350f39",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0077",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/50270",
+   "rights": "cc_by",
+   "words": 59,
+   "band": "curto",
+   "sha256": "f75b702a1b7a7bcadc51dd44b3a9d07b894d4f9f5b005b23e515b77ad3768b66",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0078",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/50276",
+   "rights": "cc_by",
+   "words": 61,
+   "band": "curto",
+   "sha256": "7138ca37b704e48f2fe5f22e1c4c90128ddcaa97fb8d26f170f8488682f4253a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0079",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/50341",
+   "rights": "cc_by",
+   "words": 111,
+   "band": "curto",
+   "sha256": "a6be9ca7e2c9445c7329b12ebe54144c39b9e1c2e098b71e066c592bc8f41c6b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0080",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2020/50431",
+   "rights": "cc_by",
+   "words": 122,
+   "band": "curto",
+   "sha256": "6fbf93380c74b508c05e112bfe2047908a089e0fe321f7f81c181b0ff88ca9e6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0081",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2021/56229",
+   "rights": "cc_by",
+   "words": 144,
+   "band": "curto",
+   "sha256": "f345de6f2737b9e30099a784ad4f414d102f8ba3a1679bb62d759438b5725ccf",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0082",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2022/63748",
+   "rights": "cc_by",
+   "words": 136,
+   "band": "curto",
+   "sha256": "98f25192c29a9183725e0e6ebfde2b7c25d0105d994545d2ae8799a0dc26ce6d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0083",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2025/89653",
+   "rights": "cc_by",
+   "words": 101,
+   "band": "curto",
+   "sha256": "4c0b41c326a7b5c143e94623d2c5b751c7a8534939e4cc57c1e57b9248aa3dd2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0084",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2025/93533",
+   "rights": "cc_by",
+   "words": 141,
+   "band": "curto",
+   "sha256": "45aef58bf1ee5badc5f9cd32ff88d425208be8f1955cc6f000132a5ff16fe65a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0085",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2026/100209",
+   "rights": "cc_by",
+   "words": 142,
+   "band": "curto",
+   "sha256": "a2c71133a14c6bbc80397a52a5c442d9c7f5906198713960d3fbb7f72071619d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0086",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2026/98715",
+   "rights": "cc_by",
+   "words": 64,
+   "band": "curto",
+   "sha256": "f19c9f217f7d0489b56469524c6bef024fabc01be05329307ef72dd4d08d8319",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0087",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (direito)",
+   "work": "Revista Direito e Práxis",
+   "ref": "doi:10.1590/2179-8966/2026/98715e",
+   "rights": "cc_by",
+   "words": 73,
+   "band": "curto",
+   "sha256": "0c27423a2dcb96431c3aca4ecb68efbc6359f41445f07f39ef8edc21769abe3f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0088",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "História da Educação",
+   "ref": "doi:10.1590/2236-3459/128105",
+   "rights": "cc_by",
+   "words": 155,
+   "band": "medio",
+   "sha256": "872d952f2d7d7b6f656b42227e2e238350216db50a5e422c9869f61ff95b8098",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0089",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História da Educação",
+   "ref": "doi:10.1590/2236-3459/82321",
+   "rights": "cc_by",
+   "words": 143,
+   "band": "curto",
+   "sha256": "49b1a566e7da172237101aa20d060462b6c6c8d88ffd4c5b6f90f07b98606133",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0090",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (linguística)",
+   "work": "CoDAS",
+   "ref": "doi:10.1590/2317-1782/20192018112",
+   "rights": "cc_by",
+   "words": 240,
+   "band": "medio",
+   "sha256": "5194aafdb6e344879bb67f5f18a43ed178102e2809227c408bc0fb39db38ef52",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0091",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Revista Brasileira de Saúde Ocupacional",
+   "ref": "doi:10.1590/2317-6369000013920",
+   "rights": "cc_by",
+   "words": 208,
+   "band": "medio",
+   "sha256": "a7a25b58b4b14326e56334e9e238e4d6a1dca1ba963b16358b416aaed52a4592",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0092",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde em Debate",
+   "ref": "doi:10.1590/2358-28982023e19071p",
+   "rights": "cc_by",
+   "words": 194,
+   "band": "medio",
+   "sha256": "ed3bd513dd24b7e23f76f4e59d9b50176510feada1195ae4023c514900004c7e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0093",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde em Debate",
+   "ref": "doi:10.1590/2358-289820251459543p",
+   "rights": "cc_by",
+   "words": 201,
+   "band": "medio",
+   "sha256": "80c15a4a97afa13e2b90d26e402910007f88f573dcc8c53466e9b12da577d034",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0094",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde em Debate",
+   "ref": "doi:10.1590/2358-28982026e110387p",
+   "rights": "cc_by",
+   "words": 185,
+   "band": "medio",
+   "sha256": "6fb7e822be3d872d4dae071c175e2d606b2133009c2a7cfcb5ab5f77a43df8fb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0095",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista Brasileira de Ciências Sociais",
+   "ref": "doi:10.1590/3510313/2020",
+   "rights": "cc_by",
+   "words": 154,
+   "band": "medio",
+   "sha256": "527f12817943a22793e2284378a8f1a1952add7423cccdf67b53b059c8efaa2a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0096",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (economia)",
+   "work": "Revista Brasileira de Ciências Sociais",
+   "ref": "doi:10.1590/3811031/2023",
+   "rights": "cc_by",
+   "words": 169,
+   "band": "medio",
+   "sha256": "e6bbbfa8337f4cee28cff4b74b1d225f3b5704c7db1080f0b9e938bef06f5939",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0097",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação &amp; Sociedade",
+   "ref": "doi:10.1590/es.274191",
+   "rights": "cc_by",
+   "words": 114,
+   "band": "curto",
+   "sha256": "6b96cbb5f15c954312fe7917fff09404d5207c3c34e403f07c704590801dc8e1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0098",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Interface - Comunicação, Saúde, Educação",
+   "ref": "doi:10.1590/interface.190166",
+   "rights": "cc_by",
+   "words": 146,
+   "band": "curto",
+   "sha256": "89a75057a0e277946fe26690d270e7cf2867cd065f4fa70fe58f22855e3ee36f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0099",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Interface - Comunicação, Saúde, Educação",
+   "ref": "doi:10.1590/interface.200684",
+   "rights": "cc_by",
+   "words": 141,
+   "band": "curto",
+   "sha256": "4e738a81246aa12f6fa2d2009d040433c8e6b9ab51914777ea09beff444ce543",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0100",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Interface - Comunicação, Saúde, Educação",
+   "ref": "doi:10.1590/interface.210636",
+   "rights": "cc_by",
+   "words": 88,
+   "band": "curto",
+   "sha256": "70673cbb381c36a6fe0da741c86913baabfcb8187222810ea9424e83e769d34b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0101",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (saúde)",
+   "work": "Saúde e Sociedade",
+   "ref": "doi:10.1590/s0104-12902021180532",
+   "rights": "cc_by",
+   "words": 223,
+   "band": "medio",
+   "sha256": "e33b977a9611c5394b95dcac7bbbd60257ccd90dc1c1bf274564561cd8d56871",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0102",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (engenharia)",
+   "work": "Saúde e Sociedade",
+   "ref": "doi:10.1590/s0104-12902024230509pt",
+   "rights": "cc_by",
+   "words": 211,
+   "band": "medio",
+   "sha256": "aafcd6f172485b8283e527530f10b7b8449afa790890ca7444f22445a6abf779",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0103",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "História, Ciências, Saúde-Manguinhos",
+   "ref": "doi:10.1590/s0104-59702019000200016",
+   "rights": "cc_by",
+   "words": 106,
+   "band": "curto",
+   "sha256": "1c2891250bc4a9578b1d8f012a5c63c40496e9d47bcb06c729a3b1959dd635e5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0104",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (engenharia)",
+   "work": "Engenharia Sanitaria e Ambiental",
+   "ref": "doi:10.1590/s1413-41522018170758",
+   "rights": "cc_by",
+   "words": 230,
+   "band": "medio",
+   "sha256": "f2a5a197691ae153530f5b08b997684c8d551a46d95c28cb7cac773d0b28315f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0105",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (engenharia)",
+   "work": "Engenharia Sanitaria e Ambiental",
+   "ref": "doi:10.1590/s1413-41522019181046",
+   "rights": "cc_by",
+   "words": 192,
+   "band": "medio",
+   "sha256": "4514237fe839f351b9011c8cc0be353a0db973e69340ce8f48baaae46fc9df63",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0106",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (educação)",
+   "work": "Educação e Pesquisa",
+   "ref": "doi:10.1590/s1678-4634202450263779por",
+   "rights": "cc_by",
+   "words": 222,
+   "band": "medio",
+   "sha256": "48d01edfdd3b81a7ae3dd19c1ca60b2f4bad0faecae23d9a7071476d8cfe8f40",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0107",
+   "source": "crossref",
+   "family": "academico",
+   "genre": "resumo acadêmico (história)",
+   "work": "Tempo",
+   "ref": "doi:10.1590/tem-1980-542x2021v270201",
+   "rights": "cc_by",
+   "words": 131,
+   "band": "curto",
+   "sha256": "ac01f11e4b18286dd8f2db57dbc11e6923d6e559cd8eec175eb5a6afe1297b9a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0108",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Artur de Oliveira, Enfermo",
+   "ref": "A Artur de Oliveira, Enfermo",
+   "rights": "public_domain",
+   "words": 254,
+   "band": "medio",
+   "sha256": "fe8b37056435f97dd79f57e6c391aa548a16c384c44f79f73bc18cbe8d852e77",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0109",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Augusta",
+   "ref": "A Augusta",
+   "rights": "public_domain",
+   "words": 201,
+   "band": "medio",
+   "sha256": "bce430d592c5c9d1efddbb77387a0ea0fc8e5177ee20c7319a5595468ce55a9a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0110",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Chave",
+   "ref": "A Chave/I",
+   "rights": "public_domain",
+   "words": 1226,
+   "band": "longo",
+   "sha256": "867ac53241649f324020979781ae4a720b947e7613e8603ca213e523a692e4ea",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0111",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Chave",
+   "ref": "A Chave/II",
+   "rights": "public_domain",
+   "words": 733,
+   "band": "medio",
+   "sha256": "cde2f405c5b94e4e2b0dcbdc7cd06818e814a1f6961399877a5ed65bde2f90cf",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0112",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Chave",
+   "ref": "A Chave/III",
+   "rights": "public_domain",
+   "words": 756,
+   "band": "medio",
+   "sha256": "4c4abd34612eb34c24311e9a82f02612bdef5a30bbdb8a0437b1260b4fb32549",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0113",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Chave",
+   "ref": "A Chave/V",
+   "rights": "public_domain",
+   "words": 782,
+   "band": "medio",
+   "sha256": "5e418943ed23dee1d1f5186f4cd24cdeb720c32db4668d0a626c3b919b794b8c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0114",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "A Crítica Teatral - José de Alencar: Mãe",
+   "ref": "A Crítica Teatral - José de Alencar: Mãe",
+   "rights": "public_domain",
+   "words": 1865,
+   "band": "longo",
+   "sha256": "3aead6e0250e38c7922c43ac1ceb866db523ba9f17821b2d280204ed33d11866",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0115",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Cólera do Império",
+   "ref": "A Cólera do Império",
+   "rights": "public_domain",
+   "words": 587,
+   "band": "medio",
+   "sha256": "5dd230e73bd270b765730e3f33af8a1908b24adda4f451aa382d7076737a85c8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0116",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Felício dos Santos",
+   "ref": "A Felício dos Santos",
+   "rights": "public_domain",
+   "words": 91,
+   "band": "curto",
+   "sha256": "15c628e9cdae05ad1e834a18fc71f1778a473b3e5bdb787762e304f8a75e8fe5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0117",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Francisca",
+   "ref": "A Francisca",
+   "rights": "public_domain",
+   "words": 83,
+   "band": "curto",
+   "sha256": "b05e6ae04a23e56b03493fa4aae4cb271f902a2ab62034b79fe02b17b8f99f4f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0118",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Francisco Pinheiro Guimarães",
+   "ref": "A Francisco Pinheiro Guimarães",
+   "rights": "public_domain",
+   "words": 161,
+   "band": "medio",
+   "sha256": "c4e7176fac54430399504e3b9deee88686528ec8c7212aed7310117397095509",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0119",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Morte no Calvário",
+   "ref": "A Morte no Calvário",
+   "rights": "public_domain",
+   "words": 433,
+   "band": "medio",
+   "sha256": "c7ede59da3f580fb9525f1ad9e1532eed3042bcd7459f64dcaea735e53ee4647",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0120",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A Musa, que inspira meus tímidos cantos",
+   "ref": "A Musa, que inspira meus tímidos cantos",
+   "rights": "public_domain",
+   "words": 183,
+   "band": "medio",
+   "sha256": "eced5c54a2a0f2a365e10016c5e1c9dd933bc99cba765cc4e83078581e6b10e2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0121",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "A Mão e a Luva",
+   "ref": "A Mão e a Luva @261:longo",
+   "rights": "public_domain",
+   "words": 2200,
+   "band": "longo",
+   "sha256": "b29837f353cdda43a58f4c805e0ff6f43c92f14328e95af0c21bba5efc3884d9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0122",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "A Mão e a Luva",
+   "ref": "A Mão e a Luva @261:medio",
+   "rights": "public_domain",
+   "words": 481,
+   "band": "medio",
+   "sha256": "0d18636dda0b926a4d832750400b863c580893fc5e15ad46e581775fc25a38e4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0123",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "A Mão e a Luva",
+   "ref": "A Mão e a Luva @265:curto",
+   "rights": "public_domain",
+   "words": 123,
+   "band": "curto",
+   "sha256": "b05195bec7f2619b78b593b941961a3f627bf58784aca9c65b38d8fda6b3a315",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0124",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Paixão de Jesus",
+   "ref": "A Paixão de Jesus",
+   "rights": "public_domain",
+   "words": 1490,
+   "band": "longo",
+   "sha256": "622931a363c0ee28717b7ce2508ec09d6b34a7f1bdc6d1367a6ff75881213127",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0125",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A Palmeira",
+   "ref": "A Palmeira",
+   "rights": "public_domain",
+   "words": 410,
+   "band": "medio",
+   "sha256": "9aa8d00f0b912fe3ee9dca85b627c6035093093d44596127a25960dd39d71fb1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0126",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A carteira",
+   "ref": "A carteira",
+   "rights": "public_domain",
+   "words": 1266,
+   "band": "longo",
+   "sha256": "dfaee21cc973d3d00b92f79e2136ae179261998df58875672daa893bc604d54e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0127",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A felicidade",
+   "ref": "A felicidade",
+   "rights": "public_domain",
+   "words": 4626,
+   "band": "documento",
+   "sha256": "f914c4368ba70b99ea79090885272284bb3a1dd7510f5bd8c4c7b26fa05a41b5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0128",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "A flor do embiruçu",
+   "ref": "A flor do embiruçu",
+   "rights": "public_domain",
+   "words": 253,
+   "band": "medio",
+   "sha256": "7974432a2464a5287149aae85847fcbc83e5daf86e243446b4fd02e406211656",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0129",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A idéia do Ezequiel Maia",
+   "ref": "A idéia do Ezequiel Maia",
+   "rights": "public_domain",
+   "words": 2702,
+   "band": "longo",
+   "sha256": "dcc6e5314f844f48e3d1d45582d33e2897821c12a2e146a8c505b60044b710f0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0130",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A inglesinha Barcelos",
+   "ref": "A inglesinha Barcelos",
+   "rights": "public_domain",
+   "words": 4111,
+   "band": "documento",
+   "sha256": "e3376ef394c4a5350b2b2d3ae5e0b37fbf347347035fa274c9cb4bbc73cd1214",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0131",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A melhor das noivas",
+   "ref": "A melhor das noivas",
+   "rights": "public_domain",
+   "words": 5887,
+   "band": "documento",
+   "sha256": "65e7285c6e9d26014c00b032528a46794af34cfc7278d45aeec85295f9e1e0c3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0132",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A morte de Francisco Otaviano",
+   "ref": "A morte de Francisco Otaviano",
+   "rights": "public_domain",
+   "words": 168,
+   "band": "medio",
+   "sha256": "82037f585d6d23caa37e21f435ace2d355b74a1512f82aa85e6e2d542b469291",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0133",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mulher pálida",
+   "ref": "A mulher pálida/I",
+   "rights": "public_domain",
+   "words": 1096,
+   "band": "longo",
+   "sha256": "e4605ea2c1f5c2f8183539c7a6f0c7011ba2eb47654f4ae09bdd9cc3b7c0e96c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0134",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mulher pálida",
+   "ref": "A mulher pálida/II",
+   "rights": "public_domain",
+   "words": 1217,
+   "band": "longo",
+   "sha256": "7fa72164d9bd650e1caf709b3388502ed71b0644b6249e0396690f515cff54b1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0135",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mulher pálida",
+   "ref": "A mulher pálida/III",
+   "rights": "public_domain",
+   "words": 1266,
+   "band": "longo",
+   "sha256": "0d48f72928f3a7a4b4be9c71abbf4bc44a69aceaddd4da75c99141b1ef8b85a8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0136",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mulher pálida",
+   "ref": "A mulher pálida/IV",
+   "rights": "public_domain",
+   "words": 1119,
+   "band": "longo",
+   "sha256": "2c7e6246689cc121cb7d037449fcc86a0b37285825d45738d1694182f209df6f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0137",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mágoa do infeliz Cosme",
+   "ref": "A mágoa do infeliz Cosme",
+   "rights": "public_domain",
+   "words": 3995,
+   "band": "longo",
+   "sha256": "794839797128c6a129b9225ce81a2fd23be069c5dccdadb88a5d7f7ef93d4602",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0138",
+   "source": "machado",
+   "family": "literario",
+   "genre": "advertência/prefácio",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/Advertência de 1907",
+   "rights": "public_domain",
+   "words": 101,
+   "band": "curto",
+   "sha256": "05d783005c9c3ed5e8c33c811e6b59604be2a887bed245a33f4dc3e7fa2a4c74",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0139",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/II",
+   "rights": "public_domain",
+   "words": 2012,
+   "band": "longo",
+   "sha256": "335478ed4f0256492c22a601ae178efecd854d7d841d8ce31c4e173ca7afa21b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0140",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/III",
+   "rights": "public_domain",
+   "words": 2031,
+   "band": "longo",
+   "sha256": "0ca4188ef0042734ef4b14a425feb0a0063c1fc4972e12c7c1c9ad332e371f73",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0141",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/IV",
+   "rights": "public_domain",
+   "words": 1550,
+   "band": "longo",
+   "sha256": "fb9c7e142db9bb27c68d7cbacdabd4287ad7c22f7668571b1e312367bea23ad9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0142",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/IX",
+   "rights": "public_domain",
+   "words": 2047,
+   "band": "longo",
+   "sha256": "21486093f4d20e7b79a8b3548b1910d41f1c13688676a466b5ce4ec029deea1f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0143",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/V",
+   "rights": "public_domain",
+   "words": 1473,
+   "band": "longo",
+   "sha256": "529ba6b1e0bfefff3aff01d241de39ea2219db8bd3d9879b97c8cfea0d1b9ad8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0144",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/VI",
+   "rights": "public_domain",
+   "words": 1615,
+   "band": "longo",
+   "sha256": "d9ca45876e7e0db0f85d4008c1b777aae105e5fee081d4222690eeaafe72fe86",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0145",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/VII",
+   "rights": "public_domain",
+   "words": 1529,
+   "band": "longo",
+   "sha256": "bbc8126912ba80b570dfe2552912846a87ac20a292a99d11c4ce02b710126739",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0146",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/VIII",
+   "rights": "public_domain",
+   "words": 1628,
+   "band": "longo",
+   "sha256": "24f93df35aaff056a5329505f1b9bbb0ea30ec6b84f58db0e11bb4c7fdc20e41",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0147",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/X",
+   "rights": "public_domain",
+   "words": 3167,
+   "band": "longo",
+   "sha256": "068cf6412b5c6bc39b1b1d9d2efd67baf5b6ca92b83fbaa35f0a695d116b3855",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0148",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XI",
+   "rights": "public_domain",
+   "words": 1729,
+   "band": "longo",
+   "sha256": "15e80fb8f41f74744aa9bf3149aec5a54a28384de11982142c398ac68eaed623",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0149",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XII",
+   "rights": "public_domain",
+   "words": 1672,
+   "band": "longo",
+   "sha256": "16d607a2db5130bd7ca4449f44055fdddf82d340f107c5e7efe0187739ee99c3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0150",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XIII",
+   "rights": "public_domain",
+   "words": 1645,
+   "band": "longo",
+   "sha256": "bba17464a1fcc7c8f2320b7ff660977eaf26d525efae3d128332a7acb6b585fb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0151",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XIV",
+   "rights": "public_domain",
+   "words": 1671,
+   "band": "longo",
+   "sha256": "49fed0a27bba546b1d05c6d3cfb7b69f8df31cb34760f4dba1f657c3fa52749c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0152",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XIX",
+   "rights": "public_domain",
+   "words": 1646,
+   "band": "longo",
+   "sha256": "6d55bf3aa4d5768aa4689b66cba54daa597a8c6066e400834ae0f07924e1dacb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0153",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XV",
+   "rights": "public_domain",
+   "words": 1714,
+   "band": "longo",
+   "sha256": "b8b49c73fb69bfd53cac88d434b98286d2fb01f0a2bf8abd6774188921e45c46",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0154",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XVII",
+   "rights": "public_domain",
+   "words": 1779,
+   "band": "longo",
+   "sha256": "d8378300e5c868aa03fdb1553f3c673a6674f9ca169c1342876df55ea3abd4fd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0155",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A mão e a luva",
+   "ref": "A mão e a luva/XVIII",
+   "rights": "public_domain",
+   "words": 2076,
+   "band": "longo",
+   "sha256": "1cf250c97779fa520b73e11f4e0982002f00b753ca47bb5c6481a71355b76c03",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0156",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A pianista",
+   "ref": "A pianista",
+   "rights": "public_domain",
+   "words": 8586,
+   "band": "documento",
+   "sha256": "b19355c38d50beca2a710f93a59c0d012580674edad60f66420845af65c92bed",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0157",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A reforma pelo jornal",
+   "ref": "A reforma pelo jornal",
+   "rights": "public_domain",
+   "words": 833,
+   "band": "longo",
+   "sha256": "7c6a3b3a2db52369a9e4446597bf7faaee1b0ee2f12e1b92be27b89b9626ac0e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0158",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A visão de Jaciúca",
+   "ref": "A visão de Jaciúca",
+   "rights": "public_domain",
+   "words": 1110,
+   "band": "longo",
+   "sha256": "405c9bf0b5c380b22049e5416bfcd9cce4e8a4de789d726b79b552b1a9603475",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0159",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A viúva Sobral",
+   "ref": "A viúva Sobral/I",
+   "rights": "public_domain",
+   "words": 930,
+   "band": "longo",
+   "sha256": "e1f3edbc4c4102d7b4f0adebbaaff1f7e71f009558e1a6013e23da4462d71d48",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0160",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A viúva Sobral",
+   "ref": "A viúva Sobral/II",
+   "rights": "public_domain",
+   "words": 792,
+   "band": "medio",
+   "sha256": "50602b17c04e58df828937b7e584e985ec291edf9458ac25ec333b0abad4072e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0161",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A viúva Sobral",
+   "ref": "A viúva Sobral/III",
+   "rights": "public_domain",
+   "words": 1106,
+   "band": "longo",
+   "sha256": "beff4d8c2aaae7fb9681387b212713bb2a5b5187ed620ff35949dc780d699ac7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0162",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "A última receita",
+   "ref": "A última receita",
+   "rights": "public_domain",
+   "words": 1967,
+   "band": "longo",
+   "sha256": "f457853ad80de45f8ce4ae21cc9cab99ea5e1c04af0e67312b6a197235a73eb2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0163",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Almas agradecidas",
+   "ref": "Almas agradecidas",
+   "rights": "public_domain",
+   "words": 21,
+   "band": "curto",
+   "sha256": "614896ec9ca4469d6096dc0316d6ba07e91dc9cdd129f2199ad74dcf579c0994",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0164",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "Alvares de Azevedo: Lira dos Vinte Anos",
+   "ref": "Alvares de Azevedo: Lira dos Vinte Anos",
+   "rights": "public_domain",
+   "words": 1019,
+   "band": "longo",
+   "sha256": "b36ec9df5bf80cbc4e19b875341c97bd078cd6ca500e6bd2e3ea914c7f29f83e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0165",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Anedota pecuniária",
+   "ref": "Anedota pecuniária",
+   "rights": "public_domain",
+   "words": 3130,
+   "band": "longo",
+   "sha256": "45cca4043ecfbc3d02d2de4bfbd9bcc918a54071533bb1e67f563007bcb961e4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0166",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes a rocha Tarpéia",
+   "ref": "Antes a rocha Tarpéia",
+   "rights": "public_domain",
+   "words": 1171,
+   "band": "longo",
+   "sha256": "63f4324da6f7a4ee40ac2eb81096391c8773a6f798136ea47142a3d5afdd3556",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0167",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases...",
+   "rights": "public_domain",
+   "words": 27,
+   "band": "curto",
+   "sha256": "eb19aefa6fb665c14dded93ae3d0d66e9b78db2ad144e95ce3fa47f316939efd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0168",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../I",
+   "rights": "public_domain",
+   "words": 645,
+   "band": "medio",
+   "sha256": "cd4e0187e87bfdf873be853ca0beec0b281770c8e9e17932e0c6d06ddf6e1f9f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0169",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../II",
+   "rights": "public_domain",
+   "words": 939,
+   "band": "longo",
+   "sha256": "fccbc7eb0ac6575c5aee89ba6ba1b5fbfa905532bc3a301e5a87d000af003e2a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0170",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../IV",
+   "rights": "public_domain",
+   "words": 826,
+   "band": "longo",
+   "sha256": "c1d4ce8cb3e255d1754d0e3af32bd13feb8e000beb433192d54e649ea69f7ca0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0171",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../IX",
+   "rights": "public_domain",
+   "words": 44,
+   "band": "curto",
+   "sha256": "f693348ca0f71db6f91ea9db16cfbeb01e6e34db02f1bd0cc5e7f09c041e6f7b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0172",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../V",
+   "rights": "public_domain",
+   "words": 902,
+   "band": "longo",
+   "sha256": "2f63f1ec58780676350f40cc6a61c024678d18f4c81f057aff22a6303aa46228",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0173",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../VI",
+   "rights": "public_domain",
+   "words": 923,
+   "band": "longo",
+   "sha256": "22b48c4318ace66c0c764b0ef23896c42c0a5bc58e35b38f973f34f7c0082de6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0174",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../VII",
+   "rights": "public_domain",
+   "words": 1049,
+   "band": "longo",
+   "sha256": "49ff4352a3907a58fcac0d62008cf5c8dbdc7d90989bdda2abc94b912513d398",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0175",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Antes que cases...",
+   "ref": "Antes que cases.../VIII",
+   "rights": "public_domain",
+   "words": 1056,
+   "band": "longo",
+   "sha256": "30f217f2e925eae1a255428a3f0d0e7c848dd39414fd13626e9f3e9c6036c145",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0176",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Antônio José",
+   "ref": "Antônio José",
+   "rights": "public_domain",
+   "words": 46,
+   "band": "curto",
+   "sha256": "3a481eb42aadc685b06ec71fab7ea2aa391efdcb5725871443fc9efe7b2f8193",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0177",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido",
+   "rights": "public_domain",
+   "words": 18,
+   "band": "micro",
+   "sha256": "a4e3246fdef3783b0d80f472da41c60a586913d3f01e6b15eba55b6d72abb447",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0178",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/I",
+   "rights": "public_domain",
+   "words": 1245,
+   "band": "longo",
+   "sha256": "4ba3385db63ad4bdad000178f9add4dfda4aedab32cdb3d0e732649d5b724798",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0179",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/II",
+   "rights": "public_domain",
+   "words": 631,
+   "band": "medio",
+   "sha256": "5568ee86f3c0d9ee14134a25b0a0e2a67cc9a64c10f8b7cc6fc3ce69914bf074",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0180",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/III",
+   "rights": "public_domain",
+   "words": 1451,
+   "band": "longo",
+   "sha256": "0fd62de50abcf1f77b767b16e4ebc020c0823016f84eeca110a0ba38f0a2cb44",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0181",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/IV",
+   "rights": "public_domain",
+   "words": 1115,
+   "band": "longo",
+   "sha256": "346b231d26bd294ee58fd4b7641a1d921e199687f1d4925ecce2bfb8d3462bf1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0182",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/V",
+   "rights": "public_domain",
+   "words": 409,
+   "band": "medio",
+   "sha256": "e8bcc184ba3cbcc8508883e61d4ff4e0043a57eedee2d539cf7b99e3e4e7e65f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0183",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Astúcias de marido",
+   "ref": "Astúcias de marido/VI",
+   "rights": "public_domain",
+   "words": 963,
+   "band": "longo",
+   "sha256": "f3b52127bb84b085fa77de46ce15c1c9c2feb2b153df16eaf16ddf09816e23ff",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0184",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Bagatela",
+   "ref": "Bagatela/III",
+   "rights": "public_domain",
+   "words": 1592,
+   "band": "longo",
+   "sha256": "78309d9dc596a5fd591b550e2666dbac12e6372e166a7f99ce241696ad769e4e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0185",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/I",
+   "rights": "public_domain",
+   "words": 347,
+   "band": "medio",
+   "sha256": "1de20d6c2f5b2c89eb7f5f96e7ec269dd7f1efc848eecf2b2a435efb652cbd05",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0186",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/II",
+   "rights": "public_domain",
+   "words": 773,
+   "band": "medio",
+   "sha256": "ec57fb278cc9a8ce8660b34551cb4a23d5e8f4da3b19f74ec72dcfb820894864",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0187",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/III",
+   "rights": "public_domain",
+   "words": 643,
+   "band": "medio",
+   "sha256": "52b220c1e2ed85a33d7057f4b2eb519c8da1e11709ffee031e21b0b16588352b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0188",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/IV",
+   "rights": "public_domain",
+   "words": 586,
+   "band": "medio",
+   "sha256": "7678063e8093c834b6ffdd142912ae16dd2dd137a3e679748211b79a0d879ac2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0189",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/V",
+   "rights": "public_domain",
+   "words": 739,
+   "band": "medio",
+   "sha256": "e953bafd9322039f51c4f3eec65a27fc4ea1c481a0ab778192590cb098572b1b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0190",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Brincar com fogo",
+   "ref": "Brincar com fogo/VI",
+   "rights": "public_domain",
+   "words": 405,
+   "band": "medio",
+   "sha256": "8962818c3b2ba7474d4c7022d08799d4f000f1028a61ce4f1fcee6fd07e9b129",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0191",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Canseiras em vão",
+   "ref": "Canseiras em vão",
+   "rights": "public_domain",
+   "words": 5254,
+   "band": "documento",
+   "sha256": "f2c6fdf0c8866fede0a06f8e7649e900820cf955b8c20032526abced263b7d01",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0192",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cantiga velha",
+   "ref": "Cantiga velha",
+   "rights": "public_domain",
+   "words": 3153,
+   "band": "longo",
+   "sha256": "b301663c3a5ba1bc41264801fb257c95d1fae353850e1e0e36780c42f172a4bc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0193",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "Carlos Jansen: Contos Seletos das Mil e Uma Noites",
+   "ref": "Carlos Jansen: Contos Seletos das Mil e Uma Noites",
+   "rights": "public_domain",
+   "words": 755,
+   "band": "medio",
+   "sha256": "111bd0fefe084d1abd8c7a5a128b5de12432809ebaa43d5685deb03331d1afd3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0194",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Casa Velha",
+   "ref": "Casa Velha",
+   "rights": "public_domain",
+   "words": 35,
+   "band": "curto",
+   "sha256": "1f0c70fc4c5b82c56a490238dd9573d81a1f8435663ea2dbb92c1ced6fb97a18",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0195",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/I",
+   "rights": "public_domain",
+   "words": 2179,
+   "band": "longo",
+   "sha256": "f15f11336f1a91c8e96c30140bda23738474066ebf1eb9f4f5ca5d0f26f00591",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0196",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/II",
+   "rights": "public_domain",
+   "words": 3616,
+   "band": "longo",
+   "sha256": "86311d8faa685a3b98eb5a1011a89746e76975788e0345c58262620d459ab3b7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0197",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/III",
+   "rights": "public_domain",
+   "words": 3337,
+   "band": "longo",
+   "sha256": "21de262b93546491e729920e6e7b39f1053ff7104014328afc66591d848b117c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0198",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/IV",
+   "rights": "public_domain",
+   "words": 1528,
+   "band": "longo",
+   "sha256": "0d5f77a96d13d36f2809d5771c63182bdde38c13ed9d0b9b244f0dac1f37e7df",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0199",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/IX",
+   "rights": "public_domain",
+   "words": 1796,
+   "band": "longo",
+   "sha256": "0c4c4d549f33b1a1d33326b9463301525761417ea649a49d650adabe0e3679a2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0200",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/V",
+   "rights": "public_domain",
+   "words": 2970,
+   "band": "longo",
+   "sha256": "b5b233081e280c0463efae43fe4b422a239ebcb9db3f105a88aa25a8dcc2a920",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0201",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/VI",
+   "rights": "public_domain",
+   "words": 2387,
+   "band": "longo",
+   "sha256": "b4bdacc30e4ce00a4737589a3b06cd9039a8d5729ba72f2c36658e6954b5501a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0202",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/VII",
+   "rights": "public_domain",
+   "words": 1678,
+   "band": "longo",
+   "sha256": "c53c1c030798e75d71bca38defd86e10005c19a5b145bcebf8a4ff2894816156",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0203",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/VIII",
+   "rights": "public_domain",
+   "words": 701,
+   "band": "medio",
+   "sha256": "6d3e6e6820221ba92997e2819f4e3ea4a5e132d93e20f210f69373f6b1a39600",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0204",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa Velha",
+   "ref": "Casa Velha/X",
+   "rights": "public_domain",
+   "words": 2006,
+   "band": "longo",
+   "sha256": "1ce1f12d9c710ed4823bbff46cc8dc194ba497aaac83f0d6fa4270520fc8b98c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0205",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/I",
+   "rights": "public_domain",
+   "words": 672,
+   "band": "medio",
+   "sha256": "fe6f8e5c56f7dbe9b049a799fa92811c951f448f330aad77d71e42cf9497ded5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0206",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/II",
+   "rights": "public_domain",
+   "words": 1178,
+   "band": "longo",
+   "sha256": "1374ec7b7a93567fceeb91ba16ee975471b1bcfa80dfba0e6d6c4330cf7db6c3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0207",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/III",
+   "rights": "public_domain",
+   "words": 600,
+   "band": "medio",
+   "sha256": "7c1c05713c4b4b16a8fc6f802710a76e177f96879e3ae77f842acd6c17dbfdad",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0208",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/IV",
+   "rights": "public_domain",
+   "words": 911,
+   "band": "longo",
+   "sha256": "05b101bdb353337d9865de38913ac5f3dc289bb650869c70dc96574b3be32880",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0209",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/V",
+   "rights": "public_domain",
+   "words": 641,
+   "band": "medio",
+   "sha256": "ad27f7ce1ebf67f16fb86c60cb910c01e5e1a6d3ba66b2fde60bf30fbf8f2236",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0210",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casa, não casa",
+   "ref": "Casa, não casa/VI",
+   "rights": "public_domain",
+   "words": 562,
+   "band": "medio",
+   "sha256": "aeae51b513808d0749e38d9c48895353bc2e19cb9ed8f910a12ceacb866fe4c6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0211",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Casada e Viúva",
+   "ref": "Casada e Viúva",
+   "rights": "public_domain",
+   "words": 4812,
+   "band": "documento",
+   "sha256": "dde28d7b9c3a4aa1569c800555c1726131ff8fa4a58980793b220d7a586cc220",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0212",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cenas da vida amazônica, de José Veríssimo",
+   "ref": "Cenas da vida amazônica, de José Veríssimo",
+   "rights": "public_domain",
+   "words": 1655,
+   "band": "longo",
+   "sha256": "c9b3d960391a69e8dd528bca700119a51abbf81e4e3e633829772a48d190988d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0213",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cherchez la femme",
+   "ref": "Cherchez la femme",
+   "rights": "public_domain",
+   "words": 630,
+   "band": "medio",
+   "sha256": "1516e445417294e4f8a2e1aa9fcbc11902f93bfedc382b9b5ec595bb6e726a19",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0214",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cinco mulheres",
+   "ref": "Cinco mulheres/I",
+   "rights": "public_domain",
+   "words": 2087,
+   "band": "longo",
+   "sha256": "2b44606a1e5abd0d2671e424a62963ff993e13e293eb5666ed49c3bec1fb7163",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0215",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cinco mulheres",
+   "ref": "Cinco mulheres/II",
+   "rights": "public_domain",
+   "words": 825,
+   "band": "longo",
+   "sha256": "2514d5079dff4d65687fc1aeb4e50bd22cc08a0076b07c59d0715bf5000eae53",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0216",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cinco mulheres",
+   "ref": "Cinco mulheres/IV",
+   "rights": "public_domain",
+   "words": 1287,
+   "band": "longo",
+   "sha256": "e6b286afa2e61fcc25badee799ca0ece0fae2ec90c57a5dc7ff34d3ff089560e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0217",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Cleópatra (Machado de Assis)",
+   "ref": "Cleópatra (Machado de Assis)",
+   "rights": "public_domain",
+   "words": 488,
+   "band": "medio",
+   "sha256": "262614369bdc62ff94362d8976626321e50ead93c5d7123b5157db4bd93ab29d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0218",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Cognac!...",
+   "ref": "Cognac!...",
+   "rights": "public_domain",
+   "words": 119,
+   "band": "curto",
+   "sha256": "f4e59a2d3ed6644a4f693cb1345a05c54f8ed1762185efd10d724a988ec7997f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0219",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Como se inventaram os almanaques",
+   "ref": "Como se inventaram os almanaques",
+   "rights": "public_domain",
+   "words": 1427,
+   "band": "longo",
+   "sha256": "e32935e9fdd60f45d3ac42fa7e56bb35813f6ab8d0cc33bbd1a858f7f29d903d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0220",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Coração Perdido",
+   "ref": "Coração Perdido",
+   "rights": "public_domain",
+   "words": 101,
+   "band": "curto",
+   "sha256": "3d312462deb04898d4160cf8d4c166b95141fca20082b035d0ac9f22ede76278",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0221",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "Crítica variada - Diário do RJ",
+   "ref": "Crítica variada - Diário do RJ",
+   "rights": "public_domain",
+   "words": 1582,
+   "band": "longo",
+   "sha256": "1dbffe0484f4f4abb0a11ab8528e1ba2012171fd54ce3ceb6456b2dd8606be38",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0222",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crônica",
+   "work": "Crônica de Machado de Assis de 15 de agosto de 1883",
+   "ref": "Crônica de Machado de Assis de 15 de agosto de 1883",
+   "rights": "public_domain",
+   "words": 991,
+   "band": "longo",
+   "sha256": "48126a5c42cd4278f5a07a638971f03d593b5d8071c9ec0cc8bb37ecb2882011",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0223",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crônica",
+   "work": "Crônica de Machado de Assis de 2 de julho de 1883",
+   "ref": "Crônica de Machado de Assis de 2 de julho de 1883",
+   "rights": "public_domain",
+   "words": 691,
+   "band": "medio",
+   "sha256": "a06a028acf18094005d48237ee73e192816473852b4332b1ed7f1276f113a851",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0224",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crônica",
+   "work": "Crônica de Machado de Assis de 22 de julho de 1883",
+   "ref": "Crônica de Machado de Assis de 22 de julho de 1883",
+   "rights": "public_domain",
+   "words": 627,
+   "band": "medio",
+   "sha256": "3f8266977f81d35fb65e757064c6244153fcf2069fec493aab35f5eee02f167e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0225",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crônica",
+   "work": "Crônica de Machado de Assis de 4 de julho de 1883",
+   "ref": "Crônica de Machado de Assis de 4 de julho de 1883",
+   "rights": "public_domain",
+   "words": 614,
+   "band": "medio",
+   "sha256": "b330ea23fcc1e235ceac3733d3c5d088f63a9e2e33c11a4541a2994e5a767b23",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0226",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/I",
+   "rights": "public_domain",
+   "words": 1655,
+   "band": "longo",
+   "sha256": "ede4aef3bf2ee9140d60a0db921e4d966618a3c8ee3c9c9a43bbb39ef7981634",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0227",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/II",
+   "rights": "public_domain",
+   "words": 1087,
+   "band": "longo",
+   "sha256": "ac6585dd5966da7aaa72b218735be9f5c426bb799e3650014f1d84ead8146876",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0228",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/III",
+   "rights": "public_domain",
+   "words": 1453,
+   "band": "longo",
+   "sha256": "2cb87a8e5a97afd31059617e944f308b8905ab733fc1bf5bfd240215ee9e696a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0229",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/IV",
+   "rights": "public_domain",
+   "words": 826,
+   "band": "longo",
+   "sha256": "151d4cf8054bcf45f6ea1d3ed88a9e93aeca3a4dabe2f13215a8513e5185c8c1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0230",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/IX",
+   "rights": "public_domain",
+   "words": 655,
+   "band": "medio",
+   "sha256": "fe969d22e9afc89c26a125de6cb6059529e9ca174d6426693b1be8787a6d4fce",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0231",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/V",
+   "rights": "public_domain",
+   "words": 1546,
+   "band": "longo",
+   "sha256": "30502fcda857eb690fa027c09f31385939254bcb30f1fa7eedab0cf25b321e24",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0232",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/VI",
+   "rights": "public_domain",
+   "words": 1417,
+   "band": "longo",
+   "sha256": "569f20f4d25ce59b5d6239f443c5f4ed544df5691c5fbf034a06318a0f254ef4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0233",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/VII",
+   "rights": "public_domain",
+   "words": 637,
+   "band": "medio",
+   "sha256": "457aae829d87b051ef28baa23d58467ee3f499939f7ff5c1b2d46479a6d4fc5d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0234",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/VIII",
+   "rights": "public_domain",
+   "words": 558,
+   "band": "medio",
+   "sha256": "bf14c54505ab2ac7f40751bb995ece6c2260bbbbe5be1edf5fc9b06efe203704",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0235",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/X",
+   "rights": "public_domain",
+   "words": 981,
+   "band": "longo",
+   "sha256": "15fb3a7ab3d165863f85fea47ab454008ce06141d8ae86040f6e57b1cf3fd010",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0236",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Curiosidade",
+   "ref": "Curiosidade/XI",
+   "rights": "public_domain",
+   "words": 456,
+   "band": "medio",
+   "sha256": "5616a720f31facb8b64b64caef64d6092cafc486a3a73633972ecb451a0e9836",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0237",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Círculo Vicioso",
+   "ref": "Círculo Vicioso",
+   "rights": "public_domain",
+   "words": 100,
+   "band": "curto",
+   "sha256": "0e220f5412b06e9ccade149e9864fa0756f722d82e897c15302692fe53f6afe2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0238",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Jucunda",
+   "ref": "D. Jucunda/I",
+   "rights": "public_domain",
+   "words": 665,
+   "band": "medio",
+   "sha256": "f3255d3a20f67ab5c41aa18b8c81739bfdc3057007a855e722ab9badba5ec2b1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0239",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Jucunda",
+   "ref": "D. Jucunda/II",
+   "rights": "public_domain",
+   "words": 1378,
+   "band": "longo",
+   "sha256": "a2f9679f7f2635327193224ad86405d8a3f619e55c56688c4317402c7d6aa2c3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0240",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Jucunda",
+   "ref": "D. Jucunda/III",
+   "rights": "public_domain",
+   "words": 1410,
+   "band": "longo",
+   "sha256": "03bf0a16212711b2f6c04ce35076f89a1b7a7e19b641b46d3fbb1aeb27561467",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0241",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Jucunda",
+   "ref": "D. Jucunda/IV",
+   "rights": "public_domain",
+   "words": 184,
+   "band": "medio",
+   "sha256": "915a19258f46e18971b037646b87ada98613703c9be954813e0f394994959688",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0242",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/I",
+   "rights": "public_domain",
+   "words": 989,
+   "band": "longo",
+   "sha256": "cc603ae7e6a397c55f56839a8c63c2433b27bd776db849a7711cf75b11ee8547",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0243",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/II",
+   "rights": "public_domain",
+   "words": 920,
+   "band": "longo",
+   "sha256": "10fba452a49b9b7be8c457a84422619ebde74d6f4a9c9ccc7e4c436a79b382d0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0244",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/III",
+   "rights": "public_domain",
+   "words": 1119,
+   "band": "longo",
+   "sha256": "f128ed7400f749ab15053f5d7c5057e34ac372343b19728829666af629523b83",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0245",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/IV",
+   "rights": "public_domain",
+   "words": 1592,
+   "band": "longo",
+   "sha256": "dca72896be6f6b3e275238f34c0b6ad4ff0a47cfff7c23f8d43cb8d3b09c78f7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0246",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/V",
+   "rights": "public_domain",
+   "words": 1332,
+   "band": "longo",
+   "sha256": "6e9e0bfa0dcb7178049eca603a14b6f41c9bff305c7a72476ed2727f0e5d0754",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0247",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "D. Mônica",
+   "ref": "D. Mônica/VI",
+   "rights": "public_domain",
+   "words": 1987,
+   "band": "longo",
+   "sha256": "b5667ca8186e286086e8c55bbda40d174222d7a6a4c40f7940150d5970531325",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0248",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Daqui, deste âmbito estreito",
+   "ref": "Daqui, deste âmbito estreito",
+   "rights": "public_domain",
+   "words": 181,
+   "band": "medio",
+   "sha256": "040b2ac98ba9089fa46c51f53bdb42fa382b3cab8be4db5f93ca0de0dab41a20",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0249",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Daí à obra de Marta um pouco de Maria",
+   "ref": "Daí à obra de Marta um pouco de Maria",
+   "rights": "public_domain",
+   "words": 108,
+   "band": "curto",
+   "sha256": "d77f3b97b53a9c87062de6d1acb7028346edf5f2f63bc298616e6ec5ba835df0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0250",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Decadência de dois grandes homens",
+   "ref": "Decadência de dois grandes homens",
+   "rights": "public_domain",
+   "words": 4567,
+   "band": "documento",
+   "sha256": "5c700df394212c2ae9a1ef271a4dc4eb01e2aea5e3a650b3d552e95a7d6fd78d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0251",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Desencantos",
+   "ref": "Desencantos",
+   "rights": "public_domain",
+   "words": 18,
+   "band": "micro",
+   "sha256": "ecaa9c663373a5f8b18a56182440bf4eff375d37703e1a1cc912ea198051d87e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0252",
+   "source": "machado",
+   "family": "literario",
+   "genre": "discurso",
+   "work": "Discursos na Academia Brasileira de Letras",
+   "ref": "Discursos na Academia Brasileira de Letras/Discurso Inaugural",
+   "rights": "public_domain",
+   "words": 235,
+   "band": "medio",
+   "sha256": "81ffee83f1ae07f2fe94ad6a0359aa29eb31afe8ab8035f19f23eb79f420fb76",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0253",
+   "source": "machado",
+   "family": "literario",
+   "genre": "discurso",
+   "work": "Discursos na Academia Brasileira de Letras",
+   "ref": "Discursos na Academia Brasileira de Letras/Sessão de Encerramento",
+   "rights": "public_domain",
+   "words": 727,
+   "band": "medio",
+   "sha256": "722a3aef201513754d8a793790952323cad748778e8b3d8eff41df4d89b6bb8d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0254",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulos)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro @0:documento",
+   "rights": "public_domain",
+   "words": 3116,
+   "band": "longo",
+   "sha256": "789a37538a1e5fcb3f9d6fcb34ac5683e4d19cd4b3c9224ece16d9a4821fdb0a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0255",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro @456:longo",
+   "rights": "public_domain",
+   "words": 2239,
+   "band": "longo",
+   "sha256": "3d9243ae92c072bab6464c53a6a70870398365c2ae5aaa17e6450bf59151ebff",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0256",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro @456:medio",
+   "rights": "public_domain",
+   "words": 528,
+   "band": "medio",
+   "sha256": "b72c316537f007efa2c37189f6874eaa973e834452fd198552ac8950e7c2622a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0257",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro @460:curto",
+   "rights": "public_domain",
+   "words": 99,
+   "band": "curto",
+   "sha256": "114a408688858e5840a900d841e3df2c49dfe0c02f3d6fe8a7004e6958875e0b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0258",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/CXIII",
+   "rights": "public_domain",
+   "words": 421,
+   "band": "medio",
+   "sha256": "9b25231903398e48170b631299e5f70d2e66ded6f4980217accc20211cd68da4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0259",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/CXVI",
+   "rights": "public_domain",
+   "words": 488,
+   "band": "medio",
+   "sha256": "a57c970cedd43ee43f7cdce4574fcfd1becd2adc8c4fee6d88301b1f959a8c1b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0260",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/CXXVIII",
+   "rights": "public_domain",
+   "words": 509,
+   "band": "medio",
+   "sha256": "0b2f6b1ed211fd58a406da2085e64ea492cb57e7dbeaa85728f7fd727582dee6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0261",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/LII",
+   "rights": "public_domain",
+   "words": 413,
+   "band": "medio",
+   "sha256": "ec78f6d901d7a0bc165aa656dd7f26ae3d7ac43b2a64db1ed9e4cd24ff3b7a69",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0262",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/LXIV",
+   "rights": "public_domain",
+   "words": 384,
+   "band": "medio",
+   "sha256": "3d78787236d408453a83e85b91d9d9d4d627843504ab7384c4fdae75a40a01ba",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0263",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/LXXV",
+   "rights": "public_domain",
+   "words": 188,
+   "band": "medio",
+   "sha256": "109bd05a51cf73bd80edef92337597a54334b643b4ff51eae0c893b867b76478",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0264",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/XCI",
+   "rights": "public_domain",
+   "words": 162,
+   "band": "medio",
+   "sha256": "63316193df22b9958c5ddd82adecec24ab215c876a8882eae5104ac3c1c468fc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0265",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulo)",
+   "work": "Dom Casmurro",
+   "ref": "Dom Casmurro/XLIII",
+   "rights": "public_domain",
+   "words": 449,
+   "band": "medio",
+   "sha256": "69eaf818914ced6c4ef84854b41d2024188ccecb40b8217847ea9778d1882381",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0266",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Eduardo Prado",
+   "ref": "Eduardo Prado",
+   "rights": "public_domain",
+   "words": 681,
+   "band": "medio",
+   "sha256": "d040b8e562505279fdf0518a29ef270f9edb5a55258844228de4f88db19a94d4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0267",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Ela (Machado de Assis)",
+   "ref": "Ela (Machado de Assis)",
+   "rights": "public_domain",
+   "words": 344,
+   "band": "medio",
+   "sha256": "8657df1836d3ea7aa178bd2b058acb10929d89fa2a58a1a7db621e292fc127a0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0268",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/I",
+   "rights": "public_domain",
+   "words": 892,
+   "band": "longo",
+   "sha256": "b621e46508f16ee1dfc8c2212d71a876ab2e35ec41f8936b8efe9b301cc18c4c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0269",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/II",
+   "rights": "public_domain",
+   "words": 1284,
+   "band": "longo",
+   "sha256": "f960f1f2421981006966bbb3ef4ae461c335675ba1775bfd50189725f8351673",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0270",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/III",
+   "rights": "public_domain",
+   "words": 1105,
+   "band": "longo",
+   "sha256": "44b64a7b3c5f75aca237cb31ddcd04357659f18316f0913f673777801200a22f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0271",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/IV",
+   "rights": "public_domain",
+   "words": 1322,
+   "band": "longo",
+   "sha256": "57ade668b827c0e037de0a35dc8b91de78a7c7e3949d0d35076b57ac122fa0c2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0272",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/IX",
+   "rights": "public_domain",
+   "words": 1034,
+   "band": "longo",
+   "sha256": "78c87ea793eddbcf3ac3b540c2adffee7f4978d1ad3b1e97dae46af348bd0401",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0273",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/V",
+   "rights": "public_domain",
+   "words": 1292,
+   "band": "longo",
+   "sha256": "7cefde31d781b74c28a3717dde1012c4b44048a13ded4106a8babe3d7dbf7777",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0274",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/VI",
+   "rights": "public_domain",
+   "words": 1192,
+   "band": "longo",
+   "sha256": "0712643745d3bcc9953c88b0bf2a48f4ae8821caf237a1d550c2a3738d973589",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0275",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/VII",
+   "rights": "public_domain",
+   "words": 1601,
+   "band": "longo",
+   "sha256": "8afb685de21df7b7d6f7f5bc9020f58c3dc48ef022e0f2f817165112427bd9e5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0276",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/VIII",
+   "rights": "public_domain",
+   "words": 799,
+   "band": "medio",
+   "sha256": "f0364cf7bb2024d05b3fff179a583e3b3f560a17b1f8753050d324eb606e86f8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0277",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Encher tempo",
+   "ref": "Encher tempo/X",
+   "rights": "public_domain",
+   "words": 821,
+   "band": "longo",
+   "sha256": "fc8db65dbd441f2651935b15b44071de13724fc6f30f3307268e45fc4e528edf",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0278",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Entra cantando, entra cantando, Apolo!",
+   "ref": "Entra cantando, entra cantando, Apolo!",
+   "rights": "public_domain",
+   "words": 91,
+   "band": "curto",
+   "sha256": "f85a9f0b425c47b7dd2d307be06e3c2e9b8a4c310b95d9342d840a0fc3f895d4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0279",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Entre duas datas",
+   "ref": "Entre duas datas",
+   "rights": "public_domain",
+   "words": 3245,
+   "band": "longo",
+   "sha256": "a0d483603173a91ef22d644a481d931408a19ca012b51924dea9d0bf7dad0a5c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0280",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "Enéias Galvão: Miragens",
+   "ref": "Enéias Galvão: Miragens",
+   "rights": "public_domain",
+   "words": 415,
+   "band": "medio",
+   "sha256": "cc3ce676c783c5ad29bc819d9e4e1237de5549b028768d35a7979d076391ef27",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0281",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Epitáfio do México",
+   "ref": "Epitáfio do México",
+   "rights": "public_domain",
+   "words": 116,
+   "band": "curto",
+   "sha256": "5feab52114e68f48bf6849c3725ad1656c807f598cb156b39964d31da65f9a17",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0282",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Esaú e Jacó",
+   "ref": "Esaú e Jacó @482:longo",
+   "rights": "public_domain",
+   "words": 2206,
+   "band": "longo",
+   "sha256": "1ac342d0b22f48b9b7d13b0b1042355d751c3b047c268bf2a1689eab87872fe0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0283",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Esaú e Jacó",
+   "ref": "Esaú e Jacó @482:medio",
+   "rights": "public_domain",
+   "words": 480,
+   "band": "medio",
+   "sha256": "546bf93a8fe8476cde2b5420e7832b5afaf313aafe62608a2f015d87ef1d74b4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0284",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Esaú e Jacó",
+   "ref": "Esaú e Jacó @485:micro",
+   "rights": "public_domain",
+   "words": 3,
+   "band": "micro",
+   "sha256": "02d725b3796cb7ce7768d63254e3dfbbf34724b9c3ac0373c9991cb10bd6c209",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0285",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Esaú e Jacó",
+   "ref": "Esaú e Jacó @486:curto",
+   "rights": "public_domain",
+   "words": 113,
+   "band": "curto",
+   "sha256": "1ebbb613fe412ba900f2a7d46df0f6f120dd105232a8801244c53d9a47c33491",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0286",
+   "source": "machado",
+   "family": "literario",
+   "genre": "advertência/prefácio",
+   "work": "Esaú e Jacó",
+   "ref": "Esaú e Jacó/Advertência",
+   "rights": "public_domain",
+   "words": 316,
+   "band": "medio",
+   "sha256": "d74bb8375d58fb2032e2d962e1021b1df293e01148a7ff2078d0389baf584285",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0287",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema",
+   "work": "Espinosa",
+   "ref": "Espinosa",
+   "rights": "public_domain",
+   "words": 83,
+   "band": "curto",
+   "sha256": "68bf7b54d8b885e778a9ccbfa69ef4eb930ae2182699d85e04fd4cc33a6678c2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0288",
+   "source": "machado",
+   "family": "literario",
+   "genre": "crítica literária ou teatral",
+   "work": "Fagundes Varela: Cantos e Fantasias",
+   "ref": "Fagundes Varela: Cantos e Fantasias",
+   "rights": "public_domain",
+   "words": 1860,
+   "band": "longo",
+   "sha256": "f16d4429049721748f6a0729c6c703aaa892731b1f7225c4d717fc70f6777a28",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0289",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Felicidade pelo casamento",
+   "ref": "Felicidade pelo casamento/II",
+   "rights": "public_domain",
+   "words": 1141,
+   "band": "longo",
+   "sha256": "2773f9f202364889909401e9b181f8e8b06a25cd8c2ac360074366479a3d2b67",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0290",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto",
+   "work": "Felicidade pelo casamento",
+   "ref": "Felicidade pelo casamento/III",
+   "rights": "public_domain",
+   "words": 1421,
+   "band": "longo",
+   "sha256": "cc1dd44bf65673954567f93f5d3c65b34ec5e14ce446a26fcf330c1714c3e3a8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0291",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Helena",
+   "ref": "Helena @421:longo",
+   "rights": "public_domain",
+   "words": 2221,
+   "band": "longo",
+   "sha256": "05ee98d12d54318deffa93e06b155f6a926133622c9f63140b3762446cfe522d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0292",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Helena",
+   "ref": "Helena @421:medio",
+   "rights": "public_domain",
+   "words": 473,
+   "band": "medio",
+   "sha256": "6328dcf039ab23d890556f5a837a9c8addc07367f3f81a4c53e5a5ec5436ebae",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0293",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Helena",
+   "ref": "Helena @424:micro",
+   "rights": "public_domain",
+   "words": 6,
+   "band": "micro",
+   "sha256": "00d87c4e068aeb2072d090bc7aa0b9bb4acc602346795b54c372dc2d21eaab47",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0294",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Helena",
+   "ref": "Helena @425:curto",
+   "rights": "public_domain",
+   "words": 113,
+   "band": "curto",
+   "sha256": "77c836f98ddd99efa73a20736f18ad6e9f4d6d56d8f288ddef7a93ff87f2707f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0295",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Histórias sem Data",
+   "ref": "Histórias sem Data @195:longo",
+   "rights": "public_domain",
+   "words": 2329,
+   "band": "longo",
+   "sha256": "010ab965fdf239d24a1c53aebb4bb48ddfd2047c0b7074ff9d334b040fcbc480",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0296",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Histórias sem Data",
+   "ref": "Histórias sem Data @195:medio",
+   "rights": "public_domain",
+   "words": 531,
+   "band": "medio",
+   "sha256": "b429d2cc9320aae23c1fa14ff92e32bc80c06ba91fc03c4faba41eedf764e294",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0297",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Histórias sem Data",
+   "ref": "Histórias sem Data @199:curto",
+   "rights": "public_domain",
+   "words": 138,
+   "band": "curto",
+   "sha256": "ff6f53da54e1a1760b36799258e87c7afd9aecbe0147828cd7fdfff64798bede",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0298",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Iaiá Garcia",
+   "ref": "Iaiá Garcia @409:longo",
+   "rights": "public_domain",
+   "words": 2219,
+   "band": "longo",
+   "sha256": "23c9653bbf1e64e317dcf4251b1339d420eef03364977a98a9996e62dcfd85de",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0299",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Iaiá Garcia",
+   "ref": "Iaiá Garcia @409:medio",
+   "rights": "public_domain",
+   "words": 493,
+   "band": "medio",
+   "sha256": "a393c53fdb2d318e2996d111872f3fe47acc41ac5668e4f609c7d3c7d959a8fd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0300",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Iaiá Garcia",
+   "ref": "Iaiá Garcia @413:curto",
+   "rights": "public_domain",
+   "words": 158,
+   "band": "medio",
+   "sha256": "7cbcc6f9b1ec14650c0f86ebbda784642db393fa54e05c919a57b821ae1eaf57",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0301",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (capítulos)",
+   "work": "Memorial de Aires",
+   "ref": "Memorial de Aires @0:documento",
+   "rights": "public_domain",
+   "words": 1442,
+   "band": "longo",
+   "sha256": "c1a992956af2fc8f115c7a27a545cbaac7ca64bf3b6392616a8149f1cf1630bb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0302",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memorial de Aires",
+   "ref": "Memorial de Aires @433:longo",
+   "rights": "public_domain",
+   "words": 2256,
+   "band": "longo",
+   "sha256": "83329bb4b0ec8cabe616e29e131c6a2932f2e46e4d4d55ce6166666540bdcc1f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0303",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memorial de Aires",
+   "ref": "Memorial de Aires @433:medio",
+   "rights": "public_domain",
+   "words": 454,
+   "band": "medio",
+   "sha256": "a82d34e17dc5e177edaf68db79ba058a3d7a97ce98f21177d280c6b2d0576850",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0304",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memorial de Aires",
+   "ref": "Memorial de Aires @436:micro",
+   "rights": "public_domain",
+   "words": 3,
+   "band": "micro",
+   "sha256": "3f167556ce18ec9ac5505f8f545f123eef64cfcf52691f7f0b6abe5e8608a067",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0305",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memorial de Aires",
+   "ref": "Memorial de Aires @437:curto",
+   "rights": "public_domain",
+   "words": 164,
+   "band": "medio",
+   "sha256": "062fa293c9da639aaff5c7c5a381f298e8c55e52a8664040b23637c9bae4ec94",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0306",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memórias Póstumas de Brás Cubas",
+   "ref": "Memórias Póstumas de Brás Cubas @354:longo",
+   "rights": "public_domain",
+   "words": 2201,
+   "band": "longo",
+   "sha256": "517efbda7d867668da4fc5790dcc48a9034f372b55fb73be5e5370f0c8141f6b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0307",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memórias Póstumas de Brás Cubas",
+   "ref": "Memórias Póstumas de Brás Cubas @354:medio",
+   "rights": "public_domain",
+   "words": 611,
+   "band": "medio",
+   "sha256": "fc87e3fa420ed7cca00548db4d3e57f0c3d9238938b73db40e3b9fecf1f930f1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0308",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Memórias Póstumas de Brás Cubas",
+   "ref": "Memórias Póstumas de Brás Cubas @358:curto",
+   "rights": "public_domain",
+   "words": 92,
+   "band": "curto",
+   "sha256": "abc6b9b3c5e4f6f1338843bcfa4ccd621bd637b08681248304a9523efc5b2c57",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0309",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Papéis Avulsos",
+   "ref": "Papéis Avulsos @296:longo",
+   "rights": "public_domain",
+   "words": 2225,
+   "band": "longo",
+   "sha256": "85a13b5ba5af2186aaf9408253d86f8012b40032b2705360cdc60b3c1b8e7431",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0310",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Papéis Avulsos",
+   "ref": "Papéis Avulsos @296:medio",
+   "rights": "public_domain",
+   "words": 454,
+   "band": "medio",
+   "sha256": "8066970450261c8665779cadd6310532b89bf3e2e6689ae11ff6b11c37387a64",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0311",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Papéis Avulsos",
+   "ref": "Papéis Avulsos @299:micro",
+   "rights": "public_domain",
+   "words": 4,
+   "band": "micro",
+   "sha256": "d13dd0bf9e5208ef4c7f1a110956561ffbfe28c5e1fdc6d4dcd4ebbecade7068",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0312",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Papéis Avulsos",
+   "ref": "Papéis Avulsos @300:curto",
+   "rights": "public_domain",
+   "words": 110,
+   "band": "curto",
+   "sha256": "24625a69ccef68b16c914663d2e431e112030b7d8382937fa4f97122937662a6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0313",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #1",
+   "rights": "public_domain",
+   "words": 31,
+   "band": "curto",
+   "sha256": "a19ebe131141149bc1b2096efe3020e86be4afb85ac1a04f797ba85ca93df363",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0314",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #2",
+   "rights": "public_domain",
+   "words": 23,
+   "band": "curto",
+   "sha256": "7e4600236195608d02d5deb272760833bfdb32073d22881981e1b8a41b3b4483",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0315",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #3",
+   "rights": "public_domain",
+   "words": 22,
+   "band": "curto",
+   "sha256": "d8a0e25d9139f6355c8da08ac4642628f2cdc2fb0d26286196e30bea41d0bfeb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0316",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #4",
+   "rights": "public_domain",
+   "words": 45,
+   "band": "curto",
+   "sha256": "bc45781f4bb482a13c697c61e13a67e23f8470213a02b6de9455537a664f5d79",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0317",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #5",
+   "rights": "public_domain",
+   "words": 18,
+   "band": "micro",
+   "sha256": "4c026c5b4e621cb8d618af6bb2a9cc06c1e395b758f0e32f73cce26991bad5e5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0318",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #6",
+   "rights": "public_domain",
+   "words": 15,
+   "band": "micro",
+   "sha256": "d1e7878d18a9e0e9f6464525378d5a38f717e6f6652cbdb16923a933a354bd21",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0319",
+   "source": "machado",
+   "family": "literario",
+   "genre": "poema (estrofe)",
+   "work": "Poesias Completas",
+   "ref": "Poesias Completas #7",
+   "rights": "public_domain",
+   "words": 58,
+   "band": "curto",
+   "sha256": "48626fa31b901ffbbe77bde9568e49322e89c041fabf5318a6694e8bddabf43b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0320",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Quincas Borba",
+   "ref": "Quincas Borba @568:longo",
+   "rights": "public_domain",
+   "words": 2225,
+   "band": "longo",
+   "sha256": "2d85e0bd3ffdb8cd5da3c003dba9a79a0a354f081eb9bf38ec0e065c62ab5ba7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0321",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Quincas Borba",
+   "ref": "Quincas Borba @568:medio",
+   "rights": "public_domain",
+   "words": 461,
+   "band": "medio",
+   "sha256": "46828170000215d6d2beaa1f9def16a55997435586f3523d17b2a006afbb1abd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0322",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Quincas Borba",
+   "ref": "Quincas Borba @571:micro",
+   "rights": "public_domain",
+   "words": 6,
+   "band": "micro",
+   "sha256": "a3f00f2db3a273d478e34362a2e82c365af207f5cf6a7efedb414fd92c3955b9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0323",
+   "source": "machado",
+   "family": "literario",
+   "genre": "romance (trecho)",
+   "work": "Quincas Borba",
+   "ref": "Quincas Borba @572:curto",
+   "rights": "public_domain",
+   "words": 102,
+   "band": "curto",
+   "sha256": "c297d75cc7648be27fc5e5ca84a3b58f4317f582871a1b71535c9b503a41f3ef",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0324",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Relíquias de Casa Velha",
+   "ref": "Relíquias de Casa Velha @425:longo",
+   "rights": "public_domain",
+   "words": 2346,
+   "band": "longo",
+   "sha256": "1defe1c9e57a41867c4b0a06fa2c5ad0669c06d24149050ee2cba765dc771050",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0325",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Relíquias de Casa Velha",
+   "ref": "Relíquias de Casa Velha @425:medio",
+   "rights": "public_domain",
+   "words": 535,
+   "band": "medio",
+   "sha256": "102ea0df1df9623f76dade69ee1054b76ab1be3ab985098b513b03f3b558e9be",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0326",
+   "source": "machado",
+   "family": "literario",
+   "genre": "conto (coletânea) (trecho)",
+   "work": "Relíquias de Casa Velha",
+   "ref": "Relíquias de Casa Velha @429:curto",
+   "rights": "public_domain",
+   "words": 191,
+   "band": "medio",
+   "sha256": "72ca34e0882ffa02918db47f338bde4e5aed8cb3b3fefd8c4481fa2f3301afec",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0327",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (capítulo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), CAPÍTULO II",
+   "rights": "public_domain",
+   "words": 482,
+   "band": "medio",
+   "sha256": "2d2759e9b66ce57bf3ee89ca93aa4e02a09e06a70458d8ce50cada3da965e290",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0328",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 104",
+   "rights": "public_domain",
+   "words": 88,
+   "band": "curto",
+   "sha256": "837156782165e42a5ff2992eb8665de5eddc902799cd4c88ab151e867f3231b1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0329",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 26",
+   "rights": "public_domain",
+   "words": 128,
+   "band": "curto",
+   "sha256": "acbc440584e83491f16521aa50b78d16f8a2b6cf57e4a46be4eafc88f6045b08",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0330",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 45",
+   "rights": "public_domain",
+   "words": 13,
+   "band": "micro",
+   "sha256": "a405266c6f77bcece4b69dd03b6f6c21e9e1d1aa4585da4f78839af6edcbddda",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0331",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 4º",
+   "rights": "public_domain",
+   "words": 321,
+   "band": "medio",
+   "sha256": "21a239120672ad2e4042ee5ea14fca2bf79d36998de4239d38d0ef28f1970168",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0332",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 59",
+   "rights": "public_domain",
+   "words": 122,
+   "band": "curto",
+   "sha256": "7454006746708a13ec604e86d767568b20e198e2cab12f2966f01532ff8f1311",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0333",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Código de Defesa do Consumidor (Lei 8.078/1990)",
+   "ref": "Código de Defesa do Consumidor (Lei 8.078/1990), art. 80",
+   "rights": "public_domain",
+   "words": 70,
+   "band": "curto",
+   "sha256": "5172fc31b9dea07823ffc0c4d30ec09c3330cc9e5118f4180dab2d17d36c6a30",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0334",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 145",
+   "rights": "public_domain",
+   "words": 45,
+   "band": "curto",
+   "sha256": "c175b1204b69ee1fa3d6cd04b8b8f9002d765c9c502bbb10ef80aa33f07400a7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0335",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 192",
+   "rights": "public_domain",
+   "words": 26,
+   "band": "curto",
+   "sha256": "3f9050eef84c52956cd62a7a73e5eace04c7384c7f526ec919a108fe14652b3a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0336",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 229",
+   "rights": "public_domain",
+   "words": 67,
+   "band": "curto",
+   "sha256": "04d764941ca150153ae01648b4f2809afc0682fc533e314da6b132c97e805183",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0337",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 49",
+   "rights": "public_domain",
+   "words": 23,
+   "band": "curto",
+   "sha256": "325092056ec3d2d696044b1531d919ac8e242cc44bd5c6eb92f3a65a8ed0f32e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0338",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 4º",
+   "rights": "public_domain",
+   "words": 228,
+   "band": "medio",
+   "sha256": "bbfc6f7407adc1bec9a2e2c731e69f1190c3084c2a0bb21495786f60d1dcc572",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0339",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "ECA (Lei 8.069/1990)",
+   "ref": "ECA (Lei 8.069/1990), art. 94",
+   "rights": "public_domain",
+   "words": 363,
+   "band": "medio",
+   "sha256": "7350839bfe81c9a6366a94d5f1bdbd1221e37a2eb96dc4c37973cbe850a9526a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0340",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (capítulo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), CAPÍTULO X",
+   "rights": "public_domain",
+   "words": 726,
+   "band": "medio",
+   "sha256": "e58ea1c6beb9d202fb3f009dd8b90271a22ca59d8ea9958abecd55c5a5cf2d0c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0341",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 110",
+   "rights": "public_domain",
+   "words": 146,
+   "band": "curto",
+   "sha256": "d00e3afe7223cd06794da3709a79c9b2a3537744ee9c62244c145068bd27ceb1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0342",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 25",
+   "rights": "public_domain",
+   "words": 57,
+   "band": "curto",
+   "sha256": "75ebd869401c5836223c494565b8c3f77f1881209d0916c10392130bd8b0dfcd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0343",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 47",
+   "rights": "public_domain",
+   "words": 243,
+   "band": "medio",
+   "sha256": "88741b3a0b9de21f8c2736c49ceae56ba575ed2f7c67456b133db7610ebbe01b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0344",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 4º",
+   "rights": "public_domain",
+   "words": 98,
+   "band": "curto",
+   "sha256": "16afc680e7ea0e8f63beb099abcc7377379605366c4430e27ec74f2f555e3d51",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0345",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 67",
+   "rights": "public_domain",
+   "words": 37,
+   "band": "curto",
+   "sha256": "fe9664eed9ceafc66dade16f2c5ab708c683e33f78318395eb907271242a0bfd",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0346",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015)",
+   "ref": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015), art. 88",
+   "rights": "public_domain",
+   "words": 162,
+   "band": "medio",
+   "sha256": "e603dd73b77b20127a5f65f32db0d6a609fbfe2b870c13c86e1d7e25c43ebc74",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0347",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (capítulo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), CAPÍTULO IV",
+   "rights": "public_domain",
+   "words": 2498,
+   "band": "longo",
+   "sha256": "1434ecb2ab97d565c0374b5e1291ad6597c17cf97e808a19a813372bd45f5641",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0348",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 17",
+   "rights": "public_domain",
+   "words": 89,
+   "band": "curto",
+   "sha256": "edf145ca191c4685370f2e8a0eb7b7cb9fd173e70e74ba8626c39582446aa879",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0349",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 34",
+   "rights": "public_domain",
+   "words": 69,
+   "band": "curto",
+   "sha256": "65a2014fd83672aad69299f1c8ebd991e4f0c01d044c037d5b84b24dd1c9108d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0350",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 49",
+   "rights": "public_domain",
+   "words": 38,
+   "band": "curto",
+   "sha256": "d50e45c856219e37de411347465e80540277f99923719f65170eb06f3fe0dfd7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0351",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 4º",
+   "rights": "public_domain",
+   "words": 508,
+   "band": "medio",
+   "sha256": "640249f44f74b22f0d1912e827756e47ac6ddf937247044719e8441c202a86f4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0352",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 62",
+   "rights": "public_domain",
+   "words": 155,
+   "band": "medio",
+   "sha256": "c6425b51090164c3d6502c95e1ae3da063d34e2fd3f7dd6b49802254db68f82e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0353",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LDB (Lei 9.394/1996)",
+   "ref": "LDB (Lei 9.394/1996), art. 78",
+   "rights": "public_domain",
+   "words": 107,
+   "band": "curto",
+   "sha256": "2e119e4484a26ec826adbefad917c19c19dc4bcbb873d3f26c034eb3e6246cd8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0354",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (capítulo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), CAPÍTULO VII",
+   "rights": "public_domain",
+   "words": 908,
+   "band": "longo",
+   "sha256": "5da75e8ac5044535ac60126b3ddd985d9b76d4c33f40549c1ab0cd6e02f203f9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0355",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 16",
+   "rights": "public_domain",
+   "words": 95,
+   "band": "curto",
+   "sha256": "0bf70b4d837a63dcfbe0e4b6a8ce9316d56ad4d9e8670a758bfe450a8b76edde",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0356",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 29",
+   "rights": "public_domain",
+   "words": 61,
+   "band": "curto",
+   "sha256": "b977db169e22c2022534f1753b0cc96e90e2190962baf0dd88e30ad08adff6c3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0357",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 41",
+   "rights": "public_domain",
+   "words": 169,
+   "band": "medio",
+   "sha256": "c6d16c47d231bdecd4e898c824a9d55db3ce79b770275b7a4dd8990757e007a6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0358",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 4º",
+   "rights": "public_domain",
+   "words": 316,
+   "band": "medio",
+   "sha256": "c99bdcfb8579b8f5007df266bc9e75080fb028d4d6ca03ee13a3bd9512f7640e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0359",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 5",
+   "rights": "public_domain",
+   "words": 17,
+   "band": "micro",
+   "sha256": "abf3552a671c031c00fa221e2c0a23cc4eb3320a8081c2ecba82e2141d1029ef",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0360",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (artigo)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), art. 54",
+   "rights": "public_domain",
+   "words": 106,
+   "band": "curto",
+   "sha256": "ddea47ad225adf4e7c476c54ab5fde9606fcc6b4c957d7eb046b9e8f5fae1db0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0361",
+   "source": "planalto",
+   "family": "institucional_juridico",
+   "genre": "lei (íntegra)",
+   "work": "LGPD (Lei 13.709/2018)",
+   "ref": "LGPD (Lei 13.709/2018), íntegra",
+   "rights": "public_domain",
+   "words": 12259,
+   "band": "documento",
+   "sha256": "d03f906031c047c47f12cee639443f079250a503cff05e4dc9db378d4eed48a1",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": true,
+    "publish_excerpts": true
+   }
+  },
+  {
+   "id": "ft-0362",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF1",
+   "rights": "local_only",
+   "words": 88,
+   "band": "curto",
+   "sha256": "a9c3739da89054126f4d72e773e717378eba75695c43cfd7b03de1f77c9e4495",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0363",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF135",
+   "rights": "local_only",
+   "words": 79,
+   "band": "curto",
+   "sha256": "2ea51816fbb5c144b0f87cb68922ac9e9fbd1f34fd3c09098f14fb5399117f1f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0364",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF172",
+   "rights": "local_only",
+   "words": 56,
+   "band": "curto",
+   "sha256": "4da89b579d7d36dcef59540e56c72891098e0cec5af9201fee716e87884e5ee9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0365",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF209",
+   "rights": "local_only",
+   "words": 35,
+   "band": "curto",
+   "sha256": "e82edd01f7c3aed0f53a6ff34d10c5ceddf9d4c1bd9f379d853712e67acd9ebc",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0366",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF245",
+   "rights": "local_only",
+   "words": 57,
+   "band": "curto",
+   "sha256": "a727d1fc50f2c1fd3477626efb7cfcfba52f8113641cdb70ece5186b6446afd5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0367",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF281",
+   "rights": "local_only",
+   "words": 87,
+   "band": "curto",
+   "sha256": "f49ed33cf25a051df5b8af0e656f2ea78bb7ee08794314a9b0af599157513559",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0368",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF317",
+   "rights": "local_only",
+   "words": 62,
+   "band": "curto",
+   "sha256": "85da3c3545565d7ba2b3f5102b5ef670f80517827ca215b35a0da3b40ddb9ec4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0369",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF354",
+   "rights": "local_only",
+   "words": 72,
+   "band": "curto",
+   "sha256": "5370876a2f16378375dce920d4712741f34ae62a3d0f75713bf4759247871507",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0370",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF390",
+   "rights": "local_only",
+   "words": 12,
+   "band": "micro",
+   "sha256": "098ed59b201f419dd7508ef1818ccab1ebe1538f4d66c3e7ff7a2874707ad6d3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0371",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF428",
+   "rights": "local_only",
+   "words": 66,
+   "band": "curto",
+   "sha256": "7ef2cda6e5c49fe560ce33180a231b0836f9cfdacc2a025cf1c245a0afc62ebb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0372",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF467",
+   "rights": "local_only",
+   "words": 216,
+   "band": "medio",
+   "sha256": "bac9c762e6a46974c4dfb332bb455bec6298f7b51249dc01c2df6758f2be2b56",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0373",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF502",
+   "rights": "local_only",
+   "words": 115,
+   "band": "curto",
+   "sha256": "c3ec17a44a0207b5fe1f99d32ff3d897e5142fcf865824d042976c8546a32b48",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0374",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF539",
+   "rights": "local_only",
+   "words": 40,
+   "band": "curto",
+   "sha256": "eb66ea426000f407a462c5a7b28e801581752ed34bb5eb6badd29c1e551c8f2f",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0375",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF575",
+   "rights": "local_only",
+   "words": 58,
+   "band": "curto",
+   "sha256": "9400d2ee40223df38f5c587bba6a9e56cc724b0658aa6eb9ef0372221247b4e9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0376",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF610",
+   "rights": "local_only",
+   "words": 53,
+   "band": "curto",
+   "sha256": "34b5e048de9cfb6e684a6d63542dc01203a377c248bd8ea50e42e3fa75665a27",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0377",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF647",
+   "rights": "local_only",
+   "words": 62,
+   "band": "curto",
+   "sha256": "3a883b5d49ef3963fc7a7f406a8b8fcdb3c08626faf7efdf627d82c6881f72e2",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0378",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF683",
+   "rights": "local_only",
+   "words": 75,
+   "band": "curto",
+   "sha256": "d90e7fde13bac37b208647d1e3aa42cabc1e420bfb262998de10565e292183d7",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0379",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF719",
+   "rights": "local_only",
+   "words": 56,
+   "band": "curto",
+   "sha256": "9bfd7056ef135755ddc77e68655c713e5b932bc5aafe407ca03906bfb4cdad2b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0380",
+   "source": "ud-bosque",
+   "family": "jornalistico",
+   "genre": "notícia (Folha, CETENFolha)",
+   "work": "UD-Bosque CF",
+   "ref": "CF76",
+   "rights": "local_only",
+   "words": 58,
+   "band": "curto",
+   "sha256": "894eedf488241380491341e740b9483822dfa3ff59616b1cc17642e5855bebf9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0381",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #0",
+   "rights": "local_only",
+   "words": 34,
+   "band": "curto",
+   "sha256": "3d970c44e42bc942e689ac325d320ab040fc73042fba7a00e8b9cd2bed7fcfa6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0382",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1050",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "93944b13792ddc5769a799ffaf6a4cbac080178e237b8164cbad7cdda8f2b492",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0383",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1200",
+   "rights": "local_only",
+   "words": 16,
+   "band": "micro",
+   "sha256": "373638d6b82732873e88637583c615cac38f8ac9ca1e2f9d84d9043c4e7677d5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0384",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1350",
+   "rights": "local_only",
+   "words": 9,
+   "band": "micro",
+   "sha256": "9ba5040320c256ec0bd4020db61f9231e8910cd8e953a2137218c299bc7a2d8d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0385",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #150",
+   "rights": "local_only",
+   "words": 18,
+   "band": "micro",
+   "sha256": "b05772176ca6a97f5c4d1f5f2f2909a93fc54225e022ad20e10d485ef3d3ff3d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0386",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1500",
+   "rights": "local_only",
+   "words": 16,
+   "band": "micro",
+   "sha256": "888f6bf38d54f48400fd1fb3367bebc1a820e9b92816f104cb1acab7e0e27976",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0387",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1650",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "b65d88777edf799ae1e5b00c93f3ffa87ee4de598e79acdef61cded1e1551c01",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0388",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1800",
+   "rights": "local_only",
+   "words": 12,
+   "band": "micro",
+   "sha256": "824febee1a781737881a5bc2f15097f56605de8f84cd168b13c57a6fa29c979b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0389",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #1950",
+   "rights": "local_only",
+   "words": 13,
+   "band": "micro",
+   "sha256": "40d44d4f01a1b8a31e71924741c6cadaf4bcc7ddd01ee2c755a37a37d0cb5afa",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0390",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2100",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "1535b4bfa263927e657b94eb92526efb04c65e3bf761dbdce45c4a35385285ed",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0391",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2250",
+   "rights": "local_only",
+   "words": 19,
+   "band": "micro",
+   "sha256": "30c6cb61e5114df3b54da8883ae9e534d7c0e3cdadf3346d3f76b70b754d78d8",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0392",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2400",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "00f7b6421e17f080be847af4b9d2c45316611e144680f9812ebcc1ed5227c708",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0393",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2550",
+   "rights": "local_only",
+   "words": 14,
+   "band": "micro",
+   "sha256": "85a284ebe030a267325c88cdc886ae5cb3d077d0200a699b9cffe8b9a710a0cb",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0394",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2700",
+   "rights": "local_only",
+   "words": 16,
+   "band": "micro",
+   "sha256": "93e0886d68e2130599e31899aea5c96519341879980190242afea926f31f32a4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0395",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #2850",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "d30e11f4016572847e05c36a241331327351c42ca80a16f1073bdacc467d0569",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0396",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #300",
+   "rights": "local_only",
+   "words": 5,
+   "band": "micro",
+   "sha256": "afbf016198a0a8827dc83120de5cbb88333cd7adb703e9b551a232dd54d6a4e4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0397",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #450",
+   "rights": "local_only",
+   "words": 21,
+   "band": "curto",
+   "sha256": "3b06a3bf7486070731f04f938765d200257c002a31dd4558f8924f1fd0691999",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0398",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #600",
+   "rights": "local_only",
+   "words": 20,
+   "band": "micro",
+   "sha256": "7012bf9d5bb8f256288ebe2bf8d063dab9d1ef1d4104e9b8201a865aeed3900b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0399",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #750",
+   "rights": "local_only",
+   "words": 29,
+   "band": "curto",
+   "sha256": "c9538ca1720338fd55b4a1d238167b513ce562aa1825223fee11cd61951b6cb4",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0400",
+   "source": "ud-dantestocks",
+   "family": "redes_sociais",
+   "genre": "tweet sobre mercado",
+   "work": "UD-DANTEStocks",
+   "ref": "dante-train #900",
+   "rights": "local_only",
+   "words": 12,
+   "band": "micro",
+   "sha256": "3da308b2dd9bed7167febd87549ba331e4e2ebe5ef801e5dda3f8ccfe4e12d61",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0401",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #0",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "41e2c14ff4f588066fa1b9b6c83c61082f9e6906e92a8dd0e55350b77945b115",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0402",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #1260",
+   "rights": "local_only",
+   "words": 42,
+   "band": "curto",
+   "sha256": "c6a00579d7ce409562f00da9b5265f07d206b3b0d065cbabeac56bc187cda2f3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0403",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #1680",
+   "rights": "local_only",
+   "words": 22,
+   "band": "curto",
+   "sha256": "5c68d3ddcc69678a28532b1acac11aaa2aa118de0e3b7f76e1f0b280743e81b0",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0404",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #2100",
+   "rights": "local_only",
+   "words": 23,
+   "band": "curto",
+   "sha256": "c69ffc7b523bdcbb9864d598e8413827d65f2366f878faa69170772164b808c6",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0405",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #2520",
+   "rights": "local_only",
+   "words": 30,
+   "band": "curto",
+   "sha256": "0e35b02d0a51f0aae78e43f35cc35f32b2473fc36acf6db9dbec61d45c291b3a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0406",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #2940",
+   "rights": "local_only",
+   "words": 25,
+   "band": "curto",
+   "sha256": "a1d0ac9b136e3533d0a215f8a7d76c2c408d52484c349d7c9fbfdfb45cab3d7d",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0407",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #3360",
+   "rights": "local_only",
+   "words": 22,
+   "band": "curto",
+   "sha256": "4d1983f7d9799d4f2701c74fca22a6f1b85a74b62a6bb082afc51d8b7aafa890",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0408",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #3780",
+   "rights": "local_only",
+   "words": 59,
+   "band": "curto",
+   "sha256": "e64782ffe0a0712e4f2b065c9b25b0a90f71d6e0e0ad37eccfcbb48fe335123e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0409",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #420",
+   "rights": "local_only",
+   "words": 6,
+   "band": "micro",
+   "sha256": "0f9551966cbb19d3716e11a0500f48fb878ef443ac1ad1437e9a4a1ca3d0b362",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0410",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #4200",
+   "rights": "local_only",
+   "words": 33,
+   "band": "curto",
+   "sha256": "2c89d5553f86958dd8bd4a526b8731872a7e67434ccc0a1b589928c4879d7cb9",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0411",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #4620",
+   "rights": "local_only",
+   "words": 28,
+   "band": "curto",
+   "sha256": "4590eed083a4aa932ba618515b15dbf2bff9d2875484911679685dfecd43a653",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0412",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #5040",
+   "rights": "local_only",
+   "words": 37,
+   "band": "curto",
+   "sha256": "20f3e98a845a5796673972c1a0a10629a91761b44397894884220b7e812e3227",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0413",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #5460",
+   "rights": "local_only",
+   "words": 15,
+   "band": "micro",
+   "sha256": "14c1437b828a1430072ab384f3fec1c426e4be0d91712a7e4c9c6c858e51bc4b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0414",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #5880",
+   "rights": "local_only",
+   "words": 22,
+   "band": "curto",
+   "sha256": "63899fed990db8d587bd8da51d485ae1166756864d5b33135eb8820a3f0c1dfa",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0415",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #6300",
+   "rights": "local_only",
+   "words": 11,
+   "band": "micro",
+   "sha256": "645fdc625beb98e7ddde04d11c40acdae114cda00c7c9e96644caeaca1153847",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0416",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #6720",
+   "rights": "local_only",
+   "words": 10,
+   "band": "micro",
+   "sha256": "f0805f5efdf04c546bd4c801bced01ce7b56fdd8e233093011b3aa215ecb760c",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0417",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #7140",
+   "rights": "local_only",
+   "words": 34,
+   "band": "curto",
+   "sha256": "47a801519d1bc6461f453507c72e5f2130564a85cbbffeb255db65dd76ebd96b",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0418",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #7560",
+   "rights": "local_only",
+   "words": 19,
+   "band": "micro",
+   "sha256": "ae4494af8b0ccfec75666b35cb797cb84543f7a3feed25082accdc7c0069d9a5",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0419",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #7980",
+   "rights": "local_only",
+   "words": 21,
+   "band": "curto",
+   "sha256": "7f65a96ceb7a31c909b252721ed076254dbd6914e1e9cebc289ffa6a3de4a81e",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0420",
+   "source": "ud-gsd",
+   "family": "jornalistico_blog",
+   "genre": "notícia/blog (frase)",
+   "work": "UD-GSD",
+   "ref": "gsd-train #840",
+   "rights": "local_only",
+   "words": 7,
+   "band": "micro",
+   "sha256": "6ea6083e6f9610085c92329220d21be9f8e95264c0c15ccd212ddeb01407073a",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0421",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "161-20150810-MONOGRAFIA_0",
+   "rights": "local_only",
+   "words": 346,
+   "band": "medio",
+   "sha256": "763891d7773825221b69225e22dd887d43ea38365c376e1c17aaace11e1b3ed3",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0422",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "24-20150122-MONOGRAFIA_0",
+   "rights": "local_only",
+   "words": 232,
+   "band": "medio",
+   "sha256": "bcd0138c53ff95712cdcd59cfdf615360be138bf7951572ef350f2489cc82250",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0423",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "25-20150123-MONOGRAFIA_0",
+   "rights": "local_only",
+   "words": 47,
+   "band": "curto",
+   "sha256": "a35348f3015e5a3d2a0e646d7bc5596a93c7e25d54d3b8a42c6d93475f550e30",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0424",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "283-20150917-MONOGRAFIA_0",
+   "rights": "local_only",
+   "words": 260,
+   "band": "medio",
+   "sha256": "f82c4f6162c825acbc70cd00f0b232b3570d342f9deb8d3465259b4bc34dd001",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0425",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "391-20160914-MONOGRAFIA_0",
+   "rights": "local_only",
+   "words": 345,
+   "band": "medio",
+   "sha256": "78edddfbbf017a7c8a0472f5c4b033e214fce920f3ade781ba172bef19db0e53",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  },
+  {
+   "id": "ft-0426",
+   "source": "ud-petrogold",
+   "family": "academico",
+   "genre": "tese/dissertação técnica (trecho)",
+   "work": "UD-PetroGold",
+   "ref": "anon-0",
+   "rights": "local_only",
+   "words": 3,
+   "band": "micro",
+   "sha256": "bfb6320d500472735d1cf21df76c2374b639d36135be4f0f66aa7cf473ceb209",
+   "rights_by_operation": {
+    "local_analysis": true,
+    "model_api": false,
+    "publish_excerpts": false
+   }
+  }
+ ]
+}

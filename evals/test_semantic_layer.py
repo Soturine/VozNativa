@@ -102,7 +102,8 @@ class VerdictPolicy(unittest.TestCase):
         self.assertEqual(report["requires"], ["semantic_judgment"])
 
     def test_llm_judgment_upgrades_only_clean_results(self):
-        report = judged(SAFE, dict(judgment(), generator_relation="different_model"))
+        # v0.10.5 (D-03): accepted only with a relation the engine observed
+        report = judged(SAFE, dict(judgment(), generator_relation="different_model", relation_evidence="ENGINE_OBSERVED"))
         self.assertEqual(report["status"], "accepted_by_llm")
         self.assertTrue(report["safe_to_auto_accept"])
         self.assertEqual(len(report["evidence"]["judgments"]), 1)

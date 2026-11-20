@@ -293,6 +293,26 @@ Plano: `docs/releases/v0.7/PLAN_v0.7.0.md`. Estado por checkpoint: `docs/release
 - [ ] `--provider-env minimal` como padrão (0.11; a 0.10 só avisa)
 - [ ] modelo local real, Codex, Gemini CLI, revisão humana cega, holdout independente
 
+## v0.10.5 — Prova de fogo PT-BR (`docs/releases/v0.10.5/`)
+- [x] corpus real de 427 textos PT-BR com direitos por operação; lacunas de família declaradas, sem texto sintético no lugar
+- [x] campanha offline com oráculo metamórfico: mudanças de sentido sem sinal 46 → 7, falsos alarmes em mudança benigna 10 → 1
+- [x] Skill testada num host real sem ser nomeada (12 × 3 + holdout); engine passa a obedecer ao modo pedido
+- [x] documentos inteiros (lei de 12 mil palavras, romance, DOCX/PDF) com oráculo independente
+- [x] VozNativa Observatory: site estático de resultados com diff, matriz, gaps e QA em navegador
+- [x] relatório HTML por entrega da Skill: antes/depois, justificativas vinculadas, checagens e decisões de manter o original
+- [x] juízo em arquivo não aprova (D-03); evidência trivial no juiz de fundamentação (GAP-21)
+- [x] holdout prospectivo novo e ablação válida com o mesmo pedido
+- [x] sinal de revisão para a troca de forma verbal observada em P05 (V105-GAP-22), com replay e controles
+- [x] piloto online em cinco gêneros PT-BR e execução do fluxo no Codex; reparo de negação privativa (V105-GAP-29)
+- [x] instalador de Skill compartilhado para os layouts Codex, Claude Code e Gemini CLI
+- [x] ablação válida: atributos e conhecimento sem ganho mensurável (n = 20 pares)
+- [ ] aderência da Skill ao gate e à linguagem da entrega (V105-GAP-01/17); ganho editorial mensurável (V105-GAP-16)
+- [ ] reduzir omissões do motor quando o pedido exige edição, sem relaxar a fidelidade (V105-GAP-23)
+- [ ] calibrar o roteador em excertos curtos e textos legais (V105-GAP-18, risco aceito nesta rodada)
+- [ ] herdados sem trabalho nesta rodada: correferência e troca de papéis (V09-GAP-05/V08-GAP-19), `--provider-env minimal` como padrão
+- [ ] ampliar o piloto online com fala e gíria regional atestadas, correspondência, redação, notícia, relatório e outros registros contemporâneos, com direitos por operação
+- [ ] matriz live em projetos independentes, Gemini CLI, retomada do Claude Code, revisão humana cega, holdout de terceiro, juiz de outro fornecedor, modelo local, macOS e Word
+
 ## Research track — Optional Model / Adapter
 - [x] arquitetura e gates documentados
 - [ ] candidate generation + reranking

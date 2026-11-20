@@ -37,7 +37,6 @@ sys.path.insert(0, str(ROOT))
 from scripts import bench_v2 as v2  # noqa: E402
 from scripts.bench_skill_only import FINAL, ONE_LINE, SKILL_TASK, fetch_skill  # noqa: E402
 from voznativa.benchmark import load_cases, outcome_axes, summarize_axes  # noqa: E402
-from voznativa.compare import compare  # noqa: E402
 from voznativa.engine import parse_candidate  # noqa: E402
 from voznativa.region import inspect as region_inspect  # noqa: E402
 from voznativa.regional import activate, forms_in, introduced_forms, load_packs, referent_swaps  # noqa: E402
