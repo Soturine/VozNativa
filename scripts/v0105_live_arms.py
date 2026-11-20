@@ -34,9 +34,6 @@ ROOT = Path(__file__).resolve().parent.parent
 PROVIDER = ROOT / "scripts" / "experiments" / "claude_cost_provider.py"
 DIRECT = ("{request}\n\nResponda só com o texto final, sem comentários. Se o texto já estiver adequado ao pedido, "
           "devolva-o igual.\n\nTEXTO:\n{text}")
-BARE = ("import sys; from voznativa import knowledge as k; "
-        "k.for_text = lambda *a, **kw: {'selected': [], 'skipped': [], 'used_chars': 0, 'budget_chars': 0, "
-        "'registry_errors': []}; from voznativa.cli import main; sys.exit(main(sys.argv[1:]))")
 ARMS = ("A1_direct", "A2_skill", "A3_engine", "A3_bare")
 # v0.10.5 continuation: a valid factorial ablation. Every variant gets the SAME request (the user's words as the
 # open attribute ``pedido``) and the same mode; only the other attributes and the knowledge block change.
@@ -47,6 +44,7 @@ NO_KNOWLEDGE = ("import sys; from voznativa import knowledge as k; "
                 "k.for_text = lambda *a, **kw: {'selected': [], 'skipped': [], 'used_chars': 0, 'budget_chars': 0, "
                 "'registry_errors': []}; from voznativa.cli import main; sys.exit(main(sys.argv[1:]))")
 MAX_PROVIDER_FAILURES = 3
+API_RIGHTS = {"public_domain", "cc_by", "model_api_ok"}
 
 
 def provider_failed(rec: dict) -> bool:
@@ -59,7 +57,7 @@ def provider_failed(rec: dict) -> bool:
     if rec["arm"] == "A1_direct":
         return rec.get("exit_code") != 0 or not rec.get("output")
     if rec["arm"] == "A2_skill":
-        return not rec.get("final_written") and not rec.get("tools") and not rec.get("cost_usd")
+        return rec.get("exit_code") != 0 or not rec.get("final_written") or not rec.get("output")
     return False
 
 
@@ -99,7 +97,7 @@ def engine(task, text_file: Path, model, root: Path, work: Path, bare: bool, att
         attrs = dict(task["attrs"] if attrs_on else {}, pedido=task["request"])
         for key, value in attrs.items():
             args += ["--attr", f"{key}={value}"]
-    head = ([sys.executable, "-c", BARE] if bare else [sys.executable, "-c", NO_KNOWLEDGE] if not knowledge_on
+    head = ([sys.executable, "-c", NO_KNOWLEDGE] if bare or not knowledge_on
             else [sys.executable, "-m", "voznativa"])
     started = time.time()
     done = subprocess.run(head + args, cwd=root, capture_output=True, env=_env(log), timeout=1800)
@@ -145,17 +143,31 @@ def main(argv=None) -> int:
     ap.add_argument("--tasks-file", default=str(ROOT / "evals/v0105/live_tasks.json"))
     args = ap.parse_args(argv)
     root = Path(args.version_root).resolve()
-    items = {json.loads(x)["id"]: json.loads(x) for x in Path(args.items).expanduser().read_text(
-        encoding="utf-8").splitlines() if x.strip()}
-    tasks = [t for t in json.loads(Path(args.tasks_file).read_text(encoding="utf-8"))["tasks"]
+    item_rows = [json.loads(x) for x in Path(args.items).expanduser().read_text(
+        encoding="utf-8-sig").splitlines() if x.strip()]
+    items = {item["id"]: item for item in item_rows}
+    if len(items) != len(item_rows):
+        ap.error("duplicate item id")
+    tasks = [t for t in json.loads(Path(args.tasks_file).read_text(encoding="utf-8-sig"))["tasks"]
              if t["split"] == args.split and (not args.only or t["task"] in args.only)]
+    ids = {t["task"] for t in tasks}
+    if not tasks or len(ids) != len(tasks) or (args.only and set(args.only) - ids):
+        ap.error("the selected tasks must exist and have unique ids")
+    if args.reps < 1:
+        ap.error("--reps must be at least 1")
+    selected_arms = args.arms.split(",")
+    if set(selected_arms) - set(ALL_ARMS) or len(set(selected_arms)) != len(selected_arms):
+        ap.error("--arms must contain unique, known arms")
+    for task in tasks:
+        item = items.get(task["item"])
+        if item is None or item.get("rights") not in API_RIGHTS:
+            ap.error(f"{task['task']}: the source must explicitly permit sending text to a model")
     out_dir = Path(args.out_dir).expanduser() / args.label
     out_dir.mkdir(parents=True, exist_ok=True)
-    arms = [a for a in ALL_ARMS if a in args.arms.split(",")]
+    arms = [a for a in ALL_ARMS if a in selected_arms]
     failures = 0
     for task in tasks:
         item = items[task["item"]]
-        assert item["rights"] in ("public_domain", "cc_by", "model_api_ok"), "only API-eligible texts go to a provider"
         for rep in range(1, args.reps + 1):
             order = arms[:]
             random.Random(f"{task['task']}-{rep}").shuffle(order)
@@ -180,10 +192,14 @@ def main(argv=None) -> int:
                             "item": task["item"], "order": order.index(arm)})
                 if provider_failed(rec):
                     failures += 1
+                    rec["execution_failure"] = (
+                        "HOST_NO_DELIVERABLE" if arm == "A2_skill" and rec.get("exit_code") == 0
+                        else "EXECUTION_FAILED"
+                    )
                     (out_dir / "failed").mkdir(exist_ok=True)
                     (out_dir / "failed" / f"{target.stem}-{int(time.time())}.json").write_text(
                         json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
-                    print(task["task"], rep, arm, "PROVIDER_FAILED (not a result; retried on resume)", flush=True)
+                    print(task["task"], rep, arm, rec["execution_failure"], "(excluded from results)", flush=True)
                     if failures >= MAX_PROVIDER_FAILURES:
                         print("stopping: provider unavailable", flush=True)
                         return 75

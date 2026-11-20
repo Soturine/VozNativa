@@ -28,3 +28,6 @@ Uma licença da anotação nunca foi tratada como licença do texto. Nenhum docu
 Faixas: micro 44, curto 145, médio 122, longo 108, documento 8.
 
 **Não coberto** (sem fonte lícita disponível nesta rodada): mensagens e WhatsApp reais, e-mail, documentação técnica PT-BR escrita por pessoas, orientação de saúde, criativo, fala regional transcrita. Nenhum exemplo sintético foi posto no lugar deles e chamado de real.
+## Piloto online pós-Prova de Fogo
+
+A coleta de 20/11 reuniu cinco recortes autorizados em poesia, teatro, decreto, resumo acadêmico e manual técnico. A licença de C-ORAL-BRASIL I foi confirmada na fonte primária. Fala contemporânea, redações e notícia ficaram fora da geração por acesso ou direitos insuficientemente verificados. [Manifesto, fontes e condições](ONLINE_PILOT.md).

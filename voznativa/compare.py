@@ -705,9 +705,46 @@ def _bucket(counts: Counter) -> Counter:
     return merged
 
 
+_EMPHATIC_PRIVATIVE = re.compile(r"\b(sem)[ \t]+(nenhum(?:a?s?))[ \t]+(?=[^\W\d_])", re.I)
+
+
+def _privative_form(entry):
+    text = entry.sentence.text
+    positions = {m.start(2) for m in _EMPHATIC_PRIVATIVE.finditer(text)}
+    count = sum(m.category == "negation" and m.start in positions for m in entry.markers)
+    return normalize_surface(_EMPHATIC_PRIVATIVE.sub(r"\1 ", text)), count
+
+
+def _privative_offsets(src, out, alignment) -> dict[tuple[int, int], int]:
+    """Discount the emphatic determiner only when the rest of an aligned sentence agrees."""
+    targets = Counter(j for _, j, sim in alignment if j is not None and sim >= ALIGN_MIN_SIMILARITY)
+    offsets = {}
+    for i, j, sim in alignment:
+        if j is None or sim < ALIGN_MIN_SIMILARITY or targets[j] != 1:
+            continue
+        left, right = src.entries[i], out.entries[j]
+        if left.sentence.text == right.sentence.text:
+            continue
+        if not (_EMPHATIC_PRIVATIVE.search(left.sentence.text) or _EMPHATIC_PRIVATIVE.search(right.sentence.text)):
+            continue
+        a, old = _privative_form(left)
+        b, new = _privative_form(right)
+        if a == b and old != new:
+            offsets[i, j] = new - old
+    return offsets
+
+
 def _signal_issues(src, out, alignment) -> list[dict]:
     issues = []
     before, after = _bucket(src.signal_counts()), _bucket(out.signal_counts())
+    # GAP-29: "sem nenhum argumento" and "sem argumento" express the same absence.
+    offsets = {}
+    if (before["negation"] and after["negation"]
+            and (_EMPHATIC_PRIVATIVE.search(src.text) or _EMPHATIC_PRIVATIVE.search(out.text))):
+        offsets = _privative_offsets(src, out, alignment)
+    if offsets:
+        before["negation"] -= sum(-n for n in offsets.values() if n < 0)
+        after["negation"] -= sum(n for n in offsets.values() if n > 0)
     for label in sorted(set(before) | set(after)):
         delta = after.get(label, 0) - before.get(label, 0)
         if delta == 0:
@@ -719,7 +756,10 @@ def _signal_issues(src, out, alignment) -> list[dict]:
                 continue
             s_count = _bucket(src.entries[i].signal_counts()).get(label, 0)
             c_count = _bucket(out.entries[j].signal_counts()).get(label, 0)
-            if (c_count - s_count) * delta > 0:
+            local_delta = c_count - s_count
+            if label == "negation":
+                local_delta -= offsets.get((i, j), 0)
+            if local_delta * delta > 0:
                 located = {"source_sentence": src.entries[i].sentence.text,
                            "candidate_sentence": out.entries[j].sentence.text, "similarity": sim}
                 break
@@ -738,15 +778,16 @@ def _signal_issues(src, out, alignment) -> list[dict]:
             label=label, before=before.get(label, 0), after=after.get(label, 0),
             location=located,
             examples=_marker_examples(src if delta < 0 else out, label)))
-    issues += _moved_signal_issues(src, out, alignment, before, after)
+    issues += _moved_signal_issues(src, out, alignment, before, after, offsets)
     return issues
 
 
-def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
+def _moved_signal_issues(src, out, alignment, before, after, offsets=None) -> list[dict]:
     """A marker removed from one aligned sentence and added to another keeps
     the document's total unchanged ("A não contratou... O contrato prevê"):
     v0.7.0 CP9 found it passing as no_deterministic_issues."""
     issues = []
+    offsets = offsets or {}
     rules = signals.severity_rules()
     # v0.8.1 DF-09: two artefacts made legitimate edits far apart in a long document
     # look like one marker moved between sentences: (a) a source "sentence" with no
@@ -780,6 +821,8 @@ def _moved_signal_issues(src, out, alignment, before, after) -> list[dict]:
             extra = absorbed.get(j, []) if first_pair[j] == i else []
             delta = sum(_bucket(out.entries[k].signal_counts()).get(label, 0) for k in [j, *extra]) \
                 - _bucket(src.entries[i].signal_counts()).get(label, 0)
+            if label == "negation":
+                delta -= offsets.get((i, j), 0)
             (lost if delta < 0 else gained if delta > 0 else []).append((i, j))
         if lost and gained:
             critical = category in rules["critical_when_localized"]

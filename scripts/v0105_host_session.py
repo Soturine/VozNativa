@@ -18,32 +18,19 @@ import argparse
 import json
 import re
 import os
-import shutil
 import subprocess
 import time
 from pathlib import Path
 
-SKILL_PARTS = ("SKILL.md", "scripts/_bootstrap.py", "scripts/voznativa_cli.py", "voznativa", "references")
-
-
-def install_skill(src: Path, project: Path) -> Path:
-    dest = project / ".claude" / "skills" / "voznativa"
-    for part in SKILL_PARTS:
-        s, d = src / part, dest / part
-        d.parent.mkdir(parents=True, exist_ok=True)
-        if s.is_dir():
-            shutil.copytree(s, d, ignore=shutil.ignore_patterns("__pycache__"))
-        else:
-            shutil.copy2(s, d)
-    return dest
+from install_skill import install_skill
 
 
 def run(args) -> dict:
-    project = Path(args.workdir)
-    if project.exists():
-        shutil.rmtree(project)
-    project.mkdir(parents=True)
-    skill = install_skill(Path(args.skill_src), project) if not args.no_skill else None
+    project = Path(args.workdir).resolve()
+    project.mkdir(parents=True, exist_ok=True)
+    if any(project.iterdir()):
+        raise FileExistsError("o diretório da sessão precisa estar vazio")
+    skill = install_skill(Path(args.skill_src), project, "claude") if not args.no_skill else None
     (project / "texto.txt").write_text(Path(args.text).read_text(encoding="utf-8"), encoding="utf-8")
     request = args.request + ("\n\nUse a skill voznativa." if args.explicit else "")
     request += "\n\nO texto está em texto.txt. Grave a versão final em final.txt (igual ao original se não houver o que mudar)."
@@ -51,6 +38,8 @@ def run(args) -> dict:
     cmd = ["claude", "-p", request, "--model", args.model, "--output-format", "stream-json", "--verbose",
            "--allowedTools", "Read", "Write", "Edit", "Skill", "Bash(python:*)", "Bash(python3:*)", "Bash(py:*)",
            "--max-turns", str(args.max_turns)]
+    if getattr(args, "max_budget_usd", None) is not None:
+        cmd += ["--max-budget-usd", str(args.max_budget_usd)]
     started = time.time()
     done = subprocess.run(cmd, cwd=project, capture_output=True, env=env, timeout=args.timeout)
     seconds = round(time.time() - started, 1)
@@ -92,7 +81,7 @@ def run(args) -> dict:
     out_file = project / "final.txt"
     # a call the host refused never ran: count only the ones that did (v0.10.5 continuation)
     cli_calls = [t["input"] for t in tools if t["tool"] == "Bash" and "voznativa_cli.py" in t["input"]
-                 and not t.get("denied")]
+                 and "error" in t and not t.get("denied")]
     cli_denied = [t["input"] for t in tools if t["tool"] == "Bash" and "voznativa_cli.py" in t["input"] and t.get("denied")]
     return {
         "kind": "voznativa.host_session", "host": "claude-code", "host_version": subprocess.run(
@@ -131,6 +120,7 @@ def main(argv=None) -> int:
     ap.add_argument("--no-skill", action="store_true")
     ap.add_argument("--max-turns", type=int, default=30)
     ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--max-budget-usd", type=float)
     args = ap.parse_args(argv)
     record = run(args)
     Path(args.out).write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding="utf-8")

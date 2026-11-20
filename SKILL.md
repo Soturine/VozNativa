@@ -40,7 +40,7 @@ Chame o CLI desta skill direto, um comando por vez:
 python <diretório-da-skill>/scripts/voznativa_cli.py plan texto.txt --attr "pedido=…"
 ```
 
-Nos exemplos, `$VN` abrevia `python <diretório-da-skill>/scripts/voznativa_cli.py`; escreva o comando por extenso. Não encadeie `; echo $?` nem defina variável de shell antes: hosts com lista de permissões aprovam um comando `python …` e pedem aprovação para comandos compostos (observado no Claude Code). O código de saída não precisa ser impresso: o `status` vem no JSON.
+Nos exemplos, `$VN` abrevia `python <diretório-da-skill>/scripts/voznativa_cli.py`. Use a pasta do `SKILL.md` que o host carregou, como `.agents/skills/voznativa` no Codex. Em um checkout do VozNativa, `python scripts/voznativa_cli.py` usa essa própria revisão. Com a CLI da mesma versão instalada no ambiente, `python -m voznativa` também funciona. Escreva um comando por vez e leia o `status` do JSON.
 
 Requer Python 3.11+. `compare`, `ledger`, `judge-prompt`, `analyze` e `ground` usam só a biblioteca padrão; `route`, `refs`, `contract`, `profile` e `rewrite-prompt` precisam de PyYAML (`pip install pyyaml`). Se o Python não estiver disponível, siga o procedimento manualmente com as referências da tabela final **e diga ao usuário que os gates não rodaram**.
 

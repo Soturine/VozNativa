@@ -112,6 +112,10 @@ def main(argv=None) -> int:
         expect("offline_family_rows", count("#fam tbody tr") == len((D["offline"].get("v0.10.5") or {}).get("families", {})))
         expect("live_task_rows", count("#mx tbody tr") == len(D["live"]["tasks"]), count("#mx tbody tr"))
         expect("live_run_buttons", count("#mx button.pip") == len(D["live"]["runs"]), [count("#mx button.pip"), len(D["live"]["runs"])])
+        if P.get("online"):
+            expect("online_pilot_cases", count("#online-runs tbody tr") == len(P["online"]["cases"]))
+            expect("online_pilot_source_links", count('#online-runs tbody a[href^="https://"]') == len(P["online"]["cases"]))
+            expect("online_pilot_table_fits", page.locator("#online-runs").evaluate("(el) => el.scrollWidth <= el.parentElement.clientWidth"))
         expect("comparator_rows", count("#cmp tbody tr") == 8, count("#cmp tbody tr"))
         expect("judge_r6_rows", count("#r6 tbody tr") == (4 if D.get("judge") else 1), count("#r6 tbody tr"))
         n_hold = len({r["task"] for r in (D.get("holdout") or {}).get("runs", [])}) or 1
@@ -248,6 +252,9 @@ def main(argv=None) -> int:
             ctx, page = open_page(url, viewport={"width": w, "height": 860}, is_mobile=w < 700, has_touch=w < 700)
             over = page.evaluate("document.scrollingElement.scrollWidth - window.innerWidth")
             expect(f"no_horizontal_scroll_{w}", over <= 0, over)
+            if w == 390 and P.get("online"):
+                expect("online_pilot_mobile_cards", page.locator("#online-runs tbody tr").first.evaluate(
+                    "(el) => getComputedStyle(el).display === 'grid' && el.scrollWidth <= el.clientWidth"))
             if w == 390:
                 page.screenshot(path=str(shots / "mobile-top.png"))
                 for sec in ("minuto", "live", "mesa", "gaps"):

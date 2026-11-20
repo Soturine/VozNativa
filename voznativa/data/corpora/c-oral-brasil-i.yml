@@ -4,7 +4,7 @@ id: c-oral-brasil-i
 name: C-ORAL-BRASIL I
 maintainer: UFMG
 urls:
-  official: http://www.c-oral-brasil.org/
+  official: https://c-oral-brasil.org/c-oral-brasil-i.php
   official_kind: project_site
 identity_terms:
 - C-ORAL-BRASIL
@@ -19,7 +19,7 @@ period:
 license:
   code: CC-BY-NC-SA-4.0
   per_document: false
-  evidence: reported in arXiv 2110.15731; not verified on the project site
+  evidence: CC BY-NC-SA 4.0 declarada na página oficial de C-ORAL-BRASIL I, consultada em 2026-11-20
 access:
   type: open_download
   note: the project says published resources are downloadable from its site

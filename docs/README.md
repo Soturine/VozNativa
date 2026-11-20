@@ -64,6 +64,7 @@ Comece pelo [`README`](../README.md) do projeto. Esta página leva cada pessoa a
 | [v0.10.5/RELEASE_QUALIFICATION.md](releases/v0.10.5/RELEASE_QUALIFICATION.md) | qualificação da 0.10.5: R1–R18 congelados no CP0 | registro da v0.10.5 |
 | [v0.10.5/PLAN.md](releases/v0.10.5/PLAN.md) | plano, corpus, campanhas, orçamento, critérios congelados | registro da v0.10.5 |
 | [v0.10.5/FIRE_TRIAL_RESULTS.md](releases/v0.10.5/FIRE_TRIAL_RESULTS.md) | resultados: offline, braços live, juiz, holdout, documentos, custo | vigente |
+| [v0.10.5/ONLINE_PILOT.md](releases/v0.10.5/ONLINE_PILOT.md) | piloto ao vivo de PT-BR, fontes autorizadas, Codex e portabilidade da Skill | vigente |
 | [v0.10.5/SKILL_LIVE_DOGFOOD.md](releases/v0.10.5/SKILL_LIVE_DOGFOOD.md) | a Skill usada por um agente real: ativação, fluxo, decisões, qualidade | vigente |
 | [v0.10.5/ASSURANCE_RECIPROCAL.md](releases/v0.10.5/ASSURANCE_RECIPROCAL.md) | quatro trilhas: Framework, Engine, Assertiva, VozNativa | registro da v0.10.5 |
 | [v0.10.5/CORPUS_AND_LICENSES.md](releases/v0.10.5/CORPUS_AND_LICENSES.md) | corpus real e direitos por operação | vigente |

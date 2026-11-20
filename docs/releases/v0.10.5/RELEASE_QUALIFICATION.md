@@ -51,3 +51,5 @@ Os critérios R1–R18 congelados no CP0 não foram editados nem reclassificados
 - **R15 local:** `016637e` em checkout limpo. Suíte de desenvolvimento com 1.184 aprovações de 1.186 testes selecionados e 2 pulos. Build do sdist, wheel construído a partir dele, instalação em venv limpo e smoke do HTML fora do checkout passaram. Suíte contra o wheel com 1.176 aprovações e 10 pulos. A qualificação de release fica `INCOMPLETE` pelos controles externos.
 - **R18:** a mesa reabre o diff e o filtro pelo link compartilhado. O QA no Edge verificou também o relatório local em desktop e celular, com teclado, cópia, tema, foco nas mudanças, leitura completa, movimento reduzido e sem JavaScript. As capturas foram revisadas em ambos os tamanhos.
 - **R17:** o trabalho local segue na branch da v0.10.5. A integração e a CI final da `main` continuam pendentes.
+
+O piloto adicional mediu geração ao vivo em cinco fontes e o fluxo da Skill no Codex CLI. O Claude Code ficou bloqueado pela cota. A comparação entre hosts, a avaliação editorial independente e a cobertura regional contemporânea continuam em aberto. [Piloto online](ONLINE_PILOT.md).

@@ -142,3 +142,19 @@ class PresentPluralToImperfect(unittest.TestCase):
                      ("Os alunos falam, enquanto todos comentavam em voz baixa.",
                       "Os alunos conversam, enquanto vizinhos falavam em voz baixa.")):
             self.assertNotIn("verb_form_changed", codes(a, b), b)
+
+
+class PrivativeDeterminer(unittest.TestCase):
+    """V105-GAP-29: emphatic determiners can repeat an existing privative."""
+
+    def test_emphatic_determiner_in_same_phrase_is_not_a_polarity_change(self):
+        for a, b in (("Remova o item sem nenhum argumento.", "Remova o item sem argumento."),
+                     ("O serviço funciona sem tarifa.", "O serviço funciona sem nenhuma tarifa.")):
+            self.assertNotIn("negation_changed", codes(a, b))
+
+    def test_actual_changes_still_trigger_even_in_a_neighbouring_sentence(self):
+        self.assertIn("negation_changed", codes("Remova o item sem nenhum argumento.",
+                                               "Remova o item com um argumento."))
+        a = "Remova o item sem nenhum argumento. O sistema registra a operação."
+        b = "Remova o item sem argumento. O sistema não registra a operação."
+        self.assertIn("negation_changed", codes(a, b))

@@ -40,6 +40,7 @@ PT-BR fire trial: the product run on real Portuguese text nobody wrote for the e
 ### Final local pass (20/11)
 - GAP-22 flags locally aligned changes such as `criam` → `criavam`. The replay adds review to five saved P05 outputs. All 1,632 offline verdicts match the previous candidate.
 - Fixed repeated stdin reads, protected terms in `PROOFREAD`, judge attribution in best-of-N runs, dry-run call estimates, and Observatory deep links. Indexed planner findings and documentation links to avoid repeated scans.
+- An online PT-BR pilot ran on five sources with a live Codex writer and a separate Skill-host check. It found and corrected redundant privative negation counts (GAP-29). The shared installer supports Codex, Claude Code and Gemini CLI layouts.
 
 ## 0.10.0 — 2026-11-18 (GitHub release; not on PyPI)
 

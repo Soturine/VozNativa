@@ -136,5 +136,9 @@ Uso do fluxo pela Skill: ativada em 5 → 11 → 12 de 20; algum passo antes de 
 - **Campanha offline.** Os 427 itens e as 1.632 perturbações congeladas foram executados novamente. Os 1.632 estados coincidem com os da execução anterior da v0.10.5. São 1.624 respostas corretas pelo oráculo definido pelas transformações: 7 mudanças de sentido sem sinal e 1 falso alarme benigno. O replay não estima acurácia geral em PT-BR.
 - **GAP-22.** Replay do `compare` em todas as 180 saídas prospectivas já gravadas. Cinco saídas P05 passaram de `no_deterministic_issues` a `review_required`, todas por `verb_form_changed`: duas do LLM direto, duas da Skill v0.10.0 e uma da Skill final. Todas as outras saídas mantiveram o estado. A correção age quando o gate é executado.
 - **GAP-23.** As quatro omissões de edição no Engine prospectivo são P01-r1, P07-r1/r2 e P08-r2. As quatro terminaram em `returned_original` com duas chamadas cada. O registro dessas saídas guarda o resultado final e o número de chamadas. A necessidade de cada rejeição segue inconclusiva.
-- **Host e juiz.** O novo fluxo de entrega HTML foi testado pelo comando usado na Skill e em navegador. Nova rodada live com a Skill alterada: `NOT_RUN`. As notas do juiz, os resultados editoriais e os custos das campanhas anteriores foram preservados.
+- **Host e juiz.** Nesta verificação do fechamento, a entrega HTML foi testada pela CLI e em navegador. O piloto do host foi feito depois e está descrito na §9. As notas do juiz, os resultados editoriais e os custos das campanhas anteriores foram preservados.
+
+## 9. Piloto online adicional (20/11)
+
+Depois do fechamento local, cinco fontes de PT-BR foram coletadas pela internet e processadas pelo Codex ao vivo, com logs separados para geração mediada e execução agent-led no host. O experimento descobriu o GAP-29 em documentação técnica e validou a entrega HTML com fontes reais. Os recortes, as revisões e as sessões deste piloto não entram nas métricas dos braços congelados. [Método, casos e limites](ONLINE_PILOT.md).
 

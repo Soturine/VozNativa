@@ -497,7 +497,9 @@ def payload() -> dict:
             gates.append({"id": r[0], "criterion": _inline(r[1]), "floor": _inline(r[2]),
                           "status": _status(text) if res else "PENDING", "result": _inline(text)})
     tracks = json.loads((ROOT / "evals" / "v0105" / "tracks.json").read_text(encoding="utf-8"))
-    return {"data": data, "gaps": gaps, "gates": gates, "tracks": tracks,
+    pilot = ROOT / "evals" / "v0105" / "online_pilot.json"
+    online = json.loads(pilot.read_text(encoding="utf-8")) if pilot.is_file() else None
+    return {"data": data, "gaps": gaps, "gates": gates, "tracks": tracks, "online": online,
             "labels": {"arm": ARM_LABEL, "kind": KIND_LABEL, "family": FAMILY_LABEL, "version": VERSION_NAME,
                        "bands": list(BANDS)},
             "provenance": {"generator": f"scripts/v0105_observatory.py v{GENERATOR_VERSION}",

@@ -1,0 +1,243 @@
+{
+  "kind": "voznativa.online_pilot",
+  "date": "2026-11-20",
+  "cases": [
+    {
+      "id": "VON01",
+      "genre": "poesia",
+      "subgenre": "simbolismo",
+      "year": "1893",
+      "region_evidence": "Santa Catarina (autor)",
+      "rights": "public_domain",
+      "creator": "Cruz e Sousa",
+      "source": "https://pt.wikisource.org/wiki/Ant%C3%ADfona_(Cruz_e_Sousa)",
+      "sha256": "149856bde2e91cee535687677f17bcc5c5b60ad2c132aeec14e17e875e07f7ad",
+      "words": 44,
+      "request": "Faça uma revisão editorial conservadora deste trecho. Preserve os versos e a grafia de época. Devolva-o intacto se não houver erro inequívoco."
+    },
+    {
+      "id": "VON02",
+      "genre": "teatro",
+      "subgenre": "comédia de costumes",
+      "year": "1844",
+      "region_evidence": "Rio de Janeiro (ambientação)",
+      "rights": "public_domain",
+      "creator": "Martins Pena",
+      "source": "https://pt.wikisource.org/wiki/O_Judas_em_S%C3%A1bado_de_Aleluia",
+      "sha256": "49ddb1cb0d6d6f7c0a2315bc756387cb2306bc5a454526989064c6b6281f3b94",
+      "words": 106,
+      "request": "Revise apenas erros inequívocos de transcrição. Preserve a fala das personagens, a oralidade e a estrutura do diálogo teatral."
+    },
+    {
+      "id": "VON03",
+      "genre": "legal",
+      "subgenre": "decreto federal",
+      "year": "2017",
+      "region_evidence": "Brasil (jurisdição)",
+      "rights": "public_domain",
+      "creator": "Poder Executivo Federal",
+      "source": "https://www2.camara.leg.br/legin/fed/decret/2017/decreto-9094-17-julho-2017-785213-normaatualizada-pe.html",
+      "sha256": "cd3babebbe356596a85dcbbb92edf19b93b628f1a8643fb41eb904fc15482a16",
+      "words": 186,
+      "request": "Reescreva em português mais direto para quem usa o serviço público. Preserve o órgão responsável, todas as diretrizes, seus qualificadores e a numeração."
+    },
+    {
+      "id": "VON04",
+      "genre": "academic",
+      "subgenre": "resumo de história linguística",
+      "year": "2008",
+      "region_evidence": "Brasil (tema)",
+      "rights": "cc_by",
+      "creator": "Olga Ferreira Coelho",
+      "source": "https://revistas.usp.br/rieb/pt_BR/article/view/34619",
+      "sha256": "335285eb961f2235c3165031a681756f8559a5cd972e1d75cdb977cfe024fe2d",
+      "words": 124,
+      "request": "Corrija apenas erro inequívoco de transcrição. Preserve citações, datas, autoria, terminologia e grau de certeza."
+    },
+    {
+      "id": "VON05",
+      "genre": "technical",
+      "subgenre": "manual de programação",
+      "year": "edição web 2026",
+      "region_evidence": "Brasil (tradução)",
+      "rights": "model_api_ok",
+      "creator": "Python Software Foundation e tradutores",
+      "source": "https://docs.python.org/pt-br/3/tutorial/datastructures.html",
+      "sha256": "db0fa8da26672ed653cad83975842e88b683db79af0c849809f9e77637acc27d",
+      "words": 55,
+      "request": "Deixe a passagem do manual mais concisa. Preserve todos os comandos, nomes de métodos e a ordem em que as operações ocorrem."
+    }
+  ],
+  "mediated": [
+    {
+      "id": "VON01",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "keep",
+      "candidate_changed": false,
+      "delivered_changed": false,
+      "status": "identical",
+      "codes": [],
+      "html": true
+    },
+    {
+      "id": "VON02",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": true,
+      "status": "no_deterministic_issues",
+      "codes": [],
+      "html": true
+    },
+    {
+      "id": "VON03",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": false,
+      "status": "fail",
+      "codes": [
+        "modality_changed",
+        "polarity_changed",
+        "possible_addition",
+        "possible_omission",
+        "predicate_replaced",
+        "role_or_order_swapped"
+      ],
+      "html": true
+    },
+    {
+      "id": "VON04",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": true,
+      "status": "no_deterministic_issues",
+      "codes": [],
+      "html": true
+    },
+    {
+      "id": "VON05",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": false,
+      "status": "fail",
+      "codes": [
+        "modality_changed",
+        "negation_changed",
+        "possible_omission"
+      ],
+      "html": true
+    }
+  ],
+  "retried": [
+    {
+      "id": "VON03",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": true,
+      "status": "review_required",
+      "codes": [
+        "role_or_order_swapped"
+      ],
+      "html": true
+    },
+    {
+      "id": "VON05",
+      "provider": "codex-cli",
+      "plan": "no_change",
+      "writer_decision": "edit",
+      "candidate_changed": true,
+      "delivered_changed": false,
+      "status": "fail",
+      "codes": [
+        "condition_changed",
+        "length_ratio",
+        "paragraphs_changed",
+        "polarity_changed",
+        "possible_addition",
+        "span_added"
+      ],
+      "html": true
+    }
+  ],
+  "host": [
+    {
+      "id": "VON01",
+      "invocation": "explicit",
+      "status": "identical",
+      "html": true,
+      "entrypoint": "checkout_fallback",
+      "comparison_observed": true,
+      "final": true
+    },
+    {
+      "id": "VON02",
+      "invocation": "implicit_request",
+      "exit": 0,
+      "cli_calls": 4,
+      "skill_read": true,
+      "html": true,
+      "final": true,
+      "final_status": "no_deterministic_issues",
+      "final_codes": [],
+      "status": "no_deterministic_issues",
+      "comparison_observed": true
+    },
+    {
+      "id": "VON03",
+      "invocation": "explicit",
+      "exit": 0,
+      "cli_calls": 16,
+      "skill_read": true,
+      "html": true,
+      "final": true,
+      "final_status": "no_deterministic_issues",
+      "final_codes": [
+        "paragraphs_changed",
+        "predicate_replaced"
+      ],
+      "status": "no_deterministic_issues",
+      "comparison_observed": true
+    },
+    {
+      "id": "VON04",
+      "invocation": "implicit_request",
+      "exit": 0,
+      "cli_calls": 0,
+      "skill_read": true,
+      "html": false,
+      "final": true,
+      "final_status": "no_deterministic_issues",
+      "final_codes": [],
+      "status": "INCOMPLETE",
+      "observation": "custom_html_without_cli"
+    },
+    {
+      "id": "VON05",
+      "invocation": "explicit",
+      "exit": 0,
+      "cli_calls": 6,
+      "skill_read": true,
+      "html": true,
+      "final": true,
+      "final_status": "no_deterministic_issues",
+      "final_codes": [],
+      "status": "no_deterministic_issues",
+      "comparison_observed": true
+    }
+  ],
+  "other_hosts": {
+    "claude_code": "BLOCKED_QUOTA",
+    "gemini_cli": "NOT_RUN",
+    "codex_isolated_smoke": "INCOMPLETE"
+  }
+}

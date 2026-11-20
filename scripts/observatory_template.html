@@ -236,6 +236,18 @@ td.r,th.r{text-align:right}
 .flag.ok{color:var(--good);background:color-mix(in srgb,var(--good) 10%,transparent)}
 .cmp td,.cmp th{white-space:nowrap}
 .cmp td.arm{font-weight:600}
+#online-runs{table-layout:fixed}
+#online-runs th,#online-runs td{white-space:normal;overflow-wrap:anywhere}
+#online-runs td:before{display:none}
+@media(max-width:640px){
+  #online-runs,#online-runs tbody{display:block}
+  #online-runs thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  #online-runs tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px;padding:12px 14px}
+  #online-runs tr+tr{border-top:1px solid var(--rule-2)}
+  #online-runs td{border:0;padding:0;font-size:.8rem}
+  #online-runs td:nth-child(-n+2){grid-column:1/-1}
+  #online-runs td[data-label]:before{content:attr(data-label);display:block;margin-top:5px;color:var(--ink-3);font-size:.73rem}
+}
 .cmp tr.v0105 td{background:color-mix(in srgb,var(--v105) 6%,transparent)}
 .cmp tbody tr.first td{border-top:1px solid var(--rule)}
 .mx tfoot td{font-size:.8rem;color:var(--ink-2);background:var(--sheet-2);vertical-align:top}
@@ -536,6 +548,13 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
       <h3>Ablação válida: o mesmo pedido, com e sem atributos e conhecimento</h3>
       <div class="panel reveal scroll-x"><table class="cmp" id="pr-abl"></table></div>
       <p class="note" id="pr-note"></p>
+      <div id="online-pilot" hidden>
+        <h3>Piloto online com fontes PT-BR</h3>
+        <p class="note">Escrita por modelo ao vivo, gates locais e verificação do HTML. As colunas mostram o resultado observado em cada execução.</p>
+        <div class="panel"><table class="cmp" id="online-runs" role="table"></table></div>
+        <p class="note" id="online-note"></p>
+        <p class="note"><a href="../releases/v0.10.5/ONLINE_PILOT.md">Método, direitos de uso e resultados do piloto →</a></p>
+      </div>
     </section>
 
     <section class="s" id="mesa" data-title="Mesa de revisão">
@@ -1023,6 +1042,33 @@ renderLive();
 })();
 
 /* ---------------- section: review desk ---------------- */
+(function(){
+  var pilot = P.online;
+  if (!pilot || !pilot.cases.length) return;
+  var first = new Map((pilot.mediated || []).map(function(r){ return [r.id, r]; }));
+  var host = new Map((pilot.host || []).map(function(r){ return [r.id, r]; }));
+  var status = {identical:"Original mantido", no_deterministic_issues:"Equivalência a verificar",
+    review_required:"Revisão necessária", fail:"Reprovada", INCOMPLETE:"Execução incompleta"};
+  function cell(run){
+    if (!run) return chip("NOT_RUN");
+    var state = run.status || run.final_status;
+    return '<b>' + esc(status[state] || state || "Sem entrega") + '</b>' +
+      (run.html ? ' <span class="flag ok">HTML</span>' : '');
+  }
+  var planLabel = "Codex com plano", hostLabel = "Codex no host";
+  $("#online-runs").innerHTML = '<thead role="rowgroup"><tr role="row"><th scope="col">Fonte</th><th scope="col">Gênero e época</th><th scope="col">' + planLabel + '</th><th scope="col">' + hostLabel + '</th></tr></thead><tbody role="rowgroup">' +
+    pilot.cases.map(function(c){
+      var url = /^https:\/\//.test(c.source) ? c.source : "";
+      var label = esc(c.creator);
+      var source = url ? '<a href="' + esc(url) + '">' + label + '</a>' : label;
+      return '<tr role="row"><td role="cell"><span class="mono">' + esc(c.id) + '</span> · ' + source + '</td><td role="cell">' +
+        esc(c.subgenre) + ' · ' + esc(c.year) + '</td><td role="cell" data-label="' + planLabel + '">' + cell(first.get(c.id)) +
+        '</td><td role="cell" data-label="' + hostLabel + '">' + cell(host.get(c.id)) + '</td></tr>';
+    }).join("") + '</tbody>';
+  $("#online-note").textContent = "Piloto de desenvolvimento. Claude Code bloqueado por cota e Gemini não executado. Os textos e relatórios das sessões ficam no armazenamento local.";
+  $("#online-pilot").hidden = false;
+})();
+
 var desk = {task:null, rep:1, left:"original", right:null, mode:(window.matchMedia && matchMedia("(max-width:760px)").matches ? "inline" : "split"), unit:"word", fold:false, cur:-1};
 var pubTasks = TASKS.concat(PTASKS).filter(function(t){ return TEXTS[t.task]; });
 var curGroups = [], curOps = [];
