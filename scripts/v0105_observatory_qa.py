@@ -87,14 +87,14 @@ def main(argv=None) -> int:
         checks["browser"] = ("msedge " if kwargs else "chromium ") + browser.version
         errors: list[str] = []
 
-        def open_page(url, **ctx):
+        def open_page(url, *, ready="html[data-ready]", **ctx):
             context = browser.new_context(accept_downloads=True, **ctx)
             context.grant_permissions(["clipboard-read", "clipboard-write"])
             page = context.new_page()
             page.on("console", lambda m: errors.append(f"console.{m.type}: {m.text}") if m.type == "error" else None)
             page.on("pageerror", lambda e: errors.append(f"pageerror: {e}"))
             page.goto(url)
-            page.wait_for_selector("html[data-ready]", timeout=10000)
+            page.wait_for_selector(ready, timeout=10000)
             return context, page
 
         url = page_path.as_uri()
@@ -189,6 +189,11 @@ def main(argv=None) -> int:
             rows_all = page.locator("#d-rows .p:not([hidden])").count()
             page.click("#d-fold")
             expect("diff_fold", page.locator("#d-rows .p:not([hidden])").count() <= rows_all)
+            folded_url = page.url
+            page.reload()
+            page.wait_for_selector("html[data-ready]")
+            expect("deep_link_restores_fold", page.get_attribute("#d-fold", "aria-pressed") == "true"
+                   and f'caso={target["task"]}' in folded_url)
             page.click("#d-fold")
             page.click("#d-copy")
             page.wait_for_timeout(200)
@@ -251,6 +256,43 @@ def main(argv=None) -> int:
                     page.locator("#" + sec).screenshot(path=str(shots / f"mobile-{sec}.png"))
             ctx.close()
 
+        sample = page_path.with_name("relatorio-exemplo.html")
+        if sample.exists():
+            url_report = sample.as_uri()
+            ctx, report = open_page(url_report, ready="#theme", viewport={"width": 1440, "height": 980},
+                                    color_scheme="light")
+            expect("report_diff_and_rationales", report.locator(".pair.change").count() == 2 and
+                   report.locator(".reasons li").count() == 4 and report.locator(".reasons .jump").count() == 4)
+            expect("report_diff_marks", report.locator(".pair del").count() > 0
+                   and report.locator(".pair ins").count() > 0 and "Equivalência a verificar" in report.inner_text(".badge"))
+            report.screenshot(path=str(shots / "relatorio-desktop.png"), full_page=True, animations="disabled")
+            report.click("#next")
+            expect("report_change_keyboard_focus", report.evaluate("document.activeElement.id") == "mudanca-1")
+            report.keyboard.press("ArrowRight")
+            expect("report_change_keyboard_navigation", report.inner_text("#progress") == "2/2")
+            report.click("#changes")
+            expect("report_focus_changes", report.locator(".pair.same:visible").count() == 0)
+            report.click("#reading")
+            expect("report_reading_all_text", report.locator(".pair.same:visible").count() > 0
+                   and report.locator(".pair .before:visible").count() == 0)
+            report.click("#copy")
+            copied = report.evaluate("navigator.clipboard.readText()")
+            expect("report_copies_full_candidate", "A confirmação chega por e-mail." in copied
+                   and "Você deve enviar" in copied and "Vale ressaltar" not in copied)
+            report.click("#theme")
+            expect("report_theme", report.get_attribute("html", "data-theme") == "dark")
+            ctx.close()
+            ctx, report = open_page(url_report, ready="#theme", viewport={"width": 390, "height": 844},
+                                    is_mobile=True, has_touch=True, color_scheme="dark", reduced_motion="reduce")
+            expect("report_mobile_width", report.evaluate("document.scrollingElement.scrollWidth <= innerWidth"))
+            expect("report_reduced_motion", report.evaluate("getComputedStyle(document.querySelector('.desk')).animationName") == "none")
+            report.screenshot(path=str(shots / "relatorio-mobile.png"), full_page=True)
+            ctx.close()
+            ctx, report = open_page(url_report, ready="#why", java_script_enabled=False)
+            expect("report_without_script", report.locator(".pair.change:visible").count() == 2 and
+                   report.locator(".reasons li:visible").count() == 4)
+            ctx.close()
+
         # ---- missing data and hostile data
         empty = json.loads(json.dumps(P))
         empty["data"]["live"]["runs"] = []
@@ -280,7 +322,7 @@ def main(argv=None) -> int:
         hostile["tracks"]["tracks"][0]["findings"].append(HOSTILE)
         f = Path(tmp) / "hostile.html"
         f.write_text(with_payload(html, hostile), encoding="utf-8")
-        ctx, page = open_page(f.as_uri() + "#mesa?caso=%3Cimg%20src%3Dx%3E&dir=%22%3E%3Cimg", viewport={"width": 1280, "height": 800})
+        ctx, page = open_page(f.as_uri() + "#mesa?caso=%E0%A4%A&dir=%22%3E%3Cimg", viewport={"width": 1280, "height": 800})
         page.locator("#units .u").first.hover()
         page.wait_for_timeout(300)
         expect("hostile_strings_inert", page.evaluate("window.__xss === undefined") and

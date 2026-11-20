@@ -442,6 +442,7 @@ dialog kbd{font:500 .76rem var(--mono);border:1px solid var(--rule);border-botto
         <div class="kicker">Caderno de prova · português brasileiro real</div>
         <h1>A prova de fogo da v0.10.5, <em>com cada número</em> ligado à sua evidência</h1>
         <p class="dek">Textos que ninguém escreveu para o motor: Machado de Assis, leis federais, resumos acadêmicos com licença aberta. Perturbações com resposta conhecida, sessões reais da Skill num agente, o mesmo modelo em quatro braços e um juiz cego. O que melhorou, o que ficou igual e o que segue aberto.</p>
+        <p class="note"><a href="relatorio-exemplo.html">Abrir exemplo do relatório entregue pela Skill →</a></p>
         <div class="galley reveal" id="galley" hidden></div>
       </div>
       <dl class="ficha" id="ficha"></dl>
@@ -1072,17 +1073,19 @@ function initDesk(){
   $("#d-map").addEventListener("click", function(e){ var m = e.target.closest("button"); if (m) select(+m.getAttribute("data-g"), true); });
   buildDesk();
 }
-function hashFor(){ return "mesa?caso=" + encodeURIComponent(desk.task) + "&rep=" + desk.rep + "&esq=" + encodeURIComponent(desk.left) + "&dir=" + encodeURIComponent(desk.right) + "&leitura=" + desk.mode + "&unidade=" + desk.unit; }
+function hashFor(){ return "mesa?" + new URLSearchParams({caso:desk.task,rep:desk.rep,esq:desk.left,dir:desk.right,leitura:desk.mode,unidade:desk.unit,soMudancas:desk.fold ? "1" : "0"}); }
 function readHash(){
-  var h = decodeURIComponent(location.hash.slice(1)); if (h.indexOf("mesa?") !== 0) return;
-  var q = {}; h.slice(5).split("&").forEach(function(kv){ var i = kv.indexOf("="); if (i > 0) q[kv.slice(0, i)] = kv.slice(i + 1); });
-  if (q.caso && TEXTS[q.caso]) desk.task = q.caso;
+  var h = location.hash.slice(1); if (h.indexOf("mesa?") !== 0) return;
+  var q = new URLSearchParams(h.slice(5)), task = q.get("caso"), rep = q.get("rep");
+  var left = q.get("esq"), right = q.get("dir"), mode = q.get("leitura"), unit = q.get("unidade");
+  if (task && Object.hasOwn(TEXTS, task)) desk.task = task;
   var keys = deskOptions(desk.task);
-  if (q.rep && /^[1-9]$/.test(q.rep) && desk.task && +q.rep <= maxRep(desk.task)) desk.rep = +q.rep;
-  if (keys.indexOf(q.esq) >= 0) desk.left = q.esq;
-  if (keys.indexOf(q.dir) >= 0) desk.right = q.dir;
-  if (q.leitura === "inline" || q.leitura === "split") desk.mode = q.leitura;
-  if (q.unidade === "word" || q.unidade === "sentence") desk.unit = q.unidade;
+  if (rep && /^[1-9]$/.test(rep) && desk.task && +rep <= maxRep(desk.task)) desk.rep = +rep;
+  if (keys.includes(left)) desk.left = left;
+  if (keys.includes(right)) desk.right = right;
+  if (mode === "inline" || mode === "split") desk.mode = mode;
+  if (unit === "word" || unit === "sentence") desk.unit = unit;
+  desk.fold = q.get("soMudancas") === "1";
 }
 function buildDesk(keepScroll){
   repButtons();
@@ -1103,7 +1106,7 @@ function buildDesk(keepScroll){
   renderRows(); renderSide(); markSelectedPip();
   var insW = 0, delW = 0; curOps.forEach(function(o){ if (o.o === "+") insW += desk.unit === "word" ? wordsIn(o.b) : 1; if (o.o === "-") delW += desk.unit === "word" ? wordsIn(o.a) : 1; });
   var u = desk.unit === "word" ? ["palavra inserida","palavras inseridas","palavra removida","palavras removidas"] : ["frase inserida","frases inseridas","frase removida","frases removidas"];
-  $("#d-stats").innerHTML = A === B ? "<b>Textos idênticos.</b> A execução devolveu o original." :
+  $("#d-stats").innerHTML = A === B ? "<b>Textos idênticos nas versões selecionadas.</b>" :
     '<b class="num">' + fmt(curGroups.length) + '</b> trechos alterados · <span style="color:var(--ins)">+' + fmt(insW) + " " + (insW === 1 ? u[0] : u[1]) + '</span> · <span style="color:var(--del)">−' + fmt(delW) + " " + (delW === 1 ? u[2] : u[3]) + '</span>';
   $("#d-pos").textContent = curGroups.length ? "– / " + curGroups.length : "0 / 0";
   try { history.replaceState(null, "", "#" + hashFor()); } catch(e) {}
@@ -1122,11 +1125,11 @@ function renderRows(){
   curOps.forEach(function(op){
     if (op.o === "=" && /\n\n/.test(op.a.t + op.a.ws) && /\n\n/.test(op.b.t + op.b.ws)){
       cur.l += esc(op.a.t + op.a.ws); cur.r += esc(op.b.t + op.b.ws); rows.push(cur); cur = {l:"", r:"", changed:false}; return; }
-    if (op.o === "=") { cur.l += esc(op.a.t + op.a.ws); cur.r += esc(op.b.t + op.b.ws); if (desk.mode === "inline") cur.r = cur.r; return; }
+    if (op.o === "=") { cur.l += esc(op.a.t + op.a.ws); cur.r += esc(op.b.t + op.b.ws); return; }
     cur.changed = true;
     var mk = marker(op);
     if (op.o === "-"){ cur.l += mk + seg(op.a, "a", op); if (desk.mode === "inline") cur.r += mk + seg(op.a, "a", op); }
-    else { cur.r += (desk.mode === "inline" && startedG[op.g] === 1 && mk === "" ? "" : mk) + seg(op.b, "b", op); }
+    else { cur.r += mk + seg(op.b, "b", op); }
   });
   if (cur.l || cur.r) rows.push(cur);
   var h = desk.mode === "split" ? '<div class="hdr">' + esc(optionLabel(desk.left)) + '</div><div class="hdr">' + esc(optionLabel(desk.right)) + '</div>' :

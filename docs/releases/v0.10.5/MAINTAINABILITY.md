@@ -45,3 +45,17 @@ Os quatro ciclos herdados (`community↔packs`, `ptbr↔router`, `router↔tempo
 Derivanta Engine na mesma pasta, v0.10.0 × `69b81d8`: `COMPARABLE`, 212 persistentes, 20 novos, 1 ausente. Os 5 novos em relação à triagem anterior estão nos scripts do Observatory: 4 de complexidade (aceitos, scripts de campanha) e 1 de duplicação **real e com divergência**. A lista de braços estava copiada do harness e não conhecia a ablação nova; o gerador passou a importá-la do harness (V105-GAP-20).
 
 Caminhos frágeis revistos: o fluxo de documentos resolvia `--work` relativo ao `cwd` do CLI (V105-HARNESS-04, corrigido com `resolve()`); `PIP_NO_BUILD_ISOLATION=0` e a pasta temporária do pytest são do ambiente desta máquina e estão documentados em `ASSURANCE_RECIPROCAL.md`; nenhum código do VozNativa depende deles.
+
+## Auditoria de fechamento (20/11)
+
+O inventário cobre 114 documentos de produto, guias e arquivos históricos. Os links relativos foram conferidos em 181 Markdown rastreados, incluindo referências e avaliações, sem destino ausente. A busca de imports, nomes e candidatos a remoção abrangeu 147 arquivos Python de `voznativa/` e `scripts/`, com leitura direcionada da CLI, motor, planejamento, gerador e integração da Skill. O [registro de gaps](GAP_REGISTER.md) concentra reprodução, correção e risco residual. O [roadmap](../../../ROADMAP.md) agrega as pendências por resultado esperado.
+
+| Área | Mudança e evidência |
+|---|---|
+| Imports e código morto | Removidos `compare` de `scripts/bench_v3.py`, `documents` de `scripts/corpus_crossgenre.py`, `HttpLimits` de `voznativa/corpus/verify.py` e a regex `VERSION` de `scripts/doc_inventory.py`. Na mesa do Observatory saíram uma autoatribuição e um ramo cujo resultado já era vazio. Ruff passou nas regras de import, redefinição e atribuição sem uso. A busca por referências nas funções privadas não encontrou candidata segura à remoção com a evidência disponível. |
+| Inventário de docs | Passa a resolver links uma vez e identifica versões com três componentes, como `0.10.5`. Mesmo checkout, medições de ponta a ponta de 24,79 s antes e 1,36 s depois, uma amostra por versão. |
+| Planejador | Indexa achados por frase e linhas por parágrafo, eliminando duas varreduras repetidas. Em três execuções intercaladas em Windows/Python 3.12.6, o plano teve o mesmo hash em 2.200, 8.800 e 17.600 palavras. Na entrada maior, mediana de CPU de 2,969 → 2,953 s. Ganho global de latência inconclusivo. |
+| Comparador | Ignora a análise repetida de tempo quando a frase alinhada é literalmente igual. No probe sintético de 17.600 palavras, menor tempo de CPU de 5,69 s ante 6,09 s na v0.10.0 (0,93×, três repetições por versão no mesmo Windows/Python). O resultado vale para o cenário de uma frase acrescida ao documento. |
+| Fluxo e evidência | Corrigidos stdin consumido, proteção omitida em revisão formal, atribuição do juiz e estimativa do dry-run (GAP-24 a 27). A mesa restaura o estado compartilhado e tolera URL malformada (GAP-28). |
+
+O HTML da Skill usa o relatório real da operação e mantém justificativas fornecidas pelo agente distintas dos sinais produzidos pelo motor. A escrita usa nome de saída novo e preserva a semântica do JSON e do código de saída quando o arquivo é gravado.

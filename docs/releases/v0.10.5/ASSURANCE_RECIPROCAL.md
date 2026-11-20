@@ -79,3 +79,7 @@ Os READMEs da Assertiva, do Engine e do Framework estão em inglês. A guarda de
 | Limites declarados pela ferramenta | só o wheel foi verificado, não o sdist; nenhuma instalação limpa a partir de índice (offline); build sem isolamento (backend no próprio venv) | idem |
 
 Isso fecha por execução a atribuição `ENVIRONMENT` da primeira auditoria: com o backend presente, o mesmo projeto qualifica. CI do PR #11 conferida na cabeça atual (`4325936`): Python 3.11, Windows e validate verdes. `AUDIT_EXECUTED`.
+
+## Estado conferido no fechamento (20/11)
+
+Os PRs externos seguem abertos nos commits `a9eb371` (Engine), `4325936` (Assertiva) e `3cd47e5` (Framework). A auditoria local desta etapa executou a suíte nativa, o replay e o navegador. [Engine #6](https://github.com/Soturine/Derivanta-Engine/pull/6) · [Assertiva #11](https://github.com/Soturine/Assertiva/pull/11) · [Framework #13](https://github.com/Soturine/Derivanta/pull/13).

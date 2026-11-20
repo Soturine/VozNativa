@@ -43,3 +43,11 @@ Os critérios R1–R18 congelados no CP0 não foram editados nem reclassificados
 **Opções para o mantenedor** (a qualidade editorial da Skill não melhorou de forma mensurável):
 (a) segurar a 0.10.5 e trabalhar GAP-16/17/22/23 antes de lançar;
 (b) lançar a 0.10.5 **como release de detecção, segurança e decisão de editar**, com o "sem ganho de qualidade da Skill" visível nas notas e no Observatory, como já está escrito. A escolha é do mantenedor; nenhum critério foi afrouxado depois da medição.
+
+## Fechamento local (20/11)
+
+- **R2/R7/R9:** sinal de revisão do GAP-22 validado no replay. Cinco das 180 saídas prospectivas passam a pedir revisão, todas no caso P05. As 1.632 perturbações offline nos 427 itens repetem os estados anteriores. Outros reparos da CLI e do motor estão no registro de gaps.
+- **R5/R6:** as sessões gravadas e o juízo cego anterior validam os resultados daquelas revisões. Execução live da instrução HTML atualizada, juízo humano e avaliação por outro fornecedor continuam `NOT_RUN`.
+- **R15 local:** `016637e` em checkout limpo. Suíte de desenvolvimento com 1.184 aprovações de 1.186 testes selecionados e 2 pulos. Build do sdist, wheel construído a partir dele, instalação em venv limpo e smoke do HTML fora do checkout passaram. Suíte contra o wheel com 1.176 aprovações e 10 pulos. A qualificação de release fica `INCOMPLETE` pelos controles externos.
+- **R18:** a mesa reabre o diff e o filtro pelo link compartilhado. O QA no Edge verificou também o relatório local em desktop e celular, com teclado, cópia, tema, foco nas mudanças, leitura completa, movimento reduzido e sem JavaScript. As capturas foram revisadas em ambos os tamanhos.
+- **R17:** o trabalho local segue na branch da v0.10.5. A integração e a CI final da `main` continuam pendentes.

@@ -131,3 +131,10 @@ Uso do fluxo pela Skill: ativada em 5 → 11 → 12 de 20; algum passo antes de 
 
 **Atributos e conhecimento: `NO_MEASURABLE_GAIN`** isoladamente. Tirar os dois juntos tende a piorar a fidelidade (0 melhores, 3 piores), mas com n = 20 pares e diferenças pequenas é `INCONCLUSIVE`. As variantes alteraram exatamente os mesmos 8 textos: o que decide se o engine edita é o pedido e o modo, não os atributos nem o conhecimento.
 
+## 8. Replay local de fechamento (20/11)
+
+- **Campanha offline.** Os 427 itens e as 1.632 perturbações congeladas foram executados novamente. Os 1.632 estados coincidem com os da execução anterior da v0.10.5. São 1.624 respostas corretas pelo oráculo definido pelas transformações: 7 mudanças de sentido sem sinal e 1 falso alarme benigno. O replay não estima acurácia geral em PT-BR.
+- **GAP-22.** Replay do `compare` em todas as 180 saídas prospectivas já gravadas. Cinco saídas P05 passaram de `no_deterministic_issues` a `review_required`, todas por `verb_form_changed`: duas do LLM direto, duas da Skill v0.10.0 e uma da Skill final. Todas as outras saídas mantiveram o estado. A correção age quando o gate é executado.
+- **GAP-23.** As quatro omissões de edição no Engine prospectivo são P01-r1, P07-r1/r2 e P08-r2. As quatro terminaram em `returned_original` com duas chamadas cada. O registro dessas saídas guarda o resultado final e o número de chamadas. A necessidade de cada rejeição segue inconclusiva.
+- **Host e juiz.** O novo fluxo de entrega HTML foi testado pelo comando usado na Skill e em navegador. Nova rodada live com a Skill alterada: `NOT_RUN`. As notas do juiz, os resultados editoriais e os custos das campanhas anteriores foram preservados.
+

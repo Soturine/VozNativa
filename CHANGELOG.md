@@ -32,9 +32,14 @@ PT-BR fire trial: the product run on real Portuguese text nobody wrote for the e
 - Prospective holdout (10 new tasks, new authors and sources, frozen before measuring): engine correct edit decisions 6 → 10 of 16; Skill correct decisions 9 → 11 of 16 and fidelity 3.95 → 4.40, but **no measurable quality gain** (meets the request on edit tasks 4.38 → 3.88, inside the noise of the control). Valid ablation with the same request: attributes and knowledge show no measurable gain.
 
 ### Added
+- **Editorial HTML per delivery.** The Skill saves a local report with a word diff, linked before/after rationales, review status, and findings. `compare`, `ground` and `rewrite` expose `--html-out`. Includes changed-only and reading views, keyboard navigation, mobile layout, and reduced motion.
 - Fire-trial harness (`scripts/v0105_*.py`): deterministic corpus builder with rights per operation, offline metamorphic campaign, live arms (direct LLM, Skill in a real host, engine, engine without context), blind judge with an engine-independent oracle, whole-document flows. Provider failures are never written as results.
 - **VozNativa Observatory** (`scripts/v0105_observatory.py`, `docs/observatory/index.html`): static, self-contained results site with corpus map, metamorphic dumbbells with intervals, live run matrix and arm comparator, review desk with aligned diff and run timeline, gaps, four tracks, criteria and exports; browser QA in `scripts/v0105_observatory_qa.py`.
 - `evals/test_v0105_import_graph.py`: the four inherited import cycles close only inside functions; a module-level cycle fails the suite.
+
+### Final local pass (20/11)
+- GAP-22 flags locally aligned changes such as `criam` → `criavam`. The replay adds review to five saved P05 outputs. All 1,632 offline verdicts match the previous candidate.
+- Fixed repeated stdin reads, protected terms in `PROOFREAD`, judge attribution in best-of-N runs, dry-run call estimates, and Observatory deep links. Indexed planner findings and documentation links to avoid repeated scans.
 
 ## 0.10.0 — 2026-11-18 (GitHub release; not on PyPI)
 

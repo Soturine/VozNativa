@@ -98,3 +98,6 @@ Codex, Gemini CLI e outros hosts; modelo escritor diferente de Haiku; revisão h
 
 **Conclusão honesta.** A Skill passou a ser usada de verdade com mais frequência e erra menos ao decidir não mexer. A qualidade da escrita **não** melhorou de forma mensurável, e as mudanças desta continuação não mudaram isso. O agente ainda entrega sem gate (P05) e entrega candidata reprovada com ressalvas, sem dizer que foi reprovada (P08). Uma instrução escrita não garante comportamento do host.
 
+## Entrega HTML (20/11)
+
+O [fluxo atual da Skill](../../../SKILL.md) pede um relatório na última checagem da entrega, inclusive para uma decisão de manter o original. A verificação local executou o mesmo ponto de entrada `scripts/voznativa_cli.py` com os textos e motivos do [exemplo público](../../observatory/relatorio-exemplo.html). A suíte verificou também os estados de reprovação, revisão formal, criação e original mantido. A nova instrução de entrega pelo agente dentro do host segue `NOT_RUN`. O replay do caso P05 valida o alerta do motor quando o agente chama `compare`; os dados de aderência da tabela são da campanha anterior.

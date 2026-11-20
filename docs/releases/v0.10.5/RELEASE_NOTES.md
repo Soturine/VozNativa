@@ -54,7 +54,13 @@ The account hit its 5-hour limit mid-campaign, and 83 runs were recorded as resu
 - **Prospective holdout:** 10 tasks frozen before measuring, with authors and sources not used in development (Lima Barreto, João do Rio, Euclides da Cunha, Júlia Lopes de Almeida, Python docs in Portuguese, Agência Brasil). It confirms the engine gain (correct edit decisions 6 → 10 of 16, no critical error). **It shows no measurable writing-quality gain for the Skill**: more faithful than v0.10.0, but not better at meeting the request. The direct LLM edited every text that should have come back unchanged and had 7 critical errors in 20 outputs.
 - **Valid ablation** (same request in every variant): attributes and knowledge show no measurable gain on their own.
 - The Skill uses the VozNativa flow more often (steps before writing 0 → 9 of 20), but the agent still sometimes edits without any gate or delivers a rejected candidate. A written instruction does not guarantee host behaviour.
-- New open findings: a verb change that alters meaning ("criam" → "criavam") passes `compare` (V105-GAP-22); the engine is still too conservative on tasks that require an edit (V105-GAP-23).
+- The engine still misses edits on some tasks that require an edit (V105-GAP-23). The verb change from P05 (V105-GAP-22) now requires review when the form changes in a shared local context.
+
+## Editorial delivery (20/11)
+
+The Skill now generates a local, self-contained HTML report with a highlighted before/after, linked editorial reasons, the gate result and any pending review. The CLI supports `--html-out` for `compare`, `ground` and `rewrite`. See the [sample](../../observatory/relatorio-exemplo.html) and [usage](../../guide/AGENT_SKILL.md#relatório-local-de-revisão).
+
+An offline replay reproduced all 1,632 previous statuses. Of 180 saved prospective outputs, five move to review for the P05 verb change. The replay measures the gate on saved text. Quality measurements for live generation still refer to the original campaign revisions.
 
 ## Other tracks
 
