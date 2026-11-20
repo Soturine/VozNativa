@@ -122,3 +122,23 @@ class LegalProvisionHead(unittest.TestCase):
         a = self.BASE + "§ 2° Havendo atraso, a Federação Paulista suspende a carteirinha.\n"
         b = self.BASE + "§ 2° Havendo atraso, a Federação suspende a carteirinha.\n"
         self.assertIn("span_missing", self.spans(a, b))
+
+
+class PresentPluralToImperfect(unittest.TestCase):
+    """V105-GAP-22: "criam" -> "criavam" (and "falam" -> "falavam") passed with no signal: the present 3rd plural
+    is not analysed, so the imperfect looked like a new verb. Found in the prospective holdout (P05). Invented text."""
+
+    def test_defect_present_plural_to_imperfect_is_flagged(self):
+        for a, b in (("Os sócios criam que a sede era segura.", "Os sócios criavam que a sede era segura."),
+                     ("Os vizinhos falam que a praça era bonita.", "Os vizinhos falavam que a praça era bonita."),
+                     ("Os alunos comem cedo e saem às sete.", "Os alunos comiam cedo e saem às sete."),
+                     ("Os homens as criam representantes dos deuses.", "Os homens as criavam representantes dos deuses.")):
+            self.assertIn("verb_form_changed", codes(a, b), b)
+
+    def test_controls_same_tense_and_unrelated_words(self):
+        for a, b in (("Os sócios criavam que a sede era segura.", "Os sócios criavam que a sede era firme."),
+                     ("Os vizinhos falam que a praça é bonita.", "Os moradores falam que a praça é bonita."),
+                     ("A equipe criava peças e vendia na feira.", "A equipe criava peças e as vendia na feira."),
+                     ("Os alunos falam, enquanto todos comentavam em voz baixa.",
+                      "Os alunos conversam, enquanto vizinhos falavam em voz baixa.")):
+            self.assertNotIn("verb_form_changed", codes(a, b), b)

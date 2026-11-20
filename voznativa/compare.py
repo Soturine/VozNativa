@@ -820,6 +820,36 @@ _FUTURES = {"fut_pres", "periphrastic_future@pres_ind"}
 _SER_IR_PRETERITE = re.compile(r"\b(?:foi|foram|fui|fomos|fora|foras)\b", re.I)
 
 
+_PLURAL_FORMS = (("avam", "am"), ("iam", "em"), ("iam", "am"))
+
+
+def _plural_verb_changes(source: str, candidate: str):
+    """Require a shared adjacent token to anchor a related form in the same local context."""
+    before, after = re.findall(r"\w+", source.lower()), re.findall(r"\w+", candidate.lower())
+    if before == after:
+        return
+    gone, added = set(before) - set(after), set(after) - set(before)
+    if not gone or not added:
+        return
+    left = {(word, before[i - 1] if i else "", before[i + 1] if i + 1 < len(before) else "")
+            for i, word in enumerate(before) if word in gone}
+    previous = {(word, prev) for word, prev, _ in left if prev}
+    following = {(word, nxt) for word, _, nxt in left if nxt}
+    seen = set()
+    for i, word in enumerate(after):
+        if word not in added or word in seen:
+            continue
+        for suffix, short in _PLURAL_FORMS:
+            if not word.endswith(suffix) or len(word) < len(suffix) + 2:
+                continue
+            base = word[:-len(suffix)] + short
+            if ((i and (base, after[i - 1]) in previous)
+                    or (i + 1 < len(after) and (base, after[i + 1]) in following)):
+                seen.add(word)
+                yield base, word
+                break
+
+
 def _tense_issues(src, out, alignment) -> list[dict]:
     """Tense, mood or periphrasis of the same verb changed between aligned
     sentences ("contratou" -> "contratará", "terminou" -> "está terminando").
@@ -831,8 +861,15 @@ def _tense_issues(src, out, alignment) -> list[dict]:
     for i, j, sim in alignment:
         if j is None or sim < ALIGN_MIN_SIMILARITY:
             continue
-        before = tense_profile(src.entries[i].sentence.text)
-        after = tense_profile(out.entries[j].sentence.text)
+        source_text, candidate_text = src.entries[i].sentence.text, out.entries[j].sentence.text
+        if source_text == candidate_text:
+            continue
+        before, after = tense_profile(source_text), tense_profile(candidate_text)
+        # GAP-22: the short form may be present ("falam") or a homograph ("criam", from crer).
+        for short, long in _plural_verb_changes(source_text, candidate_text):
+            issues.append(_issue("verb_form_changed", "major",
+                                 f"'{short}' -> '{long}': check tense and verb sense",
+                                 before=short, after=long, source_sentence=source_text))
         for lemma in sorted(set(before) - set(after)):
             a = before[lemma]
             if lemma in ("ser", "ir") and len(a) == 1 and next(iter(a)) in _FUTURES | {"pres_ind"} and \

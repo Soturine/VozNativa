@@ -392,22 +392,23 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
             reports.append(report)
             fit = (planner_mod.adherence(the_plan, text, candidate, genre, channel, register)
                    if the_plan and not no_change else None)
-            history.append({"attempt": attempt, "no_change": no_change, "status": report["status"],
+            entry = {"attempt": attempt, "no_change": no_change, "status": report["status"],
                             "codes": sorted({i["code"] for i in report["issues"]}),
                             "preview": candidate[:120],
                             **({"unplanned_edits": len(fit["unplanned_edits"]),
-                                "introduced_strong": fit["introduced_strong"]} if fit else {})})
+                                "introduced_strong": fit["introduced_strong"]} if fit else {})}
+            history.append(entry)
             if report["status"] != "fail":
                 # Meaning first; among equally safe candidates, the one that followed
                 # the plan (kept what should stay, added no new formula) wins.
                 rank = (STATUS_RANK.get(report["status"], 5), report["summary"]["major"],
                         fit["introduced_strong"] if fit else 0, len(fit["unplanned_edits"]) if fit else 0)
                 if best is None or rank < best[0]:
-                    best = (rank, candidate, report, no_change)
+                    best = (rank, candidate, report, no_change, entry)
         if best is None:
             feedback = _feedback(reports)
             continue
-        _, candidate, report, no_change = best
+        _, candidate, report, no_change, entry = best
         if no_change and must_change and attempt < attempts:
             # The request names a destination the source does not meet; ask once
             # more instead of taking NO_CHANGE at face value.
@@ -415,13 +416,13 @@ def _rewrite(text: str, context: dict, provider: Provider, profile: dict | None 
                         "; ".join(f"{t['target']} = {t['value']} (o original parece {t['source']})"
                                   for t in must_change) +
                         ". Reescreva para esse destino, ou repita NO_CHANGE se ele já é atendido."]
-            history[-1]["no_change_rejected"] = True
+            entry["no_change_rejected"] = True
             continue
         if not no_change and judge_provider is not None and report["status"] == "no_deterministic_issues":
             sources = authorized_sources(text, facts, project) if context["task"] == "create" else None
             report = _judge_votes(judge_provider, text, candidate, report, judge_votes, sources,
                                   relation=_generator_relation(provider, judge_provider))
-            history[-1]["judge"] = report["status"]
+            entry["judge"] = report["status"]
             if report["status"] == "fail" and attempt < attempts:
                 # The judge found a meaning change: retry with what it saw instead of
                 # giving up on the first rejection (benchmark ptbr-bench-v1, 2026-10-20).
@@ -873,7 +874,10 @@ def _judge_feedback(report: dict) -> list[str]:
     return lines or ["o juiz semântico considerou a candidata não equivalente ao original"]
 
 
-def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = 2,
+JUDGE_TRIES = 2
+
+
+def _judge(judge_provider, text: str, candidate: str, report: dict, tries: int = JUDGE_TRIES,
            sources: list[tuple[str, str]] | None = None, relation: str = "unknown") -> dict:
     """Ask the judge; on unparseable JSON, ask once more with the error.
 

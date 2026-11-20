@@ -17,11 +17,11 @@ import json
 import re
 import subprocess
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
-VERSION = re.compile(r"(?i)(?:v|_v|plan_v|as_is_v|v0)(\d)[._]?(\d)|V(\d)(\d)_")
 
 
 def tracked() -> list[str]:
@@ -37,12 +37,12 @@ def docs(files: list[str]) -> list[str]:
 
 def version_of(path: str) -> str | None:
     name = Path(path).name
-    folder = re.match(r"docs/releases/v(\d+\.\d+)/", path)
+    folder = re.match(r"docs/releases/v(\d+\.\d+(?:\.\d+)?)/", path)
     if folder:
         return folder.group(1)
-    m = re.search(r"v(\d)\.(\d)", name) or re.search(r"_v(\d)\.(\d)", name)
+    m = re.search(r"v(\d+\.\d+(?:\.\d+)?)", name)
     if m:
-        return f"{m.group(1)}.{m.group(2)}"
+        return m.group(1)
     m = re.match(r"V(\d)(\d)_", name)
     return f"{m.group(1)}.{m.group(2)}" if m else None
 
@@ -61,18 +61,26 @@ def main(argv=None) -> int:
                 texts[p] = (ROOT / p).read_text(encoding="utf-8")
             except UnicodeDecodeError:
                 continue
+    documents = docs(files)
+    targets = {(ROOT / doc).resolve(): doc for doc in documents}
+    links = defaultdict(set)
+    for other, body in texts.items():
+        if other.endswith(".md"):
+            parent = (ROOT / other).parent
+            for target in set(LINK.findall(body)):
+                if "://" in target:
+                    continue
+                doc = targets.get((parent / target).resolve())
+                if doc and doc != other:
+                    links[doc].add(other)
     rows = []
-    for doc in docs(files):
+    for doc in documents:
         text = texts.get(doc, "")
         title = next((line.lstrip("# ").strip() for line in text.splitlines() if line.startswith("#")), "")
-        linked_by, mentioned_by = set(), set()
+        linked_by, mentioned_by = links[doc], set()
         for other, body in texts.items():
             if other == doc:
                 continue
-            if other.endswith(".md"):
-                for target in LINK.findall(body):
-                    if (ROOT / other).parent.joinpath(target).resolve() == (ROOT / doc).resolve():
-                        linked_by.add(other)
             if doc in body or (not other.endswith(".md") and Path(doc).name in body):
                 mentioned_by.add(other)
         consumers = sorted(p for p in mentioned_by | linked_by
